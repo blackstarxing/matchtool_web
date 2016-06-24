@@ -102,7 +102,7 @@ button{border:none;outline: none;}
 .slide{display: inline-block;width: 290px;text-indent: 130px;background: url(../images/down.png) right center no-repeat;}
 .m-option,.m-signup{display: none;}
 .m-option textarea{padding:5px 12px;line-height: 25px;}
-.m-rules{float: left;padding:365px 30px 0;}
+.m-rules{float: left;padding:365px 30px 0;font-size: 12px;}
 .m-rules .attention{color:#F8A329;background: url(../images/attention.png) left center no-repeat;text-indent: 30px;}
 .slideup{width:180px;background-image: url(../images/up.png);}
 .m-form a.u-btn-next{display: block;width: 200px;height: 36px;line-height: 36px;text-align: center;background: linear-gradient(to bottom, #f9a32a 50%,#e68700 50%,#f8a328 100%);border-radius: 3px;color:#fff;margin-left: 130px;margin-top: 30px;}
