@@ -1,6 +1,7 @@
 /*公共*/
 body{font-family:'Microsoft YaHei','微软雅黑', Helvetica,Arial,sans-serif,STHeiTi;background:#000;}
 a,a:hover{color:#333;}
+p{margin:0;}
 input,select{background: #111115;border:1px solid #8f8f8f;height: 34px;line-height: 34px;text-indent: 12px;color:#fff;}
 textarea{background: #111115;border:1px solid #8f8f8f;color:#fff;}
 button{border:none;outline: none;}
@@ -12,9 +13,7 @@ button{border:none;outline: none;}
 .clearfix { zoom: 1; }
 .r{float:right;}.ab{position:absolute;}.re{position:relative;}
 .mt56{margin-top:56px;}.mt10{margin-top:10px;}.mt2{margin-top:2px;}.mt6{margin-top:6px;}.mt32{margin-top:32px;}
-p{margin:0;}
 
-/* function */
 .f-cb:after,.f-cbli li:after{display:block;clear:both;visibility:hidden;height:0;overflow:hidden;content:".";}
 .f-cb,.f-cbli li{zoom:1;}
 .f-ib{display:inline-block;*display:inline;*zoom:1;}
