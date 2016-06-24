@@ -55,7 +55,7 @@ button{border:none;outline: none;}
 /*创建赛事*/
 .g-doc{min-height: 1500px;background: url(../images/bg.png) center top no-repeat #000;}
 .g-doc a,.g-doc a:hover{text-decoration: none;}
-.g-hd{height: 50px;background: rgba(51,57,63,0.8);}
+.g-hd{height: 50px;background: rgba(0,0,0,0.8);}
 .g-bd,.g-box{width:1200px;margin:0 auto;}
 .m-logo{width:121px;float: left;}
 .m-logo a{display: block;height: 50px;background: url(../images/logo.png) 0 0 no-repeat;}
