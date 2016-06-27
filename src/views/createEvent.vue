@@ -116,7 +116,7 @@
 						</div>
 						<a href="javascript:void(0);" class="slide slideup" @click="optional">收起</a>
 					</div>
-					<a href="javascript:void(0);" class="u-btn-next">下一步</a>
+					<a href="javascript:void(0);" class="u-btn u-btn-next">下一步</a>
 				</div>
 				<div class="m-rules">
 					<div class="f-mb10">建议最大参与人数不超过512人</div>
