@@ -196,7 +196,7 @@
 				if(number>0){
 					$('.minus').attr('disabled',false);
 				}
-		    }
+		    },
 		    minus: function(e){
 		        number=parseInt(number-1);
 				$('#number').val(number);	
@@ -205,14 +205,14 @@
 				}else{
 					$('.minus').attr('disabled',false);
 				}	
-		    }
+		    },
 		    slideToggle:function(e){
 		    	if($(this).attr('id')=='radio-2-1'){
 	            	$('.m-signup').slideDown();
 	            }else{
 	            	$('.m-signup').slideUp();
 	            }
-		    }
+		    },
 		    optional:function(e){
 		    	if($(this).hasClass('slidedown')){
 		    		$(this).hide();
