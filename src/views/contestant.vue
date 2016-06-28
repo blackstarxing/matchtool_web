@@ -53,6 +53,7 @@
 	                        <th>手机号码</th>
 	                        <th>QQ</th>
 	                        <th>身份证号码</th>
+	                        <th>已签到</th>
 	                        <th>操作</th>
 	                    </tr>
 	                    <tr v-for='tradelist in tradelists'>
@@ -61,6 +62,14 @@
 	                        <td>13606555698</td>
 	                        <td>13606555</td>
 	                        <td>331360198607073369</td>
+	                        <td>
+	                        <section class="signed">
+								<div class="signbox">
+									<input type="checkbox">
+									<label></label>
+								</div>
+							</section>
+							</td>
 	                        <td class="option"><a href="" class="u-btn-write"></a><a href="" class="u-btn-delete"></a></td>
 	                    </tr>
 	                    </tbody>
