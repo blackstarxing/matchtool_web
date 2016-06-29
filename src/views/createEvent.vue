@@ -40,6 +40,10 @@
 							<button class="plus" @click="plus"></button>
 							<button class="minus" @click="minus" disabled="true"></button>
 						</div>	
+						<div class="tips f-fr">
+							<div class="f-mb10">建议最大参与人数不超过512人</div>
+							<div class="attention">尚未设置最大参与人数</div>
+						</div>
 					</div>
 					<div class="m-lst">
 						<label for="">赛事开始时间：</label>
@@ -52,6 +56,9 @@
 						<label for="">赛事类型：</label>
 						<input type="radio" id="radio-1-1" name="radio-1-set" class="regular-radio" checked /><label for="radio-1-1"></label><span class="radio_name">单阶段比赛</span>
 						<input type="radio" id="radio-1-2" name="radio-1-set" class="regular-radio" disabled /><label for="radio-1-2"></label><span class="radio_name">双阶段比赛</span>
+						<div class="tips f-lh36 f-fr">
+							双阶段将包含小组赛（目前暂不开放）
+						</div>
 					</div>
 					<div class="m-lst  f-mb50">
 						<label for="">采用赛制：</label>
@@ -62,6 +69,11 @@
 							<option value="">积分循环制[瑞士轮](SS)</option>
 						</select>
 						<input type="checkbox" id="checkbox-1-1" class="regular-checkboxs f-ml15" /><label for="checkbox-1-1" class="f-ml15"></label><span class="check_name">决出第三名</span>
+						<div class="tips f-fr">
+							<div class="">单败淘汰制：失败一场即淘汰</div>
+							<div>双败淘汰制：失败两场淘汰，比赛中将有败者组</div>
+							<a href="#">查看详细帮助文档</a>
+						</div>
 					</div>
 					<div class="m-lst">
 						<label for="">是否允许报名：</label>
@@ -87,11 +99,19 @@
 							</div>
 						</div>
 						<div class="m-lst f-mb50">
-							<label for="">签到设置：</label>
-							<input type="checkbox" id="checkbox-2-1" class="regular-checkboxs f-ml15" /><label for="checkbox-2-1" class="f-ml15"></label><span class="check_name">要求参赛者赛前签到 (仅签到一次)</span>
+							<div class="f-cb">
+								<label for="">签到设置：</label>
+								<input type="checkbox" id="checkbox-2-1" class="regular-checkboxs f-ml15" @click="signTime"/><label for="checkbox-2-1"></label><span class="check_name">要求参赛者赛前签到 (仅签到一次)</span>
+							</div>
+							<div class="f-cb sign-minute">								
+								比赛开始前<select name="" id="">
+									<option value="">15</option>
+									<option value="">30</option>
+									<option value="">60</option>
+								</select>分钟
+							</div>
 						</div>
-					</div>
-					
+					</div>					
 					<a href="javascript:void(0);" class="slide slidedown" @click="optional">展开更多赛事信息选项</a>
 					<div class="m-option">
 						<div class="m-lst f-cb">
@@ -117,14 +137,6 @@
 						<a href="javascript:void(0);" class="slide slideup" @click="optional">收起</a>
 					</div>
 					<a href="javascript:void(0);" class="u-btn u-btn-next">下一步</a>
-				</div>
-				<div class="m-rules">
-					<div class="f-mb10">建议最大参与人数不超过512人</div>
-					<div class="attention f-mb70">尚未设置最大参与人数</div>
-					<div class="f-mb30">双阶段将包含小组赛（目前暂不开放）</div>
-					<div class="">单败淘汰制：失败一场即淘汰</div>
-					<div>双败淘汰制：失败两场淘汰，比赛中将有败者组</div>
-					<a href="#">查看详细帮助文档</a>
 				</div>
 			</div>
 			
@@ -220,6 +232,14 @@
 					$('.m-option').hide();
 					$('.g-center').css({'background-image':'url(../static/images/center_bg1.png)'});
 		    	}
+		    },
+		    signTime:function(e){
+		    	var _this=$(e.target);
+		    	if(_this.is(':checked')){
+	            	$('.sign-minute').show();
+	            }else{
+	            	$('.sign-minute').hide();
+	            }
 		    }
 	  	}
   	}
