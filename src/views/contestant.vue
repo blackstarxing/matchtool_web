@@ -9,23 +9,23 @@
 		<div class="g-mg-tab">
 			<ul class="clearfix">
 				<li>
-					<img src="../static/images/mg_zl.png">
+					<img src="../../static/images/mg_zl.png">
 					<p>赛事总览</p>
 				</li>
 				<li>
-					<img src="../static/images/mg_xs.png">
+					<img src="../../static/images/mg_xs.png">
 					<p>参赛选手</p>
 				</li>
 				<li>
-					<img src="../static/images/mg_zx.png">
+					<img src="../../static/images/mg_zx.png">
 					<p>资讯管理</p>
 				</li>
 				<li>
-					<img src="../static/images/mg_sz.png">
+					<img src="../../static/images/mg_sz.png">
 					<p>设置</p>
 				</li>
 				<li>
-					<img src="../static/images/mg_del_on.png">
+					<img src="../../static/images/mg_del_on.png">
 					<p class="on">重置/删除</p>
 				</li>
 			</ul>
@@ -36,7 +36,7 @@
 				<h3>浙江省网娱大师-雪碧真英雄城市争霸赛</h3>
 				<div class="m-operate f-cb">
 					<div class="l-btn f-fl">
-						<a href="javascript:void(0);" class="u-btn u-btn-add" @click="addplayer"><img src="../static/images/plus.png" alt="">添加选手</a>
+						<a href="javascript:void(0);" class="u-btn u-btn-add" @click="addplayer"><img src="../../static/images/plus.png" alt="">添加选手</a>
 						<a href="javascript:void(0);" class="u-btn u-btn-upset"></a>
 					</div>					
 					<div class="r-btn f-fr">
@@ -56,7 +56,7 @@
 	                        <th>已签到</th>
 	                        <th>操作</th>
 	                    </tr>
-	                    <tr v-for='tradelist in tradelists'>
+	                    <tr>
 	                        <td>1</td>
 	                        <td>h的二次方</td>
 	                        <td>13606555698</td>
@@ -123,7 +123,7 @@
   		methods: {
     		addplayer: function(e){
 		        $('.m-mask').show();
-		    }
+		    },
 		    closePop: function(e){
 		        $('.m-mask').hide();
 		    }

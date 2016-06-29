@@ -61,7 +61,7 @@
 							<option value="">小组内单循环制(RR)</option>
 							<option value="">积分循环制[瑞士轮](SS)</option>
 						</select>
-						<input type="checkbox" id="checkbox-1-1" class="regular-checkbox f-ml15" /><label for="checkbox-1-1" class="f-ml15"></label><span class="check_name">决出第三名</span>
+						<input type="checkbox" id="checkbox-1-1" class="regular-checkboxs f-ml15" /><label for="checkbox-1-1" class="f-ml15"></label><span class="check_name">决出第三名</span>
 					</div>
 					<div class="m-lst">
 						<label for="">是否允许报名：</label>
@@ -88,7 +88,7 @@
 						</div>
 						<div class="m-lst f-mb50">
 							<label for="">签到设置：</label>
-							<input type="checkbox" id="checkbox-2-1" class="regular-checkbox f-ml15" /><label for="checkbox-2-1" class="f-ml15"></label><span class="check_name">要求参赛者赛前签到 (仅签到一次)</span>
+							<input type="checkbox" id="checkbox-2-1" class="regular-checkboxs f-ml15" /><label for="checkbox-2-1" class="f-ml15"></label><span class="check_name">要求参赛者赛前签到 (仅签到一次)</span>
 						</div>
 					</div>
 					
@@ -134,10 +134,11 @@
 </template>
 
 <script>
+
   	export default {
        	data () {
     		return {
-      			
+      			number:0
     		}
   		},
    		ready: function () {
@@ -149,13 +150,7 @@
 			        newimages[i].src=arr[i]
 			    }
 			}
-			preloadimages(['../static/images/center_bg2.png'])
-
-			// 参赛人数控件
-			var number=$('#number').val();
-			if(number="请输入参与人数上限"){
-				number=0;
-			}
+			preloadimages(['../../static/images/center_bg2.png'])
 
 			$('.form_datetime').datetimepicker({
 		        language:  "zh-CN",
@@ -191,31 +186,33 @@
   		},
   		methods: {
     		plus: function(e){
-		        number=parseInt(number+1);
-				$('#number').val(number);
-				if(number>0){
+		        this.number=parseInt(this.number+1);
+				$('#number').val(this.number);
+				if(this.number>0){
 					$('.minus').attr('disabled',false);
 				}
 		    },
 		    minus: function(e){
-		        number=parseInt(number-1);
-				$('#number').val(number);	
-				if(number==0){
+		        this.number=parseInt(this.number-1);
+				$('#number').val(this.number);	
+				if(this.number==0){
 					$('.minus').attr('disabled',true);
 				}else{
 					$('.minus').attr('disabled',false);
 				}	
 		    },
 		    slideToggle:function(e){
-		    	if($(this).attr('id')=='radio-2-1'){
+		    	var _this=$(e.target);
+		    	if(_this.attr('id')=='radio-2-1'){
 	            	$('.m-signup').slideDown();
 	            }else{
 	            	$('.m-signup').slideUp();
 	            }
 		    },
 		    optional:function(e){
-		    	if($(this).hasClass('slidedown')){
-		    		$(this).hide();
+		    	var _this=$(e.target);
+		    	if(_this.hasClass('slidedown')){
+		    		_this.hide();
 					$('.m-option').show();
 					$('.g-center').css({'background-image':'url(../static/images/center_bg2.png)'});
 		    	}else{
