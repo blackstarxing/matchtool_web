@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import matchtool from './matchtool.vue'
+import techpic from './views/techpic.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -12,10 +14,13 @@ var router = new VueRouter({
 });
 
 router.map({
+	'/techpic': {
+        component: techpic
+    },
     
 })
 router.redirect({
-  '*': ''
+  '*': '/techpic'
 })
 
 router.start(matchtool, '#app')

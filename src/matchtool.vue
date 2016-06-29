@@ -1,6 +1,7 @@
 <template>
-<div>
-</div>
+<div class="content clearfix">
+          <router-view></router-view> 
+ </div>
 </template>
 <script type="text/javascript">
  
