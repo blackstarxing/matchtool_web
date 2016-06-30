@@ -54,7 +54,7 @@
 	                        <th>QQ</th>
 	                        <th>身份证号码</th>
 	                        <th>已签到</th>
-	                        <th>操作</th>
+	                        <th width="135px;">操作</th>
 	                    </tr>
 	                    <tr>
 	                        <td>1</td>
@@ -70,7 +70,11 @@
 								</div>
 							</section>
 							</td>
-	                        <td class="option"><a href="" class="u-btn-write"></a><a href="" class="u-btn-delete"></a></td>
+	                        <td>
+	                        	<div class="option">
+	                        		<a href="" class="u-btn-write"></a><a href="" class="u-btn-delete"></a>
+	                        	</div>
+	                        </td>
 	                    </tr>
 	                    </tbody>
 	                </table>
