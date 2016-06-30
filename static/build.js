@@ -58,11 +58,15 @@
 	
 	var _techpic2 = _interopRequireDefault(_techpic);
 	
-	var _vueRouter = __webpack_require__(13);
+	var _createEvent = __webpack_require__(13);
+	
+	var _createEvent2 = _interopRequireDefault(_createEvent);
+	
+	var _vueRouter = __webpack_require__(48);
 	
 	var _vueRouter2 = _interopRequireDefault(_vueRouter);
 	
-	var _vueResource = __webpack_require__(14);
+	var _vueResource = __webpack_require__(49);
 	
 	var _vueResource2 = _interopRequireDefault(_vueResource);
 	
@@ -80,11 +84,14 @@
 	router.map({
 	  '/techpic': {
 	    component: _techpic2.default
+	  },
+	  '/createEvent': {
+	    component: _createEvent2.default
 	  }
 	
 	});
 	router.redirect({
-	  '*': '/techpic'
+	  '*': '/createEvent'
 	});
 	
 	router.start(_matchtool2.default, '#app');
@@ -11111,6 +11118,766 @@
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(14)
+	__vue_template__ = __webpack_require__(47)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/chenjinghua/matchtool_web/src/views/createEvent.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _typeof2 = __webpack_require__(15);
+	
+	var _typeof3 = _interopRequireDefault(_typeof2);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = {
+		data: function data() {
+			return {};
+		},
+	
+		ready: function ready() {
+			function preloadimages(arr) {
+				var newimages = [];
+				var arr = (typeof arr === 'undefined' ? 'undefined' : (0, _typeof3.default)(arr)) != "object" ? [arr] : arr;
+				for (var i = 0; i < arr.length; i++) {
+					newimages[i] = new Image();
+					newimages[i].src = arr[i];
+				}
+			}
+			preloadimages(['../static/images/center_bg2.png']);
+	
+			var number = $('#number').val();
+			if (number = "请输入参与人数上限") {
+				number = 0;
+			}
+	
+			$('.form_datetime').datetimepicker({
+				language: "zh-CN",
+				weekStart: 1,
+				todayBtn: 1,
+				autoclose: 1,
+				todayHighlight: 1,
+				startView: 2,
+				forceParse: 0,
+				showMeridian: 1,
+				pickerPosition: 'bottom-left'
+			});
+	
+			$('#pic').diyUpload({
+				url: '',
+				success: function success(data) {
+					console.info(data);
+				},
+				error: function error(err) {
+					console.info(err);
+				},
+				buttonText: '选择图片',
+				chunked: true,
+	
+				chunkSize: 512 * 1024,
+	
+				fileNumLimit: 1,
+				fileSizeLimit: 500000 * 1024,
+				fileSingleSizeLimit: 50000 * 1024,
+				accept: {}
+			});
+		},
+		methods: {
+			plus: function plus(e) {
+				number = parseInt(number + 1);
+				$('#number').val(number);
+				if (number > 0) {
+					$('.minus').attr('disabled', false);
+				}
+			},
+			minus: function minus(e) {
+				number = parseInt(number - 1);
+				$('#number').val(number);
+				if (number == 0) {
+					$('.minus').attr('disabled', true);
+				} else {
+					$('.minus').attr('disabled', false);
+				}
+			},
+			slideToggle: function slideToggle(e) {
+				if ($(this).attr('id') == 'radio-2-1') {
+					$('.m-signup').slideDown();
+				} else {
+					$('.m-signup').slideUp();
+				}
+			},
+			optional: function optional(e) {
+				if ($(this).hasClass('slidedown')) {
+					$(this).hide();
+					$('.m-option').show();
+					$('.g-center').css({ 'background-image': 'url(../static/images/center_bg2.png)' });
+				} else {
+					$('.slidedown').show();
+					$('.m-option').hide();
+					$('.g-center').css({ 'background-image': 'url(../static/images/center_bg1.png)' });
+				}
+			}
+		}
+	};
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _Symbol = __webpack_require__(16)["default"];
+	
+	exports["default"] = function (obj) {
+	  return obj && obj.constructor === _Symbol ? "symbol" : typeof obj;
+	};
+	
+	exports.__esModule = true;
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(17), __esModule: true };
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(18);
+	__webpack_require__(46);
+	module.exports = __webpack_require__(25).Symbol;
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	// ECMAScript 6 symbols shim
+	var $              = __webpack_require__(19)
+	  , global         = __webpack_require__(20)
+	  , has            = __webpack_require__(21)
+	  , DESCRIPTORS    = __webpack_require__(22)
+	  , $export        = __webpack_require__(24)
+	  , redefine       = __webpack_require__(28)
+	  , $fails         = __webpack_require__(23)
+	  , shared         = __webpack_require__(31)
+	  , setToStringTag = __webpack_require__(32)
+	  , uid            = __webpack_require__(34)
+	  , wks            = __webpack_require__(33)
+	  , keyOf          = __webpack_require__(35)
+	  , $names         = __webpack_require__(40)
+	  , enumKeys       = __webpack_require__(41)
+	  , isArray        = __webpack_require__(42)
+	  , anObject       = __webpack_require__(43)
+	  , toIObject      = __webpack_require__(36)
+	  , createDesc     = __webpack_require__(30)
+	  , getDesc        = $.getDesc
+	  , setDesc        = $.setDesc
+	  , _create        = $.create
+	  , getNames       = $names.get
+	  , $Symbol        = global.Symbol
+	  , $JSON          = global.JSON
+	  , _stringify     = $JSON && $JSON.stringify
+	  , setter         = false
+	  , HIDDEN         = wks('_hidden')
+	  , isEnum         = $.isEnum
+	  , SymbolRegistry = shared('symbol-registry')
+	  , AllSymbols     = shared('symbols')
+	  , useNative      = typeof $Symbol == 'function'
+	  , ObjectProto    = Object.prototype;
+	
+	// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
+	var setSymbolDesc = DESCRIPTORS && $fails(function(){
+	  return _create(setDesc({}, 'a', {
+	    get: function(){ return setDesc(this, 'a', {value: 7}).a; }
+	  })).a != 7;
+	}) ? function(it, key, D){
+	  var protoDesc = getDesc(ObjectProto, key);
+	  if(protoDesc)delete ObjectProto[key];
+	  setDesc(it, key, D);
+	  if(protoDesc && it !== ObjectProto)setDesc(ObjectProto, key, protoDesc);
+	} : setDesc;
+	
+	var wrap = function(tag){
+	  var sym = AllSymbols[tag] = _create($Symbol.prototype);
+	  sym._k = tag;
+	  DESCRIPTORS && setter && setSymbolDesc(ObjectProto, tag, {
+	    configurable: true,
+	    set: function(value){
+	      if(has(this, HIDDEN) && has(this[HIDDEN], tag))this[HIDDEN][tag] = false;
+	      setSymbolDesc(this, tag, createDesc(1, value));
+	    }
+	  });
+	  return sym;
+	};
+	
+	var isSymbol = function(it){
+	  return typeof it == 'symbol';
+	};
+	
+	var $defineProperty = function defineProperty(it, key, D){
+	  if(D && has(AllSymbols, key)){
+	    if(!D.enumerable){
+	      if(!has(it, HIDDEN))setDesc(it, HIDDEN, createDesc(1, {}));
+	      it[HIDDEN][key] = true;
+	    } else {
+	      if(has(it, HIDDEN) && it[HIDDEN][key])it[HIDDEN][key] = false;
+	      D = _create(D, {enumerable: createDesc(0, false)});
+	    } return setSymbolDesc(it, key, D);
+	  } return setDesc(it, key, D);
+	};
+	var $defineProperties = function defineProperties(it, P){
+	  anObject(it);
+	  var keys = enumKeys(P = toIObject(P))
+	    , i    = 0
+	    , l = keys.length
+	    , key;
+	  while(l > i)$defineProperty(it, key = keys[i++], P[key]);
+	  return it;
+	};
+	var $create = function create(it, P){
+	  return P === undefined ? _create(it) : $defineProperties(_create(it), P);
+	};
+	var $propertyIsEnumerable = function propertyIsEnumerable(key){
+	  var E = isEnum.call(this, key);
+	  return E || !has(this, key) || !has(AllSymbols, key) || has(this, HIDDEN) && this[HIDDEN][key]
+	    ? E : true;
+	};
+	var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(it, key){
+	  var D = getDesc(it = toIObject(it), key);
+	  if(D && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key]))D.enumerable = true;
+	  return D;
+	};
+	var $getOwnPropertyNames = function getOwnPropertyNames(it){
+	  var names  = getNames(toIObject(it))
+	    , result = []
+	    , i      = 0
+	    , key;
+	  while(names.length > i)if(!has(AllSymbols, key = names[i++]) && key != HIDDEN)result.push(key);
+	  return result;
+	};
+	var $getOwnPropertySymbols = function getOwnPropertySymbols(it){
+	  var names  = getNames(toIObject(it))
+	    , result = []
+	    , i      = 0
+	    , key;
+	  while(names.length > i)if(has(AllSymbols, key = names[i++]))result.push(AllSymbols[key]);
+	  return result;
+	};
+	var $stringify = function stringify(it){
+	  if(it === undefined || isSymbol(it))return; // IE8 returns string on undefined
+	  var args = [it]
+	    , i    = 1
+	    , $$   = arguments
+	    , replacer, $replacer;
+	  while($$.length > i)args.push($$[i++]);
+	  replacer = args[1];
+	  if(typeof replacer == 'function')$replacer = replacer;
+	  if($replacer || !isArray(replacer))replacer = function(key, value){
+	    if($replacer)value = $replacer.call(this, key, value);
+	    if(!isSymbol(value))return value;
+	  };
+	  args[1] = replacer;
+	  return _stringify.apply($JSON, args);
+	};
+	var buggyJSON = $fails(function(){
+	  var S = $Symbol();
+	  // MS Edge converts symbol values to JSON as {}
+	  // WebKit converts symbol values to JSON as null
+	  // V8 throws on boxed symbols
+	  return _stringify([S]) != '[null]' || _stringify({a: S}) != '{}' || _stringify(Object(S)) != '{}';
+	});
+	
+	// 19.4.1.1 Symbol([description])
+	if(!useNative){
+	  $Symbol = function Symbol(){
+	    if(isSymbol(this))throw TypeError('Symbol is not a constructor');
+	    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));
+	  };
+	  redefine($Symbol.prototype, 'toString', function toString(){
+	    return this._k;
+	  });
+	
+	  isSymbol = function(it){
+	    return it instanceof $Symbol;
+	  };
+	
+	  $.create     = $create;
+	  $.isEnum     = $propertyIsEnumerable;
+	  $.getDesc    = $getOwnPropertyDescriptor;
+	  $.setDesc    = $defineProperty;
+	  $.setDescs   = $defineProperties;
+	  $.getNames   = $names.get = $getOwnPropertyNames;
+	  $.getSymbols = $getOwnPropertySymbols;
+	
+	  if(DESCRIPTORS && !__webpack_require__(45)){
+	    redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
+	  }
+	}
+	
+	var symbolStatics = {
+	  // 19.4.2.1 Symbol.for(key)
+	  'for': function(key){
+	    return has(SymbolRegistry, key += '')
+	      ? SymbolRegistry[key]
+	      : SymbolRegistry[key] = $Symbol(key);
+	  },
+	  // 19.4.2.5 Symbol.keyFor(sym)
+	  keyFor: function keyFor(key){
+	    return keyOf(SymbolRegistry, key);
+	  },
+	  useSetter: function(){ setter = true; },
+	  useSimple: function(){ setter = false; }
+	};
+	// 19.4.2.2 Symbol.hasInstance
+	// 19.4.2.3 Symbol.isConcatSpreadable
+	// 19.4.2.4 Symbol.iterator
+	// 19.4.2.6 Symbol.match
+	// 19.4.2.8 Symbol.replace
+	// 19.4.2.9 Symbol.search
+	// 19.4.2.10 Symbol.species
+	// 19.4.2.11 Symbol.split
+	// 19.4.2.12 Symbol.toPrimitive
+	// 19.4.2.13 Symbol.toStringTag
+	// 19.4.2.14 Symbol.unscopables
+	$.each.call((
+	  'hasInstance,isConcatSpreadable,iterator,match,replace,search,' +
+	  'species,split,toPrimitive,toStringTag,unscopables'
+	).split(','), function(it){
+	  var sym = wks(it);
+	  symbolStatics[it] = useNative ? sym : wrap(sym);
+	});
+	
+	setter = true;
+	
+	$export($export.G + $export.W, {Symbol: $Symbol});
+	
+	$export($export.S, 'Symbol', symbolStatics);
+	
+	$export($export.S + $export.F * !useNative, 'Object', {
+	  // 19.1.2.2 Object.create(O [, Properties])
+	  create: $create,
+	  // 19.1.2.4 Object.defineProperty(O, P, Attributes)
+	  defineProperty: $defineProperty,
+	  // 19.1.2.3 Object.defineProperties(O, Properties)
+	  defineProperties: $defineProperties,
+	  // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
+	  getOwnPropertyDescriptor: $getOwnPropertyDescriptor,
+	  // 19.1.2.7 Object.getOwnPropertyNames(O)
+	  getOwnPropertyNames: $getOwnPropertyNames,
+	  // 19.1.2.8 Object.getOwnPropertySymbols(O)
+	  getOwnPropertySymbols: $getOwnPropertySymbols
+	});
+	
+	// 24.3.2 JSON.stringify(value [, replacer [, space]])
+	$JSON && $export($export.S + $export.F * (!useNative || buggyJSON), 'JSON', {stringify: $stringify});
+	
+	// 19.4.3.5 Symbol.prototype[@@toStringTag]
+	setToStringTag($Symbol, 'Symbol');
+	// 20.2.1.9 Math[@@toStringTag]
+	setToStringTag(Math, 'Math', true);
+	// 24.3.3 JSON[@@toStringTag]
+	setToStringTag(global.JSON, 'JSON', true);
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	var $Object = Object;
+	module.exports = {
+	  create:     $Object.create,
+	  getProto:   $Object.getPrototypeOf,
+	  isEnum:     {}.propertyIsEnumerable,
+	  getDesc:    $Object.getOwnPropertyDescriptor,
+	  setDesc:    $Object.defineProperty,
+	  setDescs:   $Object.defineProperties,
+	  getKeys:    $Object.keys,
+	  getNames:   $Object.getOwnPropertyNames,
+	  getSymbols: $Object.getOwnPropertySymbols,
+	  each:       [].forEach
+	};
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+	var global = module.exports = typeof window != 'undefined' && window.Math == Math
+	  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	var hasOwnProperty = {}.hasOwnProperty;
+	module.exports = function(it, key){
+	  return hasOwnProperty.call(it, key);
+	};
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// Thank's IE8 for his funny defineProperty
+	module.exports = !__webpack_require__(23)(function(){
+	  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
+	});
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	module.exports = function(exec){
+	  try {
+	    return !!exec();
+	  } catch(e){
+	    return true;
+	  }
+	};
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var global    = __webpack_require__(20)
+	  , core      = __webpack_require__(25)
+	  , ctx       = __webpack_require__(26)
+	  , PROTOTYPE = 'prototype';
+	
+	var $export = function(type, name, source){
+	  var IS_FORCED = type & $export.F
+	    , IS_GLOBAL = type & $export.G
+	    , IS_STATIC = type & $export.S
+	    , IS_PROTO  = type & $export.P
+	    , IS_BIND   = type & $export.B
+	    , IS_WRAP   = type & $export.W
+	    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
+	    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
+	    , key, own, out;
+	  if(IS_GLOBAL)source = name;
+	  for(key in source){
+	    // contains in native
+	    own = !IS_FORCED && target && key in target;
+	    if(own && key in exports)continue;
+	    // export native or passed
+	    out = own ? target[key] : source[key];
+	    // prevent global pollution for namespaces
+	    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+	    // bind timers to global for call from export context
+	    : IS_BIND && own ? ctx(out, global)
+	    // wrap global constructors for prevent change them in library
+	    : IS_WRAP && target[key] == out ? (function(C){
+	      var F = function(param){
+	        return this instanceof C ? new C(param) : C(param);
+	      };
+	      F[PROTOTYPE] = C[PROTOTYPE];
+	      return F;
+	    // make static versions for prototype methods
+	    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+	    if(IS_PROTO)(exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
+	  }
+	};
+	// type bitmap
+	$export.F = 1;  // forced
+	$export.G = 2;  // global
+	$export.S = 4;  // static
+	$export.P = 8;  // proto
+	$export.B = 16; // bind
+	$export.W = 32; // wrap
+	module.exports = $export;
+
+/***/ },
+/* 25 */
+/***/ function(module, exports) {
+
+	var core = module.exports = {version: '1.2.6'};
+	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// optional / simple context binding
+	var aFunction = __webpack_require__(27);
+	module.exports = function(fn, that, length){
+	  aFunction(fn);
+	  if(that === undefined)return fn;
+	  switch(length){
+	    case 1: return function(a){
+	      return fn.call(that, a);
+	    };
+	    case 2: return function(a, b){
+	      return fn.call(that, a, b);
+	    };
+	    case 3: return function(a, b, c){
+	      return fn.call(that, a, b, c);
+	    };
+	  }
+	  return function(/* ...args */){
+	    return fn.apply(that, arguments);
+	  };
+	};
+
+/***/ },
+/* 27 */
+/***/ function(module, exports) {
+
+	module.exports = function(it){
+	  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
+	  return it;
+	};
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(29);
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $          = __webpack_require__(19)
+	  , createDesc = __webpack_require__(30);
+	module.exports = __webpack_require__(22) ? function(object, key, value){
+	  return $.setDesc(object, key, createDesc(1, value));
+	} : function(object, key, value){
+	  object[key] = value;
+	  return object;
+	};
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	module.exports = function(bitmap, value){
+	  return {
+	    enumerable  : !(bitmap & 1),
+	    configurable: !(bitmap & 2),
+	    writable    : !(bitmap & 4),
+	    value       : value
+	  };
+	};
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var global = __webpack_require__(20)
+	  , SHARED = '__core-js_shared__'
+	  , store  = global[SHARED] || (global[SHARED] = {});
+	module.exports = function(key){
+	  return store[key] || (store[key] = {});
+	};
+
+/***/ },
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var def = __webpack_require__(19).setDesc
+	  , has = __webpack_require__(21)
+	  , TAG = __webpack_require__(33)('toStringTag');
+	
+	module.exports = function(it, tag, stat){
+	  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
+	};
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var store  = __webpack_require__(31)('wks')
+	  , uid    = __webpack_require__(34)
+	  , Symbol = __webpack_require__(20).Symbol;
+	module.exports = function(name){
+	  return store[name] || (store[name] =
+	    Symbol && Symbol[name] || (Symbol || uid)('Symbol.' + name));
+	};
+
+/***/ },
+/* 34 */
+/***/ function(module, exports) {
+
+	var id = 0
+	  , px = Math.random();
+	module.exports = function(key){
+	  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
+	};
+
+/***/ },
+/* 35 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $         = __webpack_require__(19)
+	  , toIObject = __webpack_require__(36);
+	module.exports = function(object, el){
+	  var O      = toIObject(object)
+	    , keys   = $.getKeys(O)
+	    , length = keys.length
+	    , index  = 0
+	    , key;
+	  while(length > index)if(O[key = keys[index++]] === el)return key;
+	};
+
+/***/ },
+/* 36 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// to indexed object, toObject with fallback for non-array-like ES3 strings
+	var IObject = __webpack_require__(37)
+	  , defined = __webpack_require__(39);
+	module.exports = function(it){
+	  return IObject(defined(it));
+	};
+
+/***/ },
+/* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// fallback for non-array-like ES3 and non-enumerable old V8 strings
+	var cof = __webpack_require__(38);
+	module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
+	  return cof(it) == 'String' ? it.split('') : Object(it);
+	};
+
+/***/ },
+/* 38 */
+/***/ function(module, exports) {
+
+	var toString = {}.toString;
+	
+	module.exports = function(it){
+	  return toString.call(it).slice(8, -1);
+	};
+
+/***/ },
+/* 39 */
+/***/ function(module, exports) {
+
+	// 7.2.1 RequireObjectCoercible(argument)
+	module.exports = function(it){
+	  if(it == undefined)throw TypeError("Can't call method on  " + it);
+	  return it;
+	};
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
+	var toIObject = __webpack_require__(36)
+	  , getNames  = __webpack_require__(19).getNames
+	  , toString  = {}.toString;
+	
+	var windowNames = typeof window == 'object' && Object.getOwnPropertyNames
+	  ? Object.getOwnPropertyNames(window) : [];
+	
+	var getWindowNames = function(it){
+	  try {
+	    return getNames(it);
+	  } catch(e){
+	    return windowNames.slice();
+	  }
+	};
+	
+	module.exports.get = function getOwnPropertyNames(it){
+	  if(windowNames && toString.call(it) == '[object Window]')return getWindowNames(it);
+	  return getNames(toIObject(it));
+	};
+
+/***/ },
+/* 41 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// all enumerable object keys, includes symbols
+	var $ = __webpack_require__(19);
+	module.exports = function(it){
+	  var keys       = $.getKeys(it)
+	    , getSymbols = $.getSymbols;
+	  if(getSymbols){
+	    var symbols = getSymbols(it)
+	      , isEnum  = $.isEnum
+	      , i       = 0
+	      , key;
+	    while(symbols.length > i)if(isEnum.call(it, key = symbols[i++]))keys.push(key);
+	  }
+	  return keys;
+	};
+
+/***/ },
+/* 42 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 7.2.2 IsArray(argument)
+	var cof = __webpack_require__(38);
+	module.exports = Array.isArray || function(arg){
+	  return cof(arg) == 'Array';
+	};
+
+/***/ },
+/* 43 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var isObject = __webpack_require__(44);
+	module.exports = function(it){
+	  if(!isObject(it))throw TypeError(it + ' is not an object!');
+	  return it;
+	};
+
+/***/ },
+/* 44 */
+/***/ function(module, exports) {
+
+	module.exports = function(it){
+	  return typeof it === 'object' ? it !== null : typeof it === 'function';
+	};
+
+/***/ },
+/* 45 */
+/***/ function(module, exports) {
+
+	module.exports = true;
+
+/***/ },
+/* 46 */
+/***/ function(module, exports) {
+
+
+
+/***/ },
+/* 47 */
+/***/ function(module, exports) {
+
+	module.exports = "\n\t<div class=\"g-doc\">\n\t\t<div class=\"g-hd\">\n\t\t\t<div class=\"g-box f-cb\">\n\t\t\t\t<div class=\"m-logo\"><a href=\"\"></a></div>\n\t\t\t\t<div class=\"m-login\">欢迎，hoo言hoo语<a href=\"#\" class=\"u-select\">个人中心</a>|<a href=\"#\" class=\"u-exit\">退出</a></div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"g-bd\">\n\t\t\t<div class=\"g-tp\"></div>\n\t\t\t<div class=\"g-center f-cb\">\n\t\t\t\t<div class=\"m-form\">\n\t\t\t\t\t<h3>创建赛事工具</h3>\n\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t\t<label for=\"\">赛事名称：</label>\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入比赛名称，不超过32个文字\">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t<label for=\"\">赛事主办方：</label>\n\t\t\t\t\t\thoo言hoo语<a href=\"#\" class=\"u-select\">更改</a>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst f-mb50\">\n\t\t\t\t\t\t<label for=\"\">所属游戏：</label>\n\t\t\t\t\t\t<select name=\"\" id=\"\">\n\t\t\t\t\t\t\t<option value=\"\">请选择赛事游戏</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t<label for=\"\">赛事模式：</label>\n\t\t\t\t\t\t<select name=\"\" id=\"\">\n\t\t\t\t\t\t\t<option value=\"\">线上赛事</option>\n\t\t\t\t\t\t\t<option value=\"\">线下赛事</option>\n\t\t\t\t\t\t\t<option value=\"\">线上海选+线下决赛</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t<label for=\"\">最大参与人数：</label>\n\t\t\t\t\t\t<input type=\"text\" id=\"number\" placeholder=\"请输入参与人数上限\">\n\t\t\t\t\t\t<div class=\"button_group\">\n\t\t\t\t\t\t\t<button class=\"plus\" @click=\"plus\"></button>\n\t\t\t\t\t\t\t<button class=\"minus\" @click=\"minus\" disabled=\"true\"></button>\n\t\t\t\t\t\t</div>\t\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t<label for=\"\">赛事开始时间：</label>\n\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\n\t\t\t\t\t\t    <input size=\"16\" type=\"text\" value=\"\" placeholder=\"请选择时间\" readonly>\n\t\t\t\t\t\t    <span class=\"add-on\"><i class=\"icon-th\"></i></span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t<label for=\"\">赛事类型：</label>\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-1-1\" name=\"radio-1-set\" class=\"regular-radio\" checked /><label for=\"radio-1-1\"></label><span class=\"radio_name\">单阶段比赛</span>\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-1-2\" name=\"radio-1-set\" class=\"regular-radio\" disabled /><label for=\"radio-1-2\"></label><span class=\"radio_name\">双阶段比赛</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst  f-mb50\">\n\t\t\t\t\t\t<label for=\"\">采用赛制：</label>\n\t\t\t\t\t\t<select name=\"\" id=\"\" class=\"f-fl\">\n\t\t\t\t\t\t\t<option value=\"\">单败淘汰制(SE)</option>\n\t\t\t\t\t\t\t<option value=\"\">双败淘汰制(DE)</option>\n\t\t\t\t\t\t\t<option value=\"\">小组内单循环制(RR)</option>\n\t\t\t\t\t\t\t<option value=\"\">积分循环制[瑞士轮](SS)</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t\t<input type=\"checkbox\" id=\"checkbox-1-1\" class=\"regular-checkbox f-ml15\" /><label for=\"checkbox-1-1\" class=\"f-ml15\"></label><span class=\"check_name\">决出第三名</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t<label for=\"\">是否允许报名：</label>\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-2-1\" name=\"radio-2-set\" class=\"regular-radio\" @click=\"slideToggle\"/><label for=\"radio-2-1\"></label><span class=\"radio_name\">允许报名</span>\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-2-2\" name=\"radio-2-set\" class=\"regular-radio\" @click=\"slideToggle\"/><label for=\"radio-2-2\"></label><span class=\"radio_name\">禁止报名</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-signup\">\n\t\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t\t<label for=\"\">报名类型：</label>\n\t\t\t\t\t\t\t<input type=\"radio\" id=\"radio-3-1\" name=\"radio-3-set\" class=\"regular-radio\" /><label for=\"radio-3-1\"></label><span class=\"radio_name\">个人报名</span>\n\t\t\t\t\t\t\t<input type=\"radio\" id=\"radio-3-2\" name=\"radio-3-set\" class=\"regular-radio\" /><label for=\"radio-3-2\"></label><span class=\"radio_name\">战队报名</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t\t<label for=\"\">报名时间：</label>\n\t\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\n\t\t\t\t\t\t\t    <input size=\"16\" type=\"text\" value=\"\" placeholder=\"请选择时间\" readonly>\n\t\t\t\t\t\t\t    <span class=\"add-on\"><i class=\"icon-th\"></i></span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<span class=\"form-datetime-zhi\">-</span>\n\t\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\n\t\t\t\t\t\t\t    <input size=\"16\" type=\"text\" value=\"\" placeholder=\"请选择时间\" readonly>\n\t\t\t\t\t\t\t    <span class=\"add-on\"><i class=\"icon-th\"></i></span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst f-mb50\">\n\t\t\t\t\t\t\t<label for=\"\">签到设置：</label>\n\t\t\t\t\t\t\t<input type=\"checkbox\" id=\"checkbox-2-1\" class=\"regular-checkbox f-ml15\" /><label for=\"checkbox-2-1\" class=\"f-ml15\"></label><span class=\"check_name\">要求参赛者赛前签到 (仅签到一次)</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"slide slidedown\" @click=\"optional\">展开更多赛事信息选项</a>\n\t\t\t\t\t<div class=\"m-option\">\n\t\t\t\t\t\t<div class=\"m-lst f-cb\">\n\t\t\t\t\t\t\t<label for=\"\">海报图：</label>\n\t\t\t\t\t\t\t<div class=\"picBox\">\n\t\t\t\t\t\t\t\t<div id=\"pic\"></div>\n\t\t\t\t\t\t\t</div>\t\t\t\t\t\t\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t\t<label for=\"\">赛制规则：</label>\n\t\t\t\t\t\t\t<textarea name=\"\" id=\"\" cols=\"55\" rows=\"5\" placeholder=\"请输入比赛赛制规则，不超过200字\"></textarea>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst f-mb50\">\n\t\t\t\t\t\t\t<label for=\"\">奖金设置：</label>\n\t\t\t\t\t\t\t<textarea name=\"\" id=\"\" cols=\"55\" rows=\"5\" placeholder=\"请输入比赛赛制规则，不超过200字\"></textarea>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t\t<label for=\"\">种子规则：</label>\n\t\t\t\t\t\t\t<select name=\"\" id=\"\">\n\t\t\t\t\t\t\t\t<option value=\"\">传统种子规则</option>\n\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"slide slideup\" @click=\"optional\">收起</a>\n\t\t\t\t\t</div>\n\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-btn u-btn-next\">下一步</a>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"m-rules\">\n\t\t\t\t\t<div class=\"f-mb10\">建议最大参与人数不超过512人</div>\n\t\t\t\t\t<div class=\"attention f-mb70\">尚未设置最大参与人数</div>\n\t\t\t\t\t<div class=\"f-mb30\">双阶段将包含小组赛（目前暂不开放）</div>\n\t\t\t\t\t<div class=\"\">单败淘汰制：失败一场即淘汰</div>\n\t\t\t\t\t<div>双败淘汰制：失败两场淘汰，比赛中将有败者组</div>\n\t\t\t\t\t<a href=\"#\">查看详细帮助文档</a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\n\t\t\t<div class=\"g-bt\"></div>\n\t\t</div>\n\t</div>\n";
+
+/***/ },
+/* 48 */
+/***/ function(module, exports, __webpack_require__) {
+
 	/*!
 	 * vue-router v0.7.13
 	 * (c) 2016 Evan You
@@ -13822,7 +14589,7 @@
 	}));
 
 /***/ },
-/* 14 */
+/* 49 */
 /***/ function(module, exports) {
 
 	/*!

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import matchtool from './matchtool.vue'
-import techpic from './views/techpic.vue'
+import techPic from './views/techPic.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -14,13 +14,13 @@ var router = new VueRouter({
 });
 
 router.map({
-	'/techpic': {
-        component: techpic
-    },
+	'/techPic': {
+        component: techPic
+    }
     
 })
 router.redirect({
-  '*': '/techpic'
+  '*': '/techPic'
 })
 
 router.start(matchtool, '#app')

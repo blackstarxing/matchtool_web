@@ -1,8 +1,105 @@
 <template>
-  <div class="tech_container">
-    <div class="match_content clearfix">
+  <div class="tech_msg">
+    <img src="../../static/imgs/body_top.png" width="100%">
+    <div class="tech_msg_text clearfix">
+      <div class="tech_msg_left"><img src="../../static/imgs/person_pic.png" width="100%" height="100%"></div>
+      <div class="tech_msg_right">
+      <div class="begin_tech clearfix">
+        <div class="begin_tech_left">
+          <h2 style="font-size:16px">浙江省网娱大师•雪碧真英雄城市争霸赛</h2>
+           <p class="sponsor">主办方：<span style="color:#f9a32a;">网娱大师</span></p>
+          <div class="check_app">
+            <input type="checkbox" id="show_app">
+            <label for="show_app">在网娱大师App中展示</label>
+          </div>
+        </div>
+        <div class="begin_tech_right">
+          <p style="font-size:12px;">当一切都准备就绪后，您就可以:</p>
+          <div class="start_btn">
+            <img src="../../static/imgs/start.png" width="100%" height="100%">
+            <p class="start_text">开始比赛</p>
+          </div>
+        </div>
+      </div>
+      <div class="begin_tech_msg">
+        <ul class="begin_msg_list clearfix">
+          <li class="clearfix">
+            <div class="msg_list_left"><img src="../../static/imgs/msg_a.png"></div>
+            <div class="msg_list_right">
+              <p class="msg_list_name">竞技项目</p>
+              <p>英雄联盟•全服</p>
+            </div>
+          </li>
+          <li class="clearfix">
+            <div class="msg_list_left"><img src="../../static/imgs/msg_b.png"></div>
+            <div class="msg_list_right">
+              <p class="msg_list_name">报名时间</p>
+              <p>2016.06.06-2016.07.07</p>
+            </div>
+          </li>
+          <li class="clearfix">
+            <div class="msg_list_left"><img src="../../static/imgs/msg_c.png"></div>
+            <div class="msg_list_right">
+              <p class="msg_list_name">赛制</p>
+              <p>32人赛事＋单败淘汰制</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+     </div>
+    </div>
+  </div>
+  <div class="against_container">
+    <div class="tech_cup"><img src="../../static/imgs/cup.png"></div>
+    <p class="against_title">
+     <a class="title_unit"></a>
+      <span class="against_title_text">对阵图</span>
+      <span class="against_title_tip">此对阵图为预览，可拖曳参赛选手来交换位置</span>
+    </p>
+    <div class="turn_num">
+      <ul class="turn_num_list">
+      </ul>
+    </div>
+    <div class="turn_btn">随机排列对阵选手顺序</div>
+    <div style="padding:0 70px">
+      <div class="tech_container">
+      <div class="match_content clearfix">
     </div>   
 </div>
+</div>
+  </div>
+  <div class="tech_down_tip">
+    <img src="../../static/imgs/body_bt.png" width="100%">
+    <ul class="tech_footer_text clearfix">
+      <li style="float:left">
+        <h2 class="footer_text_title">
+          <a class="title_unit"></a>
+          <span style="font-size:18px;color:#fff;">赛事规则</span>
+        </h2>
+        <p style="margin:20px 0">比赛模式</p>
+          <p>
+            1. 决赛当天海选BO1（单场淘汰制），冠亚之争采用BO3（三局两胜）</br>
+            2. 所有比赛均为5v5、房间模式、征召模式；</br>
+            8支队伍进行BO1 决出4强    4支队伍进行BO1决出冠亚争夺战 
+                败者组两只队伍BO1争夺季军   胜者队伍冠亚争夺战</br>
+            </p>
+            <p style="margin:20px 0">比赛规则：</p>
+            <p>
+            1.参赛选手须提前到达比赛现场报名抽签，迟到将视为自动弃权；</br> 
+            2.参赛选手须在比赛服务器比赛，使用官方比赛服帐号</p>
+      </li>
+      <li style="float:right">
+        <h2 class="footer_text_title">
+          <a class="title_unit"></a>
+          <span style="font-size:18px;color:#fff;">奖金设置</span>
+        </h2>
+        <p style="margin:20px 0">比赛模式</p>
+          <p>
+            1本次联赛奖品如下：</br>
+            冠军4000元现金；亚军2000元现金；季军1000元现金以及其他神秘大奖等你来拿！本次获奖战队可以参加下半年的省级冠军争夺赛，更有机会代表吉林省参加全国范围的争霸赛。</p>
+      </li>
+    </ul>
+  </div> 
 </template>
 
 <script>
@@ -325,5 +422,143 @@
 .match_list{
   float: left;
   margin-right: 90px;
+}
+.tech_msg{
+  width: 1200px;
+  margin:20px auto;
+}
+.body_top_pic{
+  width: 100%;
+}
+.tech_msg_text{
+  height: 195px;
+  background: rgba(52,57,63,0.9);
+  opacity: 0.8;
+  padding: 40px 20px 0;
+}
+.tech_msg_left{
+  width: 325px;
+  height: 160px;
+  float: left;
+}
+.tech_msg_right{
+  float: right;
+  width: 815px;
+  color: #fff;
+}
+.begin_tech{
+  padding-bottom: 20px;
+  border-bottom: 1px dashed #53585d;
+}
+.begin_tech_left{
+  float: left;
+}
+.begin_tech_right{
+  float: right;
+}
+.start_btn{
+  width: 200px;
+  height: 40px;
+  position: relative;
+  cursor: pointer;
+  margin-top: 15px;
+}
+.start_text{
+  position: absolute;
+  width: 200px;
+  height: 40px;
+  left: 0;
+  top: 0;
+  text-align: center;
+  line-height: 40px;
+  font-size: 16px;
+}
+.sponsor{
+  font-size: 12px;
+  margin: 20px 0 15px;
+}
+.check_app{
+  font-size: 12px;
+}
+.msg_list_left{
+  float: left;
+  margin-right: 15px;
+}
+.msg_list_right{
+  float: left;
+  font-size: 12px;
+}
+.begin_msg_list{
+  width: 90%;
+  margin: 20px auto 0;
+}
+.begin_msg_list li{
+  float: left;
+  width: 33%;
+}
+.msg_list_name{
+  margin-bottom: 5px;
+}
+.title_unit{
+  display: inline-block;
+  width: 7px;
+  height: 20px;
+  background-color: #f9a32a;
+}
+.against_container{
+  width: 1200px;
+  margin: 20px auto;
+  background: rgba(52,57,63,0.9);
+  padding-top: 30px;
+  position: relative;
+}
+.against_title{
+  color: #fff;
+  height: 25px;
+  line-height: 25px;
+  margin:0 0 30px 20px;
+}
+.against_title_text{
+  font-size: 18px;
+  margin-left: 5px;
+}
+.against_title_tip{
+  font-size: 12px;
+  color: #53585d;
+}
+.turn_btn{
+  width: 220px;
+  height: 35px;
+  line-height: 30px;
+  background-color: #f9a32a;
+  color: #fff;
+  border-radius: 5px;
+  margin: 0 70px 30px;
+  text-align: center;
+}
+.tech_down_tip{
+  width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  height: 350px;
+  padding-bottom: 50px;
+  border-bottom: 1px solid #53585d;
+}
+.tech_footer_text{
+  font-size: 12px;
+  position: absolute;
+  left:0;
+  top:75px;
+}
+.tech_footer_text li{
+  float: left;
+  width: 45%;
+}
+.tech_cup{
+  opacity: 0.2;
+  position: absolute;
+  bottom:50px;
+  left: 467px;
+
 }
 </style>
