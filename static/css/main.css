@@ -101,7 +101,8 @@ option{border-color: #7C6735;}
 .m-search .select_box,.m-lst .select_box{float:left;line-height: 32px;position: relative;border:1px solid #8f8f8f;}
 .m-lst .focus{border-color: #f9a32a;box-shadow: 0 0 7px rgba(229,156,0,1);}
 .m-lst label{display: block;width: 113px;text-align: right;float: left;margin-right: 15px;}
-.m-search .select_box,.m-lst .select_box,.m-lst input[type="text"]{width:210px;margin-right: 20px;}
+.m-search .select_box,.m-lst .select_box,.m-lst input[type="text"]{width:210px;}
+.m-search .select_box{margin-right: 20px;}
 
 .m-search select,.m-lst select{display: none;}
 .select_showbox{padding-left: 12px;width: 100%;background: url("../images/arrow.png") no-repeat 190px center #111115;}
