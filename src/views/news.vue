@@ -9,23 +9,23 @@
 		<div class="g-mg-tab">
 			<ul class="clearfix">
 				<li>
-					<img src="../static/images/mg_zl.png">
+					<img src="../../static/images/mg_zl.png">
 					<p>赛事总览</p>
 				</li>
 				<li>
-					<img src="../static/images/mg_xs.png">
+					<img src="../../static/images/mg_xs.png">
 					<p>参赛选手</p>
 				</li>
 				<li>
-					<img src="../static/images/mg_zx_on.png">
+					<img src="../../static/images/mg_zx_on.png">
 					<p class="on">资讯管理</p>
 				</li>
 				<li>
-					<img src="../static/images/mg_sz.png">
+					<img src="../../static/images/mg_sz.png">
 					<p>设置</p>
 				</li>
 				<li>
-					<img src="../static/images/mg_del.png">
+					<img src="../../static/images/mg_del.png">
 					<p>重置/删除</p>
 				</li>
 			</ul>
@@ -57,15 +57,15 @@
 					</select>
 					<div class="ib re">
 					    <input type="text" placeholder="请选择时间" class="w200  form_datetime" readonly>
-						<img src="../static/images/datepicker.png" class="ab u-n-date">
+						<img src="../../static/images/datepicker.png" class="ab u-n-date">
 					</div>
 					&nbsp&nbsp—&nbsp&nbsp
 					<div class="ib re">
 					    <input type="text" placeholder="请选择时间" class="w200 form_datetime" readonly>
-						<img src="../static/images/datepicker.png" class="ab u-n-date">
+						<img src="../../static/images/datepicker.png" class="ab u-n-date">
 					</div>
 				</div>
-				<button type="button" class="u-del-btn u-n-add"><img src="../static/images/plus.png" alt="">添加资讯</button>
+				<button type="button" class="u-del-btn u-n-add"><img src="../../static/images/plus.png" alt="">添加资讯</button>
 				<p class="s-n-th"> 
 					<span style="width:100px;">ID</span>
 					<span style="width:100px;">图片</span>
@@ -82,7 +82,7 @@
 						<span style="width:100px;"><div class="s-n-div">12</div></span>
 						<span style="width:100px;">
 							<div class="s-n-img">
-								<img src="../static/images/bg.png">
+								<img src="../../static/images/bg.png">
 							</div>
 						</span>
 						<span style="width:250px;">
@@ -97,9 +97,9 @@
 							<div class="s-n-ort">
 								<button type="button" class="u-n-top" topstate="1">已置顶</button>
 								<div class="m-n-ort">
-									<img src="../static/images/write.png" title="编辑">
-									<img src="../static/images/news_del.png" title="删除">
-									<img src="../static/images/news_ok.png" title="生效">
+									<img src="../../static/images/write.png" title="编辑">
+									<img src="../../static/images/news_del.png" title="删除">
+									<img src="../../static/images/news_ok.png" title="生效">
 								</div>
 							</div>
 						</span>
@@ -108,7 +108,7 @@
 						<span style="width:100px;"><div class="s-n-div">12</div></span>
 						<span style="width:100px;">
 							<div class="s-n-img">
-								<img src="../static/images/bg.png">
+								<img src="../../static/images/bg.png">
 							</div>
 						</span>
 						<span style="width:250px;">
@@ -123,9 +123,9 @@
 							<div class="s-n-ort">
 								<button type="button" class="u-n-notop" topstate="0">置顶</button>
 								<div class="m-n-ort">
-									<img src="../static/images/write.png" title="编辑">
-									<img src="../static/images/news_del.png" title="删除">
-									<img src="../static/images/news_ok.png" title="生效">
+									<img src="../../static/images/write.png" title="编辑">
+									<img src="../../static/images/news_del.png" title="删除">
+									<img src="../../static/images/news_ok.png" title="生效">
 								</div>
 							</div>
 						</span>

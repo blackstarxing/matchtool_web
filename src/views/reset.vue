@@ -9,23 +9,23 @@
 		<div class="g-mg-tab">
 			<ul class="clearfix">
 				<li>
-					<img src="../static/images/mg_zl.png">
+					<img src="../../static/images/mg_zl.png">
 					<p>赛事总览</p>
 				</li>
 				<li>
-					<img src="../static/images/mg_xs.png">
+					<img src="../../static/images/mg_xs.png">
 					<p>参赛选手</p>
 				</li>
 				<li>
-					<img src="../static/images/mg_zx.png">
+					<img src="../../static/images/mg_zx.png">
 					<p>资讯管理</p>
 				</li>
 				<li>
-					<img src="../static/images/mg_sz.png">
+					<img src="../../static/images/mg_sz.png">
 					<p>设置</p>
 				</li>
 				<li>
-					<img src="../static/images/mg_del_on.png">
+					<img src="../../static/images/mg_del_on.png">
 					<p class="on">重置/删除</p>
 				</li>
 			</ul>
@@ -54,7 +54,7 @@
 		<div class="footer footer-del">
 			<p>Copyright © 2016 浙江网竞网络科技有限公司未经许可不得复制、转载或摘编，违者必究！</p>
 			<p class="mt6">浙ICP备13005497号-5</p>
-			<img src="../static/images/footer.png" class="mt32">
+			<img src="../../static/images/footer.png" class="mt32">
 		</div>
 	</div>
 </template>

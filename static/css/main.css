@@ -253,7 +253,8 @@ option{border-color: #7C6735;}
 button.u-n-cctop{width:72px;background-color:#debf94;color:#474a50;}
 .m-n-ort{margin-top:8px; display:none;}
 .m-n-ort img{margin: 0 4px; cursor:pointer;}
-select.m-n-select{background: url("../images/arrow.png") no-repeat 300px center #111115;}
+// select.m-n-select{background: url("../images/arrow.png") no-repeat 300px center #111115;}
+select.m-n-select{display: inline-block;}
 .m-n-sltpic,.m-n-firpic{margin:10px 0;}
 .m-n-sltpic .webuploader-pick,.m-n-sltpic #pic,.m-n-firpic .webuploader-pick,.m-n-firpic #firstpic{width:140px;}
 .m-n-sltpic>.parentFileBox{margin:0; float:left;margin-left:20px;width:0;}

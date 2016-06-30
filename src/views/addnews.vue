@@ -9,23 +9,23 @@
 		<div class="g-mg-tab">
 			<ul class="clearfix">
 				<li>
-					<img src="../static/images/mg_zl.png">
+					<img src="../../static/images/mg_zl.png">
 					<p>赛事总览</p>
 				</li>
 				<li>
-					<img src="../static/images/mg_xs.png">
+					<img src="../../static/images/mg_xs.png">
 					<p>参赛选手</p>
 				</li>
 				<li>
-					<img src="../static/images/mg_zx_on.png">
+					<img src="../../static/images/mg_zx_on.png">
 					<p class="on">资讯管理</p>
 				</li>
 				<li>
-					<img src="../static/images/mg_sz.png">
+					<img src="../../static/images/mg_sz.png">
 					<p>设置</p>
 				</li>
 				<li>
-					<img src="../static/images/mg_del.png">
+					<img src="../../static/images/mg_del.png">
 					<p>重置/删除</p>
 				</li>
 			</ul>
@@ -104,7 +104,7 @@
 										<div id="tuji" class="l mt10 m-tuji"></div>
 									</div>
 									<textarea placeholder="图片描述" class="u-n-ttr"></textarea>
-									<img src="../static/images/mg_del.png" title="移出" class="u-tuji-del">
+									<img src="../../static/images/mg_del.png" title="移出" class="u-tuji-del">
 								</div>
 								<p class="l col350 csp" id="addPicture">+添加一张照片</p>
 							</div>
@@ -157,7 +157,7 @@
 			<div class="modal-content">
 				<div class="modal-header">提示</div>
 				<div class="modal-body" style="text-align:center;">
-					<div><img src="../static/images/loading.gif" /></div>
+					<div><img src="../../static/images/loading.gif" /></div>
 					保存中，文件上传可能需要较长时间,请勿中断 ...
 				</div>
 			</div>
@@ -247,7 +247,7 @@
 								'<div id="'+tuJiId+'" class="l mt10 m-tuji"></div>'+
 							'</div>'+
 							'<textarea placeholder="图片描述" class="u-n-ttr"></textarea>'+
-							'<img src="../static/images/mg_del.png" title="移出" class="u-tuji-del">'+
+							'<img src="../../static/images/mg_del.png" title="移出" class="u-tuji-del">'+
 						  '</div>';
 		    $('#addPicture').before(tuJiDiv);
 		    setTimeout(function(){
