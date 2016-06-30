@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import matchtool from './matchtool.vue'
+import homepage from './views/homepage.vue'
 import createEvent from './views/createEvent.vue'
 import contestant from './views/contestant.vue'
 import VueRouter from 'vue-router'
@@ -15,6 +16,9 @@ var router = new VueRouter({
 });
 
 router.map({
+	'/homepage': {
+        component: homepage
+    },
     '/createEvent': {
         component: createEvent
     },
@@ -23,7 +27,7 @@ router.map({
     }
 })
 router.redirect({
-  '*': 'createEvent'
+  '*': 'homepage'
 })
 
 router.start(matchtool, '#app')
