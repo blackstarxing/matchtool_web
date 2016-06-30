@@ -3,7 +3,7 @@
 .parentFileBox {
 	width:auto;
 	height:auto;
-	overflow:hidden;
+	// overflow:hidden;
 	position:relative;
 	margin-top: 20px;
 }
@@ -11,7 +11,7 @@
 	position:relative;
 	width:100%;
 	height:auto;
-	overflow:hidden;
+	// overflow:hidden;
 	padding-bottom:5px;
 }
 .parentFileBox>.fileBoxUl>li {
@@ -21,7 +21,7 @@
 	height:78px;
 	margin-top:5px;
 	position:relative;
-	background-color:#099;
+	// background-color:#099;
 }
 .parentFileBox>.fileBoxUl>li>.viewThumb {
 	position:absolute;

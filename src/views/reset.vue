@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>重置/删除</title>
-	<link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="../static/css/main.css">
-</head>
-<body>
+<template>
 	<div class="g-mgbg">
 		<div class="g-hd">
 			<div class="g-box f-cb">
@@ -65,5 +57,16 @@
 			<img src="../static/images/footer.png" class="mt32">
 		</div>
 	</div>
-</body>
-</html>
+</template>
+<script type="text/javascript">
+  export default {
+    data () {
+      return {
+        
+      }
+  	},
+  	ready:function(){
+  		
+  	}
+  }
+</script>
