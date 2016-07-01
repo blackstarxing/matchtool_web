@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'icomoon';
-    src:    url('fonts/icomoon.eot?os9i6k');
-    src:    url('fonts/icomoon.eot?os9i6k#iefix') format('embedded-opentype'),
-        url('fonts/icomoon.ttf?os9i6k') format('truetype'),
-        url('fonts/icomoon.woff?os9i6k') format('woff'),
-        url('fonts/icomoon.svg?os9i6k#icomoon') format('svg');
+    src:    url('fonts/icomoon.eot?eq1gck');
+    src:    url('fonts/icomoon.eot?eq1gck#iefix') format('embedded-opentype'),
+        url('fonts/icomoon.ttf?eq1gck') format('truetype'),
+        url('fonts/icomoon.woff?eq1gck') format('woff'),
+        url('fonts/icomoon.svg?eq1gck#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -39,6 +39,10 @@
 .icon-match:before {
     content: "\e904";
 }
+.icon-home:before {
+    content: "\e905";
+}
+
 /*---------------------------------------------------reset--------------------------------------------------------------*/
 @charset "UTF-8";
 body{

@@ -21,6 +21,10 @@
 				<div class="tect_nav_pic"><span class="icon-delete icon_tool"></span></div>
 				<div>重置／删除</div>
 			</li>
+			<li v-link="{ path: '/homepage'}">
+				<div class="tect_nav_pic"><span class="icon-home icon_tool"></span></div>
+				<div>首页</div>
+			</li>
 		</ul>
 	</div>
 </template>
@@ -36,7 +40,7 @@
 }
 .tech_nav_list li{
 	float: left;
-	padding:0 60px;
+	padding:0 50px;
 	color: #fff;
 	text-align: center;
 	cursor: pointer;
