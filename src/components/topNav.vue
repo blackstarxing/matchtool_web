@@ -1,6 +1,6 @@
 <template>
 	<div class="tech_nav">
-		<ul class="tech_nav_list clearfix" @click="cgAction">
+		<ul class="tech_nav_list clearfix">
 			<li v-link="{ path: '/techPic'}">
 				<div class="tect_nav_pic"><span class="icon-match icon_tool"></span></div>
 				<div>赛事总览</div>
