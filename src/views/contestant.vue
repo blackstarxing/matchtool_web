@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
 	<div class="g-doc">
 		<div class="g-hd">
 			<div class="g-box f-cb">
@@ -31,9 +30,7 @@
 				</li>
 			</ul>
 		</div>
-=======
  <top-nav></top-nav> 
->>>>>>> 1c69586bef580f1be2d18659b8b32b1873a7d1d9
 		<div class="g-bd" style="margin-top:20px;">
 			<div class="g-tp"></div>
 			<div class="g-list">
@@ -96,12 +93,7 @@
 	</div>
 	<div class="m-mask">
 		<div class="m-pop">
-<<<<<<< HEAD
 			<h3>添加选手<a href="javascript:void(0);"" class="u-btn-close" @click="closePop"></a></h3>
-=======
-			<h3>添加选手</h3>
-			<a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
->>>>>>> 1c69586bef580f1be2d18659b8b32b1873a7d1d9
 			<div class="m-lst">				
 				<label for="">选手名称：</label>
 				<input type="text" class="eventname" placeholder="请输入参赛者名称">
@@ -123,10 +115,7 @@
 	</div>
 </template>
 <script>
-<<<<<<< HEAD
-=======
 import topNav from '../components/topNav.vue'
->>>>>>> 1c69586bef580f1be2d18659b8b32b1873a7d1d9
   	export default {
        	data () {
     		return {
@@ -143,14 +132,11 @@ import topNav from '../components/topNav.vue'
 		    closePop: function(e){
 		        $('.m-mask').hide();
 		    }
-<<<<<<< HEAD
 	  	}
-=======
 	  	},
        components: {
           topNav
          
   }
->>>>>>> 1c69586bef580f1be2d18659b8b32b1873a7d1d9
   	}
 </script>
