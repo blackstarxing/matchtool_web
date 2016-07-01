@@ -7,13 +7,14 @@ import newslist from './views/news.vue'
 import addnews from './views/addnews.vue'
 import reset from './views/reset.vue'
 import techPic from './views/techPic.vue'
+import login from './views/login.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
 Vue.use(VueResource);
 Vue.use(VueRouter);
 
-Vue.http.options.root = './src/data';
+Vue.http.options.root = 'http://192.168.30.62:8080/';
 Vue.http.options.emulateJSON = true;
 var router = new VueRouter({
 	hashbang: false
@@ -40,11 +41,14 @@ router.map({
     },
     '/reset': {
         component: reset
+    },
+    '/login': {
+        component: login
     }
     
 })
 router.redirect({
-  '*': '/homepage'
+  '*': '/login'
 })
 
 router.start(matchtool, '#app')

@@ -34,7 +34,7 @@
 	                        <th>参与人数</th>
 	                        <th width="135px;">操作</th>
 	                    </tr>
-	                    <tr  v-link="{ path: '/techPic'}">
+	                    <tr v-for='matchlist in matchlists' v-link="{ path: '/techPic'}">
 	                        <td>1</td>
 	                        <td>
 	                        	<div class="s-n-img">
@@ -72,10 +72,20 @@
   	export default {
        	data () {
     		return {
-
+    			matchlists:'',
+    			pageNumber: 1 ,
+    			uesrId: ''
     		}
   		},
    		ready: function () {
+   			  var _this=this;
+   			  console.log(document.cookie);
+ 
+	        // _this.$http.get('event/getEventRoundList').then(function(response) {
+	        //     _this.matchlists=response.data;
+	        // },function(response) {
+	        //     console.log(response);
+	        // });
 
 			var selects=$('select');//获取select
 			for(var i=0;i<selects.length;i++){
