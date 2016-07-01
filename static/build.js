@@ -54,15 +54,27 @@
 	
 	var _matchtool2 = _interopRequireDefault(_matchtool);
 	
-	var _createEvent = __webpack_require__(6);
+	var _homepage = __webpack_require__(6);
+	
+	var _homepage2 = _interopRequireDefault(_homepage);
+	
+	var _createEvent = __webpack_require__(16);
 	
 	var _createEvent2 = _interopRequireDefault(_createEvent);
 	
-	var _vueRouter = __webpack_require__(9);
+	var _contestant = __webpack_require__(51);
+	
+	var _contestant2 = _interopRequireDefault(_contestant);
+	
+	var _news = __webpack_require__(54);
+	
+	var _news2 = _interopRequireDefault(_news);
+	
+	var _vueRouter = __webpack_require__(57);
 	
 	var _vueRouter2 = _interopRequireDefault(_vueRouter);
 	
-	var _vueResource = __webpack_require__(10);
+	var _vueResource = __webpack_require__(58);
 	
 	var _vueResource2 = _interopRequireDefault(_vueResource);
 	
@@ -78,12 +90,18 @@
 	});
 	
 	router.map({
+	    '/homepage': {
+	        component: _homepage2.default
+	    },
 	    '/createEvent': {
 	        component: _createEvent2.default
+	    },
+	    '/contestant': {
+	        component: _contestant2.default
 	    }
 	});
 	router.redirect({
-	    '*': 'createEvent'
+	    '*': 'homepage'
 	});
 	
 	router.start(_matchtool2.default, '#app');
@@ -10301,7 +10319,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "E:\\wyWorkspace\\src\\matchtool.vue"
+	  var id = "E:\\saishi\\src\\matchtool.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -10328,14 +10346,14 @@
 /* 5 */
 /***/ function(module, exports) {
 
-	module.exports = "\r\n<div>\r\n</div>\r\n";
+	module.exports = "\r\n<div>\r\n\t<router-view></router-view> \r\n</div>\r\n";
 
 /***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"-!babel-loader?presets[]=es2015&plugins[]=transform-runtime!./../../node_modules/vue-loader/lib/selector.js?type=script&index=0!./createEvent.vue\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()))
+	__vue_script__ = __webpack_require__(7)
 	__vue_template__ = __webpack_require__(8)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
@@ -10344,7 +10362,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "E:\\wyWorkspace\\src\\views\\createEvent.vue"
+	  var id = "E:\\saishi\\src\\views\\homepage.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -10353,14 +10371,1156 @@
 	})()}
 
 /***/ },
-/* 7 */,
-/* 8 */
+/* 7 */
 /***/ function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"g-doc\">\r\n\t\t<div class=\"g-hd\">\r\n\t\t\t<div class=\"g-box f-cb\">\r\n\t\t\t\t<div class=\"m-logo\"><a href=\"\"></a></div>\r\n\t\t\t\t<div class=\"m-login\">欢迎，hoo言hoo语<a href=\"#\" class=\"u-select\">个人中心</a>|<a href=\"#\" class=\"u-exit\">退出</a></div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t<div class=\"g-bd\">\r\n\t\t\t<div class=\"g-tp\"></div>\r\n\t\t\t<div class=\"g-center f-cb\">\r\n\t\t\t\t<div class=\"m-form\">\r\n\t\t\t\t\t<h3>创建赛事工具</h3>\r\n\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t\t\t<label for=\"\">赛事名称：</label>\r\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入比赛名称，不超过32个文字\">\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t<label for=\"\">赛事主办方：</label>\r\n\t\t\t\t\t\thoo言hoo语<a href=\"#\" class=\"u-select\">更改</a>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst f-mb50\">\r\n\t\t\t\t\t\t<label for=\"\">所属游戏：</label>\r\n\t\t\t\t\t\t<select name=\"\" id=\"\">\r\n\t\t\t\t\t\t\t<option value=\"\">请选择赛事游戏</option>\r\n\t\t\t\t\t\t</select>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t<label for=\"\">赛事模式：</label>\r\n\t\t\t\t\t\t<select name=\"\" id=\"\">\r\n\t\t\t\t\t\t\t<option value=\"\">线上赛事</option>\r\n\t\t\t\t\t\t\t<option value=\"\">线下赛事</option>\r\n\t\t\t\t\t\t\t<option value=\"\">线上海选+线下决赛</option>\r\n\t\t\t\t\t\t</select>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t<label for=\"\">最大参与人数：</label>\r\n\t\t\t\t\t\t<input type=\"text\" id=\"number\" placeholder=\"请输入参与人数上限\">\r\n\t\t\t\t\t\t<div class=\"button_group\">\r\n\t\t\t\t\t\t\t<button class=\"plus\" @click=\"plus\"></button>\r\n\t\t\t\t\t\t\t<button class=\"minus\" @click=\"minus\" disabled=\"true\"></button>\r\n\t\t\t\t\t\t</div>\t\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t<label for=\"\">赛事开始时间：</label>\r\n\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\r\n\t\t\t\t\t\t    <input size=\"16\" type=\"text\" value=\"\" placeholder=\"请选择时间\" readonly>\r\n\t\t\t\t\t\t    <span class=\"add-on\"><i class=\"icon-th\"></i></span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t<label for=\"\">赛事类型：</label>\r\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-1-1\" name=\"radio-1-set\" class=\"regular-radio\" checked /><label for=\"radio-1-1\"></label><span class=\"radio_name\">单阶段比赛</span>\r\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-1-2\" name=\"radio-1-set\" class=\"regular-radio\" disabled /><label for=\"radio-1-2\"></label><span class=\"radio_name\">双阶段比赛</span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst  f-mb50\">\r\n\t\t\t\t\t\t<label for=\"\">采用赛制：</label>\r\n\t\t\t\t\t\t<select name=\"\" id=\"\" class=\"f-fl\">\r\n\t\t\t\t\t\t\t<option value=\"\">单败淘汰制(SE)</option>\r\n\t\t\t\t\t\t\t<option value=\"\">双败淘汰制(DE)</option>\r\n\t\t\t\t\t\t\t<option value=\"\">小组内单循环制(RR)</option>\r\n\t\t\t\t\t\t\t<option value=\"\">积分循环制[瑞士轮](SS)</option>\r\n\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t<input type=\"checkbox\" id=\"checkbox-1-1\" class=\"regular-checkbox f-ml15\" /><label for=\"checkbox-1-1\" class=\"f-ml15\"></label><span class=\"check_name\">决出第三名</span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t<label for=\"\">是否允许报名：</label>\r\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-2-1\" name=\"radio-2-set\" class=\"regular-radio\" @click=\"slideToggle\"/><label for=\"radio-2-1\"></label><span class=\"radio_name\">允许报名</span>\r\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-2-2\" name=\"radio-2-set\" class=\"regular-radio\" @click=\"slideToggle\"/><label for=\"radio-2-2\"></label><span class=\"radio_name\">禁止报名</span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-signup\">\r\n\t\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t\t<label for=\"\">报名类型：</label>\r\n\t\t\t\t\t\t\t<input type=\"radio\" id=\"radio-3-1\" name=\"radio-3-set\" class=\"regular-radio\" /><label for=\"radio-3-1\"></label><span class=\"radio_name\">个人报名</span>\r\n\t\t\t\t\t\t\t<input type=\"radio\" id=\"radio-3-2\" name=\"radio-3-set\" class=\"regular-radio\" /><label for=\"radio-3-2\"></label><span class=\"radio_name\">战队报名</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t\t<label for=\"\">报名时间：</label>\r\n\t\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\r\n\t\t\t\t\t\t\t    <input size=\"16\" type=\"text\" value=\"\" placeholder=\"请选择时间\" readonly>\r\n\t\t\t\t\t\t\t    <span class=\"add-on\"><i class=\"icon-th\"></i></span>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<span class=\"form-datetime-zhi\">-</span>\r\n\t\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\r\n\t\t\t\t\t\t\t    <input size=\"16\" type=\"text\" value=\"\" placeholder=\"请选择时间\" readonly>\r\n\t\t\t\t\t\t\t    <span class=\"add-on\"><i class=\"icon-th\"></i></span>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst f-mb50\">\r\n\t\t\t\t\t\t\t<label for=\"\">签到设置：</label>\r\n\t\t\t\t\t\t\t<input type=\"checkbox\" id=\"checkbox-2-1\" class=\"regular-checkbox f-ml15\" /><label for=\"checkbox-2-1\" class=\"f-ml15\"></label><span class=\"check_name\">要求参赛者赛前签到 (仅签到一次)</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t\r\n\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"slide slidedown\" @click=\"optional\">展开更多赛事信息选项</a>\r\n\t\t\t\t\t<div class=\"m-option\">\r\n\t\t\t\t\t\t<div class=\"m-lst f-cb\">\r\n\t\t\t\t\t\t\t<label for=\"\">海报图：</label>\r\n\t\t\t\t\t\t\t<div class=\"picBox\">\r\n\t\t\t\t\t\t\t\t<div id=\"pic\"></div>\r\n\t\t\t\t\t\t\t</div>\t\t\t\t\t\t\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t\t<label for=\"\">赛制规则：</label>\r\n\t\t\t\t\t\t\t<textarea name=\"\" id=\"\" cols=\"55\" rows=\"5\" placeholder=\"请输入比赛赛制规则，不超过200字\"></textarea>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst f-mb50\">\r\n\t\t\t\t\t\t\t<label for=\"\">奖金设置：</label>\r\n\t\t\t\t\t\t\t<textarea name=\"\" id=\"\" cols=\"55\" rows=\"5\" placeholder=\"请输入比赛赛制规则，不超过200字\"></textarea>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t\t<label for=\"\">种子规则：</label>\r\n\t\t\t\t\t\t\t<select name=\"\" id=\"\">\r\n\t\t\t\t\t\t\t\t<option value=\"\">传统种子规则</option>\r\n\t\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"slide slideup\" @click=\"optional\">收起</a>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-btn u-btn-next\">下一步</a>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"m-rules\">\r\n\t\t\t\t\t<div class=\"f-mb10\">建议最大参与人数不超过512人</div>\r\n\t\t\t\t\t<div class=\"attention f-mb70\">尚未设置最大参与人数</div>\r\n\t\t\t\t\t<div class=\"f-mb30\">双阶段将包含小组赛（目前暂不开放）</div>\r\n\t\t\t\t\t<div class=\"\">单败淘汰制：失败一场即淘汰</div>\r\n\t\t\t\t\t<div>双败淘汰制：失败两场淘汰，比赛中将有败者组</div>\r\n\t\t\t\t\t<a href=\"#\">查看详细帮助文档</a>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t\t\r\n\t\t\t<div class=\"g-bt\"></div>\r\n\t\t</div>\r\n\t</div>\r\n";
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.default = {
+		data: function data() {
+			return {};
+		},
+	
+		ready: function ready() {
+	
+			var selects = $('select');
+			for (var i = 0; i < selects.length; i++) {
+				createSelect(selects[i], i);
+			}
+			function createSelect(select_container, index) {
+				var tag_select = $('<div></div>');
+				tag_select.attr('class', 'select_box');
+				tag_select.insertBefore(select_container);
+	
+				var select_showbox = $('<div></div>');
+				select_showbox.css('cursor', 'pointer').attr('class', 'select_showbox').appendTo(tag_select);
+	
+				var ul_option = $('<ul></ul>');
+				ul_option.attr('class', 'select_option');
+				ul_option.appendTo(tag_select);
+				createOptions(index, ul_option);
+				tag_select.click(function () {
+					if (ul_option.is(":visible")) {
+						ul_option.hide();
+						$(this).removeClass('focus');
+					} else {
+						ul_option.show();
+						$(this).addClass('focus');
+					}
+				});
+				var li_option = ul_option.find('li');
+				li_option.click(function (e) {
+					if (e.target.className != 'disabled hover') {
+						var value = $(this).text();
+						select_showbox.text(value);
+					}
+	
+					ul_option.slideUp();
+				});
+				li_option.hover(function () {
+					$(this).addClass('hover').siblings().removeClass('hover');
+				}, function () {
+					li_option.removeClass('hover');
+				});
+			}
+			function createOptions(index, ul_list) {
+				var options = selects.eq(index).find('option'),
+				    selected_option = options.filter(':selected'),
+				    selected_index = selected_option.index(),
+				    showbox = ul_list.prev();
+				showbox.text(selected_option.text());
+	
+				for (var n = 0; n < options.length; n++) {
+					var tag_option = $('<li></li>'),
+					    txt_option = options.eq(n).text();
+					if (options.eq(n).attr('disabled')) {
+						tag_option.text(txt_option).addClass('disabled').appendTo(ul_list);
+					} else {
+						tag_option.text(txt_option).css('cursor', 'pointer').appendTo(ul_list);
+					}
+	
+					if (n == selected_index) {
+						tag_option.attr('class', 'selected');
+					}
+				}
+			}
+	
+			$('.m-form').click(function (e) {
+				if (e.target.className != "select_showbox") {
+					$('.select_box').removeClass('focus');
+					$('.select_option').hide();
+				}
+				if (e.target.className != "u-select change") {
+					$('.u-select').removeClass('change');
+					$('.organize_option').hide();
+				}
+			});
+		},
+		methods: {}
+	};
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = "\r\n\t<div class=\"g-doc\">\r\n\t\t<div class=\"g-hd\">\r\n\t\t\t<div class=\"g-box f-cb\">\r\n\t\t\t\t<div class=\"m-logo\"><a href=\"\"></a></div>\r\n\t\t\t\t<div class=\"m-login\">欢迎，hoo言hoo语<a href=\"#\" class=\"u-select\">个人中心</a>|<a href=\"#\" class=\"u-exit\">退出</a></div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t<div class=\"g-mg-tab\">\r\n\t\t\t<ul class=\"clearfix\">\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(9) + "\">\r\n\t\t\t\t\t<p>赛事总览</p>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(10) + "\">\r\n\t\t\t\t\t<p>参赛选手</p>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(11) + "\">\r\n\t\t\t\t\t<p>资讯管理</p>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(12) + "\">\r\n\t\t\t\t\t<p>设置</p>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(13) + "\">\r\n\t\t\t\t\t<p class=\"on\">重置/删除</p>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\t\t</div>\r\n\t\t<div class=\"g-bd\" style=\"margin-top:20px;\">\r\n\t\t\t<div class=\"g-tp\"></div>\r\n\t\t\t<div class=\"g-list\">\r\n\t\t\t\t<h3>浙江省网娱大师-雪碧真英雄城市争霸赛</h3>\r\n\t\t\t\t<div class=\"m-n-list m-search f-cb\">\t\t\r\n\t\t\t\t\t<span class=\"mr14 search\">\r\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname u-n-slt\" placeholder=\"请输入赛事名称查找\" style=\"width:400px;\">\r\n\t\t\t\t\t\t<button type=\"button\" class=\"u-search\">查找</button>\r\n\t\t\t\t\t</span>\t\t\r\n\t\t\t\t\t<select class=\"w160\">\r\n\t\t\t\t\t\t<option value=\"\">我的全部赛事</option>\r\n\t\t\t\t\t\t<option value=\"\">报名预热中</option>\r\n\t\t\t\t\t\t<option value=\"\">报名进行中</option>\r\n\t\t\t\t\t\t<option value=\"\">赛事进行中</option>\r\n\t\t\t\t\t\t<option value=\"\">赛事已结束</option>\r\n\t\t\t\t\t</select>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"m-operate f-cb\">\r\n\t\t\t\t\t<div class=\"l-btn f-fl\">\r\n\t\t\t\t\t\t<a href=\"homepage#/createEvent\" class=\"u-btn u-btn-add\"><img src=\"" + __webpack_require__(14) + "\" alt=\"\">创建新赛事</a>\r\n\t\t\t\t\t</div>\t\t\t\t\t\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"m-tb\">\r\n\t\t\t\t\t<table class=\"account_table\">\r\n\t                    <tbody>\r\n\t                    <tr>\r\n\t                        <th>序号</th>\r\n\t                        <th>海报图</th>\r\n\t                        <th>赛事名称</th>\r\n\t                        <th>赛事主办方</th>\r\n\t                        <th>赛事类型</th>\r\n\t                        <th>参与人数</th>\r\n\t                        <th width=\"135px;\">操作</th>\r\n\t                    </tr>\r\n\t                    <tr>\r\n\t                        <td>1</td>\r\n\t                        <td>\r\n\t                        \t<div class=\"s-n-img\">\r\n\t\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(15) + "\">\r\n\t\t\t\t\t\t\t\t</div>\r\n\t                        </td>\r\n\t                        <td><a href=\"\">萌新挑战赛之最强随机套牌大乱斗</a></td>\r\n\t                        <td>网娱大师官方赛事组</td>\r\n\t                        <td>单阶段  单败制</td>\r\n\t                        <td>54/256</td>\r\n\t                        <td>\r\n\t                        \t<div class=\"option\">\r\n\t                        \t\t<a href=\"\" class=\"u-btn-write\"></a><a href=\"\" class=\"u-btn-delete\"></a>\r\n\t                        \t</div>\r\n\t                        </td>\r\n\t                    </tr>\r\n\t                    </tbody>\r\n\t                </table>\r\n\t                <div class=\"m-page\">\r\n\t                \t<a href=\"\" id=\"prev\"></a>\r\n\t                \t<div class=\"pagination\"><span class=\"current\">2</span>/<span>10</span></div>\r\n\t                \t<a href=\"\" id=\"next\"></a>\r\n\t                \t<input type=\"text\">\r\n\t                \t<a href=\"\" class=\"u-btn\">跳转</a>\r\n\t                </div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\t\t\r\n\t\t\t<div class=\"g-bt\"></div>\r\n\t\t</div>\t\t\r\n\t</div>\r\n";
 
 /***/ },
 /* 9 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAcCAYAAACQ0cTtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA4BpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyNGQ3MGQ1OS0wMGQzLTAwNDYtYjg3MS1iNDJkM2M1MjFhZTgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OEU4MzI5RTczQUE1MTFFNkJENDhCOUJCOTAxNzQ3REIiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OEU4MzI5RTYzQUE1MTFFNkJENDhCOUJCOTAxNzQ3REIiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0ZjEwYTNhZS1mMjJkLTkzNGMtOTZjMy05MGE5ZjIxOWQ3Y2UiIHN0UmVmOmRvY3VtZW50SUQ9ImFkb2JlOmRvY2lkOnBob3Rvc2hvcDozYzQ0N2Q2Ni0zOTQxLTExZTYtOGU0MC1mOTZkMWJjNWZjYTYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5RCUPqAAAB+klEQVR42uyVzStEURjG7wxZioUkGYSFFDtWlqSwlR1ZSGLj42+g/BNkI6KJMQvDQvkqJfkoKWliITUkUT5mrufouXWczj33zh1ZOfWbOee+73mfc857Pizbti0NCTt42XKJaYUtfam3ghfXvkKsHzwBW6I8B7EyJZaIPSAMIUzvAf/F4Abcs0MdKHQJtgfSoNXF/gwuWS8BEQoWibU851pXSuu7ZMhJN+g02BelOBF+u3ByNs9R9Eqju1VG+wbOwByIgTiYBae0ySUp1Xv4v/D9C8Uy8AGSIJ8jGlVGO+62w8CY4jvC72FwBdKgWnxzOqzRsZ/tDiVABgxrhIZoU5dZ2HrZjjv+Tqc2Gq5BAajQ5OJRI5bS+DWAPObJ5sB/iAkOaZxk+04JsiclPcL6juLzylQMsn0kD04Wa6fDC6gBq0qgZTDFgIIZ7jy5HIBScZzUWalighidtsFEgKtqGkRZX1eXXRUrl/KwEUDMuVNTzLtRzOKB/czhIhZ9u3THxO3s9IG3AELv0vHxLSZo5A70W4RvkyHe90XsdYtXgWsPnwgvcmPxI2bxqTDG8RMk7PON2jXY9v0+dH5n5jbDUDadw9Yfln+xZpDQfN8ELf4zbjiEoBasaB5I9WGN0tcYz0vsOIsb5MRLzGvrZ7Lc3qFcchb6zQ3yJcAAGp1nQmZ1e7AAAAAASUVORK5CYII="
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAbCAYAAACAyoQSAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA4BpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyNGQ3MGQ1OS0wMGQzLTAwNDYtYjg3MS1iNDJkM2M1MjFhZTgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QTNFNTFDMEUzQUE1MTFFNkFGM0FFMzc2QUU0RjUwRTYiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QTNFNTFDMEQzQUE1MTFFNkFGM0FFMzc2QUU0RjUwRTYiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0ZjEwYTNhZS1mMjJkLTkzNGMtOTZjMy05MGE5ZjIxOWQ3Y2UiIHN0UmVmOmRvY3VtZW50SUQ9ImFkb2JlOmRvY2lkOnBob3Rvc2hvcDozYzQ0N2Q2Ni0zOTQxLTExZTYtOGU0MC1mOTZkMWJjNWZjYTYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5YUs7SAAACCUlEQVR42rSWOUsDQRTHo1EwhYiIB1gLdoE0hmhhp8avYOGBeBE8PoEWESxFK4ughRDEgJ3xChZ2BjQS0MaAKAlqwEIhAY/1P/Ii42Rm9lAf/NjHvPf2P/t2Z2ZdhmG4fkkQJMAzwfx+Xc1vBecNtS38h2iPYW5BWW2ly7nNWMgJyQYrvh7Xmd2DJpOcB9AsDopPWgtWwROxSmMy+7AwMfkTCf0+kLyXfcU73bHwTnfMPiSvptgrKe4CH5oaFus2+5BaNG2SxU7ArKLNbGwOHJu1txEUJDMuUEy1dPxgC2SILRqzvDlMgldOkPkTmhtUOYnJBn1gifBJ4jUgDG5BXCMap5ww1ZSJVoMQWJEUL4NO8utAkuvEhUY0xeUlqfZbtBLsUTAvKb4BDeRHhfddBB5FN4pCbpQXHRSCbVwx89fI71AsjT6JaK8i119aMtPCBz0l+DHyxxXLacjiGLOx0pI5E2bzBkbAMPml9uUVs38HAe4pAzQms3ypvWwN3ml2lla6WUSTkwMDRE6TF+G/3lFN4ibluMG24dxidI9vUY+mffxfQD3IOhDMUu2PvbcAjjR7bztd2XEXdnD2LlJt2Xl6qiniYxvgxYYgy11XHeJpzYmRFm6ya0N0V5wkLxoHbvYLI+CmGG+HNkQTZr8rVi1lI/f8r0QzNnKv/0r0EVxayLui3B/2KcAAqhMDay5fQSgAAAAASUVORK5CYII="
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA4BpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyNGQ3MGQ1OS0wMGQzLTAwNDYtYjg3MS1iNDJkM2M1MjFhZTgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QjlBQUIzN0EzQUE1MTFFNkE0QzFDREJGRUI1NkNDRDIiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QjlBQUIzNzkzQUE1MTFFNkE0QzFDREJGRUI1NkNDRDIiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0ZjEwYTNhZS1mMjJkLTkzNGMtOTZjMy05MGE5ZjIxOWQ3Y2UiIHN0UmVmOmRvY3VtZW50SUQ9ImFkb2JlOmRvY2lkOnBob3Rvc2hvcDozYzQ0N2Q2Ni0zOTQxLTExZTYtOGU0MC1mOTZkMWJjNWZjYTYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7nEPFUAAACXklEQVR42qyWz0sWQRjH3TWpxA5BgVBKodVFDx165UVMzfCQ/gEVgT9ungKxS1BBCP66VMcuCl48JVJ5FtSkbnXcTI08SEFlgljUO30f+S4Mw87s7Pu+D3zYfWZ25rvzzO4zT6CUqkixALSBHtAKGsFJ9v0A62AVvAbLwD2hCFoIwQCIlL9FHBPa5rWJXQBvVfH2Dpz3FewGv1Tp9g20pQleBb9V+UzmumYTlBB8VeU3idYlUzAscc989vTwQwr5sfaBHPgOdivKawVwBfTHv0UAPvJN+kE1GAX7xlveBfMZV7YBhngvGoEItrPhMzhi7Olj8Ax0sa05o+ATzvmFfrtMMkFn0pEEdNYzCI5xzBT9CdnDPGO9rMX9HLgB6hP2ZDbD/u3xusRrXtR3qH6Gb3Mf/GNbATwyVighugc2PVY4wDF19HfEOaBTCc5SxLRcQmjl41pJEWzhs8fiRBBqy68Cl3k6mNab0LYPHjrCKf3vtV/j0ETwJ+9rwQPL4EZL+wr4Y+lbAAe8Px0fZyIY0ZnmD5pkpyztIraZdOqBcc1v4jUSwTU6HY7wHHX0bSW0PQcfNL+T1zURXPT4vF3pLjL8N2BY80XjJu8XzdRmsxlHIpDj5y+fWwAnjP7bZmoTBlMER1Kyj6S8fEJ7DVOmoobX8VSwlQspSOTmtOOp0vcAflGEmCzgqesAtpUY8gL1GcVkD19qJcZ1nyJqjwO2wZ04HCnIM7e0PfMqomIuMu6xbfEY62EiPg6qmPC7eQxtFFsmlloID7oK4SBDqd/LUr/BKPU/sdR/5VPq/xdgAKASgqd4gfM9AAAAAElFTkSuQmCC"
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAcCAYAAACdz7SqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA4BpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyNGQ3MGQ1OS0wMGQzLTAwNDYtYjg3MS1iNDJkM2M1MjFhZTgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OTZFOEZGNUEzQUE5MTFFNkI1ODFCRjQyNUM1N0FENTEiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OTZFOEZGNTkzQUE5MTFFNkI1ODFCRjQyNUM1N0FENTEiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0ZjEwYTNhZS1mMjJkLTkzNGMtOTZjMy05MGE5ZjIxOWQ3Y2UiIHN0UmVmOmRvY3VtZW50SUQ9ImFkb2JlOmRvY2lkOnBob3Rvc2hvcDozYzQ0N2Q2Ni0zOTQxLTExZTYtOGU0MC1mOTZkMWJjNWZjYTYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7SOE6kAAABxUlEQVR42ryWv0rEQBDGcxY5YpM7DhS8A00lgtr4Jqdio1iprf8qU51PoIVgYa+1PoBdYqkg6FVicaexOS21uPUbmECMyWaCiwO/Jjv7Dbs7M5mKUsr6bxsR+DjABxEIgJvh4/JaxL6OVpFOqqENntVPOwY2aDI2f0sa7VnM080L5oFrlW1D4TfFGp406KUyZ1dp/bw3HRjMm19alZzs9cADqP4x4CeYAU+S7J0DtoFTksas5KR18AjGDF0vldE0+NCddEcY8AX0BX7jYDerThtgHWyCqCAbz1JlMMXfdBaxNsVoxBsDYfofaBrJnlAjiN90SO9bcE33YJ4uJ2ed9t+yj6j3VgRvc64JaPHahamGH1vPkE+poE2Bz0SZoJKfarvgGWhtqUzQUOC7APY169vsU2RhnO41sMq19KpJd/qFnXBtxnsnwWlBmfRZew3Us+qtI6g1Ct5jhgJ/Pxkjq/fS6NHl9mXC3rj3vuuylxrzhjC5iow0tpIBdSVD3efLQFDSuJPWacfAD9xijUNp0JrBcWVUOoLqpsEyRhot6TQYs6yZe1tMFRxlzL0rZefeJA7X2QDccCNJ+7ggZB+f9+RqfgswAFA/OW+LZeoNAAAAAElFTkSuQmCC"
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAcCAYAAACK7SRjAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA4BpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyNGQ3MGQ1OS0wMGQzLTAwNDYtYjg3MS1iNDJkM2M1MjFhZTgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RDAyODdBMDkzQUE1MTFFNkI1QzM4QTlDREZGQUE2MDkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RDAyODdBMDgzQUE1MTFFNkI1QzM4QTlDREZGQUE2MDkiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0ZjEwYTNhZS1mMjJkLTkzNGMtOTZjMy05MGE5ZjIxOWQ3Y2UiIHN0UmVmOmRvY3VtZW50SUQ9ImFkb2JlOmRvY2lkOnBob3Rvc2hvcDozYzQ0N2Q2Ni0zOTQxLTExZTYtOGU0MC1mOTZkMWJjNWZjYTYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4nq++oAAAA0ElEQVR42mL8uViLgQjQAcSFQMwG5f8C4n4grsCniZFIw/8AMTOa2G8ky7ACJgbiADMWMVZCmpigXv4JxP/xYFwAl3qQee2gYPmDw2WUgt9MNDIYHGwsoEilkeEMLGjhRy3ASEpqIQsMiOHTgVgfSpMqhjWHIoc5BzStsgPxDzQxTiD+hkeMYJj/RKOR2d8JiA1smI8aPmr4qOEUGs6IpWImVoyg4TFQOpoMMYKlIgh8AmI+MsUwSsW/aAr4sDiGWDGMYOmBtqIoBYdgDIAAAwCLgjufIFEGeAAAAABJRU5ErkJggg=="
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6Njk2QkQ1NjEzNzcyMTFFNkE2NDVBODhENjEyOTgyODIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6Njk2QkQ1NjIzNzcyMTFFNkE2NDVBODhENjEyOTgyODIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo2OTZCRDU1RjM3NzIxMUU2QTY0NUE4OEQ2MTI5ODI4MiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo2OTZCRDU2MDM3NzIxMUU2QTY0NUE4OEQ2MTI5ODI4MiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pn12c3YAAAApSURBVHjaYvz//z8DGoAJMCILMjEQCaivkAXJTbjcSrqJjIPc1wABBgC5RgcUQWYnfwAAAABJRU5ErkJggg=="
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "bg.png?dbdc0eef5b2b97289d5b9075226c9e76";
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(17)
+	__vue_template__ = __webpack_require__(50)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "E:\\saishi\\src\\views\\createEvent.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _typeof2 = __webpack_require__(18);
+	
+	var _typeof3 = _interopRequireDefault(_typeof2);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = {
+		data: function data() {
+			return {
+				number: 0
+			};
+		},
+	
+		ready: function ready() {
+			function preloadimages(arr) {
+				var newimages = [];
+				var arr = (typeof arr === 'undefined' ? 'undefined' : (0, _typeof3.default)(arr)) != "object" ? [arr] : arr;
+				for (var i = 0; i < arr.length; i++) {
+					newimages[i] = new Image();
+					newimages[i].src = arr[i];
+				}
+			}
+			preloadimages(['../../static/images/center_bg2.png']);
+	
+			var selects = $('select');
+			for (var i = 0; i < selects.length; i++) {
+				createSelect(selects[i], i);
+			}
+			function createSelect(select_container, index) {
+				var tag_select = $('<div></div>');
+				tag_select.attr('class', 'select_box');
+				tag_select.insertBefore(select_container);
+	
+				var select_showbox = $('<div></div>');
+				select_showbox.css('cursor', 'pointer').attr('class', 'select_showbox').appendTo(tag_select);
+	
+				var ul_option = $('<ul></ul>');
+				ul_option.attr('class', 'select_option');
+				ul_option.appendTo(tag_select);
+				createOptions(index, ul_option);
+				tag_select.click(function () {
+					if (ul_option.is(":visible")) {
+						ul_option.hide();
+						$(this).removeClass('focus');
+					} else {
+						ul_option.show();
+						$(this).addClass('focus');
+					}
+				});
+				var li_option = ul_option.find('li');
+				li_option.click(function (e) {
+					if (e.target.className != 'disabled hover') {
+						var value = $(this).text();
+						select_showbox.text(value);
+					}
+	
+					ul_option.slideUp();
+				});
+				li_option.hover(function () {
+					$(this).addClass('hover').siblings().removeClass('hover');
+				}, function () {
+					li_option.removeClass('hover');
+				});
+			}
+			function createOptions(index, ul_list) {
+				var options = selects.eq(index).find('option'),
+				    selected_option = options.filter(':selected'),
+				    selected_index = selected_option.index(),
+				    showbox = ul_list.prev();
+				showbox.text(selected_option.text());
+	
+				for (var n = 0; n < options.length; n++) {
+					var tag_option = $('<li></li>'),
+					    txt_option = options.eq(n).text();
+					if (options.eq(n).attr('disabled')) {
+						tag_option.text(txt_option).addClass('disabled').appendTo(ul_list);
+					} else {
+						tag_option.text(txt_option).css('cursor', 'pointer').appendTo(ul_list);
+					}
+	
+					if (n == selected_index) {
+						tag_option.attr('class', 'selected');
+					}
+				}
+			}
+	
+			$('.form_datetime').datetimepicker({
+				language: "zh-CN",
+				weekStart: 1,
+				todayBtn: 1,
+				autoclose: 1,
+				todayHighlight: 1,
+				startView: 2,
+				forceParse: 0,
+				showMeridian: 1,
+				pickerPosition: 'bottom-left'
+			});
+	
+			$('#pic').diyUpload({
+				url: '',
+				success: function success(data) {
+					console.info(data);
+				},
+				error: function error(err) {
+					console.info(err);
+				},
+				buttonText: '选择图片',
+				chunked: true,
+	
+				chunkSize: 512 * 1024,
+	
+				fileNumLimit: 1,
+				fileSizeLimit: 500000 * 1024,
+				fileSingleSizeLimit: 50000 * 1024,
+				accept: {}
+			});
+	
+			$('.m-form').click(function (e) {
+				if (e.target.className != "select_showbox") {
+					$('.select_box').removeClass('focus');
+					$('.select_option').hide();
+				}
+				if (e.target.className != "u-select change") {
+					$('.u-select').removeClass('change');
+					$('.organize_option').hide();
+				}
+			});
+	
+			$('.sponsor li').click(function (e) {
+				if (e.target.className != 'disabled') {
+					var value = $(this).text();
+					$('.organize').text(value);
+					$('.sponsor ul').hide();
+					$('.sponsor .u-select').removeClass('change');
+				}
+			});
+		},
+		methods: {
+			plus: function plus(e) {
+				this.number = parseInt(this.number + 1);
+				$('#number').val(this.number);
+				if (this.number > 0) {
+					$('.minus').attr('disabled', false);
+				}
+			},
+			minus: function minus(e) {
+				this.number = parseInt(this.number - 1);
+				$('#number').val(this.number);
+				if (this.number == 0) {
+					$('.minus').attr('disabled', true);
+				} else {
+					$('.minus').attr('disabled', false);
+				}
+			},
+			slideToggle: function slideToggle(e) {
+				var _this = $(e.target);
+				if (_this.attr('id') == 'radio-2-1') {
+					$('.m-signup').slideDown();
+				} else {
+					$('.m-signup').slideUp();
+				}
+			},
+			optional: function optional(e) {
+				var _this = $(e.target);
+				if (_this.hasClass('slidedown')) {
+					_this.hide();
+					$('.m-option').show();
+					$('.g-center').css({ 'background-image': 'url(../static/images/center_bg2.png)' });
+				} else {
+					$('.slidedown').show();
+					$('.m-option').hide();
+					$('.g-center').css({ 'background-image': 'url(../static/images/center_bg1.png)' });
+				}
+			},
+			signTime: function signTime(e) {
+				var _this = $(e.target);
+				if (_this.is(':checked')) {
+					$('.sign-minute').show();
+				} else {
+					$('.sign-minute').hide();
+				}
+			},
+			chooseOrganize: function chooseOrganize(e) {
+				var _this = $(e.target);
+				if (_this.parent().find('.organize_option').is(":visible")) {
+					_this.parent().find('.organize_option').hide();
+					_this.removeClass('change');
+				} else {
+					_this.parent().find('.organize_option').show();
+					_this.addClass('change');
+				}
+			}
+		}
+	};
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _Symbol = __webpack_require__(19)["default"];
+	
+	exports["default"] = function (obj) {
+	  return obj && obj.constructor === _Symbol ? "symbol" : typeof obj;
+	};
+	
+	exports.__esModule = true;
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(20), __esModule: true };
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(21);
+	__webpack_require__(49);
+	module.exports = __webpack_require__(28).Symbol;
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	// ECMAScript 6 symbols shim
+	var $              = __webpack_require__(22)
+	  , global         = __webpack_require__(23)
+	  , has            = __webpack_require__(24)
+	  , DESCRIPTORS    = __webpack_require__(25)
+	  , $export        = __webpack_require__(27)
+	  , redefine       = __webpack_require__(31)
+	  , $fails         = __webpack_require__(26)
+	  , shared         = __webpack_require__(34)
+	  , setToStringTag = __webpack_require__(35)
+	  , uid            = __webpack_require__(37)
+	  , wks            = __webpack_require__(36)
+	  , keyOf          = __webpack_require__(38)
+	  , $names         = __webpack_require__(43)
+	  , enumKeys       = __webpack_require__(44)
+	  , isArray        = __webpack_require__(45)
+	  , anObject       = __webpack_require__(46)
+	  , toIObject      = __webpack_require__(39)
+	  , createDesc     = __webpack_require__(33)
+	  , getDesc        = $.getDesc
+	  , setDesc        = $.setDesc
+	  , _create        = $.create
+	  , getNames       = $names.get
+	  , $Symbol        = global.Symbol
+	  , $JSON          = global.JSON
+	  , _stringify     = $JSON && $JSON.stringify
+	  , setter         = false
+	  , HIDDEN         = wks('_hidden')
+	  , isEnum         = $.isEnum
+	  , SymbolRegistry = shared('symbol-registry')
+	  , AllSymbols     = shared('symbols')
+	  , useNative      = typeof $Symbol == 'function'
+	  , ObjectProto    = Object.prototype;
+	
+	// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
+	var setSymbolDesc = DESCRIPTORS && $fails(function(){
+	  return _create(setDesc({}, 'a', {
+	    get: function(){ return setDesc(this, 'a', {value: 7}).a; }
+	  })).a != 7;
+	}) ? function(it, key, D){
+	  var protoDesc = getDesc(ObjectProto, key);
+	  if(protoDesc)delete ObjectProto[key];
+	  setDesc(it, key, D);
+	  if(protoDesc && it !== ObjectProto)setDesc(ObjectProto, key, protoDesc);
+	} : setDesc;
+	
+	var wrap = function(tag){
+	  var sym = AllSymbols[tag] = _create($Symbol.prototype);
+	  sym._k = tag;
+	  DESCRIPTORS && setter && setSymbolDesc(ObjectProto, tag, {
+	    configurable: true,
+	    set: function(value){
+	      if(has(this, HIDDEN) && has(this[HIDDEN], tag))this[HIDDEN][tag] = false;
+	      setSymbolDesc(this, tag, createDesc(1, value));
+	    }
+	  });
+	  return sym;
+	};
+	
+	var isSymbol = function(it){
+	  return typeof it == 'symbol';
+	};
+	
+	var $defineProperty = function defineProperty(it, key, D){
+	  if(D && has(AllSymbols, key)){
+	    if(!D.enumerable){
+	      if(!has(it, HIDDEN))setDesc(it, HIDDEN, createDesc(1, {}));
+	      it[HIDDEN][key] = true;
+	    } else {
+	      if(has(it, HIDDEN) && it[HIDDEN][key])it[HIDDEN][key] = false;
+	      D = _create(D, {enumerable: createDesc(0, false)});
+	    } return setSymbolDesc(it, key, D);
+	  } return setDesc(it, key, D);
+	};
+	var $defineProperties = function defineProperties(it, P){
+	  anObject(it);
+	  var keys = enumKeys(P = toIObject(P))
+	    , i    = 0
+	    , l = keys.length
+	    , key;
+	  while(l > i)$defineProperty(it, key = keys[i++], P[key]);
+	  return it;
+	};
+	var $create = function create(it, P){
+	  return P === undefined ? _create(it) : $defineProperties(_create(it), P);
+	};
+	var $propertyIsEnumerable = function propertyIsEnumerable(key){
+	  var E = isEnum.call(this, key);
+	  return E || !has(this, key) || !has(AllSymbols, key) || has(this, HIDDEN) && this[HIDDEN][key]
+	    ? E : true;
+	};
+	var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(it, key){
+	  var D = getDesc(it = toIObject(it), key);
+	  if(D && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key]))D.enumerable = true;
+	  return D;
+	};
+	var $getOwnPropertyNames = function getOwnPropertyNames(it){
+	  var names  = getNames(toIObject(it))
+	    , result = []
+	    , i      = 0
+	    , key;
+	  while(names.length > i)if(!has(AllSymbols, key = names[i++]) && key != HIDDEN)result.push(key);
+	  return result;
+	};
+	var $getOwnPropertySymbols = function getOwnPropertySymbols(it){
+	  var names  = getNames(toIObject(it))
+	    , result = []
+	    , i      = 0
+	    , key;
+	  while(names.length > i)if(has(AllSymbols, key = names[i++]))result.push(AllSymbols[key]);
+	  return result;
+	};
+	var $stringify = function stringify(it){
+	  if(it === undefined || isSymbol(it))return; // IE8 returns string on undefined
+	  var args = [it]
+	    , i    = 1
+	    , $$   = arguments
+	    , replacer, $replacer;
+	  while($$.length > i)args.push($$[i++]);
+	  replacer = args[1];
+	  if(typeof replacer == 'function')$replacer = replacer;
+	  if($replacer || !isArray(replacer))replacer = function(key, value){
+	    if($replacer)value = $replacer.call(this, key, value);
+	    if(!isSymbol(value))return value;
+	  };
+	  args[1] = replacer;
+	  return _stringify.apply($JSON, args);
+	};
+	var buggyJSON = $fails(function(){
+	  var S = $Symbol();
+	  // MS Edge converts symbol values to JSON as {}
+	  // WebKit converts symbol values to JSON as null
+	  // V8 throws on boxed symbols
+	  return _stringify([S]) != '[null]' || _stringify({a: S}) != '{}' || _stringify(Object(S)) != '{}';
+	});
+	
+	// 19.4.1.1 Symbol([description])
+	if(!useNative){
+	  $Symbol = function Symbol(){
+	    if(isSymbol(this))throw TypeError('Symbol is not a constructor');
+	    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));
+	  };
+	  redefine($Symbol.prototype, 'toString', function toString(){
+	    return this._k;
+	  });
+	
+	  isSymbol = function(it){
+	    return it instanceof $Symbol;
+	  };
+	
+	  $.create     = $create;
+	  $.isEnum     = $propertyIsEnumerable;
+	  $.getDesc    = $getOwnPropertyDescriptor;
+	  $.setDesc    = $defineProperty;
+	  $.setDescs   = $defineProperties;
+	  $.getNames   = $names.get = $getOwnPropertyNames;
+	  $.getSymbols = $getOwnPropertySymbols;
+	
+	  if(DESCRIPTORS && !__webpack_require__(48)){
+	    redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
+	  }
+	}
+	
+	var symbolStatics = {
+	  // 19.4.2.1 Symbol.for(key)
+	  'for': function(key){
+	    return has(SymbolRegistry, key += '')
+	      ? SymbolRegistry[key]
+	      : SymbolRegistry[key] = $Symbol(key);
+	  },
+	  // 19.4.2.5 Symbol.keyFor(sym)
+	  keyFor: function keyFor(key){
+	    return keyOf(SymbolRegistry, key);
+	  },
+	  useSetter: function(){ setter = true; },
+	  useSimple: function(){ setter = false; }
+	};
+	// 19.4.2.2 Symbol.hasInstance
+	// 19.4.2.3 Symbol.isConcatSpreadable
+	// 19.4.2.4 Symbol.iterator
+	// 19.4.2.6 Symbol.match
+	// 19.4.2.8 Symbol.replace
+	// 19.4.2.9 Symbol.search
+	// 19.4.2.10 Symbol.species
+	// 19.4.2.11 Symbol.split
+	// 19.4.2.12 Symbol.toPrimitive
+	// 19.4.2.13 Symbol.toStringTag
+	// 19.4.2.14 Symbol.unscopables
+	$.each.call((
+	  'hasInstance,isConcatSpreadable,iterator,match,replace,search,' +
+	  'species,split,toPrimitive,toStringTag,unscopables'
+	).split(','), function(it){
+	  var sym = wks(it);
+	  symbolStatics[it] = useNative ? sym : wrap(sym);
+	});
+	
+	setter = true;
+	
+	$export($export.G + $export.W, {Symbol: $Symbol});
+	
+	$export($export.S, 'Symbol', symbolStatics);
+	
+	$export($export.S + $export.F * !useNative, 'Object', {
+	  // 19.1.2.2 Object.create(O [, Properties])
+	  create: $create,
+	  // 19.1.2.4 Object.defineProperty(O, P, Attributes)
+	  defineProperty: $defineProperty,
+	  // 19.1.2.3 Object.defineProperties(O, Properties)
+	  defineProperties: $defineProperties,
+	  // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
+	  getOwnPropertyDescriptor: $getOwnPropertyDescriptor,
+	  // 19.1.2.7 Object.getOwnPropertyNames(O)
+	  getOwnPropertyNames: $getOwnPropertyNames,
+	  // 19.1.2.8 Object.getOwnPropertySymbols(O)
+	  getOwnPropertySymbols: $getOwnPropertySymbols
+	});
+	
+	// 24.3.2 JSON.stringify(value [, replacer [, space]])
+	$JSON && $export($export.S + $export.F * (!useNative || buggyJSON), 'JSON', {stringify: $stringify});
+	
+	// 19.4.3.5 Symbol.prototype[@@toStringTag]
+	setToStringTag($Symbol, 'Symbol');
+	// 20.2.1.9 Math[@@toStringTag]
+	setToStringTag(Math, 'Math', true);
+	// 24.3.3 JSON[@@toStringTag]
+	setToStringTag(global.JSON, 'JSON', true);
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+	var $Object = Object;
+	module.exports = {
+	  create:     $Object.create,
+	  getProto:   $Object.getPrototypeOf,
+	  isEnum:     {}.propertyIsEnumerable,
+	  getDesc:    $Object.getOwnPropertyDescriptor,
+	  setDesc:    $Object.defineProperty,
+	  setDescs:   $Object.defineProperties,
+	  getKeys:    $Object.keys,
+	  getNames:   $Object.getOwnPropertyNames,
+	  getSymbols: $Object.getOwnPropertySymbols,
+	  each:       [].forEach
+	};
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+	var global = module.exports = typeof window != 'undefined' && window.Math == Math
+	  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+
+/***/ },
+/* 24 */
+/***/ function(module, exports) {
+
+	var hasOwnProperty = {}.hasOwnProperty;
+	module.exports = function(it, key){
+	  return hasOwnProperty.call(it, key);
+	};
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// Thank's IE8 for his funny defineProperty
+	module.exports = !__webpack_require__(26)(function(){
+	  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
+	});
+
+/***/ },
+/* 26 */
+/***/ function(module, exports) {
+
+	module.exports = function(exec){
+	  try {
+	    return !!exec();
+	  } catch(e){
+	    return true;
+	  }
+	};
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var global    = __webpack_require__(23)
+	  , core      = __webpack_require__(28)
+	  , ctx       = __webpack_require__(29)
+	  , PROTOTYPE = 'prototype';
+	
+	var $export = function(type, name, source){
+	  var IS_FORCED = type & $export.F
+	    , IS_GLOBAL = type & $export.G
+	    , IS_STATIC = type & $export.S
+	    , IS_PROTO  = type & $export.P
+	    , IS_BIND   = type & $export.B
+	    , IS_WRAP   = type & $export.W
+	    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
+	    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
+	    , key, own, out;
+	  if(IS_GLOBAL)source = name;
+	  for(key in source){
+	    // contains in native
+	    own = !IS_FORCED && target && key in target;
+	    if(own && key in exports)continue;
+	    // export native or passed
+	    out = own ? target[key] : source[key];
+	    // prevent global pollution for namespaces
+	    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+	    // bind timers to global for call from export context
+	    : IS_BIND && own ? ctx(out, global)
+	    // wrap global constructors for prevent change them in library
+	    : IS_WRAP && target[key] == out ? (function(C){
+	      var F = function(param){
+	        return this instanceof C ? new C(param) : C(param);
+	      };
+	      F[PROTOTYPE] = C[PROTOTYPE];
+	      return F;
+	    // make static versions for prototype methods
+	    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+	    if(IS_PROTO)(exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
+	  }
+	};
+	// type bitmap
+	$export.F = 1;  // forced
+	$export.G = 2;  // global
+	$export.S = 4;  // static
+	$export.P = 8;  // proto
+	$export.B = 16; // bind
+	$export.W = 32; // wrap
+	module.exports = $export;
+
+/***/ },
+/* 28 */
+/***/ function(module, exports) {
+
+	var core = module.exports = {version: '1.2.6'};
+	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// optional / simple context binding
+	var aFunction = __webpack_require__(30);
+	module.exports = function(fn, that, length){
+	  aFunction(fn);
+	  if(that === undefined)return fn;
+	  switch(length){
+	    case 1: return function(a){
+	      return fn.call(that, a);
+	    };
+	    case 2: return function(a, b){
+	      return fn.call(that, a, b);
+	    };
+	    case 3: return function(a, b, c){
+	      return fn.call(that, a, b, c);
+	    };
+	  }
+	  return function(/* ...args */){
+	    return fn.apply(that, arguments);
+	  };
+	};
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	module.exports = function(it){
+	  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
+	  return it;
+	};
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(32);
+
+/***/ },
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $          = __webpack_require__(22)
+	  , createDesc = __webpack_require__(33);
+	module.exports = __webpack_require__(25) ? function(object, key, value){
+	  return $.setDesc(object, key, createDesc(1, value));
+	} : function(object, key, value){
+	  object[key] = value;
+	  return object;
+	};
+
+/***/ },
+/* 33 */
+/***/ function(module, exports) {
+
+	module.exports = function(bitmap, value){
+	  return {
+	    enumerable  : !(bitmap & 1),
+	    configurable: !(bitmap & 2),
+	    writable    : !(bitmap & 4),
+	    value       : value
+	  };
+	};
+
+/***/ },
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var global = __webpack_require__(23)
+	  , SHARED = '__core-js_shared__'
+	  , store  = global[SHARED] || (global[SHARED] = {});
+	module.exports = function(key){
+	  return store[key] || (store[key] = {});
+	};
+
+/***/ },
+/* 35 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var def = __webpack_require__(22).setDesc
+	  , has = __webpack_require__(24)
+	  , TAG = __webpack_require__(36)('toStringTag');
+	
+	module.exports = function(it, tag, stat){
+	  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
+	};
+
+/***/ },
+/* 36 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var store  = __webpack_require__(34)('wks')
+	  , uid    = __webpack_require__(37)
+	  , Symbol = __webpack_require__(23).Symbol;
+	module.exports = function(name){
+	  return store[name] || (store[name] =
+	    Symbol && Symbol[name] || (Symbol || uid)('Symbol.' + name));
+	};
+
+/***/ },
+/* 37 */
+/***/ function(module, exports) {
+
+	var id = 0
+	  , px = Math.random();
+	module.exports = function(key){
+	  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
+	};
+
+/***/ },
+/* 38 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $         = __webpack_require__(22)
+	  , toIObject = __webpack_require__(39);
+	module.exports = function(object, el){
+	  var O      = toIObject(object)
+	    , keys   = $.getKeys(O)
+	    , length = keys.length
+	    , index  = 0
+	    , key;
+	  while(length > index)if(O[key = keys[index++]] === el)return key;
+	};
+
+/***/ },
+/* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// to indexed object, toObject with fallback for non-array-like ES3 strings
+	var IObject = __webpack_require__(40)
+	  , defined = __webpack_require__(42);
+	module.exports = function(it){
+	  return IObject(defined(it));
+	};
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// fallback for non-array-like ES3 and non-enumerable old V8 strings
+	var cof = __webpack_require__(41);
+	module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
+	  return cof(it) == 'String' ? it.split('') : Object(it);
+	};
+
+/***/ },
+/* 41 */
+/***/ function(module, exports) {
+
+	var toString = {}.toString;
+	
+	module.exports = function(it){
+	  return toString.call(it).slice(8, -1);
+	};
+
+/***/ },
+/* 42 */
+/***/ function(module, exports) {
+
+	// 7.2.1 RequireObjectCoercible(argument)
+	module.exports = function(it){
+	  if(it == undefined)throw TypeError("Can't call method on  " + it);
+	  return it;
+	};
+
+/***/ },
+/* 43 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
+	var toIObject = __webpack_require__(39)
+	  , getNames  = __webpack_require__(22).getNames
+	  , toString  = {}.toString;
+	
+	var windowNames = typeof window == 'object' && Object.getOwnPropertyNames
+	  ? Object.getOwnPropertyNames(window) : [];
+	
+	var getWindowNames = function(it){
+	  try {
+	    return getNames(it);
+	  } catch(e){
+	    return windowNames.slice();
+	  }
+	};
+	
+	module.exports.get = function getOwnPropertyNames(it){
+	  if(windowNames && toString.call(it) == '[object Window]')return getWindowNames(it);
+	  return getNames(toIObject(it));
+	};
+
+/***/ },
+/* 44 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// all enumerable object keys, includes symbols
+	var $ = __webpack_require__(22);
+	module.exports = function(it){
+	  var keys       = $.getKeys(it)
+	    , getSymbols = $.getSymbols;
+	  if(getSymbols){
+	    var symbols = getSymbols(it)
+	      , isEnum  = $.isEnum
+	      , i       = 0
+	      , key;
+	    while(symbols.length > i)if(isEnum.call(it, key = symbols[i++]))keys.push(key);
+	  }
+	  return keys;
+	};
+
+/***/ },
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 7.2.2 IsArray(argument)
+	var cof = __webpack_require__(41);
+	module.exports = Array.isArray || function(arg){
+	  return cof(arg) == 'Array';
+	};
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var isObject = __webpack_require__(47);
+	module.exports = function(it){
+	  if(!isObject(it))throw TypeError(it + ' is not an object!');
+	  return it;
+	};
+
+/***/ },
+/* 47 */
+/***/ function(module, exports) {
+
+	module.exports = function(it){
+	  return typeof it === 'object' ? it !== null : typeof it === 'function';
+	};
+
+/***/ },
+/* 48 */
+/***/ function(module, exports) {
+
+	module.exports = true;
+
+/***/ },
+/* 49 */
+/***/ function(module, exports) {
+
+
+
+/***/ },
+/* 50 */
+/***/ function(module, exports) {
+
+	module.exports = "\r\n\t<div class=\"g-doc\">\r\n\t\t<div class=\"g-hd\">\r\n\t\t\t<div class=\"g-box f-cb\">\r\n\t\t\t\t<div class=\"m-logo\"><a href=\"\"></a></div>\r\n\t\t\t\t<div class=\"m-login\">欢迎，hoo言hoo语<a href=\"#\" class=\"u-select\">个人中心</a>|<a href=\"#\" class=\"u-exit\">退出</a></div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t<div class=\"g-bd\">\r\n\t\t\t<div class=\"g-tp\"></div>\r\n\t\t\t<div class=\"g-center f-cb\">\r\n\t\t\t\t<div class=\"m-form\">\r\n\t\t\t\t\t<h3>创建赛事工具</h3>\r\n\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t\t\t<label for=\"\">赛事名称：</label>\r\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入比赛名称，不超过32个文字\">\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst f-cb\">\r\n\t\t\t\t\t\t<label for=\"\">赛事主办方：</label>\r\n\t\t\t\t\t\t<div class=\"organize f-fl\">hoo言hoo语</div>\r\n\t\t\t\t\t\t<div class=\"sponsor\">\r\n\t\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-select\" @click=\"chooseOrganize\">更改</a>\r\n\t\t\t\t\t\t\t<ul class=\"organize_option\">\r\n\t\t\t\t\t\t\t\t<li class=\"selected\">个人：网娱大师</li>\r\n\t\t\t\t\t\t\t\t<li class=\"disabled\">组织：暂无</li>\r\n\t\t\t\t\t\t\t</ul>\r\n\t\t\t\t\t\t</div>\t\t\t\t\t\t\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst f-mb50\">\r\n\t\t\t\t\t\t<label for=\"\">所属游戏：</label>\r\n\t\t\t\t\t\t<select name=\"\" id=\"\">\r\n\t\t\t\t\t\t\t<option value=\"\">请选择赛事游戏</option>\r\n\t\t\t\t\t\t</select>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t<label for=\"\">赛事模式：</label>\r\n\t\t\t\t\t\t<select name=\"\" id=\"\">\r\n\t\t\t\t\t\t\t<option value=\"\">线上赛事</option>\r\n\t\t\t\t\t\t\t<option value=\"\" disabled=\"\">线下赛事</option>\r\n\t\t\t\t\t\t\t<option value=\"\" disabled=\"\">线上海选+线下决赛</option>\r\n\t\t\t\t\t\t</select>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t<label for=\"\">最大参与人数：</label>\r\n\t\t\t\t\t\t<input type=\"text\" id=\"number\" placeholder=\"请输入参与人数上限\">\r\n\t\t\t\t\t\t<div class=\"button_group\">\r\n\t\t\t\t\t\t\t<button class=\"plus\" @click=\"plus\"></button>\r\n\t\t\t\t\t\t\t<button class=\"minus\" @click=\"minus\" disabled=\"true\"></button>\r\n\t\t\t\t\t\t</div>\t\r\n\t\t\t\t\t\t<div class=\"tips\">\r\n\t\t\t\t\t\t\t<div class=\"f-mb10\">建议最大参与人数不超过512人</div>\r\n\t\t\t\t\t\t\t<div class=\"attention\">尚未设置最大参与人数</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t<label for=\"\">赛事开始时间：</label>\r\n\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\r\n\t\t\t\t\t\t    <input size=\"16\" type=\"text\" value=\"\" placeholder=\"请选择时间\" readonly>\r\n\t\t\t\t\t\t    <span class=\"add-on\"><i class=\"icon-th\"></i></span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t<label for=\"\">赛事类型：</label>\r\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-1-1\" name=\"radio-1-set\" class=\"regular-radio\" checked /><label for=\"radio-1-1\"></label><span class=\"radio_name\">单阶段比赛</span>\r\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-1-2\" name=\"radio-1-set\" class=\"regular-radio\" disabled /><label for=\"radio-1-2\"></label><span class=\"radio_name\">双阶段比赛</span>\r\n\t\t\t\t\t\t<div class=\"tips f-lh36\">\r\n\t\t\t\t\t\t\t双阶段将包含小组赛（目前暂不开放）\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst  f-mb50\">\r\n\t\t\t\t\t\t<label for=\"\">采用赛制：</label>\r\n\t\t\t\t\t\t<select name=\"\" id=\"\" class=\"f-fl\">\r\n\t\t\t\t\t\t\t<option value=\"\">单败淘汰制(SE)</option>\r\n\t\t\t\t\t\t\t<option value=\"\" disabled=\"\">双败淘汰制(DE)</option>\r\n\t\t\t\t\t\t\t<option value=\"\" disabled=\"\">小组内单循环制(RR)</option>\r\n\t\t\t\t\t\t\t<option value=\"\" disabled=\"\">积分循环制[瑞士轮](SS)</option>\r\n\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t<input type=\"checkbox\" id=\"checkbox-1-1\" class=\"regular-checkboxs f-ml15\" /><label for=\"checkbox-1-1\" class=\"f-ml15\"></label><span class=\"check_name\">决出第三名</span>\r\n\t\t\t\t\t\t<div class=\"tips\">\r\n\t\t\t\t\t\t\t<div class=\"\">单败淘汰制：失败一场即淘汰</div>\r\n\t\t\t\t\t\t\t<div>双败淘汰制：失败两场淘汰，比赛中将有败者组</div>\r\n\t\t\t\t\t\t\t<a href=\"#\">查看详细帮助文档</a>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t<label for=\"\">是否允许报名：</label>\r\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-2-1\" name=\"radio-2-set\" class=\"regular-radio\" @click=\"slideToggle\"/><label for=\"radio-2-1\"></label><span class=\"radio_name\">允许报名</span>\r\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-2-2\" name=\"radio-2-set\" class=\"regular-radio\" @click=\"slideToggle\"/><label for=\"radio-2-2\"></label><span class=\"radio_name\">禁止报名</span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-signup\">\r\n\t\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t\t<label for=\"\">报名类型：</label>\r\n\t\t\t\t\t\t\t<input type=\"radio\" id=\"radio-3-1\" name=\"radio-3-set\" class=\"regular-radio\" /><label for=\"radio-3-1\"></label><span class=\"radio_name\">个人报名</span>\r\n\t\t\t\t\t\t\t<input type=\"radio\" id=\"radio-3-2\" name=\"radio-3-set\" class=\"regular-radio\" /><label for=\"radio-3-2\"></label><span class=\"radio_name\">战队报名</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t\t<label for=\"\">报名时间：</label>\r\n\t\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\r\n\t\t\t\t\t\t\t    <input size=\"16\" type=\"text\" value=\"\" placeholder=\"请选择时间\" readonly>\r\n\t\t\t\t\t\t\t    <span class=\"add-on\"><i class=\"icon-th\"></i></span>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<span class=\"form-datetime-zhi\">-</span>\r\n\t\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\r\n\t\t\t\t\t\t\t    <input size=\"16\" type=\"text\" value=\"\" placeholder=\"请选择时间\" readonly>\r\n\t\t\t\t\t\t\t    <span class=\"add-on\"><i class=\"icon-th\"></i></span>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst f-mb50\">\r\n\t\t\t\t\t\t\t<div class=\"f-cb\">\r\n\t\t\t\t\t\t\t\t<label for=\"\">签到设置：</label>\r\n\t\t\t\t\t\t\t\t<input type=\"checkbox\" id=\"checkbox-2-1\" class=\"regular-checkboxs f-ml15\" @click=\"signTime\"/><label for=\"checkbox-2-1\"></label><span class=\"check_name\">要求参赛者赛前签到 (仅签到一次)</span>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<div class=\"f-cb sign-minute\">\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t比赛开始前<select name=\"\" id=\"\">\r\n\t\t\t\t\t\t\t\t\t<option value=\"\">15</option>\r\n\t\t\t\t\t\t\t\t\t<option value=\"\">30</option>\r\n\t\t\t\t\t\t\t\t\t<option value=\"\">60</option>\r\n\t\t\t\t\t\t\t\t</select>分钟\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\t\t\t\t\t\r\n\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"slide slidedown\" @click=\"optional\">展开更多赛事信息选项</a>\r\n\t\t\t\t\t<div class=\"m-option\">\r\n\t\t\t\t\t\t<div class=\"m-lst f-cb\">\r\n\t\t\t\t\t\t\t<label for=\"\">海报图：</label>\r\n\t\t\t\t\t\t\t<div class=\"picBox\">\r\n\t\t\t\t\t\t\t\t<div id=\"pic\"></div>\r\n\t\t\t\t\t\t\t</div>\t\r\n\t\t\t\t\t\t\t<div class=\"tips f-lh36\">\r\n\t\t\t\t\t\t\t\t允许jpg、png格式，最大2MB\r\n\t\t\t\t\t\t\t</div>\t\t\t\t\t\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t\t<label for=\"\">赛制规则：</label>\r\n\t\t\t\t\t\t\t<textarea name=\"\" id=\"\" cols=\"55\" rows=\"5\" placeholder=\"请输入比赛赛制规则，不超过200字\"></textarea>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst f-mb50\">\r\n\t\t\t\t\t\t\t<label for=\"\">奖金设置：</label>\r\n\t\t\t\t\t\t\t<textarea name=\"\" id=\"\" cols=\"55\" rows=\"5\" placeholder=\"请输入比赛赛制规则，不超过200字\"></textarea>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t\t<label for=\"\">种子规则：</label>\r\n\t\t\t\t\t\t\t<select name=\"\" id=\"\">\r\n\t\t\t\t\t\t\t\t<option value=\"\">传统种子规则</option>\r\n\t\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"slide slideup\" @click=\"optional\">收起</a>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-btn u-btn-next\">下一步</a>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t\t\r\n\t\t\t<div class=\"g-bt\"></div>\r\n\t\t</div>\r\n\t</div>\r\n";
+
+/***/ },
+/* 51 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(52)
+	__vue_template__ = __webpack_require__(53)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "E:\\saishi\\src\\views\\contestant.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 52 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = {
+	  data: function data() {
+	    return {};
+	  },
+	
+	  ready: function ready() {},
+	  methods: {
+	    addplayer: function addplayer(e) {
+	      $('.m-mask').show();
+	    },
+	    closePop: function closePop(e) {
+	      $('.m-mask').hide();
+	    }
+	  }
+	};
+
+/***/ },
+/* 53 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = "\r\n\t<div class=\"g-doc\">\r\n\t\t<div class=\"g-hd\">\r\n\t\t\t<div class=\"g-box f-cb\">\r\n\t\t\t\t<div class=\"m-logo\"><a href=\"\"></a></div>\r\n\t\t\t\t<div class=\"m-login\">欢迎，hoo言hoo语<a href=\"#\" class=\"u-select\">个人中心</a>|<a href=\"#\" class=\"u-exit\">退出</a></div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t<div class=\"g-mg-tab\">\r\n\t\t\t<ul class=\"clearfix\">\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(9) + "\">\r\n\t\t\t\t\t<p>赛事总览</p>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(10) + "\">\r\n\t\t\t\t\t<p>参赛选手</p>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(11) + "\">\r\n\t\t\t\t\t<p>资讯管理</p>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(12) + "\">\r\n\t\t\t\t\t<p>设置</p>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(13) + "\">\r\n\t\t\t\t\t<p class=\"on\">重置/删除</p>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\t\t</div>\r\n\t\t<div class=\"g-bd\" style=\"margin-top:20px;\">\r\n\t\t\t<div class=\"g-tp\"></div>\r\n\t\t\t<div class=\"g-list\">\r\n\t\t\t\t<h3>浙江省网娱大师-雪碧真英雄城市争霸赛</h3>\r\n\t\t\t\t<div class=\"m-operate f-cb\">\r\n\t\t\t\t\t<div class=\"l-btn f-fl\">\r\n\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-btn u-btn-add\" @click=\"addplayer\"><img src=\"" + __webpack_require__(14) + "\" alt=\"\">添加选手</a>\r\n\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-btn u-btn-upset\"></a>\r\n\t\t\t\t\t</div>\t\t\t\t\t\r\n\t\t\t\t\t<div class=\"r-btn f-fr\">\r\n\t\t\t\t\t\t<a href=\"\">导入</a>\r\n\t\t\t\t\t\t<a href=\"\">导出</a>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"m-tb\">\r\n\t\t\t\t\t<table class=\"account_table\">\r\n\t                    <tbody>\r\n\t                    <tr>\r\n\t                        <th>序号</th>\r\n\t                        <th>选手名称</th>\r\n\t                        <th>手机号码</th>\r\n\t                        <th>QQ</th>\r\n\t                        <th>身份证号码</th>\r\n\t                        <th>已签到</th>\r\n\t                        <th width=\"135px;\">操作</th>\r\n\t                    </tr>\r\n\t                    <tr>\r\n\t                        <td>1</td>\r\n\t                        <td>h的二次方</td>\r\n\t                        <td>13606555698</td>\r\n\t                        <td>13606555</td>\r\n\t                        <td>331360198607073369</td>\r\n\t                        <td>\r\n\t                        <section class=\"signed\">\r\n\t\t\t\t\t\t\t\t<div class=\"signbox\">\r\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\">\r\n\t\t\t\t\t\t\t\t\t<label></label>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</section>\r\n\t\t\t\t\t\t\t</td>\r\n\t                        <td>\r\n\t                        \t<div class=\"option\">\r\n\t                        \t\t<a href=\"\" class=\"u-btn-write\"></a><a href=\"\" class=\"u-btn-delete\"></a>\r\n\t                        \t</div>\r\n\t                        </td>\r\n\t                    </tr>\r\n\t                    </tbody>\r\n\t                </table>\r\n\t                <div class=\"m-page\">\r\n\t                \t<a href=\"\" id=\"prev\"></a>\r\n\t                \t<div class=\"pagination\"><span class=\"current\">2</span>/<span>10</span></div>\r\n\t                \t<a href=\"\" id=\"next\"></a>\r\n\t                \t<input type=\"text\">\r\n\t                \t<a href=\"\" class=\"u-btn\">跳转</a>\r\n\t                </div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\t\t\r\n\t\t\t<div class=\"g-bt\"></div>\r\n\t\t</div>\t\t\r\n\t</div>\r\n\t<div class=\"m-mask\">\r\n\t\t<div class=\"m-pop\">\r\n\t\t\t<h3>添加选手</h3>\r\n\t\t\t<a href=\"javascript:void(0);\"\" class=\"u-btn-close\" @click=\"closePop\"></a>\r\n\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t<label for=\"\">选手名称：</label>\r\n\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入参赛者名称\">\r\n\t\t\t</div>\r\n\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t<label for=\"\">手机号码：</label>\r\n\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入参赛者手机号码\">\r\n\t\t\t</div>\r\n\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t<label for=\"\">QQ：</label>\r\n\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入参赛者QQ号码\">\r\n\t\t\t</div>\r\n\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t<label for=\"\">身份证：</label>\r\n\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入参赛者身份证号码\">\r\n\t\t\t</div>\r\n\t\t\t<a href=\"javascript:void(0);\" class=\"u-btn\">添加</a>\r\n\t\t</div>\r\n\t</div>\r\n";
+
+/***/ },
+/* 54 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(55)
+	__vue_template__ = __webpack_require__(56)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "E:\\saishi\\src\\views\\news.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 55 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+			value: true
+	});
+	exports.default = {
+			data: function data() {
+					return {};
+			},
+	
+			ready: function ready() {
+					$('.form_datetime').datetimepicker({
+							language: "zh-CN",
+							weekStart: 1,
+							todayBtn: 1,
+							autoclose: 1,
+							todayHighlight: 1,
+							startView: 2,
+							forceParse: 0,
+							showMeridian: 1,
+							pickerPosition: 'bottom-left'
+					});
+					$('.form_date').datetimepicker({
+							language: "zh-CN",
+							weekStart: 1,
+							todayBtn: 1,
+							autoclose: 1,
+							todayHighlight: 1,
+							startView: 2,
+							minView: 2,
+							forceParse: 0
+					});
+					$('.form_time').datetimepicker({
+							language: "zh-CN",
+							weekStart: 1,
+							todayBtn: 1,
+							autoclose: 1,
+							todayHighlight: 1,
+							startView: 1,
+							minView: 0,
+							maxView: 1,
+							forceParse: 0
+					});
+					$('.s-n-ul li').each(function (index, el) {
+							var topstate = $(this).find('.s-n-ort button').attr("topstate");
+							if (topstate == 1) {
+									$(this).find('.s-n-ort').css({ "display": "table-cell" });
+									$(this).hover(function () {
+											$(this).find('.s-n-ort button').addClass('u-n-cctop').text('取消置顶');
+											$(this).find('.m-n-ort').show();
+									}, function () {
+											$(this).find('.s-n-ort button').removeClass('u-n-cctop').text('已置顶');
+											$(this).find('.m-n-ort').hide();
+									});
+							} else if (topstate == 0) {
+									$(this).hover(function () {
+											$(this).find('.s-n-ort').css({ "display": "table-cell" }).find('.m-n-ort').show();
+									}, function () {
+											$(this).find('.s-n-ort').css({ "display": "none" });
+									});
+							}
+					});
+			}
+	};
+
+/***/ },
+/* 56 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = "\r\n\t<div class=\"g-mgbg mh1200\">\r\n\t\t<div class=\"g-hd\">\r\n\t\t\t<div class=\"g-box f-cb\">\r\n\t\t\t\t<div class=\"m-logo\"><a href=\"\"></a></div>\r\n\t\t\t\t<div class=\"m-login\">欢迎，hoo言hoo语<a href=\"#\" class=\"u-select\">个人中心</a>|<a href=\"#\" class=\"u-exit\">退出</a></div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t<div class=\"g-mg-tab\">\r\n\t\t\t<ul class=\"clearfix\">\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../static/images/mg_zl.png\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) + "\">\r\n\t\t\t\t\t<p>赛事总览</p>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../static/images/mg_xs.png\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) + "\">\r\n\t\t\t\t\t<p>参赛选手</p>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../static/images/mg_zx_on.png\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) + "\">\r\n\t\t\t\t\t<p class=\"on\">资讯管理</p>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../static/images/mg_sz.png\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) + "\">\r\n\t\t\t\t\t<p>设置</p>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../static/images/mg_del.png\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) + "\">\r\n\t\t\t\t\t<p>重置/删除</p>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\t\t</div>\r\n\t\t<div class=\"g-mg-reset\">\r\n\t\t\t<div class=\"g-tp\"></div>\r\n\t\t\t<div class=\"m-d pb80\" style=\"height:auto;\">\r\n\t\t\t\t<p class=\"m-d-tit\" style=\"padding-bottom:17px;\">浙江省网娱大师-雪碧真英雄城市争霸赛</p>\r\n\t\t\t\t<div class=\"m-n-list\">\t\t\t\t\r\n\t\t\t\t\t<label>查找：</label>\r\n\t\t\t\t\t<span class=\"re\">\r\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname u-n-slt\" placeholder=\"请输入ID或标题进行查找\">\r\n\t\t\t\t\t\t<button type=\"button\" class=\"u-n-btn\">查找</button>\r\n\t\t\t\t\t</span>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"m-n-list\">\t\t\t\t\r\n\t\t\t\t\t<label>筛选：</label>\r\n\t\t\t\t\t<select class=\"w160 mr14\">\r\n\t\t\t\t\t\t<option value=\"\">全部类型</option>\r\n\t\t\t\t\t\t<option value=\"\">普通资讯</option>\r\n\t\t\t\t\t\t<option value=\"\">图集资讯</option>\r\n\t\t\t\t\t\t<option value=\"\">视频资讯</option>\r\n\t\t\t\t\t</select>\r\n\t\t\t\t\t<select class=\"w160 mr14\">\r\n\t\t\t\t\t\t<option value=\"\">全部状态</option>\r\n\t\t\t\t\t\t<option value=\"\">生效</option>\r\n\t\t\t\t\t\t<option value=\"\">失效</option>\r\n\t\t\t\t\t\t<option value=\"\">删除</option>\r\n\t\t\t\t\t</select>\r\n\t\t\t\t\t<div class=\"ib re\">\r\n\t\t\t\t\t    <input type=\"text\" placeholder=\"请选择时间\" class=\"w200  form_datetime\" readonly>\r\n\t\t\t\t\t\t<img src=\"" + __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../static/images/datepicker.png\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) + "\" class=\"ab u-n-date\">\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t&nbsp&nbsp—&nbsp&nbsp\r\n\t\t\t\t\t<div class=\"ib re\">\r\n\t\t\t\t\t    <input type=\"text\" placeholder=\"请选择时间\" class=\"w200 form_datetime\" readonly>\r\n\t\t\t\t\t\t<img src=\"" + __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../static/images/datepicker.png\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) + "\" class=\"ab u-n-date\">\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<button type=\"button\" class=\"u-del-btn u-n-add\"><img src=\"" + __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../static/images/plus.png\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) + "\" alt=\"\">添加资讯</button>\r\n\t\t\t\t<p class=\"s-n-th\"> \r\n\t\t\t\t\t<span style=\"width:100px;\">ID</span>\r\n\t\t\t\t\t<span style=\"width:100px;\">图片</span>\r\n\t\t\t\t\t<span style=\"width:250px;\">标题</span>\r\n\t\t\t\t\t<span style=\"width:100px;\">类型</span>\r\n\t\t\t\t\t<span style=\"width:200px;\">创建时间</span>\r\n\t\t\t\t\t<span style=\"width:100px;\">阅读数</span>\r\n\t\t\t\t\t<span style=\"width:100px;\">创建人</span>\r\n\t\t\t\t\t<span style=\"width:100px;\">状态</span>\r\n\t\t\t\t\t<span style=\"width:100px;\">操作</span>\r\n\t\t\t\t</p>\r\n\t\t\t\t<ul class=\"s-n-ul clearfix\">\r\n\t\t\t\t\t<li>\r\n\t\t\t\t\t\t<span style=\"width:100px;\"><div class=\"s-n-div\">12</div></span>\r\n\t\t\t\t\t\t<span style=\"width:100px;\">\r\n\t\t\t\t\t\t\t<div class=\"s-n-img\">\r\n\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../static/images/bg.png\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) + "\">\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t<span style=\"width:250px;\">\r\n\t\t\t\t\t\t\t<div class=\"s-n-div\">LOL新技能GET-力压群雄必杀技LOL新技能GET-力压群雄必杀技</div>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t<span style=\"width:100px;\"><div class=\"s-n-div\">普通资讯</div></span>\r\n\t\t\t\t\t\t<span style=\"width:200px;\"><div class=\"s-n-div\">2016.06.12 13:00</div></span>\r\n\t\t\t\t\t\t<span style=\"width:100px;\"><div class=\"s-n-div\">阅读数</div></span>\r\n\t\t\t\t\t\t<span style=\"width:100px;\"><div class=\"s-n-div\">菊花在骚动</div></span>\r\n\t\t\t\t\t\t<span style=\"width:100px;\"><div class=\"s-n-div\">状态</div></span>\r\n\t\t\t\t\t\t<span style=\"width:100px;\">\r\n\t\t\t\t\t\t\t<div class=\"s-n-ort\">\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"u-n-top\" topstate=\"1\">已置顶</button>\r\n\t\t\t\t\t\t\t\t<div class=\"m-n-ort\">\r\n\t\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../static/images/write.png\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) + "\" title=\"编辑\">\r\n\t\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../static/images/news_del.png\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) + "\" title=\"删除\">\r\n\t\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../static/images/news_ok.png\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) + "\" title=\"生效\">\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t</li>\r\n\t\t\t\t\t<li>\r\n\t\t\t\t\t\t<span style=\"width:100px;\"><div class=\"s-n-div\">12</div></span>\r\n\t\t\t\t\t\t<span style=\"width:100px;\">\r\n\t\t\t\t\t\t\t<div class=\"s-n-img\">\r\n\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../static/images/bg.png\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) + "\">\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t<span style=\"width:250px;\">\r\n\t\t\t\t\t\t\t<div class=\"s-n-div\">LOL新技能GET-力压群雄必杀技LOL新技能GET-力压群雄必杀技</div>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t<span style=\"width:100px;\"><div class=\"s-n-div\">普通资讯</div></span>\r\n\t\t\t\t\t\t<span style=\"width:200px;\"><div class=\"s-n-div\">2016.06.12 13:00</div></span>\r\n\t\t\t\t\t\t<span style=\"width:100px;\"><div class=\"s-n-div\">阅读数</div></span>\r\n\t\t\t\t\t\t<span style=\"width:100px;\"><div class=\"s-n-div\">创建人</div></span>\r\n\t\t\t\t\t\t<span style=\"width:100px;\"><div class=\"s-n-div\">状态</div></span>\r\n\t\t\t\t\t\t<span style=\"width:100px;\">\r\n\t\t\t\t\t\t\t<div class=\"s-n-ort\">\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"u-n-notop\" topstate=\"0\">置顶</button>\r\n\t\t\t\t\t\t\t\t<div class=\"m-n-ort\">\r\n\t\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../static/images/write.png\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) + "\" title=\"编辑\">\r\n\t\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../static/images/news_del.png\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) + "\" title=\"删除\">\r\n\t\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../static/images/news_ok.png\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) + "\" title=\"生效\">\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t</li>\r\n\t\t\t\t</ul>\r\n\t\t\t\t<div class=\"m-page\">\r\n                \t<a href=\"\" id=\"prev\"></a>\r\n                \t<div class=\"pagination\"><span class=\"current\">2</span>/<span>10</span></div>\r\n                \t<a href=\"\" id=\"next\"></a>\r\n                \t<input type=\"text\">\r\n                \t<a href=\"\" class=\"u-btn\">跳转</a>\r\n                </div>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"g-bt\"></div>\r\n\t\t</div>\r\n\t</div>\r\n";
+
+/***/ },
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -13074,7 +14234,7 @@
 	}));
 
 /***/ },
-/* 10 */
+/* 58 */
 /***/ function(module, exports) {
 
 	/*!

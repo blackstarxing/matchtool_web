@@ -72,6 +72,7 @@ option{border-color: #7C6735;}
 .g-forget{width:340px; margin:0 auto;}
 .g-forget label{margin:0 0 0 26px; font-weight:normal;}
 .g-forget input{position:absolute; left:-9999px;}
+.g-forget input:checked + i{background: url(../images/checkbox.png) center center no-repeat;}
 .u-mind-cb{position:absolute; width:18px; height:18px; border:1px solid #8f8f8f; background-color:#111216; top:0; left:-26px;}
 .u-lg-btn{display:block; width:340px; margin:74px auto 0; padding:0; border:0; height:56px; line-height:56px; font-size:18px; color:#ffffff; background:url(../images/lg_btn.png) no-repeat top center;}
 .g-ts{position:relative; padding:0; margin:158px 0 0; color:#ffffff;}
