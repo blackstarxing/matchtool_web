@@ -205,7 +205,8 @@ option{border-color: #7C6735;}
 .m-pop{width: 500px;min-height:420px;margin:180px auto 0;background: rgba(77,81,84,0.8);border:7px solid #34393f;}
 .m-pop h3{font-size: 18px;text-align: center;color:#fff;margin-bottom: 30px;background: url(../images/pop_bg.png) top center no-repeat;height: 58px;line-height:58px;margin-top: -7px;}
 .m-addzx{padding-left:45px; padding-top:38px;}
-.m-pop .u-btn-close,.m-addzx .u-btn-close{position:absolute;top:205px;right:375px;display:block;width: 20px;height: 20px;background: url(../images/delete.png) center center no-repeat;}
+.m-pop .u-btn-close{display:block;width: 20px;height: 20px;background: url(../images/delete.png) center center no-repeat;float: right;margin-right: 20px;margin-top: 20px;}
+.m-addzx .u-btn-close{position:absolute;top:205px;right:375px;}
 .m-pop .m-lst,.m-addzx .m-lst{margin-bottom: 0;color:#fff;font-size: 12px;}
 .m-pop .m-lst label,.m-addzx .m-lst label{margin-top: 8px;width:103px; font-weight: normal;}
 .m-pop .m-lst input,.m-pop .m-lst select,.m-addzx .m-lst input,.m-addzx .m-lst select{width: 320px;margin:10px 0;}

@@ -92,8 +92,7 @@
 	</div>
 	<div class="m-mask">
 		<div class="m-pop">
-			<h3>添加选手</h3>
-			<a href="javascript:void(0);"" class="u-btn-close" @click="closePop"></a>
+			<h3>添加选手<a href="javascript:void(0);"" class="u-btn-close" @click="closePop"></a></h3>
 			<div class="m-lst">				
 				<label for="">选手名称：</label>
 				<input type="text" class="eventname" placeholder="请输入参赛者名称">
