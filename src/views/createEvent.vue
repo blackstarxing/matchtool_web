@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
 	<div class="g-doc">
 		<div class="g-hd">
 			<div class="g-box f-cb">
@@ -6,6 +7,10 @@
 				<div class="m-login">欢迎，hoo言hoo语<a href="#" class="u-select">个人中心</a>|<a href="#" class="u-exit">退出</a></div>
 			</div>
 		</div>
+=======
+	<top-nav></top-nav> 
+	<div class="g-doc">
+>>>>>>> 1c69586bef580f1be2d18659b8b32b1873a7d1d9
 		<div class="g-bd">
 			<div class="g-tp"></div>
 			<div class="g-center f-cb">
@@ -156,7 +161,11 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 
+=======
+import topNav from '../components/topNav.vue'
+>>>>>>> 1c69586bef580f1be2d18659b8b32b1873a7d1d9
   	export default {
        	data () {
     		return {
@@ -347,6 +356,14 @@
 			        _this.addClass('change');
 			    }
 		    }
+<<<<<<< HEAD
 	  	}
+=======
+	  	},
+       components: {
+          topNav
+         
+  }
+>>>>>>> 1c69586bef580f1be2d18659b8b32b1873a7d1d9
   	}
 </script>

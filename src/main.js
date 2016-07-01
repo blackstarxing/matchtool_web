@@ -6,7 +6,11 @@ import contestant from './views/contestant.vue'
 import newslist from './views/news.vue'
 import addnews from './views/addnews.vue'
 import reset from './views/reset.vue'
+<<<<<<< HEAD
 import login from './views/login.vue'
+=======
+import techPic from './views/techPic.vue'
+>>>>>>> 1c69586bef580f1be2d18659b8b32b1873a7d1d9
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -20,7 +24,14 @@ var router = new VueRouter({
 });
 
 router.map({
+<<<<<<< HEAD
 	'/homepage': {
+=======
+	'/techPic': {
+        component: techPic
+    },
+    '/homepage': {
+>>>>>>> 1c69586bef580f1be2d18659b8b32b1873a7d1d9
         component: homepage
     },
     '/createEvent': {
@@ -37,6 +48,7 @@ router.map({
     },
     '/reset': {
         component: reset
+<<<<<<< HEAD
     },
     '/login': {
         component: login
@@ -44,6 +56,13 @@ router.map({
 })
 router.redirect({
   '*': 'homepage'
+=======
+    }
+    
+})
+router.redirect({
+  '*': '/homepage'
+>>>>>>> 1c69586bef580f1be2d18659b8b32b1873a7d1d9
 })
 
 router.start(matchtool, '#app')

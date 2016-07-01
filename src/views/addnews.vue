@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
     <div class="g-mgbg mh1200">
 		<div class="g-hd">
 			<div class="g-box f-cb">
@@ -30,6 +31,8 @@
 				</li>
 			</ul>
 		</div>
+=======
+>>>>>>> 1c69586bef580f1be2d18659b8b32b1873a7d1d9
 		<div class="g-mg-reset">
 			<div class="g-tp"></div>
 			<div class="m-d pb80" style="height:auto;">

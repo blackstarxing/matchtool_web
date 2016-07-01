@@ -1,5 +1,6 @@
 <template>
 	<div class="g-doc">
+<<<<<<< HEAD
 		<div class="g-hd">
 			<div class="g-box f-cb">
 				<div class="m-logo"><a href=""></a></div>
@@ -30,6 +31,8 @@
 				</li>
 			</ul>
 		</div>
+=======
+>>>>>>> 1c69586bef580f1be2d18659b8b32b1873a7d1d9
 		<div class="g-bd" style="margin-top:20px;">
 			<div class="g-tp"></div>
 			<div class="g-list">
@@ -64,7 +67,11 @@
 	                        <th>参与人数</th>
 	                        <th width="135px;">操作</th>
 	                    </tr>
+<<<<<<< HEAD
 	                    <tr>
+=======
+	                    <tr  v-link="{ path: '/techPic'}">
+>>>>>>> 1c69586bef580f1be2d18659b8b32b1873a7d1d9
 	                        <td>1</td>
 	                        <td>
 	                        	<div class="s-n-img">
