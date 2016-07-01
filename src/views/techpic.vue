@@ -1,8 +1,9 @@
 <template>
+  <top-nav></top-nav> 
   <div class="tech_msg">
-    <img src="../../static/imgs/body_top.png" width="100%">
+    <div class="body_top_pic"><img src="../../static/images/body_top.png" width="100%"></div>
     <div class="tech_msg_text clearfix">
-      <div class="tech_msg_left"><img src="../../static/imgs/person_pic.png" width="100%" height="100%"></div>
+      <div class="tech_msg_left"><img src="../../static/images/person_pic.png" width="100%" height="100%"></div>
       <div class="tech_msg_right">
       <div class="begin_tech clearfix">
         <div class="begin_tech_left">
@@ -16,7 +17,7 @@
         <div class="begin_tech_right">
           <p style="font-size:12px;">当一切都准备就绪后，您就可以:</p>
           <div class="start_btn">
-            <img src="../../static/imgs/start.png" width="100%" height="100%">
+            <img src="../../static/images/start.png" width="100%" height="100%">
             <p class="start_text">开始比赛</p>
           </div>
         </div>
@@ -24,21 +25,21 @@
       <div class="begin_tech_msg">
         <ul class="begin_msg_list clearfix">
           <li class="clearfix">
-            <div class="msg_list_left"><img src="../../static/imgs/msg_a.png"></div>
+            <div class="msg_list_left"><img src="../../static/images/msg_a.png"></div>
             <div class="msg_list_right">
               <p class="msg_list_name">竞技项目</p>
               <p>英雄联盟•全服</p>
             </div>
           </li>
           <li class="clearfix">
-            <div class="msg_list_left"><img src="../../static/imgs/msg_b.png"></div>
+            <div class="msg_list_left"><img src="../../static/images/msg_b.png"></div>
             <div class="msg_list_right">
               <p class="msg_list_name">报名时间</p>
               <p>2016.06.06-2016.07.07</p>
             </div>
           </li>
           <li class="clearfix">
-            <div class="msg_list_left"><img src="../../static/imgs/msg_c.png"></div>
+            <div class="msg_list_left"><img src="../../static/images/msg_c.png"></div>
             <div class="msg_list_right">
               <p class="msg_list_name">赛制</p>
               <p>32人赛事＋单败淘汰制</p>
@@ -50,14 +51,18 @@
     </div>
   </div>
   <div class="against_container">
-    <div class="tech_cup"><img src="../../static/imgs/cup.png"></div>
+    <div class="tech_cup"><img src="../../static/images/cup.png"></div>
     <p class="against_title">
      <a class="title_unit"></a>
       <span class="against_title_text">对阵图</span>
       <span class="against_title_tip">此对阵图为预览，可拖曳参赛选手来交换位置</span>
     </p>
     <div class="turn_num">
-      <ul class="turn_num_list">
+      <ul class="turn_num_list clearfix">
+        <li>第一轮</li>
+        <li>第二轮</li>
+        <li>半决赛</li>
+        <li>决赛</li>
       </ul>
     </div>
     <div class="turn_btn">随机排列对阵选手顺序</div>
@@ -69,7 +74,7 @@
 </div>
   </div>
   <div class="tech_down_tip">
-    <img src="../../static/imgs/body_bt.png" width="100%">
+    <img src="../../static/images/body_bt.png" width="100%">
     <ul class="tech_footer_text clearfix">
       <li style="float:left">
         <h2 class="footer_text_title">
@@ -103,6 +108,7 @@
 </template>
 
 <script>
+import topNav from '../components/topNav.vue'
   export default {
     data () {
     return {
@@ -398,8 +404,11 @@
         },function(response) {
             console.log(response);
         });
-
-     }
+     },
+       components: {
+          topNav
+         
+  }
   }
 </script>
 <style>
@@ -431,10 +440,10 @@
   width: 100%;
 }
 .tech_msg_text{
-  height: 195px;
+  height: 235px;
   background: rgba(52,57,63,0.9);
-  opacity: 0.8;
   padding: 40px 20px 0;
+  margin-top: -14px;
 }
 .tech_msg_left{
   width: 325px;
@@ -543,6 +552,7 @@
   height: 350px;
   padding-bottom: 50px;
   border-bottom: 1px solid #53585d;
+  margin-top: -27px;
 }
 .tech_footer_text{
   font-size: 12px;
@@ -555,10 +565,12 @@
   width: 45%;
 }
 .tech_cup{
-  opacity: 0.2;
+  opacity: 0.3;
   position: absolute;
   bottom:50px;
   left: 467px;
-
+}
+.turn_num_list li{
+  float: left;
 }
 </style>
