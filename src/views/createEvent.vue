@@ -26,13 +26,16 @@
 						<select name="" id="">
 							<option value="">请选择赛事游戏</option>
 						</select>
+						<select name="" id="">
+							<option value="">请选择服务器</option>
+						</select>
 					</div>
 					<div class="m-lst">
 						<label for="">赛事模式：</label>
 						<select name="" id="">
-							<option value="">线上赛事</option>
-							<option value="" disabled="">线下赛事</option>
-							<option value="" disabled="">线上海选+线下决赛</option>
+							<option value="1">线上赛事</option>
+							<option value="2" disabled="">线下赛事</option>
+							<option value="3" disabled="">线上海选+线下决赛</option>
 						</select>
 					</div>
 					<div class="m-lst">
@@ -151,23 +154,28 @@
 </template>
 
 <script>
-import topNav from '../components/topNav.vue'
+import topNav from '../components/topNav.vue'       
   	export default {
        	data () {
+       		var gameList="";
     		return {
     			name:"",
     			sponsorType:1,
       			maxNum:0,
       			activityBegin:"",
       			type:1,
-      			allowApply:""
+      			allowApply:"",
+      			gameList:""
     		}
   		},
    		ready: function () {
+   			var _this=this;
    			var parm={};
+
    			parm.jsonInfo=JSON.stringify({itemsId:""});
-   			this.$http.post('http://192.168.30.248:8088/event/queryActivityItem',parm).then(function (response) {
-  				console.log(response);
+   			_this.$http.post('http://192.168.30.248:8088/event/queryActivityItem',parm).then(function (response) {
+  				// this.gameList=response.object;
+  				// console.log(this.gameList);
 	  			
 	  			// if(response.data.code){
 	  			// 	this.$route.router.go({path: '/homepage', replace: true})
@@ -186,70 +194,70 @@ import topNav from '../components/topNav.vue'
 			}
 			preloadimages(['../../static/images/center_bg2.png'])
 
-			var selects=$('select');//获取select
-			for(var i=0;i<selects.length;i++){
-				createSelect(selects[i],i);
-			}
-			function createSelect(select_container,index){
-				//创建select容器，class为select_box，插入到select标签前
-				var tag_select=$('<div></div>');//div相当于select标签
-				tag_select.attr('class','select_box');
-				tag_select.insertBefore(select_container);
-				//显示框class为select_showbox,插入到创建的tag_select中
-				var select_showbox=$('<div></div>');//显示框
-				select_showbox.css('cursor','pointer').attr('class','select_showbox').appendTo(tag_select);
-				//创建option容器，class为select_option，插入到创建的tag_select中
-				var ul_option=$('<ul></ul>');//创建option列表
-				ul_option.attr('class','select_option');
-				ul_option.appendTo(tag_select);
-				createOptions(index,ul_option);//创建option
-				//点击显示框
-				tag_select.click(function(){
-					if(ul_option.is(":visible")){
-				        ul_option.hide();
-				        $(this).removeClass('focus');
-				    }else{
-				        ul_option.show();
-				        $(this).addClass('focus');
-				    }
-				});
-				var li_option=ul_option.find('li');
-				li_option.click(function(e){
-					if(e.target.className!='disabled hover'){
-						var value=$(this).text();
-						select_showbox.text(value);
-					}
+			// var selects=$('select');//获取select
+			// for(var i=0;i<selects.length;i++){
+			// 	createSelect(selects[i],i);
+			// }
+			// function createSelect(select_container,index){
+			// 	//创建select容器，class为select_box，插入到select标签前
+			// 	var tag_select=$('<div></div>');//div相当于select标签
+			// 	tag_select.attr('class','select_box');
+			// 	tag_select.insertBefore(select_container);
+			// 	//显示框class为select_showbox,插入到创建的tag_select中
+			// 	var select_showbox=$('<div></div>');//显示框
+			// 	select_showbox.css('cursor','pointer').attr('class','select_showbox').appendTo(tag_select);
+			// 	//创建option容器，class为select_option，插入到创建的tag_select中
+			// 	var ul_option=$('<ul></ul>');//创建option列表
+			// 	ul_option.attr('class','select_option');
+			// 	ul_option.appendTo(tag_select);
+			// 	createOptions(index,ul_option);//创建option
+			// 	//点击显示框
+			// 	tag_select.click(function(){
+			// 		if(ul_option.is(":visible")){
+			// 	        ul_option.hide();
+			// 	        $(this).removeClass('focus');
+			// 	    }else{
+			// 	        ul_option.show();
+			// 	        $(this).addClass('focus');
+			// 	    }
+			// 	});
+			// 	var li_option=ul_option.find('li');
+			// 	li_option.click(function(e){
+			// 		if(e.target.className!='disabled hover'){
+			// 			var value=$(this).text();
+			// 			select_showbox.text(value);
+			// 		}
 					
-					ul_option.slideUp();
-				});
-				li_option.hover(function(){
-					$(this).addClass('hover').siblings().removeClass('hover');
-				},function(){
-					li_option.removeClass('hover');
-				});
-			}
-			function createOptions(index,ul_list){
-				//获取被选中的元素并将其值赋值到显示框中
-				var options=selects.eq(index).find('option'),
-					selected_option=options.filter(':selected'),
-					selected_index=selected_option.index(),
-					showbox=ul_list.prev();
-					showbox.text(selected_option.text());
-				//为每个option建立个li并赋值
-				for(var n=0;n<options.length;n++){
-					var tag_option=$('<li></li>'),//li相当于option
-						txt_option=options.eq(n).text();
-					if(options.eq(n).attr('disabled')){
-						tag_option.text(txt_option).addClass('disabled').appendTo(ul_list);
-					}else{
-						tag_option.text(txt_option).css('cursor','pointer').appendTo(ul_list);
-					}
-					//为被选中的元素添加class为selected
-					if(n==selected_index){
-						tag_option.attr('class','selected');
-					}
-				}
-			}
+			// 		ul_option.slideUp();
+			// 	});
+			// 	li_option.hover(function(){
+			// 		$(this).addClass('hover').siblings().removeClass('hover');
+			// 	},function(){
+			// 		li_option.removeClass('hover');
+			// 	});
+			// }
+			// function createOptions(index,ul_list){
+			// 	//获取被选中的元素并将其值赋值到显示框中
+			// 	var options=selects.eq(index).find('option'),
+			// 		selected_option=options.filter(':selected'),
+			// 		selected_index=selected_option.index(),
+			// 		showbox=ul_list.prev();
+			// 		showbox.text(selected_option.text());
+			// 	//为每个option建立个li并赋值
+			// 	for(var n=0;n<options.length;n++){
+			// 		var tag_option=$('<li></li>'),//li相当于option
+			// 			txt_option=options.eq(n).text();
+			// 		if(options.eq(n).attr('disabled')){
+			// 			tag_option.text(txt_option).addClass('disabled').appendTo(ul_list);
+			// 		}else{
+			// 			tag_option.text(txt_option).css('cursor','pointer').appendTo(ul_list);
+			// 		}
+			// 		//为被选中的元素添加class为selected
+			// 		if(n==selected_index){
+			// 			tag_option.attr('class','selected');
+			// 		}
+			// 	}
+			// }
 
 			$('.form_datetime').datetimepicker({
 		        language:  "zh-CN",

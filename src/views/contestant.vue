@@ -62,25 +62,28 @@
 	</div>
 	<div class="m-mask">
 		<div class="m-pop">
-			<h3>添加选手</h3>
-			<a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
-			<div class="m-lst">				
-				<label for="">选手名称：</label>
-				<input type="text" class="eventname" placeholder="请输入参赛者名称">
+			<div class="wrap">
+				<h3>添加选手</h3>
+				<a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
+				<div class="m-lst">				
+					<label for="">选手名称：</label>
+					<input type="text" class="eventname" placeholder="请输入参赛者名称">
+				</div>
+				<div class="m-lst">				
+					<label for="">手机号码：</label>
+					<input type="text" class="eventname" placeholder="请输入参赛者手机号码">
+				</div>
+				<div class="m-lst">				
+					<label for="">QQ：</label>
+					<input type="text" class="eventname" placeholder="请输入参赛者QQ号码">
+				</div>
+				<div class="m-lst">				
+					<label for="">身份证：</label>
+					<input type="text" class="eventname" placeholder="请输入参赛者身份证号码">
+				</div>
+				<a href="javascript:void(0);" class="u-btn">添加</a>
 			</div>
-			<div class="m-lst">				
-				<label for="">手机号码：</label>
-				<input type="text" class="eventname" placeholder="请输入参赛者手机号码">
-			</div>
-			<div class="m-lst">				
-				<label for="">QQ：</label>
-				<input type="text" class="eventname" placeholder="请输入参赛者QQ号码">
-			</div>
-			<div class="m-lst">				
-				<label for="">身份证：</label>
-				<input type="text" class="eventname" placeholder="请输入参赛者身份证号码">
-			</div>
-			<a href="javascript:void(0);" class="u-btn">添加</a>
+			
 		</div>
 	</div>
 </template>
