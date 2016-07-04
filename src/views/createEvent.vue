@@ -8,7 +8,7 @@
 					<h3>创建赛事工具</h3>
 					<div class="m-lst">				
 						<label for="">赛事名称：</label>
-						<input type="text" class="eventname" placeholder="请输入比赛名称，不超过32个文字">
+						<input type="text" class="eventname" placeholder="请输入比赛名称，不超过32个文字" v-model="name">
 					</div>
 					<div class="m-lst f-cb">
 						<label for="">赛事主办方：</label>
@@ -50,7 +50,7 @@
 					<div class="m-lst">
 						<label for="">赛事开始时间：</label>
 						<div class="input-append date form_datetime">
-						    <input size="16" type="text" value="" placeholder="请选择时间" readonly>
+						    <input size="16" type="text" value="" placeholder="请选择时间" readonly v-model="activityBegin">
 						    <span class="add-on"><i class="icon-th"></i></span>
 						</div>
 					</div>
@@ -79,8 +79,8 @@
 					</div>
 					<div class="m-lst">
 						<label for="">是否允许报名：</label>
-						<input type="radio" id="radio-2-1" name="radio-2-set" class="regular-radio" @click="slideToggle"/><label for="radio-2-1"></label><span class="radio_name">允许报名</span>
-						<input type="radio" id="radio-2-2" name="radio-2-set" class="regular-radio" @click="slideToggle"/><label for="radio-2-2"></label><span class="radio_name">禁止报名</span>
+						<input type="radio" id="radio-2-1" value="1" name="radio-2-set" class="regular-radio" v-model="allowApply" @click="slideToggle"/><label for="radio-2-1"></label><span class="radio_name">允许报名</span>
+						<input type="radio" id="radio-2-2" value="0" name="radio-2-set" class="regular-radio" v-model="allowApply"@click="slideToggle"/><label for="radio-2-2"></label><span class="radio_name">禁止报名</span>
 					</div>
 					<div class="m-signup">
 						<div class="m-lst">
@@ -141,7 +141,7 @@
 						</div>
 						<a href="javascript:void(0);" class="slide slideup" @click="optional">收起</a>
 					</div>
-					<a href="javascript:void(0);" class="u-btn u-btn-next">下一步</a>
+					<a href="javascript:void(0);" class="u-btn u-btn-next" @click="nextStep">下一步</a>
 				</div>
 			</div>
 			
@@ -155,10 +155,27 @@ import topNav from '../components/topNav.vue'
   	export default {
        	data () {
     		return {
-      			number:0
+    			name:"",
+    			sponsorType:1,
+      			maxNum:0,
+      			activityBegin:"",
+      			type:1,
+      			allowApply:""
     		}
   		},
    		ready: function () {
+   			var parm={};
+   			parm.jsonInfo=JSON.stringify({itemsId:""});
+   			this.$http.post('http://192.168.30.248:8088/event/queryActivityItem',parm).then(function (response) {
+  				console.log(response);
+	  			
+	  			// if(response.data.code){
+	  			// 	this.$route.router.go({path: '/homepage', replace: true})
+	  			// 	}
+	        }, function (response) {
+	            console.log(22);
+	        }) 
+
      		function preloadimages(arr){
 			    var newimages=[]
 			    var arr=(typeof arr!="object")? [arr] : arr  //确保参数总是数组
@@ -289,16 +306,16 @@ import topNav from '../components/topNav.vue'
   		},
   		methods: {
     		plus: function(e){
-		        this.number=parseInt(this.number+1);
-				$('#number').val(this.number);
-				if(this.number>0){
+		        this.maxNum=parseInt(this.maxNum+1);
+				$('#number').val(this.maxNum);
+				if(this.maxNum>0){
 					$('.minus').attr('disabled',false);
 				}
 		    },
 		    minus: function(e){
-		        this.number=parseInt(this.number-1);
-				$('#number').val(this.number);	
-				if(this.number==0){
+		        this.maxNum=parseInt(this.maxNum-1);
+				$('#number').val(this.maxNum);	
+				if(this.maxNum==0){
 					$('.minus').attr('disabled',true);
 				}else{
 					$('.minus').attr('disabled',false);
@@ -341,6 +358,9 @@ import topNav from '../components/topNav.vue'
 			        _this.parent().find('.organize_option').show();
 			        _this.addClass('change');
 			    }
+		    },
+		    nextStep:function(e){
+		    	
 		    }
 	  	},
        components: {

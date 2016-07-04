@@ -80,7 +80,7 @@ option{border-color: #7C6735;}
 .footer{width:1200px; margin:11px auto 70px; text-align:center; color:#a1a1a1; font-size:12px; }
 
 /*创建赛事*/
-.g-doc{background: url(../images/bg.png) center top no-repeat #000;}
+/*.g-doc{background: url(../images/bg.png) center top no-repeat #000;}*/
 .g-doc a,.g-doc a:hover{text-decoration: none;}
 .g-hd{height: 50px;background: rgba(0,0,0,0.8);}
 .g-bd,.g-box{width:1200px;margin:0 auto;}
@@ -112,7 +112,7 @@ option{border-color: #7C6735;}
 .select_option li.disabled{color:#808080;}
 .select_option li.disabled:hover{background: #000;cursor: default;}
 .m-lst .organize{width:130px;}
-.m-lst .sponsor{position: relative;float: left;margin-left: 5px;}
+.m-lst .sponsor{position: relative;float: left;margin:0;margin-left: 5px;font-size: 14px;}
 .m-lst .sponsor ul{position: absolute;z-index:99;top:36px;width:170px;display:none;border: 1px solid #b0a296;background: rgba(0,0,0,1);}
 .m-lst .sponsor li{padding-left: 12px;cursor: pointer;}
 .m-lst .sponsor li.disabled{color:#808080;}
@@ -135,6 +135,9 @@ option{border-color: #7C6735;}
 /*签到时间*/
 .sign-minute{margin-left: 130px;display: none;}
 .sign-minute select{background: url("../images/arrow.png") no-repeat 70px center #111115;margin:0 12px;width:90px;}
+.sign-minute .select_showbox{background-position: 60px center;}
+.sign-minute .select_box{width: 80px;float: none;display: inline-block;margin:0 15px;}
+.sign-minute .select_option{width: 80px;}
 #number{float: left;}
 .button_group{width:33px;line-height: 0;float: left;margin-left:-36px;margin-top: 1px;border-left: 1px solid #8f8f8f;}
 .button_group button{width: 34px;height: 16px;background: #111115;color:#fff;font-size: 14px;}
@@ -147,7 +150,7 @@ option{border-color: #7C6735;}
 .m-lst .input-append.date .add-on i{display: inline-block;width: 16px;height: 16px;line-height: 16px;vertical-align: text-top;background-image: url("../images/datepicker.png");background-repeat: no-repeat;}
 .slide{display: inline-block;width: 300px;text-indent: 130px;background: url(../images/down.png) right center no-repeat;}
 .m-option,.m-signup{display: none;}
-.m-option textarea{padding:5px 12px;line-height: 25px;}
+.m-option textarea{padding:5px 12px;line-height: 25px;text-indent: 0;}
 .tips{font-size: 12px;line-height: 16px;width:300px;margin-right: 100px;float: right;}
 .tips .attention{color:#F8A329;background: url(../images/attention.png) left center no-repeat;text-indent: 30px;}
 .slideup{width:180px;background-image: url(../images/up.png);}
