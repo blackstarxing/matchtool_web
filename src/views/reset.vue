@@ -1,4 +1,5 @@
 <template>
+	 <top-head></top-head> 
 	 <top-nav></top-nav> 
 	<div class="g-mgbg">
 		<div class="g-mg-reset">
@@ -22,14 +23,10 @@
 			</div>
 			<div class="g-bt"></div>	
 		</div>
-		<div class="footer footer-del">
-			<p>Copyright © 2016 浙江网竞网络科技有限公司未经许可不得复制、转载或摘编，违者必究！</p>
-			<p class="mt6">浙ICP备13005497号-5</p>
-			<img src="../../static/images/footer.png" class="mt32">
-		</div>
 	</div>
 </template>
 <script>
+import topHead from '../components/topHead.vue'
 import topNav from '../components/topNav.vue'
   export default {
     data () {
@@ -41,6 +38,7 @@ import topNav from '../components/topNav.vue'
   		
   	},
        components: {
+       	  topHead,
           topNav
          
   }

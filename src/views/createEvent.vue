@@ -1,4 +1,5 @@
 <template>
+	<top-head></top-head> 
 	<top-nav></top-nav> 
 	<div class="g-doc">
 		<div class="g-bd">
@@ -154,7 +155,12 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import topNav from '../components/topNav.vue'       
+=======
+import topHead from '../components/topHead.vue'
+import topNav from '../components/topNav.vue'
+>>>>>>> 016e088e5a0f5f5d8d3fad9478af9779dd9a26d8
   	export default {
        	data () {
        		var gameList="";
@@ -372,6 +378,7 @@ import topNav from '../components/topNav.vue'
 		    }
 	  	},
        components: {
+       	  topHead,
           topNav
          
   }

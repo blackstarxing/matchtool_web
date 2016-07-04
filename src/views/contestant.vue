@@ -1,5 +1,6 @@
 <template>
- <top-nav></top-nav> 
+	<top-head></top-head> 
+ 	<top-nav></top-nav> 
 		<div class="g-bd" style="margin-top:20px;">
 			<div class="g-tp"></div>
 			<div class="g-list">
@@ -88,6 +89,7 @@
 	</div>
 </template>
 <script>
+import topHead from '../components/topHead.vue'
 import topNav from '../components/topNav.vue'
   	export default {
        	data () {
@@ -107,6 +109,7 @@ import topNav from '../components/topNav.vue'
 		    }
 	  	},
        components: {
+       	  topHead,
           topNav
          
   }

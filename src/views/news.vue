@@ -1,4 +1,5 @@
 <template>
+	<top-head></top-head> 
 	 <top-nav></top-nav> 
 	<div class="g-mgbg mh1200">
 		<div class="g-mg-reset">
@@ -116,6 +117,7 @@
 </template>
 
 <script type="text/javascript">
+ import topHead from '../components/topHead.vue'
  import topNav from '../components/topNav.vue'
   export default {
     data () {
@@ -178,6 +180,7 @@
     	});
   	},
        components: {
+       	  topHead,
           topNav
          
   }

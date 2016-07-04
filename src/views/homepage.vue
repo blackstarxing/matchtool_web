@@ -1,4 +1,5 @@
 <template>
+	<top-head></top-head> 
 	<div class="g-doc">
 		<div class="g-bd" style="margin-top:20px;">
 			<div class="g-tp"></div>
@@ -34,7 +35,7 @@
 	                        <th>参与人数</th>
 	                        <th width="135px;">操作</th>
 	                    </tr>
-	                    <tr  v-link="{ path: '/techPic'}">
+	                    <tr v-for='matchlist in matchlists' v-link="{ path: '/techPic'}">
 	                        <td>1</td>
 	                        <td>
 	                        	<div class="s-n-img">
@@ -68,14 +69,26 @@
 </template>
 
 <script>
-
+import topHead from '../components/topHead.vue'
   	export default {
        	data () {
     		return {
-
+    			matchlists:'',
+    			roundlist:{pageNumber: 1},
+    			
     		}
   		},
    		ready: function () {
+   			  var _this=this;
+   			  var parmstr=JSON.stringify(this.roundlist);
+   			  var parm={};
+   			  parm.jsonInfo=parmstr;
+	        _this.$http.get('event/getEventRoundList',parm).then(function(response) {
+	        	console.log(response);
+	            //_this.matchlists=response.data;
+	        },function(response) {
+	            console.log(response);
+	        });
 
 			var selects=$('select');//获取select
 			for(var i=0;i<selects.length;i++){
@@ -154,8 +167,10 @@
 			})
 
   		},
-  		methods: {
-    		
-	  	}
+  		
+	  	components: {
+       	  topHead
+         
+  }
   	}
 </script>
