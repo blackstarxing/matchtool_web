@@ -16,7 +16,7 @@
 				<p class="u-p-lg">用户登录</p>
 				<form class="mt56">
 					<div class="g-ipt-lg"><input type="text" name="telephone" placeholder="用户名/手机号码" class="u-ipt-lg" v-model="username"></div>
-					<div class="g-ipt-lg"><input type="text" name="password" placeholder="密码" class="u-ipt-lg" v-model="password"></div>
+					<div class="g-ipt-lg"><input type="password" name="password" placeholder="密码" class="u-ipt-lg" v-model="password"></div>
 					<div class="g-forget">
 						<label class="l re">
 							<input type="checkbox" name="">记住我
@@ -54,11 +54,6 @@
 				</li>
 			</ul>
 		</div>
-		<div class="footer">
-			<p>Copyright © 2016 浙江网竞网络科技有限公司未经许可不得复制、转载或摘编，违者必究！</p>
-			<p class="mt6">浙ICP备13005497号-5</p>
-			<img src="../../static/images/footer.png" class="mt32">
-		</div>
 	</div>
 </div>
 </template>
@@ -73,12 +68,19 @@
   },
   methods: {
   	checkin:function(){
-  		this.$http.post('OET/event/login', this.$data).then(function (response) {
-  			console.log(response);
-  			console.log(document.cookie);
-  			// if(response.data.code){
-  			// 	this.$route.router.go({path: '/homepage', replace: true})
-  			// 	}
+  		this.$http.post('event/login', this.$data).then(function (response) {
+  		document.cookie="oetevent.login.sessionid="+response.data.object["oetevent.login.sessionid"];
+  		document.cookie="oetevent.login.token="+response.data.object["oetevent.login.token"];
+  		document.cookie="userId="+response.data.object["userId"]; 
+  		// 	function setCookie(name,value) { 
+				// 	    var Days = 30; 
+				// 	    var exp = new Date(); 
+				// 	    exp.setTime(exp.getTime() + Days*24*60*60*1000); 
+				// 	    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString(); 
+				// } 
+		if(response.data.code){
+  				this.$route.router.go({path: '/homepage', replace: true})
+  				}
             }, function (response) {
               console.log(22);
             }) 

@@ -1,4 +1,5 @@
 <template>
+	<top-head></top-head> 
 	<div class="g-doc">
 		<div class="g-bd" style="margin-top:20px;">
 			<div class="g-tp"></div>
@@ -68,24 +69,26 @@
 </template>
 
 <script>
-
+import topHead from '../components/topHead.vue'
   	export default {
        	data () {
     		return {
     			matchlists:'',
-    			pageNumber: 1 ,
-    			uesrId: ''
+    			roundlist:{pageNumber: 1},
+    			
     		}
   		},
    		ready: function () {
    			  var _this=this;
-   			  console.log(document.cookie);
- 
-	        // _this.$http.get('event/getEventRoundList').then(function(response) {
-	        //     _this.matchlists=response.data;
-	        // },function(response) {
-	        //     console.log(response);
-	        // });
+   			  var parmstr=JSON.stringify(this.roundlist);
+   			  var parm={};
+   			  parm.jsonInfo=parmstr;
+	        _this.$http.get('event/getEventRoundList',parm).then(function(response) {
+	        	console.log(response);
+	            //_this.matchlists=response.data;
+	        },function(response) {
+	            console.log(response);
+	        });
 
 			var selects=$('select');//获取select
 			for(var i=0;i<selects.length;i++){
@@ -164,8 +167,10 @@
 			})
 
   		},
-  		methods: {
-    		
-	  	}
+  		
+	  	components: {
+       	  topHead
+         
+  }
   	}
 </script>
