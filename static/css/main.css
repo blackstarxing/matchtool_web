@@ -20,7 +20,7 @@ del,ins,u,s,a,a:hover{text-decoration:none;}
 a,a:hover,a:visited,a:active,a:link{color:#fff;text-decoration: none;}
 p{margin:0;}
 h1, h2, h3, h4, h5, h6{font-family: "微软雅黑";}
-input,select{background: #111115;border:1px solid #8f8f8f;height: 34px;line-height: 34px;text-indent: 12px;color:#fff;background: rgba(0,0,0,0.8);}
+input,select{border:1px solid #8f8f8f;height: 34px;line-height: 34px;text-indent: 12px;color:#fff;background: rgba(0,0,0,0.8);}
 textarea{background: #111115;border:1px solid #8f8f8f;color:#fff;text-indent: 12px;}
 button{border:none;outline: none;}
 ::selection{color:#fff;background:#F8A329;}
@@ -98,6 +98,7 @@ option{border-color: #7C6735;}
 .m-form a,.m-form a:hover,.m-rules a,.m-rules a:hover{color:#FF5F00;}
 .m-form h3{font-size: 18px;color:#F8A329;margin-bottom: 40px;font-weight: bold;}
 .m-lst{font-size: 14px;min-height: 36px;line-height: 36px;margin-bottom:18px;}
+.m-lst select{background: url("../images/arrow.png") no-repeat 190px center #111115;appearance:none;-moz-appearance:none;-webkit-appearance:none;}
 .m-search .select_box,.m-lst .select_box{float:left;line-height: 32px;position: relative;border:1px solid #8f8f8f;}
 .m-lst .focus{border-color: #f9a32a;box-shadow: 0 0 7px rgba(229,156,0,1);}
 .m-lst label{display: block;width: 113px;text-align: right;float: left;margin-right: 15px;}

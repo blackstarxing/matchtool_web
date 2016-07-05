@@ -24,24 +24,24 @@
 					</div>
 					<div class="m-lst f-mb50">
 						<label for="">所属游戏：</label>
-						<select name="" id="">
+						<select name="" id="gameList" v-model="itemId" @change="getServerList">
 							<option value="">请选择赛事游戏</option>
 						</select>
-						<select name="" id="">
+						<select name="" id="serverList" v-model="itemServerId">
 							<option value="">请选择服务器</option>
 						</select>
 					</div>
 					<div class="m-lst">
 						<label for="">赛事模式：</label>
-						<select name="" id="">
-							<option value="1">线上赛事</option>
+						<select name="" id="" v-model="mode">
+							<option value="1" selected="">线上赛事</option>
 							<option value="2" disabled="">线下赛事</option>
 							<option value="3" disabled="">线上海选+线下决赛</option>
 						</select>
 					</div>
 					<div class="m-lst">
 						<label for="">最大参与人数：</label>
-						<input type="text" id="number" placeholder="请输入参与人数上限">
+						<input type="text" id="number" placeholder="请输入参与人数上限" v-model="maxNum">
 						<div class="button_group">
 							<button class="plus" @click="plus"></button>
 							<button class="minus" @click="minus" disabled="true"></button>
@@ -60,21 +60,21 @@
 					</div>
 					<div class="m-lst">
 						<label for="">赛事类型：</label>
-						<input type="radio" id="radio-1-1" name="radio-1-set" class="regular-radio" checked /><label for="radio-1-1"></label><span class="radio_name">单阶段比赛</span>
-						<input type="radio" id="radio-1-2" name="radio-1-set" class="regular-radio" disabled /><label for="radio-1-2"></label><span class="radio_name">双阶段比赛</span>
+						<input type="radio" id="radio-1-1" name="radio-1-set" class="regular-radio" value="1" checked v-model="type"/><label for="radio-1-1"></label><span class="radio_name">单阶段比赛</span>
+						<input type="radio" id="radio-1-2" name="radio-1-set" class="regular-radio" value="2" disabled v-model="type"/><label for="radio-1-2"></label><span class="radio_name">双阶段比赛</span>
 						<div class="tips f-lh36">
 							双阶段将包含小组赛（目前暂不开放）
 						</div>
 					</div>
 					<div class="m-lst  f-mb50">
 						<label for="">采用赛制：</label>
-						<select name="" id="" class="f-fl">
-							<option value="">单败淘汰制(SE)</option>
-							<option value="" disabled="">双败淘汰制(DE)</option>
-							<option value="" disabled="">小组内单循环制(RR)</option>
-							<option value="" disabled="">积分循环制[瑞士轮](SS)</option>
+						<select name="" id="" class="f-fl" v-model="regime">
+							<option value="1" selected="">单败淘汰制(SE)</option>
+							<option value="2" disabled="">双败淘汰制(DE)</option>
+							<option value="3" disabled="">小组内单循环制(RR)</option>
+							<option value="4" disabled="">积分循环制[瑞士轮](SS)</option>
 						</select>
-						<input type="checkbox" id="checkbox-1-1" class="regular-checkboxs f-ml15" /><label for="checkbox-1-1" class="f-ml15"></label><span class="check_name">决出第三名</span>
+						<input type="checkbox" id="checkbox-1-1" class="regular-checkboxs f-ml15" value="1" v-model="needThird"/><label for="checkbox-1-1" class="f-ml15"></label><span class="check_name">决出第三名</span>
 						<div class="tips">
 							<div class="">单败淘汰制：失败一场即淘汰</div>
 							<div>双败淘汰制：失败两场淘汰，比赛中将有败者组</div>
@@ -89,28 +89,28 @@
 					<div class="m-signup">
 						<div class="m-lst">
 							<label for="">报名类型：</label>
-							<input type="radio" id="radio-3-1" name="radio-3-set" class="regular-radio" /><label for="radio-3-1"></label><span class="radio_name">个人报名</span>
-							<input type="radio" id="radio-3-2" name="radio-3-set" class="regular-radio" /><label for="radio-3-2"></label><span class="radio_name">战队报名</span>
+							<input type="radio" id="radio-3-1" name="radio-3-set" class="regular-radio" v-model="applyType"/><label for="radio-3-1"></label><span class="radio_name">个人报名</span>
+							<input type="radio" id="radio-3-2" name="radio-3-set" class="regular-radio" v-model="applyType"/><label for="radio-3-2"></label><span class="radio_name">战队报名</span>
 						</div>
 						<div class="m-lst">
 							<label for="">报名时间：</label>
 							<div class="input-append date form_datetime">
-							    <input size="16" type="text" value="" placeholder="请选择时间" readonly>
+							    <input size="16" type="text" value="" placeholder="请选择时间" readonly v-model="applyBegin">
 							    <span class="add-on"><i class="icon-th"></i></span>
 							</div>
 							<span class="form-datetime-zhi">-</span>
 							<div class="input-append date form_datetime">
-							    <input size="16" type="text" value="" placeholder="请选择时间" readonly>
+							    <input size="16" type="text" value="" placeholder="请选择时间" readonly v-model="applyEnd">
 							    <span class="add-on"><i class="icon-th"></i></span>
 							</div>
 						</div>
 						<div class="m-lst f-mb50">
 							<div class="f-cb">
 								<label for="">签到设置：</label>
-								<input type="checkbox" id="checkbox-2-1" class="regular-checkboxs f-ml15" @click="signTime"/><label for="checkbox-2-1"></label><span class="check_name">要求参赛者赛前签到 (仅签到一次)</span>
+								<input type="checkbox" id="checkbox-2-1" class="regular-checkboxs f-ml15" v-model="needSign" @click="signTime"/><label for="checkbox-2-1"></label><span class="check_name">要求参赛者赛前签到 (仅签到一次)</span>
 							</div>
 							<div class="f-cb sign-minute">								
-								比赛开始前<select name="" id="">
+								比赛开始前<select name="" id="" v-model="needSignMinu">
 									<option value="">15</option>
 									<option value="">30</option>
 									<option value="">60</option>
@@ -131,18 +131,18 @@
 						</div>
 						<div class="m-lst">
 							<label for="">赛制规则：</label>
-							<textarea name="" id="" cols="55" rows="5" placeholder="请输入比赛赛制规则，不超过200字"></textarea>
+							<textarea name="" id="" cols="55" rows="5" placeholder="请输入比赛赛制规则，不超过200字" v-model="regimeRule"></textarea>
 						</div>
 						<div class="m-lst f-mb50">
 							<label for="">奖金设置：</label>
-							<textarea name="" id="" cols="55" rows="5" placeholder="请输入比赛赛制规则，不超过200字"></textarea>
+							<textarea name="" id="" cols="55" rows="5" placeholder="请输入比赛赛制规则，不超过200字" v-model="prizeSetting"></textarea>
 						</div>
-						<div class="m-lst">
+						<!-- <div class="m-lst">
 							<label for="">种子规则：</label>
 							<select name="" id="">
 								<option value="">传统种子规则</option>
 							</select>
-						</div>
+						</div> -->
 						<a href="javascript:void(0);" class="slide slideup" @click="optional">收起</a>
 					</div>
 					<a href="javascript:void(0);" class="u-btn u-btn-next" @click="nextStep">下一步</a>
@@ -159,15 +159,26 @@ import topHead from '../components/topHead.vue'
 import topNav from '../components/topNav.vue'
   	export default {
        	data () {
-       		var gameList="";
     		return {
     			name:"",
     			sponsorType:1,
-      			maxNum:0,
+    			itemId:"",
+    			itemServerId:"",
+    			mode:"",
+      			maxNum:"",
       			activityBegin:"",
-      			type:1,
+      			type:"",
+      			regime:"",
+      			needThird:"",
       			allowApply:"",
-      			gameList:""
+      			applyType:"",
+      			applyBegin:"",
+      			applyEnd:"",
+      			needSign:"",
+      			needSignMinu:"",
+      			poster:"",
+      			regimeRule:"",
+      			prizeSetting:""
     		}
   		},
    		ready: function () {
@@ -175,8 +186,14 @@ import topNav from '../components/topNav.vue'
    			var parm={};
 
    			parm.jsonInfo=JSON.stringify({itemsId:""});
-   			_this.$http.post('http://192.168.30.248:8088/event/queryActivityItem',parm).then(function (response) {
-  				// this.gameList=response.object;
+   			_this.$http.get('http://192.168.30.69:8080/OET/event/queryActivityItem',parm).then(function (response) {
+  				var gameList=response.data.object.itemsList;
+  				var content='';
+  				
+  				for(var i=0;i<gameList.length;i++){
+  					content+='<option value="'+gameList[i].id+'">'+gameList[i].name+'</option>'
+  				}
+  				$('#gameList').append(content);
   				// console.log(this.gameList);
 	  			
 	  			// if(response.data.code){
@@ -275,9 +292,10 @@ import topNav from '../components/topNav.vue'
 
 			// 图片上传
 			$('#pic').diyUpload({
-				url:'',
+				url:'http://192.168.30.248:8088/file/upload',
 				success:function( data ) {
-					console.info( data );
+					console.info( data.object.src );
+					_this.poster=data.object.src;
 				},
 				error:function( err ) {
 					console.info( err );	
@@ -369,8 +387,45 @@ import topNav from '../components/topNav.vue'
 			        _this.addClass('change');
 			    }
 		    },
+		    getServerList:function(e){
+		    	var _this=this;
+		    	var parm={};
+	   			parm.jsonInfo=JSON.stringify({itemsId:_this.itemId});
+	   			_this.$http.get('http://192.168.30.69:8080/OET/event/queryActivityItem',parm).then(function (response) {
+	  				var gameList=response.data.object.itemsServerList;
+	  				var content='<option value="">请选择服务器</option>';
+	  				
+	  				for(var i=0;i<gameList.length;i++){
+	  					content+='<option value="'+gameList[i].id+'">'+gameList[i].serverName+'</option>'
+	  				}
+	  				$('#serverList').html(content);
+	  				// console.log(this.gameList);
+		  			
+		  			// if(response.data.code){
+		  			// 	this.$route.router.go({path: '/homepage', replace: true})
+		  			// 	}
+		        }, function (response) {
+		            console.log(22);
+		        }) 
+		    },
 		    nextStep:function(e){
-		    	
+		    	var _this=this;
+		    	if(_this.needThird){
+		    		_this.needThird=1;
+		    	}else{
+		    		_this.needThird=0;
+		    	}
+		    	var parm={};
+	   			parm.jsonInfo=JSON.stringify(_this.$data);
+	   			console.log(parm.jsonInfo);
+		    	_this.$http.post('http://192.168.30.69:8080/OET/event/save',parm).then(function (response) {
+		  			
+		  			// if(response.data.code){
+		  			// 	this.$route.router.go({path: '/homepage', replace: true})
+		  			// 	}
+		        }, function (response) {
+		            console.log(22);
+		        }) 
 		    }
 	  	},
        components: {
