@@ -35,8 +35,9 @@
 	                        <th>参与人数</th>
 	                        <th>创建时间</th>
 	                        <th width="135px;">操作</th>
+	                        <th></th>
 	                    </tr>
-	                    <tr v-for='matchlist in matchlists.list' v-link="{ path: '/techPic'}">
+	                    <tr v-for='matchlist in matchlists.list' @click="linkTechpic">
 	                        <td>1</td>
 	                        <td>
 	                        	<div class="s-n-img">
@@ -53,6 +54,7 @@
 	                        		<a href="" class="u-btn-delete"></a>
 	                        	</div>
 	                        </td>
+	                        <td class="get_eventid" style="display:none">{{matchlist.eventId}}</td>
 	                    </tr>
 	                    </tbody>
 	                </table>
@@ -86,8 +88,7 @@ import topHead from '../components/topHead.vue'
    			  var parmstr=JSON.stringify(this.roundlist);
    			  var parm={};
    			  parm.jsonInfo=parmstr;
-	        _this.$http.get('http://192.168.30.69:8080/OET/event/getEventRoundList',parm).then(function(response) {
-	        	console.log(response);
+	        _this.$http.get('event/getEventRoundList',parm).then(function(response) {
 	            _this.matchlists=response.data.object.pager;
 	        },function(response) {
 	            console.log(response);
@@ -195,6 +196,12 @@ import topHead from '../components/topHead.vue'
 		        },function(response) {
 		            console.log(response);
 		        });
+  			},
+  			linkTechpic:function(e){
+  				var _target=$(e.currentTarget);
+  				var _eventid=_target.find(".get_eventid").text();
+  				window.sessionStorage.setItem("eventid",_eventid);
+  				this.$route.router.go({path: '/techPic'})
   			}
   		},
 	  	components: {
