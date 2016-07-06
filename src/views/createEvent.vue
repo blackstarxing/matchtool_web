@@ -306,8 +306,6 @@ import topNav from '../components/topNav.vue'
 				}
 			}
 
-		
-
 			// 图片上传
 			$('#pic').diyUpload({
 				url:'',
