@@ -120,10 +120,9 @@ import topNav from '../components/topNav.vue'
   },
      ready: function(){
       var _this=this;
-
       _this.parm.id=window.sessionStorage.getItem("eventid");
        _this.$http.get('event/info',_this.parm).then(function(response){
-            
+            console.log(response);
              _this.matchdata=response.data.object.groups;
              console.log(_this.matchdata);
             
@@ -176,7 +175,6 @@ import topNav from '../components/topNav.vue'
                 var _height=unitul_all*Math.pow(2,turn-2);
                 var _width=(unitul_w+90)*turn;
                 _content.width(_width);
-                _content.height(_height);
                 $(".tech_container").append('<canvas id="mycanvas" width='+_width+' height='+_height+'></canvas> ');
 
                 //获取turn2的数据
@@ -184,7 +182,7 @@ import topNav from '../components/topNav.vue'
                 function getnum(arr){
                   for(var i=0;i<arr.length;i++){
                     if(arr[i].turn == 2){
-                      onelist.push(arr);
+                      onelist.push(arr[i]);
                     }else{
                         for(var key in arr[i]){
                             if(key=='groups'){
@@ -198,77 +196,77 @@ import topNav from '../components/topNav.vue'
                 getnum(_this.matchdata);
 
                 console.log(onelist);
-                   _content.prepend(listul);
+                _content.prepend(listul);
                 listArry=_content.find($(".match_list"));
                 var _topsY=[];
                 var _topdY=[];
-       //          //生成非幂次方时第一列的矩形unit
-       //          for(var i=0;i<onelist.length;i++){
-       //                if(!isNaN(onelist[i].a)){
-       //                  var _one_list=listArry.eq(1).find(".unit_ul").eq(i).find(".recta")
-       //                    _one_list.eq(0).text(onelist[i].a);
-       //                  if(!isNaN(onelist[i].b)){
-       //                    _one_list.eq(1).text(onelist[i].b);
-       //                  }else{
-       //                    var _top=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
-       //                    _topsY.push(_top);
-       //                    listArry.eq(0).append('<ul class="unit_ul single_line" style="width:200px;"><li class="recta" style="margin-bottom:1px;">'+onelist[i].b.a+'</li><li class="recta">'+onelist[i].b.b+'</li></ul>');
-       //                  }   
-       //                }else{
-       //                    var _top=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
-       //                    _topdY.push(_top);
-       //                    listArry.eq(0).append('<div class="double_line"><ul class="unit_ul" style="width:200px;margin-bottom:10px;"><li class="recta" style="margin-bottom:1px;">'+onelist[i].a.a+'</li><li class="recta">'+onelist[i].a.b+'</li></ul><ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;">'+onelist[i].b.a+'</li><li class="recta">'+onelist[i].b.b+'</li></ul></div>');
-       //              }
-       //          }
-       //          console.log(_topdY);
+                //生成非幂次方时第一列的矩形unit
+                for(var i=0;i<onelist.length;i++){
+                      if(onelist[i].seats[0].seatNumber){
+                        var _one_list=listArry.eq(1).find(".unit_ul").eq(i).find(".recta")
+                          _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
+                        if(onelist[i].seats[1].seatNumber){
+                          _one_list.eq(1).text(onelist[i].seats[1].seatNumber);
+                        }else{
+                          var _top=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
+                          _topsY.push(_top);
+                          listArry.eq(0).append('<ul class="unit_ul single_line" style="width:200px;"><li class="recta" style="margin-bottom:1px;">'+onelist[i].groups[0].seats[0].seatNumber+'</li><li class="recta">'+onelist[i].groups[0].seats[1].seatNumber+'</li></ul>');
+                        }   
+                      }else{
+                          var _top=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
+                          _topdY.push(_top);
+                          listArry.eq(0).append('<div class="double_line"><ul class="unit_ul" style="width:200px;margin-bottom:10px;"><li class="recta" style="margin-bottom:1px;">'+onelist[i].groups[0].seats[0].seatNumber+'</li><li class="recta">'+onelist[i].groups[0].seats[1].seatNumber+'</li></ul><ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;">'+onelist[i].groups[1].seats[0].seatNumber+'</li><li class="recta">'+onelist[i].groups[1].seats[1].seatNumber+'</li></ul></div>');
+                    }
+                }
+                console.log(_topdY);
 
-       //          //根据轮空的坐标确定第一列坐标
-       //          var list_first=listArry.eq(0).find(".single_line");
-       //          for(i=0;i<_topsY.length;i++){
-       //            list_first.eq(i).offset({'top':_topsY[i]+35});
-       //          }
+                //根据轮空的坐标确定第一列坐标
+                var list_first=listArry.eq(0).find(".single_line");
+                for(i=0;i<_topsY.length;i++){
+                  list_first.eq(i).offset({'top':_topsY[i]+35});
+                }
 
-       //          if(_topdY.length!=0){
-       //            var list_double=listArry.eq(0).find(".double_line");
-       //            for(i=0;i<_topdY.length;i++){
-       //              list_double.eq(i).offset({'top':_topdY[i]-35});
-       //            }
-       //          }
+                if(_topdY.length!=0){
+                  var list_double=listArry.eq(0).find(".double_line");
+                  for(i=0;i<_topdY.length;i++){
+                    list_double.eq(i).offset({'top':_topdY[i]-35});
+                  }
+                }
 
        //          //根据矩形坐标画线
-       //          var _xy=[];
-       //          var coordinates=[];
-       //          for(var i=1;i<level;i++){
-       //            var unit_list=listArry.eq(i).find(".unit_ul");
-       //            var unit_length=unit_list.length;
+                var _xy=[];
+                var coordinates=[];
+                for(var i=1;i<turn-1;i++){
+                  var unit_list=listArry.eq(i).find(".unit_ul");
+                  var unit_length=unit_list.length;
                   
-       //            _xy.length=0;
-       //            for(var j=0;j<unit_length;j++){
-       //              coordinates=[unit_list.eq(j).position().left,unit_list.eq(j).position().top];
-       //                    _xy.push(coordinates);
+                  _xy.length=0;
+                  for(var j=0;j<unit_length;j++){
+                    coordinates=[unit_list.eq(j).position().left,unit_list.eq(j).position().top];
+                          _xy.push(coordinates);
            
-       //            function drawline(id) {
+                  function drawline(id) {
                     
-       //              var canvas = document.getElementById(id);
-       //              if (canvas == null)
-       //                  return false;
-       //              var context = canvas.getContext("2d");
-       //              context.strokeStyle = "rgb(247,162,58)";
-       //              context.moveTo(_xy[j][0]+unitul_w+5,_xy[j][1]+unitul_h/2);
-       //              context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h/2);
-       //              if(j%2==0){
-       //                context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h+margin_bt[i-1]/2);
-       //                context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]+unitul_h+margin_bt[i-1]/2);
-       //              }else{
-       //                context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]-margin_bt[i-1]/2);
-       //                context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]-margin_bt[i-1]/2);
-       //              }
+                    var canvas = document.getElementById(id);
+                    if (canvas == null)
+                        return false;
+                    var context = canvas.getContext("2d");
+                    context.strokeStyle = "rgb(247,162,58)";
+                    context.moveTo(_xy[j][0]+unitul_w+5,_xy[j][1]+unitul_h/2);
+                    context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h/2);
+                    if(j%2==0){
+                      context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h+margin_bt[i-1]/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]+unitul_h+margin_bt[i-1]/2);
+                    }else{
+                      context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]-margin_bt[i-1]/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]-margin_bt[i-1]/2);
+                    }
 
-       //              context.stroke(); 
-       //            }
-       //              drawline("mycanvas"); 
-       //            }  
-       //          }
+                    context.stroke(); 
+                  }
+                    drawline("mycanvas"); 
+                  }  
+                }
                 
        //          //根据矩形坐标第一列单unit画线
        //          var _xysingle=[];
