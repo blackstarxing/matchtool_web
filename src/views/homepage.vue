@@ -50,7 +50,7 @@
 	                        <td>{{matchlist.createDate}}</td>
 	                        <td>
 	                        	<div class="option">
-	                        		<a href="" class="u-btn-delete"></a>
+	                        		<a href="" class="u-btn-delete" title="删除" data-id="{{matchlist.eventId}}"></a>
 	                        	</div>
 	                        </td>
 	                    </tr>
@@ -86,7 +86,7 @@ import topHead from '../components/topHead.vue'
    			  var parmstr=JSON.stringify(this.roundlist);
    			  var parm={};
    			  parm.jsonInfo=parmstr;
-	        _this.$http.get('http://192.168.30.69:8080/OET/event/getEventRoundList',parm).then(function(response) {
+	        _this.$http.get('/event/getEventRoundList',parm).then(function(response) {
 	        	console.log(response);
 	            _this.matchlists=response.data.object.pager;
 	        },function(response) {
@@ -176,7 +176,7 @@ import topHead from '../components/topHead.vue'
 	   			var parmstr=JSON.stringify({eventName:_this.eventName,pageNumber:1});
 	   			var parm={};
 	   			parm.jsonInfo=parmstr;
-		        _this.$http.get('http://192.168.30.69:8080/OET/event/getEventRoundList',parm).then(function(response) {
+		        _this.$http.get('/event/getEventRoundList',parm).then(function(response) {
 		        	console.log(response);
 		            _this.matchlists=response.data.object.pager;
 		            this.eventName="";
@@ -189,7 +189,7 @@ import topHead from '../components/topHead.vue'
 	   			var parmstr=JSON.stringify({eventRoundStatus:_this.eventRoundStatus,pageNumber:1});
 	   			var parm={};
 	   			parm.jsonInfo=parmstr;
-		        _this.$http.get('http://192.168.30.69:8080/OET/event/getEventRoundList',parm).then(function(response) {
+		        _this.$http.get('/event/getEventRoundList',parm).then(function(response) {
 		        	console.log(response);
 		            _this.matchlists=response.data.object.pager;
 		        },function(response) {

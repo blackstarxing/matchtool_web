@@ -51,6 +51,7 @@ option{border-color: #7C6735;}
 .f-mb50{margin-bottom: 50px!important;}
 .f-mb70{margin-bottom: 70px!important;}
 .f-ml15{margin-left: 15px;}
+.f-fs1{font-size: 12px;}
 .u-btn{display: inline-block;height: 36px;line-height: 36px;text-align: center;border-radius: 3px;color:#fff;background: #F9A329;vertical-align: middle;}
 .u-btn:hover{color:#fff;}
 
@@ -98,7 +99,7 @@ option{border-color: #7C6735;}
 .m-form a,.m-form a:hover,.m-rules a,.m-rules a:hover{color:#FF5F00;}
 .m-form h3{font-size: 18px;color:#F8A329;margin-bottom: 40px;font-weight: bold;}
 .m-lst{font-size: 14px;min-height: 36px;line-height: 36px;margin-bottom:18px;}
-.m-lst select{background: url("../images/arrow.png") no-repeat 190px center #111115;appearance:none;-moz-appearance:none;-webkit-appearance:none;}
+.m-search select,.m-lst select{background: url("../images/arrow.png") no-repeat 190px center #111115;appearance:none;-moz-appearance:none;-webkit-appearance:none;}
 .m-search .select_box,.m-lst .select_box{float:left;line-height: 32px;position: relative;border:1px solid #8f8f8f;}
 .m-lst .focus{border-color: #f9a32a;box-shadow: 0 0 7px rgba(229,156,0,1);}
 .m-lst label{display: block;width: 113px;text-align: right;float: left;margin-right: 15px;}
@@ -121,7 +122,7 @@ option{border-color: #7C6735;}
 .m-lst .sponsor li.disabled:hover{background: #000;cursor: default;}
 .m-lst .sponsor li:hover{background:rgba(249, 163, 42, 0.6);}
 
-.m-lst input.eventname{width:400px;}
+.m-lst input.eventname{width:425px;}
 .m-lst .u-select{position:absolute;display:block;width:80px;z-index: 999;color:#FF5F00;background-image: url(../images/orange_arrow.png);padding:0 20px;margin: 0;background-position: 55px center;}
 .m-lst .change{background-color: rgba(0,0,0,1);border:1px solid #8f8f8f;border-bottom: none;z-index: 999;}
 .m-lst input[type="radio"]{vertical-align: middle;margin-right: 10px;background: #111115;}
@@ -135,7 +136,7 @@ option{border-color: #7C6735;}
 .regular-checkboxs + label {width:14px;margin-top: 9px;background-color: #111115;border: 1px solid #8f8f8f;box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);padding: 7px;display: inline-block;position: relative;}
 .regular-checkboxs:checked + label {background: url(../images/checkbox.png) center center no-repeat;}
 /*签到时间*/
-.sign-minute{margin-left: 130px;display: none;}
+.sign-minute{margin-left: 130px;display: none;width:250px;float: left;}
 .sign-minute select{background: url("../images/arrow.png") no-repeat 70px center #111115;margin:0 12px;width:90px;}
 .sign-minute .select_showbox{background-position: 60px center;}
 .sign-minute .select_box{width: 80px;float: none;display: inline-block;margin:0 15px;}
@@ -154,7 +155,7 @@ option{border-color: #7C6735;}
 .m-option,.m-signup{display: none;}
 .m-option textarea{padding:5px 12px;line-height: 25px;text-indent: 0;}
 .tips{font-size: 12px;line-height: 16px;width:300px;margin-right: 100px;float: right;}
-.tips .attention{color:#F8A329;background: url(../images/attention.png) left center no-repeat;text-indent: 30px;}
+.tips .attention{display:none;color:#F8A329;background: url(../images/attention.png) left center no-repeat;text-indent: 30px;line-height: 36px;}
 .slideup{width:180px;background-image: url(../images/up.png);}
 .m-form a.u-btn-next{display:block;width: 200px;background: linear-gradient(to bottom, #f9a32a 50%,#e68700 50%,#f8a328 100%);margin-left: 130px;margin-top: 30px;color:#fff;}
 .picBox{float: left;}
