@@ -165,9 +165,6 @@
 			})
 
   		},
-  		methods: {
-    		
-	  	}
   		methods:{
   			searchEvent:function(e){
   				var _this=this;
@@ -200,10 +197,10 @@
   				window.sessionStorage.setItem("eventid",_eventid);
   				this.$route.router.go({path: '/techPic'})
   			}
-  		},
-	  	components: {
-       	  topHead
+  		}
+	 //  	components: {
+  //      	  topHead
          
-  }
+  // }
   	}
 </script>

@@ -108,7 +108,7 @@
   	ready:function(){
   		var self = this;
   		console.log(self);
-  		self.$http.get('http://192.168.30.248:8088/event/information/list').then(function(response){
+  		self.$http.get('event/information/list').then(function(response){
   			self.$set('newslists', response.data.object);
   			self.$nextTick(self._events.pagefill[0]);
   		}, function(data, status, request){
@@ -191,7 +191,7 @@
     	infodel:function(event){
     		var _this = $(event.target);
     		var infoid = _this.parents('li').find('[infoid]').text();
-    		this.$http.get("http://192.168.30.248:8088/event/information/delete?id="+infoid).then(function(response){
+    		this.$http.get("event/information/delete?id="+infoid).then(function(response){
 				var code = response.data.code;
 				this.$nextTick(function(){
 					if(code==-1){
@@ -212,7 +212,7 @@
     		var _this = $(event.target);
     		var infoid = _this.parents('li').find('[infoid]').text();
     		var topnum = _this.attr("topstate");
-    		this.$http.get("http://192.168.30.248:8088/event/information/top?id="+infoid+"&isTop="+topnum).then(function(response){
+    		this.$http.get("event/information/top?id="+infoid+"&isTop="+topnum).then(function(response){
     			var code = response.data.code;
     			this.$nextTick(function(){
     				if(code==-1){
@@ -238,7 +238,7 @@
     			newsstatus = this.newsstatus,
     			begindate = this.begindate,
     			enddate = this.enddate;
-    		this.$http.get("http://192.168.30.248:8088/event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate).then(function(response){
+    		this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate).then(function(response){
     			this.$set('newslists', response.data.object);
     			this.$nextTick(this._events.pagefill[0]);
     		}, function(data, status, request){
@@ -252,7 +252,7 @@
     			begindate = this.begindate,
     			enddate = this.enddate;
     		var indexpage = $('.m-page input').val();
-    		this.$http.get("http://192.168.30.248:8088/event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage).then(function(response){
+    		this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage).then(function(response){
     			this.$set('newslists', response.data.object);
     			this.$nextTick(this._events.pagefill[0]);
     		}, function(response){
@@ -268,7 +268,7 @@
     		var indexpage = this.newslists.pager.pageNumber;
     		if(indexpage>1){
     			indexpage--;
-    			this.$http.get("http://192.168.30.248:8088/event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage).then(function(response){
+    			this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage).then(function(response){
     			this.$set('newslists', response.data.object);
     			this.$nextTick(this._events.pagefill[0]);
 	    		}, function(response){
@@ -289,7 +289,7 @@
     			maxpage = this.newslists.pager.pages;
     		if(indexpage<maxpage){
     			indexpage++;
-    			this.$http.get("http://192.168.30.248:8088/event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage).then(function(response){
+    			this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage).then(function(response){
     			this.$set('newslists', response.data.object);
     			this.$nextTick(this._events.pagefill[0]);
 	    		}, function(response){
@@ -314,7 +314,7 @@
     		var _this = $(event.target);
     		var effective = _this.parents('li').find('div[effective]').attr('effective');
     		var infoid = _this.parents('li').find('[infoid]').text();
-    		this.$http.get("http://192.168.30.248:8088/event/information/publish?id="+infoid+"&effective="+effective).then(function(response){
+    		this.$http.get("event/information/publish?id="+infoid+"&effective="+effective).then(function(response){
 				var code = response.data.code;
 				this.$nextTick(function(){
 					if(code==-1){

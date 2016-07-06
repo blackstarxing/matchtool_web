@@ -7,6 +7,7 @@ import newslist from './views/news.vue'
 import addnews from './views/addnews.vue'
 import reset from './views/reset.vue'
 import techPic from './views/techPic.vue'
+import login from './views/login.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -44,11 +45,14 @@ router.map({
     },
     '/reset': {
         component: reset
+    },
+    '/login': {
+        component: login
     }
     
 })
 router.redirect({
-  '*': '/homepage'
+  '*': '/login'
 })
 
 router.start(matchtool, '#app')
