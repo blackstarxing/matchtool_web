@@ -26,16 +26,16 @@
 	                        <th>已签到</th>
 	                        <th width="135px;">操作</th>
 	                    </tr>
-	                    <tr>
-	                        <td>1</td>
-	                        <td>h的二次方</td>
-	                        <td>13606555698</td>
-	                        <td>13606555</td>
-	                        <td>331360198607073369</td>
+	                    <tr v-for='member in memberlist.list'>
+	                        <td>{{$index+1}}</td>
+	                        <td>{{member.name}}</td>
+	                        <td>{{member.telephone}}</td>
+	                        <td>{{member.qq}}</td>
+	                        <td>{{member.idcard}}</td>
 	                        <td>
 	                        <section class="signed">
 								<div class="signbox">
-									<input type="checkbox">
+									<input type="checkbox" checked="{{member.signed}}" @click="signStatus">
 									<label></label>
 								</div>
 							</section>
@@ -50,7 +50,7 @@
 	                </table>
 	                <div class="m-page">
 	                	<a href="" id="prev"></a>
-	                	<div class="pagination"><span class="current">2</span>/<span>10</span></div>
+	                	<div class="pagination"><span class="current">{{memberlist.pageNumber}}</span>/<span>{{memberlist.pages}}</span></div>
 	                	<a href="" id="next"></a>
 	                	<input type="text">
 	                	<a href="" class="u-btn">跳转</a>
@@ -62,25 +62,27 @@
 	</div>
 	<div class="m-mask">
 		<div class="m-pop">
-			<h3>添加选手</h3>
-			<a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
-			<div class="m-lst">				
-				<label for="">选手名称：</label>
-				<input type="text" class="eventname" placeholder="请输入参赛者名称">
-			</div>
-			<div class="m-lst">				
-				<label for="">手机号码：</label>
-				<input type="text" class="eventname" placeholder="请输入参赛者手机号码">
-			</div>
-			<div class="m-lst">				
-				<label for="">QQ：</label>
-				<input type="text" class="eventname" placeholder="请输入参赛者QQ号码">
-			</div>
-			<div class="m-lst">				
-				<label for="">身份证：</label>
-				<input type="text" class="eventname" placeholder="请输入参赛者身份证号码">
-			</div>
-			<a href="javascript:void(0);" class="u-btn">添加</a>
+			<div class="wrap">
+				<h3>添加选手</h3>
+				<a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
+				<div class="m-lst">				
+					<label for="">选手名称：</label>
+					<input type="text" class="eventname" placeholder="请输入参赛者名称">
+				</div>
+				<div class="m-lst">				
+					<label for="">手机号码：</label>
+					<input type="text" class="eventname" placeholder="请输入参赛者手机号码">
+				</div>
+				<div class="m-lst">				
+					<label for="">QQ：</label>
+					<input type="text" class="eventname" placeholder="请输入参赛者QQ号码">
+				</div>
+				<div class="m-lst">				
+					<label for="">身份证：</label>
+					<input type="text" class="eventname" placeholder="请输入参赛者身份证号码">
+				</div>
+				<a href="javascript:void(0);" class="u-btn">添加</a>
+			</div>			
 		</div>
 	</div>
 </template>
@@ -89,11 +91,21 @@ import topNav from '../components/topNav.vue'
   	export default {
        	data () {
     		return {
-      			
+      			memberlist:""
     		}
   		},
    		ready: function () {
-     		
+     		var roundId=window.sessionStorage.getItem("eventid");
+     		var _this=this;
+   			var parmstr=JSON.stringify({roundId:roundId,pageNumber:1});
+   			var parm={};
+   			parm.jsonInfo=parmstr;
+	        _this.$http.post('http://192.168.30.248:8088/event/round/group/member/list',parm).then(function(response) {
+	        	console.log(response);
+	            _this.memberlist=response.data.object.pager;
+	        },function(response) {
+	            console.log(response);
+	        });
   		},
   		methods: {
     		addplayer: function(e){
@@ -101,6 +113,9 @@ import topNav from '../components/topNav.vue'
 		    },
 		    closePop: function(e){
 		        $('.m-mask').hide();
+		    },
+		    signStatus:function(e){
+		    	alert(123);
 		    }
 	  	},
        components: {

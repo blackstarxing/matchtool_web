@@ -246,8 +246,8 @@
 			}
 				
 			//绑定开始上传按钮;
-			// $startButton.one('click',uploadStart);
-			$('.u-btn-next').one('click',uploadStart);
+			$startButton.one('click',uploadStart);
+			// $('.u-btn-next').one('click',uploadStart);
 			
 			//绑定取消全部按钮;
 			$cancelButton.bind('click',function(){
