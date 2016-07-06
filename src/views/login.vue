@@ -79,7 +79,7 @@
 				// 	    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString(); 
 				// } 
 		if(response.data.code){
-  				this.$route.router.go({path: '/homepage', replace: true})
+  				this.$route.router.go({path: '/homepage'})
   				}
             }, function (response) {
               console.log(22);

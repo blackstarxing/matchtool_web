@@ -50,7 +50,6 @@
 }
 .parentFileBox>.fileBoxUl>li>.diySuccess {
 	background:url(../images/check_alt.png) no-repeat;
-	background-size: 100%;
 	cursor:default;
 }
 .parentFileBox>.fileBoxUl>li>.diyFileName {
@@ -65,7 +64,6 @@
 	font-size:12px;
 	display:none;
 	background:url(../images/bgblack.png);
-	overflow: hidden;
 }
 .parentFileBox>.fileBoxUl>li>.diyBar {
 	top:0;
@@ -97,24 +95,28 @@
 	z-index:97;
 }
 .parentFileBox>.diyButton {
-	width:160px;
+	width:100%;
+	/*上传按钮组*/
+	display: none;
 	margin-top:5px;
 	margin-bottom:5px;
+	height:20px;
+	line-height:20px;
 	text-align:center;
 }
 .parentFileBox>.diyButton>a {
 	padding:5px 10px 5px 10px;
-	background-color:#f9a32a;
+	background-color:#09C;
 	color:#FFF;
 	font-size:12px;
 	text-decoration:none;
 	border-radius:3px;
 }
-.parentFileBox>.diyButton>a:hover {
-	background-color:#e68700;
-	color:#fff;
+/*.parentFileBox>.diyButton>a:hover {
+	background-color:#0CC;
+	color:#F30;
 }
-/*.parentFileBox>.fileBoxUl>li:hover {
+.parentFileBox>.fileBoxUl>li:hover {
 	-moz-box-shadow: 3px 3px 4px #FF0;
 	-webkit-box-shadow: 3px 3px 4px #FF0;
 	box-shadow: 3px 3px 4px #FF0;
