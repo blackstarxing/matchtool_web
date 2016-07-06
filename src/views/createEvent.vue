@@ -59,8 +59,8 @@
 					<div class="m-lst">
 						<label for="activityBegin">赛事开始时间：</label>
 						<div class="input-append date form_datetime">
-						    <input size="16" type="text" name="activityBegin" value="" placeholder="请选择时间" readonly v-model="formdata.activityBegin" required="">
-						    <span class="add-on"><i class="icon-th"></i></span>
+						    <input size="16" type="text" id="begintime" name="activityBegin" value="" placeholder="请选择时间" v-model="formdata.activityBegin" required="">
+						    <label for="begintime" class="add-on"><i class="icon-th"></i></label>
 						</div>
 						<div class="tips">
 							<div class="attention"></div>
