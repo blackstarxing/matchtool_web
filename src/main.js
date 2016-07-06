@@ -14,18 +14,14 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource);
 Vue.use(VueRouter);
 
-
-Vue.http.options.root = './src/data';
-
 // Vue.http.options.root = 'http://192.168.30.248:8088/';
-
 Vue.http.options.emulateJSON = true;
 var router = new VueRouter({
-	hashbang: false
+    hashbang: false
 });
 
 router.map({
-	'/techPic': {
+    '/techPic': {
         component: techPic
     },
     '/homepage': {
@@ -52,7 +48,7 @@ router.map({
     
 })
 router.redirect({
-  '*': '/homepage'
+  '*': '/login'
 })
 
 router.start(matchtool, '#app')
