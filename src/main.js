@@ -52,7 +52,7 @@ router.map({
     
 })
 router.redirect({
-  '*': '/login'
+  '*': '/homepage'
 })
 
 router.start(matchtool, '#app')
