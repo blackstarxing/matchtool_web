@@ -50,13 +50,8 @@
 					<div class="m-lst">
 						<label for="">赛事开始时间：</label>
 						<div class="input-append date form_datetime">
-<<<<<<< HEAD
 						    <input size="16" type="text" id="begintime" value="" placeholder="请选择时间" v-model="activityBegin">
 						    <label for="begintime" class="add-on"><i class="icon-th"></i></label>
-=======
-						    <input size="16" type="text" value="" placeholder="请选择时间" readonly>
-						    <span class="add-on"><i class="icon-th"></i></span>
->>>>>>> develop
 						</div>
 					</div>
 					<div class="m-lst">
@@ -165,7 +160,6 @@ import topNav from '../components/topNav.vue'
     		}
   		},
    		ready: function () {
-<<<<<<< HEAD
    			var _this=this;
    			var parm={};
    			parm.jsonInfo=JSON.stringify({itemsId:""});
@@ -188,8 +182,6 @@ import topNav from '../components/topNav.vue'
 	        });
 	        $.datetimepicker.setLocale('ch');
 
-=======
->>>>>>> develop
      		function preloadimages(arr){
 			    var newimages=[]
 			    var arr=(typeof arr!="object")? [arr] : arr  //确保参数总是数组
