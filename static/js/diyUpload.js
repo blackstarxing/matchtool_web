@@ -227,8 +227,8 @@
 		if ( $parentFileBox.find('.diyButton').length <= 0 ) {
 			
 			var div = '<div class="diyButton"> \
-						<a class="diyStart" href="javascript:void(0)">确认上传</a> \
-						<a class="diyCancelAll" href="javascript:void(0)">取消选择</a> \
+						<a class="diyStart" href="javascript:void(0)">开始上传</a> \
+						<a class="diyCancelAll" href="javascript:void(0)">全部取消</a> \
 					</div>';
 			$parentFileBox.append( div );
 			var $startButton = $parentFileBox.find('.diyStart');
@@ -246,8 +246,8 @@
 			}
 				
 			//绑定开始上传按钮;
-			$startButton.one('click',uploadStart);
-			// $('.u-btn-next').one('click',uploadStart);
+			// $startButton.one('click',uploadStart);
+			$('.u-btn-next').one('click',uploadStart);
 			
 			//绑定取消全部按钮;
 			$cancelButton.bind('click',function(){

@@ -14,7 +14,15 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource);
 Vue.use(VueRouter);
 
+<<<<<<< HEAD
 // Vue.http.options.root = 'http://192.168.30.248:8088/';
+=======
+
+Vue.http.options.root = './src/data';
+
+// Vue.http.options.root = 'http://192.168.30.248:8088/';
+
+>>>>>>> 5cd67091cf621acb0ec32d2b17d24986deea21f7
 Vue.http.options.emulateJSON = true;
 var router = new VueRouter({
 	hashbang: false
@@ -48,7 +56,7 @@ router.map({
     
 })
 router.redirect({
-  '*': '/login'
+  '*': '/homepage'
 })
 
 router.start(matchtool, '#app')

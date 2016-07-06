@@ -20,7 +20,7 @@ del,ins,u,s,a,a:hover{text-decoration:none;}
 a,a:hover,a:visited,a:active,a:link{color:#fff;text-decoration: none;}
 p{margin:0;}
 h1, h2, h3, h4, h5, h6{font-family: "微软雅黑";}
-input,select{border:1px solid #8f8f8f;height: 34px;line-height: 34px;text-indent: 12px;color:#fff;background: rgba(0,0,0,0.8);}
+input,select{background: #111115;border:1px solid #8f8f8f;height: 34px;line-height: 34px;text-indent: 12px;color:#fff;background: rgba(0,0,0,0.8);}
 textarea{background: #111115;border:1px solid #8f8f8f;color:#fff;text-indent: 12px;}
 button{border:none;outline: none;}
 ::selection{color:#fff;background:#F8A329;}
@@ -56,7 +56,7 @@ option{border-color: #7C6735;}
 .u-btn:hover{color:#fff;}
 
 /*登入*/
-.s-col00{background-color:#000000; width:100%;}
+.s-col00{background-color:#000000; width:100%; height:100%;}
 .m-lg{width:100%; height:1100px; background:url(../images/lg_bg.jpg) no-repeat top center; background-size:cover;}
 .g-lg{width:1200px; margin:0 auto; height:1100px; position:relative;}
 .m-lg-nav{height:88px; width:1400px; background:url(../images/lg_nav.png) no-repeat top center; background-size:cover; display:inline-block; margin:30px 0 0 -100px;}
@@ -81,7 +81,7 @@ option{border-color: #7C6735;}
 .footer{width:1200px; margin:11px auto 70px; text-align:center; color:#a1a1a1; font-size:12px; }
 
 /*创建赛事*/
-/*.g-doc{background: url(../images/bg.png) center top no-repeat #000;}*/
+.g-doc{background: url(../images/bg.png) center top no-repeat #000;}
 .g-doc a,.g-doc a:hover{text-decoration: none;}
 .g-hd{height: 50px;background: rgba(0,0,0,0.8);}
 .g-bd,.g-box{width:1200px;margin:0 auto;}
@@ -104,10 +104,9 @@ option{border-color: #7C6735;}
 .m-lst .focus{border-color: #f9a32a;box-shadow: 0 0 7px rgba(229,156,0,1);}
 .m-lst label{display: block;width: 113px;text-align: right;float: left;margin-right: 15px;}
 .m-search .select_box,.m-lst .select_box,.m-lst input[type="text"]{width:210px;}
-.m-lst .select_box{margin-right: 10px;}
 .m-search .select_box{margin-right: 20px;}
 
-.m-search select,.m-lst select{width:210px;}
+.m-search select,.m-lst select{display: none;}
 .select_showbox{padding-left: 12px;width: 100%;background: url("../images/arrow.png") no-repeat 190px center #111115;}
 .select_option{position: absolute;top:33px;left:-1px;width: 210px;z-index:999;border: 1px solid #b0a296;border-top: none;display: none;background: rgba(0,0,0,0.8);}
 .select_option li{padding-left: 12px;cursor: pointer;}
@@ -115,7 +114,7 @@ option{border-color: #7C6735;}
 .select_option li.disabled{color:#808080;}
 .select_option li.disabled:hover{background: #000;cursor: default;}
 .m-lst .organize{width:130px;}
-.m-lst .sponsor{position: relative;float: left;margin:0;margin-left: 5px;font-size: 14px;}
+.m-lst .sponsor{position: relative;float: left;margin-left: 5px;}
 .m-lst .sponsor ul{position: absolute;z-index:99;top:36px;width:170px;display:none;border: 1px solid #b0a296;background: rgba(0,0,0,1);}
 .m-lst .sponsor li{padding-left: 12px;cursor: pointer;}
 .m-lst .sponsor li.disabled{color:#808080;}
@@ -138,9 +137,6 @@ option{border-color: #7C6735;}
 /*签到时间*/
 .sign-minute{margin-left: 130px;display: none;width:250px;float: left;}
 .sign-minute select{background: url("../images/arrow.png") no-repeat 70px center #111115;margin:0 12px;width:90px;}
-.sign-minute .select_showbox{background-position: 60px center;}
-.sign-minute .select_box{width: 80px;float: none;display: inline-block;margin:0 15px;}
-.sign-minute .select_option{width: 80px;}
 #number{float: left;}
 .button_group{width:33px;line-height: 0;float: left;margin-left:-36px;margin-top: 1px;border-left: 1px solid #8f8f8f;}
 .button_group button{width: 34px;height: 16px;background: #111115;color:#fff;font-size: 14px;}
@@ -153,7 +149,7 @@ option{border-color: #7C6735;}
 .m-lst .input-append.date .add-on i{display: inline-block;width: 16px;height: 16px;line-height: 16px;vertical-align: text-top;background-image: url("../images/datepicker.png");background-repeat: no-repeat;}
 .slide{display: inline-block;width: 300px;text-indent: 130px;background: url(../images/down.png) right center no-repeat;}
 .m-option,.m-signup{display: none;}
-.m-option textarea{padding:5px 12px;line-height: 25px;text-indent: 0;}
+.m-option textarea{padding:5px 12px;line-height: 25px;}
 .tips{font-size: 12px;line-height: 16px;width:300px;margin-right: 100px;float: right;}
 .tips .attention{display:none;color:#F8A329;background: url(../images/attention.png) left center no-repeat;text-indent: 30px;line-height: 36px;}
 .slideup{width:180px;background-image: url(../images/up.png);}
@@ -207,13 +203,11 @@ option{border-color: #7C6735;}
 .m-page .pagination span{margin:0 5px;}
 .m-page .pagination span.current{color:#F8A329;}
 /*弹出层*/
-.m-mask{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;z-index:9999;}
+.m-mask{position:absolute;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;z-index:9999;}
 .m-pop{width: 500px;min-height:420px;margin:180px auto 0;background: rgba(77,81,84,0.8);border:7px solid #34393f;}
-.m-pop .wrap{position: relative;width: 100%;}
 .m-pop h3{font-size: 18px;text-align: center;color:#fff;margin-bottom: 30px;background: url(../images/pop_bg.png) top center no-repeat;height: 58px;line-height:58px;margin-top: -7px;}
 .m-addzx{padding-left:45px; padding-top:38px;}
 .m-pop .u-btn-close,.m-addzx .u-btn-close{position:absolute;top:205px;right:375px;display:block;width: 20px;height: 20px;background: url(../images/delete.png) center center no-repeat;}
-.m-pop .u-btn-close{top:20px;right: 20px;}
 .m-pop .m-lst,.m-addzx .m-lst{margin-bottom: 0;color:#fff;font-size: 12px;}
 .m-pop .m-lst label,.m-addzx .m-lst label{margin-top: 8px;width:103px; font-weight: normal;}
 .m-pop .m-lst input,.m-pop .m-lst select,.m-addzx .m-lst input,.m-addzx .m-lst select{width: 320px;margin:10px 0;}
