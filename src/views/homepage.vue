@@ -49,7 +49,11 @@
 	                        <td>54/256</td>
 	                        <td>
 	                        	<div class="option">
+<<<<<<< HEAD
+	                        		<a href="" class="u-btn-delete" title="删除" data-id="{{matchlist.eventId}}"></a>
+=======
 	                        		<a href="" class="u-btn-write"></a><a href="" class="u-btn-delete"></a>
+>>>>>>> 5cd67091cf621acb0ec32d2b17d24986deea21f7
 	                        	</div>
 	                        </td>
 	                        <td class="get_eventid" style="display:none">{{matchlist.eventId}}</td>
@@ -83,7 +87,8 @@
    			  var parmstr=JSON.stringify(this.roundlist);
    			  var parm={};
    			  parm.jsonInfo=parmstr;
-	        _this.$http.get('event/getEventRoundList',parm).then(function(response) {
+	        _this.$http.get('/event/getEventRoundList',parm).then(function(response) {
+	        	console.log(response);
 	            _this.matchlists=response.data.object.pager;
 	        },function(response) {
 	            console.log(response);
@@ -171,7 +176,7 @@
 	   			var parmstr=JSON.stringify({eventName:_this.eventName,pageNumber:1});
 	   			var parm={};
 	   			parm.jsonInfo=parmstr;
-		        _this.$http.get('http://192.168.30.69:8080/OET/event/getEventRoundList',parm).then(function(response) {
+		        _this.$http.get('/event/getEventRoundList',parm).then(function(response) {
 		        	console.log(response);
 		            _this.matchlists=response.data.object.pager;
 		            this.eventName="";
@@ -184,7 +189,7 @@
 	   			var parmstr=JSON.stringify({eventRoundStatus:_this.eventRoundStatus,pageNumber:1});
 	   			var parm={};
 	   			parm.jsonInfo=parmstr;
-		        _this.$http.get('http://192.168.30.69:8080/OET/event/getEventRoundList',parm).then(function(response) {
+		        _this.$http.get('/event/getEventRoundList',parm).then(function(response) {
 		        	console.log(response);
 		            _this.matchlists=response.data.object.pager;
 		        },function(response) {
