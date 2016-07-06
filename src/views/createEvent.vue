@@ -61,6 +61,8 @@
 						<div class="input-append date form_datetime">
 						    <input size="16" type="text" name="activityBegin" value="" placeholder="请选择时间" readonly v-model="formdata.activityBegin" required="">
 						    <span class="add-on"><i class="icon-th"></i></span>
+						    <input size="16" type="text" id="begintime" value="" placeholder="请选择时间" v-model="activityBegin">
+						    <label for="begintime" class="add-on"><i class="icon-th"></i></label>
 						</div>
 						<div class="tips">
 							<div class="attention"></div>
@@ -174,6 +176,7 @@
 
 <script>
 import topNav from '../components/topNav.vue'
+
   	export default {
        	data () {
     		return {
@@ -214,6 +217,9 @@ import topNav from '../components/topNav.vue'
   					content+='<option value="'+gameList[i].id+'">'+gameList[i].name+'</option>'
   				}
   				$('#gameList').append(content);
+   			parm.jsonInfo=JSON.stringify({itemsId:""});
+   			_this.$http.post('http://192.168.30.248:8088/event/queryActivityItem',parm).then(function (response) {
+  				// this.gameList=response.object;
   				// console.log(this.gameList);
 	  			
 	  			// if(response.data.code){
@@ -222,6 +228,14 @@ import topNav from '../components/topNav.vue'
 	        }, function (response) {
 	            console.log(22);
 	        }) 
+
+	        $('#begintime').datetimepicker({
+	        	format:"Y-m-d H:i",      
+			    yearStart:2000,     
+			    yearEnd:2050, 
+			    step:30
+	        });
+	        $.datetimepicker.setLocale('ch');
 
      		function preloadimages(arr){
 			    var newimages=[]
@@ -232,6 +246,7 @@ import topNav from '../components/topNav.vue'
 			    }
 			}
 			preloadimages(['../../static/images/center_bg2.png'])
+
 
 			$('.form_datetime').datetimepicker({
 		        language:  "zh-CN",
@@ -244,6 +259,74 @@ import topNav from '../components/topNav.vue'
 		        showMeridian: 1,
 		        pickerPosition:'bottom-left'
 		    });
+
+			var selects=$('select');//获取select
+			for(var i=0;i<selects.length;i++){
+				createSelect(selects[i],i);
+			}
+			function createSelect(select_container,index){
+				//创建select容器，class为select_box，插入到select标签前
+				var tag_select=$('<div></div>');//div相当于select标签
+				tag_select.attr('class','select_box');
+				tag_select.insertBefore(select_container);
+				//显示框class为select_showbox,插入到创建的tag_select中
+				var select_showbox=$('<div></div>');//显示框
+				select_showbox.css('cursor','pointer').attr('class','select_showbox').appendTo(tag_select);
+				//创建option容器，class为select_option，插入到创建的tag_select中
+				var ul_option=$('<ul></ul>');//创建option列表
+				ul_option.attr('class','select_option');
+				ul_option.appendTo(tag_select);
+				createOptions(index,ul_option);//创建option
+				//点击显示框
+				tag_select.click(function(){
+					if(ul_option.is(":visible")){
+				        ul_option.hide();
+				        $(this).removeClass('focus');
+				    }else{
+				        ul_option.show();
+				        $(this).addClass('focus');
+				    }
+				});
+				var li_option=ul_option.find('li');
+				li_option.click(function(e){
+					if(e.target.className!='disabled hover'){
+						var value=$(this).text();
+						select_showbox.text(value);
+					}
+					
+					ul_option.slideUp();
+				});
+				li_option.hover(function(){
+					$(this).addClass('hover').siblings().removeClass('hover');
+				},function(){
+					li_option.removeClass('hover');
+				});
+			}
+			function createOptions(index,ul_list){
+				//获取被选中的元素并将其值赋值到显示框中
+				var options=selects.eq(index).find('option'),
+					selected_option=options.filter(':selected'),
+					selected_index=selected_option.index(),
+					showbox=ul_list.prev();
+					showbox.text(selected_option.text());
+				//为每个option建立个li并赋值
+				for(var n=0;n<options.length;n++){
+					var tag_option=$('<li></li>'),//li相当于option
+						txt_option=options.eq(n).text();
+					if(options.eq(n).attr('disabled')){
+						tag_option.text(txt_option).addClass('disabled').appendTo(ul_list);
+					}else{
+						tag_option.text(txt_option).css('cursor','pointer').appendTo(ul_list);
+					}
+					//为被选中的元素添加class为selected
+					if(n==selected_index){
+						tag_option.attr('class','selected');
+					}
+				}
+			}
+
+		
+
 
 			// 图片上传
 			$('#pic').diyUpload({
