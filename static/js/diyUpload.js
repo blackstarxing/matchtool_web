@@ -295,6 +295,7 @@
 		//生成预览缩略图;
 		webUploader.makeThumb( file, function( error, dataSrc ) {
 			if ( !error ) {	
+				$('.previewPic').hide();
 				$fileBox.find('.viewThumb').append('<img src="'+dataSrc+'" >');
 			}
 		});	
