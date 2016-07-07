@@ -88,9 +88,6 @@ a{
 	color:inherit;
 	outline: none;
 }
-a:focus{
-	outline:thin dotted;
-}
 a:hover{
 	text-decoration:none;
 }

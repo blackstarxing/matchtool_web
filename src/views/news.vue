@@ -4,7 +4,7 @@
 		<div class="g-mg-reset">
 			<div class="g-tp"></div>
 			<div class="m-d pb80" style="height:auto;">
-				<p class="m-d-tit" style="padding-bottom:17px;">浙江省网娱大师-雪碧真英雄城市争霸赛</p>
+				<p class="m-d-tit" style="padding-bottom:17px;">{{newslists.eventName}}</p>
 				<div class="m-n-list">				
 					<label>查找：</label>
 					<span class="re">
@@ -268,7 +268,7 @@
     			begindate = this.begindate,
     			enddate = this.enddate;
     		var indexpage = $('.m-page input').val();
-    		this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage).then(function(response){
+    		this.$http.get("event/information/list?eventId=1&word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage).then(function(response){
     			this.$set('newslists', response.data.object);
     			this.$nextTick(this._events.pagefill[0]);
     		}, function(response){

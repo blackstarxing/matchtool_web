@@ -14,7 +14,6 @@ import pageFoot from './components/pageFoot.vue'
       }
   },
   components: {
-          topHead,
           pageFoot
          
   }
