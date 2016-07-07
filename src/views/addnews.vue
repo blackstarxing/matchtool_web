@@ -3,32 +3,33 @@
 			<div class="g-tp"></div>
 			<div class="m-d pb80" style="height:auto;">
 				<p class="s-n-title">添加资讯</p>
+				<form id="addinfo" v-for="new_info in new_infos">
 				<div class="m-addzx">	
 					<div class="m-lst">				
 						<label for="">标题:</label>
-						<input type="text" class="eventname" placeholder="请输入资讯标题">
+						<input type="text" class="eventname" placeholder="请输入资讯标题" v-model="new_info.title">
 					</div>
 					<div class="m-lst">				
 						<label for="">类型:</label>
-						<select class="m-n-select">
-							<option value="1" selected="selected">资讯</option>
-							<option value="2">图集</option>
-							<option value="3">视频</option>
+						<select class="m-n-select" v-model="new_info.type">
+							<option v-bind:value="1" selected="selected">资讯</option>
+							<option v-bind:value="3">图集</option>
+							<option v-bind:value="4">视频</option>
 						</select>
 					</div>
 					<div class="m-lst clearfix">				
 						<label for="">生效时间:</label>
 						<div class="input-append date form_datetime">
-						    <input size="16" type="text" value="" placeholder="请选择时间" readonly>
-						    <span class="add-on"><i class="icon-th"></i></span>
+						    <input size="16" type="text" id="begintime" value="" placeholder="请选择时间"  v-model="new_info.timerDate" style="cursor:not-allowed;">
+						    <label for="begintime" class="add-on"><i class="icon-th"></i></label>
 						</div>
 					</div>
 					<div class="m-lst">				
 						<label for="">创建人:</label>
-						<input type="text" class="eventname" placeholder="请输入创建人">
+						<input type="text" class="eventname" placeholder="请输入创建人" v-model="new_info.creater">
 					</div>
 					<div class="m-lst clearfix" style="height:74px;">				
-						<label for="" style="margin-top:20px;">缩略图:</label>
+						<label for="" style="margin-top:20px;">缩略图:</label>	
 						<div class="picBox m-n-sltpic">
 							<div id="pic" class="l mt10"></div>
 						</div>
@@ -36,11 +37,11 @@
 					<div class="m-n-lx">
 						<div class="m-lst">				
 							<label for="">资讯来源:</label>
-							<input type="text" class="eventname" placeholder="请输入资讯来源">
+							<input type="text" class="eventname" placeholder="请输入资讯来源" v-model="new_info.source">
 						</div>
 						<div class="m-lst" style="margin: 10px 0;">				
 							<label for="">详细内容:</label>
-							<textarea name="" id="" cols="50" rows="3"  placeholder="请输入比赛赛制规则，不超过200字"></textarea>
+							<textarea name="" id="" cols="50" rows="3"  placeholder="请输入比赛赛制规则，不超过200字" v-model="new_info.remark"></textarea>
 						</div>
 					</div>
 					<div class="m-n-lx dn">
@@ -80,56 +81,13 @@
 						</div>
 					</div>
 					<div class="m-lst tc m-n-mbtn">
-						<button type="button" class="u-del-btn">确定</button>
-						<button type="button" class="u-del-btn u-draft-btn">存草稿</button>
+						<button type="button" class="u-del-btn" @click="savetrue">确定</button>
+						<button type="button" class="u-del-btn u-draft-btn" @click="savedraft">存草稿</button>
 					</div>
 				</div>
+				</form>
 			</div>
 			<div class="g-bt"></div>
-		</div>
-	</div>
-	<!-- 视频上传 -->
-	<div id="modal-uploader" class="modal fade" style="z-index:9999;">
-		<div class="modal-dialog" style="width: 800px;">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">
-						<span>×</span><span class="sr-only">关闭</span>
-					</button>
-					<h4 class="modal-title">视频上传</h4>
-				</div>
-				<div class="modal-body">
-					<form id="form-upload" class="form-horizontal" action="">
-						<div class="form-group">
-							<label class="col-md-2 control-label required">视频</label>
-							<div class="col-md-8">
-								<div class="input-group">
-									<input type="file" class="form-control" name="file" accept="video/*" />
-									<span class="input-group-btn">
-										<button id="check" type="button" class="btn btn-warning">校验</button>
-										<button id="upload" type="button" class="btn btn-info">上传</button>
-									</span>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- 操作中提示 -->
-	<div id="modal-operating" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">提示</div>
-				<div class="modal-body" style="text-align:center;">
-					<div><img src="../../static/images/loading.gif" /></div>
-					保存中，文件上传可能需要较长时间,请勿中断 ...
-				</div>
-			</div>
 		</div>
 	</div>
 </template>
@@ -137,50 +95,40 @@
  
   export default {
     data () {
-      return {
-    	 
-      }
+	    var new_info={
+	    	title:'',
+	    	type:'',
+	    	timerDate:'',
+	    	creater:'',
+	    	icon:'',
+	    	source:'',
+	    	remark:'',
+	    	imgs:[],
+	    	keyword:'',
+	    	cover:'',
+	    	videoUrl:''
+	    }
+        return {
+    	 	new_infos:[new_info]
+        }
   	},
   	ready:function(){
-  		$('.form_datetime').datetimepicker({
-	        language:  "zh-CN",
-	        weekStart: 1,
-	        todayBtn:  1,
-			autoclose: 1,
-			todayHighlight: 1,
-			startView: 2,
-			forceParse: 0,
-	        showMeridian: 1,
-	        pickerPosition:'bottom-left'
-	    });
-		$('.form_date').datetimepicker({
-	        language:  "zh-CN",
-	        weekStart: 1,
-	        todayBtn:  1,
-			autoclose: 1,
-			todayHighlight: 1,
-			startView: 2,
-			minView: 2,
-			forceParse: 0
-	    });
-		$('.form_time').datetimepicker({
-	        language:  "zh-CN",
-	        weekStart: 1,
-	        todayBtn:  1,
-			autoclose: 1,
-			todayHighlight: 1,
-			startView: 1,
-			minView: 0,
-			maxView: 1,
-			forceParse: 0
-	    });
+  		//日历控件
+  		$('#begintime').datetimepicker({
+	        	format:"Y-m-d",      
+			    yearStart:2000,     
+			    yearEnd:2050, 
+			    step:30,
+			    timepicker:false
+	        });
+       	$.datetimepicker.setLocale('ch');
     	//类型选择
     	$('.m-n-select').change(function(event) {
     		var lx = $(".m-n-select option:selected").val();
-    		if(lx==2){
+    		if(lx==3){
     			$('.m-n-lx').eq(2).removeClass('dn').siblings('.m-n-lx').addClass('dn');
     		}
-    		else if(lx==3){
+    		else if(lx==4){
 				$('.m-n-lx').eq(1).removeClass('dn').siblings('.m-n-lx').addClass('dn');
     		}
     		else if(lx==1){
@@ -255,8 +203,18 @@
 			});
 		});
   	},
-  	methods:function(){
-  		
+  	methods:{
+  		savedraft:function(event){
+  			this.$http.post('event/information/save?eventId=1', this.new_infos[0]).then(function(successResponse){
+  				var code = successResponse.data.code;
+  				console.log(code);
+  			}, function(errorResponse){
+  				console.log("通讯错误")
+  			})
+  		},
+  		savetrue:function(event){
+
+  		}
   	}
 }
 </script>

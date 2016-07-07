@@ -1,6 +1,5 @@
 <template>
 <div class="content clearfix">
-	<top-head></top-head> 
           <router-view></router-view> 
           <page-foot></page-foot> 
  </div>
