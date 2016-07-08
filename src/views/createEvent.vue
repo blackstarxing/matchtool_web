@@ -226,6 +226,7 @@ import topNav from '../components/topNav.vue'
 	        	format:"Y-m-d H:i",      
 			    yearStart:2000,     
 			    yearEnd:2050, 
+			    minDate:new Date(),
 			    step:30
 	        });
 	        $.datetimepicker.setLocale('ch');

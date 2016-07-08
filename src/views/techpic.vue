@@ -18,7 +18,7 @@
           <p style="font-size:12px;">当一切都准备就绪后，您就可以:</p>
           <div class="start_btn">
             <img src="../../static/images/start.png" width="100%" height="100%">
-            <p class="start_text">开始比赛</p>
+            <p class="start_text" @click="beginTech">开始比赛</p>
           </div>
         </div>
       </div>
@@ -57,21 +57,27 @@
       <span class="against_title_text">对阵图</span>
       <span class="against_title_tip">此对阵图为预览，可拖曳参赛选手来交换位置</span>
     </p>
-    <div class="turn_num">
-      <ul class="turn_num_list clearfix">
-        <li>第一轮<img class="turn_num_pic" src="../../static/images/turn.png"></li>
-        <li>第二轮<img class="turn_num_pic" src="../../static/images/turn.png"></li>
-        <li>半决赛<img class="turn_num_pic" src="../../static/images/turn.png"></li>
-        <li>决赛<img class="turn_num_pic" src="../../static/images/turn.png"></li>
-      </ul>
+    <div class="tech_main_body">
+        <div class="turn_num">
+          <ul class="turn_num_list clearfix">
+            <li v-for="turnnum in turnnums" @click="turnName">
+              <div class="trunname_ed"><span class="turn_num_text">第{{turnnum}}轮</span><img class="turn_num_pic" src="../../static/images/turn.png"></div>
+              <div class="trunname_ing">
+              <input class="turn_input" type="text">
+              <a class="turn_confirm turn_frame" @click="turnConfirm">确定</a>
+              <a class="turn_quit turn_frame">取消</a>
+            </div>
+            </li>
+          </ul>
+        </div>
+        <div class="turn_btn">随机排列对阵选手顺序</div>
+        <div class="tech_body">
+            <div class="tech_container">
+            <div class="match_content clearfix">
+            </div>   
+          </div>
+        </div>
     </div>
-    <div class="turn_btn">随机排列对阵选手顺序</div>
-    <div style="padding:0 70px">
-      <div class="tech_container">
-      <div class="match_content clearfix">
-    </div>   
-</div>
-</div>
   </div>
   <div class="tech_down_tip">
     <img src="../../static/images/body_bt.png" width="100%">
@@ -108,26 +114,50 @@
 </template>
 
 <script>
+
+window.allowDrop = function(e){
+  e = window.event || e;
+  e.preventDefault();
+        
+}
+var srcdiv = null;
+window.drag = function(e,divdom){
+          srcdiv=divdom;  
+          e.dataTransfer.setData("text/html",divdom.innerHTML); 
+        
+}
+window.drop = function(e,divdom){
+       e = window.event || e;
+       e.preventDefault();
+        if(srcdiv != divdom){  
+            srcdiv.innerHTML = divdom.innerHTML;  
+            divdom.innerHTML=e.dataTransfer.getData("text/html");  
+          } 
+        
+}
+
 import topNav from '../components/topNav.vue'
   export default {
     data () {
     return {
     matchdata:'',
     parm:{},
+    turnnums:[],
     personnum:false,
-    overhalf:false,
+    overhalf:true,
     }
   },
      ready: function(){
       var _this=this;
-      _this.parm.id=window.sessionStorage.getItem("eventid");
+      // _this.parm.id=window.sessionStorage.getItem("eventid");
+      _this.parm.id=102;
        _this.$http.get('event/info',_this.parm).then(function(response){
             console.log(response);
              _this.matchdata=response.data.object.groups;
              console.log(_this.matchdata);
             
              var turn=_this.matchdata[0].turn;
-             console.log(turn);
+             // console.log(turn);
             var unitul_h=60;
             var unitul_w=200;
             var unitul_step=10;
@@ -136,6 +166,11 @@ import topNav from '../components/topNav.vue'
             var listul;
             var listuls=listul='<ul class="match_list"></ul>';
 
+            for(var i=0;i<turn;i++){
+              _this.turnnums.push(i+1);
+            }
+
+            $(".turn_num_list").width(290*turn);
             if(!_this.personnum){
                 if(_this.overhalf){
                   unitul_step=80;
@@ -148,7 +183,7 @@ import topNav from '../components/topNav.vue'
                 _content.append(listuls);
                 
                 //dom生成矩形unit,并放入矩形列表
-                var unitul='<ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;"></li><li class="recta"></li></ul>';
+                var unitul='<ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;"><span class="recta_num"></span></li><li class="recta"><span class="recta_num"></span></li></ul>';
                 var listArry=_content.find($(".match_list"));
 
                 listArry[turn-2].innerHTML='<li class="out_li">'+unitul+'</li>';
@@ -156,14 +191,14 @@ import topNav from '../components/topNav.vue'
                   listArry[turn-i-2].innerHTML=listArry[turn-i-1].innerHTML+listArry[turn-i-1].innerHTML;
                 }
                 
-       //          //按照索引处理列表层高
+                 //按照索引处理列表层高
                 $.each(listArry,function(i,e){
                   if(i!=0){
                     $(this).css('margin-top',unitul_all/2*(Math.pow(2,i)-1));
                   }
                 })
 
-       //          //按照索引处理每列矩形unit间距
+                 //按照索引处理每列矩形unit间距
                 var margin_bt=[];
                 for(var i=0;i<turn-1;i++){
                   margin_bt[0]=unitul_step;
@@ -195,31 +230,39 @@ import topNav from '../components/topNav.vue'
                 }
                 getnum(_this.matchdata);
 
-                console.log(onelist);
+                // console.log(onelist);
                 _content.prepend(listul);
                 listArry=_content.find($(".match_list"));
                 var _topsY=[];
                 var _topdY=[];
+
                 //生成非幂次方时第一列的矩形unit
                 for(var i=0;i<onelist.length;i++){
                       if(onelist[i].seats[0].seatNumber){
-                        var _one_list=listArry.eq(1).find(".unit_ul").eq(i).find(".recta")
+                        var _one_list=listArry.eq(1).find(".unit_ul").eq(i).find(".recta_num")
                           _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
                         if(onelist[i].seats[1].seatNumber){
                           _one_list.eq(1).text(onelist[i].seats[1].seatNumber);
                         }else{
                           var _top=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                           _topsY.push(_top);
-                          listArry.eq(0).append('<ul class="unit_ul single_line" style="width:200px;"><li class="recta" style="margin-bottom:1px;">'+onelist[i].groups[0].seats[0].seatNumber+'</li><li class="recta">'+onelist[i].groups[0].seats[1].seatNumber+'</li></ul>');
+                          listArry.eq(0).append('<li class="out_li single_line"><ul class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');
                         }   
                       }else{
                           var _top=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                           _topdY.push(_top);
-                          listArry.eq(0).append('<div class="double_line"><ul class="unit_ul" style="width:200px;margin-bottom:10px;"><li class="recta" style="margin-bottom:1px;">'+onelist[i].groups[0].seats[0].seatNumber+'</li><li class="recta">'+onelist[i].groups[0].seats[1].seatNumber+'</li></ul><ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;">'+onelist[i].groups[1].seats[0].seatNumber+'</li><li class="recta">'+onelist[i].groups[1].seats[1].seatNumber+'</li></ul></div>');
+                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><ul class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><ul class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
                     }
                 }
-                console.log(_topdY);
+                // console.log(_topdY);
 
+                $(".edit_score").mouseover(function(){
+                    $(this).next(".float_edit").show();
+                  });
+
+                $(".edit_div").mouseleave(function(){
+                    $(this).find(".float_edit").hide();
+                })
                 //根据轮空的坐标确定第一列坐标
                 var list_first=listArry.eq(0).find(".single_line");
                 for(i=0;i<_topsY.length;i++){
@@ -233,7 +276,7 @@ import topNav from '../components/topNav.vue'
                   }
                 }
 
-       //          //根据矩形坐标画线
+                 //根据矩形坐标画线
                 var _xy=[];
                 var coordinates=[];
                 for(var i=1;i<turn-1;i++){
@@ -268,149 +311,181 @@ import topNav from '../components/topNav.vue'
                   }  
                 }
                 
-       //          //根据矩形坐标第一列单unit画线
-       //          var _xysingle=[];
-       //          var single_coord=[];
-       //          var single_arry=listArry.eq(0).find(".single_line");
-       //          for(i=0;i<single_arry.length;i++){
-       //            single_coord=[single_arry.eq(i).position().left,single_arry.eq(i).position().top];
-       //            _xysingle.push(single_coord);
+                //根据矩形坐标第一列单unit画线
+                var _xysingle=[];
+                var single_coord=[];
+                var single_arry=listArry.eq(0).find(".single_line");
+                for(i=0;i<single_arry.length;i++){
+                  single_coord=[single_arry.eq(i).position().left,single_arry.eq(i).position().top];
+                  _xysingle.push(single_coord);
 
-       //            function firstline(id) {
+                  function firstline(id) {
                     
-       //              var canvas = document.getElementById(id);
-       //              if (canvas == null)
-       //                  return false;
-       //              var context = canvas.getContext("2d");
-       //              context.strokeStyle = "rgb(247,162,58)";
-       //              context.moveTo(_xysingle[i][0]+unitul_w+5,_xysingle[i][1]+unitul_h/2);
-       //              context.lineTo(_xysingle[i][0]+unitul_w+5+40,_xysingle[i][1]+unitul_h/2);
-       //              context.lineTo(_xysingle[i][0]+unitul_w+5+40,_xysingle[i][1]-5);
-       //              context.lineTo(_xysingle[i][0]+unitul_w+5+40*2, _xysingle[i][1]-5);
-       //              context.stroke(); 
-       //            }
-       //              firstline("mycanvas"); 
-       //          }
+                    var canvas = document.getElementById(id);
+                    if (canvas == null)
+                        return false;
+                    var context = canvas.getContext("2d");
+                    context.strokeStyle = "rgb(247,162,58)";
+                    context.moveTo(_xysingle[i][0]+unitul_w+5,_xysingle[i][1]+unitul_h/2);
+                    context.lineTo(_xysingle[i][0]+unitul_w+5+40,_xysingle[i][1]+unitul_h/2);
+                    context.lineTo(_xysingle[i][0]+unitul_w+5+40,_xysingle[i][1]-5);
+                    context.lineTo(_xysingle[i][0]+unitul_w+5+40*2, _xysingle[i][1]-5);
+                    context.stroke(); 
+                  }
+                    firstline("mycanvas"); 
+                }
 
        //          //根据矩形坐标第一列双unit画线
-       //          var _xydouble=[];
-       //          var double_coord=[];
-       //          var double_arry=listArry.eq(0).find(".double_line");
-       //          for(i=0;i<double_arry.length;i++){
-       //            double_coord=[double_arry.eq(i).position().left,double_arry.eq(i).position().top];
-       //            _xydouble.push(double_coord);
+                var _xydouble=[];
+                var double_coord=[];
+                var double_arry=listArry.eq(0).find(".double_line");
+                for(i=0;i<double_arry.length;i++){
+                  double_coord=[double_arry.eq(i).position().left,double_arry.eq(i).position().top];
+                  _xydouble.push(double_coord);
 
-       //            function firstline(id) {
+                  function firstline(id) {
                     
-       //              var canvas = document.getElementById(id);
-       //              if (canvas == null)
-       //                  return false;
-       //              var context = canvas.getContext("2d");
-       //              context.strokeStyle = "rgb(247,162,58)";
-       //              context.moveTo(_xydouble[i][0]+unitul_w+5,_xydouble[i][1]+unitul_h/2);
-       //              context.lineTo(_xydouble[i][0]+unitul_w+5+40,_xydouble[i][1]+unitul_h/2);
-       //              context.lineTo(_xydouble[i][0]+unitul_w+5+40,_xydouble[i][1]+unitul_h/2+unitul_h+10);
-       //              context.lineTo(_xydouble[i][0]+unitul_w+5,_xydouble[i][1]+unitul_h/2+unitul_h+10);
-       //              context.moveTo(_xydouble[i][0]+unitul_w+5+40,_xydouble[i][1]+unitul_h+5);
-       //              context.lineTo(_xydouble[i][0]+unitul_w+5+40*2,_xydouble[i][1]+unitul_h+5);
-       //              context.stroke(); 
-       //            }
-       //              firstline("mycanvas"); 
-       //          }
+                    var canvas = document.getElementById(id);
+                    if (canvas == null)
+                        return false;
+                    var context = canvas.getContext("2d");
+                    context.strokeStyle = "rgb(247,162,58)";
+                    context.moveTo(_xydouble[i][0]+unitul_w+5,_xydouble[i][1]+unitul_h/2);
+                    context.lineTo(_xydouble[i][0]+unitul_w+5+40,_xydouble[i][1]+unitul_h/2);
+                    context.lineTo(_xydouble[i][0]+unitul_w+5+40,_xydouble[i][1]+unitul_h/2+unitul_h+10);
+                    context.lineTo(_xydouble[i][0]+unitul_w+5,_xydouble[i][1]+unitul_h/2+unitul_h+10);
+                    context.moveTo(_xydouble[i][0]+unitul_w+5+40,_xydouble[i][1]+unitul_h+5);
+                    context.lineTo(_xydouble[i][0]+unitul_w+5+40*2,_xydouble[i][1]+unitul_h+5);
+                    context.stroke(); 
+                  }
+                    firstline("mycanvas"); 
+                }
              }else{
-       //          for(var i=0;i<level;i++){
-       //               listuls+=listul;
-       //            }
-       //            _content.append(listuls);
+                for(var i=0;i<turn-1;i++){
+                     listuls+=listul;
+                  }
+                  _content.append(listuls);
 
-       //            //dom生成矩形unit,并放入矩形列表
-       //            var unitul='<ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;"></li><li class="recta"></li></ul>';
-       //            var listArry=_content.find($(".match_list"));
+                  //dom生成矩形unit,并放入矩形列表
+                  var unitul='<ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;"></li><li class="recta"></li></ul>';
+                  var listArry=_content.find($(".match_list"));
 
-       //            listArry[level].innerHTML='<li class="out_li">'+unitul+'</li>';
-       //            for(var i=1;i<level+1;i++){
-       //              listArry[level-i].innerHTML=listArry[level-i+1].innerHTML+listArry[level-i+1].innerHTML;
-       //            }
+                  listArry[turn-1].innerHTML='<li class="out_li">'+unitul+'</li>';
+                  for(var i=1;i<turn;i++){
+                    listArry[turn-1-i].innerHTML=listArry[turn-i].innerHTML+listArry[turn-i].innerHTML;
+                  }
 
-       //              //按照索引处理列表层高
-       //          $.each(listArry,function(i,e){
-       //            if(i!=0){
-       //              $(this).css('margin-top',unitul_all/2*(Math.pow(2,i)-1));
-       //            }
-       //          })
+                    //按照索引处理列表层高
+                $.each(listArry,function(i,e){
+                  if(i!=0){
+                    $(this).css('margin-top',unitul_all/2*(Math.pow(2,i)-1));
+                  }
+                })
 
-       //            //生成canvas dom
-       //            var _height=unitul_all*Math.pow(2,level);
-       //            var _width=(unitul_w+90)*(level+1);
-       //            _content.width(_width);
-       //            $(".tech_container").append('<canvas id="mycanvas" width='+_width+' height='+_height+'></canvas> ');
+                  //生成canvas dom
+                  var _height=unitul_all*Math.pow(2,turn-1);
+                  var _width=(unitul_w+90)*turn;
+                  _content.width(_width);
+                  // $(".tech_body").width(_width);
+                  $(".tech_container").append('<canvas id="mycanvas" width='+_width+' height='+_height+'></canvas> ');
 
-       //          //按照索引处理每列矩形unit间距
-       //          var margin_bt=[];
-       //          for(var i=0;i<level;i++){
-       //            margin_bt[0]=unitul_step;
-       //            margin_bt[i+1]=2*margin_bt[i]+unitul_h;
-       //            listArry.eq(i).find(".out_li").css("margin-bottom",margin_bt[i]);
-       //          }
+                 //按照索引处理每列矩形unit间距
+                var margin_bt=[];
+                for(var i=0;i<turn-1;i++){
+                  margin_bt[0]=unitul_step;
+                  margin_bt[i+1]=2*margin_bt[i]+unitul_h;
+                  listArry.eq(i).find(".out_li").css("margin-bottom",margin_bt[i]);
+                }
 
-       //          var onelist = [];
-       //          //获取level1的数据
-       //          function getnum(obj){
-       //              if(obj['level'] == 0){
-       //                onelist.push(obj);
-       //              }else{
-       //                for(var key in obj){
-       //                    if(key!=='level'){
-       //                      getnum(obj[key]);
-       //                    }
-       //                  }   
-       //                }  
-       //          }
-       //          getnum(_this.matchdata);
+                 //获取turn2的数据
+                 var onelist = []; 
+                function getnum(arr){
+                  for(var i=0;i<arr.length;i++){
+                    if(arr[i].turn == 1){
+                      onelist.push(arr[i]);
+                    }else{
+                        for(var key in arr[i]){
+                            if(key=='groups'){
+                              getnum(arr[i][key]);
+                            }
+                          }  
+                      } 
+                  }
+                     
+                 }
+                 getnum(_this.matchdata);
+                 console.log(onelist);
 
-       //          listArry.eq(0).empty();
-       //          for(var i=0;i<onelist.length;i++){
-       //                  listArry.eq(0).append('<ul class="unit_ul" style="width:200px;margin-bottom:10px;"><li class="recta" style="margin-bottom:1px;">'+onelist[i].a+'</li><li class="recta">'+onelist[i].b+'</li></ul>');  
-       //          }
+                listArry.eq(0).empty();
+                for(var i=0;i<onelist.length;i++){
+                        listArry.eq(0).append('<ul class="unit_ul" style="width:200px;margin-bottom:10px;"><li class="recta" style="margin-bottom:1px;">'+onelist[i].seats[0].seatNumber+'</li><li class="recta">'+onelist[i].seats[1].seatNumber+'</li></ul>');  
+                }
                 
-       //          //根据矩形坐标画线
-       //          var _xy=[];
-       //          var coordinates=[];
-       //           for(var i=0;i<level;i++){
-       //            var unit_list=listArry.eq(i).find(".unit_ul");
-       //            var unit_length=unit_list.length;
+                 //根据矩形坐标画线
+                var _xy=[];
+                var coordinates=[];
+                 for(var i=0;i<turn-1;i++){
+                  var unit_list=listArry.eq(i).find(".unit_ul");
+                  var unit_length=unit_list.length;
                   
-       //            _xy.length=0;
-       //            for(var j=0;j<unit_length;j++){
-       //              coordinates=[unit_list.eq(j).position().left,unit_list.eq(j).position().top];
-       //                    _xy.push(coordinates);
+                  _xy.length=0;
+                  for(var j=0;j<unit_length;j++){
+                    coordinates=[unit_list.eq(j).position().left,unit_list.eq(j).position().top];
+                          _xy.push(coordinates);
 
-       //            function drawline(id) {
+                  function drawline(id) {
                     
-       //              var canvas = document.getElementById(id);
-       //              if (canvas == null)
-       //                  return false;
-       //              var context = canvas.getContext("2d");
-       //              context.strokeStyle = "rgb(247,162,58)";
-       //              context.moveTo(_xy[j][0]+unitul_w+5,_xy[j][1]+unitul_h/2);
-       //              context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h/2);
-       //              if(j%2==0){
-       //                context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h+margin_bt[i]/2);
-       //                context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]+unitul_h+margin_bt[i]/2);
-       //              }else{
-       //                context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]-margin_bt[i]/2);
-       //                context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]-margin_bt[i]/2);
-       //              }
+                    var canvas = document.getElementById(id);
+                    if (canvas == null)
+                        return false;
+                    var context = canvas.getContext("2d");
+                    context.strokeStyle = "rgb(247,162,58)";
+                    context.moveTo(_xy[j][0]+unitul_w+5,_xy[j][1]+unitul_h/2);
+                    context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h/2);
+                    if(j%2==0){
+                      context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h+margin_bt[i]/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]+unitul_h+margin_bt[i]/2);
+                    }else{
+                      context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]-margin_bt[i]/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]-margin_bt[i]/2);
+                    }
 
-       //              context.stroke(); 
-       //            }
-       //              drawline("mycanvas"); 
-       //            }  
-       //          }
+                    context.stroke(); 
+                  }
+                    drawline("mycanvas"); 
+                  }  
+                }
              }  
           },function(response) {
               console.log(response);
           });
+     },
+     methods:{
+      turnName: function(){
+        $(".trunname_ed").hide();
+        $(".trunname_ing").show();
+      },
+      turnConfirm: function(e){
+        var _target=$(e.currentTarget);
+        var _text=_target.siblings(".turn_input").val();
+        if(_text){
+          console.log(11);
+          _target.parent().hide();
+          _target.parent().siblings(".trunname_ed").show();
+          _target.parent().siblings(".trunname_ed").find(".turn_num_text").text(_text);
+        }
+      },
+      beginTech:function(){
+          var _this=this;
+          var parmstr=JSON.stringify(this.roundlist);
+          var parm={};
+          parm.jsonInfo=parmstr;
+        _this.$http.get('event/start',_this.parm).then(function(response){
+          console.log(response);
+        },function(response) {
+              console.log(response);
+          });
+      }
      },
        components: {
           topNav
@@ -419,15 +494,17 @@ import topNav from '../components/topNav.vue'
   }
 </script>
 <style>
+.tech_body{
+  padding:0 70px;
+}
 .tech_container{
-  position: relative;
+  position: relative; 
 }
 .recta{
   width: 200px;
   height: 29.5px;
   background-color: #53585d;
   color: #fff;
-  text-align: center;
   line-height: 30px;
 }
 .match_content{
@@ -596,5 +673,82 @@ import topNav from '../components/topNav.vue'
     position: absolute;
     top:11px;
     right:15px;
+}
+.recta_num{
+  display: inline-block;
+  width: 30px;
+  height: 27.5px;
+  background-color: #838383;
+  text-align: center;
+  color: #000;
+  font-size: 12px;
+}
+.recta_right{
+  display: inline-block;
+  width: 30px;
+  height: 27.5px;
+  background-color: #838383;
+  text-align: center;
+  color: #000;
+  font-size: 12px;
+  float: right;
+}
+.edit_div{
+  position: relative;
+  width: 0;
+  height: 0;
+}
+.edit_score{
+  position: absolute;
+  top:-60px;
+  width:30px;
+  height: 60px;
+  left: 170px;
+  background: url(../../static/images/edit.png) no-repeat 6px 22px #53585d;
+  cursor: pointer;
+}
+.float_edit{
+  position: absolute;
+  width: 180px;
+  height: 60px;
+  top:-60px;
+  left:200px;
+  background-color: #000;
+  opacity: 0.8;
+  display: none;
+}
+.float_edit li{
+  float: left;
+  width: 33%;
+  text-align: center;
+  cursor: pointer;
+}
+.tech_main_body{
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+.turn_input{
+  width: 140px;
+  height: 25px;
+  background-color: #27292d;
+}
+.turn_frame{
+  display: inline-block;
+  width: 50px;
+  height: 30px;
+  border-radius: 5px;
+  line-height: 30px;
+  cursor: pointer;
+}
+.turn_confirm{
+  background-color: #f9a32a;
+  color: #fff;
+}
+.turn_quit{
+  background-color: #dcdcdc;
+  color: #000;
+}
+.trunname_ing{
+  display: none;
 }
 </style>
