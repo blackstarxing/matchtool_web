@@ -55,6 +55,7 @@
 	                        	</div>
 	                        </td>
 	                        <td class="get_eventid" style="display:none">{{matchlist.eventId}}</td>
+	                        <td class="get_roundid" style="display:none">{{matchlist.id}}</td>
 	                    </tr>
 	                    </tbody>
 	                </table>
@@ -136,7 +137,9 @@ import topHead from '../components/topHead.vue'
   			linkTechpic:function(e){
   				var _target=$(e.currentTarget);
   				var _eventid=_target.find(".get_eventid").text();
+  				var _roundid=_target.find(".get_roundid").text();
   				window.sessionStorage.setItem("eventid",_eventid);
+  				window.sessionStorage.setItem("roundid",_roundid);
   				this.$route.router.go({path: '/techPic'})
   			}
   		},

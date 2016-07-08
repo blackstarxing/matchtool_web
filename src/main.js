@@ -2,6 +2,7 @@ import Vue from 'vue'
 import matchtool from './matchtool.vue'
 import homepage from './views/homepage.vue'
 import createEvent from './views/createEvent.vue'
+import editEvent from './views/editEvent.vue'
 import contestant from './views/contestant.vue'
 import newslist from './views/news.vue'
 import addnews from './views/addnews.vue'
@@ -29,6 +30,9 @@ router.map({
     },
     '/createEvent': {
         component: createEvent
+    },
+    '/editEvent': {
+        component: editEvent
     },
     '/contestant': {
         component: contestant

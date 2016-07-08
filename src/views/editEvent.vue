@@ -5,10 +5,10 @@
 			<div class="g-tp"></div>
 			<div class="g-center f-cb">
 				<div class="m-form" id="m-form">
-					<h3>创建赛事工具</h3>
+					<h3>巴拉巴拉萌萌赛事</h3>
 					<div class="m-lst">				
 						<label for="name">赛事名称：</label>
-						<input type="text" class="eventname" name="name" placeholder="请输入比赛名称，不超过32个文字" v-model="formdata.name" required="">
+						<input type="text" class="eventname" name="name" value="{{eventlist.name}}" placeholder="请输入比赛名称，不超过32个文字" v-model="formdata.name" required="">
 						<div class="tips">
 							<div class="attention"></div>
 						</div>
@@ -46,10 +46,10 @@
 					</div>
 					<div class="m-lst">
 						<label for="maxNum">最大参与人数：</label>
-						<input type="text" id="number" name="maxNum" placeholder="请输入参与人数上限" v-model="formdata.maxNum" required="" @input="numberChange">
+						<input type="text" id="number" name="maxNum" value="" placeholder="请输入参与人数上限" v-model="formdata.maxNum" required="" @input="numberChange">
 						<div class="button_group">
 							<button class="plus" @click="plus"></button>
-							<button class="minus" @click="minus" disabled="true"></button>
+							<button class="minus" @click="minus"></button>
 						</div>	
 						<span class="f-fs1">&nbsp;&nbsp;(建议最大参与人数不超过64人)</span>
 						<div class="tips">
@@ -82,7 +82,9 @@
 							<option value="3" disabled="">小组内单循环制(RR)</option>
 							<option value="4" disabled="">积分循环制[瑞士轮](SS)</option>
 						</select>
-						<input type="checkbox" id="checkbox-1-1" class="regular-checkboxs f-ml15" value="1" v-model="formdata.needThird"/><label for="checkbox-1-1" class="f-ml15"></label><span class="check_name">决出第三名</span>
+						<input type="checkbox" id="checkbox-1-1" class="regular-checkboxs f-ml15" value="1" v-model="formdata.needThird" checked="" v-if="roundlist.needThird==1"/>
+						<input type="checkbox" id="checkbox-1-1" class="regular-checkboxs f-ml15" value="1" v-model="formdata.needThird" v-else/>
+						<label for="checkbox-1-1" class="f-ml15"></label><span class="check_name">决出第三名</span>
 						<div class="tips">
 							<div class="">单败淘汰制：失败一场即淘汰</div>
 							<div>双败淘汰制：失败两场淘汰，比赛中将有败者组</div>
@@ -91,14 +93,22 @@
 					</div>
 					<div class="m-lst">
 						<label for="">是否允许报名：</label>
-						<input type="radio" id="radio-2-1" value="1" name="radio-2-set" class="regular-radio" v-model="formdata.allowApply" @click="slideToggle"/><label for="radio-2-1"></label><span class="radio_name">允许报名</span>
-						<input type="radio" id="radio-2-2" value="0" name="radio-2-set" class="regular-radio" v-model="formdata.allowApply"@click="slideToggle"/><label for="radio-2-2"></label><span class="radio_name">禁止报名</span>
+						<input type="radio" id="radio-2-1" value="1" name="radio-2-set" class="regular-radio" v-model="formdata.allowApply" @click="slideToggle" checked="" v-if="roundlist.allowApply==1"/>
+						<input type="radio" id="radio-2-1" value="1" name="radio-2-set" class="regular-radio" v-model="formdata.allowApply" @click="slideToggle" v-else/>
+						<label for="radio-2-1"></label><span class="radio_name">允许报名</span>
+						<input type="radio" id="radio-2-2" value="0" name="radio-2-set" class="regular-radio" v-model="formdata.allowApply"@click="slideToggle" checked="" v-if="roundlist.allowApply==0"/>
+						<input type="radio" id="radio-2-2" value="0" name="radio-2-set" class="regular-radio" v-model="formdata.allowApply"@click="slideToggle" v-else/>
+						<label for="radio-2-2"></label><span class="radio_name">禁止报名</span>
 					</div>
 					<div class="m-signup">
 						<div class="m-lst">
 							<label for="">报名类型：</label>
-							<input type="radio" id="radio-3-1" name="radio-3-set" class="regular-radio" value="1" v-model="formdata.applyType"/><label for="radio-3-1"></label><span class="radio_name">个人报名</span>
-							<input type="radio" id="radio-3-2" name="radio-3-set" class="regular-radio" value="2" v-model="formdata.applyType"/><label for="radio-3-2"></label><span class="radio_name">战队报名</span>
+							<input type="radio" id="radio-3-1" name="radio-3-set" class="regular-radio" value="1" v-model="formdata.applyType" checked="" v-if="roundlist.applyType==1"/>
+							<input type="radio" id="radio-3-1" name="radio-3-set" class="regular-radio" value="1" v-model="formdata.applyType" v-else/>
+							<label for="radio-3-1"></label><span class="radio_name">个人报名</span>
+							<input type="radio" id="radio-3-2" name="radio-3-set" class="regular-radio" value="2" v-model="formdata.applyType" checked="" v-if="roundlist.applyType==2"/>
+							<input type="radio" id="radio-3-2" name="radio-3-set" class="regular-radio" value="2" v-model="formdata.applyType" v-else/>
+							<label for="radio-3-2"></label><span class="radio_name">战队报名</span>
 						</div>
 						<div class="m-lst">
 							<label for="">报名时间：</label>
@@ -117,11 +127,13 @@
 						<div class="m-lst f-mb50">
 							<div class="f-cb">
 								<label for="">签到设置：</label>
-								<input type="checkbox" id="checkbox-2-1" class="regular-checkboxs f-ml15" v-model="formdata.needSign" @click="signTime"/><label for="checkbox-2-1"></label><span class="check_name">要求参赛者赛前签到 (仅签到一次)</span>
+								<input type="checkbox" id="checkbox-2-1" class="regular-checkboxs f-ml15" v-model="formdata.needSign" @click="signTime" checked="" v-if="eventlist.needSign==1"/>
+								<input type="checkbox" id="checkbox-2-1" class="regular-checkboxs f-ml15" v-model="formdata.needSign" @click="signTime" v-else/>
+								<label for="checkbox-2-1"></label><span class="check_name">要求参赛者赛前签到 (仅签到一次)</span>
 							</div>
 							<div class="f-cb sign-minute">								
-								比赛开始前<select name="needSignMinu" id="" v-model="formdata.needSignMinu" required="">
-									<option value="15" selected="">15</option>
+								比赛开始前<select name="needSignMinu" id="signTime" v-model="formdata.needSignMinu" required="">
+									<option value="15">15</option>
 									<option value="30">30</option>
 									<option value="60">60</option>
 								</select>分钟
@@ -140,7 +152,10 @@
 							</div>	
 							<div class="tips f-lh36">
 								允许jpg、png格式，最大2MB
-							</div>					
+							</div>		
+							<div class="previewPic">
+								<img src="http://img.wangyuhudong.com{{eventlist.poster}}" alt="">
+							</div>			
 						</div>
 						<div class="m-lst">
 							<label for="">赛事简介：</label>
@@ -162,7 +177,7 @@
 						</div> -->
 						<a href="javascript:void(0);" class="slide slideup" @click="optional">收起</a>
 					</div>
-					<a href="javascript:void(0);" class="u-btn u-btn-next" @click="nextStep">下一步</a>
+					<a href="javascript:void(0);" class="u-btn u-btn-next" @click="nextStep">保存修改</a>
 				</div>
 			</div>
 			
@@ -177,7 +192,11 @@ import topNav from '../components/topNav.vue'
   	export default {
        	data () {
     		return {
+    			eventlist:"",
+    			roundlist:"",
     			formdata:{
+    				oetInfoId:"",
+    				oetRoundId:"",
     				name:"",
 	    			sponsorType:1,
 	    			itemId:"",
@@ -203,6 +222,62 @@ import topNav from '../components/topNav.vue'
   		},
    		ready: function () {
    			var _this=this;
+   			_this.formdata.oetInfoId=window.sessionStorage.getItem("eventid");
+   			_this.formdata.oetRoundId=window.sessionStorage.getItem("roundid");
+   			var eve={};
+   			eve.jsonInfo=JSON.stringify({oetInfoId:_this.formdata.oetInfoId,oetRoundId:_this.formdata.oetRoundId});
+   			_this.$http.get('event/openOetInfo',eve).then(function(response) {
+	        	console.log(response);
+	        	_this.eventlist=response.data.object.event;
+	        	_this.roundlist=response.data.object.round;
+
+	        	_this.formdata.itemId=_this.eventlist.itemId;
+	        	_this.formdata.itemServerId=_this.eventlist.itemServerId;
+	        	_this.formdata.needSignMinu=_this.eventlist.needSignMinute;
+	        	_this.formdata.poster=_this.eventlist.poster;
+	        	_this.formdata.maxNum=_this.roundlist.maxNum;
+	        	_this.formdata.activityBegin=response.data.object.activityBegin;
+	        	_this.formdata.applyBegin=response.data.object.applyBegin;
+	        	_this.formdata.applyEnd=response.data.object.applyEnd;
+	        	_this.formdata.brief=_this.eventlist.brief;
+	        	_this.formdata.regimeRule=_this.eventlist.regimeRule;
+	        	_this.formdata.prizeSetting=_this.eventlist.prizeSetting;
+	        	$("#gameList option").each(function(){
+	        		if($(this).val()==_this.eventlist.itemId){
+	        			$(this).attr("selected",true);
+	        		}
+	        	});
+	        	var parm={};
+	   			parm.jsonInfo=JSON.stringify({itemsId:_this.eventlist.itemId});
+	   			_this.$http.get('event/queryActivityItem',parm).then(function (response) {
+	  				var gameList=response.data.object.itemsServerList;
+	  				var content='<option value="">请选择服务器</option>';	  				
+	  				for(var i=0;i<gameList.length;i++){
+	  					content+='<option value="'+gameList[i].id+'">'+gameList[i].serverName+'</option>'
+	  				}
+	  				$('#serverList').html(content);
+	  				$("#serverList option").each(function(){
+		        		if($(this).val()==_this.eventlist.itemServerId){
+		        			$(this).attr("selected",true);
+		        		}
+		        	});
+		        }, function (response) {
+		            console.log(22);
+		        }) 
+		        if(_this.roundlist.allowApply==1){
+		        	$('.m-signup').show();
+		        }
+		        if(_this.eventlist.needSign==1){
+		        	$('.sign-minute').show();
+		        }
+		        $("#signTime option").each(function(){
+	        		if($(this).val()==_this.eventlist.needSignMinute){
+	        			$(this).attr("selected",true);
+	        		}
+	        	});
+	        },function(response) {
+	            console.log(response);
+	        });
    			var parm={};
    			parm.jsonInfo=JSON.stringify({itemsId:""});
    			_this.$http.get('/event/queryActivityItem',parm).then(function (response) {
@@ -213,11 +288,6 @@ import topNav from '../components/topNav.vue'
   					content+='<option value="'+gameList[i].id+'">'+gameList[i].name+'</option>'
   				}
   				$('#gameList').append(content);
-  				// console.log(this.gameList);
-	  			
-	  			// if(response.data.code){
-	  			// 	this.$route.router.go({path: '/homepage', replace: true})
-	  			// 	}
 	        }, function (response) {
 	            console.log(22);
 	        }) 
@@ -226,7 +296,6 @@ import topNav from '../components/topNav.vue'
 	        	format:"Y-m-d H:i",      
 			    yearStart:2000,     
 			    yearEnd:2050, 
-			    minDate:new Date(),
 			    step:30
 	        });
 	        $.datetimepicker.setLocale('ch');
@@ -483,6 +552,7 @@ import topNav from '../components/topNav.vue'
 			    if(formValidate()){
 			    	_this.$http.post('event/save',parm).then(function (response) {
 		  				console.log(parm);
+		  				alert(123);
 			  			// if(response.data.code){
 			  			// 	this.$route.router.go({path: '/homepage', replace: true})
 			  			// 	}
