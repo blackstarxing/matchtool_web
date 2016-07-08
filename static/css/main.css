@@ -193,8 +193,9 @@ label.add-on{
 .m-tb table .option{display: none;}
 .m-tb table .option a{display: inline-block;width: 20px;height: 20px;background: url(../images/write.png) center center no-repeat;vertical-align: middle;margin:0 5px;}
 .m-tb table .option a.u-btn-delete{background-image: url(../images/delete.png);}
-.m-tb table > tbody > tr:hover td{background:rgba(249, 163, 42, 0.2);}
+.m-tb table > tbody > tr:hover td{background-color:rgba(249, 163, 42, 0.2);}
 .m-tb table tr:hover .option{display: block;}
+.m-tb .isfill{background: url(../images/fill.png) 25px center no-repeat;}
 /*签到*/
 .signbox {position: relative;display: inline-block;width:60px;height: 20px;top:8px;}
 .signbox label {width: 60px;height: 20px;background: #ccc;position: relative;display: inline-block;border-radius: 3px;-webkit-transition: 0.4s;transition: 0.4s;}

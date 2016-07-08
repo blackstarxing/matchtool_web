@@ -226,6 +226,7 @@ import topNav from '../components/topNav.vue'
 	        	format:"Y-m-d H:i",      
 			    yearStart:2000,     
 			    yearEnd:2050, 
+			    minDate:new Date(),
 			    step:30
 	        });
 	        $.datetimepicker.setLocale('ch');
@@ -482,9 +483,9 @@ import topNav from '../components/topNav.vue'
 			    if(formValidate()){
 			    	_this.$http.post('event/save',parm).then(function (response) {
 		  				console.log(parm);
-			  			// if(response.data.code){
-			  			// 	this.$route.router.go({path: '/homepage', replace: true})
-			  			// 	}
+			  			if(response.data.code==1){
+			  				this.$route.router.go({path: '/homepage', replace: true})
+			  				}
 			        }, function (response) {
 			            console.log(22);
 			        }) 
