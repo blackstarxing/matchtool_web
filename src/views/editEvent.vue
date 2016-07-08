@@ -154,7 +154,7 @@
 								允许jpg、png格式，最大2MB
 							</div>		
 							<div class="previewPic">
-								<img src="http://img.wangyuhudong.com{{eventlist.poster}}" alt="">
+								<img v-bind:src="'http://img.wangyuhudong.com'+eventlist.poster" alt="">
 							</div>			
 						</div>
 						<div class="m-lst">
