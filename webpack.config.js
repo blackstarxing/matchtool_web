@@ -44,7 +44,7 @@ module.exports = {
     progress: true,
     proxy: {
       '/event/*': {
-          target: 'http://192.168.30.248:8088',
+          target: 'http://192.168.30.62:8080',
           secure: false
       }
     }

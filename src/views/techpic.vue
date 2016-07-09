@@ -15,11 +15,7 @@
           </div>
         </div>
         <div class="begin_tech_right">
-          <p style="font-size:12px;">当一切都准备就绪后，您就可以:</p>
-          <div class="start_btn">
-            <img src="../../static/images/start.png" width="100%" height="100%">
-            <p class="start_text" @click="beginTech">开始比赛</p>
-          </div>
+          <router-view></router-view>
         </div>
       </div>
       <div class="begin_tech_msg">
@@ -60,13 +56,30 @@
     <div class="tech_main_body">
         <div class="turn_num">
           <ul class="turn_num_list clearfix">
-            <li v-for="turnnum in turnnums" @click="turnName">
-              <div class="trunname_ed"><span class="turn_num_text">第{{turnnum}}轮</span><img class="turn_num_pic" src="../../static/images/turn.png"></div>
+            <li class="turn_num_li" v-for="turnnum in turnnums" @mouseover="turnSet">
+              <div class="trunname_ed">
+                <span class="turn_num_text">第{{turnnum}}轮</span>
+                <span class="turn_input_settime" style="font-size:12px;">{{setBegin}}</span>
+                <span class="turn_select_num" style="font-size:12px;"></span>
+                <img class="turn_num_pic" @click="turnName" src="../../static/images/turn.png"></div>
               <div class="trunname_ing">
               <input class="turn_input" type="text">
               <a class="turn_confirm turn_frame" @click="turnConfirm">确定</a>
               <a class="turn_quit turn_frame">取消</a>
             </div>
+            <ul class="turn_set_detail">
+              <li><label for="set_begin" class="set_time_begin">设置时间</label>
+                <input type="text" id="set_begin" v-model="setBegin">
+              </li>
+              <li><span>Best of</span>
+                <select style="height:18px;text-indent:0px;" class="select_num">
+                  <option selected>1</option>
+                  <option>3</option>
+                  <option>5</option>
+                  <option>7</option>
+                </select>
+              </li>
+            </ul>
             </li>
           </ul>
         </div>
@@ -142,9 +155,11 @@ import topNav from '../components/topNav.vue'
     return {
     matchdata:'',
     parm:{},
+    beginparm:{},
     turnnums:[],
     personnum:false,
     overhalf:true,
+    setBegin:""
     }
   },
      ready: function(){
@@ -171,6 +186,18 @@ import topNav from '../components/topNav.vue'
             }
 
             $(".turn_num_list").width(290*turn);
+             _this.$nextTick(function () {
+                 $('#set_begin').datetimepicker({
+                          format:"Y-m-d H:i", 
+                          timepicker:false,     
+                          yearStart:2000,     
+                          yearEnd:2050, 
+                          minDate:new Date(),
+                          step:30
+                          });
+                    $.datetimepicker.setLocale('ch');
+              })
+            
             if(!_this.personnum){
                 if(_this.overhalf){
                   unitul_step=80;
@@ -246,12 +273,12 @@ import topNav from '../components/topNav.vue'
                         }else{
                           var _top=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                           _topsY.push(_top);
-                          listArry.eq(0).append('<li class="out_li single_line"><ul class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');
+                          listArry.eq(0).append('<li class="out_li single_line"><ul class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta__personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta__personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');
                         }   
                       }else{
                           var _top=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                           _topdY.push(_top);
-                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><ul class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><ul class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
+                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><ul class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta__personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta__personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><ul class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta__personname">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta__personname">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
                     }
                 }
                 // console.log(_topdY);
@@ -262,6 +289,10 @@ import topNav from '../components/topNav.vue'
 
                 $(".edit_div").mouseleave(function(){
                     $(this).find(".float_edit").hide();
+                })
+
+                $(".float_edit_edit").on("click",function(){
+                  console.log(111);
                 })
                 //根据轮空的坐标确定第一列坐标
                 var list_first=listArry.eq(0).find(".single_line");
@@ -276,6 +307,7 @@ import topNav from '../components/topNav.vue'
                   }
                 }
 
+            
                  //根据矩形坐标画线
                 var _xy=[];
                 var coordinates=[];
@@ -461,9 +493,10 @@ import topNav from '../components/topNav.vue'
           });
      },
      methods:{
-      turnName: function(){
-        $(".trunname_ed").hide();
-        $(".trunname_ing").show();
+      turnName: function(e){
+        var _target=$(e.currentTarget);
+        // _target.find(".trunname_ed").hide();
+        // _target.find(".trunname_ing").show();
       },
       turnConfirm: function(e){
         var _target=$(e.currentTarget);
@@ -475,17 +508,22 @@ import topNav from '../components/topNav.vue'
           _target.parent().siblings(".trunname_ed").find(".turn_num_text").text(_text);
         }
       },
-      beginTech:function(){
-          var _this=this;
-          var parmstr=JSON.stringify(this.roundlist);
-          var parm={};
-          parm.jsonInfo=parmstr;
-        _this.$http.get('event/start',_this.parm).then(function(response){
-          console.log(response);
-        },function(response) {
-              console.log(response);
-          });
-      }
+      turnSet:function(e){
+        var _target=$(e.currentTarget);
+        _target.find(".turn_set_detail").show();
+      },
+      // setHide:function(e){
+      //   var _target=$(e.currentTarget);
+      //   _target.find(".turn_set_detail").hide();
+      // },
+      // setBegin:function(){
+      //   console.log(777);
+      //   var _target=$(e.currentTarget);
+      //   _val=_target.val();
+      //   _text=_val.split(' ',1);
+      //   _target.closest(".turn_num_li").find(".turn_input_settime").text(_text);
+      // }
+
      },
        components: {
           topNav
@@ -658,6 +696,7 @@ import topNav from '../components/topNav.vue'
     margin: 0 20px 20px;
     font-size: 16px;
     color: #fff;
+
 }
 .turn_num_list li{
   float: left;
@@ -666,8 +705,8 @@ import topNav from '../components/topNav.vue'
   text-align: center;
   line-height: 45px;
   margin-right: 2px;
-  background:#53585d;
   position: relative;
+  cursor: pointer;
 }
 .turn_num_pic{
     position: absolute;
@@ -739,6 +778,7 @@ import topNav from '../components/topNav.vue'
   border-radius: 5px;
   line-height: 30px;
   cursor: pointer;
+  font-size: 12px;
 }
 .turn_confirm{
   background-color: #f9a32a;
@@ -748,7 +788,54 @@ import topNav from '../components/topNav.vue'
   background-color: #dcdcdc;
   color: #000;
 }
+.trunname_ed{
+  background:#53585d;
+}
 .trunname_ing{
   display: none;
+}
+.turn_set_detail{
+  background-color: #16181d;
+  height: 60px;
+  font-size: 12px;
+  /*display: none;*/
+}
+.turn_set_detail li{
+  height: 20px;
+  margin: 5px 0;
+  line-height: 20px;
+  cursor: pointer;
+}
+.turn_set_detail li:hover{
+  background-color: #7f5b2f;
+}
+.tech_range{
+  width: 200px;
+  height: 25px;
+  background-color: #838383;
+  border-radius: 3px;
+}
+.tech_range_detail{
+  width:40px;
+  height: 25px;
+  border-radius: 3px;
+  background-color: #f9a32a;
+  float: left;
+}
+.tech_range_num{
+  float: right;
+  font-size: 12px;
+  line-height: 25px;
+}
+#set_begin{
+  opacity: 0;
+  height:20px;
+  width:288px
+}
+.set_time_begin{
+  position: absolute;
+  top:2px;
+  left:100px;
+  font-size: 12px;
 }
 </style>
