@@ -1,4 +1,5 @@
 <template>
+	<top-head></top-head> 
 	<top-nav></top-nav> 
 	<div class="g-doc">
 		<div class="g-bd">
@@ -173,7 +174,7 @@
 
 <script>
 import topNav from '../components/topNav.vue'
-
+import topHead from '../components/topHead.vue'
   	export default {
        	data () {
     		return {
@@ -513,7 +514,8 @@ import topNav from '../components/topNav.vue'
 		    }
 	  	},
        components: {
-          topNav
+          topNav,
+          topHead
          
   }
   	}
