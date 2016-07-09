@@ -7,11 +7,14 @@
 				<div class="m-addzx">	
 					<div class="m-lst">				
 						<label for="">标题:</label>
-						<input type="text" class="eventname" placeholder="请输入资讯标题" v-model="new_info.title">
+						<input type="text" class="eventname" placeholder="请输入资讯标题" title="标题" maxlength="15"  v-model="new_info.title" required>
+						<div class="tips">
+							<div class="attention"></div>
+						</div>
 					</div>
 					<div class="m-lst">				
 						<label for="">类型:</label>
-						<select class="m-n-select" v-model="new_info.type">
+						<select class="m-n-select" v-model="new_info.type"  v-on:change="formreset">
 							<option v-bind:value="1" selected="selected">资讯</option>
 							<option v-bind:value="3">图集</option>
 							<option v-bind:value="4">视频</option>
@@ -20,51 +23,77 @@
 					<div class="m-lst clearfix">				
 						<label for="">生效时间:</label>
 						<div class="input-append date form_datetime">
-						    <input size="16" type="text" id="begintime" value="" placeholder="请选择时间"  v-model="new_info.timerDate" style="cursor:not-allowed;">
+						    <input size="16" type="text" id="begintime" value="" placeholder="请选择时间" title="生效时间"  v-model="new_info.timerDate" style="cursor:not-allowed;" required>
 						    <label for="begintime" class="add-on"><i class="icon-th"></i></label>
+						</div>
+						<div class="tips">
+							<div class="attention"></div>
 						</div>
 					</div>
 					<div class="m-lst">				
 						<label for="">创建人:</label>
-						<input type="text" class="eventname" placeholder="请输入创建人" v-model="new_info.creater">
+						<input type="text" class="eventname" placeholder="请输入创建人" title="创建人"  maxlength="10" v-model="new_info.creater" required>
+						<div class="tips">
+							<div class="attention"></div>
+						</div>
 					</div>
 					<div class="m-lst clearfix" style="height:74px;">				
 						<label for="" style="margin-top:20px;">缩略图:</label>	
 						<div class="picBox m-n-sltpic">
 							<div id="pic" class="l mt10"></div>
 						</div>
+						<div class="tips">
+							<div class="attention"></div>
+						</div>
 					</div>
 					<div class="m-n-lx">
 						<div class="m-lst">				
 							<label for="">资讯来源:</label>
-							<input type="text" class="eventname" placeholder="请输入资讯来源" v-model="new_info.source">
+							<input type="text" class="eventname" placeholder="请输入资讯来源" title="资讯来源" maxlength="10" v-model="new_info.source" twsource>
+							<div class="tips">
+								<div class="attention"></div>
+							</div>
 						</div>
 						<div class="m-lst" style="margin: 10px 0;">				
 							<label for="">详细内容:</label>
-							<textarea name="" id="" cols="50" rows="3"  placeholder="请输入比赛赛制规则，不超过200字" v-model="new_info.remark"></textarea>
+							<textarea name="" id="" cols="50" rows="3"  title="详细内容" placeholder="请输入比赛赛制规则，不超过200字" v-model="new_info.remark" twremark></textarea>
+							<div class="tips">
+								<div class="attention"></div>
+							</div>
 						</div>
 					</div>
 					<div class="m-n-lx dn">
 						<div class="m-lst">				
 							<label for="">关键字:</label>
-							<input type="text" class="eventname" placeholder="请输入关键字">
+							<input type="text" class="eventname" placeholder="请输入关键字" maxlength="15" title="关键字" v-model="new_info.keyword" spkeyword>
+							<div class="tips">
+								<div class="attention"></div>
+							</div>
 						</div>
 						<div class="m-lst clearfix" style="height:80px;">				
 							<label for="" style="margin-top:20px;">首图:</label>
-							<div class="picBox m-n-firpic">
+							<div class="picBox m-n-sltpic">
 								<div id="firstpic" class="l mt10"></div>
+							</div>
+							<div class="tips">
+								<div class="attention"></div>
 							</div>
 						</div>
 						<div class="m-lst">				
 							<label for="">视频地址:</label>
-							<input type="text" name="videoUrlUpload" placeholder="点击上传视频" onclick="$('#modal-uploader').modal('show');$fileForm.find('[name=\'file\']').val('').change()" wy-required="视频地址" readonly />
-								<a id="a-videoUrl" href="" target="_blank"></a> 
+							<input type="text" placeholder="点击上传视频" name="videoUrlUpload" wy-required="视频地址" v-model="new_info.videoUrl" @click="openvideolay" spurl readonly/>
+							<div class="tips">
+								<div class="attention"></div>
+							</div>
 						</div>
 					</div>
 					<div class="m-n-lx dn"> 
 						<div class="m-lst">				
 							<label for="">资讯来源:</label>
-							<input type="text" class="eventname" placeholder="请输入资讯来源">
+							<input type="text" class="eventname" placeholder="请输入资讯来源" maxlength="10" v-model="new_info.source" tjsource>
+							<div class="tips">
+								<div class="attention"></div>
+							</div>
 						</div>
 						<div class="m-lst clearfix">				
 							<label for="" class="l">图集:</label>
@@ -72,9 +101,13 @@
 								<div class="tuji clearfix l">
 								  	<div class="tujinei">
 										<div id="tuji" class="l mt10 m-tuji"></div>
+										<input type="hidden" value="">
 									</div>
 									<textarea placeholder="图片描述" class="u-n-ttr"></textarea>
 									<img src="../../static/images/mg_del.png" title="移出" class="u-tuji-del">
+									<div class="tips">
+										<div class="attention"></div>
+									</div>
 								</div>
 								<p class="l col350 csp" id="addPicture">+添加一张照片</p>
 							</div>
@@ -106,20 +139,24 @@
 	    	imgs:[],
 	    	keyword:'',
 	    	cover:'',
-	    	videoUrl:''
+	    	videoUrl:'',
+	    	eventId:'1',
+	    	isPublished:''
 	    }
         return {
     	 	new_infos:[new_info]
         }
   	},
   	ready:function(){
+  		var _this= this;
+  		var obj = this.new_infos[0];
   		//日历控件
   		$('#begintime').datetimepicker({
-	        	format:"Y-m-d",      
+	        	format:"Y-m-d H:i:s",   
 			    yearStart:2000,     
 			    yearEnd:2050, 
-			    step:30,
-			    timepicker:false
+			    minDate:new Date(),
+			    step:10
 	        });
        	$.datetimepicker.setLocale('ch');
     	//类型选择
@@ -135,43 +172,96 @@
 				$('.m-n-lx').eq(0).removeClass('dn').siblings('.m-n-lx').addClass('dn');
     		}
     	});
-    	// 图片上传
-		$('#pic, #firstpic,#tuji').each(function(index, el) {
-			$(this).diyUpload({
-				url:'server/fileupload.php',
-				success:function( data ) {
-					console.info( data );
-				},
-				error:function( err ) {
-					console.info( err );	
-				},
-				buttonText : '选择图片',	
-				chunked:true,
-				// 分片大小
-				chunkSize:512 * 1024,
-				//最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
-				fileNumLimit:1,
-				fileSizeLimit:500000 * 1024,
-				fileSingleSizeLimit:50000 * 1024,
-				accept: {}
-			});
-		});
+    	$('#pic').diyUpload({
+    		url:'http://192.168.30.62:8080/file/upload',
+			success:function( data ) {
+				console.info( data );	
+				_this.new_infos[0].icon=data.object.src;
+			},
+			error:function( err ) {
+				console.info( err );	
+			},
+			buttonText : '选择图片',	
+			chunked:true,
+			// 分片大小
+			chunkSize:512 * 1024,
+			//最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+			fileNumLimit:1,
+			fileSizeLimit:500000 * 1024,
+			fileSingleSizeLimit:50000 * 1024,
+			accept: {}
+    	});
+    	$('#firstpic').diyUpload({
+    		url:'http://192.168.30.62:8080/file/upload',
+			success:function( data ) {
+				console.info( data );	
+				_this.new_infos[0].cover=data.object.src;
+			},
+			error:function( err ) {
+				console.info( err );	
+			},
+			buttonText : '选择图片',	
+			chunked:true,
+			// 分片大小
+			chunkSize:512 * 1024,
+			//最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+			fileNumLimit:1,
+			fileSizeLimit:500000 * 1024,
+			fileSingleSizeLimit:50000 * 1024,
+			accept: {}
+    	});
+    	$('#tuji').diyUpload({
+    		url:'http://192.168.30.62:8080/file/upload',
+			success:function( data ) {
+				console.info( data );	
+				var imgobj = new Object();
+				imgobj.img = data.object.src;
+				var m = data.object.src;
+				imgobj.remark = '';
+				_this.new_infos[0].imgs.push(imgobj);
+				$('#tuji').siblings('input[type="hidden"]').val(m);
+				$('.tuji').find('.attention').hide();
+			},
+			error:function( err ) {
+				console.info( err );	
+			},
+			buttonText : '选择图片',	
+			chunked:true,
+			// 分片大小
+			chunkSize:512 * 1024,
+			//最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+			fileNumLimit:1,
+			fileSizeLimit:500000 * 1024,
+			fileSingleSizeLimit:50000 * 1024,
+			accept: {}
+    	});
 		var indexImg = 1;
 		$('#addPicture').on('click', function(){
 			var tuJiId = 'tuji' + indexImg;
 			var tuJiDiv = '<div class="tuji clearfix l">'+
 						  	'<div class="tujinei">'+
 								'<div id="'+tuJiId+'" class="l mt10 m-tuji"></div>'+
+								'<input type="hidden" value="">'+
 							'</div>'+
 							'<textarea placeholder="图片描述" class="u-n-ttr"></textarea>'+
 							'<img src="../../static/images/mg_del.png" title="移出" class="u-tuji-del">'+
+							'<div class="tips">'+
+							   '<div class="attention"></div>'+
+							'</div>'+
 						  '</div>';
 		    $('#addPicture').before(tuJiDiv);
 		    setTimeout(function(){
 	    		$('#'+tuJiId).diyUpload({
-	    			url:'',
+	    			url:'http://192.168.30.62:8080/file/upload',
 					success:function( data ) {
 						console.info( data );
+						var imgobj = new Object();
+						imgobj.img = data.object.src;
+						var m = data.object.src;
+						imgobj.remark = '';
+						_this.new_infos[0].imgs.push(imgobj);
+						$('#'+tuJiId).siblings('input[type="hidden"]').val(m);
+						$('.'+tuJiId).find('.attention').hide();
 					},
 					error:function( err ) {
 						console.info( err );	
@@ -191,10 +281,23 @@
 		    $('.tuji').each(function(index, el) {
 				$(this).hover(function() {
 				   	var tuJiLen = $('.tuji').length;
+				   	var a = index;
 				   	if(tuJiLen!=1){
 						$(this).find('.u-tuji-del').show();
+						$(this).find('.u-tuji-del').off('click');
 						$(this).find('.u-tuji-del').on('click', function(){
-							$(this).parent('.tuji').remove();
+							var objImgs = obj.imgs[index];
+							var thisrem = '';
+							if(objImgs && objImgs.length > 0) {
+								thisrem = obj.imgs[index].img;
+							}
+							if(thisrem!=''){
+								obj.imgs.splice(index,1);	
+								$(this).parent('.tuji').remove();
+							}
+							else{
+								$(this).parent('.tuji').remove();
+							}
 						})
 					}
 				}, function() {
@@ -204,16 +307,287 @@
 		});
   	},
   	methods:{
-  		savedraft:function(event){
-  			this.$http.post('event/information/save?eventId=1', this.new_infos[0]).then(function(successResponse){
+  		openvideolay:function(event){
+  			var _this = this;
+  			layer.open({
+			  type: 1,
+			  skin: 'layui-layer-rim', //加上边框
+			  area: ['600px', '250px'], //宽高
+			  content:'<form id="form-upload" action="">'+ 
+	  				  '<div style="width:80%; margin:40px auto 0;" >'+
+		  			  '<label style="color:#000000;" for="addvideo">视频：</label>'+
+		  			  '<input type="file" name="file" accept="video/*" id="addvideo"  style="width:90%;"/>'+
+		  			  '</div>'+
+		  			  '<div style="text-align:center;margin:20px 0 0 0;"><button type="button" style="width:10%; height:34px; line-height:34px;" id="check">校验</button><button style="display:none;width:10%;height:34px;line-height:34px;" id="upload">上传</button></div>'+
+		  			  '</form>'
+			});
+  			var $fileForm = $('#form-upload');
+			// 初始化操作按钮
+			var checkFile = false;
+			function initUploadBtn() {
+				var filename = $fileForm.find('[name="file"]').val();
+				var $check = $fileForm.find('#check');
+				var $upload = $fileForm.find('#upload');
+				if(checkFile && checkFile == filename) {// 文件已校验,可进行上传
+					$check.hide();
+					$upload.show();
+				} else {// 未校验或文件变更
+					$check.show();
+					$upload.hide();
+				}
+			}
+			// $fileForm.find('[name="file"]').on('change',function(){
+			// 	initUploadBtn();
+			// });
+			$fileForm.find('[name="file"]').change();	
+			$('#check').off('click');
+			$('#check').on('click', function(ev) {
+				var $file = $fileForm.find('[name="file"]');
+				var filename = $file.val();
+				var fileChecked = true;
+				if(filename.length <= 0) {
+					console.log("请先选择文件");
+					fileChecked = false;
+				} else {
+					checkFile = filename;
+				}
+				if(fileChecked){
+					var $this = $(this);
+					$this.prop('disabled', true);
+					console.log("文件校验中, 请稍等 ...");
+					_this.$http.get('http://192.168.30.62:8080/file/upYunFormSignature?filename='+filename).then(function(response){
+						var res = response.data.object;
+						//初始化校验数据
+						var action = res.action;
+						var signature = res.signature;
+						var policy = res.policy;
+						var params = res.params;
+						
+						function hidden(name, value) {
+							return '<input type="hidden" name="' + name + '" value="' + value + '" />';
+						}
+						$fileForm.attr('action', action);
+						if(params){
+							for(var k in params){
+								var value = params[k];
+								$fileForm.append(hidden(k,value));
+							}
+						}
+
+						$fileForm.append(hidden('signature', signature));
+						$fileForm.append(hidden('policy', policy));
+
+						// 初始化表单操作按钮
+						checkFile = res.filename;
+						initUploadBtn();
+
+					}, function(response){
+						console.log(response);
+					})	
+				}
+			});
+			$('#upload').off('click');
+			$('#upload').on('click', function(){
+				var $this = $(this);
+				$this.prop('disabled', true);
+				console.log("上传中，请稍等 ..");
+				$fileForm.ajaxSubmit({
+					'url': $fileForm.attr('action'),
+					'type': 'post',
+					'dataType': 'json',
+					'success': function(d) {
+						var code = d.code;
+						if(code == 200) {
+							$('#addinfo').find('input[name="videoUrlUpload"]').val(d.url).change();
+						} else {
+							console.log('操作失败,原因:' + d.message);
+						}
+						console.log(d);
+					},
+					complete: function() {
+						console.log('完成');
+						layer.closeAll();
+					}
+				});
+			})
+  		},
+  		savedraft:function(event){//存草稿
+  			this.new_infos[0].isPublished = 0;
+  			var typenum = this.new_infos[0].type;
+  			var newsobj = this.new_infos[0];
+  			if(typenum==3){
+  				$('.tuji').each(function(index){
+  					var rem = $(this).find('.u-n-ttr').val();
+  					if(rem==''){
+  						console.log("当前索引"+index+"的说明为空！")
+  					}
+  				 	else{
+  				 		newsobj.imgs[index].remark = rem;
+  				 	}
+  				})
+  			}
+  			var jsonInfos = JSON.stringify(newsobj);
+  			var parm = new Object();
+  			parm.jsonInfo = jsonInfos;
+  			console.log(parm);
+  			this.$http.post('event/information/save',parm).then(function(successResponse){
   				var code = successResponse.data.code;
   				console.log(code);
   			}, function(errorResponse){
   				console.log("通讯错误")
   			})
   		},
-  		savetrue:function(event){
+  		savetrue:function(event){//确定发布
+  			this.new_infos[0].isPublished = 1;
+  			var typenum = this.new_infos[0].type;
+  			var newsobj = this.new_infos[0];
+  			var isicon = this.new_infos[0].icon;
+  			var iscover = this.new_infos[0].cover;
+  			function errorPlacement(mes,element){
+		    	var errorTips=element.parents(".m-lst").find('div.attention');
+		    	if(mes!=""){
+		    		errorTips.show().html(mes);
+		    	}else{
+		    		errorTips.hide();
+		    	}			    				    	
+		    }
+		    function tujierrorPlacement(mes,element){
+		    	var errorTips=element.parents(".tuji").find('div.attention');
+		    	if(mes!=""){
+		    		errorTips.show().html(mes);
+		    	}else{
+		    		errorTips.hide();
+		    	}			    				    	
+		    }		
+  			function formValidate(){
+  				var valid=true;
+  				$('.m-addzx [required]').each(function(){
+  					var $this=$(this);
+  					var value=$this.val(),name=$this.attr('title');	
+  					var text='';
+  					if(value==null||value==''){
+						text=name+'不能为空！';
+						valid=false;
+					}
+					errorPlacement(text,$this);
+  				})
+  				var $slt = $('#pic');
+  				if(isicon == ''){
+  					valid = false;
+  					errorPlacement('请先上传缩略图！',$slt);
+  				}
+  				else{
+  					errorPlacement('',$slt);
+  				}
+  				if(typenum==1){
+  					var $this = $('.m-addzx [twsource]');
+  				    var twval = $this.val();
+  				    if(twval==null||twval==''){
+  				    	valid = false;
+  				    	errorPlacement('资讯来源不能为空！',$this);   	
+  				    }
+  				    else{
+  				    	errorPlacement('',$this);
+  				    }
+  				    var $thistwrek = $('.m-addzx [twremark]'),
+  				        thistwrek = $thistwrek.val();
+			        if(thistwrek==null||thistwrek==''){
+			        	valid = false;
+  				    	errorPlacement('详细内容不能为空！',$thistwrek);
+			        }
+			        else{
+			        	errorPlacement('',$thistwrek);
+			        }
 
+  				}
+  				if(typenum==4){
+  					var $thiskey = $('.m-addzx [spkeyword]'),
+  						thiskey = $thiskey.val();
+  					if(thiskey==null||thiskey==''){
+  						valid = false;
+  				    	errorPlacement('关键字不能为空！',$thiskey);
+  					}
+  					else{
+  						errorPlacement('',$thiskey);
+  					}
+  					var $thisspurl = $('.m-addzx [spurl]'),
+  						thisspurl = $thisspurl.val();
+  					if(thisspurl==null||thisspurl==''){
+  						valid = false;
+  				    	errorPlacement('视频地址不能为空！',$thisspurl);
+  					}
+  					else{
+  						errorPlacement('',$thisspurl);
+  					}
+  					var $st = $('#firstpic');
+  					if(iscover == ''){
+  						valid = false;
+						errorPlacement('首图不能为空！',$st);
+  					}
+  					else{
+  						errorPlacement('',$st);
+  					}
+  				}
+  				if(typenum==3){
+  					var $tjsource = $('.m-addzx [tjsource]'),
+  						tjsource = $tjsource.val();
+  					if(tjsource==null||tjsource==''){
+  						valid = false;
+  				    	errorPlacement('资讯来源不能为空！',$tjsource);
+  					}
+  					else{
+  						errorPlacement('',$tjsource);
+  					}
+  					// $('.tuji').each(function(index){
+  					// 	var n = $(this).find('.u-n-ttr');
+	  				// 	var rem = $(this).find('.u-n-ttr').val();
+	  				// 	if(rem==''){
+	  				// 		tujierrorPlacement('图片说明不能为空！',n);
+	  				// 	}
+	  				//  	else{
+	  				//  		tujierrorPlacement('',n);
+	  				//  		newsobj.imgs[index].remark = rem;
+	  				//  	}
+	  				// })
+	  				$('.tuji').each(function(index){
+	  					var hidipt = $(this).find('input[type="hidden"]').val();
+	  					var hid = $(this).find('input[type="hidden"]');
+	  					if(hidipt==''){
+	  						tujierrorPlacement('请先上传图片',hid);
+	  					}
+	  				 	else{
+	  				 		tujierrorPlacement('',hid);
+	  				 		var n = $(this).find('.u-n-ttr');
+	  						var rem = $(this).find('.u-n-ttr').val();
+	  						if(rem==''){
+	  							tujierrorPlacement('图片说明不能为空！',n);
+		  					}
+		  				 	else{
+		  				 		tujierrorPlacement('',n);
+		  				 		newsobj.imgs[index].remark = rem;
+		  				 	}
+	  				 	}
+	  				})
+  				}
+  				return valid;	
+  			}
+  			var jsonInfos = JSON.stringify(newsobj);
+  			var parm = new Object();
+  			parm.jsonInfo = jsonInfos;
+  			console.log(parm);
+  			console.log(formValidate());
+  			if(formValidate()){
+  				this.$http.post('event/information/save',parm).then(function(successResponse){
+  				var code = successResponse.data.code;
+  				console.log(code);
+	  			}, function(errorResponse){
+	  				console.log("通讯错误")
+	  			})
+  			}
+  		},
+  		formreset:function(){
+  			$('#addinfo input').val('');
+  			$('#addinfo textarea').val('');
   		}
   	}
 }

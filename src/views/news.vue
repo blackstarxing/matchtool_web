@@ -26,12 +26,12 @@
 						<option v-bind:value="2">失效</option>
 					</select>
 					<div class="ib re">
-					    <input type="text" placeholder="请选择时间" class="w200  form_datetime" v-model="begindate" readonly>
+					    <input type="text" placeholder="请选择时间" class="w200  form_datetime" v-model="begindate">
 						<img src="../../static/images/datepicker.png" class="ab u-n-date">
 					</div>
 					&nbsp&nbsp—&nbsp&nbsp
 					<div class="ib re">
-					    <input type="text" placeholder="请选择时间" class="w200 form_datetime" v-model="enddate" readonly>
+					    <input type="text" placeholder="请选择时间" class="w200 form_datetime" v-model="enddate">
 						<img src="../../static/images/datepicker.png" class="ab u-n-date">
 					</div>
 				</div>
@@ -116,18 +116,12 @@
   		});
   		
   		$('.form_datetime').datetimepicker({
-	        language:  "zh-CN",
-	        minView: "month", //选择日期后，不会再跳转去选择时分秒 
-	        format:"yyyy-mm-dd",
-	        weekStart: 1,
-	        todayBtn:  1,
-			autoclose: 1,
-			todayHighlight: 1,
-			startView: 2,
-			forceParse: 0,
-	        showMeridian: 1,
-	        pickerPosition:'bottom-left'
-	    });
+	        	format:"Y-m-d",      
+			    yearStart:2000,     
+			    yearEnd:2050, 
+			    timepicker:false
+	        });
+	    $.datetimepicker.setLocale('ch');
 	    
   	},
     components: {
