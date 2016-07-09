@@ -69,17 +69,12 @@
   methods: {
   	checkin:function(){
   		this.$http.post('event/login', this.$data).then(function (response) {
+  			window.sessionStorage.setItem("username",this.username);
   		document.cookie="oetevent.login.sessionid="+response.data.object["oetevent.login.sessionid"];
   		document.cookie="oetevent.login.token="+response.data.object["oetevent.login.token"];
   		document.cookie="userId="+response.data.object["userId"]; 
-  		// 	function setCookie(name,value) { 
-				// 	    var Days = 30; 
-				// 	    var exp = new Date(); 
-				// 	    exp.setTime(exp.getTime() + Days*24*60*60*1000); 
-				// 	    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString(); 
-				// } 
 		if(response.data.code){
-  				this.$route.router.go({path: '/homepage'})
+  			this.$route.router.go({path: '/homepage'})
   				}
             }, function (response) {
               console.log(22);

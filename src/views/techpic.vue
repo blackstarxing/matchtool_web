@@ -1,4 +1,5 @@
 <template>
+  <top-head></top-head> 
   <top-nav></top-nav> 
   <div class="tech_msg">
     <div class="body_top_pic"><img src="../../static/images/body_top.png" width="100%"></div>
@@ -128,16 +129,30 @@
     <div class="m-pop">
       <div class="wrap">
         <h3>编辑比分</h3>
-        <a href="javascript:void(0);" class="u-btn-close"></a>
-        <div class="edit_detail_top">
-          <div class="edit_detail_left">
+        <a href="javascript:void(0);" class="u-btn-close" @click="closeEdit"></a>
+        <ul class="edit_detail_top clearfix">
+          <li class="edit_detail_left">
             <div class="edit_ring">H</div>
             <p>delkdkedj</p>
-            <div></div>
-          </div>
-        </div>
-        <div class="member-id" style="display:none"></div>
-        <a href="javascript:void(0);" class="u-btn add-member">添加</a>
+            <div><img src="../../static/images/winer.png"></div>
+          </li>
+          <li class="edit_detail_mid">vs</li>
+          <li class="edit_detail_right">
+            <div class="edit_ring">H</div>
+            <p>delkdkedj</p>
+            <div style="margin:0 auto;"><img src="../../static/images/lose.png"></div>
+          </li>
+        </ul>
+        <div class="turn_edit_line" style="text-align: center;"><img src="../../static/images/turnline.png"></div>
+        <ul class='edit_detail_bt'>
+          <li>
+            <input type="text" style="width:120px;">
+            <span class="edit_btn_mid">:</span>
+            <input type="text" style="width:120px;">
+          </li>
+        </ul>
+        <div class="add_edit_list">＋添加一组</div>
+        <a href="javascript:void(0);" class="u-btn add-member">提交比分</a>
       </div>      
     </div>
   </div>
@@ -165,7 +180,7 @@ window.drop = function(e,divdom){
           } 
         
 }
-
+import topHead from '../components/topHead.vue'
 import topNav from '../components/topNav.vue'
   export default {
     data () {
@@ -181,8 +196,7 @@ import topNav from '../components/topNav.vue'
   },
      ready: function(){
       var _this=this;
-      // _this.parm.id=window.sessionStorage.getItem("eventid");
-      _this.parm.id=102;
+       _this.parm.id=window.sessionStorage.getItem("eventid");
        _this.$http.get('event/info',_this.parm).then(function(response){
             console.log(response);
              _this.matchdata=response.data.object.groups;
@@ -529,6 +543,9 @@ import topNav from '../components/topNav.vue'
         var _target=$(e.currentTarget);
         _target.find(".turn_set_detail").show();
       },
+      closeEdit:function(){
+        $(".m-mask").hide();
+      }
       // setHide:function(e){
       //   var _target=$(e.currentTarget);
       //   _target.find(".turn_set_detail").hide();
@@ -543,7 +560,8 @@ import topNav from '../components/topNav.vue'
 
      },
        components: {
-          topNav
+          topNav,
+          topHead
          
   }
   }
@@ -854,5 +872,42 @@ import topNav from '../components/topNav.vue'
   top:2px;
   left:100px;
   font-size: 12px;
+}
+.edit_ring{
+  width: 120px;
+  height: 120px;
+  background-color: #181b1f;
+  border-radius: 60px;
+  text-align: center;
+  line-height: 120px;
+}
+.edit_detail_top{
+  margin: 20px 100px;
+}
+.edit_detail_top li{
+  float: left;
+  text-align: center;
+}
+.edit_detail_mid{
+  width: 50px;
+  font-size: 20px;
+}
+.edit_detail_left .edit_detail_right{
+  width: 125px;
+}
+.edit_detail_bt{
+  margin: 20px 100px 10px;
+}
+.edit_btn_mid{
+  display: inline-block;
+  width: 40px;
+  font-size: 18px;
+  text-align: center;
+}
+.add_edit_list{
+  color: #fe3507;
+  font-size: 12px;
+  margin: 0 100px;
+  cursor: pointer;
 }
 </style>

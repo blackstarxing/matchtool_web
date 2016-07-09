@@ -1,4 +1,6 @@
 <template>
+	<top-head></top-head> 
+	 <top-nav></top-nav>
 		<div class="g-mg-reset">
 			<div class="g-tp"></div>
 			<div class="m-d pb80" style="height:auto;">
@@ -134,7 +136,8 @@
 	</div>
 </template>
 <script type="text/javascript">
- 
+ import topHead from '../components/topHead.vue'
+ import topNav from '../components/topNav.vue'
   export default {
     data () {
       return {
@@ -255,8 +258,10 @@
 			});
 		});
   	},
-  	methods:function(){
-  		
-  	}
+  	  components: {
+          topNav,
+          topHead
+         
+  }
 }
 </script>
