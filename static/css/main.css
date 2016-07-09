@@ -144,7 +144,7 @@ option{border-color: #7C6735;}
 .sign-minute .select_option{width: 80px;}
 #number{float: left;}
 .button_group{width:33px;line-height: 0;float: left;margin-left:-36px;margin-top: 1px;border-left: 1px solid #8f8f8f;}
-.button_group button{width: 34px;height: 16px;background: #111115;color:#fff;font-size: 14px;}
+.button_group button{width: 34px;height: 17px;background: #111115;color:#fff;font-size: 14px;}
 .button_group .plus{border-bottom: 1px solid #8f8f8f;background: url(../images/plus.png) center center no-repeat;}
 .button_group .minus{background: url(../images/minus.png) center center no-repeat;}
 .button_group .minus[disabled]{cursor: not-allowed;}
@@ -163,7 +163,8 @@ label.add-on{
 .m-option,.m-signup{display: none;}
 .m-option textarea{padding:5px 12px;line-height: 25px;text-indent: 0;}
 .tips{font-size: 12px;line-height: 16px;width:300px;margin-right: 100px;float: right;}
-.tips .attention{display:none;color:#F8A329;background: url(../images/attention.png) left center no-repeat;text-indent: 30px;line-height: 36px;}
+.wrap .attention,.tips .attention{display:none;color:#F8A329;background: url(../images/attention.png) left center no-repeat;text-indent: 22px;line-height: 36px;}
+.wrap .attention{line-height: 16px;margin-left: 118px;}
 .slideup{width:180px;background-image: url(../images/up.png);}
 .m-form a.u-btn-next{display:block;width: 200px;background: linear-gradient(to bottom, #f9a32a 50%,#e68700 50%,#f8a328 100%);margin-left: 130px;margin-top: 30px;color:#fff;}
 .picBox{float: left;}
@@ -192,8 +193,9 @@ label.add-on{
 .m-tb table .option{display: none;}
 .m-tb table .option a{display: inline-block;width: 20px;height: 20px;background: url(../images/write.png) center center no-repeat;vertical-align: middle;margin:0 5px;}
 .m-tb table .option a.u-btn-delete{background-image: url(../images/delete.png);}
-.m-tb table > tbody > tr:hover td{background:rgba(249, 163, 42, 0.2);}
+.m-tb table > tbody > tr:hover td{background-color:rgba(249, 163, 42, 0.2);}
 .m-tb table tr:hover .option{display: block;}
+.m-tb .isfill{background: url(../images/fill.png) 25px center no-repeat;}
 /*签到*/
 .signbox {position: relative;display: inline-block;width:60px;height: 20px;top:8px;}
 .signbox label {width: 60px;height: 20px;background: #ccc;position: relative;display: inline-block;border-radius: 3px;-webkit-transition: 0.4s;transition: 0.4s;}
@@ -206,6 +208,8 @@ label.add-on{
 .signed .signbox label:after {background: #fff;border-radius: 3px;top: 0;width: 30px;height: 20px;}
 .signed .signbox input:checked + label {background: #FF980F;}
 .signed .signbox input:checked + label:after {left: 30px;}
+.previewPic{clear:both;margin-left: 128px;padding-top: 15px;}
+.previewPic img{width: 160px;height: 78px;}
 /*页码*/
 .m-page{width: 400px;margin: 0 auto;}
 .m-page #prev,.m-page #next{display:inline-block;width: 30px;height:30px;margin:0 10px;background: url(../images/prev.png) center center no-repeat;vertical-align: middle;}
@@ -217,7 +221,7 @@ label.add-on{
 .m-page .pagination span.current{color:#F8A329;}
 /*弹出层*/
 .m-mask{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;z-index:9999;}
-.m-pop{width: 500px;min-height:420px;margin:180px auto 0;background: rgba(77,81,84,0.8);border:7px solid #34393f;}
+.m-pop{width: 500px;min-height:370px;margin:180px auto 0;background: rgba(77,81,84,0.8);border:7px solid #34393f;padding-bottom: 50px;}
 .m-pop .wrap{position: relative;width: 100%;}
 .m-pop h3{font-size: 18px;text-align: center;color:#fff;margin-bottom: 30px;background: url(../images/pop_bg.png) top center no-repeat;height: 58px;line-height:58px;margin-top: -7px;}
 .m-addzx{padding-left:45px; padding-top:38px;}
