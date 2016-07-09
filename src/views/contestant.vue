@@ -105,7 +105,7 @@ import topNav from '../components/topNav.vue'
   		},
    		ready: function () {     		
      		var _this=this;
-     		_this.roundId=window.sessionStorage.getItem("eventid");
+     		_this.roundId=window.sessionStorage.getItem("roundid");
      		_this.needsign=window.sessionStorage.getItem("needsign");
 	        _this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 	        	console.log(response);
