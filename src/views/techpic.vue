@@ -124,6 +124,23 @@
       </li>
     </ul>
   </div> 
+  <div class="m-mask">
+    <div class="m-pop">
+      <div class="wrap">
+        <h3>编辑比分</h3>
+        <a href="javascript:void(0);" class="u-btn-close"></a>
+        <div class="edit_detail_top">
+          <div class="edit_detail_left">
+            <div class="edit_ring">H</div>
+            <p>delkdkedj</p>
+            <div></div>
+          </div>
+        </div>
+        <div class="member-id" style="display:none"></div>
+        <a href="javascript:void(0);" class="u-btn add-member">添加</a>
+      </div>      
+    </div>
+  </div>
 </template>
 
 <script>
@@ -292,7 +309,7 @@ import topNav from '../components/topNav.vue'
                 })
 
                 $(".float_edit_edit").on("click",function(){
-                  console.log(111);
+                  $(".m-mask").show();
                 })
                 //根据轮空的坐标确定第一列坐标
                 var list_first=listArry.eq(0).find(".single_line");
