@@ -21,7 +21,7 @@
   	var _this=this;
     var _rate=window.sessionStorage.getItem("turnrate");
     if(_rate){
-       $(".tech_range_detail").width(_rate*200);
+       $(".tech_range_detail").width(_rate*2);
        $(".tech_range_num").text(_rate+"%");
     }else{
        $(".tech_range_detail").width(0);
