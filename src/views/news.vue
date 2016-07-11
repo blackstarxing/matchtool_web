@@ -35,7 +35,7 @@
 						<img src="../../static/images/datepicker.png" class="ab u-n-date">
 					</div>
 				</div>
-				<button type="button" class="u-del-btn u-n-add" onclick="window.location.href='homepage#/addnews'"><img src="../../static/images/plus.png">添加资讯</button>
+				<button type="button" class="u-del-btn u-n-add" @click="linkaddnews"><img src="../../static/images/plus.png">添加资讯</button>
 				<p class="s-n-th"> 
 					<span style="width:100px;">ID</span>
 					<span style="width:100px;">图片</span>
@@ -48,7 +48,7 @@
 					<span style="width:100px;">操作</span>
 				</p>
 				<ul class="s-n-ul clearfix">
-					<li v-for="newslist in newslists.pager.list">
+					<li v-for="newslist in newslists.pager.list" class="newsidli">
 						<span style="width:100px;"><div class="s-n-div" infoid>{{newslist.id}}</div></span>
 						<span style="width:100px;">
 							<div class="s-n-img">
@@ -70,7 +70,7 @@
 						<div class="s-n-ort">
 							<button type="button" class="u-n-top" topstate="{{newslist.isTop}}" @click="gotop">已置顶</button>
 							<div class="m-n-ort">
-								<img src="../../static/images/write.png" title="编辑">
+								<img src="../../static/images/write.png" title="编辑" @click="newsedit">
 								<img src="../../static/images/news_del.png" title="删除" @click="infodel">
 								<img src="../../static/images/delete.png" title="失效" @click="toggleeftv">
 							</div>
@@ -97,6 +97,7 @@
 
     data () {
 	    return {
+	    	eventid:'',
 	        newslists:'',
 	        newsword:'',
 	        newstp:'',
@@ -107,8 +108,8 @@
   	},
   	ready:function(){
   		var self = this;
-  		console.log(self);
-  		self.$http.get('event/information/list?eventId=1').then(function(response){
+  		this.eventid=window.sessionStorage.getItem("eventid");
+  		self.$http.get('event/information/list?eventId='+this.eventid).then(function(response){
   			self.$set('newslists', response.data.object);
   			self.$nextTick(self._events.pagefill[0]);
   		}, function(data, status, request){
@@ -182,10 +183,22 @@
     	}
     },
     methods:{
+    	newsedit:function(e){
+    		e.preventDefault();
+			var _target=$(e.currentTarget);
+			var newsId=_target.parents('.newsidli').find("div[infoid]").text();
+			window.sessionStorage.setItem("newsId",newsId);
+			this.$route.router.go({path: '/newsEdit'});
+    	},
+    	linkaddnews:function(e){
+    		e.preventDefault();
+			var _target=$(e.currentTarget);
+			this.$route.router.go({path: '/addnews'});
+    	},
     	infodel:function(event){
     		var _this = $(event.target);
     		var infoid = _this.parents('li').find('[infoid]').text();
-    		this.$http.get("event/information/delete?eventId=1&id="+infoid).then(function(response){
+    		this.$http.get("event/information/delete?id="+infoid+"&eventid="+this.eventid).then(function(response){
 				var code = response.data.code;
 				this.$nextTick(function(){
 					if(code==-1){
@@ -195,7 +208,7 @@
 						alert("参数错误");
     				}
     				else{
-    					this.$http.get('event/information/list?eventId=1').then(function(response){
+    					this.$http.get('event/information/list?eventId='+this.eventid).then(function(response){
 				  			this.$set('newslists', response.data.object);
 				  			this.$nextTick(this._events.pagefill[0]);
 				  		}, function(data, status, request){
@@ -217,7 +230,7 @@
     		else{
     			topnum=1;
     		}
-    		this.$http.get("event/information/top?eventId=1&id="+infoid+"&isTop="+topnum).then(function(response){
+    		this.$http.get("event/information/top?id="+infoid+"&isTop="+topnum+"&eventid="+this.eventid).then(function(response){
     			var code = response.data.code;
     			this.$nextTick(function(){
     				if(code==-1){
@@ -230,7 +243,7 @@
     					alert("找不到资讯");
     				}
     				else{
-    					this.$http.get('event/information/list?eventId=1').then(function(response){
+    					this.$http.get('event/information/list?eventId='+this.eventid).then(function(response){
 				  			this.$set('newslists', response.data.object);
 				  			this.$nextTick(this._events.pagefill[0]);
 				  		}, function(data, status, request){
@@ -248,7 +261,7 @@
     			newsstatus = this.newsstatus,
     			begindate = this.begindate,
     			enddate = this.enddate;
-    		this.$http.get("event/information/list?eventId=1&word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate).then(function(response){
+    		this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&eventid="+this.eventid).then(function(response){
     			this.$set('newslists', response.data.object);
     			this.$nextTick(this._events.pagefill[0]);
     		}, function(data, status, request){
@@ -262,7 +275,7 @@
     			begindate = this.begindate,
     			enddate = this.enddate;
     		var indexpage = $('.m-page input').val();
-    		this.$http.get("event/information/list?eventId=1&word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage).then(function(response){
+    		this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage+"&eventid="+this.eventid).then(function(response){
     			this.$set('newslists', response.data.object);
     			this.$nextTick(this._events.pagefill[0]);
     		}, function(response){
@@ -278,7 +291,7 @@
     		var indexpage = this.newslists.pager.pageNumber;
     		if(indexpage>1){
     			indexpage--;
-    			this.$http.get("event/information/list?eventId=1&word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage).then(function(response){
+    			this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage+"&eventid="+this.eventid).then(function(response){
     			this.$set('newslists', response.data.object);
     			this.$nextTick(this._events.pagefill[0]);
 	    		}, function(response){
@@ -299,7 +312,7 @@
     			maxpage = this.newslists.pager.pages;
     		if(indexpage<maxpage){
     			indexpage++;
-    			this.$http.get("event/information/list?eventId=1&word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage).then(function(response){
+    			this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage+"&eventid="+this.eventid).then(function(response){
     			this.$set('newslists', response.data.object);
     			this.$nextTick(this._events.pagefill[0]);
 	    		}, function(response){
@@ -330,7 +343,7 @@
     		else{
     			effective=1;
     		}
-    		this.$http.get("event/information/publish?eventId=1&id="+infoid+"&effective="+effective).then(function(response){
+    		this.$http.get("event/information/publish?id="+infoid+"&effective="+effective+"&eventid="+this.eventid).then(function(response){
 				var code = response.data.code;
 				this.$nextTick(function(){
 					if(code==-1){
@@ -340,7 +353,7 @@
 						alert("操作失败");
     				}
     				else{
-    					this.$http.get('event/information/list?eventId=1').then(function(response){
+    					this.$http.get('event/information/list?eventId='+this.eventid).then(function(response){
 				  			this.$set('newslists', response.data.object);
 				  			this.$nextTick(this._events.pagefill[0]);
 				  		}, function(data, status, request){

@@ -13,7 +13,7 @@
 				<div class="tect_nav_pic"><span class="icon-information icon_tool"></span></div>
 				<div>资讯管理</div>
 			</li>
-			<li v-link="{ path: '/createEvent'}">
+			<li v-link="{ path: '/editEvent'}">
 				<div class="tect_nav_pic"><span class="icon-install icon_tool"></span></div>
 				<div>设置</div>
 			</li>

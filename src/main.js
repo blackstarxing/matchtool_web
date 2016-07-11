@@ -2,12 +2,14 @@ import Vue from 'vue'
 import matchtool from './matchtool.vue'
 import homepage from './views/homepage.vue'
 import createEvent from './views/createEvent.vue'
+import editEvent from './views/editEvent.vue'
 import contestant from './views/contestant.vue'
 import newslist from './views/news.vue'
 import addnews from './views/addnews.vue'
 import reset from './views/reset.vue'
 import techPic from './views/techPic.vue'
 import login from './views/login.vue'
+import newsEdit from './views/newsEdit.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -30,6 +32,9 @@ router.map({
     '/createEvent': {
         component: createEvent
     },
+    '/editEvent': {
+        component: editEvent
+    },
     '/contestant': {
         component: contestant
     },
@@ -44,6 +49,9 @@ router.map({
     },
     '/login': {
         component: login
+    },
+    '/newsEdit': {
+        component: newsEdit
     }
     
 })

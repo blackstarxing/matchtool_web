@@ -302,3 +302,6 @@ img.u-tuji-del{width:16px; height:20px; position:absolute; top:42%; right:10px; 
 .u-draft-btn{background:url(../images/news_draft.png) no-repeat; color:#181b1f;}
 .s-n-title{display:inline-block;font-size:18px;color:#f9a32a;font-weight:bold;margin:45px 0 0 70px;}
 .tuji .tips{position: absolute; top: 34px; left: 638px;}
+.previewPic-slt{display:inline-block;margin-left:20px;padding-top: 11px;}
+.previewPic-slt img{ width:72px; height:54px;}
+.previewPic-tuji{position:absolute;left:-20px; bottom:14px;}.previewPic-tuji img{width:70px; height:54px;}
