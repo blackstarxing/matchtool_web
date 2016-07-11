@@ -1,6 +1,5 @@
 <template>
 	<top-head></top-head> 
-	<top-nav></top-nav> 
 	<div class="g-doc">
 		<div class="g-bd">
 			<div class="g-tp"></div>
