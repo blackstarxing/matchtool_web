@@ -15,7 +15,7 @@
 					</div>
 					<div class="m-lst f-cb">
 						<label for="">赛事主办方：</label>
-						<div class="organize f-fl">hoo言hoo语</div>
+						<div class="organize f-fl">个人：网娱大师</div>
 						<div class="sponsor">
 							<a href="javascript:void(0);" class="u-select" @click="chooseOrganize">更改</a>
 							<ul class="organize_option">
@@ -144,15 +144,18 @@
 						</div>
 						<div class="m-lst">
 							<label for="">赛事简介：</label>
-							<textarea name="brief" id="" cols="55" rows="5" placeholder="请输入赛制规则，不超过500字" v-model="formdata.brief" required=""></textarea>
+							<!-- <textarea name="brief" id="edit" cols="55" rows="5" placeholder="请输入赛事简介，不超过500字" v-model="formdata.brief" required=""></textarea> -->
+							<div id="brief" class="m-editor"></div>
 						</div>
 						<div class="m-lst">
 							<label for="">赛制规则：</label>
-							<textarea name="regimeRule" id="" cols="55" rows="5" placeholder="请输入赛制规则，不超过1000字" v-model="formdata.regimeRule" required=""></textarea>
+							<!-- <textarea name="regimeRule" id="" cols="55" rows="5" placeholder="请输入赛制规则，不超过1000字" v-model="formdata.regimeRule" required=""></textarea> -->
+							<div id="regimeRule" class="m-editor"></div>
 						</div>
 						<div class="m-lst f-mb50">
 							<label for="">奖金设置：</label>
-							<textarea name="prizeSetting" id="" cols="55" rows="5" placeholder="请输入奖励设置，不超过1000字" v-model="formdata.prizeSetting" required=""></textarea>
+							<!-- <textarea name="prizeSetting" id="" cols="55" rows="5" placeholder="请输入奖励设置，不超过1000字" v-model="formdata.prizeSetting" required=""></textarea> -->
+							<div id="prizeSetting" class="m-editor"></div>
 						</div>
 						<!-- <div class="m-lst">
 							<label for="">种子规则：</label>
@@ -281,6 +284,30 @@ import topHead from '../components/topHead.vue'
 				}
 				
 			});
+
+			$('#brief').editable({
+				inlineMode: false,
+				theme: 'dark', 
+				alwaysBlank: true,
+				language: "zh_cn",
+				placeholder: '请输入赛事简介，不超过500字'
+			});
+
+			$('#regimeRule').editable({
+				inlineMode: false,
+				theme: 'dark', 
+				alwaysBlank: true,
+				language: "zh_cn",
+				placeholder: '请输入赛制规则，不超过1000字'
+			});
+
+			$('#prizeSetting').editable({
+				inlineMode: false,
+				theme: 'dark', 
+				alwaysBlank: true,
+				language: "zh_cn",
+				placeholder: '请输入奖励设置，不超过1000字'
+			})
   		},
   		methods: {
     		plus: function(e){
@@ -376,7 +403,15 @@ import topHead from '../components/topHead.vue'
 		    	else{
 		    		_this.formdata.needSign=0;
 		    	}
-
+		    	if($('#brief .froala-element').html()!="<p><br></p>"){
+		    		_this.formdata.brief=$('#brief .froala-element').html()
+		    	}
+		    	if($('#regimeRule .froala-element').html()!="<p><br></p>"){
+		    		_this.formdata.regimeRule=$('#regimeRule .froala-element').html()
+		    	}
+		    	if($('#prizeSetting .froala-element').html()!="<p><br></p>"){
+		    		_this.formdata.prizeSetting=$('#prizeSetting .froala-element').html()
+		    	}
 			    function errorPlacement(mes,element){
 			    	var errorTips=element.parents(".m-lst").find('div.attention');
 			    	if(mes!=""){
