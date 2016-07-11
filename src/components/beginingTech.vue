@@ -19,18 +19,15 @@
   },
   ready: function () {
   	var _this=this;
-          _this.beginparm.oetInfoId=window.sessionStorage.getItem("eventid");
-          _this.beginparm.oetRoundId=window.sessionStorage.getItem("roundid");
-          var parmstr=JSON.stringify(this.beginparm);
-          var parm={};
-          parm.jsonInfo=parmstr;
-  	_this.$http.get('event/getStatusByTime',parm).then(function(response){
-              console.log(response.data.object);
-              var _rate=response.data.object.rate;
-              $(".tech_range_detail").width(_rate*200);
-              $(".tech_range_num").text(_rate+"%");
-              
-            })
+    var _rate=window.sessionStorage.getItem("turnrate");
+    if(_rate){
+       $(".tech_range_detail").width(_rate*200);
+       $(".tech_range_num").text(_rate+"%");
+    }else{
+       $(".tech_range_detail").width(0);
+       $(".tech_range_num").text("0%");
+       window.location.reload();
+    }
   },
    
   }

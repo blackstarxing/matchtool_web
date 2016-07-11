@@ -57,24 +57,25 @@
     <div class="tech_main_body">
         <div class="turn_num">
           <ul class="turn_num_list clearfix">
-            <li class="turn_num_li" v-for="turnnum in turnnums" @mouseover="turnSet">
+            <li class="turn_num_li" v-for="turnnum of turnnums">
+              <span class="turn_turnid" style="display:none"></span>
               <div class="trunname_ed">
-                <span class="turn_num_text">第{{turnnum}}轮</span>
-                <span class="turn_input_settime" style="font-size:12px;">{{setBegin}}</span>
-                <span class="turn_select_num" style="font-size:12px;"></span>
+                <span class="turn_num_text">{{turnnum.modelname}}</span>
+                <span class="turn_input_settime" style="font-size:12px;margin:0 7px;">{{turnnum.modeltime?turnnum.modeltime.split(' ',1):" "}}</span>
+                <span class="turn_select_num" style="font-size:12px;color:#f9a32a;">BO<span class="turn_select_number">{{turnnum.modelbo}}</span></span>
                 <img class="turn_num_pic" @click="turnName" src="../../static/images/turn.png"></div>
               <div class="trunname_ing">
-              <input class="turn_input" type="text">
+              <input class="turn_input" type="text" value={{turnnum.modelname}}>
               <a class="turn_confirm turn_frame" @click="turnConfirm">确定</a>
-              <a class="turn_quit turn_frame">取消</a>
+              <a class="turn_quit turn_frame" @click="turnQuit">取消</a>
             </div>
             <ul class="turn_set_detail">
               <li><label for="set_begin" class="set_time_begin">设置时间</label>
-                <input type="text" id="set_begin" v-model="setBegin">
+                <input type="text" id="set_begin" class="set_begin" v-model="turnnum.modeltime">
               </li>
               <li><span>Best of</span>
-                <select style="height:18px;text-indent:0px;" class="select_num">
-                  <option selected>1</option>
+                <select style="height:18px;text-indent:0px;" class="select_num" v-model="turnnum.modelbo">
+                  <option>1</option>
                   <option>3</option>
                   <option>5</option>
                   <option>7</option>
@@ -84,7 +85,7 @@
             </li>
           </ul>
         </div>
-        <div class="turn_btn">随机排列对阵选手顺序</div>
+        <div class="turn_btn" @click="randomPic">随机排列对阵选手顺序</div>
         <div class="tech_body">
             <div class="tech_container">
             <div class="match_content clearfix">
@@ -126,40 +127,39 @@
     </ul>
   </div> 
   <div class="m-mask">
-    <div class="m-pop">
+    <div class="m-pop"style="margin: 50px auto 0;">
       <div class="wrap">
         <h3>编辑比分</h3>
         <a href="javascript:void(0);" class="u-btn-close" @click="closeEdit"></a>
         <ul class="edit_detail_top clearfix">
           <li class="edit_detail_left">
-            <div class="edit_ring">H</div>
-            <p>delkdkedj</p>
-            <div><img src="../../static/images/winer.png"></div>
+            <div class="edit_ring">{{personNamea.substr(0,1)}}</div>
+            <p style="margin:10px 0;">{{personNamea}}</p>
+            <div class="made_winer"></div>
           </li>
           <li class="edit_detail_mid">vs</li>
           <li class="edit_detail_right">
-            <div class="edit_ring">H</div>
-            <p>delkdkedj</p>
-            <div style="margin:0 auto;"><img src="../../static/images/lose.png"></div>
+            <div class="edit_ring">{{personNameb.substr(0,1)}}</div>
+            <p style="margin:10px 0;">{{personNameb}}</p>
+            <div style="margin:0 auto;" class="made_winer"></div>
           </li>
         </ul>
         <div class="turn_edit_line" style="text-align: center;"><img src="../../static/images/turnline.png"></div>
         <ul class='edit_detail_bt'>
-          <li>
-            <input type="text" style="width:120px;">
+          <li style="margin-bottom:20px;" v-for="scoreli in scorelis">
+            <input type="text" style="width:120px;" v-model="scoreli.seatleft">
             <span class="edit_btn_mid">:</span>
-            <input type="text" style="width:120px;">
+            <input type="text" style="width:120px;" v-model="scoreli.seatright">
           </li>
         </ul>
-        <div class="add_edit_list">＋添加一组</div>
-        <a href="javascript:void(0);" class="u-btn add-member">提交比分</a>
+        <div class="add_edit_list" @click="addScorelist">＋添加一组</div>
+        <a href="javascript:void(0);" class="u-btn add-member" @click="submitScore">提交比分</a>
       </div>      
     </div>
   </div>
 </template>
 
 <script>
-
 window.allowDrop = function(e){
   e = window.event || e;
   e.preventDefault();
@@ -180,29 +180,53 @@ window.drop = function(e,divdom){
           } 
         
 }
+
 import topHead from '../components/topHead.vue'
 import topNav from '../components/topNav.vue'
   export default {
     data () {
     return {
     matchdata:'',
-    parm:{},
-    beginparm:{},
     turnnums:[],
-    personnum:false,
-    overhalf:true,
-    setBegin:""
+    personnum:"",
+    overhalf:"",
+    setBegin:"",
+    personNamea:'',
+    personNameb:'',
+    scorelis:[],
+    groupid:{}
     }
   },
      ready: function(){
       var _this=this;
-       _this.parm.id=window.sessionStorage.getItem("eventid");
-       _this.$http.get('event/info',_this.parm).then(function(response){
+      var beginparm={};
+      var _eventid=window.sessionStorage.getItem("eventid");
+      var _roundid=window.sessionStorage.getItem("roundid");
+      beginparm.oetInfoId=_eventid;
+      beginparm.oetRoundId=_roundid;
+      var parmstr=JSON.stringify(beginparm);
+      var _parm={};
+      _parm.jsonInfo=parmstr;
+    _this.$http.get('event/getStatusByTime',_parm).then(function(response){
+      if(response.data.object.roundStatus==4){
+        window.sessionStorage.setItem("turnrate",response.data.object.rate);
+        this.$route.router.go({path: '/techPic/beginingTech'})
+      }
+      },function(response) {
+              console.log(response);
+          });
+
+    var parm={};
+       parm.id=_eventid;
+       _this.$http.get('event/info',parm).then(function(response){
             console.log(response);
+            _this.personnum=response.data.object.iscountm?true:false;
+            _this.overhalf=response.data.object.iscountj1?true:false;
              _this.matchdata=response.data.object.groups;
              console.log(_this.matchdata);
-            
+            console.log(_this.personnum,_this.overhalf);
              var turn=_this.matchdata[0].turn;
+             var turnid=response.data.object.turns;
              // console.log(turn);
             var unitul_h=60;
             var unitul_w=200;
@@ -212,13 +236,13 @@ import topNav from '../components/topNav.vue'
             var listul;
             var listuls=listul='<ul class="match_list"></ul>';
 
-            for(var i=0;i<turn;i++){
-              _this.turnnums.push(i+1);
+            for(var i=0;i<turnid.length;i++){
+              _this.turnnums.push({num:i+1,modeltime:turnid[i].matchTimestr,modelbo:turnid[i].matchType,modelname:turnid[i].name,modelturnid:turnid[i].id});
             }
 
             $(".turn_num_list").width(290*turn);
              _this.$nextTick(function () {
-                 $('#set_begin').datetimepicker({
+                 $('.set_begin').datetimepicker({
                           format:"Y-m-d H:i", 
                           timepicker:false,     
                           yearStart:2000,     
@@ -228,6 +252,7 @@ import topNav from '../components/topNav.vue'
                           });
                     $.datetimepicker.setLocale('ch');
               })
+            
             
             if(!_this.personnum){
                 if(_this.overhalf){
@@ -288,7 +313,7 @@ import topNav from '../components/topNav.vue'
                 }
                 getnum(_this.matchdata);
 
-                // console.log(onelist);
+                console.log(onelist);
                 _content.prepend(listul);
                 listArry=_content.find($(".match_list"));
                 var _topsY=[];
@@ -297,34 +322,30 @@ import topNav from '../components/topNav.vue'
                 //生成非幂次方时第一列的矩形unit
                 for(var i=0;i<onelist.length;i++){
                       if(onelist[i].seats[0].seatNumber){
-                        var _one_list=listArry.eq(1).find(".unit_ul").eq(i).find(".recta_num")
+                        var _one_list=listArry.eq(1).find(".unit_ul").eq(i).find(".recta_num");
+                        var _one_list_li=listArry.eq(1).find(".unit_ul").eq(i).find(".recta");
                           _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
+                          if(onelist[i].seats[0].target){
+                            _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>');
+                          }
                         if(onelist[i].seats[1].seatNumber){
                           _one_list.eq(1).text(onelist[i].seats[1].seatNumber);
+                          if(onelist[i].seats[1].target){
+                            _one_list_li.eq(1).append('<span>'+onelist[i].seats[1].target.name+'</span>');
+                          }
                         }else{
                           var _top=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                           _topsY.push(_top);
-                          listArry.eq(0).append('<li class="out_li single_line"><ul class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta__personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta__personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');
+                          listArry.eq(0).append('<li class="out_li single_line"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');
                         }   
                       }else{
                           var _top=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                           _topdY.push(_top);
-                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><ul class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta__personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta__personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><ul class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta__personname">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta__personname">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
+                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[0].seats[0].id+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[0].seats[1].id+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[1].seats[0].id+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[1].seats[1].id+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
                     }
                 }
                 // console.log(_topdY);
 
-                $(".edit_score").mouseover(function(){
-                    $(this).next(".float_edit").show();
-                  });
-
-                $(".edit_div").mouseleave(function(){
-                    $(this).find(".float_edit").hide();
-                })
-
-                $(".float_edit_edit").on("click",function(){
-                  $(".m-mask").show();
-                })
                 //根据轮空的坐标确定第一列坐标
                 var list_first=listArry.eq(0).find(".single_line");
                 for(i=0;i<_topsY.length;i++){
@@ -460,7 +481,7 @@ import topNav from '../components/topNav.vue'
                   listArry.eq(i).find(".out_li").css("margin-bottom",margin_bt[i]);
                 }
 
-                 //获取turn2的数据
+                 //获取turn1的数据
                  var onelist = []; 
                 function getnum(arr){
                   for(var i=0;i<arr.length;i++){
@@ -481,7 +502,7 @@ import topNav from '../components/topNav.vue'
 
                 listArry.eq(0).empty();
                 for(var i=0;i<onelist.length;i++){
-                        listArry.eq(0).append('<ul class="unit_ul" style="width:200px;margin-bottom:10px;"><li class="recta" style="margin-bottom:1px;">'+onelist[i].seats[0].seatNumber+'</li><li class="recta">'+onelist[i].seats[1].seatNumber+'</li></ul>');  
+                        listArry.eq(0).append('<li style="margin-bottom:10px;" class="out_li"><ul class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><span class="recta_num">'+onelist[i].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].seats[0].target?onelist[i].seats[0].target.name:"")+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><span class="recta_num">'+onelist[i].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].seats[1].target?onelist[i].seats[1].target.name:"")+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');  
                 }
                 
                  //根据矩形坐标画线
@@ -518,7 +539,46 @@ import topNav from '../components/topNav.vue'
                     drawline("mycanvas"); 
                   }  
                 }
-             }  
+             }
+             //编辑查看悬浮框
+              $(".edit_score").mouseover(function(){
+                    $(this).next(".float_edit").show();
+                  });
+
+              $(".edit_div").mouseleave(function(){
+                    $(this).find(".float_edit").hide();
+                });
+              $(".float_edit_edit").on("click",function(){
+                  $(".m-mask").show();
+                  var $this=$(this);
+                  var _parent=$this.closest(".out_li");
+                  var personname_a=_parent.find('.recta_personname').eq(0).text();
+                  var personname_b=_parent.find('.recta_personname').eq(1).text();
+                  _this.personNamea=personname_a;
+                  _this.personNameb=personname_b;
+                  _this.groupid.groupId=_parent.find(".unit_ul").data("groupid");
+                 
+                   _this.$http.get('event/round/turn/getScores',_this.groupid).then(function(response){
+                      console.log(response);
+                       if(response.data.object.scores.length){
+                        _this.scorelis=response.data.object.scores;
+                      }else{
+                        var _index=$this.closest(".match_list").index();
+                        var _lis=$('.turn_num_li').eq(_index).find(".turn_select_number").text();
+                        _this.scorelis.length=0;
+                        for(var i=0;i<_lis;i++){
+                          _this.scorelis.push({best:i+1,seatleft:'',seatright:''});
+                        }
+                      }
+                      },function(response) {
+                              console.log(22);
+                          });
+                })
+             
+             $(".made_winer").on('click',function(){
+              $(".made_winer").removeClass("winer_active");
+              $(this).addClass("winer_active");
+             })
           },function(response) {
               console.log(response);
           });
@@ -526,38 +586,79 @@ import topNav from '../components/topNav.vue'
      methods:{
       turnName: function(e){
         var _target=$(e.currentTarget);
-        // _target.find(".trunname_ed").hide();
-        // _target.find(".trunname_ing").show();
+        var _parent=_target.closest(".trunname_ed");
+         _parent.hide();
+         _parent.next(".trunname_ing").show();
+         _parent.siblings(".turn_set_detail").show();
       },
       turnConfirm: function(e){
+        var _this=this;
+        var turnparm={};
         var _target=$(e.currentTarget);
         var _text=_target.siblings(".turn_input").val();
-        if(_text){
-          console.log(11);
-          _target.parent().hide();
-          _target.parent().siblings(".trunname_ed").show();
-          _target.parent().siblings(".trunname_ed").find(".turn_num_text").text(_text);
-        }
+        var _parent=_target.closest(".turn_num_li");
+          _parent.find('.trunname_ing').hide();
+          _parent.find(".trunname_ed").show();
+          _parent.find(".turn_num_text").text(_text);
+          turnparm.id=_parent.find('.turn_turnid').text();
+          turnparm.matchTime=_parent.find('.set_begin').val();
+          turnparm.matchType=_parent.find('.turn_select_number').text();
+          turnparm.name=_parent.find('.turn_num_text').text();
+          var parmstr=JSON.stringify(turnparm);
+          var parm={};
+          parm.turnJson=parmstr;
+          _this.$http.get("event/round/turn/saveTurn",parm).then(function(response){
+            console.log(response);
+            },function(response) {
+              console.log(response);
+          });
       },
-      turnSet:function(e){
+      turnQuit:function(e){
         var _target=$(e.currentTarget);
-        _target.find(".turn_set_detail").show();
+        _target.parent().hide();
+        _target.parent().siblings(".trunname_ed").show();
+      },
+      randomPic:function(){
+        var parm={};
+        parm.eventId=window.sessionStorage.getItem("eventid");
+        this.$http.get("event/round/groupSeat/random",parm).then(function(response){
+            console.log(response);
+            window.location.reload();
+            },function(response) {
+              console.log(response);
+          });
       },
       closeEdit:function(){
         $(".m-mask").hide();
-      }
-      // setHide:function(e){
-      //   var _target=$(e.currentTarget);
-      //   _target.find(".turn_set_detail").hide();
-      // },
-      // setBegin:function(){
-      //   console.log(777);
-      //   var _target=$(e.currentTarget);
-      //   _val=_target.val();
-      //   _text=_val.split(' ',1);
-      //   _target.closest(".turn_num_li").find(".turn_input_settime").text(_text);
-      // }
+      },
+      addScorelist:function(){
+        var _length=this.scorelis.length;
+        this.scorelis.push({best:_length+1,seatleft:'',seatright:''});
+        console.log(this.scorelis);
+      },
+      submitScore:function(){
+        var _this=this;
+        var scoreparm={};
+        for(var i=0;i<_this.scorelis.length;i++){
+          if(!_this.scorelis[i].seatleft){
+            _this.scorelis.splice(i,1);
+          }
+        }
+        scoreparm.groupid=_this.groupid.groupId;
+        scoreparm.bs=_this.scorelis;
 
+      var parmstr=JSON.stringify(scoreparm);
+      var parm={};
+      parm.scores=parmstr;
+    _this.$http.get('event/round/turn/saveScoreAndWin',parm).then(function(response){
+      console.log(response);
+        if(response.data.code){
+          $(".m-mask").hide();
+        }
+      },function(response) {
+              console.log(22);
+          });
+      },
      },
        components: {
           topNav,
@@ -696,11 +797,12 @@ import topNav from '../components/topNav.vue'
   width: 220px;
   height: 35px;
   line-height: 30px;
-  background-color: #f9a32a;
+  background:url(../../static/images/luck.png) no-repeat 10px 7px #f9a32a;
   color: #fff;
   border-radius: 5px;
   margin: 0 70px 30px;
   text-align: center;
+  cursor: pointer;
 }
 .tech_down_tip{
   width: 1200px;
@@ -828,12 +930,13 @@ import topNav from '../components/topNav.vue'
 }
 .trunname_ing{
   display: none;
+  background-color: #81858a;
 }
 .turn_set_detail{
   background-color: #16181d;
   height: 60px;
   font-size: 12px;
-  /*display: none;*/
+  display: none;
 }
 .turn_set_detail li{
   height: 20px;
@@ -880,9 +983,10 @@ import topNav from '../components/topNav.vue'
   border-radius: 60px;
   text-align: center;
   line-height: 120px;
+  font-size: 20px;
 }
 .edit_detail_top{
-  margin: 20px 100px;
+  margin: 10px 100px;
 }
 .edit_detail_top li{
   float: left;
@@ -896,11 +1000,13 @@ import topNav from '../components/topNav.vue'
   width: 125px;
 }
 .edit_detail_bt{
-  margin: 20px 100px 10px;
+  margin: 10px 100px 10px;
+  height: 130px;
+  overflow-y: scroll;
 }
 .edit_btn_mid{
   display: inline-block;
-  width: 40px;
+  width: 20px;
   font-size: 18px;
   text-align: center;
 }
@@ -909,5 +1015,13 @@ import topNav from '../components/topNav.vue'
   font-size: 12px;
   margin: 0 100px;
   cursor: pointer;
+}
+.made_winer{
+  height: 30px;
+  background: url(../../static/images/lose.png) no-repeat center;
+  cursor: pointer;
+}
+.winer_active{
+  background: url(../../static/images/winer.png) no-repeat center !important;
 }
 </style>
