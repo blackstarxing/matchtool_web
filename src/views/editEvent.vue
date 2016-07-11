@@ -1,11 +1,12 @@
 <template>
+	<top-head></top-head> 
 	<top-nav></top-nav> 
 	<div class="g-doc">
 		<div class="g-bd">
 			<div class="g-tp"></div>
 			<div class="g-center f-cb">
 				<div class="m-form" id="m-form">
-					<h3>巴拉巴拉萌萌赛事</h3>
+					<h3>{{eventlist.name}}</h3>
 					<div class="m-lst">				
 						<label for="name">赛事名称：</label>
 						<input type="text" class="eventname" name="name" value="{{eventlist.name}}" placeholder="请输入比赛名称，不超过32个文字" v-model="formdata.name" required="">
@@ -15,7 +16,7 @@
 					</div>
 					<div class="m-lst f-cb">
 						<label for="">赛事主办方：</label>
-						<div class="organize f-fl">hoo言hoo语</div>
+						<div class="organize f-fl">个人：网娱大师</div>
 						<div class="sponsor">
 							<a href="javascript:void(0);" class="u-select" @click="chooseOrganize">更改</a>
 							<ul class="organize_option">
@@ -153,21 +154,24 @@
 							<div class="tips f-lh36">
 								允许jpg、png格式，最大2MB
 							</div>		
-							<div class="previewPic">
+							<div class="previewPic" v-if="eventlist.poster!=''">
 								<img v-bind:src="'http://img.wangyuhudong.com'+eventlist.poster" alt="">
 							</div>			
 						</div>
 						<div class="m-lst">
 							<label for="">赛事简介：</label>
-							<textarea name="brief" id="" cols="55" rows="5" placeholder="请输入赛制规则，不超过500字" v-model="formdata.brief" required=""></textarea>
+							<!-- <textarea name="brief" id="" cols="55" rows="5" placeholder="请输入赛制规则，不超过500字" v-model="formdata.brief" required=""></textarea> -->
+							<div id="brief" class="m-editor"></div>
 						</div>
 						<div class="m-lst">
 							<label for="">赛制规则：</label>
-							<textarea name="regimeRule" id="" cols="55" rows="5" placeholder="请输入赛制规则，不超过1000字" v-model="formdata.regimeRule" required=""></textarea>
+							<!-- <textarea name="regimeRule" id="" cols="55" rows="5" placeholder="请输入赛制规则，不超过1000字" v-model="formdata.regimeRule" required=""></textarea> -->
+							<div id="regimeRule" class="m-editor"></div>
 						</div>
 						<div class="m-lst f-mb50">
 							<label for="">奖金设置：</label>
-							<textarea name="prizeSetting" id="" cols="55" rows="5" placeholder="请输入奖励设置，不超过1000字" v-model="formdata.prizeSetting" required=""></textarea>
+							<!-- <textarea name="prizeSetting" id="" cols="55" rows="5" placeholder="请输入奖励设置，不超过1000字" v-model="formdata.prizeSetting" required=""></textarea> -->
+							<div id="prizeSetting" class="m-editor"></div>
 						</div>
 						<!-- <div class="m-lst">
 							<label for="">种子规则：</label>
@@ -188,6 +192,7 @@
 
 <script>
 import topNav from '../components/topNav.vue'
+import topHead from '../components/topHead.vue'
 
   	export default {
        	data () {
@@ -242,6 +247,9 @@ import topNav from '../components/topNav.vue'
 	        	_this.formdata.brief=_this.eventlist.brief;
 	        	_this.formdata.regimeRule=_this.eventlist.regimeRule;
 	        	_this.formdata.prizeSetting=_this.eventlist.prizeSetting;
+	        	$('#brief .froala-element').html(_this.formdata.brief);
+	        	$('#regimeRule .froala-element').html(_this.formdata.regimeRule);
+	        	$('#prizeSetting .froala-element').html(_this.formdata.prizeSetting);
 	        	$("#gameList option").each(function(){
 	        		if($(this).val()==_this.eventlist.itemId){
 	        			$(this).attr("selected",true);
@@ -350,6 +358,30 @@ import topNav from '../components/topNav.vue'
 				}
 				
 			});
+
+			$('#brief').editable({
+				inlineMode: false,
+				theme: 'dark', 
+				alwaysBlank: true,
+				language: "zh_cn",
+				placeholder: ''
+			});
+
+			$('#regimeRule').editable({
+				inlineMode: false,
+				theme: 'dark', 
+				alwaysBlank: true,
+				language: "zh_cn",
+				placeholder: ''
+			});
+
+			$('#prizeSetting').editable({
+				inlineMode: false,
+				theme: 'dark', 
+				alwaysBlank: true,
+				language: "zh_cn",
+				placeholder: ''
+			});
   		},
   		methods: {
     		plus: function(e){
@@ -445,7 +477,21 @@ import topNav from '../components/topNav.vue'
 		    	else{
 		    		_this.formdata.needSign=0;
 		    	}
-
+		    	if($('#brief .froala-element').html()!="<p><br></p>"){
+		    		_this.formdata.brief=$('#brief .froala-element').html()
+		    	}else{
+		    		_this.formdata.brief="";
+		    	}
+		    	if($('#regimeRule .froala-element').html()!="<p><br></p>"){
+		    		_this.formdata.regimeRule=$('#regimeRule .froala-element').html()
+		    	}else{
+		    		_this.formdata.regimeRule="";
+		    	}
+		    	if($('#prizeSetting .froala-element').html()!="<p><br></p>"){
+		    		_this.formdata.prizeSetting=$('#prizeSetting .froala-element').html()
+		    	}else{
+		    		_this.formdata.prizeSetting="";
+		    	}
 			    function errorPlacement(mes,element){
 			    	var errorTips=element.parents(".m-lst").find('div.attention');
 			    	if(mes!=""){
@@ -582,7 +628,8 @@ import topNav from '../components/topNav.vue'
 		    }
 	  	},
        components: {
-          topNav
+          topNav,
+          topHead
          
   }
   	}
