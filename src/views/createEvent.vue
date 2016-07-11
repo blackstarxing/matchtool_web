@@ -1,4 +1,5 @@
 <template>
+	<top-head></top-head> 
 	<top-nav></top-nav> 
 	<div class="g-doc">
 		<div class="g-bd">
@@ -173,7 +174,7 @@
 
 <script>
 import topNav from '../components/topNav.vue'
-
+import topHead from '../components/topHead.vue'
   	export default {
        	data () {
     		return {
@@ -481,6 +482,26 @@ import topNav from '../components/topNav.vue'
 	   			parm.jsonInfo=JSON.stringify(_this.formdata);
 			    console.log(parm);
 			    if(formValidate()){
+			    	function power2fs(x) {
+					  	// 一句话版本
+					  	return (x & ( x - 1)) === 0 ? (x-1).toString(2).length : false;
+					}
+					// 是否为幂次方
+					if(power2fs(_this.formdata.maxNum)){
+						window.sessionStorage.setItem("ispower",true);
+					}else{
+						window.sessionStorage.setItem("ispower",false);
+					}
+					var n=0;
+					while(Math.pow(2,n)<_this.formdata.maxNum){
+						n++;
+					}
+					if(_this.formdata.maxNum>(Math.pow(2,n-1)+Math.pow(2,n-2))){
+						window.sessionStorage.setItem("isoverhalf",true);
+					}else{
+						window.sessionStorage.setItem("isoverhalf",false);
+					}
+					
 			    	_this.$http.post('event/save',parm).then(function (response) {
 		  				console.log(parm);
 			  			if(response.data.code==1){
@@ -493,7 +514,8 @@ import topNav from '../components/topNav.vue'
 		    }
 	  	},
        components: {
-          topNav
+          topNav,
+          topHead
          
   }
   	}

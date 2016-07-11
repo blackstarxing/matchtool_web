@@ -332,7 +332,7 @@
 		  			  '</div>'+
 		  			  '<div style="text-align:center;margin:20px 0 0 0;"><button type="button" style="width:10%; height:34px; line-height:34px;" id="check">校验</button><button style="display:none;width:10%;height:34px;line-height:34px;" id="upload">上传</button></div>'+
 		  			  '</form>'
-			});
+			});	
   			var $fileForm = $('#form-upload');
 			// 初始化操作按钮
 			var checkFile = false;

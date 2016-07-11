@@ -8,6 +8,8 @@ import newslist from './views/news.vue'
 import addnews from './views/addnews.vue'
 import reset from './views/reset.vue'
 import techPic from './views/techPic.vue'
+import beforeTech from './components/beforeTech.vue'
+import beginingTech from './components/beginingTech.vue'
 import login from './views/login.vue'
 import newsEdit from './views/newsEdit.vue'
 import VueRouter from 'vue-router'
@@ -24,7 +26,18 @@ var router = new VueRouter({
 
 router.map({
     '/techPic': {
-        component: techPic
+        component: techPic,
+        subRoutes: {
+             '/': {
+            component: beforeTech
+          },
+          '/beforeTech': {
+            component: beforeTech
+          },
+          '/beginingTech': {
+            component: beginingTech
+          }
+        }
     },
     '/homepage': {
         component: homepage
