@@ -11,6 +11,7 @@ import techPic from './views/techPic.vue'
 import beforeTech from './components/beforeTech.vue'
 import beginingTech from './components/beginingTech.vue'
 import login from './views/login.vue'
+import newsEdit from './views/newsEdit.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -61,6 +62,9 @@ router.map({
     },
     '/login': {
         component: login
+    },
+    '/newsEdit': {
+        component: newsEdit
     }
     
 })

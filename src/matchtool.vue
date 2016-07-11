@@ -1,7 +1,7 @@
 <template>
 <div class="content clearfix">
-      <router-view></router-view> 
-      <page-foot></page-foot> 
+          <router-view></router-view> 
+          <page-foot></page-foot> 
  </div>
 </template>
 <script type="text/javascript">
