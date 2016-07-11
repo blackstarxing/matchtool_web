@@ -248,6 +248,7 @@
   	},
   	methods:{
   		deleteimg:function(){
+  			var aaa = this.new_infos[0];
   			var _this = $(event.target);
   			var indexs = _this.attr("indexs");
   			this.new_infos[0].imgs.splice(indexs,1);
@@ -257,7 +258,7 @@
 					success:function( data ) {
 						console.info( data );			
 						$('#tuji0').siblings('input[type="hidden"]').val(data.object.src);
-						this.new_infos[0].imgs[0].img = data.object.src;
+						aaa.imgs[0].img = data.object.src;
 						$('#tuji0').parents('.tuji').find('.attention').hide();
 					},
 					error:function( err ) {
@@ -427,27 +428,153 @@
   			this.new_infos[0].isPublished = 0;
   			var typenum = this.new_infos[0].type;
   			var newsobj = this.new_infos[0];
-  			if(typenum==3){
+  			var isicon = this.new_infos[0].icon;
+  			var iscover = this.new_infos[0].cover;
+  			function errorPlacement(mes,element){
+		    	var errorTips=element.parents(".m-lst").find('div.attention');
+		    	if(mes!=""){
+		    		errorTips.show().html(mes);
+		    	}else{
+		    		errorTips.hide();
+		    	}			    				    	
+		    }
+		    function tujierrorPlacement(mes,element){
+		    	var errorTips=element.parents(".tuji").find('div.attention');
+		    	if(mes!=""){
+		    		errorTips.show().html(mes);
+		    	}else{
+		    		errorTips.hide();
+		    	}			    				    	
+		    }		
+  			function formValidate(){
+  				var valid=true;
+  				$('.m-addzx [required]').each(function(){
+  					var $this=$(this);
+  					var value=$this.val(),name=$this.attr('title');	
+  					var text='';
+  					if(value==null||value==''){
+						text=name+'不能为空！';
+						valid=false;
+					}
+					errorPlacement(text,$this);
+  				})
+  				var $slt = $('#pic');
+  				if(isicon == ''){
+  					valid = false;
+  					errorPlacement('请先上传缩略图！',$slt);
+  				}
+  				else{
+  					errorPlacement('',$slt);
+  				}
+  				if(typenum==1){
+  					var $this = $('.m-addzx [twsource]');
+  				    var twval = $this.val();
+  				    if(twval==null||twval==''){
+  				    	valid = false;
+  				    	errorPlacement('资讯来源不能为空！',$this);   	
+  				    }
+  				    else{
+  				    	errorPlacement('',$this);
+  				    }
+  				    var $thistwrek = $('.m-addzx [twremark]'),
+  				        thistwrek = $thistwrek.val();
+			        if(thistwrek==null||thistwrek==''){
+			        	valid = false;
+  				    	errorPlacement('详细内容不能为空！',$thistwrek);
+			        }
+			        else{
+			        	errorPlacement('',$thistwrek);
+			        }
+
+  				}
+  				if(typenum==4){
+  					var $thiskey = $('.m-addzx [spkeyword]'),
+  						thiskey = $thiskey.val();
+  					if(thiskey==null||thiskey==''){
+  						valid = false;
+  				    	errorPlacement('关键字不能为空！',$thiskey);
+  					}
+  					else{
+  						errorPlacement('',$thiskey);
+  					}
+  					var $thisspurl = $('.m-addzx [spurl]'),
+  						thisspurl = $thisspurl.val();
+  					if(thisspurl==null||thisspurl==''){
+  						valid = false;
+  				    	errorPlacement('视频地址不能为空！',$thisspurl);
+  					}
+  					else{
+  						errorPlacement('',$thisspurl);
+  					}
+  					var $st = $('#firstpic');
+  					if(iscover == ''){
+  						valid = false;
+						errorPlacement('首图不能为空！',$st);
+  					}
+  					else{
+  						errorPlacement('',$st);
+  					}
+  				}
+  				if(typenum==3){
+  					var $tjsource = $('.m-addzx [tjsource]'),
+  						tjsource = $tjsource.val();
+  					if(tjsource==null||tjsource==''){
+  						valid = false;
+  				    	errorPlacement('资讯来源不能为空！',$tjsource);
+  					}
+  					else{
+  						errorPlacement('',$tjsource);
+  					}
+  					
+	  				$('.tuji').each(function(index){
+	  					var hidipt = $(this).find('input[type="hidden"]').val();
+	  					var hid = $(this).find('input[type="hidden"]');
+	  					if(hidipt==''){
+	  						tujierrorPlacement('请先上传图片',hid);
+	  						valid = false;
+	  					}
+	  				 	else{
+	  				 		tujierrorPlacement('',hid);
+	  				 		var n = $(this).find('.u-n-ttr');
+	  						var rem = $(this).find('.u-n-ttr').val();
+	  						if(rem==''){
+	  							tujierrorPlacement('图片说明不能为空！',n);
+	  							valid = false;
+		  					}
+		  				 	else{
+		  				 		tujierrorPlacement('',n);
+		  				 		// newsobj.imgs[index].remark = rem;
+		  				 	}
+	  				 	}
+	  				})
+  				}
+  				return valid;	
+  			}
+  				
+  			// console.log(newsobj);
+  			// console.log(jsonInfos);
+  			// console.log('========================================');
+  			
+  			// console.log(parm);
+  			// console.log(newsobj.imgs);
+  			if(formValidate()){
   				$('.tuji').each(function(index){
   					var rem = $(this).find('.u-n-ttr').val();
-  					if(rem==''){
-  						console.log("当前索引"+index+"的说明为空！")
-  					}
-  				 	else{
-  				 		newsobj.imgs[index].remark = rem;
-  				 	}
-  				})
+  					newsobj.imgs[index].remark = rem;
+  				});
+
+  				var jsonInfos = JSON.stringify(newsobj);
+  				var parm = new Object();
+  				parm.jsonInfo = jsonInfos;
+
+  				this.$http.post('event/information/save',parm).then(function(successResponse){
+	  				var code = successResponse.data.code;
+	  				console.log(code);
+	  				this.$route.router.go({path: '/newslist'});
+	  			}, function(errorResponse){
+	  				console.log("通讯错误")
+	  			})
   			}
-  			var jsonInfos = JSON.stringify(newsobj);
-  			var parm = new Object();
-  			parm.jsonInfo = jsonInfos;
-  			console.log(parm);
-  			this.$http.post('event/information/save',parm).then(function(successResponse){
-  				var code = successResponse.data.code;
-  				console.log(code);
-  			}, function(errorResponse){
-  				console.log("通讯错误")
-  			})
   		},
   		savetrue:function(event){//确定发布
   			this.new_infos[0].isPublished = 1;
@@ -595,6 +722,9 @@
   				this.$http.post('event/information/save',parm).then(function(successResponse){
 	  				var code = successResponse.data.code;
 	  				console.log(code);
+	  				this.$nextTick(function(){
+	  					this.$route.router.go({path: '/newslist'});
+	  				})
 	  			}, function(errorResponse){
 	  				console.log("通讯错误")
 	  			})
