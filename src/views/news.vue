@@ -111,7 +111,7 @@ import topHead from '../components/topHead.vue'
   	ready:function(){
   		var self = this;
   		this.eventid=window.sessionStorage.getItem("eventid");
-  		self.$http.get('event/information/list?eventId='+this.eventid).then(function(response){
+  		self.$http.get('http://wy.oetapi.wangyuhudong.com/event/information/list?eventId='+this.eventid).then(function(response){
   			self.$set('newslists', response.data.object);
   			self.$nextTick(self._events.pagefill[0]);
   		}, function(data, status, request){
@@ -232,7 +232,7 @@ import topHead from '../components/topHead.vue'
     		else{
     			topnum=1;
     		}
-    		this.$http.get("event/information/top?id="+infoid+"&isTop="+topnum+"&eventid="+this.eventid).then(function(response){
+    		this.$http.get("http://wy.oetapi.wangyuhudong.com/event/information/top?id="+infoid+"&isTop="+topnum+"&eventid="+this.eventid).then(function(response){
     			var code = response.data.code;
     			this.$nextTick(function(){
     				if(code==-1){
@@ -263,7 +263,7 @@ import topHead from '../components/topHead.vue'
     			newsstatus = this.newsstatus,
     			begindate = this.begindate,
     			enddate = this.enddate;
-    		this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&eventid="+this.eventid).then(function(response){
+    		this.$http.get("http://wy.oetapi.wangyuhudong.com/event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&eventid="+this.eventid).then(function(response){
     			this.$set('newslists', response.data.object);
     			this.$nextTick(this._events.pagefill[0]);
     		}, function(data, status, request){
@@ -277,7 +277,7 @@ import topHead from '../components/topHead.vue'
     			begindate = this.begindate,
     			enddate = this.enddate;
     		var indexpage = $('.m-page input').val();
-    		this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage+"&eventid="+this.eventid).then(function(response){
+    		this.$http.get("http://wy.oetapi.wangyuhudong.com/event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage+"&eventid="+this.eventid).then(function(response){
     			this.$set('newslists', response.data.object);
     			this.$nextTick(this._events.pagefill[0]);
     		}, function(response){
@@ -293,7 +293,7 @@ import topHead from '../components/topHead.vue'
     		var indexpage = this.newslists.pager.pageNumber;
     		if(indexpage>1){
     			indexpage--;
-    			this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage+"&eventid="+this.eventid).then(function(response){
+    			this.$http.get("http://wy.oetapi.wangyuhudong.com/event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage+"&eventid="+this.eventid).then(function(response){
     			this.$set('newslists', response.data.object);
     			this.$nextTick(this._events.pagefill[0]);
 	    		}, function(response){
@@ -314,7 +314,7 @@ import topHead from '../components/topHead.vue'
     			maxpage = this.newslists.pager.pages;
     		if(indexpage<maxpage){
     			indexpage++;
-    			this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage+"&eventid="+this.eventid).then(function(response){
+    			this.$http.get("http://wy.oetapi.wangyuhudong.com/event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage+"&eventid="+this.eventid).then(function(response){
     			this.$set('newslists', response.data.object);
     			this.$nextTick(this._events.pagefill[0]);
 	    		}, function(response){
@@ -345,7 +345,7 @@ import topHead from '../components/topHead.vue'
     		else{
     			effective=1;
     		}
-    		this.$http.get("event/information/publish?id="+infoid+"&effective="+effective+"&eventid="+this.eventid).then(function(response){
+    		this.$http.get("http://wy.oetapi.wangyuhudong.com/event/information/publish?id="+infoid+"&effective="+effective+"&eventid="+this.eventid).then(function(response){
 				var code = response.data.code;
 				this.$nextTick(function(){
 					if(code==-1){
@@ -355,7 +355,7 @@ import topHead from '../components/topHead.vue'
 						alert("操作失败");
     				}
     				else{
-    					this.$http.get('event/information/list?eventId='+this.eventid).then(function(response){
+    					this.$http.get('http://wy.oetapi.wangyuhudong.com/event/information/list?eventId='+this.eventid).then(function(response){
 				  			this.$set('newslists', response.data.object);
 				  			this.$nextTick(this._events.pagefill[0]);
 				  		}, function(data, status, request){

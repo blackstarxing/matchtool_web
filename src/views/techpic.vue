@@ -126,7 +126,38 @@
       </li>
     </ul>
   </div> 
-  <div class="m-mask">
+  <div class="m-mask m_edit">
+    <div class="m-pop"style="margin: 50px auto 0;">
+      <div class="wrap">
+        <h3>编辑比分</h3>
+        <a href="javascript:void(0);" class="u-btn-close" @click="closeEdit"></a>
+        <ul class="edit_detail_top clearfix">
+          <li class="edit_detail_left">
+            <div class="edit_ring">{{personNamea.substr(0,1)}}</div>
+            <p style="margin:10px 0;">{{personNamea}}</p>
+            <div class="made_winer"><span style="display:none">{{seatida}}</span></div>
+          </li>
+          <li class="edit_detail_mid">vs</li>
+          <li class="edit_detail_right">
+            <div class="edit_ring">{{personNameb.substr(0,1)}}</div>
+            <p style="margin:10px 0;">{{personNameb}}</p>
+            <div style="margin:0 auto;" class="made_winer"><span style="display:none">{{seatidb}}</span></div>
+          </li>
+        </ul>
+        <div class="turn_edit_line" style="text-align: center;"><img src="../../static/images/turnline.png"></div>
+        <ul class='edit_detail_bt'>
+          <li style="margin-bottom:20px;" v-for="scoreli in scorelis">
+            <input type="text" style="width:120px;" v-model="scoreli.seatleft">
+            <span class="edit_btn_mid">:</span>
+            <input type="text" style="width:120px;" v-model="scoreli.seatright">
+          </li>
+        </ul>
+        <div class="add_edit_list" @click="addScorelist">＋添加一组</div>
+        <a href="javascript:void(0);" class="u-btn add-member" @click="submitScore">提交比分</a>
+      </div>      
+    </div>
+  </div>
+  <div class="m-mask m_check">
     <div class="m-pop"style="margin: 50px auto 0;">
       <div class="wrap">
         <h3>编辑比分</h3>
@@ -225,8 +256,7 @@ import topNav from '../components/topNav.vue'
             _this.personnum=response.data.object.iscountm?true:false;
             _this.overhalf=response.data.object.iscountj1?true:false;
              _this.matchdata=response.data.object.groups;
-             console.log(_this.matchdata);
-            console.log(_this.personnum,_this.overhalf);
+
              var turn=_this.matchdata[0].turn;
              var turnid=response.data.object.turns;
              // console.log(turn);
@@ -323,13 +353,14 @@ import topNav from '../components/topNav.vue'
 
                 //生成非幂次方时第一列的矩形unit
                 for(var i=0;i<onelist.length;i++){
-                    var _one_list=listArry.eq(1).find(".unit_ul").eq(i).find(".recta_num");
-                    var _one_list_li=listArry.eq(1).find(".unit_ul").eq(i).find(".recta");
+                    var _one_ul=listArry.eq(1).find(".unit_ul").eq(i);
+                    var _one_list=_one_ul.find(".recta_num");
+                    var _one_list_li=_one_ul.find(".recta");
 
                       if(onelist[i].seats[0].seatNumber){
-                        console.log(onelist[i].groups);
                         if(onelist[i].groups==null){
                               if(onelist[i].seats[1].seatNumber){
+
                                 _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
                                 _one_list.eq(1).text(onelist[i].seats[1].seatNumber);
                                  if(onelist[i].seats[0].target){
@@ -348,6 +379,7 @@ import topNav from '../components/topNav.vue'
                           
                           }else if(onelist[i].groups.length==2){
                             if(onelist[i].seats[1].seatNumber){
+                              _one_ul.parents('.out_li').append('<div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>');
                               _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
                               _one_list.eq(1).text(onelist[i].seats[1].seatNumber);
                               _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>');
@@ -363,6 +395,7 @@ import topNav from '../components/topNav.vue'
                           listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[0].seats[0].id+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[0].seats[1].id+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[1].seats[0].id+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[1].seats[1].id+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
                         }else if(onelist[i].groups.length==1){
                                if(onelist[i].seats[1].seatNumber){
+                                _one_ul.parents('.out_li').append('<div class="edit_div"><div class="edit_score" style="opacity: 0;"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>');
                                   _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
                                   _one_list.eq(1).text(onelist[i].seats[1].seatNumber);
                                   if(onelist[i].seats[0].target){
@@ -381,7 +414,7 @@ import topNav from '../components/topNav.vue'
                               }
                                 var _tops=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                               _topsY.push(_tops);
-                              listArry.eq(0).append('<li class="out_li single_line"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[0].seats[0].id+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[0].seats[1].id+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');
+                              listArry.eq(0).append('<li class="out_li single_line"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[0].seats[0].id+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[0].seats[1].id+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');
                             
                           }
                             
@@ -596,7 +629,7 @@ import topNav from '../components/topNav.vue'
                     $(this).find(".float_edit").hide();
                 });
               $(".float_edit_edit").on("click",function(){
-                  $(".m-mask").show();
+                  $(".m_edit").show();
                   var $this=$(this);
                   var _parent=$this.closest(".out_li");
                   var personname_a=_parent.find('.recta_personname').eq(0).text();
@@ -707,7 +740,7 @@ import topNav from '../components/topNav.vue'
     _this.$http.get('event/round/turn/saveScoreAndWin',parm).then(function(response){
       console.log(response);
         if(response.data.code){
-          $(".m-mask").hide();
+          $(".m_edit").hide();
         }
       },function(response) {
               console.log(22);

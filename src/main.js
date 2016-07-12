@@ -18,7 +18,7 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource);
 Vue.use(VueRouter);
 
-// Vue.http.options.root = 'http://wy.oetapi.wangyuhudong.com/';
+Vue.http.options.root = 'localhost/api/';
 Vue.http.options.emulateJSON = true;
 var router = new VueRouter({
     hashbang: false

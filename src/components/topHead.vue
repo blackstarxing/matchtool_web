@@ -26,7 +26,7 @@
           
         },
         logout:function(e){
-        	this.$http.post("/event/logout").then(function(response){
+        	this.$http.post("event/logout").then(function(response){
         		this.$route.router.go({path: '/login'})			
 			}, function(response){
 				console.log(response);
