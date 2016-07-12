@@ -231,7 +231,7 @@ import topHead from '../components/topHead.vue'
    			_this.formdata.oetRoundId=window.sessionStorage.getItem("roundid");
    			var eve={};
    			eve.jsonInfo=JSON.stringify({oetInfoId:_this.formdata.oetInfoId,oetRoundId:_this.formdata.oetRoundId});
-   			_this.$http.get('event/openOetInfo',eve).then(function(response) {
+   			_this.$http.get('http://wy.oetapi.wangyuhudong.com/event/openOetInfo',eve).then(function(response) {
 	        	console.log(response);
 	        	_this.eventlist=response.data.object.event;
 	        	_this.roundlist=response.data.object.round;
@@ -257,7 +257,7 @@ import topHead from '../components/topHead.vue'
 	        	});
 	        	var parm={};
 	   			parm.jsonInfo=JSON.stringify({itemsId:_this.eventlist.itemId});
-	   			_this.$http.get('event/queryActivityItem',parm).then(function (response) {
+	   			_this.$http.get('http://wy.oetapi.wangyuhudong.com/event/queryActivityItem',parm).then(function (response) {
 	  				var gameList=response.data.object.itemsServerList;
 	  				var content='<option value="">请选择服务器</option>';	  				
 	  				for(var i=0;i<gameList.length;i++){
@@ -288,7 +288,7 @@ import topHead from '../components/topHead.vue'
 	        });
    			var parm={};
    			parm.jsonInfo=JSON.stringify({itemsId:""});
-   			_this.$http.get('/event/queryActivityItem',parm).then(function (response) {
+   			_this.$http.get('http://wy.oetapi.wangyuhudong.com/event/queryActivityItem',parm).then(function (response) {
   				var gameList=response.data.object.itemsList;
   				var content='';
   				

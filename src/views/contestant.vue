@@ -109,7 +109,7 @@ import topHead from '../components/topHead.vue'
      		var _this=this;
      		_this.roundId=window.sessionStorage.getItem("roundid");
      		_this.needsign=window.sessionStorage.getItem("needsign");
-	        _this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
+	        _this.$http.post('http://wy.oetapi.wangyuhudong.com/event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 	        	console.log(response);
 	            _this.memberlist=response.data.object.pager;
 	        },function(response) {
@@ -134,7 +134,7 @@ import topHead from '../components/topHead.vue'
 		    upsetseat:function(e){
 		    	var _this=this;
 		    	var parm={eventId:_this.roundId};
-		    	_this.$http.get('event/round/groupSeat/random',parm).then(function(response) {
+		    	_this.$http.get('http://wy.oetapi.wangyuhudong.com/event/round/groupSeat/random',parm).then(function(response) {
 		        	console.log(response.data);
 		        	if(response.data.code==1){
 		        		layer.msg('选手顺序已打乱',{offset:"0px"});
@@ -166,11 +166,11 @@ import topHead from '../components/topHead.vue'
 		    		sign=1;
 		    	}
 		    	var parm={memberId:memberId,sign:sign};
-		    	_this.$http.get('event/round/group/member/sign',parm).then(function(response) {
+		    	_this.$http.get('http://wy.oetapi.wangyuhudong.com/event/round/group/member/sign',parm).then(function(response) {
 		        	console.log(response.data.msg);
 		        	if(response.data.code==1){
 		        		layer.msg('签到状态已更改',{offset:"0px"});
-		        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
+		        		_this.$http.post('http://wy.oetapi.wangyuhudong.com/event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 				        	console.log(response.data);
 				        	_this.memberlist=response.data.object.pager;
 				        },function(response) {
@@ -208,11 +208,11 @@ import topHead from '../components/topHead.vue'
 				  	btn: ['确定','取消'], //按钮
 				  	move:false
 				}, function(){
-					_this.$http.get('event/round/group/member/del',parm).then(function(response) {
+					_this.$http.get('http://wy.oetapi.wangyuhudong.com/event/round/group/member/del',parm).then(function(response) {
 			        	console.log(response.data);
 			        	if(response.data.code==1){
 			        		layer.msg('已删除',{offset:"0px"});
-			        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
+			        		_this.$http.post('http://wy.oetapi.wangyuhudong.com/event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 					        	console.log(response.data);
 					        	_this.memberlist=response.data.object.pager;
 					        },function(response) {
@@ -289,7 +289,7 @@ import topHead from '../components/topHead.vue'
 			    		var parmstr=JSON.stringify({roundId:_this.roundId,id:$('.member-id').html(),name:$('.name').val(),telephone:$('.tel').val(),qq:$('.qq').val(),idcard:$('.idcard').val()});
 				    	var parm={};
 				    	parm.memberJson=parmstr;
-				    	_this.$http.get('event/round/group/member/edit',parm).then(function(response) {
+				    	_this.$http.get('http://wy.oetapi.wangyuhudong.com/event/round/group/member/edit',parm).then(function(response) {
 				        	console.log(response.data);
 				        	if(response.data.code==0){
 				        		$('.m-mask').hide();
@@ -312,7 +312,7 @@ import topHead from '../components/topHead.vue'
 			    		var parmstr=JSON.stringify({roundId:_this.roundId,name:$('.name').val(),telephone:$('.tel').val(),qq:$('.qq').val(),idcard:$('.idcard').val()});
 				    	var parm={};
 				    	parm.memberJson=parmstr;
-			    		_this.$http.get('event/round/group/member/add',parm).then(function(response) {
+			    		_this.$http.get('http://wy.oetapi.wangyuhudong.com/event/round/group/member/add',parm).then(function(response) {
 				        	console.log(response.data);
 				        	if(response.data.code==1){
 				        		$('.m-mask').hide();
@@ -347,7 +347,7 @@ import topHead from '../components/topHead.vue'
   				var currentpage = this.memberlist.pageNumber;
 	    		if(currentpage>1){
 	    			currentpage--;
-	    			this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:currentpage}).then(function(response){
+	    			this.$http.post("http://wy.oetapi.wangyuhudong.com/event/round/group/member/list",{roundId:this.roundId,pageNumber:currentpage}).then(function(response){
 	    				this.memberlist=response.data.object.pager;
 		    		}, function(response){
 		    			console.log(response);
@@ -363,7 +363,7 @@ import topHead from '../components/topHead.vue'
   					maxpage = this.memberlist.pages;
 	    		if(currentpage<maxpage){
 	    			currentpage++;
-	    			this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:currentpage}).then(function(response){
+	    			this.$http.post("http://wy.oetapi.wangyuhudong.com/event/round/group/member/list",{roundId:this.roundId,pageNumber:currentpage}).then(function(response){
 	    				this.memberlist=response.data.object.pager;
 		    		}, function(response){
 		    			console.log(response);
@@ -376,7 +376,7 @@ import topHead from '../components/topHead.vue'
   			gopage:function(e){
   				e.preventDefault();
   				var pageNum=$('#pageto').val();
-  				this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:pageNum}).then(function(response){
+  				this.$http.post("http://wy.oetapi.wangyuhudong.com/event/round/group/member/list",{roundId:this.roundId,pageNumber:pageNum}).then(function(response){
 	    				this.memberlist=response.data.object.pager;
 		    		}, function(response){
 		    			console.log(response);
