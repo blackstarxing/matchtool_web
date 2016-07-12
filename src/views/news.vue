@@ -93,13 +93,32 @@
 </template>
 
 <script type="text/javascript">
+	/**
+ * Date 扩展
+ */
+Date.prototype.Format = function (fmt) { // author: meizz
+	var o = {
+			"M+": this.getMonth() + 1, // 月份
+			"d+": this.getDate(), // 日
+			"h+": this.getHours(), // 小时
+			"m+": this.getMinutes(), // 分
+			"s+": this.getSeconds(), // 秒
+			"q+": Math.floor((this.getMonth() + 3) / 3), // 季度
+			"S": this.getMilliseconds() // 毫秒
+	};
+	if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+	for (var k in o)
+		if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+	return fmt;
+}
+
 import topHead from '../components/topHead.vue'
  import topNav from '../components/topNav.vue'
   export default {
 
     data () {
 	    return {
-	    	eventid:'',
+	    	eventId:'',
 	        newslists:'',
 	        newsword:'',
 	        newstp:'',
@@ -110,9 +129,13 @@ import topHead from '../components/topHead.vue'
   	},
   	ready:function(){
   		var self = this;
-  		this.eventid=window.sessionStorage.getItem("eventid");
-  		self.$http.get('event/information/list?eventId='+this.eventid).then(function(response){
+  		this.eventId=window.sessionStorage.getItem("eventid");
+  		self.$http.get('event/information/list?eventId='+this.eventId).then(function(response){
   			self.$set('newslists', response.data.object);
+  			var len = response.data.object.pager.list.length;
+  			for(var i=0;i<len;i++){
+  				this.newslists.pager.list[i].createDate = new Date(response.data.object.pager.list[i].createDate).Format('yyyy-MM-dd hh:mm:ss');
+  			}
   			self.$nextTick(self._events.pagefill[0]);
   		}, function(data, status, request){
   			console.log('fail' + status + "," + request);
@@ -200,7 +223,7 @@ import topHead from '../components/topHead.vue'
     	infodel:function(event){
     		var _this = $(event.target);
     		var infoid = _this.parents('li').find('[infoid]').text();
-    		this.$http.get("event/information/delete?id="+infoid+"&eventid="+this.eventid).then(function(response){
+    		this.$http.get("event/information/delete?id="+infoid+"&eventId="+this.eventId).then(function(response){
 				var code = response.data.code;
 				this.$nextTick(function(){
 					if(code==-1){
@@ -210,8 +233,12 @@ import topHead from '../components/topHead.vue'
 						alert("参数错误");
     				}
     				else{
-    					this.$http.get('event/information/list?eventId='+this.eventid).then(function(response){
+    					this.$http.get('event/information/list?eventId='+this.eventId).then(function(response){
 				  			this.$set('newslists', response.data.object);
+				  			var len = response.data.object.pager.list.length;
+				  			for(var i=0;i<len;i++){
+				  				this.newslists.pager.list[i].createDate = new Date(response.data.object.pager.list[i].createDate).Format('yyyy/MM/dd hh:mm:ss');
+				  			}
 				  			this.$nextTick(this._events.pagefill[0]);
 				  		}, function(data, status, request){
 				  			console.log('fail' + status + "," + request);
@@ -232,7 +259,7 @@ import topHead from '../components/topHead.vue'
     		else{
     			topnum=1;
     		}
-    		this.$http.get("event/information/top?id="+infoid+"&isTop="+topnum+"&eventid="+this.eventid).then(function(response){
+    		this.$http.get("event/information/top?id="+infoid+"&isTop="+topnum+"&eventId="+this.eventId).then(function(response){
     			var code = response.data.code;
     			this.$nextTick(function(){
     				if(code==-1){
@@ -245,8 +272,12 @@ import topHead from '../components/topHead.vue'
     					alert("找不到资讯");
     				}
     				else{
-    					this.$http.get('event/information/list?eventId='+this.eventid).then(function(response){
+    					this.$http.get('event/information/list?eventId='+this.eventId).then(function(response){
 				  			this.$set('newslists', response.data.object);
+				  			var len = response.data.object.pager.list.length;
+				  			for(var i=0;i<len;i++){
+				  				this.newslists.pager.list[i].createDate = new Date(response.data.object.pager.list[i].createDate).Format('yyyy/MM/dd hh:mm:ss');
+				  			}
 				  			this.$nextTick(this._events.pagefill[0]);
 				  		}, function(data, status, request){
 				  			console.log('fail' + status + "," + request);
@@ -263,8 +294,12 @@ import topHead from '../components/topHead.vue'
     			newsstatus = this.newsstatus,
     			begindate = this.begindate,
     			enddate = this.enddate;
-    		this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&eventid="+this.eventid).then(function(response){
+    		this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&eventId="+this.eventId).then(function(response){
     			this.$set('newslists', response.data.object);
+    			var len = response.data.object.pager.list.length;
+	  			for(var i=0;i<len;i++){
+	  				this.newslists.pager.list[i].createDate = new Date(response.data.object.pager.list[i].createDate).Format('yyyy/MM/dd hh:mm:ss');
+	  			}
     			this.$nextTick(this._events.pagefill[0]);
     		}, function(data, status, request){
     			console.log('fail' + status + "," + request);
@@ -277,8 +312,12 @@ import topHead from '../components/topHead.vue'
     			begindate = this.begindate,
     			enddate = this.enddate;
     		var indexpage = $('.m-page input').val();
-    		this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage+"&eventid="+this.eventid).then(function(response){
+    		this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage+"&eventId="+this.eventId).then(function(response){
     			this.$set('newslists', response.data.object);
+    			var len = response.data.object.pager.list.length;
+	  			for(var i=0;i<len;i++){
+	  				this.newslists.pager.list[i].createDate = new Date(response.data.object.pager.list[i].createDate).Format('yyyy/MM/dd hh:mm:ss');
+	  			}
     			this.$nextTick(this._events.pagefill[0]);
     		}, function(response){
     			console.log(response);
@@ -293,8 +332,12 @@ import topHead from '../components/topHead.vue'
     		var indexpage = this.newslists.pager.pageNumber;
     		if(indexpage>1){
     			indexpage--;
-    			this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage+"&eventid="+this.eventid).then(function(response){
+    			this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage+"&eventId="+this.eventId).then(function(response){
     			this.$set('newslists', response.data.object);
+    			var len = response.data.object.pager.list.length;
+	  			for(var i=0;i<len;i++){
+	  				this.newslists.pager.list[i].createDate = new Date(response.data.object.pager.list[i].createDate).Format('yyyy/MM/dd hh:mm:ss');
+	  			}
     			this.$nextTick(this._events.pagefill[0]);
 	    		}, function(response){
 	    			console.log(response);
@@ -314,8 +357,12 @@ import topHead from '../components/topHead.vue'
     			maxpage = this.newslists.pager.pages;
     		if(indexpage<maxpage){
     			indexpage++;
-    			this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage+"&eventid="+this.eventid).then(function(response){
+    			this.$http.get("event/information/list?word="+newsword+"&type="+newstp+"&status="+newsstatus+"&beginDate="+begindate+"&endDate="+enddate+"&pageNumber="+indexpage+"&eventId="+this.eventId).then(function(response){
     			this.$set('newslists', response.data.object);
+    			var len = response.data.object.pager.list.length;
+	  			for(var i=0;i<len;i++){
+	  				this.newslists.pager.list[i].createDate = new Date(response.data.object.pager.list[i].createDate).Format('yyyy/MM/dd hh:mm:ss');
+	  			}
     			this.$nextTick(this._events.pagefill[0]);
 	    		}, function(response){
 	    			console.log(response);
@@ -345,7 +392,7 @@ import topHead from '../components/topHead.vue'
     		else{
     			effective=1;
     		}
-    		this.$http.get("event/information/publish?id="+infoid+"&effective="+effective+"&eventid="+this.eventid).then(function(response){
+    		this.$http.get("event/information/publish?id="+infoid+"&effective="+effective+"&eventId="+this.eventId).then(function(response){
 				var code = response.data.code;
 				this.$nextTick(function(){
 					if(code==-1){
@@ -355,8 +402,12 @@ import topHead from '../components/topHead.vue'
 						alert("操作失败");
     				}
     				else{
-    					this.$http.get('event/information/list?eventId='+this.eventid).then(function(response){
+    					this.$http.get('event/information/list?eventId='+this.eventId).then(function(response){
 				  			this.$set('newslists', response.data.object);
+				  			var len = response.data.object.pager.list.length;
+				  			for(var i=0;i<len;i++){
+				  				this.newslists.pager.list[i].createDate = new Date(response.data.object.pager.list[i].createDate).Format('yyyy/MM/dd hh:mm:ss');
+				  			}
 				  			this.$nextTick(this._events.pagefill[0]);
 				  		}, function(data, status, request){
 				  			console.log('fail' + status + "," + request);
