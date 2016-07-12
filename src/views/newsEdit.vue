@@ -102,16 +102,16 @@
 								<div class="attention"></div>
 							</div>
 						</div>
-						<div class="m-lst clearfix">				
-							<label for="" class="l">图集:</label>
+						<div class="clearfix" style="min-height:36px;line-height:36px;">				
+							<label for="" class="l" style="margin-top:8px;width:103px;font-weight:normal;display:block; text-align:right;float:left;margin-right:15px;">图集:</label>
 							<div class="l" style="width: 320px;" id="tujidiv">
-								<div class="tuji clearfix l" v-for="img in new_info.imgs">
+								<div class="tuji clearfix l m-lst" v-for="img in new_info.imgs">
 								  	<div class="tujinei ">
-										<div id="tuji{{img.id}}" class="l mt10 m-tuji"></div>
+										<div id="tuji{{$index}}" class="l mt10 m-tuji"></div>
 										<input type="hidden" value="{{img.img}}">
 									</div>
 									<textarea placeholder="图片描述" class="u-n-ttr">{{img.remark}}</textarea>
-									<img src="../../static/images/mg_del.png" title="移出" class="u-tuji-del">
+									<img src="../../static/images/mg_del.png" title="移出" class="u-tuji-del" @click="deleteimg" indexs="{{$index}}">
 									<div class="tips">
 										<div class="attention"></div>
 									</div>
@@ -155,6 +155,7 @@
 	    	id:''
 	    }
         return {
+        	delImgIds:'',
         	oldVideoUrl:'',
     	 	new_infos:[new_info]
         }
@@ -204,21 +205,20 @@
 	        		}
 	        	});
 	        	_this.$nextTick(function(){
-	        		console.log(obj.imgs.length)
-	        		//编辑图集图片
-			    	 for(var i =0;i<obj.imgs.length;i++){
-			    	   var imgid = obj.imgs[i].id;
-			    		$('#tuji'+imgid).diyUpload({
-							url:'http://192.168.30.62:8080/file/upload',
+	        		$('.tuji').each(function(index, el) {
+	        			$(this).find('.m-tuji').diyUpload({
+	        				url:'http://wy.oetapi.wangyuhudong.com/file/upload',
 							success:function( data ) {
-								console.info( data );	
-								for(var i =0;i<obj.imgs.length;i++){
-									var a = obj.imgs[i].id;
-									if(a==imgid){
-										obj.imgs[i].img=data.object.src;
-										$('#tuji'+imgid).siblings('input').val(data.object.src);
-									}
-								}
+								console.info( data );
+									 obj.imgs[index].img=data.object.src;
+									 $('#tuji'+index).siblings('input').val(data.object.src);
+								// for(var i =0;i<obj.imgs.length;i++){
+								// 	var a = obj.imgs[i].id;
+								// 	if(a==imgid){
+								// 		obj.imgs[i].img=data.object.src;
+								// 		$('#tuji'+imgid).siblings('input').val(data.object.src);
+								// 	}
+								// }
 								
 							},
 							error:function( err ) {
@@ -233,29 +233,61 @@
 							fileSizeLimit:500000 * 1024,
 							fileSingleSizeLimit:50000 * 1024,
 							accept: {}
-			    		});
-			    	}
+	        			})
+	        		});
+	        		//编辑图集图片
+			    // 	 for(var i =0;i<obj.imgs.length;i++){
+			    // 	   // var imgid = obj.imgs[i].id;
+			    // 		$('#tuji'+i).diyUpload({
+							// url:'http://192.168.30.62:8080/file/upload',
+							// success:function( data ) {
+							// 	console.info( data );
+							// 		 obj.imgs[i].img=data.object.src;
+							// 		 $('#tuji'+i).siblings('input').val(data.object.src);
+							// 	// for(var i =0;i<obj.imgs.length;i++){
+							// 	// 	var a = obj.imgs[i].id;
+							// 	// 	if(a==imgid){
+							// 	// 		obj.imgs[i].img=data.object.src;
+							// 	// 		$('#tuji'+imgid).siblings('input').val(data.object.src);
+							// 	// 	}
+							// 	// }
+								
+							// },
+							// error:function( err ) {
+							// 	console.info( err );	
+							// },
+							// buttonText : '选择图片',	
+							// chunked:true,
+							// // 分片大小
+							// chunkSize:512 * 1024,
+							// //最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+							// fileNumLimit:1,
+							// fileSizeLimit:500000 * 1024,
+							// fileSingleSizeLimit:50000 * 1024,
+							// accept: {}
+			    // 		});
+			    // 	}
 			    	$('.tuji').each(function(index, el) {
 						$(this).hover(function() {
 						   	var tuJiLen = $('.tuji').length;
-						   	var a = index;
+						   	// var a = index;
 						   	if(tuJiLen!=1){
 								$(this).find('.u-tuji-del').show();
-								$(this).find('.u-tuji-del').off('click');
-								$(this).find('.u-tuji-del').on('click', function(){
-									var objImgs = obj.imgs[index];
-									var thisrem = '';
-									if(objImgs && objImgs.length > 0) {
-										thisrem = obj.imgs[index].img;
-									}
-									if(thisrem!=''){
-										obj.imgs.splice(index,1);	
-										$(this).parent('.tuji').remove();
-									}
-									else{
-										$(this).parent('.tuji').remove();
-									}
-								})
+								// $(this).find('.u-tuji-del').off('click');
+								// $(this).find('.u-tuji-del').on('click', function(){
+								// 	var objImgs = obj.imgs[index];
+								// 	var thisrem = '';
+								// 	if(objImgs && objImgs.length > 0) {
+								// 		thisrem = obj.imgs[index].img;
+								// 	}
+								// 	if(thisrem!=''){
+								// 		obj.imgs.splice(index,1);	
+								// 		$(this).parent('.tuji').remove();
+								// 	}
+								// 	else{
+								// 		$(this).parent('.tuji').remove();
+								// 	}
+								// })
 							}
 						}, function() {
 							$(this).find('.u-tuji-del').hide();
@@ -290,7 +322,7 @@
     		}
     	});
     	$('#pic').diyUpload({
-    		url:'http://192.168.30.62:8080/file/upload',
+    		url:'http://wy.oetapi.wangyuhudong.com/file/upload',
 			success:function( data ) {
 				console.info( data );	
 				_this.new_infos[0].icon=data.object.src;
@@ -310,7 +342,7 @@
 			accept: {}
     	});
     	$('#firstpic').diyUpload({
-    		url:'http://192.168.30.62:8080/file/upload',
+    		url:'http://wy.oetapi.wangyuhudong.com/file/upload',
 			success:function( data ) {
 				console.info( data );	
 				_this.new_infos[0].cover=data.object.src;
@@ -349,7 +381,7 @@
 			// accept: {}
    //  	});
     	$('#tuji').diyUpload({
-    		url:'http://192.168.30.62:8080/file/upload',
+    		url:'http://wy.oetapi.wangyuhudong.com/file/upload',
 			success:function( data ) {
 				console.info( data );	
 				var imgobj = new Object();
@@ -373,7 +405,7 @@
 			fileSingleSizeLimit:50000 * 1024,
 			accept: {}
     	});
-		var indexImg = 1;
+		// var indexImg = 1;
 		// $('#addPicture').on('click', function(){
 			
 			// var tuJiDiv = '<div class="tuji clearfix l">'+
@@ -445,12 +477,55 @@
 		// });
   	},
   	methods:{
+  		deleteimg:function(){
+  			var aaa = this.new_infos[0];
+  			var _this = $(event.target);
+  			var indexs = _this.attr("indexs");
+  		 	if('id' in aaa.imgs[indexs]){
+  		 		if(this.delImgIds == ''){
+  		 			this.delImgIds = aaa.imgs[indexs].id;
+  		 		}
+  		 		else{
+  		 			this.delImgIds =','+ aaa.imgs[indexs].id;
+  		 		}
+  		 	}
+  		 	aaa.imgs.splice(indexs,1);
+  		 	this.$nextTick(function(){
+  		 		$('.tuji').each(function(index, el) {
+        			$(this).find('.m-tuji').diyUpload({
+        				url:'http://wy.oetapi.wangyuhudong.com/file/upload',
+						success:function( data ) {
+							console.info( data );
+								 aaa.imgs[index].img=data.object.src;
+								 $('#tuji'+index).siblings('input').val(data.object.src);
+							// for(var i =0;i<obj.imgs.length;i++){
+							// 	var a = obj.imgs[i].id;
+							// 	if(a==imgid){
+							// 		obj.imgs[i].img=data.object.src;
+							// 		$('#tuji'+imgid).siblings('input').val(data.object.src);
+							// 	}
+							// }
+							
+						},
+						error:function( err ) {
+							console.info( err );	
+						},
+						buttonText : '选择图片',	
+						chunked:true,
+						// 分片大小
+						chunkSize:512 * 1024,
+						//最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+						fileNumLimit:1,
+						fileSizeLimit:500000 * 1024,
+						fileSingleSizeLimit:50000 * 1024,
+						accept: {}
+        			})
+        		});
+  		 	})
+
+  		},
   		addPicture:function(){
-  			var tuJiId = 'tuji' + indexImg;
-			var imgobj = new Object();
-			imgobj.img = '';
-			imgobj.remark='';
-			_this.new_infos[0].imgs.push(imgobj);
+  			
   		},
   		openvideolay:function(event){
   			var _this = this;
@@ -500,7 +575,7 @@
 					var $this = $(this);
 					$this.prop('disabled', true);
 					console.log("文件校验中, 请稍等 ...");
-					_this.$http.get('http://192.168.30.62:8080/file/upYunFormSignature?filename='+filename).then(function(response){
+					_this.$http.get('http://wy.oetapi.wangyuhudong.com/file/upYunFormSignature?filename='+filename).then(function(response){
 						var res = response.data.object;
 						//初始化校验数据
 						var action = res.action;

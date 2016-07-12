@@ -180,7 +180,7 @@
     		}
     	});
     	$('#pic').diyUpload({
-    		url:'http://192.168.30.62:8080/file/upload',
+    		url:'http://wy.oetapi.wangyuhudong.com/file/upload',
 			success:function( data ) {
 				console.info( data );	
 				_this.new_infos[0].icon=data.object.src;
@@ -199,7 +199,7 @@
 			accept: {}
     	});
     	$('#firstpic').diyUpload({
-    		url:'http://192.168.30.62:8080/file/upload',
+    		url:'http://wy.oetapi.wangyuhudong.com/file/upload',
 			success:function( data ) {
 				console.info( data );	
 				_this.new_infos[0].cover=data.object.src;
@@ -224,7 +224,7 @@
     	console.log(obj.imgs);
     	_this.$nextTick(function(){
 	    		$('#tuji0').diyUpload({
-	    		url:'http://192.168.30.62:8080/file/upload',
+	    		url:'http://wy.oetapi.wangyuhudong.com/file/upload',
 				success:function( data ) {
 					console.info( data );			
 					$('#tuji0').siblings('input[type="hidden"]').val(data.object.src);
@@ -254,7 +254,7 @@
   			this.new_infos[0].imgs.splice(indexs,1);
 	  			this.$nextTick(function(){
 	  				$('#tuji0').diyUpload({
-		    		url:'http://192.168.30.62:8080/file/upload',
+		    		url:'http://wy.oetapi.wangyuhudong.com/file/upload',
 					success:function( data ) {
 						console.info( data );			
 						$('#tuji0').siblings('input[type="hidden"]').val(data.object.src);
@@ -287,7 +287,7 @@
   			    var l = this.new_infos[0].imgs.length;
   			    var nn = l-1;
 	  			$('#tuji'+nn).diyUpload({
-	    			url:'http://192.168.30.62:8080/file/upload',
+	    			url:'http://wy.oetapi.wangyuhudong.com/file/upload',
 					success:function( data ) {
 						console.info( data );
 						aaa.imgs[nn].img =  data.object.src;	
@@ -368,7 +368,7 @@
 					var $this = $(this);
 					$this.prop('disabled', true);
 					console.log("文件校验中, 请稍等 ...");
-					_this.$http.get('http://192.168.30.62:8080/file/upYunFormSignature?filename='+filename).then(function(response){
+					_this.$http.get('http://wy.oetapi.wangyuhudong.com/file/upYunFormSignature?filename='+filename).then(function(response){
 						var res = response.data.object;
 						//初始化校验数据
 						var action = res.action;
