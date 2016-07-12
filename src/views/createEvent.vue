@@ -246,7 +246,7 @@ import topHead from '../components/topHead.vue'
 
 			// 图片上传
 			$('#pic').diyUpload({
-				url:'http://192.168.30.248:8088/file/upload',
+				url:'http://wy.oetapi.wangyuhudong.com/file/upload',
 				success:function( data ) {
 					console.info( data );
 					_this.formdata.poster=data.object.src;

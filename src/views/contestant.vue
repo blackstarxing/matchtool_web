@@ -339,7 +339,7 @@ import topHead from '../components/topHead.vue'
 		    	e.preventDefault();
 		    	var _this=this;
 		    	var _target=$(e.currentTarget); 
-		    	window.location.href="http://192.168.30.248:8088/event/round/group/member/export?roundId="+_this.roundId;
+		    	window.location.href="http://wy.oetapi.wangyuhudong.com/event/round/group/member/export?roundId="+_this.roundId;
 		    },
 		    // 翻页
   			prevpage:function(e){
