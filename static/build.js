@@ -58,39 +58,55 @@
 	
 	var _homepage2 = _interopRequireDefault(_homepage);
 	
-	var _createEvent = __webpack_require__(27);
+	var _createEvent = __webpack_require__(26);
 	
 	var _createEvent2 = _interopRequireDefault(_createEvent);
 	
-	var _contestant = __webpack_require__(65);
+	var _editEvent = __webpack_require__(64);
+	
+	var _editEvent2 = _interopRequireDefault(_editEvent);
+	
+	var _contestant = __webpack_require__(67);
 	
 	var _contestant2 = _interopRequireDefault(_contestant);
 	
-	var _news = __webpack_require__(68);
+	var _news = __webpack_require__(70);
 	
 	var _news2 = _interopRequireDefault(_news);
 	
-	var _addnews = __webpack_require__(75);
+	var _addnews = __webpack_require__(80);
 	
 	var _addnews2 = _interopRequireDefault(_addnews);
 	
-	var _reset = __webpack_require__(80);
+	var _reset = __webpack_require__(84);
 	
 	var _reset2 = _interopRequireDefault(_reset);
 	
-	var _techPic = __webpack_require__(83);
+	var _techPic = __webpack_require__(87);
 	
 	var _techPic2 = _interopRequireDefault(_techPic);
 	
-	var _login = __webpack_require__(97);
+	var _beforeTech = __webpack_require__(105);
+	
+	var _beforeTech2 = _interopRequireDefault(_beforeTech);
+	
+	var _beginingTech = __webpack_require__(109);
+	
+	var _beginingTech2 = _interopRequireDefault(_beginingTech);
+	
+	var _login = __webpack_require__(112);
 	
 	var _login2 = _interopRequireDefault(_login);
 	
-	var _vueRouter = __webpack_require__(106);
+	var _newsEdit = __webpack_require__(121);
+	
+	var _newsEdit2 = _interopRequireDefault(_newsEdit);
+	
+	var _vueRouter = __webpack_require__(124);
 	
 	var _vueRouter2 = _interopRequireDefault(_vueRouter);
 	
-	var _vueResource = __webpack_require__(107);
+	var _vueResource = __webpack_require__(125);
 	
 	var _vueResource2 = _interopRequireDefault(_vueResource);
 	
@@ -99,6 +115,7 @@
 	_vue2.default.use(_vueResource2.default);
 	_vue2.default.use(_vueRouter2.default);
 	
+	_vue2.default.http.options.root = 'http://wy.oetapi.wangyuhudong.com/';
 	_vue2.default.http.options.emulateJSON = true;
 	var router = new _vueRouter2.default({
 	    hashbang: false
@@ -106,13 +123,27 @@
 	
 	router.map({
 	    '/techPic': {
-	        component: _techPic2.default
+	        component: _techPic2.default,
+	        subRoutes: {
+	            '/': {
+	                component: _beforeTech2.default
+	            },
+	            '/beforeTech': {
+	                component: _beforeTech2.default
+	            },
+	            '/beginingTech': {
+	                component: _beginingTech2.default
+	            }
+	        }
 	    },
 	    '/homepage': {
 	        component: _homepage2.default
 	    },
 	    '/createEvent': {
 	        component: _createEvent2.default
+	    },
+	    '/editEvent': {
+	        component: _editEvent2.default
 	    },
 	    '/contestant': {
 	        component: _contestant2.default
@@ -128,6 +159,9 @@
 	    },
 	    '/login': {
 	        component: _login2.default
+	    },
+	    '/newsEdit': {
+	        component: _newsEdit2.default
 	    }
 	
 	});
@@ -142,7 +176,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {/*!
-	 * Vue.js v1.0.26
+	 * Vue.js v1.0.25
 	 * (c) 2016 Evan You
 	 * Released under the MIT License.
 	 */
@@ -3552,7 +3586,7 @@
 	  }
 	  var isA = isArray(val);
 	  var isO = isObject(val);
-	  if ((isA || isO) && Object.isExtensible(val)) {
+	  if (isA || isO) {
 	    if (val.__ob__) {
 	      var depId = val.__ob__.dep.id;
 	      if (seen.has(depId)) {
@@ -5038,13 +5072,13 @@
 	    this.vm.$on('hook:attached', function () {
 	      nextTick(_this.forceUpdate);
 	    });
-	    if (!inDoc(el)) {
-	      nextTick(this.forceUpdate);
-	    }
 	  },
 	
 	  update: function update(value) {
 	    var el = this.el;
+	    if (!inDoc(el)) {
+	      return nextTick(this.forceUpdate);
+	    }
 	    el.selectedIndex = -1;
 	    var multi = this.multiple && isArray(value);
 	    var options = el.options;
@@ -9992,13 +10026,7 @@
 	
 	  pluralize: function pluralize(value) {
 	    var args = toArray(arguments, 1);
-	    var length = args.length;
-	    if (length > 1) {
-	      var index = value % 10 - 1;
-	      return index in args ? args[index] : args[length - 1];
-	    } else {
-	      return args[0] + (value === 1 ? '' : 's');
-	    }
+	    return args.length > 1 ? args[value % 10 - 1] || args[args.length - 1] : args[0] + (value === 1 ? '' : 's');
 	  },
 	
 	  /**
@@ -10200,7 +10228,7 @@
 	
 	installGlobalAPI(Vue);
 	
-	Vue.version = '1.0.26';
+	Vue.version = '1.0.25';
 	
 	// devtools global hook
 	/* istanbul ignore next */
@@ -10356,7 +10384,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "F:\\saishi\\src\\matchtool.vue"
+	  var id = "/Users/chenjinghua/matchtool_web/src/matchtool.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -10390,7 +10418,6 @@
 	  },
 	
 	  components: {
-	    topHead: _topHead2.default,
 	    pageFoot: _pageFoot2.default
 	
 	  }
@@ -10411,7 +10438,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "F:\\saishi\\src\\components\\topHead.vue"
+	  var id = "/Users/chenjinghua/matchtool_web/src/components/topHead.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -10435,8 +10462,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-4624e8b0&file=topHead.vue!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./topHead.vue", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-4624e8b0&file=topHead.vue!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./topHead.vue");
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.23.1/css-loader/index.js?sourceMap!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/style-rewriter.js?id=_v-12bba706&file=topHead.vue!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/selector.js?type=style&index=0!./topHead.vue", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.23.1/css-loader/index.js?sourceMap!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/style-rewriter.js?id=_v-12bba706&file=topHead.vue!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/selector.js?type=style&index=0!./topHead.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -10454,7 +10481,7 @@
 	
 	
 	// module
-	exports.push([module.id, "\r\n.tech_top{\r\n\twidth: 100%;\r\n\theight: 50px;\r\n\tbackground-color: #000;\r\n\topacity: 0.8;\r\n}\r\n.tech_top_text{\r\n\twidth: 62%;\r\n\theight: 50px;\r\n\tmargin: auto;\r\n}\r\n.tech_top_logo{\r\n\tfloat: left;\r\n\tcursor: pointer;\r\n\theight: 40px;\r\n\tmargin-top: 5px;\r\n}\r\n.tech_top_person{\r\n\tfloat: right;\r\n\tline-height: 50px;\r\n\tcolor: #fff;\r\n}\r\n", "", {"version":3,"sources":["/./src/components/topHead.vue.style"],"names":[],"mappings":";AA6BA;CACA,YAAA;CACA,aAAA;CACA,uBAAA;CACA,aAAA;CACA;AACA;CACA,WAAA;CACA,aAAA;CACA,aAAA;CACA;AACA;CACA,YAAA;CACA,gBAAA;CACA,aAAA;CACA,gBAAA;CACA;AACA;CACA,aAAA;CACA,kBAAA;CACA,YAAA;CACA","file":"topHead.vue","sourcesContent":["<template>\r\n<div class=\"tech_top\">\r\n\t\t<div class=\"tech_top_text\">\r\n\t\t\t<div class=\"tech_top_logo\" v-link=\"{ path: '/homepage'}\"><img src=\"../../static/images/lg_logo.png\" height=\"100%\"></div>\r\n\t\t\t<div class=\"tech_top_person\">\r\n\t\t\t\t<span>您好，梅西</span>\r\n\t\t\t\t<span>退出</span>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</template>\r\n\r\n<script>\r\n  export default {\r\n    data () {\r\n    return {\r\n   \r\n\r\n    }\r\n  },\r\n     methods: {\r\n        cgAction: function () {\r\n          \r\n        }\r\n  }\r\n  }\r\n</script>\r\n\r\n<style>\r\n.tech_top{\r\n\twidth: 100%;\r\n\theight: 50px;\r\n\tbackground-color: #000;\r\n\topacity: 0.8;\r\n}\r\n.tech_top_text{\r\n\twidth: 62%;\r\n\theight: 50px;\r\n\tmargin: auto;\r\n}\r\n.tech_top_logo{\r\n\tfloat: left;\r\n\tcursor: pointer;\r\n\theight: 40px;\r\n\tmargin-top: 5px;\r\n}\r\n.tech_top_person{\r\n\tfloat: right;\r\n\tline-height: 50px;\r\n\tcolor: #fff;\r\n}\r\n</style>"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.tech_top{\n\twidth: 100%;\n\theight: 50px;\n\tbackground-color: #000;\n\topacity: 0.8;\n}\n.tech_top_text{\n\twidth: 62%;\n\theight: 50px;\n\tmargin: auto;\n}\n.tech_top_logo{\n\tfloat: left;\n\tcursor: pointer;\n\theight: 40px;\n\tmargin-top: 5px;\n}\n.tech_top_person{\n\tfloat: right;\n\tline-height: 50px;\n\tcolor: #fff;\n}\n.logout{\n\tcursor:pointer;\n}\n", "", {"version":3,"sources":["/./src/components/topHead.vue.style"],"names":[],"mappings":";AAuCA;CACA,YAAA;CACA,aAAA;CACA,uBAAA;CACA,aAAA;CACA;AACA;CACA,WAAA;CACA,aAAA;CACA,aAAA;CACA;AACA;CACA,YAAA;CACA,gBAAA;CACA,aAAA;CACA,gBAAA;CACA;AACA;CACA,aAAA;CACA,kBAAA;CACA,YAAA;CACA;AACA;CACA,eAAA;CACA","file":"topHead.vue","sourcesContent":["<template>\n<div class=\"tech_top\">\n\t\t<div class=\"tech_top_text\">\n\t\t\t<div class=\"tech_top_logo\" v-link=\"{ path: '/homepage'}\"><img src=\"../../static/images/lg_logo.png\" height=\"100%\"></div>\n\t\t\t<div class=\"tech_top_person\">\n\t\t\t\t<span>您好，{{username}}</span>\n\t\t\t\t<span class=\"logout\" @click=\"logout\">退出</span>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\n  export default {\n    data () {\n    return {\n   \t\tusername:\"\"\n\n    }\n  },\n  ready:function(){\n  \tthis.username=window.sessionStorage.getItem(\"username\");\n  },\n     methods: {\n        cgAction: function () {\n          \n        },\n        logout:function(e){\n        \tthis.$http.post(\"/event/logout\").then(function(response){\n        \t\tthis.$route.router.go({path: '/login'})\t\t\t\n\t\t\t}, function(response){\n\t\t\t\tconsole.log(response);\n\t\t\t})\n        }\n  }\n  }\n</script>\n\n<style>\n.tech_top{\n\twidth: 100%;\n\theight: 50px;\n\tbackground-color: #000;\n\topacity: 0.8;\n}\n.tech_top_text{\n\twidth: 62%;\n\theight: 50px;\n\tmargin: auto;\n}\n.tech_top_logo{\n\tfloat: left;\n\tcursor: pointer;\n\theight: 40px;\n\tmargin-top: 5px;\n}\n.tech_top_person{\n\tfloat: right;\n\tline-height: 50px;\n\tcolor: #fff;\n}\n.logout{\n\tcursor:pointer;\n}\n</style>"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -10778,11 +10805,24 @@
 	});
 	exports.default = {
 	  data: function data() {
-	    return {};
+	    return {
+	      username: ""
+	
+	    };
 	  },
 	
+	  ready: function ready() {
+	    this.username = window.sessionStorage.getItem("username");
+	  },
 	  methods: {
-	    cgAction: function cgAction() {}
+	    cgAction: function cgAction() {},
+	    logout: function logout(e) {
+	      this.$http.post("/event/logout").then(function (response) {
+	        this.$route.router.go({ path: '/login' });
+	      }, function (response) {
+	        console.log(response);
+	      });
+	    }
 	  }
 	};
 
@@ -10790,7 +10830,7 @@
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "\r\n<div class=\"tech_top\">\r\n\t\t<div class=\"tech_top_text\">\r\n\t\t\t<div class=\"tech_top_logo\" v-link=\"{ path: '/homepage'}\"><img src=\"" + __webpack_require__(12) + "\" height=\"100%\"></div>\r\n\t\t\t<div class=\"tech_top_person\">\r\n\t\t\t\t<span>您好，梅西</span>\r\n\t\t\t\t<span>退出</span>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n";
+	module.exports = "\n<div class=\"tech_top\">\n\t\t<div class=\"tech_top_text\">\n\t\t\t<div class=\"tech_top_logo\" v-link=\"{ path: '/homepage'}\"><img src=\"" + __webpack_require__(12) + "\" height=\"100%\"></div>\n\t\t\t<div class=\"tech_top_person\">\n\t\t\t\t<span>您好，{{username}}</span>\n\t\t\t\t<span class=\"logout\" @click=\"logout\">退出</span>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n";
 
 /***/ },
 /* 12 */
@@ -10812,7 +10852,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "F:\\saishi\\src\\components\\pageFoot.vue"
+	  var id = "/Users/chenjinghua/matchtool_web/src/components/pageFoot.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -10836,8 +10876,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-51a57f5c&file=pageFoot.vue!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./pageFoot.vue", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-51a57f5c&file=pageFoot.vue!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./pageFoot.vue");
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.23.1/css-loader/index.js?sourceMap!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/style-rewriter.js?id=_v-36587625&file=pageFoot.vue!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/selector.js?type=style&index=0!./pageFoot.vue", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.23.1/css-loader/index.js?sourceMap!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/style-rewriter.js?id=_v-36587625&file=pageFoot.vue!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/selector.js?type=style&index=0!./pageFoot.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -10855,7 +10895,7 @@
 	
 	
 	// module
-	exports.push([module.id, "\r\n.tech_footer{\r\n\ttext-align: center;\r\n\tmargin: 50px 0;\r\n}\r\n", "", {"version":3,"sources":["/./src/components/pageFoot.vue.style"],"names":[],"mappings":";AASA;CACA,mBAAA;CACA,eAAA;CACA","file":"pageFoot.vue","sourcesContent":["<template>\r\n\t<div class=\"tech_footer\">\r\n\t\t<p>Copyright © 2016 浙江网竞网络科技有限公司未经许可不得复制、转载或摘编，违者必究!</p>\r\n\t\t<p style=\"margin:10px 0 40px\">浙ICP备13005497</p>\r\n\t\t<img src=\"../../static/images/footer.png\">\r\n\t</div>\r\n</template>\r\n\r\n<style>\r\n.tech_footer{\r\n\ttext-align: center;\r\n\tmargin: 50px 0;\r\n}\r\n</style>"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.tech_footer{\n\ttext-align: center;\n\tmargin: 50px 0;\n}\n", "", {"version":3,"sources":["/./src/components/pageFoot.vue.style"],"names":[],"mappings":";AASA;CACA,mBAAA;CACA,eAAA;CACA","file":"pageFoot.vue","sourcesContent":["<template>\n\t<div class=\"tech_footer\">\n\t\t<p>Copyright © 2016 浙江网竞网络科技有限公司未经许可不得复制、转载或摘编，违者必究!</p>\n\t\t<p style=\"margin:10px 0 40px\">浙ICP备13005497</p>\n\t\t<img src=\"../../static/images/footer.png\">\n\t</div>\n</template>\n\n<style>\n.tech_footer{\n\ttext-align: center;\n\tmargin: 50px 0;\n}\n</style>"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -10864,7 +10904,7 @@
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "\r\n\t<div class=\"tech_footer\">\r\n\t\t<p>Copyright © 2016 浙江网竞网络科技有限公司未经许可不得复制、转载或摘编，违者必究!</p>\r\n\t\t<p style=\"margin:10px 0 40px\">浙ICP备13005497</p>\r\n\t\t<img src=\"" + __webpack_require__(17) + "\">\r\n\t</div>\r\n";
+	module.exports = "\n\t<div class=\"tech_footer\">\n\t\t<p>Copyright © 2016 浙江网竞网络科技有限公司未经许可不得复制、转载或摘编，违者必究!</p>\n\t\t<p style=\"margin:10px 0 40px\">浙ICP备13005497</p>\n\t\t<img src=\"" + __webpack_require__(17) + "\">\n\t</div>\n";
 
 /***/ },
 /* 17 */
@@ -10876,7 +10916,7 @@
 /* 18 */
 /***/ function(module, exports) {
 
-	module.exports = "\r\n<div class=\"content clearfix\">\r\n\t<top-head></top-head> \r\n          <router-view></router-view> \r\n          <page-foot></page-foot> \r\n </div>\r\n";
+	module.exports = "\r\n<div class=\"content clearfix\">\r\n          <router-view></router-view> \r\n          <page-foot></page-foot> \r\n </div>\r\n";
 
 /***/ },
 /* 19 */
@@ -10892,7 +10932,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "F:\\saishi\\src\\views\\homepage.vue"
+	  var id = "/Users/chenjinghua/matchtool_web/src/views/homepage.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -10907,7 +10947,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-			value: true
+		value: true
 	});
 	
 	var _stringify = __webpack_require__(21);
@@ -10921,63 +10961,170 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = {
-			data: function data() {
-					return {
-							matchlists: '',
-							roundlist: { pageNumber: 1 },
-							eventName: '',
-							eventRoundStatus: ''
-					};
+		data: function data() {
+			return {
+				matchlists: '',
+				roundlist: { pageNumber: 1 },
+				eventName: '',
+				eventRoundStatus: ''
+			};
+		},
+	
+		ready: function ready() {
+			var _this = this;
+			var parmstr = (0, _stringify2.default)(this.roundlist);
+			var parm = {};
+			parm.jsonInfo = parmstr;
+			_this.$http.get('/event/getEventRoundList', parm).then(function (response) {
+				console.log(response);
+				_this.matchlists = response.data.object.pager;
+			}, function (response) {
+				console.log(response);
+			});
+	
+			Date.prototype.Format = function (fmt) {
+				var o = {
+					"M+": this.getMonth() + 1,
+					"d+": this.getDate(),
+					"h+": this.getHours(),
+					"m+": this.getMinutes(),
+					"s+": this.getSeconds(),
+					"q+": Math.floor((this.getMonth() + 3) / 3),
+					"S": this.getMilliseconds() };
+				if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+				for (var k in o) {
+					if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+				}return fmt;
+			};
+		},
+		methods: {
+			searchEvent: function searchEvent(e) {
+				var _this = this;
+				var parmstr = (0, _stringify2.default)({ eventName: _this.eventName, pageNumber: 1 });
+				var parm = {};
+				parm.jsonInfo = parmstr;
+				_this.$http.get('/event/getEventRoundList', parm).then(function (response) {
+					console.log(response);
+					_this.matchlists = response.data.object.pager;
+					this.eventName = "";
+				}, function (response) {
+					console.log(response);
+				});
+			},
+			eventStatus: function eventStatus(e) {
+				var _this = this;
+				var parmstr = (0, _stringify2.default)({ eventRoundStatus: _this.eventRoundStatus, pageNumber: 1 });
+				var parm = {};
+				parm.jsonInfo = parmstr;
+				_this.$http.get('/event/getEventRoundList', parm).then(function (response) {
+					console.log(response);
+					_this.matchlists = response.data.object.pager;
+				}, function (response) {
+					console.log(response);
+				});
 			},
 	
-			ready: function ready() {
-					var _this = this;
-					var parmstr = (0, _stringify2.default)(this.roundlist);
+			deleteEvent: function deleteEvent(e) {
+				var _this = this;
+				var _target = $(e.currentTarget);
+				var parmstr = (0, _stringify2.default)({ oetInfoId: _target.attr("data-id") });
+				layer.confirm('你确定要删除该项赛事吗？', {
+					btn: ['确定', '取消'],
+					move: false
+				}, function () {
 					var parm = {};
 					parm.jsonInfo = parmstr;
-					_this.$http.get('event/getEventRoundList', parm).then(function (response) {
-							_this.matchlists = response.data.object.pager;
+					_this.$http.get('/event/delete', parm).then(function (response) {
+						console.log(response.data);
+						if (response.data.code == 1) {
+							layer.msg("删除成功", { offset: "0px" });
+							var reloadstr = (0, _stringify2.default)({ eventName: this.eventName, eventRoundStatus: this.eventRoundStatus, pageNumber: this.matchlists.pageNumber });
+							var reload = {};
+							reload.jsonInfo = reloadstr;
+							this.$http.get("/event/getEventRoundList", reload).then(function (response) {
+								this.matchlists = response.data.object.pager;
+							}, function (response) {
+								console.log(response);
+							});
+						}
 					}, function (response) {
-							console.log(response);
+						console.log(response);
 					});
+				}, function () {});
 			},
-			methods: {
-					searchEvent: function searchEvent(e) {
-							var _this = this;
-							var parmstr = (0, _stringify2.default)({ eventName: _this.eventName, pageNumber: 1 });
-							var parm = {};
-							parm.jsonInfo = parmstr;
-							_this.$http.get('http://192.168.30.69:8080/OET/event/getEventRoundList', parm).then(function (response) {
-									console.log(response);
-									_this.matchlists = response.data.object.pager;
-									this.eventName = "";
-							}, function (response) {
-									console.log(response);
-							});
-					},
-					eventStatus: function eventStatus(e) {
-							var _this = this;
-							var parmstr = (0, _stringify2.default)({ eventRoundStatus: _this.eventRoundStatus, pageNumber: 1 });
-							var parm = {};
-							parm.jsonInfo = parmstr;
-							_this.$http.get('http://192.168.30.69:8080/OET/event/getEventRoundList', parm).then(function (response) {
-									console.log(response);
-									_this.matchlists = response.data.object.pager;
-							}, function (response) {
-									console.log(response);
-							});
-					},
-					linkTechpic: function linkTechpic(e) {
-							var _target = $(e.currentTarget);
-							var _eventid = _target.find(".get_eventid").text();
-							window.sessionStorage.setItem("eventid", _eventid);
-							this.$route.router.go({ path: '/techPic' });
-					}
+			linkTechpic: function linkTechpic(e) {
+				e.preventDefault();
+				var _target = $(e.currentTarget);
+				var _eventid = _target.parent().find(".get_eventid").text();
+				var _roundid = _target.parent().find(".get_roundid").text();
+				var _needsign = _target.parent().find(".get_needsign").text();
+				window.sessionStorage.setItem("eventid", _eventid);
+				window.sessionStorage.setItem("roundid", _roundid);
+				window.sessionStorage.setItem("needsign", _needsign);
+				this.$route.router.go({ path: '/techPic' });
 			},
-			components: {
-					topHead: _topHead2.default
 	
+			prevpage: function prevpage(e) {
+				e.preventDefault();
+				var currentpage = this.matchlists.pageNumber;
+				if (currentpage > 1) {
+					currentpage--;
+					var parmstr = (0, _stringify2.default)({ eventName: this.eventName, eventRoundStatus: this.eventRoundStatus, pageNumber: currentpage });
+					var parm = {};
+					parm.jsonInfo = parmstr;
+					this.$http.get("/event/getEventRoundList", parm).then(function (response) {
+						this.matchlists = response.data.object.pager;
+					}, function (response) {
+						console.log(response);
+					});
+				} else {
+					layer.msg('没有上一页了', { offset: "0px" });
+				}
+			},
+			nextpage: function nextpage(e) {
+				e.preventDefault();
+				var currentpage = this.matchlists.pageNumber,
+				    maxpage = this.matchlists.pages;
+				if (currentpage < maxpage) {
+					currentpage++;
+					var parmstr = (0, _stringify2.default)({ eventName: this.eventName, eventRoundStatus: this.eventRoundStatus, pageNumber: currentpage });
+					var parm = {};
+					parm.jsonInfo = parmstr;
+					this.$http.get("/event/getEventRoundList", parm).then(function (response) {
+						this.matchlists = response.data.object.pager;
+					}, function (response) {
+						console.log(response);
+					});
+				} else {
+					layer.msg('没有下一页了', { offset: "0px" });
+				}
+			},
+			gopage: function gopage(e) {
+				e.preventDefault();
+				var pageNum = $('#pageto').val();
+				var parmstr = (0, _stringify2.default)({ eventName: this.eventName, eventRoundStatus: this.eventRoundStatus, pageNumber: pageNum });
+				var parm = {};
+				parm.jsonInfo = parmstr;
+				this.$http.get("/event/getEventRoundList", parm).then(function (response) {
+					this.matchlists = response.data.object.pager;
+				}, function (response) {
+					console.log(response);
+				});
+			},
+			checkpage: function checkpage(e) {
+				var pages = this.matchlists.pages;
+				var num = $('#pageto').val();
+				if (num == 0 && num != "") {
+					$('#pageto').val('1');
+				} else if (num > pages) {
+					$('#pageto').val(pages);
+				}
 			}
+		},
+		components: {
+			topHead: _topHead2.default
+	
+		}
 	};
 
 /***/ },
@@ -11006,7 +11153,7 @@
 /* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "\r\n\t<top-head></top-head> \r\n\t<div class=\"g-doc\">\r\n\t\t<div class=\"g-bd\" style=\"margin-top:20px;\">\r\n\t\t\t<div class=\"g-tp\"></div>\r\n\t\t\t<div class=\"g-list\">\r\n\t\t\t\t<h3>浙江省网娱大师-雪碧真英雄城市争霸赛</h3>\r\n\t\t\t\t<div class=\"m-n-list m-search f-cb\">\t\t\t\r\n\t\t\t\t\t<select class=\"mr20\" v-model=\"eventRoundStatus\" @change=\"eventStatus\">\r\n\t\t\t\t\t\t<option value=\"\" selected=\"\">我的全部赛事</option>\r\n\t\t\t\t\t\t<option value=\"0\">报名预热中</option>\r\n\t\t\t\t\t\t<option value=\"1\">报名进行中</option>\r\n\t\t\t\t\t\t<option value=\"2\">赛事进行中</option>\r\n\t\t\t\t\t\t<option value=\"3\">赛事已结束</option>\r\n\t\t\t\t\t</select>\r\n\t\t\t\t\t<span class=\"mr14 search\">\r\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname u-n-slt\" placeholder=\"请输入赛事名称查找\" style=\"width:400px;\" v-model=\"eventName\">\r\n\t\t\t\t\t\t<button type=\"button\" class=\"u-search\" @click=\"searchEvent\">查找</button>\r\n\t\t\t\t\t</span>\t\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"m-operate f-cb\">\r\n\t\t\t\t\t<div class=\"l-btn f-fl\">\r\n\t\t\t\t\t\t<a href=\"homepage#/createEvent\" class=\"u-btn u-btn-add\"><img src=\"" + __webpack_require__(25) + "\" alt=\"\">创建新赛事</a>\r\n\t\t\t\t\t</div>\t\t\t\t\t\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"m-tb\">\r\n\t\t\t\t\t<table class=\"account_table\">\r\n\t                    <tbody>\r\n\t                    <tr>\r\n\t                        <th>序号</th>\r\n\t                        <th>海报图</th>\r\n\t                        <th>赛事名称</th>\r\n\t                        <th>赛事主办方</th>\r\n\t                        <th>赛事类型</th>\r\n\t                        <th>参与人数</th>\r\n\t                        <th>创建时间</th>\r\n\t                        <th width=\"135px;\">操作</th>\r\n\t                        <th></th>\r\n\t                    </tr>\r\n\t                    <tr v-for='matchlist in matchlists.list' @click=\"linkTechpic\">\r\n\t                        <td>1</td>\r\n\t                        <td>\r\n\t                        \t<div class=\"s-n-img\">\r\n\t\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(26) + "\">\r\n\t\t\t\t\t\t\t\t</div>\r\n\t                        </td>\r\n\t                        <td><a href=\"\">{{matchlist.eventName}}</a></td>\r\n\t                        <td>网娱大师官方赛事组</td>\r\n\t                        <td>单阶段  单败制</td>\r\n\t                        <td>{{matchlist.num}}/{{matchlist.maxNum}}</td>\r\n\t                        <td>{{matchlist.createDate}}</td>\r\n\t                        <td>\r\n\t                        \t<div class=\"option\">\r\n\t                        \t\t<a href=\"\" class=\"u-btn-delete\"></a>\r\n\t                        \t</div>\r\n\t                        </td>\r\n\t                        <td class=\"get_eventid\" style=\"display:none\">{{matchlist.eventId}}</td>\r\n\t                    </tr>\r\n\t                    </tbody>\r\n\t                </table>\r\n\t                <div class=\"m-page\">\r\n\t                \t<a href=\"\" id=\"prev\"></a>\r\n\t                \t<div class=\"pagination\"><span class=\"current\">{{matchlists.pageNumber}}</span>/<span>{{matchlists.pages}}</span></div>\r\n\t                \t<a href=\"\" id=\"next\"></a>\r\n\t                \t<input type=\"text\">\r\n\t                \t<a href=\"\" class=\"u-btn\">跳转</a>\r\n\t                </div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\t\t\r\n\t\t\t<div class=\"g-bt\"></div>\r\n\t\t</div>\t\t\r\n\t</div>\r\n";
+	module.exports = "\n\t<top-head></top-head> \n\t<div class=\"g-doc\">\n\t\t<div class=\"g-bd\" style=\"margin-top:20px;\">\n\t\t\t<div class=\"g-tp\"></div>\n\t\t\t<div class=\"g-list\">\n\t\t\t\t<h3>赛事列表</h3>\n\t\t\t\t<div class=\"m-n-list m-search f-cb\">\t\t\t\n\t\t\t\t\t<select class=\"mr20\" v-model=\"eventRoundStatus\" @change=\"eventStatus\">\n\t\t\t\t\t\t<option value=\"\" selected=\"\">我的全部赛事</option>\n\t\t\t\t\t\t<option value=\"0\">报名预热中</option>\n\t\t\t\t\t\t<option value=\"1\">报名进行中</option>\n\t\t\t\t\t\t<option value=\"2\">赛事进行中</option>\n\t\t\t\t\t\t<option value=\"3\">赛事已结束</option>\n\t\t\t\t\t</select>\n\t\t\t\t\t<span class=\"mr14 search\">\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname u-n-slt\" placeholder=\"请输入赛事名称查找\" style=\"width:400px;\" v-model=\"eventName\">\n\t\t\t\t\t\t<button type=\"button\" class=\"u-search\" @click=\"searchEvent\">查找</button>\n\t\t\t\t\t</span>\t\n\t\t\t\t</div>\n\t\t\t\t<div class=\"m-operate f-cb\">\n\t\t\t\t\t<div class=\"l-btn f-fl\">\n\t\t\t\t\t\t<a href=\"homepage#/createEvent\" class=\"u-btn u-btn-add\"><img src=\"" + __webpack_require__(25) + "\" alt=\"\">创建新赛事</a>\n\t\t\t\t\t</div>\t\t\t\t\t\n\t\t\t\t</div>\n\t\t\t\t<div class=\"m-tb\">\n\t\t\t\t\t<table class=\"account_table\">\n\t                    <tbody>\n\t                    <tr>\n\t                        <th>序号</th>\n\t                        <th>海报图</th>\n\t                        <th>赛事名称</th>\n\t                        <th>赛事主办方</th>\n\t                        <th>赛事类型</th>\n\t                        <th>参与人数</th>\n\t                        <th>创建时间</th>\n\t                        <th width=\"135px;\">操作</th>\n\t                        <th></th>\n\t                    </tr>\n\t                    <tr v-for='matchlist in matchlists.list'>\n\t                        <td>{{$index+1}}</td>\n\t                        <td>\n\t                        \t<div class=\"s-n-img\">\n\t\t\t\t\t\t\t\t\t<img v-bind:src=\"'http://img.wangyuhudong.com'+matchlist.poster\">\n\t\t\t\t\t\t\t\t</div>\n\t                        </td>\n\t                        <td @click=\"linkTechpic\"><a href=\"\">{{matchlist.eventName}}</a></td>\n\t                        <td>网娱大师官方赛事组</td>\n\t                        <td>单阶段  单败制</td>\n\t                        <td>{{matchlist.num}}/{{matchlist.maxNum}}</td>\n\t                        <td>{{new Date(matchlist.createDate).Format(\"yyyy-MM-dd hh:mm:ss\")}}</td>\n\t                        <td>\n\t                        \t<div class=\"option\">\n\t                        \t\t<a href=\"javascript:void(0);\" class=\"u-btn-delete\" title=\"删除\" data-id=\"{{matchlist.eventId}}\" @click=\"deleteEvent\"></a>\n\t                        \t</div>\n\t                        </td>\n\t                        <td class=\"get_eventid\" style=\"display:none\">{{matchlist.eventId}}</td>\n\t                        <td class=\"get_roundid\" style=\"display:none\">{{matchlist.id}}</td>\n\t                        <td class=\"get_needsign\" style=\"display:none\">{{matchlist.needSign}}</td>\n\t                    </tr>\n\t                    </tbody>\n\t                </table>\n\t                <div class=\"m-page\">\n\t                \t<a href=\"\" id=\"prev\" @click=\"prevpage\"></a>\n\t                \t<div class=\"pagination\"><span class=\"current\">{{matchlists.pageNumber}}</span>/<span>{{matchlists.pages}}</span></div>\n\t                \t<a href=\"\" id=\"next\" @click=\"nextpage\"></a>\n\t                \t<input type=\"text\" id=\"pageto\" @keyup=\"checkpage\">\n\t                \t<a href=\"\" class=\"u-btn\" @click=\"gopage\">跳转</a>\n\t                </div>\n\t\t\t\t</div>\n\t\t\t</div>\t\t\n\t\t\t<div class=\"g-bt\"></div>\n\t\t</div>\t\t\n\t</div>\n";
 
 /***/ },
 /* 25 */
@@ -11018,15 +11165,9 @@
 /* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__.p + "bg.png?dbdc0eef5b2b97289d5b9075226c9e76";
-
-/***/ },
-/* 27 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(28)
-	__vue_template__ = __webpack_require__(64)
+	__vue_script__ = __webpack_require__(27)
+	__vue_template__ = __webpack_require__(63)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -11034,7 +11175,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "F:\\saishi\\src\\views\\createEvent.vue"
+	  var id = "/Users/chenjinghua/matchtool_web/src/views/createEvent.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -11043,7 +11184,7 @@
 	})()}
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11052,7 +11193,7 @@
 		value: true
 	});
 	
-	var _typeof2 = __webpack_require__(29);
+	var _typeof2 = __webpack_require__(28);
 	
 	var _typeof3 = _interopRequireDefault(_typeof2);
 	
@@ -11060,16 +11201,41 @@
 	
 	var _stringify2 = _interopRequireDefault(_stringify);
 	
-	var _topNav = __webpack_require__(60);
+	var _topNav = __webpack_require__(59);
 	
 	var _topNav2 = _interopRequireDefault(_topNav);
+	
+	var _topHead = __webpack_require__(5);
+	
+	var _topHead2 = _interopRequireDefault(_topHead);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = {
 		data: function data() {
 			return {
-				number: 0
+				formdata: {
+					name: "",
+					sponsorType: 1,
+					itemId: "",
+					itemServerId: "",
+					mode: "",
+					maxNum: "",
+					activityBegin: "",
+					type: "",
+					regime: "",
+					needThird: "",
+					allowApply: "",
+					applyType: "",
+					applyBegin: "",
+					applyEnd: "",
+					needSign: "",
+					needSignMinu: "",
+					poster: "",
+					brief: "",
+					regimeRule: "",
+					prizeSetting: ""
+				}
 			};
 		},
 	
@@ -11077,14 +11243,23 @@
 			var _this = this;
 			var parm = {};
 			parm.jsonInfo = (0, _stringify2.default)({ itemsId: "" });
-			_this.$http.post('http://192.168.30.248:8088/event/queryActivityItem', parm).then(function (response) {}, function (response) {
+			_this.$http.get('/event/queryActivityItem', parm).then(function (response) {
+				var gameList = response.data.object.itemsList;
+				var content = '';
+	
+				for (var i = 0; i < gameList.length; i++) {
+					content += '<option value="' + gameList[i].id + '">' + gameList[i].name + '</option>';
+				}
+				$('#gameList').append(content);
+			}, function (response) {
 				console.log(22);
 			});
 	
-			$('#begintime').datetimepicker({
+			$('.form_datetime input').datetimepicker({
 				format: "Y-m-d H:i",
 				yearStart: 2000,
 				yearEnd: 2050,
+				minDate: new Date(),
 				step: 30
 			});
 			$.datetimepicker.setLocale('ch');
@@ -11099,72 +11274,11 @@
 			}
 			preloadimages(['../../static/images/center_bg2.png']);
 	
-			var selects = $('select');
-			for (var i = 0; i < selects.length; i++) {
-				createSelect(selects[i], i);
-			}
-			function createSelect(select_container, index) {
-				var tag_select = $('<div></div>');
-				tag_select.attr('class', 'select_box');
-				tag_select.insertBefore(select_container);
-	
-				var select_showbox = $('<div></div>');
-				select_showbox.css('cursor', 'pointer').attr('class', 'select_showbox').appendTo(tag_select);
-	
-				var ul_option = $('<ul></ul>');
-				ul_option.attr('class', 'select_option');
-				ul_option.appendTo(tag_select);
-				createOptions(index, ul_option);
-				tag_select.click(function () {
-					if (ul_option.is(":visible")) {
-						ul_option.hide();
-						$(this).removeClass('focus');
-					} else {
-						ul_option.show();
-						$(this).addClass('focus');
-					}
-				});
-				var li_option = ul_option.find('li');
-				li_option.click(function (e) {
-					if (e.target.className != 'disabled hover') {
-						var value = $(this).text();
-						select_showbox.text(value);
-					}
-	
-					ul_option.slideUp();
-				});
-				li_option.hover(function () {
-					$(this).addClass('hover').siblings().removeClass('hover');
-				}, function () {
-					li_option.removeClass('hover');
-				});
-			}
-			function createOptions(index, ul_list) {
-				var options = selects.eq(index).find('option'),
-				    selected_option = options.filter(':selected'),
-				    selected_index = selected_option.index(),
-				    showbox = ul_list.prev();
-				showbox.text(selected_option.text());
-	
-				for (var n = 0; n < options.length; n++) {
-					var tag_option = $('<li></li>'),
-					    txt_option = options.eq(n).text();
-					if (options.eq(n).attr('disabled')) {
-						tag_option.text(txt_option).addClass('disabled').appendTo(ul_list);
-					} else {
-						tag_option.text(txt_option).css('cursor', 'pointer').appendTo(ul_list);
-					}
-	
-					if (n == selected_index) {
-						tag_option.attr('class', 'selected');
-					}
-				}
-			}
-	
 			$('#pic').diyUpload({
-				url: '',
+				url: 'http://192.168.30.248:8088/file/upload',
 				success: function success(data) {
 					console.info(data);
+					_this.formdata.poster = data.object.src;
 				},
 				error: function error(err) {
 					console.info(err);
@@ -11176,8 +11290,7 @@
 	
 				fileNumLimit: 1,
 				fileSizeLimit: 500000 * 1024,
-				fileSingleSizeLimit: 50000 * 1024,
-				accept: {}
+				fileSingleSizeLimit: 50000 * 1024
 			});
 	
 			$('.m-form').click(function (e) {
@@ -11199,22 +11312,56 @@
 					$('.sponsor .u-select').removeClass('change');
 				}
 			});
+	
+			$('#brief').editable({
+				inlineMode: false,
+				theme: 'dark',
+				alwaysBlank: true,
+				language: "zh_cn",
+				placeholder: '请输入赛事简介，不超过500字'
+			});
+	
+			$('#regimeRule').editable({
+				inlineMode: false,
+				theme: 'dark',
+				alwaysBlank: true,
+				language: "zh_cn",
+				placeholder: '请输入赛制规则，不超过1000字'
+			});
+	
+			$('#prizeSetting').editable({
+				inlineMode: false,
+				theme: 'dark',
+				alwaysBlank: true,
+				language: "zh_cn",
+				placeholder: '请输入奖励设置，不超过1000字'
+			});
 		},
 		methods: {
 			plus: function plus(e) {
-				this.number = parseInt(this.number + 1);
-				$('#number').val(this.number);
-				if (this.number > 0) {
+				if (this.formdata.maxNum == "") {
+					this.formdata.maxNum = 0;
+				}
+				this.formdata.maxNum = parseInt(this.formdata.maxNum) + 1;
+				$('#number').val(this.formdata.maxNum);
+				if (this.formdata.maxNum > 0) {
 					$('.minus').attr('disabled', false);
 				}
 			},
 			minus: function minus(e) {
-				this.number = parseInt(this.number - 1);
-				$('#number').val(this.number);
-				if (this.number == 0) {
+				this.formdata.maxNum = parseInt(this.formdata.maxNum) - 1;
+				$('#number').val(this.formdata.maxNum);
+				if (this.formdata.maxNum == 0) {
 					$('.minus').attr('disabled', true);
 				} else {
 					$('.minus').attr('disabled', false);
+				}
+			},
+			numberChange: function numberChange(e) {
+				if (this.formdata.maxNum > 0) {
+					$('.minus').attr('disabled', false);
+				} else if (this.formdata.maxNum == 0) {
+					$('.minus').attr('disabled', true);
 				}
 			},
 			slideToggle: function slideToggle(e) {
@@ -11254,21 +11401,192 @@
 					_this.parent().find('.organize_option').show();
 					_this.addClass('change');
 				}
+			},
+			getServerList: function getServerList(e) {
+				var _this = this;
+				var parm = {};
+				parm.jsonInfo = (0, _stringify2.default)({ itemsId: _this.formdata.itemId });
+				_this.$http.get('event/queryActivityItem', parm).then(function (response) {
+					var gameList = response.data.object.itemsServerList;
+					var content = '<option value="">请选择服务器</option>';
+	
+					for (var i = 0; i < gameList.length; i++) {
+						content += '<option value="' + gameList[i].id + '">' + gameList[i].serverName + '</option>';
+					}
+					$('#serverList').html(content);
+				}, function (response) {
+					console.log(22);
+				});
+			},
+			nextStep: function nextStep(e) {
+				var _this = this;
+				if (_this.formdata.needThird) {
+					_this.formdata.needThird = 1;
+				} else {
+					_this.formdata.needThird = 0;
+				}
+				if (_this.formdata.needSign) {
+					_this.formdata.needSign = 1;
+				} else {
+					_this.formdata.needSign = 0;
+				}
+				if ($('#brief .froala-element').html() != "<p><br></p>") {
+					_this.formdata.brief = $('#brief .froala-element').html();
+				}
+				if ($('#regimeRule .froala-element').html() != "<p><br></p>") {
+					_this.formdata.regimeRule = $('#regimeRule .froala-element').html();
+				}
+				if ($('#prizeSetting .froala-element').html() != "<p><br></p>") {
+					_this.formdata.prizeSetting = $('#prizeSetting .froala-element').html();
+				}
+				function errorPlacement(mes, element) {
+					var errorTips = element.parents(".m-lst").find('div.attention');
+					if (mes != "") {
+						errorTips.show().html(mes);
+					} else {
+						errorTips.hide();
+					}
+				}
+				function formValidate() {
+					var valid = true;
+					$("#m-form [required]").each(function () {
+						var $this = $(this);
+						var value = $this.val(),
+						    name = $this.attr('name');
+						var message = "";
+						if (name == "name") {
+							if (value == "") {
+								valid = false;
+								message = "赛事名称不能为空";
+							} else if (value.length > 32) {
+								valid = false;
+								message = "赛事名称不能超过32个文字";
+							} else if (/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/.test(value)) {
+								valid = false;
+								message = "名称不能包含特殊字符";
+							}
+							errorPlacement(message, $this);
+						} else if (name == "itemId") {
+							if (value == "") {
+								valid = false;
+								message = "请选择赛事游戏";
+							}
+							errorPlacement(message, $this);
+						} else if (name == "itemServerId" && _this.formdata.itemId != "") {
+							if (value == "") {
+								valid = false;
+								message = "请选择服务器";
+							}
+							errorPlacement(message, $this);
+						} else if (name == "maxNum") {
+							if (value == "") {
+								valid = false;
+								message = "最大参与人数不能为空";
+							} else if (value < 4) {
+								valid = false;
+								message = "最大参与人数不能小于4人";
+							} else if (value > 64) {
+								valid = false;
+								message = "最大参与人数不能大于64人";
+							}
+							errorPlacement(message, $this);
+						} else if (name == "activityBegin") {
+							if (value == "") {
+								valid = false;
+								message = "赛事开始时间不能为空";
+							}
+							errorPlacement(message, $this);
+						} else if (name == "applyBegin" && _this.formdata.allowApply == 1) {
+							if (_this.formdata.activityBegin != "" && value > _this.formdata.activityBegin) {
+								valid = false;
+								message = "报名开始时间不能晚于赛事开始时间";
+							} else if (_this.formdata.applyEnd != "" && value != "" && value > _this.formdata.applyEnd) {
+								valid = false;
+								message = "报名开始时间不能晚于报名结束时间";
+							} else if (value == "") {
+								valid = false;
+								message = "报名开始时间不能为空";
+							}
+							errorPlacement(message, $this);
+						} else if (name == "applyEnd" && _this.formdata.allowApply == 1 && _this.formdata.applyBegin != "") {
+							if (_this.formdata.activityBegin != "" && value > _this.formdata.activityBegin) {
+								valid = false;
+								message = "报名结束时间不能晚于赛事开始时间";
+							} else if (_this.formdata.applyBegin != "" && value != "" && value < _this.formdata.applyBegin) {
+								valid = false;
+								message = "报名结束时间不能早于报名开始时间";
+							} else if (value == "") {
+								valid = false;
+								message = "报名结束时间不能为空";
+							}
+							errorPlacement(message, $this);
+						} else if (name == "needSignMinu" && _this.formdata.allowApply == 1 && _this.formdata.needSign == 1 && _this.formdata.applyBegin != "" && _this.formdata.activityBegin != "") {
+							var str = _this.formdata.activityBegin,
+							    str2 = _this.formdata.applyBegin,
+							    date = new Date(str.replace(/-/g, "/")).getTime(),
+							    date2 = new Date(str2.replace(/-/g, "/")).getTime();
+							var time = value * 60000;
+							if (date - time < date2) {
+								valid = false;
+								message = "签到时间不能早于报名开始时间";
+							}
+							errorPlacement(message, $this);
+						}
+					});
+					if (!valid) {
+						var top = $('.attention').eq(0).offset().top - 250;
+						$("body").scrollTop(top);
+					}
+					return valid;
+				};
+				var parm = {};
+				parm.jsonInfo = (0, _stringify2.default)(_this.formdata);
+				console.log(parm);
+				if (formValidate()) {
+					var power2fs = function power2fs(x) {
+						return (x & x - 1) === 0 ? (x - 1).toString(2).length : false;
+					};
+	
+					if (power2fs(_this.formdata.maxNum)) {
+						window.sessionStorage.setItem("ispower", true);
+					} else {
+						window.sessionStorage.setItem("ispower", false);
+					}
+					var n = 0;
+					while (Math.pow(2, n) < _this.formdata.maxNum) {
+						n++;
+					}
+					if (_this.formdata.maxNum > Math.pow(2, n - 1) + Math.pow(2, n - 2)) {
+						window.sessionStorage.setItem("isoverhalf", true);
+					} else {
+						window.sessionStorage.setItem("isoverhalf", false);
+					}
+	
+					_this.$http.post('event/save', parm).then(function (response) {
+						console.log(parm);
+						if (response.data.code == 1) {
+							this.$route.router.go({ path: '/homepage', replace: true });
+						}
+					}, function (response) {
+						console.log(22);
+					});
+				}
 			}
 		},
 		components: {
-			topNav: _topNav2.default
+			topNav: _topNav2.default,
+			topHead: _topHead2.default
 	
 		}
 	};
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var _Symbol = __webpack_require__(30)["default"];
+	var _Symbol = __webpack_require__(29)["default"];
 	
 	exports["default"] = function (obj) {
 	  return obj && obj.constructor === _Symbol ? "symbol" : typeof obj;
@@ -11277,43 +11595,43 @@
 	exports.__esModule = true;
 
 /***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(30), __esModule: true };
+
+/***/ },
 /* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(31), __esModule: true };
+	__webpack_require__(31);
+	__webpack_require__(58);
+	module.exports = __webpack_require__(23).Symbol;
 
 /***/ },
 /* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(32);
-	__webpack_require__(59);
-	module.exports = __webpack_require__(23).Symbol;
-
-/***/ },
-/* 32 */
-/***/ function(module, exports, __webpack_require__) {
-
 	'use strict';
 	// ECMAScript 6 symbols shim
-	var $              = __webpack_require__(33)
-	  , global         = __webpack_require__(34)
-	  , has            = __webpack_require__(35)
-	  , DESCRIPTORS    = __webpack_require__(36)
-	  , $export        = __webpack_require__(38)
-	  , redefine       = __webpack_require__(41)
-	  , $fails         = __webpack_require__(37)
-	  , shared         = __webpack_require__(44)
-	  , setToStringTag = __webpack_require__(45)
-	  , uid            = __webpack_require__(47)
-	  , wks            = __webpack_require__(46)
-	  , keyOf          = __webpack_require__(48)
-	  , $names         = __webpack_require__(53)
-	  , enumKeys       = __webpack_require__(54)
-	  , isArray        = __webpack_require__(55)
-	  , anObject       = __webpack_require__(56)
-	  , toIObject      = __webpack_require__(49)
-	  , createDesc     = __webpack_require__(43)
+	var $              = __webpack_require__(32)
+	  , global         = __webpack_require__(33)
+	  , has            = __webpack_require__(34)
+	  , DESCRIPTORS    = __webpack_require__(35)
+	  , $export        = __webpack_require__(37)
+	  , redefine       = __webpack_require__(40)
+	  , $fails         = __webpack_require__(36)
+	  , shared         = __webpack_require__(43)
+	  , setToStringTag = __webpack_require__(44)
+	  , uid            = __webpack_require__(46)
+	  , wks            = __webpack_require__(45)
+	  , keyOf          = __webpack_require__(47)
+	  , $names         = __webpack_require__(52)
+	  , enumKeys       = __webpack_require__(53)
+	  , isArray        = __webpack_require__(54)
+	  , anObject       = __webpack_require__(55)
+	  , toIObject      = __webpack_require__(48)
+	  , createDesc     = __webpack_require__(42)
 	  , getDesc        = $.getDesc
 	  , setDesc        = $.setDesc
 	  , _create        = $.create
@@ -11453,7 +11771,7 @@
 	  $.getNames   = $names.get = $getOwnPropertyNames;
 	  $.getSymbols = $getOwnPropertySymbols;
 	
-	  if(DESCRIPTORS && !__webpack_require__(58)){
+	  if(DESCRIPTORS && !__webpack_require__(57)){
 	    redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
 	  }
 	}
@@ -11523,7 +11841,7 @@
 	setToStringTag(global.JSON, 'JSON', true);
 
 /***/ },
-/* 33 */
+/* 32 */
 /***/ function(module, exports) {
 
 	var $Object = Object;
@@ -11541,7 +11859,7 @@
 	};
 
 /***/ },
-/* 34 */
+/* 33 */
 /***/ function(module, exports) {
 
 	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -11550,7 +11868,7 @@
 	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 
 /***/ },
-/* 35 */
+/* 34 */
 /***/ function(module, exports) {
 
 	var hasOwnProperty = {}.hasOwnProperty;
@@ -11559,16 +11877,16 @@
 	};
 
 /***/ },
-/* 36 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Thank's IE8 for his funny defineProperty
-	module.exports = !__webpack_require__(37)(function(){
+	module.exports = !__webpack_require__(36)(function(){
 	  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 	});
 
 /***/ },
-/* 37 */
+/* 36 */
 /***/ function(module, exports) {
 
 	module.exports = function(exec){
@@ -11580,12 +11898,12 @@
 	};
 
 /***/ },
-/* 38 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var global    = __webpack_require__(34)
+	var global    = __webpack_require__(33)
 	  , core      = __webpack_require__(23)
-	  , ctx       = __webpack_require__(39)
+	  , ctx       = __webpack_require__(38)
 	  , PROTOTYPE = 'prototype';
 	
 	var $export = function(type, name, source){
@@ -11631,11 +11949,11 @@
 	module.exports = $export;
 
 /***/ },
-/* 39 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// optional / simple context binding
-	var aFunction = __webpack_require__(40);
+	var aFunction = __webpack_require__(39);
 	module.exports = function(fn, that, length){
 	  aFunction(fn);
 	  if(that === undefined)return fn;
@@ -11656,7 +11974,7 @@
 	};
 
 /***/ },
-/* 40 */
+/* 39 */
 /***/ function(module, exports) {
 
 	module.exports = function(it){
@@ -11665,18 +11983,18 @@
 	};
 
 /***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(41);
+
+/***/ },
 /* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(42);
-
-/***/ },
-/* 42 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $          = __webpack_require__(33)
-	  , createDesc = __webpack_require__(43);
-	module.exports = __webpack_require__(36) ? function(object, key, value){
+	var $          = __webpack_require__(32)
+	  , createDesc = __webpack_require__(42);
+	module.exports = __webpack_require__(35) ? function(object, key, value){
 	  return $.setDesc(object, key, createDesc(1, value));
 	} : function(object, key, value){
 	  object[key] = value;
@@ -11684,7 +12002,7 @@
 	};
 
 /***/ },
-/* 43 */
+/* 42 */
 /***/ function(module, exports) {
 
 	module.exports = function(bitmap, value){
@@ -11697,10 +12015,10 @@
 	};
 
 /***/ },
-/* 44 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var global = __webpack_require__(34)
+	var global = __webpack_require__(33)
 	  , SHARED = '__core-js_shared__'
 	  , store  = global[SHARED] || (global[SHARED] = {});
 	module.exports = function(key){
@@ -11708,31 +12026,31 @@
 	};
 
 /***/ },
-/* 45 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var def = __webpack_require__(33).setDesc
-	  , has = __webpack_require__(35)
-	  , TAG = __webpack_require__(46)('toStringTag');
+	var def = __webpack_require__(32).setDesc
+	  , has = __webpack_require__(34)
+	  , TAG = __webpack_require__(45)('toStringTag');
 	
 	module.exports = function(it, tag, stat){
 	  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
 	};
 
 /***/ },
-/* 46 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var store  = __webpack_require__(44)('wks')
-	  , uid    = __webpack_require__(47)
-	  , Symbol = __webpack_require__(34).Symbol;
+	var store  = __webpack_require__(43)('wks')
+	  , uid    = __webpack_require__(46)
+	  , Symbol = __webpack_require__(33).Symbol;
 	module.exports = function(name){
 	  return store[name] || (store[name] =
 	    Symbol && Symbol[name] || (Symbol || uid)('Symbol.' + name));
 	};
 
 /***/ },
-/* 47 */
+/* 46 */
 /***/ function(module, exports) {
 
 	var id = 0
@@ -11742,11 +12060,11 @@
 	};
 
 /***/ },
-/* 48 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $         = __webpack_require__(33)
-	  , toIObject = __webpack_require__(49);
+	var $         = __webpack_require__(32)
+	  , toIObject = __webpack_require__(48);
 	module.exports = function(object, el){
 	  var O      = toIObject(object)
 	    , keys   = $.getKeys(O)
@@ -11757,28 +12075,28 @@
 	};
 
 /***/ },
-/* 49 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// to indexed object, toObject with fallback for non-array-like ES3 strings
-	var IObject = __webpack_require__(50)
-	  , defined = __webpack_require__(52);
+	var IObject = __webpack_require__(49)
+	  , defined = __webpack_require__(51);
 	module.exports = function(it){
 	  return IObject(defined(it));
 	};
 
 /***/ },
-/* 50 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// fallback for non-array-like ES3 and non-enumerable old V8 strings
-	var cof = __webpack_require__(51);
+	var cof = __webpack_require__(50);
 	module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
 	  return cof(it) == 'String' ? it.split('') : Object(it);
 	};
 
 /***/ },
-/* 51 */
+/* 50 */
 /***/ function(module, exports) {
 
 	var toString = {}.toString;
@@ -11788,7 +12106,7 @@
 	};
 
 /***/ },
-/* 52 */
+/* 51 */
 /***/ function(module, exports) {
 
 	// 7.2.1 RequireObjectCoercible(argument)
@@ -11798,12 +12116,12 @@
 	};
 
 /***/ },
-/* 53 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
-	var toIObject = __webpack_require__(49)
-	  , getNames  = __webpack_require__(33).getNames
+	var toIObject = __webpack_require__(48)
+	  , getNames  = __webpack_require__(32).getNames
 	  , toString  = {}.toString;
 	
 	var windowNames = typeof window == 'object' && Object.getOwnPropertyNames
@@ -11823,11 +12141,11 @@
 	};
 
 /***/ },
-/* 54 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// all enumerable object keys, includes symbols
-	var $ = __webpack_require__(33);
+	var $ = __webpack_require__(32);
 	module.exports = function(it){
 	  var keys       = $.getKeys(it)
 	    , getSymbols = $.getSymbols;
@@ -11842,27 +12160,27 @@
 	};
 
 /***/ },
-/* 55 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.2.2 IsArray(argument)
-	var cof = __webpack_require__(51);
+	var cof = __webpack_require__(50);
 	module.exports = Array.isArray || function(arg){
 	  return cof(arg) == 'Array';
 	};
 
 /***/ },
-/* 56 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(57);
+	var isObject = __webpack_require__(56);
 	module.exports = function(it){
 	  if(!isObject(it))throw TypeError(it + ' is not an object!');
 	  return it;
 	};
 
 /***/ },
-/* 57 */
+/* 56 */
 /***/ function(module, exports) {
 
 	module.exports = function(it){
@@ -11870,24 +12188,24 @@
 	};
 
 /***/ },
-/* 58 */
+/* 57 */
 /***/ function(module, exports) {
 
 	module.exports = true;
 
 /***/ },
-/* 59 */
+/* 58 */
 /***/ function(module, exports) {
 
 
 
 /***/ },
-/* 60 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(61)
-	__vue_template__ = __webpack_require__(63)
+	__webpack_require__(60)
+	__vue_template__ = __webpack_require__(62)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -11895,7 +12213,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "F:\\saishi\\src\\components\\topNav.vue"
+	  var id = "/Users/chenjinghua/matchtool_web/src/components/topNav.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -11904,13 +12222,13 @@
 	})()}
 
 /***/ },
-/* 61 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(62);
+	var content = __webpack_require__(61);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(9)(content, {});
@@ -11919,8 +12237,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-4a69d303&file=topNav.vue!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./topNav.vue", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-4a69d303&file=topNav.vue!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./topNav.vue");
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.23.1/css-loader/index.js?sourceMap!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/style-rewriter.js?id=_v-47033cd4&file=topNav.vue!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/selector.js?type=style&index=0!./topNav.vue", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.23.1/css-loader/index.js?sourceMap!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/style-rewriter.js?id=_v-47033cd4&file=topNav.vue!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/selector.js?type=style&index=0!./topNav.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -11930,7 +12248,7 @@
 	}
 
 /***/ },
-/* 62 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(8)();
@@ -11938,94 +12256,520 @@
 	
 	
 	// module
-	exports.push([module.id, "\r\n.tech_nav{\r\n\twidth: 100%;\r\n\theight: 90px;\r\n\tbackground-color: #2a2e32;\r\n\topacity: 0.7;\r\n}\r\n.tech_nav_list{\r\n\tmargin-left: 15%;\r\n}\r\n.tech_nav_list li{\r\n\tfloat: left;\r\n\tpadding:0 50px;\r\n\tcolor: #fff;\r\n\ttext-align: center;\r\n\tcursor: pointer;\r\n}\r\n.tect_nav_pic{\r\n\tmargin: 20px auto 10px;\r\n}\r\n.icon_tool{\r\n\tfont-size: 20px;\r\n}\r\n.tech_nav_list .tech_nav_action{\r\n\tcolor: #f9a32a;\r\n}\r\n.v-link-active{\r\n\tcolor: #f9a32a !important;\r\n}\r\n", "", {"version":3,"sources":["/./src/components/topNav.vue.style"],"names":[],"mappings":";AA+BA;CACA,YAAA;CACA,aAAA;CACA,0BAAA;CACA,aAAA;CACA;AACA;CACA,iBAAA;CACA;AACA;CACA,YAAA;CACA,eAAA;CACA,YAAA;CACA,mBAAA;CACA,gBAAA;CACA;AACA;CACA,uBAAA;CACA;AACA;CACA,gBAAA;CACA;AACA;CACA,eAAA;CACA;AACA;CACA,0BAAA;CACA","file":"topNav.vue","sourcesContent":["<template>\r\n\t<div class=\"tech_nav\">\r\n\t\t<ul class=\"tech_nav_list clearfix\">\r\n\t\t\t<li v-link=\"{ path: '/techPic'}\">\r\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-match icon_tool\"></span></div>\r\n\t\t\t\t<div>赛事总览</div>\r\n\t\t\t</li>\r\n\t\t\t<li v-link=\"{ path: '/contestant'}\">\r\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-athlete icon_tool\"></span></div>\r\n\t\t\t\t<div>参赛选手</div>\r\n\t\t\t</li>\r\n\t\t\t<li v-link=\"{ path: '/newslist'}\">\r\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-information icon_tool\"></span></div>\r\n\t\t\t\t<div>资讯管理</div>\r\n\t\t\t</li>\r\n\t\t\t<li v-link=\"{ path: '/createEvent'}\">\r\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-install icon_tool\"></span></div>\r\n\t\t\t\t<div>设置</div>\r\n\t\t\t</li>\r\n\t\t\t<li v-link=\"{ path: '/reset'}\">\r\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-delete icon_tool\"></span></div>\r\n\t\t\t\t<div>重置／删除</div>\r\n\t\t\t</li>\r\n\t\t\t<li v-link=\"{ path: '/homepage'}\">\r\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-home icon_tool\"></span></div>\r\n\t\t\t\t<div>首页</div>\r\n\t\t\t</li>\r\n\t\t</ul>\r\n\t</div>\r\n</template>\r\n<style>\r\n.tech_nav{\r\n\twidth: 100%;\r\n\theight: 90px;\r\n\tbackground-color: #2a2e32;\r\n\topacity: 0.7;\r\n}\r\n.tech_nav_list{\r\n\tmargin-left: 15%;\r\n}\r\n.tech_nav_list li{\r\n\tfloat: left;\r\n\tpadding:0 50px;\r\n\tcolor: #fff;\r\n\ttext-align: center;\r\n\tcursor: pointer;\r\n}\r\n.tect_nav_pic{\r\n\tmargin: 20px auto 10px;\r\n}\r\n.icon_tool{\r\n\tfont-size: 20px;\r\n}\r\n.tech_nav_list .tech_nav_action{\r\n\tcolor: #f9a32a;\r\n}\r\n.v-link-active{\r\n\tcolor: #f9a32a !important;\r\n}\r\n</style>"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.tech_nav{\n\twidth: 100%;\n\theight: 90px;\n\tbackground-color: #2a2e32;\n\topacity: 0.7;\n}\n.tech_nav_list{\n\tmargin-left: 15%;\n}\n.tech_nav_list li{\n\tfloat: left;\n\tpadding:0 50px;\n\tcolor: #fff;\n\ttext-align: center;\n\tcursor: pointer;\n}\n.tect_nav_pic{\n\tmargin: 20px auto 10px;\n}\n.icon_tool{\n\tfont-size: 20px;\n}\n.tech_nav_list .tech_nav_action{\n\tcolor: #f9a32a;\n}\n.v-link-active{\n\tcolor: #f9a32a !important;\n}\n", "", {"version":3,"sources":["/./src/components/topNav.vue.style"],"names":[],"mappings":";AA+BA;CACA,YAAA;CACA,aAAA;CACA,0BAAA;CACA,aAAA;CACA;AACA;CACA,iBAAA;CACA;AACA;CACA,YAAA;CACA,eAAA;CACA,YAAA;CACA,mBAAA;CACA,gBAAA;CACA;AACA;CACA,uBAAA;CACA;AACA;CACA,gBAAA;CACA;AACA;CACA,eAAA;CACA;AACA;CACA,0BAAA;CACA","file":"topNav.vue","sourcesContent":["<template>\n\t<div class=\"tech_nav\">\n\t\t<ul class=\"tech_nav_list clearfix\">\n\t\t\t<li v-link=\"{ path: '/techPic'}\">\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-match icon_tool\"></span></div>\n\t\t\t\t<div>赛事总览</div>\n\t\t\t</li>\n\t\t\t<li v-link=\"{ path: '/contestant'}\">\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-athlete icon_tool\"></span></div>\n\t\t\t\t<div>参赛选手</div>\n\t\t\t</li>\n\t\t\t<li v-link=\"{ path: '/newslist'}\">\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-information icon_tool\"></span></div>\n\t\t\t\t<div>资讯管理</div>\n\t\t\t</li>\n\t\t\t<li v-link=\"{ path: '/editEvent'}\">\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-install icon_tool\"></span></div>\n\t\t\t\t<div>设置</div>\n\t\t\t</li>\n\t\t\t<li v-link=\"{ path: '/reset'}\">\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-delete icon_tool\"></span></div>\n\t\t\t\t<div>重置／删除</div>\n\t\t\t</li>\n\t\t\t<li v-link=\"{ path: '/homepage'}\">\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-home icon_tool\"></span></div>\n\t\t\t\t<div>首页</div>\n\t\t\t</li>\n\t\t</ul>\n\t</div>\n</template>\n<style>\n.tech_nav{\n\twidth: 100%;\n\theight: 90px;\n\tbackground-color: #2a2e32;\n\topacity: 0.7;\n}\n.tech_nav_list{\n\tmargin-left: 15%;\n}\n.tech_nav_list li{\n\tfloat: left;\n\tpadding:0 50px;\n\tcolor: #fff;\n\ttext-align: center;\n\tcursor: pointer;\n}\n.tect_nav_pic{\n\tmargin: 20px auto 10px;\n}\n.icon_tool{\n\tfont-size: 20px;\n}\n.tech_nav_list .tech_nav_action{\n\tcolor: #f9a32a;\n}\n.v-link-active{\n\tcolor: #f9a32a !important;\n}\n</style>"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
 
 /***/ },
+/* 62 */
+/***/ function(module, exports) {
+
+	module.exports = "\n\t<div class=\"tech_nav\">\n\t\t<ul class=\"tech_nav_list clearfix\">\n\t\t\t<li v-link=\"{ path: '/techPic'}\">\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-match icon_tool\"></span></div>\n\t\t\t\t<div>赛事总览</div>\n\t\t\t</li>\n\t\t\t<li v-link=\"{ path: '/contestant'}\">\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-athlete icon_tool\"></span></div>\n\t\t\t\t<div>参赛选手</div>\n\t\t\t</li>\n\t\t\t<li v-link=\"{ path: '/newslist'}\">\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-information icon_tool\"></span></div>\n\t\t\t\t<div>资讯管理</div>\n\t\t\t</li>\n\t\t\t<li v-link=\"{ path: '/editEvent'}\">\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-install icon_tool\"></span></div>\n\t\t\t\t<div>设置</div>\n\t\t\t</li>\n\t\t\t<li v-link=\"{ path: '/reset'}\">\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-delete icon_tool\"></span></div>\n\t\t\t\t<div>重置／删除</div>\n\t\t\t</li>\n\t\t\t<li v-link=\"{ path: '/homepage'}\">\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-home icon_tool\"></span></div>\n\t\t\t\t<div>首页</div>\n\t\t\t</li>\n\t\t</ul>\n\t</div>\n";
+
+/***/ },
 /* 63 */
 /***/ function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"tech_nav\">\r\n\t\t<ul class=\"tech_nav_list clearfix\">\r\n\t\t\t<li v-link=\"{ path: '/techPic'}\">\r\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-match icon_tool\"></span></div>\r\n\t\t\t\t<div>赛事总览</div>\r\n\t\t\t</li>\r\n\t\t\t<li v-link=\"{ path: '/contestant'}\">\r\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-athlete icon_tool\"></span></div>\r\n\t\t\t\t<div>参赛选手</div>\r\n\t\t\t</li>\r\n\t\t\t<li v-link=\"{ path: '/newslist'}\">\r\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-information icon_tool\"></span></div>\r\n\t\t\t\t<div>资讯管理</div>\r\n\t\t\t</li>\r\n\t\t\t<li v-link=\"{ path: '/createEvent'}\">\r\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-install icon_tool\"></span></div>\r\n\t\t\t\t<div>设置</div>\r\n\t\t\t</li>\r\n\t\t\t<li v-link=\"{ path: '/reset'}\">\r\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-delete icon_tool\"></span></div>\r\n\t\t\t\t<div>重置／删除</div>\r\n\t\t\t</li>\r\n\t\t\t<li v-link=\"{ path: '/homepage'}\">\r\n\t\t\t\t<div class=\"tect_nav_pic\"><span class=\"icon-home icon_tool\"></span></div>\r\n\t\t\t\t<div>首页</div>\r\n\t\t\t</li>\r\n\t\t</ul>\r\n\t</div>\r\n";
+	module.exports = "\n\t<top-head></top-head> \n\t<div class=\"g-doc\">\n\t\t<div class=\"g-bd\">\n\t\t\t<div class=\"g-tp\"></div>\n\t\t\t<div class=\"g-center f-cb\">\n\t\t\t\t<div class=\"m-form\" id=\"m-form\">\n\t\t\t\t\t<h3>创建赛事工具</h3>\n\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t\t<label for=\"name\">赛事名称：</label>\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" name=\"name\" placeholder=\"请输入比赛名称，不超过32个文字\" v-model=\"formdata.name\" required=\"\">\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst f-cb\">\n\t\t\t\t\t\t<label for=\"\">赛事主办方：</label>\n\t\t\t\t\t\t<div class=\"organize f-fl\">个人：网娱大师</div>\n\t\t\t\t\t\t<div class=\"sponsor\">\n\t\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-select\" @click=\"chooseOrganize\">更改</a>\n\t\t\t\t\t\t\t<ul class=\"organize_option\">\n\t\t\t\t\t\t\t\t<li class=\"selected\">个人：网娱大师</li>\n\t\t\t\t\t\t\t\t<li class=\"disabled\">组织：暂无</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</div>\t\t\t\t\t\t\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst f-mb50\">\n\t\t\t\t\t\t<label for=\"\">所属游戏：</label>\n\t\t\t\t\t\t<select name=\"itemId\" id=\"gameList\" v-model=\"formdata.itemId\" @change=\"getServerList\" required=\"\">\n\t\t\t\t\t\t\t<option value=\"\">请选择赛事游戏</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t\t<select name=\"itemServerId\" id=\"serverList\" v-model=\"formdata.itemServerId\" required=\"\">\n\t\t\t\t\t\t\t<option value=\"\">请选择服务器</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t<label for=\"\">赛事模式：</label>\n\t\t\t\t\t\t<select name=\"\" id=\"\" v-model=\"formdata.mode\">\n\t\t\t\t\t\t\t<option value=\"1\" selected=\"\">线上赛事</option>\n\t\t\t\t\t\t\t<option value=\"2\" disabled=\"\">线下赛事</option>\n\t\t\t\t\t\t\t<option value=\"3\" disabled=\"\">线上海选+线下决赛</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t<label for=\"maxNum\">最大参与人数：</label>\n\t\t\t\t\t\t<input type=\"text\" id=\"number\" name=\"maxNum\" placeholder=\"请输入参与人数上限\" v-model=\"formdata.maxNum\" required=\"\" @input=\"numberChange\">\n\t\t\t\t\t\t<div class=\"button_group\">\n\t\t\t\t\t\t\t<button class=\"plus\" @click=\"plus\"></button>\n\t\t\t\t\t\t\t<button class=\"minus\" @click=\"minus\" disabled=\"true\"></button>\n\t\t\t\t\t\t</div>\t\n\t\t\t\t\t\t<span class=\"f-fs1\">&nbsp;&nbsp;(建议最大参与人数不超过64人)</span>\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t<label for=\"activityBegin\">赛事开始时间：</label>\n\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\n\t\t\t\t\t\t    <input size=\"16\" type=\"text\" id=\"activityBegin\" name=\"activityBegin\" value=\"\" placeholder=\"请选择时间\" v-model=\"formdata.activityBegin\" required=\"\">\n\t\t\t\t\t\t    <label for=\"activityBegin\" class=\"add-on\"><i class=\"icon-th\"></i></label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t<label for=\"\">赛事类型：</label>\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-1-1\" name=\"radio-1-set\" class=\"regular-radio\" value=\"1\" checked v-model=\"formdata.type\"/><label for=\"radio-1-1\"></label><span class=\"radio_name\">单阶段比赛</span>\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-1-2\" name=\"radio-1-set\" class=\"regular-radio\" value=\"2\" disabled v-model=\"formdata.type\"/><label for=\"radio-1-2\"></label><span class=\"radio_name\">双阶段比赛</span>\n\t\t\t\t\t\t<div class=\"tips f-lh36\">\n\t\t\t\t\t\t\t双阶段将包含小组赛（目前暂不开放）\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst  f-mb50\">\n\t\t\t\t\t\t<label for=\"\">采用赛制：</label>\n\t\t\t\t\t\t<select name=\"\" id=\"\" class=\"f-fl\" v-model=\"formdata.regime\">\n\t\t\t\t\t\t\t<option value=\"1\" selected=\"\">单败淘汰制(SE)</option>\n\t\t\t\t\t\t\t<option value=\"2\" disabled=\"\">双败淘汰制(DE)</option>\n\t\t\t\t\t\t\t<option value=\"3\" disabled=\"\">小组内单循环制(RR)</option>\n\t\t\t\t\t\t\t<option value=\"4\" disabled=\"\">积分循环制[瑞士轮](SS)</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t\t<input type=\"checkbox\" id=\"checkbox-1-1\" class=\"regular-checkboxs f-ml15\" value=\"1\" v-model=\"formdata.needThird\"/><label for=\"checkbox-1-1\" class=\"f-ml15\"></label><span class=\"check_name\">决出第三名</span>\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"\">单败淘汰制：失败一场即淘汰</div>\n\t\t\t\t\t\t\t<div>双败淘汰制：失败两场淘汰，比赛中将有败者组</div>\n\t\t\t\t\t\t\t<a href=\"#\">查看详细帮助文档</a>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t<label for=\"\">是否允许报名：</label>\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-2-1\" value=\"1\" name=\"radio-2-set\" class=\"regular-radio\" v-model=\"formdata.allowApply\" @click=\"slideToggle\"/><label for=\"radio-2-1\"></label><span class=\"radio_name\">允许报名</span>\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-2-2\" value=\"0\" name=\"radio-2-set\" class=\"regular-radio\" v-model=\"formdata.allowApply\"@click=\"slideToggle\"/><label for=\"radio-2-2\"></label><span class=\"radio_name\">禁止报名</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-signup\">\n\t\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t\t<label for=\"\">报名类型：</label>\n\t\t\t\t\t\t\t<input type=\"radio\" id=\"radio-3-1\" name=\"radio-3-set\" class=\"regular-radio\" value=\"1\" v-model=\"formdata.applyType\"/><label for=\"radio-3-1\"></label><span class=\"radio_name\">个人报名</span>\n\t\t\t\t\t\t\t<input type=\"radio\" id=\"radio-3-2\" name=\"radio-3-set\" class=\"regular-radio\" value=\"2\" v-model=\"formdata.applyType\"/><label for=\"radio-3-2\"></label><span class=\"radio_name\">战队报名</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t\t<label for=\"\">报名时间：</label>\n\t\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\n\t\t\t\t\t\t\t    <input size=\"16\" type=\"text\" id=\"applyBegin\" value=\"\" name=\"applyBegin\" placeholder=\"请选择时间\" v-model=\"formdata.applyBegin\" required=\"\">\n\t\t\t\t\t\t\t    <label for=\"applyBegin\" class=\"add-on\"><i class=\"icon-th\"></i></label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<span class=\"form-datetime-zhi\">-</span>\n\t\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\n\t\t\t\t\t\t\t    <input size=\"16\" type=\"text\" id=\"applyEnd\" value=\"\" name=\"applyEnd\" placeholder=\"请选择时间\" v-model=\"formdata.applyEnd\" required=\"\">\n\t\t\t\t\t\t\t    <label for=\"applyEnd\" class=\"add-on\"><i class=\"icon-th\"></i></label>\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst f-mb50\">\n\t\t\t\t\t\t\t<div class=\"f-cb\">\n\t\t\t\t\t\t\t\t<label for=\"\">签到设置：</label>\n\t\t\t\t\t\t\t\t<input type=\"checkbox\" id=\"checkbox-2-1\" class=\"regular-checkboxs f-ml15\" v-model=\"formdata.needSign\" @click=\"signTime\"/><label for=\"checkbox-2-1\"></label><span class=\"check_name\">要求参赛者赛前签到 (仅签到一次)</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"f-cb sign-minute\">\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t比赛开始前<select name=\"needSignMinu\" id=\"\" v-model=\"formdata.needSignMinu\" required=\"\">\n\t\t\t\t\t\t\t\t\t<option value=\"15\" selected=\"\">15</option>\n\t\t\t\t\t\t\t\t\t<option value=\"30\">30</option>\n\t\t\t\t\t\t\t\t\t<option value=\"60\">60</option>\n\t\t\t\t\t\t\t\t</select>分钟\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\t\t\t\t\t\n\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"slide slidedown\" @click=\"optional\">展开更多赛事信息选项</a>\n\t\t\t\t\t<div class=\"m-option\">\n\t\t\t\t\t\t<div class=\"m-lst f-cb\">\n\t\t\t\t\t\t\t<label for=\"\">海报图：</label>\n\t\t\t\t\t\t\t<div class=\"picBox\">\n\t\t\t\t\t\t\t\t<div id=\"pic\"></div>\n\t\t\t\t\t\t\t</div>\t\n\t\t\t\t\t\t\t<div class=\"tips f-lh36\">\n\t\t\t\t\t\t\t\t允许jpg、png格式，最大2MB\n\t\t\t\t\t\t\t</div>\t\t\t\t\t\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t\t<label for=\"\">赛事简介：</label>\n\t\t\t\t\t\t\t<!-- <textarea name=\"brief\" id=\"edit\" cols=\"55\" rows=\"5\" placeholder=\"请输入赛事简介，不超过500字\" v-model=\"formdata.brief\" required=\"\"></textarea> -->\n\t\t\t\t\t\t\t<div id=\"brief\" class=\"m-editor\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t\t<label for=\"\">赛制规则：</label>\n\t\t\t\t\t\t\t<!-- <textarea name=\"regimeRule\" id=\"\" cols=\"55\" rows=\"5\" placeholder=\"请输入赛制规则，不超过1000字\" v-model=\"formdata.regimeRule\" required=\"\"></textarea> -->\n\t\t\t\t\t\t\t<div id=\"regimeRule\" class=\"m-editor\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst f-mb50\">\n\t\t\t\t\t\t\t<label for=\"\">奖金设置：</label>\n\t\t\t\t\t\t\t<!-- <textarea name=\"prizeSetting\" id=\"\" cols=\"55\" rows=\"5\" placeholder=\"请输入奖励设置，不超过1000字\" v-model=\"formdata.prizeSetting\" required=\"\"></textarea> -->\n\t\t\t\t\t\t\t<div id=\"prizeSetting\" class=\"m-editor\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<!-- <div class=\"m-lst\">\n\t\t\t\t\t\t\t<label for=\"\">种子规则：</label>\n\t\t\t\t\t\t\t<select name=\"\" id=\"\">\n\t\t\t\t\t\t\t\t<option value=\"\">传统种子规则</option>\n\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t</div> -->\n\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"slide slideup\" @click=\"optional\">收起</a>\n\t\t\t\t\t</div>\n\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-btn u-btn-next\" @click=\"nextStep\">下一步</a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\n\t\t\t<div class=\"g-bt\"></div>\n\t\t</div>\n\t</div>\n";
 
 /***/ },
 /* 64 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "\r\n\t<top-nav></top-nav> \r\n\t<div class=\"g-doc\">\r\n\t\t<div class=\"g-bd\">\r\n\t\t\t<div class=\"g-tp\"></div>\r\n\t\t\t<div class=\"g-center f-cb\">\r\n\t\t\t\t<div class=\"m-form\">\r\n\t\t\t\t\t<h3>创建赛事工具</h3>\r\n\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t\t\t<label for=\"\">赛事名称：</label>\r\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入比赛名称，不超过32个文字\">\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst f-cb\">\r\n\t\t\t\t\t\t<label for=\"\">赛事主办方：</label>\r\n\t\t\t\t\t\t<div class=\"organize f-fl\">hoo言hoo语</div>\r\n\t\t\t\t\t\t<div class=\"sponsor\">\r\n\t\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-select\" @click=\"chooseOrganize\">更改</a>\r\n\t\t\t\t\t\t\t<ul class=\"organize_option\">\r\n\t\t\t\t\t\t\t\t<li class=\"selected\">个人：网娱大师</li>\r\n\t\t\t\t\t\t\t\t<li class=\"disabled\">组织：暂无</li>\r\n\t\t\t\t\t\t\t</ul>\r\n\t\t\t\t\t\t</div>\t\t\t\t\t\t\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst f-mb50\">\r\n\t\t\t\t\t\t<label for=\"\">所属游戏：</label>\r\n\t\t\t\t\t\t<select name=\"\" id=\"\">\r\n\t\t\t\t\t\t\t<option value=\"\">请选择赛事游戏</option>\r\n\t\t\t\t\t\t</select>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t<label for=\"\">赛事模式：</label>\r\n\t\t\t\t\t\t<select name=\"\" id=\"\">\r\n\t\t\t\t\t\t\t<option value=\"\">线上赛事</option>\r\n\t\t\t\t\t\t\t<option value=\"\" disabled=\"\">线下赛事</option>\r\n\t\t\t\t\t\t\t<option value=\"\" disabled=\"\">线上海选+线下决赛</option>\r\n\t\t\t\t\t\t</select>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t<label for=\"\">最大参与人数：</label>\r\n\t\t\t\t\t\t<input type=\"text\" id=\"number\" placeholder=\"请输入参与人数上限\">\r\n\t\t\t\t\t\t<div class=\"button_group\">\r\n\t\t\t\t\t\t\t<button class=\"plus\" @click=\"plus\"></button>\r\n\t\t\t\t\t\t\t<button class=\"minus\" @click=\"minus\" disabled=\"true\"></button>\r\n\t\t\t\t\t\t</div>\t\r\n\t\t\t\t\t\t<div class=\"tips\">\r\n\t\t\t\t\t\t\t<div class=\"f-mb10\">建议最大参与人数不超过512人</div>\r\n\t\t\t\t\t\t\t<div class=\"attention\">尚未设置最大参与人数</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t<label for=\"\">赛事开始时间：</label>\r\n\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\r\n\t\t\t\t\t\t    <input size=\"16\" type=\"text\" id=\"begintime\" value=\"\" placeholder=\"请选择时间\" v-model=\"activityBegin\">\r\n\t\t\t\t\t\t    <label for=\"begintime\" class=\"add-on\"><i class=\"icon-th\"></i></label>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t<label for=\"\">赛事类型：</label>\r\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-1-1\" name=\"radio-1-set\" class=\"regular-radio\" checked /><label for=\"radio-1-1\"></label><span class=\"radio_name\">单阶段比赛</span>\r\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-1-2\" name=\"radio-1-set\" class=\"regular-radio\" disabled /><label for=\"radio-1-2\"></label><span class=\"radio_name\">双阶段比赛</span>\r\n\t\t\t\t\t\t<div class=\"tips f-lh36\">\r\n\t\t\t\t\t\t\t双阶段将包含小组赛（目前暂不开放）\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst  f-mb50\">\r\n\t\t\t\t\t\t<label for=\"\">采用赛制：</label>\r\n\t\t\t\t\t\t<select name=\"\" id=\"\" class=\"f-fl\">\r\n\t\t\t\t\t\t\t<option value=\"\">单败淘汰制(SE)</option>\r\n\t\t\t\t\t\t\t<option value=\"\" disabled=\"\">双败淘汰制(DE)</option>\r\n\t\t\t\t\t\t\t<option value=\"\" disabled=\"\">小组内单循环制(RR)</option>\r\n\t\t\t\t\t\t\t<option value=\"\" disabled=\"\">积分循环制[瑞士轮](SS)</option>\r\n\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t<input type=\"checkbox\" id=\"checkbox-1-1\" class=\"regular-checkboxs f-ml15\" /><label for=\"checkbox-1-1\" class=\"f-ml15\"></label><span class=\"check_name\">决出第三名</span>\r\n\t\t\t\t\t\t<div class=\"tips\">\r\n\t\t\t\t\t\t\t<div class=\"\">单败淘汰制：失败一场即淘汰</div>\r\n\t\t\t\t\t\t\t<div>双败淘汰制：失败两场淘汰，比赛中将有败者组</div>\r\n\t\t\t\t\t\t\t<a href=\"#\">查看详细帮助文档</a>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t<label for=\"\">是否允许报名：</label>\r\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-2-1\" name=\"radio-2-set\" class=\"regular-radio\" @click=\"slideToggle\"/><label for=\"radio-2-1\"></label><span class=\"radio_name\">允许报名</span>\r\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-2-2\" name=\"radio-2-set\" class=\"regular-radio\" @click=\"slideToggle\"/><label for=\"radio-2-2\"></label><span class=\"radio_name\">禁止报名</span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-signup\">\r\n\t\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t\t<label for=\"\">报名类型：</label>\r\n\t\t\t\t\t\t\t<input type=\"radio\" id=\"radio-3-1\" name=\"radio-3-set\" class=\"regular-radio\" /><label for=\"radio-3-1\"></label><span class=\"radio_name\">个人报名</span>\r\n\t\t\t\t\t\t\t<input type=\"radio\" id=\"radio-3-2\" name=\"radio-3-set\" class=\"regular-radio\" /><label for=\"radio-3-2\"></label><span class=\"radio_name\">战队报名</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t\t<label for=\"\">报名时间：</label>\r\n\t\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\r\n\t\t\t\t\t\t\t    <input size=\"16\" type=\"text\" value=\"\" placeholder=\"请选择时间\" readonly>\r\n\t\t\t\t\t\t\t    <span class=\"add-on\"><i class=\"icon-th\"></i></span>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<span class=\"form-datetime-zhi\">-</span>\r\n\t\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\r\n\t\t\t\t\t\t\t    <input size=\"16\" type=\"text\" value=\"\" placeholder=\"请选择时间\" readonly>\r\n\t\t\t\t\t\t\t    <span class=\"add-on\"><i class=\"icon-th\"></i></span>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst f-mb50\">\r\n\t\t\t\t\t\t\t<div class=\"f-cb\">\r\n\t\t\t\t\t\t\t\t<label for=\"\">签到设置：</label>\r\n\t\t\t\t\t\t\t\t<input type=\"checkbox\" id=\"checkbox-2-1\" class=\"regular-checkboxs f-ml15\" @click=\"signTime\"/><label for=\"checkbox-2-1\"></label><span class=\"check_name\">要求参赛者赛前签到 (仅签到一次)</span>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<div class=\"f-cb sign-minute\">\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t比赛开始前<select name=\"\" id=\"\">\r\n\t\t\t\t\t\t\t\t\t<option value=\"\">15</option>\r\n\t\t\t\t\t\t\t\t\t<option value=\"\">30</option>\r\n\t\t\t\t\t\t\t\t\t<option value=\"\">60</option>\r\n\t\t\t\t\t\t\t\t</select>分钟\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\t\t\t\t\t\r\n\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"slide slidedown\" @click=\"optional\">展开更多赛事信息选项</a>\r\n\t\t\t\t\t<div class=\"m-option\">\r\n\t\t\t\t\t\t<div class=\"m-lst f-cb\">\r\n\t\t\t\t\t\t\t<label for=\"\">海报图：</label>\r\n\t\t\t\t\t\t\t<div class=\"picBox\">\r\n\t\t\t\t\t\t\t\t<div id=\"pic\"></div>\r\n\t\t\t\t\t\t\t</div>\t\r\n\t\t\t\t\t\t\t<div class=\"tips f-lh36\">\r\n\t\t\t\t\t\t\t\t允许jpg、png格式，最大2MB\r\n\t\t\t\t\t\t\t</div>\t\t\t\t\t\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t\t<label for=\"\">赛制规则：</label>\r\n\t\t\t\t\t\t\t<textarea name=\"\" id=\"\" cols=\"55\" rows=\"5\" placeholder=\"请输入比赛赛制规则，不超过200字\"></textarea>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst f-mb50\">\r\n\t\t\t\t\t\t\t<label for=\"\">奖金设置：</label>\r\n\t\t\t\t\t\t\t<textarea name=\"\" id=\"\" cols=\"55\" rows=\"5\" placeholder=\"请输入比赛赛制规则，不超过200字\"></textarea>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst\">\r\n\t\t\t\t\t\t\t<label for=\"\">种子规则：</label>\r\n\t\t\t\t\t\t\t<select name=\"\" id=\"\">\r\n\t\t\t\t\t\t\t\t<option value=\"\">传统种子规则</option>\r\n\t\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"slide slideup\" @click=\"optional\">收起</a>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-btn u-btn-next\">下一步</a>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t\t\r\n\t\t\t<div class=\"g-bt\"></div>\r\n\t\t</div>\r\n\t</div>\r\n";
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(65)
+	__vue_template__ = __webpack_require__(66)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/chenjinghua/matchtool_web/src/views/editEvent.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
 
 /***/ },
 /* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(66)
-	__vue_template__ = __webpack_require__(67)
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
-	  if (!hotAPI.compatible) return
-	  var id = "F:\\saishi\\src\\views\\contestant.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
-
-/***/ },
-/* 66 */
-/***/ function(module, exports, __webpack_require__) {
-
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	
-	var _topNav = __webpack_require__(60);
+	var _typeof2 = __webpack_require__(28);
+	
+	var _typeof3 = _interopRequireDefault(_typeof2);
+	
+	var _stringify = __webpack_require__(21);
+	
+	var _stringify2 = _interopRequireDefault(_stringify);
+	
+	var _topNav = __webpack_require__(59);
 	
 	var _topNav2 = _interopRequireDefault(_topNav);
+	
+	var _topHead = __webpack_require__(5);
+	
+	var _topHead2 = _interopRequireDefault(_topHead);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = {
-	  data: function data() {
-	    return {};
-	  },
+		data: function data() {
+			return {
+				eventlist: "",
+				roundlist: "",
+				formdata: {
+					oetInfoId: "",
+					oetRoundId: "",
+					name: "",
+					sponsorType: 1,
+					itemId: "",
+					itemServerId: "",
+					mode: "",
+					maxNum: "",
+					activityBegin: "",
+					type: "",
+					regime: "",
+					needThird: "",
+					allowApply: "",
+					applyType: "",
+					applyBegin: "",
+					applyEnd: "",
+					needSign: "",
+					needSignMinu: "",
+					poster: "",
+					brief: "",
+					regimeRule: "",
+					prizeSetting: ""
+				}
+			};
+		},
 	
-	  ready: function ready() {},
-	  methods: {
-	    addplayer: function addplayer(e) {
-	      $('.m-mask').show();
-	    },
-	    closePop: function closePop(e) {
-	      $('.m-mask').hide();
-	    }
-	  },
-	  components: {
-	    topNav: _topNav2.default
+		ready: function ready() {
+			var _this = this;
+			_this.formdata.oetInfoId = window.sessionStorage.getItem("eventid");
+			_this.formdata.oetRoundId = window.sessionStorage.getItem("roundid");
+			var eve = {};
+			eve.jsonInfo = (0, _stringify2.default)({ oetInfoId: _this.formdata.oetInfoId, oetRoundId: _this.formdata.oetRoundId });
+			_this.$http.get('event/openOetInfo', eve).then(function (response) {
+				console.log(response);
+				_this.eventlist = response.data.object.event;
+				_this.roundlist = response.data.object.round;
 	
-	  }
+				_this.formdata.itemId = _this.eventlist.itemId;
+				_this.formdata.itemServerId = _this.eventlist.itemServerId;
+				_this.formdata.needSignMinu = _this.eventlist.needSignMinute;
+				_this.formdata.poster = _this.eventlist.poster;
+				_this.formdata.maxNum = _this.roundlist.maxNum;
+				_this.formdata.activityBegin = response.data.object.activityBegin;
+				_this.formdata.applyBegin = response.data.object.applyBegin;
+				_this.formdata.applyEnd = response.data.object.applyEnd;
+				_this.formdata.brief = _this.eventlist.brief;
+				_this.formdata.regimeRule = _this.eventlist.regimeRule;
+				_this.formdata.prizeSetting = _this.eventlist.prizeSetting;
+				$('#brief .froala-element').html(_this.formdata.brief);
+				$('#regimeRule .froala-element').html(_this.formdata.regimeRule);
+				$('#prizeSetting .froala-element').html(_this.formdata.prizeSetting);
+				$("#gameList option").each(function () {
+					if ($(this).val() == _this.eventlist.itemId) {
+						$(this).attr("selected", true);
+					}
+				});
+				var parm = {};
+				parm.jsonInfo = (0, _stringify2.default)({ itemsId: _this.eventlist.itemId });
+				_this.$http.get('event/queryActivityItem', parm).then(function (response) {
+					var gameList = response.data.object.itemsServerList;
+					var content = '<option value="">请选择服务器</option>';
+					for (var i = 0; i < gameList.length; i++) {
+						content += '<option value="' + gameList[i].id + '">' + gameList[i].serverName + '</option>';
+					}
+					$('#serverList').html(content);
+					$("#serverList option").each(function () {
+						if ($(this).val() == _this.eventlist.itemServerId) {
+							$(this).attr("selected", true);
+						}
+					});
+				}, function (response) {
+					console.log(22);
+				});
+				if (_this.roundlist.allowApply == 1) {
+					$('.m-signup').show();
+				}
+				if (_this.eventlist.needSign == 1) {
+					$('.sign-minute').show();
+				}
+				$("#signTime option").each(function () {
+					if ($(this).val() == _this.eventlist.needSignMinute) {
+						$(this).attr("selected", true);
+					}
+				});
+			}, function (response) {
+				console.log(response);
+			});
+			var parm = {};
+			parm.jsonInfo = (0, _stringify2.default)({ itemsId: "" });
+			_this.$http.get('/event/queryActivityItem', parm).then(function (response) {
+				var gameList = response.data.object.itemsList;
+				var content = '';
+	
+				for (var i = 0; i < gameList.length; i++) {
+					content += '<option value="' + gameList[i].id + '">' + gameList[i].name + '</option>';
+				}
+				$('#gameList').append(content);
+			}, function (response) {
+				console.log(22);
+			});
+	
+			$('.form_datetime input').datetimepicker({
+				format: "Y-m-d H:i",
+				yearStart: 2000,
+				yearEnd: 2050,
+				step: 30
+			});
+			$.datetimepicker.setLocale('ch');
+	
+			function preloadimages(arr) {
+				var newimages = [];
+				var arr = (typeof arr === 'undefined' ? 'undefined' : (0, _typeof3.default)(arr)) != "object" ? [arr] : arr;
+				for (var i = 0; i < arr.length; i++) {
+					newimages[i] = new Image();
+					newimages[i].src = arr[i];
+				}
+			}
+			preloadimages(['../../static/images/center_bg2.png']);
+	
+			$('#pic').diyUpload({
+				url: 'http://192.168.30.248:8088/file/upload',
+				success: function success(data) {
+					console.info(data);
+					_this.formdata.poster = data.object.src;
+				},
+				error: function error(err) {
+					console.info(err);
+				},
+				buttonText: '选择图片',
+				chunked: true,
+	
+				chunkSize: 512 * 1024,
+	
+				fileNumLimit: 1,
+				fileSizeLimit: 500000 * 1024,
+				fileSingleSizeLimit: 50000 * 1024
+			});
+	
+			$('.m-form').click(function (e) {
+				if (e.target.className != "select_showbox") {
+					$('.select_box').removeClass('focus');
+					$('.select_option').hide();
+				}
+				if (e.target.className != "u-select change") {
+					$('.u-select').removeClass('change');
+					$('.organize_option').hide();
+				}
+			});
+	
+			$('.sponsor li').click(function (e) {
+				if (e.target.className != 'disabled') {
+					var value = $(this).text();
+					$('.organize').text(value);
+					$('.sponsor ul').hide();
+					$('.sponsor .u-select').removeClass('change');
+				}
+			});
+	
+			$('#brief').editable({
+				inlineMode: false,
+				theme: 'dark',
+				alwaysBlank: true,
+				language: "zh_cn",
+				placeholder: ''
+			});
+	
+			$('#regimeRule').editable({
+				inlineMode: false,
+				theme: 'dark',
+				alwaysBlank: true,
+				language: "zh_cn",
+				placeholder: ''
+			});
+	
+			$('#prizeSetting').editable({
+				inlineMode: false,
+				theme: 'dark',
+				alwaysBlank: true,
+				language: "zh_cn",
+				placeholder: ''
+			});
+		},
+		methods: {
+			plus: function plus(e) {
+				if (this.formdata.maxNum == "") {
+					this.formdata.maxNum = 0;
+				}
+				this.formdata.maxNum = parseInt(this.formdata.maxNum) + 1;
+				$('#number').val(this.formdata.maxNum);
+				if (this.formdata.maxNum > 0) {
+					$('.minus').attr('disabled', false);
+				}
+			},
+			minus: function minus(e) {
+				this.formdata.maxNum = parseInt(this.formdata.maxNum) - 1;
+				$('#number').val(this.formdata.maxNum);
+				if (this.formdata.maxNum == 0) {
+					$('.minus').attr('disabled', true);
+				} else {
+					$('.minus').attr('disabled', false);
+				}
+			},
+			numberChange: function numberChange(e) {
+				if (this.formdata.maxNum > 0) {
+					$('.minus').attr('disabled', false);
+				} else if (this.formdata.maxNum == 0) {
+					$('.minus').attr('disabled', true);
+				}
+			},
+			slideToggle: function slideToggle(e) {
+				var _this = $(e.target);
+				if (_this.attr('id') == 'radio-2-1') {
+					$('.m-signup').slideDown();
+				} else {
+					$('.m-signup').slideUp();
+				}
+			},
+			optional: function optional(e) {
+				var _this = $(e.target);
+				if (_this.hasClass('slidedown')) {
+					_this.hide();
+					$('.m-option').show();
+					$('.g-center').css({ 'background-image': 'url(../static/images/center_bg2.png)' });
+				} else {
+					$('.slidedown').show();
+					$('.m-option').hide();
+					$('.g-center').css({ 'background-image': 'url(../static/images/center_bg1.png)' });
+				}
+			},
+			signTime: function signTime(e) {
+				var _this = $(e.target);
+				if (_this.is(':checked')) {
+					$('.sign-minute').show();
+				} else {
+					$('.sign-minute').hide();
+				}
+			},
+			chooseOrganize: function chooseOrganize(e) {
+				var _this = $(e.target);
+				if (_this.parent().find('.organize_option').is(":visible")) {
+					_this.parent().find('.organize_option').hide();
+					_this.removeClass('change');
+				} else {
+					_this.parent().find('.organize_option').show();
+					_this.addClass('change');
+				}
+			},
+			getServerList: function getServerList(e) {
+				var _this = this;
+				var parm = {};
+				parm.jsonInfo = (0, _stringify2.default)({ itemsId: _this.formdata.itemId });
+				_this.$http.get('event/queryActivityItem', parm).then(function (response) {
+					var gameList = response.data.object.itemsServerList;
+					var content = '<option value="">请选择服务器</option>';
+	
+					for (var i = 0; i < gameList.length; i++) {
+						content += '<option value="' + gameList[i].id + '">' + gameList[i].serverName + '</option>';
+					}
+					$('#serverList').html(content);
+				}, function (response) {
+					console.log(22);
+				});
+			},
+			nextStep: function nextStep(e) {
+				var _this = this;
+				if (_this.formdata.needThird) {
+					_this.formdata.needThird = 1;
+				} else {
+					_this.formdata.needThird = 0;
+				}
+				if (_this.formdata.needSign) {
+					_this.formdata.needSign = 1;
+				} else {
+					_this.formdata.needSign = 0;
+				}
+				if ($('#brief .froala-element').html() != "<p><br></p>") {
+					_this.formdata.brief = $('#brief .froala-element').html();
+				} else {
+					_this.formdata.brief = "";
+				}
+				if ($('#regimeRule .froala-element').html() != "<p><br></p>") {
+					_this.formdata.regimeRule = $('#regimeRule .froala-element').html();
+				} else {
+					_this.formdata.regimeRule = "";
+				}
+				if ($('#prizeSetting .froala-element').html() != "<p><br></p>") {
+					_this.formdata.prizeSetting = $('#prizeSetting .froala-element').html();
+				} else {
+					_this.formdata.prizeSetting = "";
+				}
+				function errorPlacement(mes, element) {
+					var errorTips = element.parents(".m-lst").find('div.attention');
+					if (mes != "") {
+						errorTips.show().html(mes);
+					} else {
+						errorTips.hide();
+					}
+				}
+				function formValidate() {
+					var valid = true;
+					$("#m-form [required]").each(function () {
+						var $this = $(this);
+						var value = $this.val(),
+						    name = $this.attr('name');
+						var message = "";
+						if (name == "name") {
+							if (value == "") {
+								valid = false;
+								message = "赛事名称不能为空";
+							} else if (value.length > 32) {
+								valid = false;
+								message = "赛事名称不能超过32个文字";
+							} else if (/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/.test(value)) {
+								valid = false;
+								message = "名称不能包含特殊字符";
+							}
+							errorPlacement(message, $this);
+						} else if (name == "itemId") {
+							if (value == "") {
+								valid = false;
+								message = "请选择赛事游戏";
+							}
+							errorPlacement(message, $this);
+						} else if (name == "itemServerId" && _this.formdata.itemId != "") {
+							if (value == "") {
+								valid = false;
+								message = "请选择服务器";
+							}
+							errorPlacement(message, $this);
+						} else if (name == "maxNum") {
+							if (value == "") {
+								valid = false;
+								message = "最大参与人数不能为空";
+							} else if (value < 4) {
+								valid = false;
+								message = "最大参与人数不能小于4人";
+							} else if (value > 64) {
+								valid = false;
+								message = "最大参与人数不能大于64人";
+							}
+							errorPlacement(message, $this);
+						} else if (name == "activityBegin") {
+							if (value == "") {
+								valid = false;
+								message = "赛事开始时间不能为空";
+							}
+							errorPlacement(message, $this);
+						} else if (name == "applyBegin" && _this.formdata.allowApply == 1) {
+							if (_this.formdata.activityBegin != "" && value > _this.formdata.activityBegin) {
+								valid = false;
+								message = "报名开始时间不能晚于赛事开始时间";
+							} else if (_this.formdata.applyEnd != "" && value != "" && value > _this.formdata.applyEnd) {
+								valid = false;
+								message = "报名开始时间不能晚于报名结束时间";
+							} else if (value == "") {
+								valid = false;
+								message = "报名开始时间不能为空";
+							}
+							errorPlacement(message, $this);
+						} else if (name == "applyEnd" && _this.formdata.allowApply == 1 && _this.formdata.applyBegin != "") {
+							if (_this.formdata.activityBegin != "" && value > _this.formdata.activityBegin) {
+								valid = false;
+								message = "报名结束时间不能晚于赛事开始时间";
+							} else if (_this.formdata.applyBegin != "" && value != "" && value < _this.formdata.applyBegin) {
+								valid = false;
+								message = "报名结束时间不能早于报名开始时间";
+							} else if (value == "") {
+								valid = false;
+								message = "报名结束时间不能为空";
+							}
+							errorPlacement(message, $this);
+						} else if (name == "needSignMinu" && _this.formdata.allowApply == 1 && _this.formdata.needSign == 1 && _this.formdata.applyBegin != "" && _this.formdata.activityBegin != "") {
+							var str = _this.formdata.activityBegin,
+							    str2 = _this.formdata.applyBegin,
+							    date = new Date(str.replace(/-/g, "/")).getTime(),
+							    date2 = new Date(str2.replace(/-/g, "/")).getTime();
+							var time = value * 60000;
+							if (date - time < date2) {
+								valid = false;
+								message = "签到时间不能早于报名开始时间";
+							}
+							errorPlacement(message, $this);
+						}
+					});
+					if (!valid) {
+						var top = $('.attention').eq(0).offset().top - 250;
+						$("body").scrollTop(top);
+					}
+					return valid;
+				};
+				var parm = {};
+				parm.jsonInfo = (0, _stringify2.default)(_this.formdata);
+				console.log(parm);
+				if (formValidate()) {
+					var power2fs = function power2fs(x) {
+						return (x & x - 1) === 0 ? (x - 1).toString(2).length : false;
+					};
+	
+					if (power2fs(_this.formdata.maxNum)) {
+						window.sessionStorage.setItem("ispower", true);
+					} else {
+						window.sessionStorage.setItem("ispower", false);
+					}
+					var n = 0;
+					while (Math.pow(2, n) < _this.formdata.maxNum) {
+						n++;
+					}
+					if (_this.formdata.maxNum > Math.pow(2, n - 1) + Math.pow(2, n - 2)) {
+						window.sessionStorage.setItem("isoverhalf", true);
+					} else {
+						window.sessionStorage.setItem("isoverhalf", false);
+					}
+	
+					_this.$http.post('event/save', parm).then(function (response) {
+						console.log(parm);
+					}, function (response) {
+						console.log(22);
+					});
+				}
+			}
+		},
+		components: {
+			topNav: _topNav2.default,
+			topHead: _topHead2.default
+	
+		}
 	};
+
+/***/ },
+/* 66 */
+/***/ function(module, exports) {
+
+	module.exports = "\n\t<top-head></top-head> \n\t<top-nav></top-nav> \n\t<div class=\"g-doc\">\n\t\t<div class=\"g-bd\">\n\t\t\t<div class=\"g-tp\"></div>\n\t\t\t<div class=\"g-center f-cb\">\n\t\t\t\t<div class=\"m-form\" id=\"m-form\">\n\t\t\t\t\t<h3>{{eventlist.name}}</h3>\n\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t\t<label for=\"name\">赛事名称：</label>\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" name=\"name\" value=\"{{eventlist.name}}\" placeholder=\"请输入比赛名称，不超过32个文字\" v-model=\"formdata.name\" required=\"\">\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst f-cb\">\n\t\t\t\t\t\t<label for=\"\">赛事主办方：</label>\n\t\t\t\t\t\t<div class=\"organize f-fl\">个人：网娱大师</div>\n\t\t\t\t\t\t<div class=\"sponsor\">\n\t\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-select\" @click=\"chooseOrganize\">更改</a>\n\t\t\t\t\t\t\t<ul class=\"organize_option\">\n\t\t\t\t\t\t\t\t<li class=\"selected\">个人：网娱大师</li>\n\t\t\t\t\t\t\t\t<li class=\"disabled\">组织：暂无</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</div>\t\t\t\t\t\t\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst f-mb50\">\n\t\t\t\t\t\t<label for=\"\">所属游戏：</label>\n\t\t\t\t\t\t<select name=\"itemId\" id=\"gameList\" v-model=\"formdata.itemId\" @change=\"getServerList\" required=\"\">\n\t\t\t\t\t\t\t<option value=\"\">请选择赛事游戏</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t\t<select name=\"itemServerId\" id=\"serverList\" v-model=\"formdata.itemServerId\" required=\"\">\n\t\t\t\t\t\t\t<option value=\"\">请选择服务器</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t<label for=\"\">赛事模式：</label>\n\t\t\t\t\t\t<select name=\"\" id=\"\" v-model=\"formdata.mode\">\n\t\t\t\t\t\t\t<option value=\"1\" selected=\"\">线上赛事</option>\n\t\t\t\t\t\t\t<option value=\"2\" disabled=\"\">线下赛事</option>\n\t\t\t\t\t\t\t<option value=\"3\" disabled=\"\">线上海选+线下决赛</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t<label for=\"maxNum\">最大参与人数：</label>\n\t\t\t\t\t\t<input type=\"text\" id=\"number\" name=\"maxNum\" value=\"\" placeholder=\"请输入参与人数上限\" v-model=\"formdata.maxNum\" required=\"\" @input=\"numberChange\">\n\t\t\t\t\t\t<div class=\"button_group\">\n\t\t\t\t\t\t\t<button class=\"plus\" @click=\"plus\"></button>\n\t\t\t\t\t\t\t<button class=\"minus\" @click=\"minus\"></button>\n\t\t\t\t\t\t</div>\t\n\t\t\t\t\t\t<span class=\"f-fs1\">&nbsp;&nbsp;(建议最大参与人数不超过64人)</span>\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t<label for=\"activityBegin\">赛事开始时间：</label>\n\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\n\t\t\t\t\t\t    <input size=\"16\" type=\"text\" id=\"activityBegin\" name=\"activityBegin\" value=\"\" placeholder=\"请选择时间\" v-model=\"formdata.activityBegin\" required=\"\">\n\t\t\t\t\t\t    <label for=\"activityBegin\" class=\"add-on\"><i class=\"icon-th\"></i></label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t<label for=\"\">赛事类型：</label>\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-1-1\" name=\"radio-1-set\" class=\"regular-radio\" value=\"1\" checked v-model=\"formdata.type\"/><label for=\"radio-1-1\"></label><span class=\"radio_name\">单阶段比赛</span>\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-1-2\" name=\"radio-1-set\" class=\"regular-radio\" value=\"2\" disabled v-model=\"formdata.type\"/><label for=\"radio-1-2\"></label><span class=\"radio_name\">双阶段比赛</span>\n\t\t\t\t\t\t<div class=\"tips f-lh36\">\n\t\t\t\t\t\t\t双阶段将包含小组赛（目前暂不开放）\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst  f-mb50\">\n\t\t\t\t\t\t<label for=\"\">采用赛制：</label>\n\t\t\t\t\t\t<select name=\"\" id=\"\" class=\"f-fl\" v-model=\"formdata.regime\">\n\t\t\t\t\t\t\t<option value=\"1\" selected=\"\">单败淘汰制(SE)</option>\n\t\t\t\t\t\t\t<option value=\"2\" disabled=\"\">双败淘汰制(DE)</option>\n\t\t\t\t\t\t\t<option value=\"3\" disabled=\"\">小组内单循环制(RR)</option>\n\t\t\t\t\t\t\t<option value=\"4\" disabled=\"\">积分循环制[瑞士轮](SS)</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t\t<input type=\"checkbox\" id=\"checkbox-1-1\" class=\"regular-checkboxs f-ml15\" value=\"1\" v-model=\"formdata.needThird\" checked=\"\" v-if=\"roundlist.needThird==1\"/>\n\t\t\t\t\t\t<input type=\"checkbox\" id=\"checkbox-1-1\" class=\"regular-checkboxs f-ml15\" value=\"1\" v-model=\"formdata.needThird\" v-else/>\n\t\t\t\t\t\t<label for=\"checkbox-1-1\" class=\"f-ml15\"></label><span class=\"check_name\">决出第三名</span>\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"\">单败淘汰制：失败一场即淘汰</div>\n\t\t\t\t\t\t\t<div>双败淘汰制：失败两场淘汰，比赛中将有败者组</div>\n\t\t\t\t\t\t\t<a href=\"#\">查看详细帮助文档</a>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t<label for=\"\">是否允许报名：</label>\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-2-1\" value=\"1\" name=\"radio-2-set\" class=\"regular-radio\" v-model=\"formdata.allowApply\" @click=\"slideToggle\" checked=\"\" v-if=\"roundlist.allowApply==1\"/>\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-2-1\" value=\"1\" name=\"radio-2-set\" class=\"regular-radio\" v-model=\"formdata.allowApply\" @click=\"slideToggle\" v-else/>\n\t\t\t\t\t\t<label for=\"radio-2-1\"></label><span class=\"radio_name\">允许报名</span>\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-2-2\" value=\"0\" name=\"radio-2-set\" class=\"regular-radio\" v-model=\"formdata.allowApply\"@click=\"slideToggle\" checked=\"\" v-if=\"roundlist.allowApply==0\"/>\n\t\t\t\t\t\t<input type=\"radio\" id=\"radio-2-2\" value=\"0\" name=\"radio-2-set\" class=\"regular-radio\" v-model=\"formdata.allowApply\"@click=\"slideToggle\" v-else/>\n\t\t\t\t\t\t<label for=\"radio-2-2\"></label><span class=\"radio_name\">禁止报名</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-signup\">\n\t\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t\t<label for=\"\">报名类型：</label>\n\t\t\t\t\t\t\t<input type=\"radio\" id=\"radio-3-1\" name=\"radio-3-set\" class=\"regular-radio\" value=\"1\" v-model=\"formdata.applyType\" checked=\"\" v-if=\"roundlist.applyType==1\"/>\n\t\t\t\t\t\t\t<input type=\"radio\" id=\"radio-3-1\" name=\"radio-3-set\" class=\"regular-radio\" value=\"1\" v-model=\"formdata.applyType\" v-else/>\n\t\t\t\t\t\t\t<label for=\"radio-3-1\"></label><span class=\"radio_name\">个人报名</span>\n\t\t\t\t\t\t\t<input type=\"radio\" id=\"radio-3-2\" name=\"radio-3-set\" class=\"regular-radio\" value=\"2\" v-model=\"formdata.applyType\" checked=\"\" v-if=\"roundlist.applyType==2\"/>\n\t\t\t\t\t\t\t<input type=\"radio\" id=\"radio-3-2\" name=\"radio-3-set\" class=\"regular-radio\" value=\"2\" v-model=\"formdata.applyType\" v-else/>\n\t\t\t\t\t\t\t<label for=\"radio-3-2\"></label><span class=\"radio_name\">战队报名</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t\t<label for=\"\">报名时间：</label>\n\t\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\n\t\t\t\t\t\t\t    <input size=\"16\" type=\"text\" id=\"applyBegin\" value=\"\" name=\"applyBegin\" placeholder=\"请选择时间\" v-model=\"formdata.applyBegin\" required=\"\">\n\t\t\t\t\t\t\t    <label for=\"applyBegin\" class=\"add-on\"><i class=\"icon-th\"></i></label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<span class=\"form-datetime-zhi\">-</span>\n\t\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\n\t\t\t\t\t\t\t    <input size=\"16\" type=\"text\" id=\"applyEnd\" value=\"\" name=\"applyEnd\" placeholder=\"请选择时间\" v-model=\"formdata.applyEnd\" required=\"\">\n\t\t\t\t\t\t\t    <label for=\"applyEnd\" class=\"add-on\"><i class=\"icon-th\"></i></label>\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst f-mb50\">\n\t\t\t\t\t\t\t<div class=\"f-cb\">\n\t\t\t\t\t\t\t\t<label for=\"\">签到设置：</label>\n\t\t\t\t\t\t\t\t<input type=\"checkbox\" id=\"checkbox-2-1\" class=\"regular-checkboxs f-ml15\" v-model=\"formdata.needSign\" @click=\"signTime\" checked=\"\" v-if=\"eventlist.needSign==1\"/>\n\t\t\t\t\t\t\t\t<input type=\"checkbox\" id=\"checkbox-2-1\" class=\"regular-checkboxs f-ml15\" v-model=\"formdata.needSign\" @click=\"signTime\" v-else/>\n\t\t\t\t\t\t\t\t<label for=\"checkbox-2-1\"></label><span class=\"check_name\">要求参赛者赛前签到 (仅签到一次)</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"f-cb sign-minute\">\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t比赛开始前<select name=\"needSignMinu\" id=\"signTime\" v-model=\"formdata.needSignMinu\" required=\"\">\n\t\t\t\t\t\t\t\t\t<option value=\"15\">15</option>\n\t\t\t\t\t\t\t\t\t<option value=\"30\">30</option>\n\t\t\t\t\t\t\t\t\t<option value=\"60\">60</option>\n\t\t\t\t\t\t\t\t</select>分钟\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\t\t\t\t\t\n\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"slide slidedown\" @click=\"optional\">展开更多赛事信息选项</a>\n\t\t\t\t\t<div class=\"m-option\">\n\t\t\t\t\t\t<div class=\"m-lst f-cb\">\n\t\t\t\t\t\t\t<label for=\"\">海报图：</label>\n\t\t\t\t\t\t\t<div class=\"picBox\">\n\t\t\t\t\t\t\t\t<div id=\"pic\"></div>\n\t\t\t\t\t\t\t</div>\t\n\t\t\t\t\t\t\t<div class=\"tips f-lh36\">\n\t\t\t\t\t\t\t\t允许jpg、png格式，最大2MB\n\t\t\t\t\t\t\t</div>\t\t\n\t\t\t\t\t\t\t<div class=\"previewPic\" v-if=\"eventlist.poster!=''\">\n\t\t\t\t\t\t\t\t<img v-bind:src=\"'http://img.wangyuhudong.com'+eventlist.poster\" alt=\"\">\n\t\t\t\t\t\t\t</div>\t\t\t\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t\t<label for=\"\">赛事简介：</label>\n\t\t\t\t\t\t\t<!-- <textarea name=\"brief\" id=\"\" cols=\"55\" rows=\"5\" placeholder=\"请输入赛制规则，不超过500字\" v-model=\"formdata.brief\" required=\"\"></textarea> -->\n\t\t\t\t\t\t\t<div id=\"brief\" class=\"m-editor\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst\">\n\t\t\t\t\t\t\t<label for=\"\">赛制规则：</label>\n\t\t\t\t\t\t\t<!-- <textarea name=\"regimeRule\" id=\"\" cols=\"55\" rows=\"5\" placeholder=\"请输入赛制规则，不超过1000字\" v-model=\"formdata.regimeRule\" required=\"\"></textarea> -->\n\t\t\t\t\t\t\t<div id=\"regimeRule\" class=\"m-editor\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst f-mb50\">\n\t\t\t\t\t\t\t<label for=\"\">奖金设置：</label>\n\t\t\t\t\t\t\t<!-- <textarea name=\"prizeSetting\" id=\"\" cols=\"55\" rows=\"5\" placeholder=\"请输入奖励设置，不超过1000字\" v-model=\"formdata.prizeSetting\" required=\"\"></textarea> -->\n\t\t\t\t\t\t\t<div id=\"prizeSetting\" class=\"m-editor\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<!-- <div class=\"m-lst\">\n\t\t\t\t\t\t\t<label for=\"\">种子规则：</label>\n\t\t\t\t\t\t\t<select name=\"\" id=\"\">\n\t\t\t\t\t\t\t\t<option value=\"\">传统种子规则</option>\n\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t</div> -->\n\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"slide slideup\" @click=\"optional\">收起</a>\n\t\t\t\t\t</div>\n\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-btn u-btn-next\" @click=\"nextStep\">保存修改</a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\n\t\t\t<div class=\"g-bt\"></div>\n\t\t</div>\n\t</div>\n";
 
 /***/ },
 /* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "\r\n <top-nav></top-nav> \r\n\t\t<div class=\"g-bd\" style=\"margin-top:20px;\">\r\n\t\t\t<div class=\"g-tp\"></div>\r\n\t\t\t<div class=\"g-list\">\r\n\t\t\t\t<h3>浙江省网娱大师-雪碧真英雄城市争霸赛</h3>\r\n\t\t\t\t<div class=\"m-operate f-cb\">\r\n\t\t\t\t\t<div class=\"l-btn f-fl\">\r\n\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-btn u-btn-add\" @click=\"addplayer\"><img src=\"" + __webpack_require__(25) + "\" alt=\"\">添加选手</a>\r\n\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-btn u-btn-upset\"></a>\r\n\t\t\t\t\t</div>\t\t\t\t\t\r\n\t\t\t\t\t<div class=\"r-btn f-fr\">\r\n\t\t\t\t\t\t<a href=\"\">导入</a>\r\n\t\t\t\t\t\t<a href=\"\">导出</a>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"m-tb\">\r\n\t\t\t\t\t<table class=\"account_table\">\r\n\t                    <tbody>\r\n\t                    <tr>\r\n\t                        <th>序号</th>\r\n\t                        <th>选手名称</th>\r\n\t                        <th>手机号码</th>\r\n\t                        <th>QQ</th>\r\n\t                        <th>身份证号码</th>\r\n\t                        <th>已签到</th>\r\n\t                        <th width=\"135px;\">操作</th>\r\n\t                    </tr>\r\n\t                    <tr>\r\n\t                        <td>1</td>\r\n\t                        <td>h的二次方</td>\r\n\t                        <td>13606555698</td>\r\n\t                        <td>13606555</td>\r\n\t                        <td>331360198607073369</td>\r\n\t                        <td>\r\n\t                        <section class=\"signed\">\r\n\t\t\t\t\t\t\t\t<div class=\"signbox\">\r\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\">\r\n\t\t\t\t\t\t\t\t\t<label></label>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</section>\r\n\t\t\t\t\t\t\t</td>\r\n\t                        <td>\r\n\t                        \t<div class=\"option\">\r\n\t                        \t\t<a href=\"\" class=\"u-btn-write\"></a><a href=\"\" class=\"u-btn-delete\"></a>\r\n\t                        \t</div>\r\n\t                        </td>\r\n\t                    </tr>\r\n\t                    </tbody>\r\n\t                </table>\r\n\t                <div class=\"m-page\">\r\n\t                \t<a href=\"\" id=\"prev\"></a>\r\n\t                \t<div class=\"pagination\"><span class=\"current\">2</span>/<span>10</span></div>\r\n\t                \t<a href=\"\" id=\"next\"></a>\r\n\t                \t<input type=\"text\">\r\n\t                \t<a href=\"\" class=\"u-btn\">跳转</a>\r\n\t                </div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\t\t\r\n\t\t\t<div class=\"g-bt\"></div>\r\n\t\t</div>\t\t\r\n\t</div>\r\n\t<div class=\"m-mask\">\r\n\t\t<div class=\"m-pop\">\r\n\t\t\t<h3>添加选手</h3>\r\n\t\t\t<a href=\"javascript:void(0);\" class=\"u-btn-close\" @click=\"closePop\"></a>\r\n\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t<label for=\"\">选手名称：</label>\r\n\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入参赛者名称\">\r\n\t\t\t</div>\r\n\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t<label for=\"\">手机号码：</label>\r\n\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入参赛者手机号码\">\r\n\t\t\t</div>\r\n\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t<label for=\"\">QQ：</label>\r\n\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入参赛者QQ号码\">\r\n\t\t\t</div>\r\n\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t<label for=\"\">身份证：</label>\r\n\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入参赛者身份证号码\">\r\n\t\t\t</div>\r\n\t\t\t<a href=\"javascript:void(0);\" class=\"u-btn\">添加</a>\r\n\t\t</div>\r\n\t</div>\r\n";
-
-/***/ },
-/* 68 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(69)
-	__vue_template__ = __webpack_require__(70)
+	__vue_script__ = __webpack_require__(68)
+	__vue_template__ = __webpack_require__(69)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -12033,7 +12777,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "F:\\saishi\\src\\views\\news.vue"
+	  var id = "/Users/chenjinghua/matchtool_web/src/views/contestant.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -12042,7 +12786,358 @@
 	})()}
 
 /***/ },
+/* 68 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+			value: true
+	});
+	
+	var _stringify = __webpack_require__(21);
+	
+	var _stringify2 = _interopRequireDefault(_stringify);
+	
+	var _topNav = __webpack_require__(59);
+	
+	var _topNav2 = _interopRequireDefault(_topNav);
+	
+	var _topHead = __webpack_require__(5);
+	
+	var _topHead2 = _interopRequireDefault(_topHead);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = {
+			data: function data() {
+					return {
+							memberlist: "",
+							roundId: "",
+							needsign: ""
+					};
+			},
+	
+			ready: function ready() {
+					var _this = this;
+					_this.roundId = window.sessionStorage.getItem("roundid");
+					_this.needsign = window.sessionStorage.getItem("needsign");
+					_this.$http.post('event/round/group/member/list', { roundId: _this.roundId }).then(function (response) {
+							console.log(response);
+							_this.memberlist = response.data.object.pager;
+					}, function (response) {
+							console.log(response);
+					});
+			},
+			methods: {
+					addplayer: function addplayer(e) {
+							$(".wrap .attention").hide();
+							$('.name').val("");
+							$('.tel').val("");
+							$('.qq').val("");
+							$('.idcard').val("");
+							$('.wrap h3').html("添加参赛选手");
+							$(".add-member").removeClass('edit-member').text("添加");
+							$('.m-mask').show();
+					},
+					closePop: function closePop(e) {
+							$('.m-mask').hide();
+					},
+	
+					upsetseat: function upsetseat(e) {
+							var _this = this;
+							var parm = { eventId: _this.roundId };
+							_this.$http.get('event/round/groupSeat/random', parm).then(function (response) {
+									console.log(response.data);
+									if (response.data.code == 1) {
+											layer.msg('选手顺序已打乱', { offset: "0px" });
+											_this.$http.post('event/round/group/member/list', { roundId: _this.roundId }).then(function (response) {
+													console.log(response.data);
+													_this.memberlist = response.data.object.pager;
+											}, function (response) {
+													console.log(response);
+											});
+									} else {
+											layer.msg(response.data.msg, { offset: "0px" });
+									}
+							}, function (response) {
+									console.log(response);
+							});
+					},
+	
+					signStatus: function signStatus(e) {
+							var _this = this;
+							var _target = $(e.currentTarget);
+							var memberId = _target.parents(".memberInfo").find(".u-btn-delete").attr("data-id");
+							var sign = 0;
+	
+							if (_target.attr('checked') == "checked") {
+									_target.attr('checked', false);
+									sign = 0;
+							} else {
+									_target.attr('checked', true);
+									sign = 1;
+							}
+							var parm = { memberId: memberId, sign: sign };
+							_this.$http.get('event/round/group/member/sign', parm).then(function (response) {
+									console.log(response.data.msg);
+									if (response.data.code == 1) {
+											layer.msg('签到状态已更改', { offset: "0px" });
+											_this.$http.post('event/round/group/member/list', { roundId: _this.roundId }).then(function (response) {
+													console.log(response.data);
+													_this.memberlist = response.data.object.pager;
+											}, function (response) {
+													console.log(response);
+											});
+									} else {
+											layer.msg(response.data.msg, { offset: "0px" });
+									}
+							}, function (response) {
+									console.log(response);
+							});
+							console.log(parm);
+							console.log(sign);
+					},
+	
+					editMember: function editMember(e) {
+							$(".wrap .attention").hide();
+							var _target = $(e.currentTarget);
+							$(".add-member").addClass('edit-member').text("修改");
+							$('.wrap h3').html("修改成员信息");
+							$('.name').val(_target.parents(".memberInfo").find(".memberName").text());
+							$('.tel').val(_target.parents(".memberInfo").find(".memberTel").text());
+							$('.qq').val(_target.parents(".memberInfo").find(".memberQQ").text());
+							$('.idcard').val(_target.parents(".memberInfo").find(".memberId").text());
+							$('.member-id').html(_target.attr("data-id"));
+							$('.m-mask').show();
+					},
+	
+					deleteMember: function deleteMember(e) {
+							e.preventDefault();
+							var _this = this;
+							var _target = $(e.currentTarget);
+							var parm = { memberId: _target.attr("data-id") };
+							layer.confirm('你确定要删除该成员吗？', {
+									btn: ['确定', '取消'],
+									move: false
+							}, function () {
+									_this.$http.get('event/round/group/member/del', parm).then(function (response) {
+											console.log(response.data);
+											if (response.data.code == 1) {
+													layer.msg('已删除', { offset: "0px" });
+													_this.$http.post('event/round/group/member/list', { roundId: _this.roundId }).then(function (response) {
+															console.log(response.data);
+															_this.memberlist = response.data.object.pager;
+													}, function (response) {
+															console.log(response);
+													});
+											} else {
+													layer.msg(response.data.msg, { offset: "0px" });
+											}
+									}, function (response) {
+											console.log(response);
+									});
+							}, function () {});
+					},
+	
+					setMember: function setMember(e) {
+							function errorPlacement(mes, element) {
+									var errorTips = element.parents(".m-lst").find('div.attention');
+									if (mes != "") {
+											errorTips.show().html(mes);
+									} else {
+											errorTips.hide();
+									}
+							}
+							function formValidate() {
+									var valid = true;
+									$(".wrap input").each(function () {
+											var $this = $(this);
+											var value = $this.val(),
+											    name = $this.attr('name');
+											var message = "";
+											if (name == "name") {
+													if (value == "") {
+															valid = false;
+															message = "选手名称不能为空";
+													}
+													errorPlacement(message, $this);
+											} else if (name == "tel") {
+													if (value == "") {
+															valid = false;
+															message = "手机号码不能为空";
+													} else if (!/^1([0-9]){10}$/.test(value)) {
+															valid = false;
+															message = "请输入正确的手机格式";
+													}
+													errorPlacement(message, $this);
+											} else if (name == "qq") {
+													if (value == "") {
+															valid = false;
+															message = "QQ号码不能为空";
+													} else if (!/^[1-9]\d{4,10}$/.test(value)) {
+															valid = false;
+															message = "请输入正确的QQ号码";
+													}
+													errorPlacement(message, $this);
+											} else if (name == "idcard") {
+													if (value == "") {
+															valid = false;
+															message = "身份证号码不能为空";
+													} else if (!/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/.test(value)) {
+															valid = false;
+															message = "请输入正确的身份证号码";
+													}
+													errorPlacement(message, $this);
+											}
+									});
+									return valid;
+							};
+							var _this = this;
+							var _target = $(e.currentTarget);
+							if (formValidate()) {
+									if (_target.hasClass('edit-member')) {
+											var parmstr = (0, _stringify2.default)({ roundId: _this.roundId, id: $('.member-id').html(), name: $('.name').val(), telephone: $('.tel').val(), qq: $('.qq').val(), idcard: $('.idcard').val() });
+											var parm = {};
+											parm.memberJson = parmstr;
+											_this.$http.get('event/round/group/member/edit', parm).then(function (response) {
+													console.log(response.data);
+													if (response.data.code == 0) {
+															$('.m-mask').hide();
+															layer.msg('修改成功', { offset: "0px" });
+															_this.$http.post('event/round/group/member/list', { roundId: _this.roundId }).then(function (response) {
+																	console.log(response.data);
+																	_this.memberlist = response.data.object.pager;
+															}, function (response) {
+																	console.log(response);
+															});
+													} else {
+															$('.m-mask').hide();
+															layer.msg(response.data.msg, { offset: "0px" });
+													}
+													console.log(parm);
+											}, function (response) {
+													console.log(response.data.msg);
+											});
+									} else {
+											var parmstr = (0, _stringify2.default)({ roundId: _this.roundId, name: $('.name').val(), telephone: $('.tel').val(), qq: $('.qq').val(), idcard: $('.idcard').val() });
+											var parm = {};
+											parm.memberJson = parmstr;
+											_this.$http.get('event/round/group/member/add', parm).then(function (response) {
+													console.log(response.data);
+													if (response.data.code == 1) {
+															$('.m-mask').hide();
+															layer.msg('添加成功', { offset: "0px" });
+															_this.$http.post('event/round/group/member/list', { roundId: _this.roundId }).then(function (response) {
+																	console.log(response.data);
+																	_this.memberlist = response.data.object.pager;
+															}, function (response) {
+																	console.log(response);
+															});
+													} else {
+															$('.m-mask').hide();
+															layer.msg(response.data.msg, { offset: "0px" });
+													}
+													console.log(parm);
+											}, function (response) {
+													console.log(response.data.code);
+											});
+									}
+							}
+					},
+	
+					exportExcel: function exportExcel(e) {
+							e.preventDefault();
+							var _this = this;
+							var _target = $(e.currentTarget);
+							window.location.href = "http://192.168.30.248:8088/event/round/group/member/export?roundId=" + _this.roundId;
+					},
+	
+					prevpage: function prevpage(e) {
+							e.preventDefault();
+							var currentpage = this.memberlist.pageNumber;
+							if (currentpage > 1) {
+									currentpage--;
+									this.$http.post("event/round/group/member/list", { roundId: this.roundId, pageNumber: currentpage }).then(function (response) {
+											this.memberlist = response.data.object.pager;
+									}, function (response) {
+											console.log(response);
+									});
+							} else {
+									layer.msg('没有上一页了', { offset: "0px" });
+							}
+					},
+					nextpage: function nextpage(e) {
+							e.preventDefault();
+							var currentpage = this.memberlist.pageNumber,
+							    maxpage = this.memberlist.pages;
+							if (currentpage < maxpage) {
+									currentpage++;
+									this.$http.post("event/round/group/member/list", { roundId: this.roundId, pageNumber: currentpage }).then(function (response) {
+											this.memberlist = response.data.object.pager;
+									}, function (response) {
+											console.log(response);
+									});
+							} else {
+									layer.msg('没有下一页了', { offset: "0px" });
+							}
+					},
+					gopage: function gopage(e) {
+							e.preventDefault();
+							var pageNum = $('#pageto').val();
+							this.$http.post("event/round/group/member/list", { roundId: this.roundId, pageNumber: pageNum }).then(function (response) {
+									this.memberlist = response.data.object.pager;
+							}, function (response) {
+									console.log(response);
+							});
+					},
+					checkpage: function checkpage(e) {
+							var pages = this.memberlist.pages;
+							var num = $('#pageto').val();
+							if (num == 0 && num != "") {
+									$('#pageto').val('1');
+							} else if (num > pages) {
+									$('#pageto').val(pages);
+							}
+					}
+			},
+			components: {
+					topNav: _topNav2.default,
+					topHead: _topHead2.default
+	
+			}
+	};
+
+/***/ },
 /* 69 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = "\n\t<top-head></top-head> \n   <top-nav></top-nav> \n\t\t<div class=\"g-bd\" style=\"margin-top:20px;\">\n\t\t\t<div class=\"g-tp\"></div>\n\t\t\t<div class=\"g-list\">\n\t\t\t\t<h3>浙江省网娱大师-雪碧真英雄城市争霸赛</h3>\n\t\t\t\t<div class=\"m-operate f-cb\">\n\t\t\t\t\t<div class=\"l-btn f-fl\">\n\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-btn u-btn-add\" @click=\"addplayer\"><img src=\"" + __webpack_require__(25) + "\" alt=\"\">添加选手</a>\n\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-btn u-btn-upset\" @click=\"upsetseat\"></a>\n\t\t\t\t\t</div>\t\t\t\t\t\n\t\t\t\t\t<div class=\"r-btn f-fr\">\n\t\t\t\t\t\t<!-- <a href=\"\">导入</a> -->\n\t\t\t\t\t\t<a href=\"\" @click=\"exportExcel\">导出</a>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"m-tb\">\n\t\t\t\t\t<table class=\"account_table\">\n\t                    <tbody>\n\t                    <tr>\n\t                        <th width=\"110px;\">序号</th>\n\t                        <th>选手名称</th>\n\t                        <th>手机号码</th>\n\t                        <th>QQ</th>\n\t                        <th>身份证号码</th>\n\t                        <th v-if=\"needsign==1\">已签到</th>\n\t                        <th width=\"135px;\">操作</th>\n\t                    </tr>\n\t                    <tr v-for='member in memberlist.list' class=\"memberInfo\">\n\t                        <td class=\"isfill\" v-if=\"member.isfill==1\">{{member.rownum}}</td>\n\t                        <td v-else>{{member.rownum}}</td>\n\t                        <td class=\"memberName\">{{member.name}}</td>\n\t                        <td class=\"memberTel\">{{member.telephone}}</td>\n\t                        <td class=\"memberQQ\">{{member.qq}}</td>\n\t                        <td class=\"memberId\">{{member.idcard}}</td>\n\t                        <td v-if=\"needsign==1\">\n\t                        <section class=\"signed\">\n\t\t\t\t\t\t\t\t<div class=\"signbox\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" checked=\"\" @click=\"signStatus\" v-if=\"member.signed==1\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" @click=\"signStatus\" v-else>\n\t\t\t\t\t\t\t\t\t<label></label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</section>\n\t\t\t\t\t\t\t</td>\n\t                        <td>\n\t                        \t<div class=\"option\">\n\t                        \t\t<a href=\"javascript:void(0);\" class=\"u-btn-write\" data-id=\"{{member.id}}\" @click=\"editMember\"></a><a href=\"\" class=\"u-btn-delete\" data-id=\"{{member.id}}\" @click=\"deleteMember\"></a>\n\t                        \t</div>\n\t                        </td>\n\t                    </tr>\n\t                    </tbody>\n\t                </table>\n\t                <div class=\"m-page\">\n\t                \t<a href=\"\" id=\"prev\" @click=\"prevpage\"></a>\n\t                \t<div class=\"pagination\"><span class=\"current\">{{memberlist.pageNumber}}</span>/<span>{{memberlist.pages}}</span></div>\n\t                \t<a href=\"\" id=\"next\" @click=\"nextpage\"></a>\n\t                \t<input type=\"text\" id=\"pageto\" @keyup=\"checkpage\">\n\t                \t<a href=\"\" class=\"u-btn\" @click=\"gopage\">跳转</a>\n\t                </div>\n\t\t\t\t</div>\n\t\t\t</div>\t\t\n\t\t\t<div class=\"g-bt\"></div>\n\t\t</div>\t\t\n\t</div>\n\t<div class=\"m-mask\">\n\t\t<div class=\"m-pop\">\n\t\t\t<div class=\"wrap\">\n\t\t\t\t<h3>添加参赛选手</h3>\n\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-btn-close\" @click=\"closePop\"></a>\n\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t<label for=\"\">选手名称：</label>\n\t\t\t\t\t<input type=\"text\" class=\"name\" name=\"name\" placeholder=\"请输入参赛者名称\">\n\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t<label for=\"\">手机号码：</label>\n\t\t\t\t\t<input type=\"text\" class=\"tel\" name=\"tel\" placeholder=\"请输入参赛者手机号码\">\n\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t<label for=\"\">QQ：</label>\n\t\t\t\t\t<input type=\"text\" class=\"qq\" name=\"qq\" placeholder=\"请输入参赛者QQ号码\">\n\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t<label for=\"\">身份证：</label>\n\t\t\t\t\t<input type=\"text\" class=\"idcard\" name=\"idcard\" placeholder=\"请输入参赛者身份证号码\">\n\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"member-id\" style=\"display:none\"></div>\n\t\t\t\t<a href=\"javascript:void(0);\" class=\"u-btn add-member\" @click=\"setMember\">添加</a>\n\t\t\t</div>\t\t\t\n\t\t</div>\n\t</div>\n";
+
+/***/ },
+/* 70 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(71)
+	__vue_template__ = __webpack_require__(75)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/chenjinghua/matchtool_web/src/views/news.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12051,15 +13146,24 @@
 	  value: true
 	});
 	
-	var _topNav = __webpack_require__(60);
+	var _defineProperty2 = __webpack_require__(72);
+	
+	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+	
+	var _topHead = __webpack_require__(5);
+	
+	var _topHead2 = _interopRequireDefault(_topHead);
+	
+	var _topNav = __webpack_require__(59);
 	
 	var _topNav2 = _interopRequireDefault(_topNav);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	exports.default = {
+	exports.default = (0, _defineProperty3.default)({
 	  data: function data() {
 	    return {
+	      eventid: '',
 	      newslists: '',
 	      newsword: '',
 	      newstp: '',
@@ -12071,8 +13175,8 @@
 	
 	  ready: function ready() {
 	    var self = this;
-	    console.log(self);
-	    self.$http.get('event/information/list').then(function (response) {
+	    this.eventid = window.sessionStorage.getItem("eventid");
+	    self.$http.get('event/information/list?eventId=' + this.eventid).then(function (response) {
 	      self.$set('newslists', response.data.object);
 	      self.$nextTick(self._events.pagefill[0]);
 	    }, function (data, status, request) {
@@ -12080,18 +13184,12 @@
 	    });
 	
 	    $('.form_datetime').datetimepicker({
-	      language: "zh-CN",
-	      minView: "month",
-	      format: "yyyy-mm-dd",
-	      weekStart: 1,
-	      todayBtn: 1,
-	      autoclose: 1,
-	      todayHighlight: 1,
-	      startView: 2,
-	      forceParse: 0,
-	      showMeridian: 1,
-	      pickerPosition: 'bottom-left'
+	      format: "Y-m-d",
+	      yearStart: 2000,
+	      yearEnd: 2050,
+	      timepicker: false
 	    });
+	    $.datetimepicker.setLocale('ch');
 	  },
 	  components: {
 	    topNav: _topNav2.default
@@ -12146,10 +13244,22 @@
 	    }
 	  },
 	  methods: {
+	    newsedit: function newsedit(e) {
+	      e.preventDefault();
+	      var _target = $(e.currentTarget);
+	      var newsId = _target.parents('.newsidli').find("div[infoid]").text();
+	      window.sessionStorage.setItem("newsId", newsId);
+	      this.$route.router.go({ path: '/newsEdit' });
+	    },
+	    linkaddnews: function linkaddnews(e) {
+	      e.preventDefault();
+	      var _target = $(e.currentTarget);
+	      this.$route.router.go({ path: '/addnews' });
+	    },
 	    infodel: function infodel(event) {
 	      var _this = $(event.target);
 	      var infoid = _this.parents('li').find('[infoid]').text();
-	      this.$http.get("event/information/delete?id=" + infoid).then(function (response) {
+	      this.$http.get("event/information/delete?id=" + infoid + "&eventid=" + this.eventid).then(function (response) {
 	        var code = response.data.code;
 	        this.$nextTick(function () {
 	          if (code == -1) {
@@ -12157,7 +13267,12 @@
 	          } else if (code == -2) {
 	            alert("参数错误");
 	          } else {
-	            $(this).parents('li').remove();
+	            this.$http.get('event/information/list?eventId=' + this.eventid).then(function (response) {
+	              this.$set('newslists', response.data.object);
+	              this.$nextTick(this._events.pagefill[0]);
+	            }, function (data, status, request) {
+	              console.log('fail' + status + "," + request);
+	            });
 	          }
 	        });
 	      }, function (response) {
@@ -12168,7 +13283,12 @@
 	      var _this = $(event.target);
 	      var infoid = _this.parents('li').find('[infoid]').text();
 	      var topnum = _this.attr("topstate");
-	      this.$http.get("event/information/top?id=" + infoid + "&isTop=" + topnum).then(function (response) {
+	      if (topnum == 1) {
+	        topnum = 0;
+	      } else {
+	        topnum = 1;
+	      }
+	      this.$http.get("event/information/top?id=" + infoid + "&isTop=" + topnum + "&eventid=" + this.eventid).then(function (response) {
 	        var code = response.data.code;
 	        this.$nextTick(function () {
 	          if (code == -1) {
@@ -12178,7 +13298,12 @@
 	          } else if (code == -3) {
 	            alert("找不到资讯");
 	          } else {
-	            console.log("已置顶");
+	            this.$http.get('event/information/list?eventId=' + this.eventid).then(function (response) {
+	              this.$set('newslists', response.data.object);
+	              this.$nextTick(this._events.pagefill[0]);
+	            }, function (data, status, request) {
+	              console.log('fail' + status + "," + request);
+	            });
 	          }
 	        });
 	      }, function (response) {
@@ -12191,7 +13316,7 @@
 	          newsstatus = this.newsstatus,
 	          begindate = this.begindate,
 	          enddate = this.enddate;
-	      this.$http.get("event/information/list?word=" + newsword + "&type=" + newstp + "&status=" + newsstatus + "&beginDate=" + begindate + "&endDate=" + enddate).then(function (response) {
+	      this.$http.get("event/information/list?word=" + newsword + "&type=" + newstp + "&status=" + newsstatus + "&beginDate=" + begindate + "&endDate=" + enddate + "&eventid=" + this.eventid).then(function (response) {
 	        this.$set('newslists', response.data.object);
 	        this.$nextTick(this._events.pagefill[0]);
 	      }, function (data, status, request) {
@@ -12205,7 +13330,7 @@
 	          begindate = this.begindate,
 	          enddate = this.enddate;
 	      var indexpage = $('.m-page input').val();
-	      this.$http.get("event/information/list?word=" + newsword + "&type=" + newstp + "&status=" + newsstatus + "&beginDate=" + begindate + "&endDate=" + enddate + "&pageNumber=" + indexpage).then(function (response) {
+	      this.$http.get("event/information/list?word=" + newsword + "&type=" + newstp + "&status=" + newsstatus + "&beginDate=" + begindate + "&endDate=" + enddate + "&pageNumber=" + indexpage + "&eventid=" + this.eventid).then(function (response) {
 	        this.$set('newslists', response.data.object);
 	        this.$nextTick(this._events.pagefill[0]);
 	      }, function (response) {
@@ -12221,7 +13346,7 @@
 	      var indexpage = this.newslists.pager.pageNumber;
 	      if (indexpage > 1) {
 	        indexpage--;
-	        this.$http.get("event/information/list?word=" + newsword + "&type=" + newstp + "&status=" + newsstatus + "&beginDate=" + begindate + "&endDate=" + enddate + "&pageNumber=" + indexpage).then(function (response) {
+	        this.$http.get("event/information/list?word=" + newsword + "&type=" + newstp + "&status=" + newsstatus + "&beginDate=" + begindate + "&endDate=" + enddate + "&pageNumber=" + indexpage + "&eventid=" + this.eventid).then(function (response) {
 	          this.$set('newslists', response.data.object);
 	          this.$nextTick(this._events.pagefill[0]);
 	        }, function (response) {
@@ -12241,7 +13366,7 @@
 	          maxpage = this.newslists.pager.pages;
 	      if (indexpage < maxpage) {
 	        indexpage++;
-	        this.$http.get("event/information/list?word=" + newsword + "&type=" + newstp + "&status=" + newsstatus + "&beginDate=" + begindate + "&endDate=" + enddate + "&pageNumber=" + indexpage).then(function (response) {
+	        this.$http.get("event/information/list?word=" + newsword + "&type=" + newstp + "&status=" + newsstatus + "&beginDate=" + begindate + "&endDate=" + enddate + "&pageNumber=" + indexpage + "&eventid=" + this.eventid).then(function (response) {
 	          this.$set('newslists', response.data.object);
 	          this.$nextTick(this._events.pagefill[0]);
 	        }, function (response) {
@@ -12264,7 +13389,12 @@
 	      var _this = $(event.target);
 	      var effective = _this.parents('li').find('div[effective]').attr('effective');
 	      var infoid = _this.parents('li').find('[infoid]').text();
-	      this.$http.get("event/information/publish?id=" + infoid + "&effective=" + effective).then(function (response) {
+	      if (effective == 1) {
+	        effective = 0;
+	      } else {
+	        effective = 1;
+	      }
+	      this.$http.get("event/information/publish?id=" + infoid + "&effective=" + effective + "&eventid=" + this.eventid).then(function (response) {
 	        var code = response.data.code;
 	        this.$nextTick(function () {
 	          if (code == -1) {
@@ -12272,7 +13402,12 @@
 	          } else if (code == 0) {
 	            alert("操作失败");
 	          } else {
-	            console.log("操作成功");
+	            this.$http.get('event/information/list?eventId=' + this.eventid).then(function (response) {
+	              this.$set('newslists', response.data.object);
+	              this.$nextTick(this._events.pagefill[0]);
+	            }, function (data, status, request) {
+	              console.log('fail' + status + "," + request);
+	            });
 	          }
 	        });
 	      }, function (response) {
@@ -12280,200 +13415,85 @@
 	      });
 	    }
 	  }
-	};
-
-/***/ },
-/* 70 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = "\r\n\t <top-nav></top-nav> \r\n\t<div class=\"g-mgbg mh1200\">\r\n\t\t<div class=\"g-mg-reset\">\r\n\t\t\t<div class=\"g-tp\"></div>\r\n\t\t\t<div class=\"m-d pb80\" style=\"height:auto;\">\r\n\t\t\t\t<p class=\"m-d-tit\" style=\"padding-bottom:17px;\">浙江省网娱大师-雪碧真英雄城市争霸赛</p>\r\n\t\t\t\t<div class=\"m-n-list\">\t\t\t\t\r\n\t\t\t\t\t<label>查找：</label>\r\n\t\t\t\t\t<span class=\"re\">\r\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname u-n-slt\" placeholder=\"请输入ID或标题进行查找\" v-model=\"newsword\">\r\n\t\t\t\t\t\t<button type=\"button\" class=\"u-n-btn\" @click=\"selectlist\">查找</button>\r\n\t\t\t\t\t</span>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"m-n-list\">\t\t\t\t\r\n\t\t\t\t\t<label>筛选：</label>\r\n\t\t\t\t\t<select class=\"w160 mr14\" v-model=\"newstp\">\r\n\t\t\t\t\t\t<option v-bind:value=\"''\">全部类型</option>\r\n\t\t\t\t\t\t<option v-bind:value=\"1\">普通资讯</option>\r\n\t\t\t\t\t\t<option v-bind:value=\"3\">图集资讯</option>\r\n\t\t\t\t\t\t<option v-bind:value=\"4\">视频资讯</option>\r\n\t\t\t\t\t</select>\r\n\t\t\t\t\t<select class=\"w160 mr14\" v-model=\"newsstatus\">\r\n\t\t\t\t\t\t<option v-bind:value=\"''\">全部状态</option>\r\n\t\t\t\t\t\t<option v-bind:value=\"1\">生效</option>\r\n\t\t\t\t\t\t<option v-bind:value=\"2\">失效</option>\r\n\t\t\t\t\t</select>\r\n\t\t\t\t\t<div class=\"ib re\">\r\n\t\t\t\t\t    <input type=\"text\" placeholder=\"请选择时间\" class=\"w200  form_datetime\" v-model=\"begindate\" readonly>\r\n\t\t\t\t\t\t<img src=\"" + __webpack_require__(71) + "\" class=\"ab u-n-date\">\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t&nbsp&nbsp—&nbsp&nbsp\r\n\t\t\t\t\t<div class=\"ib re\">\r\n\t\t\t\t\t    <input type=\"text\" placeholder=\"请选择时间\" class=\"w200 form_datetime\" v-model=\"enddate\" readonly>\r\n\t\t\t\t\t\t<img src=\"" + __webpack_require__(71) + "\" class=\"ab u-n-date\">\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<button type=\"button\" class=\"u-del-btn u-n-add\" onclick=\"window.location.href='homepage#/addnews'\"><img src=\"" + __webpack_require__(25) + "\">添加资讯</button>\r\n\t\t\t\t<p class=\"s-n-th\"> \r\n\t\t\t\t\t<span style=\"width:100px;\">ID</span>\r\n\t\t\t\t\t<span style=\"width:100px;\">图片</span>\r\n\t\t\t\t\t<span style=\"width:250px;\">标题</span>\r\n\t\t\t\t\t<span style=\"width:100px;\">类型</span>\r\n\t\t\t\t\t<span style=\"width:200px;\">创建时间</span>\r\n\t\t\t\t\t<span style=\"width:100px;\">阅读数</span>\r\n\t\t\t\t\t<span style=\"width:110px;\">创建人</span>\r\n\t\t\t\t\t<span style=\"width:90px;\">状态</span>\r\n\t\t\t\t\t<span style=\"width:100px;\">操作</span>\r\n\t\t\t\t</p>\r\n\t\t\t\t<ul class=\"s-n-ul clearfix\">\r\n\t\t\t\t\t<li v-for=\"newslist in newslists.pager.list\">\r\n\t\t\t\t\t\t<span style=\"width:100px;\"><div class=\"s-n-div\" infoid>{{newslist.id}}</div></span>\r\n\t\t\t\t\t\t<span style=\"width:100px;\">\r\n\t\t\t\t\t\t\t<div class=\"s-n-img\">\r\n\t\t\t\t\t\t\t\t<img src=\"http://img.wangyuhudong.com/{{newslist.icon}}\">\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t<span style=\"width:250px;\">\r\n\t\t\t\t\t\t\t<div class=\"s-n-div\">{{newslist.title}}</div>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t<span style=\"width:100px;\">\r\n\t\t\t\t\t\t\t<div class=\"s-n-div\" newstype=\"{{newslist.type}}\"></div>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t<span style=\"width:200px;\"><div class=\"s-n-div\">{{newslist.createDate}}</div></span>\r\n\t\t\t\t\t\t<span style=\"width:100px;\"><div class=\"s-n-div\">{{newslist.readNum}}</div></span>\r\n\t\t\t\t\t\t<span style=\"width:110px;\"><div class=\"s-n-div\">{{newslist.creater}}</div></span>\r\n\t\t\t\t\t\t<span style=\"width:90px;\">\r\n\t\t\t\t\t\t\t<div class=\"s-n-div\" effective=\"{{newslist.effective}}\"></div></span>\r\n\t\t\t\t\t\t<span style=\"width:100px;\">\r\n\t\t\t\t\t\t<div class=\"s-n-ort\">\r\n\t\t\t\t\t\t\t<button type=\"button\" class=\"u-n-top\" topstate=\"{{newslist.isTop}}\" @click=\"gotop\">已置顶</button>\r\n\t\t\t\t\t\t\t<div class=\"m-n-ort\">\r\n\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(72) + "\" title=\"编辑\">\r\n\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(73) + "\" title=\"删除\" @click=\"infodel\">\r\n\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(74) + "\" title=\"失效\" @click=\"toggleeftv\">\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t</li>\r\n\t\t\t\t</ul>\r\n\t\t\t\t<div class=\"m-page\">\r\n                \t<button id=\"prev\" type=\"button\" @click=\"goprevpage\"></button>\r\n                \t<div class=\"pagination\"><span class=\"current\">{{newslists.pager.pageNumber}}</span>/<span>{{newslists.pager.pages}}</span></div>\r\n                \t<button id=\"next\" type=\"button\" @click=\"gonextpage\"></button>\r\n                \t<input type=\"text\" value=\"{{newslists.pager.pageNumber}}\" id=\"pageipt\" @keyup=\"cherkpage\">\r\n                \t<button type=\"button\" class=\"u-btn\" @click=\"pagejump\">跳转</button>\r\n                </div>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"g-bt\"></div>\r\n\t\t</div>\r\n\t</div>\r\n";
-
-/***/ },
-/* 71 */
-/***/ function(module, exports) {
-
-	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDYvMjEvMTZPCXIrAAAAgUlEQVQ4jd2Q0Q3CMAwFL1GX6CywQOeA1Um7xfHRSkQhVJj2i5MiP9l5thPUSS2u0MSatlbUKakFGFlJgFWs6dXmXJkBrtuFC+/0amNS20kh8hEzwFDpFPR6yga9BvL65U96t0GIoZNLX+jdDf7gCSEyMG/a4AFYMnAHlh+GP4DbE26yZZuQDm1YAAAAAElFTkSuQmCC"
+	}, 'components', {
+	  topNav: _topNav2.default,
+	  topHead: _topHead2.default
+	
+	});
 
 /***/ },
 /* 72 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDYvMjcvMTZqYi33AAAAxElEQVQ4jZ3TsQ3CMBBA0R+E3AJjOBUjMAIDWEpGygbYcgZgFGhcswFQJs3RxJIRSYhzkguf5Ke7s42IkLs6r5vOa+m8tiJCISLkRN+WNXBJUm6TCTTADXBJutpmABaogBo4RQBwi9pJgBjvAToqE+zfdkYAgB1QKxMsMD/YCQDAKRPquJmsZCkwieQAo0gu8IOsAb6Q4SFlAzDcTt+We+C5BkgrOa8F5pDFAEDReR1buQMWuCoTHksBgPgBD8qEV87BND5bCYWlvKLpNQAAAABJRU5ErkJggg=="
+	"use strict";
+	
+	exports.__esModule = true;
+	
+	var _defineProperty = __webpack_require__(73);
+	
+	var _defineProperty2 = _interopRequireDefault(_defineProperty);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = function (obj, key, value) {
+	  if (key in obj) {
+	    (0, _defineProperty2.default)(obj, key, {
+	      value: value,
+	      enumerable: true,
+	      configurable: true,
+	      writable: true
+	    });
+	  } else {
+	    obj[key] = value;
+	  }
+	
+	  return obj;
+	};
 
 /***/ },
 /* 73 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA4BpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyNGQ3MGQ1OS0wMGQzLTAwNDYtYjg3MS1iNDJkM2M1MjFhZTgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RDlFQzI2MjUzQ0RBMTFFNkI2RjM5NTNFRjRDMTJDOTQiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RDlFQzI2MjQzQ0RBMTFFNkI2RjM5NTNFRjRDMTJDOTQiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDphZWNkYTNhZS02M2UwLTAyNDYtOTM1Zi03MWZjNzA2MTYzM2EiIHN0UmVmOmRvY3VtZW50SUQ9ImFkb2JlOmRvY2lkOnBob3Rvc2hvcDpjMGI5MTZiZS0zODUyLTExZTYtYWZkNy1mNTk0NTY2YWNmYzciLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6v0Hx1AAAAfElEQVR42mL8uViLAQfYAsTeUPY2JDYKYGLADZA1eOFSxAS16T8WjA6wqdnCCPTCfwYKAAsQM1JqALITSQGMhAKRKIDNABsgtoWybXGwEc5ASgf/kZ0G5eNi09YLQ8wAFixi1mgx8h8LG2ss/CMxVWLEwg4SNN+BMQACDAC0eCHgy+7u5wAAAABJRU5ErkJggg=="
+	module.exports = { "default": __webpack_require__(74), __esModule: true };
 
 /***/ },
 /* 74 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAQCAYAAADJViUEAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDYvMjcvMTZqYi33AAABM0lEQVQokX2SMVLDMBBFX1yoDddATcIJCCeI3Wsm9gkIJ0g4AeYE8QzqkxvgI4hGNUcwJWpM4TVRjMifcfF393/J+jv7frtdAjXglPFbriBYfQM0QssMyIF74DFYvb8mlkPW8q0y4AR00twFq8t/Tq2BjVAHtLO+7wlW58Axmr1TxrtIWAIHoR3woIx3s77vUwNfwFIZ/xmsXgHvKeNfsRgcgPHaH8BWfmsutUoZ34zzF2IxODI84hSv0zSyxFDF8CAxmlSMf8TK+E6uHGPK02LJejMpv6QivBDLwE5oB+yjdh2sXibF0jhEvUIZ/ww8CZ8DrazoWSzCNhJWyvgWQBlfc97nC4MsWvYxyybOUgyqyHwxmmUMi7CQxkkGUyg4R7gOVudZVHAMGSchERYMD9kB7gfPw34B6yzA7gAAAABJRU5ErkJggg=="
+	var $ = __webpack_require__(32);
+	module.exports = function defineProperty(it, key, desc){
+	  return $.setDesc(it, key, desc);
+	};
 
 /***/ },
 /* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(76)
-	__vue_template__ = __webpack_require__(77)
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
-	  if (!hotAPI.compatible) return
-	  var id = "F:\\saishi\\src\\views\\addnews.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
+	module.exports = "\n\t<top-head></top-head> \n\t <top-nav></top-nav> \n\t<div class=\"g-mgbg mh1200\">\n\t\t<div class=\"g-mg-reset\">\n\t\t\t<div class=\"g-tp\"></div>\n\t\t\t<div class=\"m-d pb80\" style=\"height:auto;\">\n\t\t\t\t<p class=\"m-d-tit\" style=\"padding-bottom:17px;\">{{newslists.eventName}}</p>\n\t\t\t\t<div class=\"m-n-list\">\t\t\t\t\n\t\t\t\t\t<label>查找：</label>\n\t\t\t\t\t<span class=\"re\">\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname u-n-slt\" placeholder=\"请输入ID或标题进行查找\" v-model=\"newsword\">\n\t\t\t\t\t\t<button type=\"button\" class=\"u-n-btn\" @click=\"selectlist\">查找</button>\n\t\t\t\t\t</span>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"m-n-list\">\t\t\t\t\n\t\t\t\t\t<label>筛选：</label>\n\t\t\t\t\t<select class=\"w160 mr14\" v-model=\"newstp\">\n\t\t\t\t\t\t<option v-bind:value=\"''\">全部类型</option>\n\t\t\t\t\t\t<option v-bind:value=\"1\">普通资讯</option>\n\t\t\t\t\t\t<option v-bind:value=\"3\">图集资讯</option>\n\t\t\t\t\t\t<option v-bind:value=\"4\">视频资讯</option>\n\t\t\t\t\t</select>\n\t\t\t\t\t<select class=\"w160 mr14\" v-model=\"newsstatus\">\n\t\t\t\t\t\t<option v-bind:value=\"''\">全部状态</option>\n\t\t\t\t\t\t<option v-bind:value=\"1\">生效</option>\n\t\t\t\t\t\t<option v-bind:value=\"2\">失效</option>\n\t\t\t\t\t</select>\n\t\t\t\t\t<div class=\"ib re\">\n\t\t\t\t\t    <input type=\"text\" placeholder=\"请选择时间\" class=\"w200  form_datetime\" v-model=\"begindate\">\n\t\t\t\t\t\t<img src=\"" + __webpack_require__(76) + "\" class=\"ab u-n-date\">\n\t\t\t\t\t</div>\n\t\t\t\t\t&nbsp&nbsp—&nbsp&nbsp\n\t\t\t\t\t<div class=\"ib re\">\n\t\t\t\t\t    <input type=\"text\" placeholder=\"请选择时间\" class=\"w200 form_datetime\" v-model=\"enddate\">\n\t\t\t\t\t\t<img src=\"" + __webpack_require__(76) + "\" class=\"ab u-n-date\">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<button type=\"button\" class=\"u-del-btn u-n-add\" @click=\"linkaddnews\"><img src=\"" + __webpack_require__(25) + "\">添加资讯</button>\n\t\t\t\t<p class=\"s-n-th\"> \n\t\t\t\t\t<span style=\"width:100px;\">ID</span>\n\t\t\t\t\t<span style=\"width:100px;\">图片</span>\n\t\t\t\t\t<span style=\"width:250px;\">标题</span>\n\t\t\t\t\t<span style=\"width:100px;\">类型</span>\n\t\t\t\t\t<span style=\"width:200px;\">创建时间</span>\n\t\t\t\t\t<span style=\"width:100px;\">阅读数</span>\n\t\t\t\t\t<span style=\"width:110px;\">创建人</span>\n\t\t\t\t\t<span style=\"width:90px;\">状态</span>\n\t\t\t\t\t<span style=\"width:100px;\">操作</span>\n\t\t\t\t</p>\n\t\t\t\t<ul class=\"s-n-ul clearfix\">\n\t\t\t\t\t<li v-for=\"newslist in newslists.pager.list\" class=\"newsidli\">\n\t\t\t\t\t\t<span style=\"width:100px;\"><div class=\"s-n-div\" infoid>{{newslist.id}}</div></span>\n\t\t\t\t\t\t<span style=\"width:100px;\">\n\t\t\t\t\t\t\t<div class=\"s-n-img\">\n\t\t\t\t\t\t\t\t<img src=\"http://img.wangyuhudong.com/{{newslist.icon}}\">\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t\t<span style=\"width:250px;\">\n\t\t\t\t\t\t\t<div class=\"s-n-div\">{{newslist.title}}</div>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t\t<span style=\"width:100px;\">\n\t\t\t\t\t\t\t<div class=\"s-n-div\" newstype=\"{{newslist.type}}\"></div>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t\t<span style=\"width:200px;\"><div class=\"s-n-div\">{{newslist.createDate}}</div></span>\n\t\t\t\t\t\t<span style=\"width:100px;\"><div class=\"s-n-div\">{{newslist.readNum}}</div></span>\n\t\t\t\t\t\t<span style=\"width:110px;\"><div class=\"s-n-div\">{{newslist.creater}}</div></span>\n\t\t\t\t\t\t<span style=\"width:90px;\">\n\t\t\t\t\t\t\t<div class=\"s-n-div\" effective=\"{{newslist.effective}}\"></div></span>\n\t\t\t\t\t\t<span style=\"width:100px;\">\n\t\t\t\t\t\t<div class=\"s-n-ort\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"u-n-top\" topstate=\"{{newslist.isTop}}\" @click=\"gotop\">已置顶</button>\n\t\t\t\t\t\t\t<div class=\"m-n-ort\">\n\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(77) + "\" title=\"编辑\" @click=\"newsedit\">\n\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(78) + "\" title=\"删除\" @click=\"infodel\">\n\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(79) + "\" title=\"失效\" @click=\"toggleeftv\">\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t\t<div class=\"m-page\">\n                \t<button id=\"prev\" type=\"button\" @click=\"goprevpage\"></button>\n                \t<div class=\"pagination\"><span class=\"current\">{{newslists.pager.pageNumber}}</span>/<span>{{newslists.pager.pages}}</span></div>\n                \t<button id=\"next\" type=\"button\" @click=\"gonextpage\"></button>\n                \t<input type=\"text\" value=\"{{newslists.pager.pageNumber}}\" id=\"pageipt\" @keyup=\"cherkpage\">\n                \t<button type=\"button\" class=\"u-btn\" @click=\"pagejump\">跳转</button>\n                </div>\n\t\t\t</div>\n\t\t\t<div class=\"g-bt\"></div>\n\t\t</div>\n\t</div>\n";
 
 /***/ },
 /* 76 */
 /***/ function(module, exports) {
 
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	exports.default = {
-		data: function data() {
-			return {};
-		},
-	
-		ready: function ready() {
-			$('.form_datetime').datetimepicker({
-				language: "zh-CN",
-				weekStart: 1,
-				todayBtn: 1,
-				autoclose: 1,
-				todayHighlight: 1,
-				startView: 2,
-				forceParse: 0,
-				showMeridian: 1,
-				pickerPosition: 'bottom-left'
-			});
-			$('.form_date').datetimepicker({
-				language: "zh-CN",
-				weekStart: 1,
-				todayBtn: 1,
-				autoclose: 1,
-				todayHighlight: 1,
-				startView: 2,
-				minView: 2,
-				forceParse: 0
-			});
-			$('.form_time').datetimepicker({
-				language: "zh-CN",
-				weekStart: 1,
-				todayBtn: 1,
-				autoclose: 1,
-				todayHighlight: 1,
-				startView: 1,
-				minView: 0,
-				maxView: 1,
-				forceParse: 0
-			});
-	
-			$('.m-n-select').change(function (event) {
-				var lx = $(".m-n-select option:selected").val();
-				if (lx == 2) {
-					$('.m-n-lx').eq(2).removeClass('dn').siblings('.m-n-lx').addClass('dn');
-				} else if (lx == 3) {
-					$('.m-n-lx').eq(1).removeClass('dn').siblings('.m-n-lx').addClass('dn');
-				} else if (lx == 1) {
-					$('.m-n-lx').eq(0).removeClass('dn').siblings('.m-n-lx').addClass('dn');
-				}
-			});
-	
-			$('#pic, #firstpic,#tuji').each(function (index, el) {
-				$(this).diyUpload({
-					url: 'server/fileupload.php',
-					success: function success(data) {
-						console.info(data);
-					},
-					error: function error(err) {
-						console.info(err);
-					},
-					buttonText: '选择图片',
-					chunked: true,
-	
-					chunkSize: 512 * 1024,
-	
-					fileNumLimit: 1,
-					fileSizeLimit: 500000 * 1024,
-					fileSingleSizeLimit: 50000 * 1024,
-					accept: {}
-				});
-			});
-			var indexImg = 1;
-			$('#addPicture').on('click', function () {
-				var tuJiId = 'tuji' + indexImg;
-				var tuJiDiv = '<div class="tuji clearfix l">' + '<div class="tujinei">' + '<div id="' + tuJiId + '" class="l mt10 m-tuji"></div>' + '</div>' + '<textarea placeholder="图片描述" class="u-n-ttr"></textarea>' + '<img src="../../static/images/mg_del.png" title="移出" class="u-tuji-del">' + '</div>';
-				$('#addPicture').before(tuJiDiv);
-				setTimeout(function () {
-					$('#' + tuJiId).diyUpload({
-						url: '',
-						success: function success(data) {
-							console.info(data);
-						},
-						error: function error(err) {
-							console.info(err);
-						},
-						buttonText: '选择图片',
-						chunked: true,
-	
-						chunkSize: 512 * 1024,
-	
-						fileNumLimit: 1,
-						fileSizeLimit: 500000 * 1024,
-						fileSingleSizeLimit: 50000 * 1024,
-						accept: {}
-					});
-				}, 100);
-				indexImg++;
-				$('.tuji').each(function (index, el) {
-					$(this).hover(function () {
-						var tuJiLen = $('.tuji').length;
-						if (tuJiLen != 1) {
-							$(this).find('.u-tuji-del').show();
-							$(this).find('.u-tuji-del').on('click', function () {
-								$(this).parent('.tuji').remove();
-							});
-						}
-					}, function () {
-						$(this).find('.u-tuji-del').hide();
-					});
-				});
-			});
-		},
-		methods: function methods() {}
-	};
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDYvMjEvMTZPCXIrAAAAgUlEQVQ4jd2Q0Q3CMAwFL1GX6CywQOeA1Um7xfHRSkQhVJj2i5MiP9l5thPUSS2u0MSatlbUKakFGFlJgFWs6dXmXJkBrtuFC+/0amNS20kh8hEzwFDpFPR6yga9BvL65U96t0GIoZNLX+jdDf7gCSEyMG/a4AFYMnAHlh+GP4DbE26yZZuQDm1YAAAAAElFTkSuQmCC"
 
 /***/ },
 /* 77 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	module.exports = "\r\n\t\t<div class=\"g-mg-reset\">\r\n\t\t\t<div class=\"g-tp\"></div>\r\n\t\t\t<div class=\"m-d pb80\" style=\"height:auto;\">\r\n\t\t\t\t<p class=\"s-n-title\">添加资讯</p>\r\n\t\t\t\t<div class=\"m-addzx\">\t\r\n\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t\t\t<label for=\"\">标题:</label>\r\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入资讯标题\">\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t\t\t<label for=\"\">类型:</label>\r\n\t\t\t\t\t\t<select class=\"m-n-select\">\r\n\t\t\t\t\t\t\t<option value=\"1\" selected=\"selected\">资讯</option>\r\n\t\t\t\t\t\t\t<option value=\"2\">图集</option>\r\n\t\t\t\t\t\t\t<option value=\"3\">视频</option>\r\n\t\t\t\t\t\t</select>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst clearfix\">\t\t\t\t\r\n\t\t\t\t\t\t<label for=\"\">生效时间:</label>\r\n\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\r\n\t\t\t\t\t\t    <input size=\"16\" type=\"text\" value=\"\" placeholder=\"请选择时间\" readonly>\r\n\t\t\t\t\t\t    <span class=\"add-on\"><i class=\"icon-th\"></i></span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t\t\t<label for=\"\">创建人:</label>\r\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入创建人\">\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst clearfix\" style=\"height:74px;\">\t\t\t\t\r\n\t\t\t\t\t\t<label for=\"\" style=\"margin-top:20px;\">缩略图:</label>\r\n\t\t\t\t\t\t<div class=\"picBox m-n-sltpic\">\r\n\t\t\t\t\t\t\t<div id=\"pic\" class=\"l mt10\"></div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-n-lx\">\r\n\t\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t\t\t\t<label for=\"\">资讯来源:</label>\r\n\t\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入资讯来源\">\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst\" style=\"margin: 10px 0;\">\t\t\t\t\r\n\t\t\t\t\t\t\t<label for=\"\">详细内容:</label>\r\n\t\t\t\t\t\t\t<textarea name=\"\" id=\"\" cols=\"50\" rows=\"3\"  placeholder=\"请输入比赛赛制规则，不超过200字\"></textarea>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-n-lx dn\">\r\n\t\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t\t\t\t<label for=\"\">关键字:</label>\r\n\t\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入关键字\">\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst clearfix\" style=\"height:80px;\">\t\t\t\t\r\n\t\t\t\t\t\t\t<label for=\"\" style=\"margin-top:20px;\">首图:</label>\r\n\t\t\t\t\t\t\t<div class=\"picBox m-n-firpic\">\r\n\t\t\t\t\t\t\t\t<div id=\"firstpic\" class=\"l mt10\"></div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t\t\t\t<label for=\"\">视频地址:</label>\r\n\t\t\t\t\t\t\t<input type=\"text\" name=\"videoUrlUpload\" placeholder=\"点击上传视频\" onclick=\"$('#modal-uploader').modal('show');$fileForm.find('[name=\\'file\\']').val('').change()\" wy-required=\"视频地址\" readonly />\r\n\t\t\t\t\t\t\t\t<a id=\"a-videoUrl\" href=\"\" target=\"_blank\"></a> \r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-n-lx dn\"> \r\n\t\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\r\n\t\t\t\t\t\t\t<label for=\"\">资讯来源:</label>\r\n\t\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入资讯来源\">\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"m-lst clearfix\">\t\t\t\t\r\n\t\t\t\t\t\t\t<label for=\"\" class=\"l\">图集:</label>\r\n\t\t\t\t\t\t\t<div class=\"l\" style=\"width: 320px;\" id=\"tujidiv\">\r\n\t\t\t\t\t\t\t\t<div class=\"tuji clearfix l\">\r\n\t\t\t\t\t\t\t\t  \t<div class=\"tujinei\">\r\n\t\t\t\t\t\t\t\t\t\t<div id=\"tuji\" class=\"l mt10 m-tuji\"></div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<textarea placeholder=\"图片描述\" class=\"u-n-ttr\"></textarea>\r\n\t\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(78) + "\" title=\"移出\" class=\"u-tuji-del\">\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t<p class=\"l col350 csp\" id=\"addPicture\">+添加一张照片</p>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"m-lst tc m-n-mbtn\">\r\n\t\t\t\t\t\t<button type=\"button\" class=\"u-del-btn\">确定</button>\r\n\t\t\t\t\t\t<button type=\"button\" class=\"u-del-btn u-draft-btn\">存草稿</button>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"g-bt\"></div>\r\n\t\t</div>\r\n\t</div>\r\n\t<!-- 视频上传 -->\r\n\t<div id=\"modal-uploader\" class=\"modal fade\" style=\"z-index:9999;\">\r\n\t\t<div class=\"modal-dialog\" style=\"width: 800px;\">\r\n\t\t\t<div class=\"modal-content\">\r\n\t\t\t\t<div class=\"modal-header\">\r\n\t\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\">\r\n\t\t\t\t\t\t<span>×</span><span class=\"sr-only\">关闭</span>\r\n\t\t\t\t\t</button>\r\n\t\t\t\t\t<h4 class=\"modal-title\">视频上传</h4>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"modal-body\">\r\n\t\t\t\t\t<form id=\"form-upload\" class=\"form-horizontal\" action=\"\">\r\n\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t<label class=\"col-md-2 control-label required\">视频</label>\r\n\t\t\t\t\t\t\t<div class=\"col-md-8\">\r\n\t\t\t\t\t\t\t\t<div class=\"input-group\">\r\n\t\t\t\t\t\t\t\t\t<input type=\"file\" class=\"form-control\" name=\"file\" accept=\"video/*\" />\r\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-btn\">\r\n\t\t\t\t\t\t\t\t\t\t<button id=\"check\" type=\"button\" class=\"btn btn-warning\">校验</button>\r\n\t\t\t\t\t\t\t\t\t\t<button id=\"upload\" type=\"button\" class=\"btn btn-info\">上传</button>\r\n\t\t\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</form>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"modal-footer\">\r\n\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">关闭</button>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<!-- 操作中提示 -->\r\n\t<div id=\"modal-operating\" class=\"modal fade\">\r\n\t\t<div class=\"modal-dialog\">\r\n\t\t\t<div class=\"modal-content\">\r\n\t\t\t\t<div class=\"modal-header\">提示</div>\r\n\t\t\t\t<div class=\"modal-body\" style=\"text-align:center;\">\r\n\t\t\t\t\t<div><img src=\"" + __webpack_require__(79) + "\" /></div>\r\n\t\t\t\t\t保存中，文件上传可能需要较长时间,请勿中断 ...\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n";
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDYvMjcvMTZqYi33AAAAxElEQVQ4jZ3TsQ3CMBBA0R+E3AJjOBUjMAIDWEpGygbYcgZgFGhcswFQJs3RxJIRSYhzkguf5Ke7s42IkLs6r5vOa+m8tiJCISLkRN+WNXBJUm6TCTTADXBJutpmABaogBo4RQBwi9pJgBjvAToqE+zfdkYAgB1QKxMsMD/YCQDAKRPquJmsZCkwieQAo0gu8IOsAb6Q4SFlAzDcTt+We+C5BkgrOa8F5pDFAEDReR1buQMWuCoTHksBgPgBD8qEV87BND5bCYWlvKLpNQAAAABJRU5ErkJggg=="
 
 /***/ },
 /* 78 */
 /***/ function(module, exports) {
 
-	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAcCAYAAACK7SRjAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA4BpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyNGQ3MGQ1OS0wMGQzLTAwNDYtYjg3MS1iNDJkM2M1MjFhZTgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RjUxNjBEOEYzQUMxMTFFNjlEQ0RDQkRFRjg5NzMyODAiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RjUxNjBEOEUzQUMxMTFFNjlEQ0RDQkRFRjg5NzMyODAiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDozZjI1ZWM5Yi0xNjFhLTJmNGEtYjc1Ny1jMzUwM2M1YjQxOTUiIHN0UmVmOmRvY3VtZW50SUQ9ImFkb2JlOmRvY2lkOnBob3Rvc2hvcDpjMGI5MTZiZS0zODUyLTExZTYtYWZkNy1mNTk0NTY2YWNmYzciLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5U+rA7AAAAwUlEQVR42mL4//8/AxG4A4h//keAn1AxvPoYQQQR4A8QM6OJ/QZiNnyaiDUclyJGfJqYgLgDiH9CDcCF8VmKDYPMawe5HJuXqQF+gwz/z0AjwEIo3Cg1nFCkkQMYYRFKMzAghk8HYn0oTaoY1kyEHOYc0LTKDsQ/0MQ4gfgbHjF4mOMynBFLRBMrNowjdNTwUcNHguGwbM1MhhhBw2OgdDQZYgRLRRD4BMR8ZIphlIrUbAVglIo90FYUpeAQjAEQYAAG7ZFV0czsVQAAAABJRU5ErkJggg=="
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA4BpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyNGQ3MGQ1OS0wMGQzLTAwNDYtYjg3MS1iNDJkM2M1MjFhZTgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RDlFQzI2MjUzQ0RBMTFFNkI2RjM5NTNFRjRDMTJDOTQiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RDlFQzI2MjQzQ0RBMTFFNkI2RjM5NTNFRjRDMTJDOTQiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDphZWNkYTNhZS02M2UwLTAyNDYtOTM1Zi03MWZjNzA2MTYzM2EiIHN0UmVmOmRvY3VtZW50SUQ9ImFkb2JlOmRvY2lkOnBob3Rvc2hvcDpjMGI5MTZiZS0zODUyLTExZTYtYWZkNy1mNTk0NTY2YWNmYzciLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6v0Hx1AAAAfElEQVR42mL8uViLAQfYAsTeUPY2JDYKYGLADZA1eOFSxAS16T8WjA6wqdnCCPTCfwYKAAsQM1JqALITSQGMhAKRKIDNABsgtoWybXGwEc5ASgf/kZ0G5eNi09YLQ8wAFixi1mgx8h8LG2ss/CMxVWLEwg4SNN+BMQACDAC0eCHgy+7u5wAAAABJRU5ErkJggg=="
 
 /***/ },
 /* 79 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	module.exports = __webpack_require__.p + "loading.gif?b1427a27670c93201e68737af3f12d91";
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAQCAYAAADJViUEAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDYvMjcvMTZqYi33AAABM0lEQVQokX2SMVLDMBBFX1yoDddATcIJCCeI3Wsm9gkIJ0g4AeYE8QzqkxvgI4hGNUcwJWpM4TVRjMifcfF393/J+jv7frtdAjXglPFbriBYfQM0QssMyIF74DFYvb8mlkPW8q0y4AR00twFq8t/Tq2BjVAHtLO+7wlW58Axmr1TxrtIWAIHoR3woIx3s77vUwNfwFIZ/xmsXgHvKeNfsRgcgPHaH8BWfmsutUoZ34zzF2IxODI84hSv0zSyxFDF8CAxmlSMf8TK+E6uHGPK02LJejMpv6QivBDLwE5oB+yjdh2sXibF0jhEvUIZ/ww8CZ8DrazoWSzCNhJWyvgWQBlfc97nC4MsWvYxyybOUgyqyHwxmmUMi7CQxkkGUyg4R7gOVudZVHAMGSchERYMD9kB7gfPw34B6yzA7gAAAABJRU5ErkJggg=="
 
 /***/ },
 /* 80 */
@@ -12489,7 +13509,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "F:\\saishi\\src\\views\\reset.vue"
+	  var id = "/Users/chenjinghua/matchtool_web/src/views/addnews.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -12504,41 +13524,605 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	
-	var _topNav = __webpack_require__(60);
+	var _stringify = __webpack_require__(21);
+	
+	var _stringify2 = _interopRequireDefault(_stringify);
+	
+	var _topNav = __webpack_require__(59);
 	
 	var _topNav2 = _interopRequireDefault(_topNav);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = {
-	  data: function data() {
-	    return {};
-	  },
+		data: function data() {
+			var new_info = {
+				title: '',
+				type: '',
+				timerDate: '',
+				creater: '',
+				icon: '',
+				source: '',
+				remark: '',
+				imgs: [],
+				keyword: '',
+				cover: '',
+				videoUrl: '',
+				eventId: '',
+				isPublished: ''
+			};
+			return {
+				new_infos: [new_info]
+			};
+		},
 	
-	  ready: function ready() {},
-	  components: {
-	    topNav: _topNav2.default
+		components: {
+			topNav: _topNav2.default
 	
-	  }
+		},
+		ready: function ready() {
+			var _this = this;
+			var obj = this.new_infos[0];
+			obj.eventId = window.sessionStorage.getItem("eventid");
+			console.log(obj.eventId);
+	
+			$('#begintime').datetimepicker({
+				format: "Y-m-d H:i:s",
+				yearStart: 2000,
+				yearEnd: 2050,
+				minDate: new Date(),
+				step: 10
+			});
+			$.datetimepicker.setLocale('ch');
+	
+			$('.m-n-select').change(function (event) {
+				var lx = $(".m-n-select option:selected").val();
+				if (lx == 3) {
+					$('.m-n-lx').eq(2).removeClass('dn').siblings('.m-n-lx').addClass('dn');
+				} else if (lx == 4) {
+					$('.m-n-lx').eq(1).removeClass('dn').siblings('.m-n-lx').addClass('dn');
+				} else if (lx == 1) {
+					$('.m-n-lx').eq(0).removeClass('dn').siblings('.m-n-lx').addClass('dn');
+				}
+			});
+			$('#pic').diyUpload({
+				url: 'http://192.168.30.62:8080/file/upload',
+				success: function success(data) {
+					console.info(data);
+					_this.new_infos[0].icon = data.object.src;
+				},
+				error: function error(err) {
+					console.info(err);
+				},
+				buttonText: '选择图片',
+				chunked: true,
+	
+				chunkSize: 512 * 1024,
+	
+				fileNumLimit: 1,
+				fileSizeLimit: 500000 * 1024,
+				fileSingleSizeLimit: 50000 * 1024,
+				accept: {}
+			});
+			$('#firstpic').diyUpload({
+				url: 'http://192.168.30.62:8080/file/upload',
+				success: function success(data) {
+					console.info(data);
+					_this.new_infos[0].cover = data.object.src;
+				},
+				error: function error(err) {
+					console.info(err);
+				},
+				buttonText: '选择图片',
+				chunked: true,
+	
+				chunkSize: 512 * 1024,
+	
+				fileNumLimit: 1,
+				fileSizeLimit: 500000 * 1024,
+				fileSingleSizeLimit: 50000 * 1024,
+				accept: {}
+			});
+			var imgsobj = new Object();
+			imgsobj.img = '';
+			imgsobj.remark = '';
+			obj.imgs.push(imgsobj);
+			console.log(obj.imgs);
+			_this.$nextTick(function () {
+				$('#tuji0').diyUpload({
+					url: 'http://192.168.30.62:8080/file/upload',
+					success: function success(data) {
+						console.info(data);
+						$('#tuji0').siblings('input[type="hidden"]').val(data.object.src);
+						obj.imgs[0].img = data.object.src;
+						$('#tuji0').parents('.tuji').find('.attention').hide();
+					},
+					error: function error(err) {
+						console.info(err);
+					},
+					buttonText: '选择图片',
+					chunked: true,
+	
+					chunkSize: 512 * 1024,
+	
+					fileNumLimit: 1,
+					fileSizeLimit: 500000 * 1024,
+					fileSingleSizeLimit: 50000 * 1024,
+					accept: {}
+				});
+			});
+		},
+		methods: {
+			deleteimg: function deleteimg() {
+				var aaa = this.new_infos[0];
+				var _this = $(event.target);
+				var indexs = _this.attr("indexs");
+				this.new_infos[0].imgs.splice(indexs, 1);
+				this.$nextTick(function () {
+					$('#tuji0').diyUpload({
+						url: 'http://192.168.30.62:8080/file/upload',
+						success: function success(data) {
+							console.info(data);
+							$('#tuji0').siblings('input[type="hidden"]').val(data.object.src);
+							aaa.imgs[0].img = data.object.src;
+							$('#tuji0').parents('.tuji').find('.attention').hide();
+						},
+						error: function error(err) {
+							console.info(err);
+						},
+						buttonText: '选择图片',
+						chunked: true,
+	
+						chunkSize: 512 * 1024,
+	
+						fileNumLimit: 1,
+						fileSizeLimit: 500000 * 1024,
+						fileSingleSizeLimit: 50000 * 1024,
+						accept: {}
+					});
+				});
+			},
+			addPicture: function addPicture() {
+				var aaa = this.new_infos[0];
+				var imgsobj = new Object();
+				imgsobj.img = '';
+				imgsobj.remark = '';
+				this.new_infos[0].imgs.push(imgsobj);
+				console.log("");
+				this.$nextTick(function () {
+					var l = this.new_infos[0].imgs.length;
+					var nn = l - 1;
+					$('#tuji' + nn).diyUpload({
+						url: 'http://192.168.30.62:8080/file/upload',
+						success: function success(data) {
+							console.info(data);
+							aaa.imgs[nn].img = data.object.src;
+							$('#tuji' + nn).siblings('input[type="hidden"]').val(data.object.src);
+							$('#tuji' + nn).parents('.tuji').find('.attention').hide();
+						},
+						error: function error(err) {
+							console.info(err);
+						},
+						buttonText: '选择图片',
+						chunked: true,
+	
+						chunkSize: 512 * 1024,
+	
+						fileNumLimit: 1,
+						fileSizeLimit: 500000 * 1024,
+						fileSingleSizeLimit: 50000 * 1024,
+						accept: {}
+					});
+					$('.tuji').each(function (index, el) {
+						$(this).hover(function () {
+							var tuJiLen = $('.tuji').length;
+	
+							if (tuJiLen != 1) {
+								$(this).find('.u-tuji-del').show();
+							}
+						}, function () {
+							$(this).find('.u-tuji-del').hide();
+						});
+					});
+				});
+			},
+			openvideolay: function openvideolay(event) {
+				var _this = this;
+				layer.open({
+					type: 1,
+					skin: 'layui-layer-rim',
+					area: ['600px', '250px'],
+					content: '<form id="form-upload" action="">' + '<div style="width:80%; margin:40px auto 0;" >' + '<label style="color:#000000;" for="addvideo">视频：</label>' + '<input type="file" name="file" accept="video/*" id="addvideo"  style="width:90%;"/>' + '</div>' + '<div style="text-align:center;margin:20px 0 0 0;"><button type="button" style="width:10%; height:34px; line-height:34px;" id="check">校验</button><button style="display:none;width:10%;height:34px;line-height:34px;" id="upload">上传</button></div>' + '</form>'
+				});
+				var $fileForm = $('#form-upload');
+	
+				var checkFile = false;
+				function initUploadBtn() {
+					var filename = $fileForm.find('[name="file"]').val();
+					var $check = $fileForm.find('#check');
+					var $upload = $fileForm.find('#upload');
+					if (checkFile && checkFile == filename) {
+						$check.hide();
+						$upload.show();
+					} else {
+						$check.show();
+						$upload.hide();
+					}
+				}
+	
+				$fileForm.find('[name="file"]').change();
+				$('#check').off('click');
+				$('#check').on('click', function (ev) {
+					var $file = $fileForm.find('[name="file"]');
+					var filename = $file.val();
+					var fileChecked = true;
+					if (filename.length <= 0) {
+						console.log("请先选择文件");
+						fileChecked = false;
+					} else {
+						checkFile = filename;
+					}
+					if (fileChecked) {
+						var $this = $(this);
+						$this.prop('disabled', true);
+						console.log("文件校验中, 请稍等 ...");
+						_this.$http.get('http://192.168.30.62:8080/file/upYunFormSignature?filename=' + filename).then(function (response) {
+							var res = response.data.object;
+	
+							var action = res.action;
+							var signature = res.signature;
+							var policy = res.policy;
+							var params = res.params;
+	
+							function hidden(name, value) {
+								return '<input type="hidden" name="' + name + '" value="' + value + '" />';
+							}
+							$fileForm.attr('action', action);
+							if (params) {
+								for (var k in params) {
+									var value = params[k];
+									$fileForm.append(hidden(k, value));
+								}
+							}
+	
+							$fileForm.append(hidden('signature', signature));
+							$fileForm.append(hidden('policy', policy));
+	
+							checkFile = res.filename;
+							initUploadBtn();
+						}, function (response) {
+							console.log(response);
+						});
+					}
+				});
+				$('#upload').off('click');
+				$('#upload').on('click', function () {
+					var $this = $(this);
+					$this.prop('disabled', true);
+					console.log("上传中，请稍等 ..");
+					$fileForm.ajaxSubmit({
+						'url': $fileForm.attr('action'),
+						'type': 'post',
+						'dataType': 'json',
+						'success': function success(d) {
+							var code = d.code;
+							if (code == 200) {
+								$('#addinfo').find('input[name="videoUrlUpload"]').val(d.url).change();
+							} else {
+								console.log('操作失败,原因:' + d.message);
+							}
+							console.log(d);
+						},
+						complete: function complete() {
+							console.log('完成');
+							layer.closeAll();
+						}
+					});
+				});
+			},
+			savedraft: function savedraft(event) {
+				this.new_infos[0].isPublished = 0;
+				var typenum = this.new_infos[0].type;
+				var newsobj = this.new_infos[0];
+				var isicon = this.new_infos[0].icon;
+				var iscover = this.new_infos[0].cover;
+				function errorPlacement(mes, element) {
+					var errorTips = element.parents(".m-lst").find('div.attention');
+					if (mes != "") {
+						errorTips.show().html(mes);
+					} else {
+						errorTips.hide();
+					}
+				}
+				function tujierrorPlacement(mes, element) {
+					var errorTips = element.parents(".tuji").find('div.attention');
+					if (mes != "") {
+						errorTips.show().html(mes);
+					} else {
+						errorTips.hide();
+					}
+				}
+				function formValidate() {
+					var valid = true;
+					$('.m-addzx [required]').each(function () {
+						var $this = $(this);
+						var value = $this.val(),
+						    name = $this.attr('title');
+						var text = '';
+						if (value == null || value == '') {
+							text = name + '不能为空！';
+							valid = false;
+						}
+						errorPlacement(text, $this);
+					});
+					var $slt = $('#pic');
+					if (isicon == '') {
+						valid = false;
+						errorPlacement('请先上传缩略图！', $slt);
+					} else {
+						errorPlacement('', $slt);
+					}
+					if (typenum == 1) {
+						var $this = $('.m-addzx [twsource]');
+						var twval = $this.val();
+						if (twval == null || twval == '') {
+							valid = false;
+							errorPlacement('资讯来源不能为空！', $this);
+						} else {
+							errorPlacement('', $this);
+						}
+						var $thistwrek = $('.m-addzx [twremark]'),
+						    thistwrek = $thistwrek.val();
+						if (thistwrek == null || thistwrek == '') {
+							valid = false;
+							errorPlacement('详细内容不能为空！', $thistwrek);
+						} else {
+							errorPlacement('', $thistwrek);
+						}
+					}
+					if (typenum == 4) {
+						var $thiskey = $('.m-addzx [spkeyword]'),
+						    thiskey = $thiskey.val();
+						if (thiskey == null || thiskey == '') {
+							valid = false;
+							errorPlacement('关键字不能为空！', $thiskey);
+						} else {
+							errorPlacement('', $thiskey);
+						}
+						var $thisspurl = $('.m-addzx [spurl]'),
+						    thisspurl = $thisspurl.val();
+						if (thisspurl == null || thisspurl == '') {
+							valid = false;
+							errorPlacement('视频地址不能为空！', $thisspurl);
+						} else {
+							errorPlacement('', $thisspurl);
+						}
+						var $st = $('#firstpic');
+						if (iscover == '') {
+							valid = false;
+							errorPlacement('首图不能为空！', $st);
+						} else {
+							errorPlacement('', $st);
+						}
+					}
+					if (typenum == 3) {
+						var $tjsource = $('.m-addzx [tjsource]'),
+						    tjsource = $tjsource.val();
+						if (tjsource == null || tjsource == '') {
+							valid = false;
+							errorPlacement('资讯来源不能为空！', $tjsource);
+						} else {
+							errorPlacement('', $tjsource);
+						}
+	
+						$('.tuji').each(function (index) {
+							var hidipt = $(this).find('input[type="hidden"]').val();
+							var hid = $(this).find('input[type="hidden"]');
+							if (hidipt == '') {
+								tujierrorPlacement('请先上传图片', hid);
+								valid = false;
+							} else {
+								tujierrorPlacement('', hid);
+								var n = $(this).find('.u-n-ttr');
+								var rem = $(this).find('.u-n-ttr').val();
+								if (rem == '') {
+									tujierrorPlacement('图片说明不能为空！', n);
+									valid = false;
+								} else {
+									tujierrorPlacement('', n);
+								}
+							}
+						});
+					}
+					return valid;
+				}
+	
+				if (formValidate()) {
+					$('.tuji').each(function (index) {
+						var rem = $(this).find('.u-n-ttr').val();
+						newsobj.imgs[index].remark = rem;
+					});
+	
+					var jsonInfos = (0, _stringify2.default)(newsobj);
+					var parm = new Object();
+					parm.jsonInfo = jsonInfos;
+	
+					this.$http.post('event/information/save', parm).then(function (successResponse) {
+						var code = successResponse.data.code;
+						console.log(code);
+						this.$route.router.go({ path: '/newslist' });
+					}, function (errorResponse) {
+						console.log("通讯错误");
+					});
+				}
+			},
+			savetrue: function savetrue(event) {
+				this.new_infos[0].isPublished = 1;
+				var typenum = this.new_infos[0].type;
+				var newsobj = this.new_infos[0];
+				var isicon = this.new_infos[0].icon;
+				var iscover = this.new_infos[0].cover;
+				function errorPlacement(mes, element) {
+					var errorTips = element.parents(".m-lst").find('div.attention');
+					if (mes != "") {
+						errorTips.show().html(mes);
+					} else {
+						errorTips.hide();
+					}
+				}
+				function tujierrorPlacement(mes, element) {
+					var errorTips = element.parents(".tuji").find('div.attention');
+					if (mes != "") {
+						errorTips.show().html(mes);
+					} else {
+						errorTips.hide();
+					}
+				}
+				function formValidate() {
+					var valid = true;
+					$('.m-addzx [required]').each(function () {
+						var $this = $(this);
+						var value = $this.val(),
+						    name = $this.attr('title');
+						var text = '';
+						if (value == null || value == '') {
+							text = name + '不能为空！';
+							valid = false;
+						}
+						errorPlacement(text, $this);
+					});
+					var $slt = $('#pic');
+					if (isicon == '') {
+						valid = false;
+						errorPlacement('请先上传缩略图！', $slt);
+					} else {
+						errorPlacement('', $slt);
+					}
+					if (typenum == 1) {
+						var $this = $('.m-addzx [twsource]');
+						var twval = $this.val();
+						if (twval == null || twval == '') {
+							valid = false;
+							errorPlacement('资讯来源不能为空！', $this);
+						} else {
+							errorPlacement('', $this);
+						}
+						var $thistwrek = $('.m-addzx [twremark]'),
+						    thistwrek = $thistwrek.val();
+						if (thistwrek == null || thistwrek == '') {
+							valid = false;
+							errorPlacement('详细内容不能为空！', $thistwrek);
+						} else {
+							errorPlacement('', $thistwrek);
+						}
+					}
+					if (typenum == 4) {
+						var $thiskey = $('.m-addzx [spkeyword]'),
+						    thiskey = $thiskey.val();
+						if (thiskey == null || thiskey == '') {
+							valid = false;
+							errorPlacement('关键字不能为空！', $thiskey);
+						} else {
+							errorPlacement('', $thiskey);
+						}
+						var $thisspurl = $('.m-addzx [spurl]'),
+						    thisspurl = $thisspurl.val();
+						if (thisspurl == null || thisspurl == '') {
+							valid = false;
+							errorPlacement('视频地址不能为空！', $thisspurl);
+						} else {
+							errorPlacement('', $thisspurl);
+						}
+						var $st = $('#firstpic');
+						if (iscover == '') {
+							valid = false;
+							errorPlacement('首图不能为空！', $st);
+						} else {
+							errorPlacement('', $st);
+						}
+					}
+					if (typenum == 3) {
+						var $tjsource = $('.m-addzx [tjsource]'),
+						    tjsource = $tjsource.val();
+						if (tjsource == null || tjsource == '') {
+							valid = false;
+							errorPlacement('资讯来源不能为空！', $tjsource);
+						} else {
+							errorPlacement('', $tjsource);
+						}
+	
+						$('.tuji').each(function (index) {
+							var hidipt = $(this).find('input[type="hidden"]').val();
+							var hid = $(this).find('input[type="hidden"]');
+							if (hidipt == '') {
+								tujierrorPlacement('请先上传图片', hid);
+								valid = false;
+							} else {
+								tujierrorPlacement('', hid);
+								var n = $(this).find('.u-n-ttr');
+								var rem = $(this).find('.u-n-ttr').val();
+								if (rem == '') {
+									tujierrorPlacement('图片说明不能为空！', n);
+									valid = false;
+								} else {
+									tujierrorPlacement('', n);
+								}
+							}
+						});
+					}
+					return valid;
+				}
+	
+				if (formValidate()) {
+					$('.tuji').each(function (index) {
+						var rem = $(this).find('.u-n-ttr').val();
+						newsobj.imgs[index].remark = rem;
+					});
+	
+					var jsonInfos = (0, _stringify2.default)(newsobj);
+					var parm = new Object();
+					parm.jsonInfo = jsonInfos;
+	
+					this.$http.post('event/information/save', parm).then(function (successResponse) {
+						var code = successResponse.data.code;
+						console.log(code);
+						this.$nextTick(function () {
+							this.$route.router.go({ path: '/newslist' });
+						});
+					}, function (errorResponse) {
+						console.log("通讯错误");
+					});
+				}
+			},
+			formreset: function formreset() {
+				$('#addinfo input').val('');
+				$('#addinfo textarea').val('');
+			}
+		}
 	};
 
 /***/ },
 /* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "\r\n\t <top-nav></top-nav> \r\n\t<div class=\"g-mgbg\">\r\n\t\t<div class=\"g-mg-reset\">\r\n\t\t\t<div class=\"g-tp\"></div>\r\n\t\t\t<div class=\"m-d\">\r\n\t\t\t\t<p class=\"m-d-tit\">浙江省网娱大师-雪碧真英雄城市争霸赛</p>\r\n\t\t\t\t<div class=\"s-d\">\r\n\t\t\t\t\t<div class=\"s-d-in\">\r\n\t\t\t\t\t\t<p class=\"mb12 ls1\">重置赛事</p>\r\n\t\t\t\t\t\t<p class=\"s-del\">如果您需要调整参赛选手，您可以重置赛事，重置后所有比分数据将被清除，请慎重</p>\r\n\t\t\t\t\t\t<button type=\"button\" class=\"u-del-btn\">重&nbsp&nbsp置</button>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"s-d\">\r\n\t\t\t\t\t<div class=\"s-d-in\">\r\n\t\t\t\t\t\t<p class=\"mb12 ls1\">删除赛事</p>\r\n\t\t\t\t\t\t<p class=\"s-del\">删除这个赛事将清除其所有内容及痕迹，且无法撤销</p>\r\n\t\t\t\t\t\t<button type=\"button\" class=\"u-del-btn\">删&nbsp&nbsp除</button>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"g-bt\"></div>\t\r\n\t\t</div>\r\n\t\t<div class=\"footer footer-del\">\r\n\t\t\t<p>Copyright © 2016 浙江网竞网络科技有限公司未经许可不得复制、转载或摘编，违者必究！</p>\r\n\t\t\t<p class=\"mt6\">浙ICP备13005497号-5</p>\r\n\t\t\t<img src=\"" + __webpack_require__(17) + "\" class=\"mt32\">\r\n\t\t</div>\r\n\t</div>\r\n";
+	module.exports = "\n\t\t<top-nav></top-nav> \n\t\t<div class=\"g-mg-reset\">\n\t\t\t<div class=\"g-tp\"></div>\n\t\t\t<div class=\"m-d pb80\" style=\"height:auto;\">\n\t\t\t\t<p class=\"s-n-title\">添加资讯</p>\n\t\t\t\t<form id=\"addinfo\" v-for=\"new_info in new_infos\">\n\t\t\t\t<div class=\"m-addzx\">\t\n\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t\t<label for=\"\">标题:</label>\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入资讯标题\" title=\"标题\" maxlength=\"15\"  v-model=\"new_info.title\" required>\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t\t<label for=\"\">类型:</label>\n\t\t\t\t\t\t<select class=\"m-n-select\" v-model=\"new_info.type\"  v-on:change=\"formreset\">\n\t\t\t\t\t\t\t<option v-bind:value=\"1\" selected=\"selected\">资讯</option>\n\t\t\t\t\t\t\t<option v-bind:value=\"3\">图集</option>\n\t\t\t\t\t\t\t<option v-bind:value=\"4\">视频</option>\t\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst clearfix\">\t\t\t\t\n\t\t\t\t\t\t<label for=\"\">生效时间:</label>\n\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\n\t\t\t\t\t\t    <input size=\"16\" type=\"text\" id=\"begintime\" value=\"\" placeholder=\"请选择时间\" title=\"生效时间\"  v-model=\"new_info.timerDate\" style=\"cursor:not-allowed;\" required>\n\t\t\t\t\t\t    <label for=\"begintime\" class=\"add-on\"><i class=\"icon-th\"></i></label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t\t<label for=\"\">创建人:</label>\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入创建人\" title=\"创建人\"  maxlength=\"10\" v-model=\"new_info.creater\" required>\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst clearfix\" style=\"height:74px;\">\t\t\t\t\n\t\t\t\t\t\t<label for=\"\" style=\"margin-top:20px;\">缩略图:</label>\t\n\t\t\t\t\t\t<div class=\"picBox m-n-sltpic\">\n\t\t\t\t\t\t\t<div id=\"pic\" class=\"l mt10\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-n-lx\">\n\t\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t\t\t<label for=\"\">资讯来源:</label>\n\t\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入资讯来源\" title=\"资讯来源\" maxlength=\"10\" v-model=\"new_info.source\" twsource>\n\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst\" style=\"margin: 10px 0;\">\t\t\t\t\n\t\t\t\t\t\t\t<label for=\"\">详细内容:</label>\n\t\t\t\t\t\t\t<textarea name=\"\" id=\"\" cols=\"50\" rows=\"3\"  title=\"详细内容\" placeholder=\"请输入比赛赛制规则，不超过200字\" v-model=\"new_info.remark\" twremark></textarea>\n\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-n-lx dn\">\n\t\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t\t\t<label for=\"\">关键字:</label>\n\t\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入关键字\" maxlength=\"15\" title=\"关键字\" v-model=\"new_info.keyword\" spkeyword>\n\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst clearfix\" style=\"height:80px;\">\t\t\t\t\n\t\t\t\t\t\t\t<label for=\"\" style=\"margin-top:20px;\">首图:</label>\n\t\t\t\t\t\t\t<div class=\"picBox m-n-sltpic\">\n\t\t\t\t\t\t\t\t<div id=\"firstpic\" class=\"l mt10\"></div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t\t\t<label for=\"\">视频地址:</label>\n\t\t\t\t\t\t\t<input type=\"text\" placeholder=\"点击上传视频\" name=\"videoUrlUpload\" wy-required=\"视频地址\" v-model=\"new_info.videoUrl\" @click=\"openvideolay\" spurl readonly/>\n\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-n-lx dn\"> \n\t\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t\t\t<label for=\"\">资讯来源:</label>\n\t\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入资讯来源\" maxlength=\"10\" v-model=\"new_info.source\" tjsource>\n\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst clearfix\">\t\t\t\t\n\t\t\t\t\t\t\t<label for=\"\" class=\"l\">图集:</label>\n\t\t\t\t\t\t\t<div class=\"l\" style=\"width: 320px;\" id=\"tujidiv\">\n\t\t\t\t\t\t\t\t<div class=\"tuji clearfix l\" v-for=\"img in new_info.imgs\">\n\t\t\t\t\t\t\t\t  \t<div class=\"tujinei\">\n\t\t\t\t\t\t\t\t\t\t<div id=\"tuji{{$index}}\" class=\"l mt10 m-tuji\"></div>\n\t\t\t\t\t\t\t\t\t\t<input type=\"hidden\" value=\"{{img.img}}\">\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<textarea placeholder=\"图片描述\" class=\"u-n-ttr\">{{img.remark}}</textarea>\n\t\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(83) + "\" title=\"移出\" class=\"u-tuji-del\" @click=\"deleteimg\" indexs=\"{{$index}}\">\n\t\t\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<p class=\"l col350 csp\" id=\"addPicture\" @click=\"addPicture\">+添加一张照片</p>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst tc m-n-mbtn\">\n\t\t\t\t\t\t<button type=\"button\" class=\"u-del-btn\" @click=\"savetrue\">确定</button>\n\t\t\t\t\t\t<button type=\"button\" class=\"u-del-btn u-draft-btn\" @click=\"savedraft\">存草稿</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t\t<div class=\"g-bt\"></div>\n\t\t</div>\n\t</div>\n";
 
 /***/ },
 /* 83 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAcCAYAAACK7SRjAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA4BpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyNGQ3MGQ1OS0wMGQzLTAwNDYtYjg3MS1iNDJkM2M1MjFhZTgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RjUxNjBEOEYzQUMxMTFFNjlEQ0RDQkRFRjg5NzMyODAiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RjUxNjBEOEUzQUMxMTFFNjlEQ0RDQkRFRjg5NzMyODAiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDozZjI1ZWM5Yi0xNjFhLTJmNGEtYjc1Ny1jMzUwM2M1YjQxOTUiIHN0UmVmOmRvY3VtZW50SUQ9ImFkb2JlOmRvY2lkOnBob3Rvc2hvcDpjMGI5MTZiZS0zODUyLTExZTYtYWZkNy1mNTk0NTY2YWNmYzciLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5U+rA7AAAAwUlEQVR42mL4//8/AxG4A4h//keAn1AxvPoYQQQR4A8QM6OJ/QZiNnyaiDUclyJGfJqYgLgDiH9CDcCF8VmKDYPMawe5HJuXqQF+gwz/z0AjwEIo3Cg1nFCkkQMYYRFKMzAghk8HYn0oTaoY1kyEHOYc0LTKDsQ/0MQ4gfgbHjF4mOMynBFLRBMrNowjdNTwUcNHguGwbM1MhhhBw2OgdDQZYgRLRRD4BMR8ZIphlIrUbAVglIo90FYUpeAQjAEQYAAG7ZFV0czsVQAAAABJRU5ErkJggg=="
+
+/***/ },
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(84)
-	__vue_script__ = __webpack_require__(86)
-	__vue_template__ = __webpack_require__(87)
+	__vue_script__ = __webpack_require__(85)
+	__vue_template__ = __webpack_require__(86)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -12546,7 +14130,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "F:\\saishi\\src\\views\\techPic.vue"
+	  var id = "/Users/chenjinghua/matchtool_web/src/views/reset.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -12555,13 +14139,128 @@
 	})()}
 
 /***/ },
-/* 84 */
+/* 85 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+			value: true
+	});
+	
+	var _stringify = __webpack_require__(21);
+	
+	var _stringify2 = _interopRequireDefault(_stringify);
+	
+	var _topNav = __webpack_require__(59);
+	
+	var _topNav2 = _interopRequireDefault(_topNav);
+	
+	var _topHead = __webpack_require__(5);
+	
+	var _topHead2 = _interopRequireDefault(_topHead);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = {
+			data: function data() {
+					return {
+							oetInfoId: "",
+							oetRoundId: ""
+					};
+			},
+	
+			ready: function ready() {
+					var _this = this;
+					_this.oetInfoId = window.sessionStorage.getItem("eventid");
+					_this.oetRoundId = window.sessionStorage.getItem("roundid");
+			},
+			methods: {
+					resetEvent: function resetEvent(e) {
+							var _this = this;
+							layer.confirm('你确定要重置该项赛事吗？', {
+									btn: ['确定', '取消'],
+									move: false
+							}, function () {
+									var parm = {};
+									parm.jsonInfo = (0, _stringify2.default)({ oetRoundId: _this.oetRoundId });
+									_this.$http.get('/event/reset', parm).then(function (response) {
+											console.log(response.data);
+											if (response.data.code == 1) {
+													layer.msg("重置成功", { offset: "0px" });
+											} else {
+													layer.msg(response.data.msg, { offset: "0px" });
+											}
+									}, function (response) {
+											console.log(response);
+									});
+							}, function () {});
+					},
+					deleteEvent: function deleteEvent(e) {
+							var _this = this;
+							layer.confirm('你确定要删除该项赛事吗？', {
+									btn: ['确定', '取消'],
+									move: false
+							}, function () {
+									var parm = {};
+									parm.jsonInfo = (0, _stringify2.default)({ oetInfoId: _this.oetInfoId });
+									_this.$http.get('/event/delete', parm).then(function (response) {
+											console.log(response.data);
+											if (response.data.code == 1) {
+													layer.msg("删除成功", { offset: "0px" });
+											} else {
+													layer.msg(response.data.msg, { offset: "0px" });
+											}
+									}, function (response) {
+											console.log(response);
+									});
+							}, function () {});
+					}
+			},
+			components: {
+					topNav: _topNav2.default,
+					topHead: _topHead2.default
+	
+			}
+	};
+
+/***/ },
+/* 86 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = "\n\t<top-head></top-head> \n\t <top-nav></top-nav> \n\t<div class=\"g-mgbg\">\n\t\t<div class=\"g-mg-reset\">\n\t\t\t<div class=\"g-tp\"></div>\n\t\t\t<div class=\"m-d\">\n\t\t\t\t<p class=\"m-d-tit\">浙江省网娱大师-雪碧真英雄城市争霸赛</p>\n\t\t\t\t<div class=\"s-d\">\n\t\t\t\t\t<div class=\"s-d-in\">\n\t\t\t\t\t\t<p class=\"mb12 ls1\">重置赛事</p>\n\t\t\t\t\t\t<p class=\"s-del\">如果您需要调整参赛选手，您可以重置赛事，重置后所有比分数据将被清除，请慎重</p>\n\t\t\t\t\t\t<button type=\"button\" class=\"u-del-btn\" @click=\"resetEvent\">重&nbsp&nbsp置</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"s-d\">\n\t\t\t\t\t<div class=\"s-d-in\">\n\t\t\t\t\t\t<p class=\"mb12 ls1\">删除赛事</p>\n\t\t\t\t\t\t<p class=\"s-del\">删除这个赛事将清除其所有内容及痕迹，且无法撤销</p>\n\t\t\t\t\t\t<button type=\"button\" class=\"u-del-btn\" @click=\"deleteEvent\">删&nbsp&nbsp除</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"g-bt\"></div>\t\n\t\t</div>\n\t\t<div class=\"footer footer-del\">\n\t\t\t<p>Copyright © 2016 浙江网竞网络科技有限公司未经许可不得复制、转载或摘编，违者必究！</p>\n\t\t\t<p class=\"mt6\">浙ICP备13005497号-5</p>\n\t\t\t<img src=\"" + __webpack_require__(17) + "\" class=\"mt32\">\n\t\t</div>\n\t</div>\n";
+
+/***/ },
+/* 87 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(88)
+	__vue_script__ = __webpack_require__(94)
+	__vue_template__ = __webpack_require__(95)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/chenjinghua/matchtool_web/src/views/techPic.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(85);
+	var content = __webpack_require__(89);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(9)(content, {});
@@ -12570,8 +14269,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-152ecbd6&file=techPic.vue!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./techPic.vue", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-152ecbd6&file=techPic.vue!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./techPic.vue");
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.23.1/css-loader/index.js?sourceMap!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/style-rewriter.js?id=_v-7d97c2e2&file=techPic.vue!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/selector.js?type=style&index=0!./techPic.vue", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.23.1/css-loader/index.js?sourceMap!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/style-rewriter.js?id=_v-7d97c2e2&file=techPic.vue!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/selector.js?type=style&index=0!./techPic.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -12581,7 +14280,7 @@
 	}
 
 /***/ },
-/* 85 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(8)();
@@ -12589,217 +14288,766 @@
 	
 	
 	// module
-	exports.push([module.id, "\r\n.tech_container{\r\n  position: relative;\r\n}\r\n.recta{\r\n  width: 200px;\r\n  height: 29.5px;\r\n  background-color: #53585d;\r\n  color: #fff;\r\n  text-align: center;\r\n  line-height: 30px;\r\n}\r\n.match_content{\r\n  position: absolute;\r\n  top:0;\r\n  left:0;\r\n}\r\n.match_list{\r\n  float: left;\r\n  margin-right: 90px;\r\n}\r\n.tech_msg{\r\n  width: 1200px;\r\n  margin:20px auto;\r\n}\r\n.body_top_pic{\r\n  width: 100%;\r\n}\r\n.tech_msg_text{\r\n  height: 235px;\r\n  background: rgba(52,57,63,0.9);\r\n  padding: 40px 20px 0;\r\n  margin-top: -14px;\r\n}\r\n.tech_msg_left{\r\n  width: 325px;\r\n  height: 160px;\r\n  float: left;\r\n}\r\n.tech_msg_right{\r\n  float: right;\r\n  width: 815px;\r\n  color: #fff;\r\n}\r\n.begin_tech{\r\n  padding-bottom: 20px;\r\n  border-bottom: 1px dashed #53585d;\r\n}\r\n.begin_tech_left{\r\n  float: left;\r\n}\r\n.begin_tech_right{\r\n  float: right;\r\n}\r\n.start_btn{\r\n  width: 200px;\r\n  height: 40px;\r\n  position: relative;\r\n  cursor: pointer;\r\n  margin-top: 15px;\r\n}\r\n.start_text{\r\n  position: absolute;\r\n  width: 200px;\r\n  height: 40px;\r\n  left: 0;\r\n  top: 0;\r\n  text-align: center;\r\n  line-height: 40px;\r\n  font-size: 16px;\r\n}\r\n.sponsor{\r\n  font-size: 12px;\r\n  margin: 20px 0 15px;\r\n}\r\n.check_app{\r\n  font-size: 12px;\r\n}\r\n.msg_list_left{\r\n  float: left;\r\n  margin-right: 15px;\r\n}\r\n.msg_list_right{\r\n  float: left;\r\n  font-size: 12px;\r\n}\r\n.begin_msg_list{\r\n  width: 90%;\r\n  margin: 20px auto 0;\r\n}\r\n.begin_msg_list li{\r\n  float: left;\r\n  width: 33%;\r\n}\r\n.msg_list_name{\r\n  margin-bottom: 5px;\r\n}\r\n.title_unit{\r\n  display: inline-block;\r\n  width: 7px;\r\n  height: 20px;\r\n  background-color: #f9a32a;\r\n}\r\n.against_container{\r\n  width: 1200px;\r\n  margin: 20px auto;\r\n  background: rgba(52,57,63,0.9);\r\n  padding-top: 30px;\r\n  position: relative;\r\n}\r\n.against_title{\r\n  color: #fff;\r\n  height: 25px;\r\n  line-height: 25px;\r\n  margin:0 0 30px 20px;\r\n}\r\n.against_title_text{\r\n  font-size: 18px;\r\n  margin-left: 5px;\r\n}\r\n.against_title_tip{\r\n  font-size: 12px;\r\n  color: #53585d;\r\n}\r\n.turn_btn{\r\n  width: 220px;\r\n  height: 35px;\r\n  line-height: 30px;\r\n  background-color: #f9a32a;\r\n  color: #fff;\r\n  border-radius: 5px;\r\n  margin: 0 70px 30px;\r\n  text-align: center;\r\n}\r\n.tech_down_tip{\r\n  width: 1200px;\r\n  margin: 0 auto;\r\n  position: relative;\r\n  height: 350px;\r\n  padding-bottom: 50px;\r\n  border-bottom: 1px solid #53585d;\r\n  margin-top: -27px;\r\n}\r\n.tech_footer_text{\r\n  font-size: 12px;\r\n  position: absolute;\r\n  left:0;\r\n  top:75px;\r\n}\r\n.tech_footer_text li{\r\n  float: left;\r\n  width: 45%;\r\n}\r\n.tech_cup{\r\n  opacity: 0.3;\r\n  position: absolute;\r\n  bottom:50px;\r\n  left: 467px;\r\n}\r\n.turn_num_list{\r\n    margin: 0 20px 20px;\r\n    font-size: 16px;\r\n    color: #fff;\r\n}\r\n.turn_num_list li{\r\n  float: left;\r\n  width: 288px;\r\n  height: 45px;\r\n  text-align: center;\r\n  line-height: 45px;\r\n  margin-right: 2px;\r\n  background:#53585d;\r\n  position: relative;\r\n}\r\n.turn_num_pic{\r\n    position: absolute;\r\n    top:11px;\r\n    right:15px;\r\n}\r\n", "", {"version":3,"sources":["/./src/views/techPic.vue.style"],"names":[],"mappings":";AAuaA;EACA,mBAAA;CACA;AACA;EACA,aAAA;EACA,eAAA;EACA,0BAAA;EACA,YAAA;EACA,mBAAA;EACA,kBAAA;CACA;AACA;EACA,mBAAA;EACA,MAAA;EACA,OAAA;CACA;AACA;EACA,YAAA;EACA,mBAAA;CACA;AACA;EACA,cAAA;EACA,iBAAA;CACA;AACA;EACA,YAAA;CACA;AACA;EACA,cAAA;EACA,+BAAA;EACA,qBAAA;EACA,kBAAA;CACA;AACA;EACA,aAAA;EACA,cAAA;EACA,YAAA;CACA;AACA;EACA,aAAA;EACA,aAAA;EACA,YAAA;CACA;AACA;EACA,qBAAA;EACA,kCAAA;CACA;AACA;EACA,YAAA;CACA;AACA;EACA,aAAA;CACA;AACA;EACA,aAAA;EACA,aAAA;EACA,mBAAA;EACA,gBAAA;EACA,iBAAA;CACA;AACA;EACA,mBAAA;EACA,aAAA;EACA,aAAA;EACA,QAAA;EACA,OAAA;EACA,mBAAA;EACA,kBAAA;EACA,gBAAA;CACA;AACA;EACA,gBAAA;EACA,oBAAA;CACA;AACA;EACA,gBAAA;CACA;AACA;EACA,YAAA;EACA,mBAAA;CACA;AACA;EACA,YAAA;EACA,gBAAA;CACA;AACA;EACA,WAAA;EACA,oBAAA;CACA;AACA;EACA,YAAA;EACA,WAAA;CACA;AACA;EACA,mBAAA;CACA;AACA;EACA,sBAAA;EACA,WAAA;EACA,aAAA;EACA,0BAAA;CACA;AACA;EACA,cAAA;EACA,kBAAA;EACA,+BAAA;EACA,kBAAA;EACA,mBAAA;CACA;AACA;EACA,YAAA;EACA,aAAA;EACA,kBAAA;EACA,qBAAA;CACA;AACA;EACA,gBAAA;EACA,iBAAA;CACA;AACA;EACA,gBAAA;EACA,eAAA;CACA;AACA;EACA,aAAA;EACA,aAAA;EACA,kBAAA;EACA,0BAAA;EACA,YAAA;EACA,mBAAA;EACA,oBAAA;EACA,mBAAA;CACA;AACA;EACA,cAAA;EACA,eAAA;EACA,mBAAA;EACA,cAAA;EACA,qBAAA;EACA,iCAAA;EACA,kBAAA;CACA;AACA;EACA,gBAAA;EACA,mBAAA;EACA,OAAA;EACA,SAAA;CACA;AACA;EACA,YAAA;EACA,WAAA;CACA;AACA;EACA,aAAA;EACA,mBAAA;EACA,YAAA;EACA,YAAA;CACA;AACA;IACA,oBAAA;IACA,gBAAA;IACA,YAAA;CACA;AACA;EACA,YAAA;EACA,aAAA;EACA,aAAA;EACA,mBAAA;EACA,kBAAA;EACA,kBAAA;EACA,mBAAA;EACA,mBAAA;CACA;AACA;IACA,mBAAA;IACA,SAAA;IACA,WAAA;CACA","file":"techPic.vue","sourcesContent":["<template>\r\n  <top-nav></top-nav> \r\n  <div class=\"tech_msg\">\r\n    <div class=\"body_top_pic\"><img src=\"../../static/images/body_top.png\" width=\"100%\"></div>\r\n    <div class=\"tech_msg_text clearfix\">\r\n      <div class=\"tech_msg_left\"><img src=\"../../static/images/person_pic.png\" width=\"100%\" height=\"100%\"></div>\r\n      <div class=\"tech_msg_right\">\r\n      <div class=\"begin_tech clearfix\">\r\n        <div class=\"begin_tech_left\">\r\n          <h2 style=\"font-size:16px\">浙江省网娱大师•雪碧真英雄城市争霸赛</h2>\r\n           <p class=\"sponsor\">主办方：<span style=\"color:#f9a32a;\">网娱大师</span></p>\r\n          <div class=\"check_app\">\r\n            <input type=\"checkbox\" id=\"show_app\">\r\n            <label for=\"show_app\">在网娱大师App中展示</label>\r\n          </div>\r\n        </div>\r\n        <div class=\"begin_tech_right\">\r\n          <p style=\"font-size:12px;\">当一切都准备就绪后，您就可以:</p>\r\n          <div class=\"start_btn\">\r\n            <img src=\"../../static/images/start.png\" width=\"100%\" height=\"100%\">\r\n            <p class=\"start_text\">开始比赛</p>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"begin_tech_msg\">\r\n        <ul class=\"begin_msg_list clearfix\">\r\n          <li class=\"clearfix\">\r\n            <div class=\"msg_list_left\"><img src=\"../../static/images/msg_a.png\"></div>\r\n            <div class=\"msg_list_right\">\r\n              <p class=\"msg_list_name\">竞技项目</p>\r\n              <p>英雄联盟•全服</p>\r\n            </div>\r\n          </li>\r\n          <li class=\"clearfix\">\r\n            <div class=\"msg_list_left\"><img src=\"../../static/images/msg_b.png\"></div>\r\n            <div class=\"msg_list_right\">\r\n              <p class=\"msg_list_name\">报名时间</p>\r\n              <p>2016.06.06-2016.07.07</p>\r\n            </div>\r\n          </li>\r\n          <li class=\"clearfix\">\r\n            <div class=\"msg_list_left\"><img src=\"../../static/images/msg_c.png\"></div>\r\n            <div class=\"msg_list_right\">\r\n              <p class=\"msg_list_name\">赛制</p>\r\n              <p>32人赛事＋单败淘汰制</p>\r\n            </div>\r\n          </li>\r\n        </ul>\r\n      </div>\r\n     </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"against_container\">\r\n    <div class=\"tech_cup\"><img src=\"../../static/images/cup.png\"></div>\r\n    <p class=\"against_title\">\r\n     <a class=\"title_unit\"></a>\r\n      <span class=\"against_title_text\">对阵图</span>\r\n      <span class=\"against_title_tip\">此对阵图为预览，可拖曳参赛选手来交换位置</span>\r\n    </p>\r\n    <div class=\"turn_num\">\r\n      <ul class=\"turn_num_list clearfix\">\r\n        <li>第一轮<img class=\"turn_num_pic\" src=\"../../static/images/turn.png\"></li>\r\n        <li>第二轮<img class=\"turn_num_pic\" src=\"../../static/images/turn.png\"></li>\r\n        <li>半决赛<img class=\"turn_num_pic\" src=\"../../static/images/turn.png\"></li>\r\n        <li>决赛<img class=\"turn_num_pic\" src=\"../../static/images/turn.png\"></li>\r\n      </ul>\r\n    </div>\r\n    <div class=\"turn_btn\">随机排列对阵选手顺序</div>\r\n    <div style=\"padding:0 70px\">\r\n      <div class=\"tech_container\">\r\n      <div class=\"match_content clearfix\">\r\n    </div>   \r\n</div>\r\n</div>\r\n  </div>\r\n  <div class=\"tech_down_tip\">\r\n    <img src=\"../../static/images/body_bt.png\" width=\"100%\">\r\n    <ul class=\"tech_footer_text clearfix\">\r\n      <li style=\"float:left\">\r\n        <h2 class=\"footer_text_title\">\r\n          <a class=\"title_unit\"></a>\r\n          <span style=\"font-size:18px;color:#fff;\">赛事规则</span>\r\n        </h2>\r\n        <p style=\"margin:20px 0\">比赛模式</p>\r\n          <p>\r\n            1. 决赛当天海选BO1（单场淘汰制），冠亚之争采用BO3（三局两胜）</br>\r\n            2. 所有比赛均为5v5、房间模式、征召模式；</br>\r\n            8支队伍进行BO1 决出4强    4支队伍进行BO1决出冠亚争夺战 \r\n                败者组两只队伍BO1争夺季军   胜者队伍冠亚争夺战</br>\r\n            </p>\r\n            <p style=\"margin:20px 0\">比赛规则：</p>\r\n            <p>\r\n            1.参赛选手须提前到达比赛现场报名抽签，迟到将视为自动弃权；</br> \r\n            2.参赛选手须在比赛服务器比赛，使用官方比赛服帐号</p>\r\n      </li>\r\n      <li style=\"float:right\">\r\n        <h2 class=\"footer_text_title\">\r\n          <a class=\"title_unit\"></a>\r\n          <span style=\"font-size:18px;color:#fff;\">奖金设置</span>\r\n        </h2>\r\n        <p style=\"margin:20px 0\">比赛模式</p>\r\n          <p>\r\n            1本次联赛奖品如下：</br>\r\n            冠军4000元现金；亚军2000元现金；季军1000元现金以及其他神秘大奖等你来拿！本次获奖战队可以参加下半年的省级冠军争夺赛，更有机会代表吉林省参加全国范围的争霸赛。</p>\r\n      </li>\r\n    </ul>\r\n  </div> \r\n</template>\r\n\r\n<script>\r\nimport topNav from '../components/topNav.vue'\r\n  export default {\r\n    data () {\r\n    return {\r\n    matchdata:'',\r\n    parm:{},\r\n    personnum:false,\r\n    overhalf:false,\r\n    }\r\n  },\r\n     ready: function(){\r\n      var _this=this;\r\n\r\n      _this.parm.id=window.sessionStorage.getItem(\"eventid\");\r\n       _this.$http.get('event/info',_this.parm).then(function(response){\r\n            \r\n             _this.matchdata=response.data.object.groups;\r\n             console.log(_this.matchdata);\r\n            \r\n             var turn=_this.matchdata[0].turn;\r\n             console.log(turn);\r\n            var unitul_h=60;\r\n            var unitul_w=200;\r\n            var unitul_step=10;\r\n            var unitul_all=unitul_h+unitul_step;\r\n            var _content=$(\".match_content\");\r\n            var listul;\r\n            var listuls=listul='<ul class=\"match_list\"></ul>';\r\n\r\n            if(!_this.personnum){\r\n                if(_this.overhalf){\r\n                  unitul_step=80;\r\n                  unitul_all=unitul_h+unitul_step;\r\n                }\r\n                //dom生成矩形列表\r\n                for(var i=0;i<turn-2;i++){\r\n                   listuls+=listul;\r\n                }\r\n                _content.append(listuls);\r\n                \r\n                //dom生成矩形unit,并放入矩形列表\r\n                var unitul='<ul class=\"unit_ul\" style=\"width:200px;\"><li class=\"recta\" style=\"margin-bottom:1px;\"></li><li class=\"recta\"></li></ul>';\r\n                var listArry=_content.find($(\".match_list\"));\r\n\r\n                listArry[turn-2].innerHTML='<li class=\"out_li\">'+unitul+'</li>';\r\n                for(var i=1;i<turn-1;i++){\r\n                  listArry[turn-i-2].innerHTML=listArry[turn-i-1].innerHTML+listArry[turn-i-1].innerHTML;\r\n                }\r\n                \r\n       //          //按照索引处理列表层高\r\n                $.each(listArry,function(i,e){\r\n                  if(i!=0){\r\n                    $(this).css('margin-top',unitul_all/2*(Math.pow(2,i)-1));\r\n                  }\r\n                })\r\n\r\n       //          //按照索引处理每列矩形unit间距\r\n                var margin_bt=[];\r\n                for(var i=0;i<turn-1;i++){\r\n                  margin_bt[0]=unitul_step;\r\n                  margin_bt[i+1]=2*margin_bt[i]+unitul_h;\r\n                  listArry.eq(i).find(\".out_li\").css(\"margin-bottom\",margin_bt[i]);\r\n                }\r\n\r\n                //生成canvas dom\r\n                var _height=unitul_all*Math.pow(2,turn-2);\r\n                var _width=(unitul_w+90)*turn;\r\n                _content.width(_width);\r\n                _content.height(_height);\r\n                $(\".tech_container\").append('<canvas id=\"mycanvas\" width='+_width+' height='+_height+'></canvas> ');\r\n\r\n                //获取turn2的数据\r\n                 var onelist = []; \r\n                function getnum(arr){\r\n                  for(var i=0;i<arr.length;i++){\r\n                    if(arr[i].turn == 2){\r\n                      onelist.push(arr);\r\n                    }else{\r\n                        for(var key in arr[i]){\r\n                            if(key=='groups'){\r\n                              getnum(arr[i][key]);\r\n                            }\r\n                          }  \r\n                      } \r\n                  }\r\n                     \r\n                }\r\n                getnum(_this.matchdata);\r\n\r\n                console.log(onelist);\r\n                   _content.prepend(listul);\r\n                listArry=_content.find($(\".match_list\"));\r\n                var _topsY=[];\r\n                var _topdY=[];\r\n       //          //生成非幂次方时第一列的矩形unit\r\n       //          for(var i=0;i<onelist.length;i++){\r\n       //                if(!isNaN(onelist[i].a)){\r\n       //                  var _one_list=listArry.eq(1).find(\".unit_ul\").eq(i).find(\".recta\")\r\n       //                    _one_list.eq(0).text(onelist[i].a);\r\n       //                  if(!isNaN(onelist[i].b)){\r\n       //                    _one_list.eq(1).text(onelist[i].b);\r\n       //                  }else{\r\n       //                    var _top=listArry.eq(1).find(\".unit_ul\").eq(i).offset().top;\r\n       //                    _topsY.push(_top);\r\n       //                    listArry.eq(0).append('<ul class=\"unit_ul single_line\" style=\"width:200px;\"><li class=\"recta\" style=\"margin-bottom:1px;\">'+onelist[i].b.a+'</li><li class=\"recta\">'+onelist[i].b.b+'</li></ul>');\r\n       //                  }   \r\n       //                }else{\r\n       //                    var _top=listArry.eq(1).find(\".unit_ul\").eq(i).offset().top;\r\n       //                    _topdY.push(_top);\r\n       //                    listArry.eq(0).append('<div class=\"double_line\"><ul class=\"unit_ul\" style=\"width:200px;margin-bottom:10px;\"><li class=\"recta\" style=\"margin-bottom:1px;\">'+onelist[i].a.a+'</li><li class=\"recta\">'+onelist[i].a.b+'</li></ul><ul class=\"unit_ul\" style=\"width:200px;\"><li class=\"recta\" style=\"margin-bottom:1px;\">'+onelist[i].b.a+'</li><li class=\"recta\">'+onelist[i].b.b+'</li></ul></div>');\r\n       //              }\r\n       //          }\r\n       //          console.log(_topdY);\r\n\r\n       //          //根据轮空的坐标确定第一列坐标\r\n       //          var list_first=listArry.eq(0).find(\".single_line\");\r\n       //          for(i=0;i<_topsY.length;i++){\r\n       //            list_first.eq(i).offset({'top':_topsY[i]+35});\r\n       //          }\r\n\r\n       //          if(_topdY.length!=0){\r\n       //            var list_double=listArry.eq(0).find(\".double_line\");\r\n       //            for(i=0;i<_topdY.length;i++){\r\n       //              list_double.eq(i).offset({'top':_topdY[i]-35});\r\n       //            }\r\n       //          }\r\n\r\n       //          //根据矩形坐标画线\r\n       //          var _xy=[];\r\n       //          var coordinates=[];\r\n       //          for(var i=1;i<level;i++){\r\n       //            var unit_list=listArry.eq(i).find(\".unit_ul\");\r\n       //            var unit_length=unit_list.length;\r\n                  \r\n       //            _xy.length=0;\r\n       //            for(var j=0;j<unit_length;j++){\r\n       //              coordinates=[unit_list.eq(j).position().left,unit_list.eq(j).position().top];\r\n       //                    _xy.push(coordinates);\r\n           \r\n       //            function drawline(id) {\r\n                    \r\n       //              var canvas = document.getElementById(id);\r\n       //              if (canvas == null)\r\n       //                  return false;\r\n       //              var context = canvas.getContext(\"2d\");\r\n       //              context.strokeStyle = \"rgb(247,162,58)\";\r\n       //              context.moveTo(_xy[j][0]+unitul_w+5,_xy[j][1]+unitul_h/2);\r\n       //              context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h/2);\r\n       //              if(j%2==0){\r\n       //                context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h+margin_bt[i-1]/2);\r\n       //                context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]+unitul_h+margin_bt[i-1]/2);\r\n       //              }else{\r\n       //                context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]-margin_bt[i-1]/2);\r\n       //                context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]-margin_bt[i-1]/2);\r\n       //              }\r\n\r\n       //              context.stroke(); \r\n       //            }\r\n       //              drawline(\"mycanvas\"); \r\n       //            }  \r\n       //          }\r\n                \r\n       //          //根据矩形坐标第一列单unit画线\r\n       //          var _xysingle=[];\r\n       //          var single_coord=[];\r\n       //          var single_arry=listArry.eq(0).find(\".single_line\");\r\n       //          for(i=0;i<single_arry.length;i++){\r\n       //            single_coord=[single_arry.eq(i).position().left,single_arry.eq(i).position().top];\r\n       //            _xysingle.push(single_coord);\r\n\r\n       //            function firstline(id) {\r\n                    \r\n       //              var canvas = document.getElementById(id);\r\n       //              if (canvas == null)\r\n       //                  return false;\r\n       //              var context = canvas.getContext(\"2d\");\r\n       //              context.strokeStyle = \"rgb(247,162,58)\";\r\n       //              context.moveTo(_xysingle[i][0]+unitul_w+5,_xysingle[i][1]+unitul_h/2);\r\n       //              context.lineTo(_xysingle[i][0]+unitul_w+5+40,_xysingle[i][1]+unitul_h/2);\r\n       //              context.lineTo(_xysingle[i][0]+unitul_w+5+40,_xysingle[i][1]-5);\r\n       //              context.lineTo(_xysingle[i][0]+unitul_w+5+40*2, _xysingle[i][1]-5);\r\n       //              context.stroke(); \r\n       //            }\r\n       //              firstline(\"mycanvas\"); \r\n       //          }\r\n\r\n       //          //根据矩形坐标第一列双unit画线\r\n       //          var _xydouble=[];\r\n       //          var double_coord=[];\r\n       //          var double_arry=listArry.eq(0).find(\".double_line\");\r\n       //          for(i=0;i<double_arry.length;i++){\r\n       //            double_coord=[double_arry.eq(i).position().left,double_arry.eq(i).position().top];\r\n       //            _xydouble.push(double_coord);\r\n\r\n       //            function firstline(id) {\r\n                    \r\n       //              var canvas = document.getElementById(id);\r\n       //              if (canvas == null)\r\n       //                  return false;\r\n       //              var context = canvas.getContext(\"2d\");\r\n       //              context.strokeStyle = \"rgb(247,162,58)\";\r\n       //              context.moveTo(_xydouble[i][0]+unitul_w+5,_xydouble[i][1]+unitul_h/2);\r\n       //              context.lineTo(_xydouble[i][0]+unitul_w+5+40,_xydouble[i][1]+unitul_h/2);\r\n       //              context.lineTo(_xydouble[i][0]+unitul_w+5+40,_xydouble[i][1]+unitul_h/2+unitul_h+10);\r\n       //              context.lineTo(_xydouble[i][0]+unitul_w+5,_xydouble[i][1]+unitul_h/2+unitul_h+10);\r\n       //              context.moveTo(_xydouble[i][0]+unitul_w+5+40,_xydouble[i][1]+unitul_h+5);\r\n       //              context.lineTo(_xydouble[i][0]+unitul_w+5+40*2,_xydouble[i][1]+unitul_h+5);\r\n       //              context.stroke(); \r\n       //            }\r\n       //              firstline(\"mycanvas\"); \r\n       //          }\r\n             }else{\r\n       //          for(var i=0;i<level;i++){\r\n       //               listuls+=listul;\r\n       //            }\r\n       //            _content.append(listuls);\r\n\r\n       //            //dom生成矩形unit,并放入矩形列表\r\n       //            var unitul='<ul class=\"unit_ul\" style=\"width:200px;\"><li class=\"recta\" style=\"margin-bottom:1px;\"></li><li class=\"recta\"></li></ul>';\r\n       //            var listArry=_content.find($(\".match_list\"));\r\n\r\n       //            listArry[level].innerHTML='<li class=\"out_li\">'+unitul+'</li>';\r\n       //            for(var i=1;i<level+1;i++){\r\n       //              listArry[level-i].innerHTML=listArry[level-i+1].innerHTML+listArry[level-i+1].innerHTML;\r\n       //            }\r\n\r\n       //              //按照索引处理列表层高\r\n       //          $.each(listArry,function(i,e){\r\n       //            if(i!=0){\r\n       //              $(this).css('margin-top',unitul_all/2*(Math.pow(2,i)-1));\r\n       //            }\r\n       //          })\r\n\r\n       //            //生成canvas dom\r\n       //            var _height=unitul_all*Math.pow(2,level);\r\n       //            var _width=(unitul_w+90)*(level+1);\r\n       //            _content.width(_width);\r\n       //            $(\".tech_container\").append('<canvas id=\"mycanvas\" width='+_width+' height='+_height+'></canvas> ');\r\n\r\n       //          //按照索引处理每列矩形unit间距\r\n       //          var margin_bt=[];\r\n       //          for(var i=0;i<level;i++){\r\n       //            margin_bt[0]=unitul_step;\r\n       //            margin_bt[i+1]=2*margin_bt[i]+unitul_h;\r\n       //            listArry.eq(i).find(\".out_li\").css(\"margin-bottom\",margin_bt[i]);\r\n       //          }\r\n\r\n       //          var onelist = [];\r\n       //          //获取level1的数据\r\n       //          function getnum(obj){\r\n       //              if(obj['level'] == 0){\r\n       //                onelist.push(obj);\r\n       //              }else{\r\n       //                for(var key in obj){\r\n       //                    if(key!=='level'){\r\n       //                      getnum(obj[key]);\r\n       //                    }\r\n       //                  }   \r\n       //                }  \r\n       //          }\r\n       //          getnum(_this.matchdata);\r\n\r\n       //          listArry.eq(0).empty();\r\n       //          for(var i=0;i<onelist.length;i++){\r\n       //                  listArry.eq(0).append('<ul class=\"unit_ul\" style=\"width:200px;margin-bottom:10px;\"><li class=\"recta\" style=\"margin-bottom:1px;\">'+onelist[i].a+'</li><li class=\"recta\">'+onelist[i].b+'</li></ul>');  \r\n       //          }\r\n                \r\n       //          //根据矩形坐标画线\r\n       //          var _xy=[];\r\n       //          var coordinates=[];\r\n       //           for(var i=0;i<level;i++){\r\n       //            var unit_list=listArry.eq(i).find(\".unit_ul\");\r\n       //            var unit_length=unit_list.length;\r\n                  \r\n       //            _xy.length=0;\r\n       //            for(var j=0;j<unit_length;j++){\r\n       //              coordinates=[unit_list.eq(j).position().left,unit_list.eq(j).position().top];\r\n       //                    _xy.push(coordinates);\r\n\r\n       //            function drawline(id) {\r\n                    \r\n       //              var canvas = document.getElementById(id);\r\n       //              if (canvas == null)\r\n       //                  return false;\r\n       //              var context = canvas.getContext(\"2d\");\r\n       //              context.strokeStyle = \"rgb(247,162,58)\";\r\n       //              context.moveTo(_xy[j][0]+unitul_w+5,_xy[j][1]+unitul_h/2);\r\n       //              context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h/2);\r\n       //              if(j%2==0){\r\n       //                context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h+margin_bt[i]/2);\r\n       //                context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]+unitul_h+margin_bt[i]/2);\r\n       //              }else{\r\n       //                context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]-margin_bt[i]/2);\r\n       //                context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]-margin_bt[i]/2);\r\n       //              }\r\n\r\n       //              context.stroke(); \r\n       //            }\r\n       //              drawline(\"mycanvas\"); \r\n       //            }  \r\n       //          }\r\n             }  \r\n          },function(response) {\r\n              console.log(response);\r\n          });\r\n     },\r\n       components: {\r\n          topNav\r\n         \r\n  }\r\n  }\r\n</script>\r\n<style>\r\n.tech_container{\r\n  position: relative;\r\n}\r\n.recta{\r\n  width: 200px;\r\n  height: 29.5px;\r\n  background-color: #53585d;\r\n  color: #fff;\r\n  text-align: center;\r\n  line-height: 30px;\r\n}\r\n.match_content{\r\n  position: absolute;\r\n  top:0;\r\n  left:0;\r\n}\r\n.match_list{\r\n  float: left;\r\n  margin-right: 90px;\r\n}\r\n.tech_msg{\r\n  width: 1200px;\r\n  margin:20px auto;\r\n}\r\n.body_top_pic{\r\n  width: 100%;\r\n}\r\n.tech_msg_text{\r\n  height: 235px;\r\n  background: rgba(52,57,63,0.9);\r\n  padding: 40px 20px 0;\r\n  margin-top: -14px;\r\n}\r\n.tech_msg_left{\r\n  width: 325px;\r\n  height: 160px;\r\n  float: left;\r\n}\r\n.tech_msg_right{\r\n  float: right;\r\n  width: 815px;\r\n  color: #fff;\r\n}\r\n.begin_tech{\r\n  padding-bottom: 20px;\r\n  border-bottom: 1px dashed #53585d;\r\n}\r\n.begin_tech_left{\r\n  float: left;\r\n}\r\n.begin_tech_right{\r\n  float: right;\r\n}\r\n.start_btn{\r\n  width: 200px;\r\n  height: 40px;\r\n  position: relative;\r\n  cursor: pointer;\r\n  margin-top: 15px;\r\n}\r\n.start_text{\r\n  position: absolute;\r\n  width: 200px;\r\n  height: 40px;\r\n  left: 0;\r\n  top: 0;\r\n  text-align: center;\r\n  line-height: 40px;\r\n  font-size: 16px;\r\n}\r\n.sponsor{\r\n  font-size: 12px;\r\n  margin: 20px 0 15px;\r\n}\r\n.check_app{\r\n  font-size: 12px;\r\n}\r\n.msg_list_left{\r\n  float: left;\r\n  margin-right: 15px;\r\n}\r\n.msg_list_right{\r\n  float: left;\r\n  font-size: 12px;\r\n}\r\n.begin_msg_list{\r\n  width: 90%;\r\n  margin: 20px auto 0;\r\n}\r\n.begin_msg_list li{\r\n  float: left;\r\n  width: 33%;\r\n}\r\n.msg_list_name{\r\n  margin-bottom: 5px;\r\n}\r\n.title_unit{\r\n  display: inline-block;\r\n  width: 7px;\r\n  height: 20px;\r\n  background-color: #f9a32a;\r\n}\r\n.against_container{\r\n  width: 1200px;\r\n  margin: 20px auto;\r\n  background: rgba(52,57,63,0.9);\r\n  padding-top: 30px;\r\n  position: relative;\r\n}\r\n.against_title{\r\n  color: #fff;\r\n  height: 25px;\r\n  line-height: 25px;\r\n  margin:0 0 30px 20px;\r\n}\r\n.against_title_text{\r\n  font-size: 18px;\r\n  margin-left: 5px;\r\n}\r\n.against_title_tip{\r\n  font-size: 12px;\r\n  color: #53585d;\r\n}\r\n.turn_btn{\r\n  width: 220px;\r\n  height: 35px;\r\n  line-height: 30px;\r\n  background-color: #f9a32a;\r\n  color: #fff;\r\n  border-radius: 5px;\r\n  margin: 0 70px 30px;\r\n  text-align: center;\r\n}\r\n.tech_down_tip{\r\n  width: 1200px;\r\n  margin: 0 auto;\r\n  position: relative;\r\n  height: 350px;\r\n  padding-bottom: 50px;\r\n  border-bottom: 1px solid #53585d;\r\n  margin-top: -27px;\r\n}\r\n.tech_footer_text{\r\n  font-size: 12px;\r\n  position: absolute;\r\n  left:0;\r\n  top:75px;\r\n}\r\n.tech_footer_text li{\r\n  float: left;\r\n  width: 45%;\r\n}\r\n.tech_cup{\r\n  opacity: 0.3;\r\n  position: absolute;\r\n  bottom:50px;\r\n  left: 467px;\r\n}\r\n.turn_num_list{\r\n    margin: 0 20px 20px;\r\n    font-size: 16px;\r\n    color: #fff;\r\n}\r\n.turn_num_list li{\r\n  float: left;\r\n  width: 288px;\r\n  height: 45px;\r\n  text-align: center;\r\n  line-height: 45px;\r\n  margin-right: 2px;\r\n  background:#53585d;\r\n  position: relative;\r\n}\r\n.turn_num_pic{\r\n    position: absolute;\r\n    top:11px;\r\n    right:15px;\r\n}\r\n</style>\r\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.tech_body{\n  padding:0 70px;\n}\n.tech_container{\n  position: relative; \n}\n.recta{\n  width: 200px;\n  height: 29.5px;\n  background-color: #53585d;\n  color: #fff;\n  line-height: 30px;\n}\n.match_content{\n  position: absolute;\n  top:0;\n  left:0;\n}\n.match_list{\n  float: left;\n  margin-right: 90px;\n}\n.tech_msg{\n  width: 1200px;\n  margin:20px auto;\n}\n.body_top_pic{\n  width: 100%;\n}\n.tech_msg_text{\n  height: 235px;\n  background: rgba(52,57,63,0.9);\n  padding: 40px 20px 0;\n  margin-top: -14px;\n}\n.tech_msg_left{\n  width: 325px;\n  height: 160px;\n  float: left;\n}\n.tech_msg_right{\n  float: right;\n  width: 815px;\n  color: #fff;\n}\n.begin_tech{\n  padding-bottom: 20px;\n  border-bottom: 1px dashed #53585d;\n}\n.begin_tech_left{\n  float: left;\n}\n.begin_tech_right{\n  float: right;\n}\n.start_btn{\n  width: 200px;\n  height: 40px;\n  position: relative;\n  cursor: pointer;\n  margin-top: 15px;\n}\n.start_text{\n  position: absolute;\n  width: 200px;\n  height: 40px;\n  left: 0;\n  top: 0;\n  text-align: center;\n  line-height: 40px;\n  font-size: 16px;\n}\n.sponsor{\n  font-size: 12px;\n  margin: 20px 0 15px;\n}\n.check_app{\n  font-size: 12px;\n}\n.msg_list_left{\n  float: left;\n  margin-right: 15px;\n}\n.msg_list_right{\n  float: left;\n  font-size: 12px;\n}\n.begin_msg_list{\n  width: 90%;\n  margin: 20px auto 0;\n}\n.begin_msg_list li{\n  float: left;\n  width: 33%;\n}\n.msg_list_name{\n  margin-bottom: 5px;\n}\n.title_unit{\n  display: inline-block;\n  width: 7px;\n  height: 20px;\n  background-color: #f9a32a;\n}\n.against_container{\n  width: 1200px;\n  margin: 20px auto;\n  background: rgba(52,57,63,0.9);\n  padding-top: 30px;\n  position: relative;\n}\n.against_title{\n  color: #fff;\n  height: 25px;\n  line-height: 25px;\n  margin:0 0 30px 20px;\n}\n.against_title_text{\n  font-size: 18px;\n  margin-left: 5px;\n}\n.against_title_tip{\n  font-size: 12px;\n  color: #53585d;\n}\n.turn_btn{\n  width: 220px;\n  height: 35px;\n  line-height: 30px;\n  background:url(" + __webpack_require__(90) + ") no-repeat 10px 7px #f9a32a;\n  color: #fff;\n  border-radius: 5px;\n  margin: 0 70px 30px;\n  text-align: center;\n  cursor: pointer;\n}\n.tech_down_tip{\n  width: 1200px;\n  margin: 0 auto;\n  position: relative;\n  height: 350px;\n  padding-bottom: 50px;\n  border-bottom: 1px solid #53585d;\n  margin-top: -27px;\n}\n.tech_footer_text{\n  font-size: 12px;\n  position: absolute;\n  left:0;\n  top:75px;\n}\n.tech_footer_text li{\n  float: left;\n  width: 45%;\n}\n.tech_cup{\n  opacity: 0.3;\n  position: absolute;\n  bottom:50px;\n  left: 467px;\n}\n.turn_num_list{\n    margin: 0 20px 20px;\n    font-size: 16px;\n    color: #fff;\n\n}\n.turn_num_list li{\n  float: left;\n  width: 288px;\n  height: 45px;\n  text-align: center;\n  line-height: 45px;\n  margin-right: 2px;\n  position: relative;\n  cursor: pointer;\n}\n.turn_num_pic{\n    position: absolute;\n    top:11px;\n    right:15px;\n}\n.recta_num{\n  display: inline-block;\n  width: 30px;\n  height: 27.5px;\n  background-color: #838383;\n  text-align: center;\n  color: #000;\n  font-size: 12px;\n}\n.recta_right{\n  display: inline-block;\n  width: 30px;\n  height: 27.5px;\n  background-color: #838383;\n  text-align: center;\n  color: #000;\n  font-size: 12px;\n  float: right;\n}\n.edit_div{\n  position: relative;\n  width: 0;\n  height: 0;\n}\n.edit_score{\n  position: absolute;\n  top:-60px;\n  width:30px;\n  height: 60px;\n  left: 170px;\n  background: url(" + __webpack_require__(91) + ") no-repeat 6px 22px #53585d;\n  cursor: pointer;\n}\n.float_edit{\n  position: absolute;\n  width: 180px;\n  height: 60px;\n  top:-60px;\n  left:200px;\n  background-color: #000;\n  opacity: 0.8;\n  display: none;\n}\n.float_edit li{\n  float: left;\n  width: 33%;\n  text-align: center;\n  cursor: pointer;\n}\n.tech_main_body{\n  overflow-x: scroll;\n  overflow-y: hidden;\n}\n.turn_input{\n  width: 140px;\n  height: 25px;\n  background-color: #27292d;\n}\n.turn_frame{\n  display: inline-block;\n  width: 50px;\n  height: 30px;\n  border-radius: 5px;\n  line-height: 30px;\n  cursor: pointer;\n  font-size: 12px;\n}\n.turn_confirm{\n  background-color: #f9a32a;\n  color: #fff;\n}\n.turn_quit{\n  background-color: #dcdcdc;\n  color: #000;\n}\n.trunname_ed{\n  background:#53585d;\n}\n.trunname_ing{\n  display: none;\n  background-color: #81858a;\n}\n.turn_set_detail{\n  background-color: #16181d;\n  height: 60px;\n  font-size: 12px;\n  display: none;\n}\n.turn_set_detail li{\n  height: 20px;\n  margin: 5px 0;\n  line-height: 20px;\n  cursor: pointer;\n}\n.turn_set_detail li:hover{\n  background-color: #7f5b2f;\n}\n.tech_range{\n  width: 200px;\n  height: 25px;\n  background-color: #838383;\n  border-radius: 3px;\n}\n.tech_range_detail{\n  width:40px;\n  height: 25px;\n  border-radius: 3px;\n  background-color: #f9a32a;\n  float: left;\n}\n.tech_range_num{\n  float: right;\n  font-size: 12px;\n  line-height: 25px;\n}\n#set_begin{\n  opacity: 0;\n  height:20px;\n  width:288px\n}\n.set_time_begin{\n  position: absolute;\n  top:2px;\n  left:100px;\n  font-size: 12px;\n}\n.edit_ring{\n  width: 120px;\n  height: 120px;\n  background-color: #181b1f;\n  border-radius: 60px;\n  text-align: center;\n  line-height: 120px;\n  font-size: 20px;\n}\n.edit_detail_top{\n  margin: 10px 100px;\n}\n.edit_detail_top li{\n  float: left;\n  text-align: center;\n}\n.edit_detail_mid{\n  width: 50px;\n  font-size: 20px;\n}\n.edit_detail_left .edit_detail_right{\n  width: 125px;\n}\n.edit_detail_bt{\n  margin: 10px 100px 10px;\n  height: 130px;\n  overflow-y: scroll;\n}\n.edit_btn_mid{\n  display: inline-block;\n  width: 20px;\n  font-size: 18px;\n  text-align: center;\n}\n.add_edit_list{\n  color: #fe3507;\n  font-size: 12px;\n  margin: 0 100px;\n  cursor: pointer;\n}\n.made_winer{\n  height: 30px;\n  background: url(" + __webpack_require__(92) + ") no-repeat center;\n  cursor: pointer;\n}\n.winer_active{\n  background: url(" + __webpack_require__(93) + ") no-repeat center !important;\n}\n", "", {"version":3,"sources":["/./src/views/techPic.vue.style"],"names":[],"mappings":";AAotBA;EACA,eAAA;CACA;AACA;EACA,mBAAA;CACA;AACA;EACA,aAAA;EACA,eAAA;EACA,0BAAA;EACA,YAAA;EACA,kBAAA;CACA;AACA;EACA,mBAAA;EACA,MAAA;EACA,OAAA;CACA;AACA;EACA,YAAA;EACA,mBAAA;CACA;AACA;EACA,cAAA;EACA,iBAAA;CACA;AACA;EACA,YAAA;CACA;AACA;EACA,cAAA;EACA,+BAAA;EACA,qBAAA;EACA,kBAAA;CACA;AACA;EACA,aAAA;EACA,cAAA;EACA,YAAA;CACA;AACA;EACA,aAAA;EACA,aAAA;EACA,YAAA;CACA;AACA;EACA,qBAAA;EACA,kCAAA;CACA;AACA;EACA,YAAA;CACA;AACA;EACA,aAAA;CACA;AACA;EACA,aAAA;EACA,aAAA;EACA,mBAAA;EACA,gBAAA;EACA,iBAAA;CACA;AACA;EACA,mBAAA;EACA,aAAA;EACA,aAAA;EACA,QAAA;EACA,OAAA;EACA,mBAAA;EACA,kBAAA;EACA,gBAAA;CACA;AACA;EACA,gBAAA;EACA,oBAAA;CACA;AACA;EACA,gBAAA;CACA;AACA;EACA,YAAA;EACA,mBAAA;CACA;AACA;EACA,YAAA;EACA,gBAAA;CACA;AACA;EACA,WAAA;EACA,oBAAA;CACA;AACA;EACA,YAAA;EACA,WAAA;CACA;AACA;EACA,mBAAA;CACA;AACA;EACA,sBAAA;EACA,WAAA;EACA,aAAA;EACA,0BAAA;CACA;AACA;EACA,cAAA;EACA,kBAAA;EACA,+BAAA;EACA,kBAAA;EACA,mBAAA;CACA;AACA;EACA,YAAA;EACA,aAAA;EACA,kBAAA;EACA,qBAAA;CACA;AACA;EACA,gBAAA;EACA,iBAAA;CACA;AACA;EACA,gBAAA;EACA,eAAA;CACA;AACA;EACA,aAAA;EACA,aAAA;EACA,kBAAA;EACA,oEAAA;EACA,YAAA;EACA,mBAAA;EACA,oBAAA;EACA,mBAAA;EACA,gBAAA;CACA;AACA;EACA,cAAA;EACA,eAAA;EACA,mBAAA;EACA,cAAA;EACA,qBAAA;EACA,iCAAA;EACA,kBAAA;CACA;AACA;EACA,gBAAA;EACA,mBAAA;EACA,OAAA;EACA,SAAA;CACA;AACA;EACA,YAAA;EACA,WAAA;CACA;AACA;EACA,aAAA;EACA,mBAAA;EACA,YAAA;EACA,YAAA;CACA;AACA;IACA,oBAAA;IACA,gBAAA;IACA,YAAA;;CAEA;AACA;EACA,YAAA;EACA,aAAA;EACA,aAAA;EACA,mBAAA;EACA,kBAAA;EACA,kBAAA;EACA,mBAAA;EACA,gBAAA;CACA;AACA;IACA,mBAAA;IACA,SAAA;IACA,WAAA;CACA;AACA;EACA,sBAAA;EACA,YAAA;EACA,eAAA;EACA,0BAAA;EACA,mBAAA;EACA,YAAA;EACA,gBAAA;CACA;AACA;EACA,sBAAA;EACA,YAAA;EACA,eAAA;EACA,0BAAA;EACA,mBAAA;EACA,YAAA;EACA,gBAAA;EACA,aAAA;CACA;AACA;EACA,mBAAA;EACA,SAAA;EACA,UAAA;CACA;AACA;EACA,mBAAA;EACA,UAAA;EACA,WAAA;EACA,aAAA;EACA,YAAA;EACA,qEAAA;EACA,gBAAA;CACA;AACA;EACA,mBAAA;EACA,aAAA;EACA,aAAA;EACA,UAAA;EACA,WAAA;EACA,uBAAA;EACA,aAAA;EACA,cAAA;CACA;AACA;EACA,YAAA;EACA,WAAA;EACA,mBAAA;EACA,gBAAA;CACA;AACA;EACA,mBAAA;EACA,mBAAA;CACA;AACA;EACA,aAAA;EACA,aAAA;EACA,0BAAA;CACA;AACA;EACA,sBAAA;EACA,YAAA;EACA,aAAA;EACA,mBAAA;EACA,kBAAA;EACA,gBAAA;EACA,gBAAA;CACA;AACA;EACA,0BAAA;EACA,YAAA;CACA;AACA;EACA,0BAAA;EACA,YAAA;CACA;AACA;EACA,mBAAA;CACA;AACA;EACA,cAAA;EACA,0BAAA;CACA;AACA;EACA,0BAAA;EACA,aAAA;EACA,gBAAA;EACA,cAAA;CACA;AACA;EACA,aAAA;EACA,cAAA;EACA,kBAAA;EACA,gBAAA;CACA;AACA;EACA,0BAAA;CACA;AACA;EACA,aAAA;EACA,aAAA;EACA,0BAAA;EACA,mBAAA;CACA;AACA;EACA,WAAA;EACA,aAAA;EACA,mBAAA;EACA,0BAAA;EACA,YAAA;CACA;AACA;EACA,aAAA;EACA,gBAAA;EACA,kBAAA;CACA;AACA;EACA,WAAA;EACA,YAAA;EACA,WAAA;CACA;AACA;EACA,mBAAA;EACA,QAAA;EACA,WAAA;EACA,gBAAA;CACA;AACA;EACA,aAAA;EACA,cAAA;EACA,0BAAA;EACA,oBAAA;EACA,mBAAA;EACA,mBAAA;EACA,gBAAA;CACA;AACA;EACA,mBAAA;CACA;AACA;EACA,YAAA;EACA,mBAAA;CACA;AACA;EACA,YAAA;EACA,gBAAA;CACA;AACA;EACA,aAAA;CACA;AACA;EACA,wBAAA;EACA,cAAA;EACA,mBAAA;CACA;AACA;EACA,sBAAA;EACA,YAAA;EACA,gBAAA;EACA,mBAAA;CACA;AACA;EACA,eAAA;EACA,gBAAA;EACA,gBAAA;EACA,gBAAA;CACA;AACA;EACA,aAAA;EACA,2DAAA;EACA,gBAAA;CACA;AACA;EACA,sEAAA;CACA","file":"techPic.vue","sourcesContent":["<template>\n  <top-head></top-head> \n  <top-nav></top-nav> \n  <div class=\"tech_msg\">\n    <div class=\"body_top_pic\"><img src=\"../../static/images/body_top.png\" width=\"100%\"></div>\n    <div class=\"tech_msg_text clearfix\">\n      <div class=\"tech_msg_left\"><img src=\"../../static/images/person_pic.png\" width=\"100%\" height=\"100%\"></div>\n      <div class=\"tech_msg_right\">\n      <div class=\"begin_tech clearfix\">\n        <div class=\"begin_tech_left\">\n          <h2 style=\"font-size:16px\">浙江省网娱大师•雪碧真英雄城市争霸赛</h2>\n           <p class=\"sponsor\">主办方：<span style=\"color:#f9a32a;\">网娱大师</span></p>\n          <div class=\"check_app\">\n            <input type=\"checkbox\" id=\"show_app\">\n            <label for=\"show_app\">在网娱大师App中展示</label>\n          </div>\n        </div>\n        <div class=\"begin_tech_right\">\n          <router-view></router-view>\n        </div>\n      </div>\n      <div class=\"begin_tech_msg\">\n        <ul class=\"begin_msg_list clearfix\">\n          <li class=\"clearfix\">\n            <div class=\"msg_list_left\"><img src=\"../../static/images/msg_a.png\"></div>\n            <div class=\"msg_list_right\">\n              <p class=\"msg_list_name\">竞技项目</p>\n              <p>英雄联盟•全服</p>\n            </div>\n          </li>\n          <li class=\"clearfix\">\n            <div class=\"msg_list_left\"><img src=\"../../static/images/msg_b.png\"></div>\n            <div class=\"msg_list_right\">\n              <p class=\"msg_list_name\">报名时间</p>\n              <p>2016.06.06-2016.07.07</p>\n            </div>\n          </li>\n          <li class=\"clearfix\">\n            <div class=\"msg_list_left\"><img src=\"../../static/images/msg_c.png\"></div>\n            <div class=\"msg_list_right\">\n              <p class=\"msg_list_name\">赛制</p>\n              <p>32人赛事＋单败淘汰制</p>\n            </div>\n          </li>\n        </ul>\n      </div>\n     </div>\n    </div>\n  </div>\n  <div class=\"against_container\">\n    <div class=\"tech_cup\"><img src=\"../../static/images/cup.png\"></div>\n    <p class=\"against_title\">\n     <a class=\"title_unit\"></a>\n      <span class=\"against_title_text\">对阵图</span>\n      <span class=\"against_title_tip\">此对阵图为预览，可拖曳参赛选手来交换位置</span>\n    </p>\n    <div class=\"tech_main_body\">\n        <div class=\"turn_num\">\n          <ul class=\"turn_num_list clearfix\">\n            <li class=\"turn_num_li\" v-for=\"turnnum of turnnums\">\n              <span class=\"turn_turnid\" style=\"display:none\"></span>\n              <div class=\"trunname_ed\">\n                <span class=\"turn_num_text\">{{turnnum.modelname}}</span>\n                <span class=\"turn_input_settime\" style=\"font-size:12px;margin:0 7px;\">{{turnnum.modeltime?turnnum.modeltime.split(' ',1):\" \"}}</span>\n                <span class=\"turn_select_num\" style=\"font-size:12px;color:#f9a32a;\">BO<span class=\"turn_select_number\">{{turnnum.modelbo}}</span></span>\n                <img class=\"turn_num_pic\" @click=\"turnName\" src=\"../../static/images/turn.png\"></div>\n              <div class=\"trunname_ing\">\n              <input class=\"turn_input\" type=\"text\" value={{turnnum.modelname}}>\n              <a class=\"turn_confirm turn_frame\" @click=\"turnConfirm\">确定</a>\n              <a class=\"turn_quit turn_frame\" @click=\"turnQuit\">取消</a>\n            </div>\n            <ul class=\"turn_set_detail\">\n              <li><label for=\"set_begin\" class=\"set_time_begin\">设置时间</label>\n                <input type=\"text\" id=\"set_begin\" class=\"set_begin\" v-model=\"turnnum.modeltime\">\n              </li>\n              <li><span>Best of</span>\n                <select style=\"height:18px;text-indent:0px;\" class=\"select_num\" v-model=\"turnnum.modelbo\">\n                  <option>1</option>\n                  <option>3</option>\n                  <option>5</option>\n                  <option>7</option>\n                </select>\n              </li>\n            </ul>\n            </li>\n          </ul>\n        </div>\n        <div class=\"turn_btn\" @click=\"randomPic\">随机排列对阵选手顺序</div>\n        <div class=\"tech_body\">\n            <div class=\"tech_container\">\n            <div class=\"match_content clearfix\">\n            </div>   \n          </div>\n        </div>\n    </div>\n  </div>\n  <div class=\"tech_down_tip\">\n    <img src=\"../../static/images/body_bt.png\" width=\"100%\">\n    <ul class=\"tech_footer_text clearfix\">\n      <li style=\"float:left\">\n        <h2 class=\"footer_text_title\">\n          <a class=\"title_unit\"></a>\n          <span style=\"font-size:18px;color:#fff;\">赛事规则</span>\n        </h2>\n        <p style=\"margin:20px 0\">比赛模式</p>\n          <p>\n            1. 决赛当天海选BO1（单场淘汰制），冠亚之争采用BO3（三局两胜）</br>\n            2. 所有比赛均为5v5、房间模式、征召模式；</br>\n            8支队伍进行BO1 决出4强    4支队伍进行BO1决出冠亚争夺战 \n                败者组两只队伍BO1争夺季军   胜者队伍冠亚争夺战</br>\n            </p>\n            <p style=\"margin:20px 0\">比赛规则：</p>\n            <p>\n            1.参赛选手须提前到达比赛现场报名抽签，迟到将视为自动弃权；</br> \n            2.参赛选手须在比赛服务器比赛，使用官方比赛服帐号</p>\n      </li>\n      <li style=\"float:right\">\n        <h2 class=\"footer_text_title\">\n          <a class=\"title_unit\"></a>\n          <span style=\"font-size:18px;color:#fff;\">奖金设置</span>\n        </h2>\n        <p style=\"margin:20px 0\">比赛模式</p>\n          <p>\n            1本次联赛奖品如下：</br>\n            冠军4000元现金；亚军2000元现金；季军1000元现金以及其他神秘大奖等你来拿！本次获奖战队可以参加下半年的省级冠军争夺赛，更有机会代表吉林省参加全国范围的争霸赛。</p>\n      </li>\n    </ul>\n  </div> \n  <div class=\"m-mask\">\n    <div class=\"m-pop\"style=\"margin: 50px auto 0;\">\n      <div class=\"wrap\">\n        <h3>编辑比分</h3>\n        <a href=\"javascript:void(0);\" class=\"u-btn-close\" @click=\"closeEdit\"></a>\n        <ul class=\"edit_detail_top clearfix\">\n          <li class=\"edit_detail_left\">\n            <div class=\"edit_ring\">{{personNamea.substr(0,1)}}</div>\n            <p style=\"margin:10px 0;\">{{personNamea}}</p>\n            <div class=\"made_winer\"><span style=\"display:none\">{{seatida}}</span></div>\n          </li>\n          <li class=\"edit_detail_mid\">vs</li>\n          <li class=\"edit_detail_right\">\n            <div class=\"edit_ring\">{{personNameb.substr(0,1)}}</div>\n            <p style=\"margin:10px 0;\">{{personNameb}}</p>\n            <div style=\"margin:0 auto;\" class=\"made_winer\"><span style=\"display:none\">{{seatidb}}</span></div>\n          </li>\n        </ul>\n        <div class=\"turn_edit_line\" style=\"text-align: center;\"><img src=\"../../static/images/turnline.png\"></div>\n        <ul class='edit_detail_bt'>\n          <li style=\"margin-bottom:20px;\" v-for=\"scoreli in scorelis\">\n            <input type=\"text\" style=\"width:120px;\" v-model=\"scoreli.seatleft\">\n            <span class=\"edit_btn_mid\">:</span>\n            <input type=\"text\" style=\"width:120px;\" v-model=\"scoreli.seatright\">\n          </li>\n        </ul>\n        <div class=\"add_edit_list\" @click=\"addScorelist\">＋添加一组</div>\n        <a href=\"javascript:void(0);\" class=\"u-btn add-member\" @click=\"submitScore\">提交比分</a>\n      </div>      \n    </div>\n  </div>\n</template>\n\n<script>\nwindow.allowDrop = function(e){\n  e = window.event || e;\n  e.preventDefault();\n        \n}\nvar srcdiv = null;\nwindow.drag = function(e,divdom){\n          srcdiv=divdom;  \n          e.dataTransfer.setData(\"text/html\",divdom.innerHTML); \n        \n}\nwindow.drop = function(e,divdom){\n       e = window.event || e;\n       e.preventDefault();\n        if(srcdiv != divdom){  \n            srcdiv.innerHTML = divdom.innerHTML;  \n            divdom.innerHTML=e.dataTransfer.getData(\"text/html\");  \n          } \n        \n}\n\nimport topHead from '../components/topHead.vue'\nimport topNav from '../components/topNav.vue'\n  export default {\n    data () {\n    return {\n    matchdata:'',\n    turnnums:[],\n    personnum:\"\",\n    overhalf:\"\",\n    setBegin:\"\",\n    personNamea:'',\n    personNameb:'',\n    scorelis:[],\n    groupid:{},\n    seatida:{},\n    seatidb:{},\n    }\n  },\n     ready: function(){\n      var _this=this;\n      var beginparm={};\n      var _eventid=window.sessionStorage.getItem(\"eventid\");\n      var _roundid=window.sessionStorage.getItem(\"roundid\");\n      beginparm.oetInfoId=_eventid;\n      beginparm.oetRoundId=_roundid;\n      var parmstr=JSON.stringify(beginparm);\n      var _parm={};\n      _parm.jsonInfo=parmstr;\n    _this.$http.get('event/getStatusByTime',_parm).then(function(response){\n      if(response.data.object.roundStatus==4){\n        window.sessionStorage.setItem(\"turnrate\",response.data.object.rate);\n        this.$route.router.go({path: '/techPic/beginingTech'})\n      }\n      },function(response) {\n              console.log(response);\n          });\n\n    var parm={};\n       parm.id=_eventid;\n       _this.$http.get('event/info',parm).then(function(response){\n            console.log(response);\n            _this.personnum=response.data.object.iscountm?true:false;\n            _this.overhalf=response.data.object.iscountj1?true:false;\n             _this.matchdata=response.data.object.groups;\n             console.log(_this.matchdata);\n            console.log(_this.personnum,_this.overhalf);\n             var turn=_this.matchdata[0].turn;\n             var turnid=response.data.object.turns;\n             // console.log(turn);\n            var unitul_h=60;\n            var unitul_w=200;\n            var unitul_step=10;\n            var unitul_all=unitul_h+unitul_step;\n            var _content=$(\".match_content\");\n            var listul;\n            var listuls=listul='<ul class=\"match_list\"></ul>';\n\n            for(var i=0;i<turnid.length;i++){\n              _this.turnnums.push({num:i+1,modeltime:turnid[i].matchTimestr,modelbo:turnid[i].matchType,modelname:turnid[i].name,modelturnid:turnid[i].id});\n            }\n\n            $(\".turn_num_list\").width(290*turn);\n             _this.$nextTick(function () {\n                 $('.set_begin').datetimepicker({\n                          format:\"Y-m-d H:i\", \n                          timepicker:false,     \n                          yearStart:2000,     \n                          yearEnd:2050, \n                          minDate:new Date(),\n                          step:30\n                          });\n                    $.datetimepicker.setLocale('ch');\n              })\n            \n            \n            if(!_this.personnum){\n                if(_this.overhalf){\n                  unitul_step=80;\n                  unitul_all=unitul_h+unitul_step;\n                }\n                //dom生成矩形列表\n                for(var i=0;i<turn-2;i++){\n                   listuls+=listul;\n                }\n                _content.append(listuls);\n                \n                //dom生成矩形unit,并放入矩形列表\n                var unitul='<ul class=\"unit_ul\" style=\"width:200px;\"><li class=\"recta\" style=\"margin-bottom:1px;\"><span class=\"recta_num\"></span></li><li class=\"recta\"><span class=\"recta_num\"></span></li></ul>';\n                var listArry=_content.find($(\".match_list\"));\n\n                listArry[turn-2].innerHTML='<li class=\"out_li\">'+unitul+'</li>';\n                for(var i=1;i<turn-1;i++){\n                  listArry[turn-i-2].innerHTML=listArry[turn-i-1].innerHTML+listArry[turn-i-1].innerHTML;\n                }\n                \n                 //按照索引处理列表层高\n                $.each(listArry,function(i,e){\n                  if(i!=0){\n                    $(this).css('margin-top',unitul_all/2*(Math.pow(2,i)-1));\n                  }\n                })\n\n                 //按照索引处理每列矩形unit间距\n                var margin_bt=[];\n                for(var i=0;i<turn-1;i++){\n                  margin_bt[0]=unitul_step;\n                  margin_bt[i+1]=2*margin_bt[i]+unitul_h;\n                  listArry.eq(i).find(\".out_li\").css(\"margin-bottom\",margin_bt[i]);\n                }\n\n                //生成canvas dom\n                var _height=unitul_all*Math.pow(2,turn-2);\n                var _width=(unitul_w+90)*turn;\n                _content.width(_width);\n                $(\".tech_container\").append('<canvas id=\"mycanvas\" width='+_width+' height='+_height+'></canvas> ');\n\n                //获取turn2的数据\n                 var onelist = []; \n                function getnum(arr){\n                  for(var i=0;i<arr.length;i++){\n                    if(arr[i].turn == 2){\n                      onelist.push(arr[i]);\n                    }else{\n                        for(var key in arr[i]){\n                            if(key=='groups'){\n                              getnum(arr[i][key]);\n                            }\n                          }  \n                      } \n                  }\n                     \n                }\n                getnum(_this.matchdata);\n\n                console.log(onelist);\n                _content.prepend(listul);\n                listArry=_content.find($(\".match_list\"));\n                var _topsY=[];\n                var _topdY=[];\n\n                //生成非幂次方时第一列的矩形unit\n                for(var i=0;i<onelist.length;i++){\n                    var _one_list=listArry.eq(1).find(\".unit_ul\").eq(i).find(\".recta_num\");\n                    var _one_list_li=listArry.eq(1).find(\".unit_ul\").eq(i).find(\".recta\");\n\n                      if(onelist[i].seats[0].seatNumber){\n                        console.log(onelist[i].groups);\n                        if(onelist[i].groups==null){\n                              if(onelist[i].seats[1].seatNumber){\n                                _one_list.eq(0).text(onelist[i].seats[0].seatNumber);\n                                _one_list.eq(1).text(onelist[i].seats[1].seatNumber);\n                                 if(onelist[i].seats[0].target){\n                                    _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>');\n                                  }\n                                  if(onelist[i].seats[1].target){\n                                    _one_list_li.eq(1).append('<span>'+onelist[i].seats[1].target.name+'</span>');\n                                  }\n                            }else{\n                                _one_list.eq(0).text(onelist[i].seats[0].seatNumber);\n                                if(onelist[i].seats[0].target){\n                                  _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>'); \n                                }\n                                  \n                            }\n                          \n                          }else if(onelist[i].groups.length==2){\n                            if(onelist[i].seats[1].seatNumber){\n                              _one_list.eq(0).text(onelist[i].seats[0].seatNumber);\n                              _one_list.eq(1).text(onelist[i].seats[1].seatNumber);\n                              _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>');\n                              _one_list_li.eq(1).append('<span>'+onelist[i].seats[1].target.name+'</span>');\n                          }else{\n                              _one_list.eq(0).text(onelist[i].seats[0].seatNumber);\n                              _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>');\n                              \n                          }\n                          \n                           var _topd=listArry.eq(1).find(\".unit_ul\").eq(i).offset().top;\n                          _topdY.push(_topd);\n                          listArry.eq(0).append('<div class=\"double_line\"><div class=\"out_li\" style=\"margin-bottom:10px;\"><ul class=\"unit_ul\" data-groupid='+onelist[i].groups[0].id+' style=\"width:200px;\"><li ondrop=\"drop(event,this)\" ondragover=\"allowDrop(event)\" draggable=\"true\" ondragstart=\"drag(event, this)\" class=\"recta\" style=\"margin-bottom:1px;\"><input type=\"hidden\" value='+onelist[i].groups[0].seats[0].id+'><span class=\"recta_num\">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class=\"recta_personname\">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:\"\")+'</span><span class=\"recta_right\"></span></li><li ondrop=\"drop(event,this)\" ondragover=\"allowDrop(event)\" draggable=\"true\" ondragstart=\"drag(event, this)\" class=\"recta\"><input type=\"hidden\" value='+onelist[i].groups[0].seats[1].id+'><span class=\"recta_num\">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class=\"recta_personname\">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:\"\")+'</span><span class=\"recta_right\"></span></li></ul><div class=\"edit_div\"><div class=\"edit_score\"></div><ul class=\"float_edit\"><li class=\"float_edit_edit\"><img style=\"margin-top:11px;\" src=\"../../static/images/edit.png\"><p>编辑</p></li><li class=\"float_edit_check\"><img style=\"margin-top:11px;\" src=\"../../static/images/check.png\"><p>查看</p></li><li class=\"float_edit_reset\"><img style=\"margin-top:11px;\" src=\"../../static/images/retech.png\"><p>重赛</p></li></ul></div></div><div class=\"out_li\"><ul data-groupid='+onelist[i].groups[1].id+' class=\"unit_ul\" style=\"width:200px;\"><li ondrop=\"drop(event,this)\" ondragover=\"allowDrop(event)\" draggable=\"true\" ondragstart=\"drag(event, this)\" class=\"recta\" style=\"margin-bottom:1px;\"><input type=\"hidden\" value='+onelist[i].groups[1].seats[0].id+'><span class=\"recta_num\">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class=\"recta_personname\">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:\"\")+'</span><span class=\"recta_right\"></span></li><li ondrop=\"drop(event,this)\" ondragover=\"allowDrop(event)\" draggable=\"true\" ondragstart=\"drag(event, this)\" class=\"recta\"><input type=\"hidden\" value='+onelist[i].groups[1].seats[1].id+'><span class=\"recta_num\">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class=\"recta_personname\">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:\"\")+'</span><span class=\"recta_right\"></span></li></ul><div class=\"edit_div\"><div class=\"edit_score\"></div><ul class=\"float_edit\"><li class=\"float_edit_edit\"><img style=\"margin-top:11px;\" src=\"../../static/images/edit.png\"><p>编辑</p></li><li class=\"float_edit_check\"><img style=\"margin-top:11px;\" src=\"../../static/images/check.png\"><p>查看</p></li><li class=\"float_edit_reset\"><img style=\"margin-top:11px;\" src=\"../../static/images/retech.png\"><p>重赛</p></li></ul></div></div></div>');\n                        }else if(onelist[i].groups.length==1){\n                               if(onelist[i].seats[1].seatNumber){\n                                  _one_list.eq(0).text(onelist[i].seats[0].seatNumber);\n                                  _one_list.eq(1).text(onelist[i].seats[1].seatNumber);\n                                  if(onelist[i].seats[0].target){\n                                    _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>');\n                                  }\n                                  if(onelist[i].seats[1].target){\n                                    _one_list_li.eq(1).append('<span>'+onelist[i].seats[1].target.name+'</span>');\n                                  }\n                                  \n                              }else{\n                                  _one_list.eq(0).text(onelist[i].seats[0].seatNumber);\n                                   if(onelist[i].seats[0].target){\n                                    _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>');\n                                  }\n                                  \n                              }\n                                var _tops=listArry.eq(1).find(\".unit_ul\").eq(i).offset().top;\n                              _topsY.push(_tops);\n                              listArry.eq(0).append('<li class=\"out_li single_line\"><ul class=\"unit_ul\" data-groupid='+onelist[i].groups[0].id+' style=\"width:200px;\"><li ondrop=\"drop(event,this)\" ondragover=\"allowDrop(event)\" draggable=\"true\" ondragstart=\"drag(event, this)\" class=\"recta\" style=\"margin-bottom:1px;\"><input type=\"hidden\" value='+onelist[i].groups[0].seats[0].id+'><span class=\"recta_num\">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class=\"recta_personname\">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:\"\")+'</span><span class=\"recta_right\"></span></li><li ondrop=\"drop(event,this)\" ondragover=\"allowDrop(event)\" draggable=\"true\" ondragstart=\"drag(event, this)\" class=\"recta\"><input type=\"hidden\" value='+onelist[i].groups[0].seats[1].id+'><span class=\"recta_num\">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class=\"recta_personname\">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:\"\")+'</span><span class=\"recta_right\"></span></li></ul><div class=\"edit_div\"><div class=\"edit_score\"></div><ul class=\"float_edit\"><li class=\"float_edit_edit\"><img style=\"margin-top:11px;\" src=\"../../static/images/edit.png\"><p>编辑</p></li><li class=\"float_edit_check\"><img style=\"margin-top:11px;\" src=\"../../static/images/check.png\"><p>查看</p></li><li class=\"float_edit_reset\"><img style=\"margin-top:11px;\" src=\"../../static/images/retech.png\"><p>重赛</p></li></ul></div></li>');\n                            \n                          }\n                            \n                      }else{\n                          var _topd=listArry.eq(1).find(\".unit_ul\").eq(i).offset().top;\n                          _topdY.push(_topd);\n                          listArry.eq(0).append('<div class=\"double_line\"><div class=\"out_li\" style=\"margin-bottom:10px;\"><ul class=\"unit_ul\" data-groupid='+onelist[i].groups[0].id+' style=\"width:200px;\"><li ondrop=\"drop(event,this)\" ondragover=\"allowDrop(event)\" draggable=\"true\" ondragstart=\"drag(event, this)\" class=\"recta\" style=\"margin-bottom:1px;\"><input type=\"hidden\" value='+onelist[i].groups[0].seats[0].id+'><span class=\"recta_num\">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class=\"recta_personname\">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:\"\")+'</span><span class=\"recta_right\"></span></li><li ondrop=\"drop(event,this)\" ondragover=\"allowDrop(event)\" draggable=\"true\" ondragstart=\"drag(event, this)\" class=\"recta\"><input type=\"hidden\" value='+onelist[i].groups[0].seats[1].id+'><span class=\"recta_num\">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class=\"recta_personname\">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:\"\")+'</span><span class=\"recta_right\"></span></li></ul><div class=\"edit_div\"><div class=\"edit_score\"></div><ul class=\"float_edit\"><li class=\"float_edit_edit\"><img style=\"margin-top:11px;\" src=\"../../static/images/edit.png\"><p>编辑</p></li><li class=\"float_edit_check\"><img style=\"margin-top:11px;\" src=\"../../static/images/check.png\"><p>查看</p></li><li class=\"float_edit_reset\"><img style=\"margin-top:11px;\" src=\"../../static/images/retech.png\"><p>重赛</p></li></ul></div></div><div class=\"out_li\"><ul data-groupid='+onelist[i].groups[1].id+' class=\"unit_ul\" style=\"width:200px;\"><li ondrop=\"drop(event,this)\" ondragover=\"allowDrop(event)\" draggable=\"true\" ondragstart=\"drag(event, this)\" class=\"recta\" style=\"margin-bottom:1px;\"><input type=\"hidden\" value='+onelist[i].groups[1].seats[0].id+'><span class=\"recta_num\">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class=\"recta_personname\">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:\"\")+'</span><span class=\"recta_right\"></span></li><li ondrop=\"drop(event,this)\" ondragover=\"allowDrop(event)\" draggable=\"true\" ondragstart=\"drag(event, this)\" class=\"recta\"><input type=\"hidden\" value='+onelist[i].groups[1].seats[1].id+'><span class=\"recta_num\">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class=\"recta_personname\">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:\"\")+'</span><span class=\"recta_right\"></span></li></ul><div class=\"edit_div\"><div class=\"edit_score\"></div><ul class=\"float_edit\"><li class=\"float_edit_edit\"><img style=\"margin-top:11px;\" src=\"../../static/images/edit.png\"><p>编辑</p></li><li class=\"float_edit_check\"><img style=\"margin-top:11px;\" src=\"../../static/images/check.png\"><p>查看</p></li><li class=\"float_edit_reset\"><img style=\"margin-top:11px;\" src=\"../../static/images/retech.png\"><p>重赛</p></li></ul></div></div></div>');\n                    }\n                }\n                // console.log(_topdY);\n\n                //根据轮空的坐标确定第一列坐标\n                var list_first=listArry.eq(0).find(\".single_line\");\n                for(i=0;i<_topsY.length;i++){\n                  list_first.eq(i).offset({'top':_topsY[i]+35});\n                }\n\n                if(_topdY.length!=0){\n                  var list_double=listArry.eq(0).find(\".double_line\");\n                  for(i=0;i<_topdY.length;i++){\n                    list_double.eq(i).offset({'top':_topdY[i]-35});\n                  }\n                }\n\n            \n                 //根据矩形坐标画线\n                var _xy=[];\n                var coordinates=[];\n                for(var i=1;i<turn-1;i++){\n                  var unit_list=listArry.eq(i).find(\".unit_ul\");\n                  var unit_length=unit_list.length;\n                  \n                  _xy.length=0;\n                  for(var j=0;j<unit_length;j++){\n                    coordinates=[unit_list.eq(j).position().left,unit_list.eq(j).position().top];\n                          _xy.push(coordinates);\n           \n                  function drawline(id) {\n                    \n                    var canvas = document.getElementById(id);\n                    if (canvas == null)\n                        return false;\n                    var context = canvas.getContext(\"2d\");\n                    context.strokeStyle = \"rgb(247,162,58)\";\n                    context.moveTo(_xy[j][0]+unitul_w+5,_xy[j][1]+unitul_h/2);\n                    context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h/2);\n                    if(j%2==0){\n                      context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h+margin_bt[i-1]/2);\n                      context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]+unitul_h+margin_bt[i-1]/2);\n                    }else{\n                      context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]-margin_bt[i-1]/2);\n                      context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]-margin_bt[i-1]/2);\n                    }\n\n                    context.stroke(); \n                  }\n                    drawline(\"mycanvas\"); \n                  }  \n                }\n                \n                //根据矩形坐标第一列单unit画线\n                var _xysingle=[];\n                var single_coord=[];\n                var single_arry=listArry.eq(0).find(\".single_line\");\n                for(i=0;i<single_arry.length;i++){\n                  single_coord=[single_arry.eq(i).position().left,single_arry.eq(i).position().top];\n                  _xysingle.push(single_coord);\n\n                  function firstline(id) {\n                    \n                    var canvas = document.getElementById(id);\n                    if (canvas == null)\n                        return false;\n                    var context = canvas.getContext(\"2d\");\n                    context.strokeStyle = \"rgb(247,162,58)\";\n                    context.moveTo(_xysingle[i][0]+unitul_w+5,_xysingle[i][1]+unitul_h/2);\n                    context.lineTo(_xysingle[i][0]+unitul_w+5+40,_xysingle[i][1]+unitul_h/2);\n                    context.lineTo(_xysingle[i][0]+unitul_w+5+40,_xysingle[i][1]-5);\n                    context.lineTo(_xysingle[i][0]+unitul_w+5+40*2, _xysingle[i][1]-5);\n                    context.stroke(); \n                  }\n                    firstline(\"mycanvas\"); \n                }\n\n       //          //根据矩形坐标第一列双unit画线\n                var _xydouble=[];\n                var double_coord=[];\n                var double_arry=listArry.eq(0).find(\".double_line\");\n                for(i=0;i<double_arry.length;i++){\n                  double_coord=[double_arry.eq(i).position().left,double_arry.eq(i).position().top];\n                  _xydouble.push(double_coord);\n\n                  function firstline(id) {\n                    \n                    var canvas = document.getElementById(id);\n                    if (canvas == null)\n                        return false;\n                    var context = canvas.getContext(\"2d\");\n                    context.strokeStyle = \"rgb(247,162,58)\";\n                    context.moveTo(_xydouble[i][0]+unitul_w+5,_xydouble[i][1]+unitul_h/2);\n                    context.lineTo(_xydouble[i][0]+unitul_w+5+40,_xydouble[i][1]+unitul_h/2);\n                    context.lineTo(_xydouble[i][0]+unitul_w+5+40,_xydouble[i][1]+unitul_h/2+unitul_h+10);\n                    context.lineTo(_xydouble[i][0]+unitul_w+5,_xydouble[i][1]+unitul_h/2+unitul_h+10);\n                    context.moveTo(_xydouble[i][0]+unitul_w+5+40,_xydouble[i][1]+unitul_h+5);\n                    context.lineTo(_xydouble[i][0]+unitul_w+5+40*2,_xydouble[i][1]+unitul_h+5);\n                    context.stroke(); \n                  }\n                    firstline(\"mycanvas\"); \n                }\n             }else{\n                for(var i=0;i<turn-1;i++){\n                     listuls+=listul;\n                  }\n                  _content.append(listuls);\n\n                  //dom生成矩形unit,并放入矩形列表\n                  var unitul='<ul class=\"unit_ul\" style=\"width:200px;\"><li class=\"recta\" style=\"margin-bottom:1px;\"></li><li class=\"recta\"></li></ul>';\n                  var listArry=_content.find($(\".match_list\"));\n\n                  listArry[turn-1].innerHTML='<li class=\"out_li\">'+unitul+'</li>';\n                  for(var i=1;i<turn;i++){\n                    listArry[turn-1-i].innerHTML=listArry[turn-i].innerHTML+listArry[turn-i].innerHTML;\n                  }\n\n                    //按照索引处理列表层高\n                $.each(listArry,function(i,e){\n                  if(i!=0){\n                    $(this).css('margin-top',unitul_all/2*(Math.pow(2,i)-1));\n                  }\n                })\n\n                  //生成canvas dom\n                  var _height=unitul_all*Math.pow(2,turn-1);\n                  var _width=(unitul_w+90)*turn;\n                  _content.width(_width);\n                  // $(\".tech_body\").width(_width);\n                  $(\".tech_container\").append('<canvas id=\"mycanvas\" width='+_width+' height='+_height+'></canvas> ');\n\n                 //按照索引处理每列矩形unit间距\n                var margin_bt=[];\n                for(var i=0;i<turn-1;i++){\n                  margin_bt[0]=unitul_step;\n                  margin_bt[i+1]=2*margin_bt[i]+unitul_h;\n                  listArry.eq(i).find(\".out_li\").css(\"margin-bottom\",margin_bt[i]);\n                }\n\n                 //获取turn1的数据\n                 var onelist = []; \n                function getnum(arr){\n                  for(var i=0;i<arr.length;i++){\n                    if(arr[i].turn == 1){\n                      onelist.push(arr[i]);\n                    }else{\n                        for(var key in arr[i]){\n                            if(key=='groups'){\n                              getnum(arr[i][key]);\n                            }\n                          }  \n                      } \n                  }\n                     \n                 }\n                 getnum(_this.matchdata);\n                 console.log(onelist);\n\n                listArry.eq(0).empty();\n                for(var i=0;i<onelist.length;i++){\n                        listArry.eq(0).append('<li style=\"margin-bottom:10px;\" class=\"out_li\"><ul class=\"unit_ul\" style=\"width:200px;\"><li ondrop=\"drop(event,this)\" ondragover=\"allowDrop(event)\" draggable=\"true\" ondragstart=\"drag(event, this)\" class=\"recta\" style=\"margin-bottom:1px;\"><span class=\"recta_num\">'+onelist[i].seats[0].seatNumber+'</span><span class=\"recta_personname\">'+(onelist[i].seats[0].target?onelist[i].seats[0].target.name:\"\")+'</span><span class=\"recta_right\"></span></li><li ondrop=\"drop(event,this)\" ondragover=\"allowDrop(event)\" draggable=\"true\" ondragstart=\"drag(event, this)\" class=\"recta\"><span class=\"recta_num\">'+onelist[i].seats[1].seatNumber+'</span><span class=\"recta_personname\">'+(onelist[i].seats[1].target?onelist[i].seats[1].target.name:\"\")+'</span><span class=\"recta_right\"></span></li></ul><div class=\"edit_div\"><div class=\"edit_score\"></div><ul class=\"float_edit\"><li class=\"float_edit_edit\"><img style=\"margin-top:11px;\" src=\"../../static/images/edit.png\"><p>编辑</p></li><li class=\"float_edit_check\"><img style=\"margin-top:11px;\" src=\"../../static/images/check.png\"><p>查看</p></li><li class=\"float_edit_reset\"><img style=\"margin-top:11px;\" src=\"../../static/images/retech.png\"><p>重赛</p></li></ul></div></li>');  \n                }\n                \n                 //根据矩形坐标画线\n                var _xy=[];\n                var coordinates=[];\n                 for(var i=0;i<turn-1;i++){\n                  var unit_list=listArry.eq(i).find(\".unit_ul\");\n                  var unit_length=unit_list.length;\n                  \n                  _xy.length=0;\n                  for(var j=0;j<unit_length;j++){\n                    coordinates=[unit_list.eq(j).position().left,unit_list.eq(j).position().top];\n                          _xy.push(coordinates);\n\n                  function drawline(id) {\n                    \n                    var canvas = document.getElementById(id);\n                    if (canvas == null)\n                        return false;\n                    var context = canvas.getContext(\"2d\");\n                    context.strokeStyle = \"rgb(247,162,58)\";\n                    context.moveTo(_xy[j][0]+unitul_w+5,_xy[j][1]+unitul_h/2);\n                    context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h/2);\n                    if(j%2==0){\n                      context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h+margin_bt[i]/2);\n                      context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]+unitul_h+margin_bt[i]/2);\n                    }else{\n                      context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]-margin_bt[i]/2);\n                      context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]-margin_bt[i]/2);\n                    }\n\n                    context.stroke(); \n                  }\n                    drawline(\"mycanvas\"); \n                  }  \n                }\n             }\n             //编辑查看悬浮框\n              $(\".edit_score\").mouseover(function(){\n                    $(this).next(\".float_edit\").show();\n                  });\n\n              $(\".edit_div\").mouseleave(function(){\n                    $(this).find(\".float_edit\").hide();\n                });\n              $(\".float_edit_edit\").on(\"click\",function(){\n                  $(\".m-mask\").show();\n                  var $this=$(this);\n                  var _parent=$this.closest(\".out_li\");\n                  var personname_a=_parent.find('.recta_personname').eq(0).text();\n                  var personname_b=_parent.find('.recta_personname').eq(1).text();\n                  _this.seatida=_parent.find('input').eq(0).val();\n                  _this.seatidb=_parent.find('input').eq(1).val();\n                  console.log(_this.seatids);\n                  _this.personNamea=personname_a;\n                  _this.personNameb=personname_b;\n                  _this.groupid.groupId=_parent.find(\".unit_ul\").data(\"groupid\");\n                 \n                   _this.$http.get('event/round/turn/getScores',_this.groupid).then(function(response){\n                      console.log(response);\n                       if(response.data.object.scores.length){\n                        _this.scorelis=response.data.object.scores;\n                      }else{\n                        var _index=$this.closest(\".match_list\").index();\n                        var _lis=$('.turn_num_li').eq(_index).find(\".turn_select_number\").text();\n                        _this.scorelis.length=0;\n                        for(var i=0;i<_lis;i++){\n                          _this.scorelis.push({best:i+1,seatleft:'',seatright:''});\n                        }\n                      }\n                      },function(response) {\n                              console.log(22);\n                          });\n                })\n             \n             $(\".made_winer\").on('click',function(){\n              $(\".made_winer\").removeClass(\"winer_active\");\n              $(this).addClass(\"winer_active\");\n             })\n          },function(response) {\n              console.log(response);\n          });\n     },\n     methods:{\n      turnName: function(e){\n        var _target=$(e.currentTarget);\n        var _parent=_target.closest(\".trunname_ed\");\n         _parent.hide();\n         _parent.next(\".trunname_ing\").show();\n         _parent.siblings(\".turn_set_detail\").show();\n      },\n      turnConfirm: function(e){\n        var _this=this;\n        var turnparm={};\n        var _target=$(e.currentTarget);\n        var _text=_target.siblings(\".turn_input\").val();\n        var _parent=_target.closest(\".turn_num_li\");\n          _parent.find('.trunname_ing').hide();\n          _parent.find(\".trunname_ed\").show();\n          _parent.find(\".turn_num_text\").text(_text);\n          turnparm.id=_parent.find('.turn_turnid').text();\n          turnparm.matchTime=_parent.find('.set_begin').val();\n          turnparm.matchType=_parent.find('.turn_select_number').text();\n          turnparm.name=_parent.find('.turn_num_text').text();\n          var parmstr=JSON.stringify(turnparm);\n          var parm={};\n          parm.turnJson=parmstr;\n          _this.$http.get(\"event/round/turn/saveTurn\",parm).then(function(response){\n            console.log(response);\n            },function(response) {\n              console.log(response);\n          });\n      },\n      turnQuit:function(e){\n        var _target=$(e.currentTarget);\n        _target.parent().hide();\n        _target.parent().siblings(\".trunname_ed\").show();\n      },\n      randomPic:function(){\n        var parm={};\n        parm.eventId=window.sessionStorage.getItem(\"eventid\");\n        this.$http.get(\"event/round/groupSeat/random\",parm).then(function(response){\n            console.log(response);\n            window.location.reload();\n            },function(response) {\n              console.log(response);\n          });\n      },\n      closeEdit:function(){\n        $(\".m-mask\").hide();\n      },\n      addScorelist:function(){\n        var _length=this.scorelis.length;\n        this.scorelis.push({best:_length+1,seatleft:'',seatright:''});\n        console.log(this.scorelis);\n      },\n      submitScore:function(){\n        var _this=this;\n        var scoreparm={};\n        for(var i=0;i<_this.scorelis.length;i++){\n          if(!_this.scorelis[i].seatleft){\n            _this.scorelis.splice(i,1);\n          }\n        }\n        scoreparm.groupid=_this.groupid.groupId;\n        scoreparm.bs=_this.scorelis;\n\n      var parmstr=JSON.stringify(scoreparm);\n      var parm={};\n      parm.scores=parmstr;\n      if($('.made_winer').hasClass('winer_active')){\n        parm.seatId=$(\".winer_active\").find('span').text();\n      }\n\n    _this.$http.get('event/round/turn/saveScoreAndWin',parm).then(function(response){\n      console.log(response);\n        if(response.data.code){\n          $(\".m-mask\").hide();\n        }\n      },function(response) {\n              console.log(22);\n          });\n      },\n     },\n       components: {\n          topNav,\n          topHead\n         \n  }\n  }\n</script>\n<style>\n.tech_body{\n  padding:0 70px;\n}\n.tech_container{\n  position: relative; \n}\n.recta{\n  width: 200px;\n  height: 29.5px;\n  background-color: #53585d;\n  color: #fff;\n  line-height: 30px;\n}\n.match_content{\n  position: absolute;\n  top:0;\n  left:0;\n}\n.match_list{\n  float: left;\n  margin-right: 90px;\n}\n.tech_msg{\n  width: 1200px;\n  margin:20px auto;\n}\n.body_top_pic{\n  width: 100%;\n}\n.tech_msg_text{\n  height: 235px;\n  background: rgba(52,57,63,0.9);\n  padding: 40px 20px 0;\n  margin-top: -14px;\n}\n.tech_msg_left{\n  width: 325px;\n  height: 160px;\n  float: left;\n}\n.tech_msg_right{\n  float: right;\n  width: 815px;\n  color: #fff;\n}\n.begin_tech{\n  padding-bottom: 20px;\n  border-bottom: 1px dashed #53585d;\n}\n.begin_tech_left{\n  float: left;\n}\n.begin_tech_right{\n  float: right;\n}\n.start_btn{\n  width: 200px;\n  height: 40px;\n  position: relative;\n  cursor: pointer;\n  margin-top: 15px;\n}\n.start_text{\n  position: absolute;\n  width: 200px;\n  height: 40px;\n  left: 0;\n  top: 0;\n  text-align: center;\n  line-height: 40px;\n  font-size: 16px;\n}\n.sponsor{\n  font-size: 12px;\n  margin: 20px 0 15px;\n}\n.check_app{\n  font-size: 12px;\n}\n.msg_list_left{\n  float: left;\n  margin-right: 15px;\n}\n.msg_list_right{\n  float: left;\n  font-size: 12px;\n}\n.begin_msg_list{\n  width: 90%;\n  margin: 20px auto 0;\n}\n.begin_msg_list li{\n  float: left;\n  width: 33%;\n}\n.msg_list_name{\n  margin-bottom: 5px;\n}\n.title_unit{\n  display: inline-block;\n  width: 7px;\n  height: 20px;\n  background-color: #f9a32a;\n}\n.against_container{\n  width: 1200px;\n  margin: 20px auto;\n  background: rgba(52,57,63,0.9);\n  padding-top: 30px;\n  position: relative;\n}\n.against_title{\n  color: #fff;\n  height: 25px;\n  line-height: 25px;\n  margin:0 0 30px 20px;\n}\n.against_title_text{\n  font-size: 18px;\n  margin-left: 5px;\n}\n.against_title_tip{\n  font-size: 12px;\n  color: #53585d;\n}\n.turn_btn{\n  width: 220px;\n  height: 35px;\n  line-height: 30px;\n  background:url(../../static/images/luck.png) no-repeat 10px 7px #f9a32a;\n  color: #fff;\n  border-radius: 5px;\n  margin: 0 70px 30px;\n  text-align: center;\n  cursor: pointer;\n}\n.tech_down_tip{\n  width: 1200px;\n  margin: 0 auto;\n  position: relative;\n  height: 350px;\n  padding-bottom: 50px;\n  border-bottom: 1px solid #53585d;\n  margin-top: -27px;\n}\n.tech_footer_text{\n  font-size: 12px;\n  position: absolute;\n  left:0;\n  top:75px;\n}\n.tech_footer_text li{\n  float: left;\n  width: 45%;\n}\n.tech_cup{\n  opacity: 0.3;\n  position: absolute;\n  bottom:50px;\n  left: 467px;\n}\n.turn_num_list{\n    margin: 0 20px 20px;\n    font-size: 16px;\n    color: #fff;\n\n}\n.turn_num_list li{\n  float: left;\n  width: 288px;\n  height: 45px;\n  text-align: center;\n  line-height: 45px;\n  margin-right: 2px;\n  position: relative;\n  cursor: pointer;\n}\n.turn_num_pic{\n    position: absolute;\n    top:11px;\n    right:15px;\n}\n.recta_num{\n  display: inline-block;\n  width: 30px;\n  height: 27.5px;\n  background-color: #838383;\n  text-align: center;\n  color: #000;\n  font-size: 12px;\n}\n.recta_right{\n  display: inline-block;\n  width: 30px;\n  height: 27.5px;\n  background-color: #838383;\n  text-align: center;\n  color: #000;\n  font-size: 12px;\n  float: right;\n}\n.edit_div{\n  position: relative;\n  width: 0;\n  height: 0;\n}\n.edit_score{\n  position: absolute;\n  top:-60px;\n  width:30px;\n  height: 60px;\n  left: 170px;\n  background: url(../../static/images/edit.png) no-repeat 6px 22px #53585d;\n  cursor: pointer;\n}\n.float_edit{\n  position: absolute;\n  width: 180px;\n  height: 60px;\n  top:-60px;\n  left:200px;\n  background-color: #000;\n  opacity: 0.8;\n  display: none;\n}\n.float_edit li{\n  float: left;\n  width: 33%;\n  text-align: center;\n  cursor: pointer;\n}\n.tech_main_body{\n  overflow-x: scroll;\n  overflow-y: hidden;\n}\n.turn_input{\n  width: 140px;\n  height: 25px;\n  background-color: #27292d;\n}\n.turn_frame{\n  display: inline-block;\n  width: 50px;\n  height: 30px;\n  border-radius: 5px;\n  line-height: 30px;\n  cursor: pointer;\n  font-size: 12px;\n}\n.turn_confirm{\n  background-color: #f9a32a;\n  color: #fff;\n}\n.turn_quit{\n  background-color: #dcdcdc;\n  color: #000;\n}\n.trunname_ed{\n  background:#53585d;\n}\n.trunname_ing{\n  display: none;\n  background-color: #81858a;\n}\n.turn_set_detail{\n  background-color: #16181d;\n  height: 60px;\n  font-size: 12px;\n  display: none;\n}\n.turn_set_detail li{\n  height: 20px;\n  margin: 5px 0;\n  line-height: 20px;\n  cursor: pointer;\n}\n.turn_set_detail li:hover{\n  background-color: #7f5b2f;\n}\n.tech_range{\n  width: 200px;\n  height: 25px;\n  background-color: #838383;\n  border-radius: 3px;\n}\n.tech_range_detail{\n  width:40px;\n  height: 25px;\n  border-radius: 3px;\n  background-color: #f9a32a;\n  float: left;\n}\n.tech_range_num{\n  float: right;\n  font-size: 12px;\n  line-height: 25px;\n}\n#set_begin{\n  opacity: 0;\n  height:20px;\n  width:288px\n}\n.set_time_begin{\n  position: absolute;\n  top:2px;\n  left:100px;\n  font-size: 12px;\n}\n.edit_ring{\n  width: 120px;\n  height: 120px;\n  background-color: #181b1f;\n  border-radius: 60px;\n  text-align: center;\n  line-height: 120px;\n  font-size: 20px;\n}\n.edit_detail_top{\n  margin: 10px 100px;\n}\n.edit_detail_top li{\n  float: left;\n  text-align: center;\n}\n.edit_detail_mid{\n  width: 50px;\n  font-size: 20px;\n}\n.edit_detail_left .edit_detail_right{\n  width: 125px;\n}\n.edit_detail_bt{\n  margin: 10px 100px 10px;\n  height: 130px;\n  overflow-y: scroll;\n}\n.edit_btn_mid{\n  display: inline-block;\n  width: 20px;\n  font-size: 18px;\n  text-align: center;\n}\n.add_edit_list{\n  color: #fe3507;\n  font-size: 12px;\n  margin: 0 100px;\n  cursor: pointer;\n}\n.made_winer{\n  height: 30px;\n  background: url(../../static/images/lose.png) no-repeat center;\n  cursor: pointer;\n}\n.winer_active{\n  background: url(../../static/images/winer.png) no-repeat center !important;\n}\n</style>\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
 
 /***/ },
-/* 86 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	       value: true
-	});
-	
-	var _topNav = __webpack_require__(60);
-	
-	var _topNav2 = _interopRequireDefault(_topNav);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = {
-	       data: function data() {
-	              return {
-	                     matchdata: '',
-	                     parm: {},
-	                     personnum: false,
-	                     overhalf: false
-	              };
-	       },
-	
-	       ready: function ready() {
-	              var _this = this;
-	
-	              _this.parm.id = window.sessionStorage.getItem("eventid");
-	              _this.$http.get('event/info', _this.parm).then(function (response) {
-	
-	                     _this.matchdata = response.data.object.groups;
-	                     console.log(_this.matchdata);
-	
-	                     var turn = _this.matchdata[0].turn;
-	                     console.log(turn);
-	                     var unitul_h = 60;
-	                     var unitul_w = 200;
-	                     var unitul_step = 10;
-	                     var unitul_all = unitul_h + unitul_step;
-	                     var _content = $(".match_content");
-	                     var listul;
-	                     var listuls = listul = '<ul class="match_list"></ul>';
-	
-	                     if (!_this.personnum) {
-	                            var i;
-	                            var unitul;
-	                            var listArry;
-	                            var i;
-	                            var margin_bt;
-	                            var i;
-	
-	                            var _height;
-	
-	                            var _width;
-	
-	                            var onelist;
-	
-	                            var _topsY;
-	
-	                            var _topdY;
-	
-	                            (function () {
-	                                   var getnum = function getnum(arr) {
-	                                          for (var i = 0; i < arr.length; i++) {
-	                                                 if (arr[i].turn == 2) {
-	                                                        onelist.push(arr);
-	                                                 } else {
-	                                                        for (var key in arr[i]) {
-	                                                               if (key == 'groups') {
-	                                                                      getnum(arr[i][key]);
-	                                                               }
-	                                                        }
-	                                                 }
-	                                          }
-	                                   };
-	
-	                                   if (_this.overhalf) {
-	                                          unitul_step = 80;
-	                                          unitul_all = unitul_h + unitul_step;
-	                                   }
-	
-	                                   for (i = 0; i < turn - 2; i++) {
-	                                          listuls += listul;
-	                                   }
-	                                   _content.append(listuls);
-	
-	                                   unitul = '<ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;"></li><li class="recta"></li></ul>';
-	                                   listArry = _content.find($(".match_list"));
-	
-	
-	                                   listArry[turn - 2].innerHTML = '<li class="out_li">' + unitul + '</li>';
-	                                   for (i = 1; i < turn - 1; i++) {
-	                                          listArry[turn - i - 2].innerHTML = listArry[turn - i - 1].innerHTML + listArry[turn - i - 1].innerHTML;
-	                                   }
-	
-	                                   $.each(listArry, function (i, e) {
-	                                          if (i != 0) {
-	                                                 $(this).css('margin-top', unitul_all / 2 * (Math.pow(2, i) - 1));
-	                                          }
-	                                   });
-	
-	                                   margin_bt = [];
-	
-	                                   for (i = 0; i < turn - 1; i++) {
-	                                          margin_bt[0] = unitul_step;
-	                                          margin_bt[i + 1] = 2 * margin_bt[i] + unitul_h;
-	                                          listArry.eq(i).find(".out_li").css("margin-bottom", margin_bt[i]);
-	                                   }
-	
-	                                   _height = unitul_all * Math.pow(2, turn - 2);
-	                                   _width = (unitul_w + 90) * turn;
-	
-	                                   _content.width(_width);
-	                                   _content.height(_height);
-	                                   $(".tech_container").append('<canvas id="mycanvas" width=' + _width + ' height=' + _height + '></canvas> ');
-	
-	                                   onelist = [];
-	
-	                                   getnum(_this.matchdata);
-	
-	                                   console.log(onelist);
-	                                   _content.prepend(listul);
-	                                   listArry = _content.find($(".match_list"));
-	                                   _topsY = [];
-	                                   _topdY = [];
-	                            })();
-	                     } else {}
-	              }, function (response) {
-	                     console.log(response);
-	              });
-	       },
-	       components: {
-	              topNav: _topNav2.default
-	
-	       }
-	};
-
-/***/ },
-/* 87 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = "\r\n  <top-nav></top-nav> \r\n  <div class=\"tech_msg\">\r\n    <div class=\"body_top_pic\"><img src=\"" + __webpack_require__(88) + "\" width=\"100%\"></div>\r\n    <div class=\"tech_msg_text clearfix\">\r\n      <div class=\"tech_msg_left\"><img src=\"" + __webpack_require__(89) + "\" width=\"100%\" height=\"100%\"></div>\r\n      <div class=\"tech_msg_right\">\r\n      <div class=\"begin_tech clearfix\">\r\n        <div class=\"begin_tech_left\">\r\n          <h2 style=\"font-size:16px\">浙江省网娱大师•雪碧真英雄城市争霸赛</h2>\r\n           <p class=\"sponsor\">主办方：<span style=\"color:#f9a32a;\">网娱大师</span></p>\r\n          <div class=\"check_app\">\r\n            <input type=\"checkbox\" id=\"show_app\">\r\n            <label for=\"show_app\">在网娱大师App中展示</label>\r\n          </div>\r\n        </div>\r\n        <div class=\"begin_tech_right\">\r\n          <p style=\"font-size:12px;\">当一切都准备就绪后，您就可以:</p>\r\n          <div class=\"start_btn\">\r\n            <img src=\"" + __webpack_require__(90) + "\" width=\"100%\" height=\"100%\">\r\n            <p class=\"start_text\">开始比赛</p>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"begin_tech_msg\">\r\n        <ul class=\"begin_msg_list clearfix\">\r\n          <li class=\"clearfix\">\r\n            <div class=\"msg_list_left\"><img src=\"" + __webpack_require__(91) + "\"></div>\r\n            <div class=\"msg_list_right\">\r\n              <p class=\"msg_list_name\">竞技项目</p>\r\n              <p>英雄联盟•全服</p>\r\n            </div>\r\n          </li>\r\n          <li class=\"clearfix\">\r\n            <div class=\"msg_list_left\"><img src=\"" + __webpack_require__(92) + "\"></div>\r\n            <div class=\"msg_list_right\">\r\n              <p class=\"msg_list_name\">报名时间</p>\r\n              <p>2016.06.06-2016.07.07</p>\r\n            </div>\r\n          </li>\r\n          <li class=\"clearfix\">\r\n            <div class=\"msg_list_left\"><img src=\"" + __webpack_require__(93) + "\"></div>\r\n            <div class=\"msg_list_right\">\r\n              <p class=\"msg_list_name\">赛制</p>\r\n              <p>32人赛事＋单败淘汰制</p>\r\n            </div>\r\n          </li>\r\n        </ul>\r\n      </div>\r\n     </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"against_container\">\r\n    <div class=\"tech_cup\"><img src=\"" + __webpack_require__(94) + "\"></div>\r\n    <p class=\"against_title\">\r\n     <a class=\"title_unit\"></a>\r\n      <span class=\"against_title_text\">对阵图</span>\r\n      <span class=\"against_title_tip\">此对阵图为预览，可拖曳参赛选手来交换位置</span>\r\n    </p>\r\n    <div class=\"turn_num\">\r\n      <ul class=\"turn_num_list clearfix\">\r\n        <li>第一轮<img class=\"turn_num_pic\" src=\"" + __webpack_require__(95) + "\"></li>\r\n        <li>第二轮<img class=\"turn_num_pic\" src=\"" + __webpack_require__(95) + "\"></li>\r\n        <li>半决赛<img class=\"turn_num_pic\" src=\"" + __webpack_require__(95) + "\"></li>\r\n        <li>决赛<img class=\"turn_num_pic\" src=\"" + __webpack_require__(95) + "\"></li>\r\n      </ul>\r\n    </div>\r\n    <div class=\"turn_btn\">随机排列对阵选手顺序</div>\r\n    <div style=\"padding:0 70px\">\r\n      <div class=\"tech_container\">\r\n      <div class=\"match_content clearfix\">\r\n    </div>   \r\n</div>\r\n</div>\r\n  </div>\r\n  <div class=\"tech_down_tip\">\r\n    <img src=\"" + __webpack_require__(96) + "\" width=\"100%\">\r\n    <ul class=\"tech_footer_text clearfix\">\r\n      <li style=\"float:left\">\r\n        <h2 class=\"footer_text_title\">\r\n          <a class=\"title_unit\"></a>\r\n          <span style=\"font-size:18px;color:#fff;\">赛事规则</span>\r\n        </h2>\r\n        <p style=\"margin:20px 0\">比赛模式</p>\r\n          <p>\r\n            1. 决赛当天海选BO1（单场淘汰制），冠亚之争采用BO3（三局两胜）</br>\r\n            2. 所有比赛均为5v5、房间模式、征召模式；</br>\r\n            8支队伍进行BO1 决出4强    4支队伍进行BO1决出冠亚争夺战 \r\n                败者组两只队伍BO1争夺季军   胜者队伍冠亚争夺战</br>\r\n            </p>\r\n            <p style=\"margin:20px 0\">比赛规则：</p>\r\n            <p>\r\n            1.参赛选手须提前到达比赛现场报名抽签，迟到将视为自动弃权；</br> \r\n            2.参赛选手须在比赛服务器比赛，使用官方比赛服帐号</p>\r\n      </li>\r\n      <li style=\"float:right\">\r\n        <h2 class=\"footer_text_title\">\r\n          <a class=\"title_unit\"></a>\r\n          <span style=\"font-size:18px;color:#fff;\">奖金设置</span>\r\n        </h2>\r\n        <p style=\"margin:20px 0\">比赛模式</p>\r\n          <p>\r\n            1本次联赛奖品如下：</br>\r\n            冠军4000元现金；亚军2000元现金；季军1000元现金以及其他神秘大奖等你来拿！本次获奖战队可以参加下半年的省级冠军争夺赛，更有机会代表吉林省参加全国范围的争霸赛。</p>\r\n      </li>\r\n    </ul>\r\n  </div> \r\n";
-
-/***/ },
-/* 88 */
-/***/ function(module, exports) {
-
-	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABLAAAAAJCAYAAAAiq9VhAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA4RpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyNGQ3MGQ1OS0wMGQzLTAwNDYtYjg3MS1iNDJkM2M1MjFhZTgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NkEwNDg5QTgzOTA0MTFFNjg3NDJEQkU5NDk1NDAzMkIiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NkEwNDg5QTczOTA0MTFFNjg3NDJEQkU5NDk1NDAzMkIiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NzFhYjQ3MTYtYTllZi1jMDQzLTkxNTAtYTAxYThlNGFiY2I5IiBzdFJlZjpkb2N1bWVudElEPSJhZG9iZTpkb2NpZDpwaG90b3Nob3A6MDk2Y2Y1M2QtMzVmNi0xMWU2LTk4ODgtYWU0OWEzZjE2N2ZjIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+OGn5tAAAAnRJREFUeNrs3D9oE2EYx/G7pFF7aC6VUtvBQfwzWIu0HRIXp6JSLQ46FcXVTZDilsmtiuDmKkpcdCgtxT+dXLRDDRKbwSoZHKxFbC6Vq5qm5/vUOw1aEx1ey53fDzxc3iUJz71wx++exPQ8z9Dpy+1uOej9EAAAAAAAAGw0c9OZWS1vHNP9zdPZYoLzBwAAAAAAEG06MyBT9wRW7y4zqQ47VdmcSgAAQsdU1aIqceHYjv7B3tTZlBXvpi34W2W3NjuZL9+6fv/djFpWVa0YTOkDABAljqo3+ZJX0XJTSoAFAAAakGntzaq2qbJUbTl3uL3ndLptqCOZ2E170MxCpfr67vTi+M3H7wtq+UmVq2pJ1WdVq3QIAIDICH2AJeNjrar4KSEAAOFj+tdwuZZLiCUPpOThVOv5gY6+k/2pU9u3tuylTfjZh48rc2Mz5Xs3phaeqeWyqop/Y7vkr2UKiwksAACiQ67ty/mSV9VyU/oPAixOIQAAITR9ef/31+lsMQiyZApLQqw2ww+yLg52Zo4etIdTVnwfXUPZrb188NzJXZucf2r8CK4WjW/hlUxfVdXe8vx9RcMAAIiYfElPzkSABQAA1lUfYAUaBFnWyInOzJEee9i24kxk/Ycctzb3sODkrk6sBVcSVP02uKrbTzQOAICICW2ABQAAwkceQK0XYAUaBVmXhroODRxISpC1h05GnwRXjwrOnSsT80+MPwyu6vaR1htdAAAQHQRYAADgF80CrEA6W5Q/eQ+CLAmwJMiyYzHDGjnelSHIii7Hrb2aelHJjY6/leBKfioogZUEVxJgBcHVapP9s3YkwAIAAM18FWAA3TvUEUrTrCkAAAAASUVORK5CYII="
-
-/***/ },
-/* 89 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "person_pic.png?70164bbe3009adf7c59c4d2574f74589";
-
-/***/ },
 /* 90 */
 /***/ function(module, exports) {
 
-	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVIAAAA4CAYAAACvzXBnAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3xpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyNGQ3MGQ1OS0wMGQzLTAwNDYtYjg3MS1iNDJkM2M1MjFhZTgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RDVGMTJDQTkzNkFFMTFFNjk5RjZDNjQzMTUzMDJFOEYiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RDVGMTJDQTgzNkFFMTFFNjk5RjZDNjQzMTUzMDJFOEYiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0QTc0MzMyRjUxMzRFNjExOUYzM0Q2MzU0QkNFMTFEQSIgc3RSZWY6ZG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOjdhMDBiZDA3LTM0MmUtMTFlNi04YjNhLTkyNzAyZGY5ZmY1ZCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Phr/pEkAAByISURBVHja7F09jnVLUswotYkQLhh4gGAF2AiNxmYLaPbACkbsASEh2AIGBgtgBTiYYzwLZ4QEOCS37z1VFRGZ53bzjfAqpX7v674/55yqrKzMyMgs/Pc//Ek85A8eP3/9+Pnzx89vx5EjR44ceSe/fvz88+Pnrx4///bx+M8fPX7+5fHzO2dsjhw5cuRb8ulw/sXj588eP386Hv/55TGiR44cOfJD8mk7fzmucP7IkSNHjvyY/GzEwUSPHDly5DeR3xpnDI4cOXLkN5NjSI8cOXLkGNIjR44cOYb0yJEjR44hPXLkyJFjSI8cOXLkyDGkR44cOXIM6ZEjR44cQ3rkyJEjx5AeOXLkyJFjSI8cOXLkGNIjR44cOYb0yJEjR44hPXLkyJEjx5AeOXLkyDGkR44cOXIM6ZEjR44cQ3rkyJEjR44hPXLkyJFjSI8cOXLkGNIjR44cOYb0yJEjR44cQ3rkyJEj/9/y8e+/+tfXv/D4SXuV/4bm00l/f/c+fm/ae7L5TDb345/xv2dzv9393T3fO2m+I+8e9Tv3+aP38Y37Ks+eN++9me/nx77Sg7v5yTd68+653z0/vtCLd3N9dx9f6da7e/7u3H11L3lzT+/WXH5Dr9+9/p1xii/+Fm/We36hC199xzd0IPP6FTcL8UfWF27mAG/sls3HB56LB6/fsd/x+Ze8LlLn+PUbHiuOP/t6/XptfVNer8MGJfeX+3hCXyvzjvm9+8Ove8/ni5hX5hGX68y7en1XvJkH0QkkjY6Nk420jie9cj2bXCfnfe/76vekff2766zPXUbxNYw0WqBnRKf3j3cCdR2s6cjnXPKcrzu7xmeOCUCjQnO2del1rVjftcdQ1/vWIdBct/NvesN/B48/fI7vPjvHr1+9PKbtegU/K80dPwPN1dQznePrd4TobIr+pn23X58/e80E6nOzroEWB8/MvJc5X0m6zXYj7Jo0Eq3eBrq1x2vsEUJDbdBzPlkR774D0DEq87Qsguo7mrHy+3285+Mzul82LucgYdqk5xpfX5pzUB4X+3wvRpjNez10slFDmA3xWS0mHqKZpvg5H3rYp/JCKl4Duxad60nOh4DY9GwMi6/NqQCq4vM2t6Fa95hYhsd3X7BFG3tlTCO2zEmiWDMU7yTpb1heJehzuAZjjssaB9PD1y9kpPLaQBJ7dq7vAi/u6zrbyF2Gb7oQ6yIgXfLrX0qcdH3ITL0+t251fr+uItCOuFVsW6vrEcn1xmuuYIaEV2e6usLXIc1NefOlC/rnDJhOT+sC//Y1B/pg10Wf19trUfQ8ybm4/v18siQ9pLW1LoEdnuT8I6+b65rVfdDxZ8cBF5qI9A3nusfGW8acL7OdQRsQZLegsZ/PnnsH4u+ZKvB63K3IqgvkNOUo3u9868da/Xh9GXhAr/FcdoCs//z6x1guY6Wb21acz9cHzKNE3cZ5QJbhvIzM4L+hWVhQwzQX2Ji7O7lGMHcTvnsm3dY1diB7wEZxXJvP8/nIsM0Ponjs2BvU8PAGpCjzAu89pzlvr33k9dpgXRy8H2Ffkry7wZGGbzJj3+s2Bq9NVBbN4PmnHelaIPP51WO5PAXTnedm4jqV5jUsIzr253gBz/tmD3lQaDjIGObOFuxFvu8LHI0ASxG3nWJP5/OZxvJh99qiOUkZnsuwQ6Z12a4g52Z932tAl5sysO3mHLNxGabxcnqe76RFCBofVr/1s+YU1xD7nGyvFAnxjrNxM6ehcgcyTCeqp5qk33vD2uPDkx8STa3fb+AFCZJhukL2Yc6PRGDIy1a85uYDGLcuMS9fsFa56z4sFuMBBdkIkMdD79cQ8bX7QjR16g8qgDcXhIMngOwoSZMQ7MnMcDTtO9M8UzO2S6cuhRUn+zIE9Lhr/MAeBiywHg0WY/gM+nhcbyy20mlYTmPfwj+woJWtjoZH25ukYAkUhA3dpOBaNSdljonrny/qaaC3m/3Qu/28yQ8yb92Ne6Z6qMsdsVDY1GkDAxf8Ah3y5fHLjqkRCtmeGvonG/akjWNvRIYPyRqDGYWt6xD4JGwusN3SZYinV7wMBfYDAHzDZG2XUbHv7UAy3hM4yspUsAwFX6nPAMee0px1qC7lfbo9l1FOWStrzY0M8ZNm1D5eg/exw2/C30aSIQHp8jA0LcmoYHmtsDhZMFZMdz3FMIjy0r7w9Dygn59Kuu3qDDNSd8wMwjLp2kG7LXloarFS5m6HELlCNcxR4M2CQumXmu0YOy8YJXNizNi7XYfDzveSVwlGpmBRq3sFTw809/PNsUPqvZKn+/LgKdx9GqzP8G6Imd1ehm5uNCrXJUHhRNJc9+HTDtlSotjkTf0Zxk79IPRymAGTsf983cOnoe8jdxHssWfs73hce0jSkRHz3FEIsurM1ESkRmIUoS0cFVu3xE+6dALFXd8Rw94Q8mlVae9Z40UrT4wtprcVbBf2OLEdyBltzPdy7oKjTjGR5OlDYZ8V2fHwAOFgiKGZFRoCaJ+k+TG8PNd6g+C4Sc9d8yJTNy6Y5IIZl0fKLi0IkwTjB+khD6qLHKjYNWjXTPOseEcl7Nh3dNDu794OK4XsXiME/CxI2uUKwP1uckWKsy0ZFH0SbIhLIYeg5+FFymMnMZ1dz/QJHUaHsvHvCMDnAhRepz2XQx9BHldzZdEX2ccsq2Vu59Omhd+fG+kuWQf1NtzH470+NCrRe9AQY4WMFtKz+4MmgaOaZwEre2m20bpCgozoNCbLZJHLidTJHtemxMkQ+D1EE9Gob1odhqXPELgDtmWucHsNP9RBNM8S7lk348tGXR1J/w7ItdEmkIY4YsuRyps5K7g8Yep7r6bneSnDxxOkdsURH5NsvYQvloUbDoaz0tDWSx6rw9CgnRqgHHaziB333Z5OqocN6H6yQJprp2WAOum5UY3UK6Fk8EY2AQxDETLLKeH38sJGwwuRkHCGpfDs17YpllzgMYeB+nzPT6yM9viveSTqdbBWooSr2Akuvj9W3BGUIORkjUIVrG2M704ckcOatATV9I6nc7WHCFdWtvGMzRNsn1neD713B9oKFBXKcYGmL4EN2LK/LuwJd2RGSIIIUT2ymVDG3jk2K0IRS5lM0Nyl3tGGEMgdSca/iUWDrPBAlrxFmlm364J1Rm3VWp+pXKOyASDdc5OoJ9xzdqjTPOWPAQLifcdLdpE5AQFZuDtkgWBe6ViFZJ4pE7kyaPteYJnWFeYwUE9JBd5JWC1GcSGgO8q4wsxLecH0HsYc5n1lxafCoByk/W2B1pDQmrFdweTIQ9rJFaKRGQ7KWC2H8AHVScmSE0Q4eKHRxpUZjRcRz+zlWpQrCWUYVZCHFdtggbJysMQXY8yySUgwvsO3YZuG4ut7MW0P/GXQF9aL7dUVNslSzUEbLLvhY+v+zAzjgm+m0SDHo9AQn5cYL+jHduE0+KMj7MCx09ywASjBJYmgS/de333h06TTG/vLtYEjJQu4GSGXAk4zuJGRbY5fScNcNmPwsws7IQUCyeVJD83KeiJWMGTLVA2CHOaGlX79IIgtZ672BYfwHF7/yMsJBEdYlw6+PFLeLMkwzR0uKXO9Jm3QTTRUm61SCgyjsvAkTofjpcOyc+43XcnImfiQwMQMr7wOWxPhmKHaJPbE58IcNDZhDmGiUpgGtjOcnInkzH7qTr5pWNCN3DyzQZln8Q7mAriUIEFZ/RHkKU6CRK4FPMiDZ2R8Z2whBp0XxuQNg2AYJCSqWYyB694H00pGNNQ64yivDZqzxuQZDoTx5sTKD8uiU3z9HNCRl2c1NrVoRjzPhXdt2qCkxU5KKVdUqYTbY9QsPG1y07MrzBKhQAjrYOQ2QgtDHnuMMTZOiS7DNxTiYkbIvI8NNVz3TJ7ZSOKLlwRz5VPPqHNcG/M0TAMUSV4Uq883uH3KyZoZyr5Ym65DEnRrw3jNAxvjHYsVogEcr0sGQj/v4wOjYiaDPRnOsJOSIYeQcNfOT0kkqBuzKQSZhd4DAurXpM+JYdxvzEQEZfsAg+GyeLETIM5EITxvA55CmZlhBqZlHMwlU+7b4lYOGI9Okx6SGTSWwfNZxqiFDTMDPZN7Aq0Y4dmxqZVxHYa1XoZiVFgCMHdwxE5a5ah4rSysWizhYxBM6E6ChVa2PZss5RqEgFA1tQhjbYSSkUfxbPe47DA300I+TkI03xPNZulc1GBe9sgKH8wN6KIpDY6lRlAYOr1xdTrcGYOR48P0U/iaricC47FxIr1d62coSZ35qk7gZt686QdiFFhohtOLtb2chK1j2/PODaGNVB600eJKumBSJCe4kVciEwozYJCDlSVB8ByvTX+yoQSyQdYLM9+Y9o6vxMb1csiEvKuTA6HYaJB/FAa079bZJBmCsnAjupqNrgojMBrGNbE10VQ70ODfVCJEW7NllK1iiBYNabtAqyJIeIYdtOl0K1TOJ+O2cAB4CD7cJg0Y3ysEqxtuF+yeoRnZDeCj1ytebEKwz9tOEhA3mufeyIpCevedoyFPp1QneOaLsu7x9HKjYPF3iSvG+ug7k8dB6wk3qEWh0jBe32Di+uiqGFZYmPPasn6yWQcTLzKSNELD+JvSh82HHsLyMBeXXh/G1r+pC0ZI7uS1dsYq5NkOmdM9ITalFmW8bM4HVnUCPJVAoHUaVzFLEikzjJrARngvYgXXYaBwlxMO2b+S8ZRsCJVwQmYa3o/4sokAZ4Yz7heFbumbU4lB4DqP0xBwf2OBqabortawuX80GS8tqoN6t6AqrELzZ55oEOWJfXxLNEz8M8M8km6j3AvZc2L+3LkwSDRpAF9M09th/HhcYbjrrX5TirbmDVmxm3o1ngnNBCdjmBN3L5zlyqhINo6p94lSI8rrgUt10N6nYL5sH8DrzNZsbschmRKUhGf4+sUXDRYIO3WEAiOkii6iK3Pf2bV9m2kWrE8cbcDR1o6Uw6JAHDuMTzMpr7Xy8alwg4nbtshea39o1hijlGk0lEKy/BD8sCUYi3GU3N+awnl9XJNY6uvda0jaTeEKC60k88U2djVQWKiLrPf9vE/JGDf9CKJW98CoQsJKSIX4UIzlvLexMFDOfoE8OiYr8PTBKVcLGJ84EoS6xhnZZMqOK/zgMcYyatMLWDX2PDfkEHLSCYUWxUnKscpQwaV/UHL7THStiNNwu2R8P5sKTFQu8dSNTMZnc/uDks1WzHomdJRMcvF4PaER1TZN3H6kVhCkRARRvHJcY7ax2yw4LIISS7QZc6IPkrThRKgyADgpo44uSrJ2iA7sDXRzSynpGqwn/n3XnVq51boGIE5YUkI9ZtLpZt98QlsjuZDweW8fA8PKBJuIPqmKhMv3rHQq1UErNc/FmNnmv/hwi1dHfLnYmf0YxhBMKw9mYB93zEvPLptHzc9BWKIOKnFeEYIKr5p245micXg6aqHjcF0DmWUwR+Xv8n2urKwFALyPLd/Cyu5GLUIp/GEF8JvCLFzBoJNnY9fu84JCGCIQZtQEW+cqE4tch5UWUmKRDS9unNCVEkDdpJkSNwbfK2yhw8Jw5dk6IpNrPhU543FJQ5TAPFPzBReDZFAwjBBvHB37zssora5TX4f24eAk4qLZwVsDWOkw0dOWTqJEK+BCG0TR+cLuZqgXXhgUq+8AmkRbaO6RrlcT0s/Q3mlvZbE6BISuK5DV0xvnD7krJhJ9UD0QTRafMmvG3x7NPaB8l3P+dkUDGi4rd5cBQRxasLDDtdF0Q/JgrMBrNwF7etBptKBtW1LIwg5mcHVKWFIE0uyh9IZ5ekTRAAeI+05vt5V8qIEH0KMopajAst6t7nVGHGlVKA09zVkZO3Bj1E/tOLrK3ZQKqLjZBAv/3+ZUE1OqA2lVN7uarlYOhjyDdYyK2wZJNVtRxsqSpVGTNjlgiT/ON4To3QAbS2rRA3WiO8pYj8Y5mNWkC2z+hlN9vXbzWgvCYIi+0CgXId9ve1I70iJbKgnV/A+kbHktZHHjdhehTQbei2SWc3VNRYLoHPBsp6F8NxC2bC9o3sNJltduevd9St4SpVmUudw8PS6BFb59RR0rMhzaCjB7w+uLM3mseSFkNY8XmvukfyhPN5VNsFM0ZZN12IHr+decjd0VbIVo6T2WGgz6ciELQs2hfGqySOGlppHLeg7K2mYI1ghrVIAMa3M4WaBW6uyI7qrSy0rHK1ZwZ9q1EioEl0bTKci7JMAz51mhN9yst9VKcekLM0mabZ+SNmsMvOvPnPubNZhGfQyhT3ZJ6S7N2WHEvkbS7Ia5/c9IJjcs5eybhCZVc3qkYxjuR4ZQuq6kYlYjCpgEOEXBk5pZqhqYuiKlqEKQZKUctRXTAva5WmFnXytJwGJbUpikip/9GmqsRZlcdGH5jBeSaRoUR3OXKF7cecciqOYTTpFMuzbCMr1DF2Mx6sGkw7K5ruWf3vDDJzqFW+q9N7laxMtYvUopYL0P0mNyzrAO210ENCUDlbUEGWyMqepqESg3/scE2V2MwIYhJEkm3seIKGlZjnEzLZxq2BYXzY6aRqyWlUk8n9IYB11ClSGAFKWa1+D+suINyOBJouWC4KwsjStIQtthKUTADBVPvI3ijQZj15uIWzYHgTHSCP4YgoNMSp5UNWEYhrm9qY/dYkxR9sWX5BreAvJR9m5wNsNaFIMJrVR0B+o9yhmvsRfjBlEgFSELvAaiNOkkrIVLxnJ2cMmxm0oY8x7FIFD/RtSsbrKhdoudXHE0tDwVGzxI3pBAHZGSNwVXdGgppfM0RfOv5MaIRV1JjgbYWAvNbUQpo/J2XvTsnCB8/mtQMw1RyN1dKCUhlxXUKoCvBeirImM3eJFORQVv3brLWdewIg9ML3Vs9kIOj3GoqUXaptDWa6c02Kg0ME32rYYrIHDrWisKNQ+NmtDEwrBdP9Wor4w+zfdq6kEGZd//EKDJS2uTiyPEHqAU4qwIKrTvqYCqXFpb9Nxoj1ayqkkP9TpqL15sCDI0TyNsG29z/x9/8/vdHnN/UkGWzeymK3+DZBnHk2t8cUtzSKkBTin6uiUwqfHzhZxNd/ewVn619WxoUMbF7nrPojQrm1qjjhYHavo1RhPIvBuru9MdsqG9+rv92XVscHPt/vu+Pm1CxyrZmIf3ppRccDPfcXM1rQwrpRgNUbs+jZ6DoKBFNnqjz1LWi3k6X53SU3v0c08Be35r5pOWRr0/HcbnrafQhaxZ1znryuS19zdrphtffKHXaBDe1iak0Xu5HB0UXQVK4/OEcwzujxgiHmlNlJYBv6gBAmY3WMugzLXOnJLhPYGjPNakVBNleINrrltW40XViO3xokf7CxuRqiQ6Dht7W0Kw9ky5tefjcj/cUvN3SZ/gwXI0x06BjKi0Kiba3G2EtelFKqRRfq9mbLxdPs7LxFsj0XVP4oqZVf6rXQHc3zB2Qcl67nZpjsRahZj2HEnrRVrHVTMMTHCjJtjec6kwSTadrNBwJakHpRRGn3jtxrfOSW52KKhfQtmyUstem/dAqtql5EFWbobSJdC4JmvMsubgO1YpvFNWk9nzY36GZaVXG0trfD7K2mr0+fIuP6Q7ECz3la8khOJ5DeYXnU9L1BQ6msKBeK+HTasqWEY6w4B9N7FcGTUMz8LV9YYxHON7MhVolYqikHcR3uGqSUjBFFYSJlbu13lb1KU+S1kCJ2sIC8u+IgZNw5fSwUY6Zg1JCjAflpnnsNo/tM8yxEsoRH1oqa+S70doFyalF4wZvmX0BQpwqu8giCqb9oqpvFspP0ztoJ4hjkTRi9LiMIWrq2NC/GOCMFCOK8niHZceqt3pbNxcw0xycikONx6gBKNAYFFbJkqf0dJFTF20nYhG0zVNTmbSykp6FqSDn5vJ0HQz1podWF4jN8dvN2dpEqURUZs2QphLrxJR4TgT38u74NyUInK3mlIjAiVxeb5N2uFl3UGDGjGDuuho5UhQldA+fsHTvGI2RxSyt0wrrDNR3vAvhPeomF6tjvCgpGkiWjuY2aLRPojiGXuFImNVHNYUojDuuUL0gGjLrtAYOyPQF+zGKtzA4wSCkJrj/6Db56rQiab/aTruCSHOerMdOUnAj3douE2IG36gQw6wRjnZnkinPFHOCaQe1VE7UbVnfIQTPw1Za86pos8M07e6nHbQzoR2fg5pwG5OT9uKkgoiStl1m9HVIwJSjwoSNtGoPD5tGD/kkEGfW+nBQQZ67pEfqxEECMuYDRRKT0byZNL6NAovL3dVjPa4k8TV2tkBTR5lUis5Pdit45yKpwlIpjzvdmozbruXqZNyr28YqYT14MYY7CUQHtdUSTj25iFwSoxGfFpkW86YTNeZnju443naWWwKGUjDkbDTOB2VhfexhNBVxMCvCp3ani8oCUhd1nYXntydgQA65O5ms5sZZ0hnIG3puD4zx4eI+omK2/LGn4YSwtnCiOIBIb3Om5okI+w01L3pZNYIZI57mlPPNDJOfjoLoCvS8HOP+BRYHthyRA7zexPiZepJJMr/DjrzCtyiEdxpP4mIv6sZ5ZQIik6lbwf1lV2FAZPeBsI8mdhv9LJtkwnUoRaa9WCpzSrAf/7dH/5P3B7Rvk/ARDSl7R0NAdDWZPe5iObvd4dU4+uzz/8PZ5BXTlzcpH66tNOPXi8aHmF882z6fAOh4A0EfncYt+7W3/mcHAn8LouU37mHuyG0g5JuhTbjkrl4fz34ccC3uGS2KY2vph986mY0MIb8HlFbSb7JfnEFYZOu6xy4r+cnKrUvcfN+y6xnygbQ6Vg0/Ns7DxpyfInmZiLvda/0C4+mvSx1vnqfNvq+ieHWEJ+h/U+P//9etlnKm2Mu8I4aW73ucmYdblBV4E2nbq8cqsTw/MIshmWBe6ZB9cfaQ6Pxtbm6q+7psul2Kq5VkvVnF1TkVn/L6MZTu627sfcnzgj79nquevYwFKVjsh6qFx1rAs08xVueBtpT86SRYhu6ZtzYbFTdu1Hdds+bPXqjpAit8bmfZ09QUNfAK6MvFW5Yq+/XBYfkN1tOdqdDNE2NtAF6REWdo/Q97eYYxsDlA+j22W0NymJHMrCxqye/e5WfrYPsmTR5d0mNjX76TDb94vHvfxzX3SYqcOuKDwlxU859XyF6atc9300hVFQ/dC1LYT78BMhyfMB2xbUuXB2VQYuMz1yHt2AL2wVSn5U1fGgfjb0RGW83bzgcFk1vOECwp7Szauhernsb1JCCcVG45af7c1rw7gmbdkxJFPoNVnYzjd2g54pzVhnhNSsZaHYk1RvIKZduJJG7D66cQeXfk7txyAIYuDig0SzH3YCORjbLoFMbd5Mlg3ejiVpO29EG0Y1LxC56WSaIctbm7A7eBokrzadtTggoBEZBcwgkxMghe6ZA0muQv0ZLUdIybyxbUvQn+RDL7LkJ6c8e5ZQdp645IlKS2GnNdTak9jmiv8B//f0ff77088ef//bx5999KKQnaHvuX3Hn9uJZBOI0kJ+O1eiPVzaeYlZvrSVKum2aGEeXv1nHOTTPIKWL1tygHlAqxxq7UcsmtAdVgKRHSA2BV+x4eJs5OjrXSnc7CKH/rEYLesRFimKKn3vDg45mfLJ0UjTeaj11pYy98/T9ei1flvWUrxOhSRzGFjlNmlEwyaqHajC4dPo2OrKzuFYZJhcHuYefmj3n+UxqWB6lhJvJ9lT1JCwPHbzS+DyJwpVZozJuQ0oJLMYYyzxKMjQ18dOshTWf5DzMBBy348tmfS/ObpoXWiCWjl7Nx74Y3v4CYH96/O8vH2/4p/8VYAAj7xHWsUw6nAAAAABJRU5ErkJggg=="
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo5MDZFQUY5RjNDRkIxMUU2QjI5QUVENzFCOENCRDg5OSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo5MDZFQUZBMDNDRkIxMUU2QjI5QUVENzFCOENCRDg5OSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjkwNkVBRjlEM0NGQjExRTZCMjlBRUQ3MUI4Q0JEODk5IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjkwNkVBRjlFM0NGQjExRTZCMjlBRUQ3MUI4Q0JEODk5Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+5vsL9AAAAwNJREFUeNqklG1Ik1EUx/fMba60TG2OiKJESU1p1qcUon3QKCgCLUhS/KQEgVAJvkB9qcAPmi/EQoMS7AWF0AqRQtMsKaPMRI3y3TlTWW469/K451n/U2cwLCHwwo/z3HvP/Z/z3HO4Qkq8YkPj7ZDvQmqCYPLPlRuTUwSBm11fxGz/goqjvOT5EugD9Yg6vU5GaTCnQbQkeYNhQ1Uq9d3XA6uWI0nqdgV+We37ezglSSqCFehKCHzvAV2+dYbXu9oDPyU5bxM97mm3yzkry7IY6ONyOgwkJoqeeOxZAgWwZsU+nZHxbauruWqEr5YE9SANnD9q0Oa0NNZWIsDixOhwDdbClpds0Tgz5xeymMfflxZkXiZ/kANRW3XZpVJ8J4NQusNVsEgFgpCm7FpeT0db40j/pzeDqcaTEZtDtjwRBCGK7m9ooLctPyvlgSxJTkxdQP3oXnn14/sVH1hDpDvS4CMEaJhwEAZsL3rtRSGhW7NIbPTbQHduRvJtiM1i+gMs8znytwMzBaEMRcbfRhRJ2/zKfMYvZrdZJ67kn6iF2ASmk+An/5mWAgM3Z+xb24cyWGn/6Dio0++spAVUz4VrqJqfM48+fD4ct2//ISsn4AOezs9uA6yT539aIqA1ItAuhbAuKgCKIeGOyrFnnBz7Wshrz2AS+YyS6oQOOezX8Av9a8itzfV12D9+9lhMguT1Tq3Zp5YZg5VgF1DQWL+gZq0S+sre1FBdhb1TIAFEmSqK0het833rNTYCvoOfQFWObOmcaUSEYLfb6RgfGZw23SrunTWPzyEeFWEKCCAG7M3OK04ypmcmh0dG6ZSCMjhStyMR9+Dt7mg5V1KQ0UqCejgeAHouisiVmwEWbg81oF7cDbaDTfwwKDv7PaanTXV3Kq5fbMD8e9Au3e8HIogrtQCoz+hhoAxXOIjEbbHM0LqDWic2ziDfKMlt5XM2ylAVEFHm/hJZZO1QcrYafqkiOPMlvhoHLXo56v8MCuhhFBx4hbMn61Nt8IF1s6jMKH4JMABRKSO2xcHulwAAAABJRU5ErkJggg=="
 
 /***/ },
 /* 91 */
 /***/ function(module, exports) {
 
-	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpCNDU3MTYzMjM2QjQxMUU2QTc5MzhGQTg4OENCMTNDRSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpCNDU3MTYzMzM2QjQxMUU2QTc5MzhGQTg4OENCMTNDRSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkI0NTcxNjMwMzZCNDExRTZBNzkzOEZBODg4Q0IxM0NFIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkI0NTcxNjMxMzZCNDExRTZBNzkzOEZBODg4Q0IxM0NFIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/C8/5AAAAmlJREFUeNrEl01IVFEUx2cGPza1bCGpFO4EbSEtUxTcZSYoLUwL1CIxRCnBhcs2tigiDWljGUFIKLps5QStEtTSEmZEUlFwLTWDX/8T/weXw71v3rzx48CPN+/cc9//3fPO/ZhoaqI8oqwAPAGr4HPEbUPgKegCnxwxUfAIHIE3ZkPMEtwMnoFJ0OsjLHEXwS0fUREbAaPgWibhb2CXHV/4iEd9XsoTfcj7XyCRSXgd1AcUDyL6G9SBvUzCYoshxW2itWBHB8Z8HmITf2y0/+M1bfhGVXqtov/f0FLV2qQovoBL4ABcoGg1uAeGOQMkbsEQrXOJiuUFSJ838ndg2RhpnHgmxTPH7NzxEw064lOxWOSczCWcDxrBR6Z3n6vPiWH7xg3gFbhymiPOU3NQBHvOItWm8GvQfVbf2BNucYh+5TRa4X055+6NXIVlOsk2mATFhj/NFWic917bJq/3wRi30NBV3aJExR5Q9CYXhg2SoG+cMTlNp9vKF2d6RWAGlBltZfQ1MCaeyze+rnwfeH3p2HO9DWOWsdUBdA7BGvjJevkhwkUqaAmUqpFqk7YSxtr28xWKLBO5/6tHnApZJLZsSFFeDfqNt5WvEvxhpbssyZgK5d/Oprh0ulp57eO6qk18/fx9V7V9z0Z4WvlqQDuLp1GNPEnfDBeSGtV3+iQWkE4w4VhA2sBbUGj02WLRpYKOOG2kzjzUv+eJooMVXMLfc2wrVH36gorqE8gw/xmEsedgIOxBYJA7VLY2wr6hTyAHPL4261O/wxJc53vYN+vdyeYv4EObQBW4bBTQPJjif6t02LX6WIABANMvrmLyzMtpAAAAAElFTkSuQmCC"
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoyRkQ4OEI2RjNDMzYxMUU2QjI5QUVENzFCOENCRDg5OSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoyRkQ4OEI3MDNDMzYxMUU2QjI5QUVENzFCOENCRDg5OSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjJGRDg4QjZEM0MzNjExRTZCMjlBRUQ3MUI4Q0JEODk5IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjJGRDg4QjZFM0MzNjExRTZCMjlBRUQ3MUI4Q0JEODk5Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+T1mOhwAAAN9JREFUeNpi+P//PwMZmA2IlwLxOyB2B4kxkGnQxP8I8A2I3RjBphEPWIGYF4i5gPgAECtDxZ8xkWjIMiA+DMS/gNgRiO9C5TYQ6xUWIF6N5J0rQCwGxLJA3ALETOQYgmyYIEwdIa+xAPFyIA7BIncKiD/BeQRcsuo/djAfiJmR1VPFEFwGMZNqCDaD8BmyAJch6AaRbQiyQSBFK3EYspCQIcgGdVFiCMwgUH57isWQRcQaAjPInFJDYCnbHym1PgbiNiBOBOK/pBQLIG+tBdI3gHg9EJ8FJXYGMgBAgAEAIUkXHFVIHwUAAAAASUVORK5CYII="
 
 /***/ },
 /* 92 */
 /***/ function(module, exports) {
 
-	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAgCAYAAADjaQM7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpCNDU3MTYyRTM2QjQxMUU2QTc5MzhGQTg4OENCMTNDRSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpCNDU3MTYyRjM2QjQxMUU2QTc5MzhGQTg4OENCMTNDRSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkYxNzAyOEZGMzY5NzExRTZBNzkzOEZBODg4Q0IxM0NFIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkYxNzAyOTAwMzY5NzExRTZBNzkzOEZBODg4Q0IxM0NFIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+cWbbggAAAktJREFUeNq8l12IjFEYx2feHVsj0UqUJJFiRdiUVYQUF7ZwgbjgygXJ0t6IvdrWFWbiwg2hRcnHlnxNSdJSvtaNWy7Wx+7mxse2kbbd31P/V9PrnZlz3tnx1K/TOZ3n/M+c9znPeSb9u6sx5Wi74GrM+G645rJAkHK3PrgB/er3q9/nuoCPWA9sh171e9XvKeOzD5YkEfO1GZDTZjbaQMbRcb4clsIKjVl7Ad7CffgQ8ZkAQzAdbsHsdJkAScM2aIOVDht6DiehGybCU1gOrfDRxkv9sjlwEdZ6HNsquA2P4Cc0QTucCSfEia2Hm9CQ8FttUFuAznLRaEJ3qxAqtjWwrpTYPB1DdpyiMat7ODcqZm0XTBnn8J8KlxRsf8UsFTXX6L6thp2hmKkeTdXWjoVidocaayy2yHRMrCX1f6wlqOG3ilpzoLzn88wshlnwzFNsgYlN83C4DO/gszK6jzUEns/MsvDOYC/hk4dvxoS+ezhshldwQkKb4Kuj77eM3iGfo2wSlm0OKJoLDtnnfaCdJrH90AEv9O79qjD/tYk9rCKcj8NheAw7YKTM3EKgIxisQvAU7IU7akdj5gzYjzKxP8WvaQKz6DwPW+AKHIqZc9Z0wrDP+9R/MVYH1/X4ZmMSQb64LBiGPaof6hIK1sMDtaGNaN3h6Ev9BA5Wmf/qI/02rRtbg5yDIyU+so+Nap18pfI7p4s6kFBoUP4511r/HixUWA85iti805bd5f9v2Dr8ZZoEW1V+W5qaCZPhB3yBN7qr3ZU2NibAAJMJcQI6oOE3AAAAAElFTkSuQmCC"
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAUCAYAAABroNZJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo4QzA0RTNEQzNDM0QxMUU2QjI5QUVENzFCOENCRDg5OSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo4QzA0RTNERDNDM0QxMUU2QjI5QUVENzFCOENCRDg5OSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjhDMDRFM0RBM0MzRDExRTZCMjlBRUQ3MUI4Q0JEODk5IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjhDMDRFM0RCM0MzRDExRTZCMjlBRUQ3MUI4Q0JEODk5Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+xaQZ8QAAAkZJREFUeNqMVE1v00AQnV3bceqmKSJtSQ6kCAkJ9dJKiHIEIQ5IwH/hwocQ4m9wRIUbHGkF4sQP4EDpBYkKo1K1aeKmaRNoHNu7vElslAbHZSRr1zPvPc/MzlosLi5RYlNGo9iOZnewnaTx9hu4CnBHiUNW7c+GJPVIkP7YiUofThFgcxjHeEHq8YBPNKFIPpEi3M/J43Ui3cvW0AHjDBF4muRT5rOIDYENS/juOevbK2TVyJKQpD3GmaLngoePUp5FVE503/nKuYN9Uwi1lyWCeJ1xwN9mHvNZpFs0amuaRKURXFxGnT8zRUjVvODCFeDnwVtlPov08rJTRzlvfFV4iPVrlgh68aOrpu4D95p5cPlyy1+KsOlMm7WXikQ11LlLWSJKm1UcxOVpc2+FecyXydk7suXm5a/ngc7f5SMYJxJo+xbjHHngMm/QbBjUQiytOWvzRU4cv+2XPsYQX2Uc42MeGeVyuR9EOewIC8b+F5zApq8mr0JrYqihB2fM3Wcla4vL2OZSDqOy/ptJnI3CwqPsFo36ewh5I0frsR/b74yLe0knRIbKOsSze9bcfoCB4mEiXvmd/RxPykgViYU4xTYazQLN2N2M39txnDJFkkPglDFQRv+2kDDjUoPU2UkamxhupdjpLSy0wsqKIvP6QMSYP4rmrnXUzKfz9kYDDT01EzvSFq6BvHHi7uIdg7bG8f8px0HRM6k/AaISx0f9Zhq4aq/fxDI7MnTc0NTfhLi3/O9Q4inEaY+K+DxkfGmHCX8EGABtCP83IDsnmgAAAABJRU5ErkJggg=="
 
 /***/ },
 /* 93 */
 /***/ function(module, exports) {
 
-	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpGMTcwMjhGRDM2OTcxMUU2QTc5MzhGQTg4OENCMTNDRSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpGMTcwMjhGRTM2OTcxMUU2QTc5MzhGQTg4OENCMTNDRSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkYxNzAyOEZCMzY5NzExRTZBNzkzOEZBODg4Q0IxM0NFIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkYxNzAyOEZDMzY5NzExRTZBNzkzOEZBODg4Q0IxM0NFIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+e2PJogAAAgBJREFUeNrs1ksoRFEYB/BLGpJIeUQk8oiUNxsLiVJkoSwsbEQpWbAhslIeK0opCyUWForERhIWRCEbkqLIwkJeC/L2//SfOm73mrkzxkhO/bqPOfd8c875zj3X52EiTbNQfCALCigf6mFds1j8LNYPhm3dPV/NhWL1oScYgCo419woVgPfQSvMwONPBv624snAhTAFh3AAIxDhanJZKfPgD2cQDymQC3nwqvZY1lUz9EAjRLoZWHoYBUmQAW+QDcn6HstaDFGu+6AYdnQNlvAYwGMuz3fhQqnXppzLUN9DIDzr53gIMiEHNvknWgx6skj2+RrgdcEXvS9j0D040ve4SzmfZkNGyddu0viByf1EGIMXaOKQfwocwkqx0CAJAOMGDfVbmGdpbwnCoA5WjbK6kJmocT7k3y24kVwpDBoONVxahutYhqqT2SiBh/mWcqWkwgpEcwqPmTvC9rHbmOxORbAM1xDKezbOu79JsAcm5SPzoNekXhyc2odahuPKnupKCVDOZagqHfR0jnU2vsiFW3WOS6GbwyPZV837k8oDFU4McTmPK+RwPz7hENbx+gYGocPie93pd7898BrEcJGLSy4njxU/g/32zs02cxz8Litm3xO705YTdUa99SFQKz1O54si6AcD2yTwLCR449MnwRtj/Sc/9v4D/47A7wIMAELYXWFrH1LlAAAAAElFTkSuQmCC"
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAUCAYAAABroNZJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo4QzA0RTNEODNDM0QxMUU2QjI5QUVENzFCOENCRDg5OSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo4QzA0RTNEOTNDM0QxMUU2QjI5QUVENzFCOENCRDg5OSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjhDMDRFM0Q2M0MzRDExRTZCMjlBRUQ3MUI4Q0JEODk5IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjhDMDRFM0Q3M0MzRDExRTZCMjlBRUQ3MUI4Q0JEODk5Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+TIoMlgAAAnZJREFUeNqElE1oE0EUgGdnN3+mFk39IWjai8ESwR6EehXxYLTeBA9evOmlIGiLlIIIevKo0h6EoPGgTVHBxvaohypRPASpLVa6RjFJk81/k+xPdtf36kbSZbN5sMzM+/n2vZk3w0jREGnL22SxPzziSzOEeEkX0QlpLCaL/nMjvmpbx1wYJWz06vBNjmXCmqa7XQ56kvQQSdESlDIi+C9dnl27T0HncTvoVKXZKqQKUlLTiWwHALuCfuVGS3BydBrjEeKqierXzYrMT8X4qKho+R5ZCOiXBf8tSU2Cyo0QLVUQF48c8JyHeRGcNu0gsqrl0C940HP2F8RhPELE+U9CHPbEf2ssMNpUtN/2mejZG+HDJ6CUobmEsIDxCJFX/tRzmbIcO3bIOwllrdlBinXl5/GA93q6JM1hHHLp/HhIhcnWi0T+KZzM4ECfI2gH6Xdzgx4nOxz7nH+CcRhPDVvj448qD+SZgM819q8drMW/x3lmNV2fWf5e5TEOddsQoLVgKN95lYrwgvgG+6cbBOwLt1+mIuhvxBHaYUdqdvL5xr1nH3ITcEol09GWUA/2u7DMwNds2/5DgKrBgK3Mv/4iLMktXdhxtLBGPUw30M/YS2LOpF1WBf/0+H1mIl9TsJkIjrg2Mqi0y7CEGCDc1NryejUJd6O43eow4hr1hp3YQgxRMGVoKBYXMHJGqYqVM9P5FKBcfPCNmb0SDO12sw+hb051bOy7mqSOX4usr5iz4SzArr1eLs5SZmiHEoBwNeIwPYqt3qucXfDt61LmgGEnvTIhlx6tnoZhv6npsATLZwJfNrM44evDCiwgEt4XbJvOgL8CDABh5zZrGQGMTgAAAABJRU5ErkJggg=="
 
 /***/ },
 /* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__.p + "cup.png?7c621dfff6055eb0c5f3be47573bfe7c";
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _stringify = __webpack_require__(21);
+	
+	var _stringify2 = _interopRequireDefault(_stringify);
+	
+	var _topHead = __webpack_require__(5);
+	
+	var _topHead2 = _interopRequireDefault(_topHead);
+	
+	var _topNav = __webpack_require__(59);
+	
+	var _topNav2 = _interopRequireDefault(_topNav);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	window.allowDrop = function (e) {
+	  e = window.event || e;
+	  e.preventDefault();
+	};
+	var srcdiv = null;
+	window.drag = function (e, divdom) {
+	  srcdiv = divdom;
+	  e.dataTransfer.setData("text/html", divdom.innerHTML);
+	};
+	window.drop = function (e, divdom) {
+	  e = window.event || e;
+	  e.preventDefault();
+	  if (srcdiv != divdom) {
+	    srcdiv.innerHTML = divdom.innerHTML;
+	    divdom.innerHTML = e.dataTransfer.getData("text/html");
+	  }
+	};
+	
+	exports.default = {
+	  data: function data() {
+	    return {
+	      matchdata: '',
+	      turnnums: [],
+	      personnum: "",
+	      overhalf: "",
+	      setBegin: "",
+	      personNamea: '',
+	      personNameb: '',
+	      scorelis: [],
+	      groupid: {},
+	      seatida: {},
+	      seatidb: {}
+	    };
+	  },
+	
+	  ready: function ready() {
+	    var _this = this;
+	    var beginparm = {};
+	    var _eventid = window.sessionStorage.getItem("eventid");
+	    var _roundid = window.sessionStorage.getItem("roundid");
+	    beginparm.oetInfoId = _eventid;
+	    beginparm.oetRoundId = _roundid;
+	    var parmstr = (0, _stringify2.default)(beginparm);
+	    var _parm = {};
+	    _parm.jsonInfo = parmstr;
+	    _this.$http.get('event/getStatusByTime', _parm).then(function (response) {
+	      if (response.data.object.roundStatus == 4) {
+	        window.sessionStorage.setItem("turnrate", response.data.object.rate);
+	        this.$route.router.go({ path: '/techPic/beginingTech' });
+	      }
+	    }, function (response) {
+	      console.log(response);
+	    });
+	
+	    var parm = {};
+	    parm.id = _eventid;
+	    _this.$http.get('event/info', parm).then(function (response) {
+	      console.log(response);
+	      _this.personnum = response.data.object.iscountm ? true : false;
+	      _this.overhalf = response.data.object.iscountj1 ? true : false;
+	      _this.matchdata = response.data.object.groups;
+	      console.log(_this.matchdata);
+	      console.log(_this.personnum, _this.overhalf);
+	      var turn = _this.matchdata[0].turn;
+	      var turnid = response.data.object.turns;
+	
+	      var unitul_h = 60;
+	      var unitul_w = 200;
+	      var unitul_step = 10;
+	      var unitul_all = unitul_h + unitul_step;
+	      var _content = $(".match_content");
+	      var listul;
+	      var listuls = listul = '<ul class="match_list"></ul>';
+	
+	      for (var i = 0; i < turnid.length; i++) {
+	        _this.turnnums.push({ num: i + 1, modeltime: turnid[i].matchTimestr, modelbo: turnid[i].matchType, modelname: turnid[i].name, modelturnid: turnid[i].id });
+	      }
+	
+	      $(".turn_num_list").width(290 * turn);
+	      _this.$nextTick(function () {
+	        $('.set_begin').datetimepicker({
+	          format: "Y-m-d H:i",
+	          timepicker: false,
+	          yearStart: 2000,
+	          yearEnd: 2050,
+	          minDate: new Date(),
+	          step: 30
+	        });
+	        $.datetimepicker.setLocale('ch');
+	      });
+	
+	      if (!_this.personnum) {
+	        var i;
+	        var unitul;
+	        var listArry;
+	        var i;
+	        var margin_bt;
+	        var i;
+	
+	        var _height;
+	
+	        var _width;
+	
+	        var onelist;
+	
+	        var _topsY;
+	
+	        var _topdY;
+	
+	        var i;
+	
+	        var _one_list;
+	
+	        var _one_list_li;
+	
+	        var _topd;
+	
+	        var _tops;
+	
+	        var _topd;
+	
+	        var list_first;
+	        var list_double;
+	
+	        var _xy;
+	
+	        var coordinates;
+	        var i;
+	        var unit_list;
+	        var unit_length;
+	        var j;
+	
+	        var _xysingle;
+	
+	        var single_coord;
+	        var single_arry;
+	
+	        var _xydouble;
+	
+	        var double_coord;
+	        var double_arry;
+	
+	        (function () {
+	          var getnum = function getnum(arr) {
+	            for (var i = 0; i < arr.length; i++) {
+	              if (arr[i].turn == 2) {
+	                onelist.push(arr[i]);
+	              } else {
+	                for (var key in arr[i]) {
+	                  if (key == 'groups') {
+	                    getnum(arr[i][key]);
+	                  }
+	                }
+	              }
+	            }
+	          };
+	
+	          if (_this.overhalf) {
+	            unitul_step = 80;
+	            unitul_all = unitul_h + unitul_step;
+	          }
+	
+	          for (i = 0; i < turn - 2; i++) {
+	            listuls += listul;
+	          }
+	          _content.append(listuls);
+	
+	          unitul = '<ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;"><span class="recta_num"></span></li><li class="recta"><span class="recta_num"></span></li></ul>';
+	          listArry = _content.find($(".match_list"));
+	
+	
+	          listArry[turn - 2].innerHTML = '<li class="out_li">' + unitul + '</li>';
+	          for (i = 1; i < turn - 1; i++) {
+	            listArry[turn - i - 2].innerHTML = listArry[turn - i - 1].innerHTML + listArry[turn - i - 1].innerHTML;
+	          }
+	
+	          $.each(listArry, function (i, e) {
+	            if (i != 0) {
+	              $(this).css('margin-top', unitul_all / 2 * (Math.pow(2, i) - 1));
+	            }
+	          });
+	
+	          margin_bt = [];
+	
+	          for (i = 0; i < turn - 1; i++) {
+	            margin_bt[0] = unitul_step;
+	            margin_bt[i + 1] = 2 * margin_bt[i] + unitul_h;
+	            listArry.eq(i).find(".out_li").css("margin-bottom", margin_bt[i]);
+	          }
+	
+	          _height = unitul_all * Math.pow(2, turn - 2);
+	          _width = (unitul_w + 90) * turn;
+	
+	          _content.width(_width);
+	          $(".tech_container").append('<canvas id="mycanvas" width=' + _width + ' height=' + _height + '></canvas> ');
+	
+	          onelist = [];
+	
+	          getnum(_this.matchdata);
+	
+	          console.log(onelist);
+	          _content.prepend(listul);
+	          listArry = _content.find($(".match_list"));
+	          _topsY = [];
+	          _topdY = [];
+	
+	          for (i = 0; i < onelist.length; i++) {
+	            _one_list = listArry.eq(1).find(".unit_ul").eq(i).find(".recta_num");
+	            _one_list_li = listArry.eq(1).find(".unit_ul").eq(i).find(".recta");
+	
+	
+	            if (onelist[i].seats[0].seatNumber) {
+	              console.log(onelist[i].groups);
+	              if (onelist[i].groups == null) {
+	                if (onelist[i].seats[1].seatNumber) {
+	                  _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
+	                  _one_list.eq(1).text(onelist[i].seats[1].seatNumber);
+	                  if (onelist[i].seats[0].target) {
+	                    _one_list_li.eq(0).append('<span>' + onelist[i].seats[0].target.name + '</span>');
+	                  }
+	                  if (onelist[i].seats[1].target) {
+	                    _one_list_li.eq(1).append('<span>' + onelist[i].seats[1].target.name + '</span>');
+	                  }
+	                } else {
+	                  _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
+	                  if (onelist[i].seats[0].target) {
+	                    _one_list_li.eq(0).append('<span>' + onelist[i].seats[0].target.name + '</span>');
+	                  }
+	                }
+	              } else if (onelist[i].groups.length == 2) {
+	                if (onelist[i].seats[1].seatNumber) {
+	                  _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
+	                  _one_list.eq(1).text(onelist[i].seats[1].seatNumber);
+	                  _one_list_li.eq(0).append('<span>' + onelist[i].seats[0].target.name + '</span>');
+	                  _one_list_li.eq(1).append('<span>' + onelist[i].seats[1].target.name + '</span>');
+	                } else {
+	                  _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
+	                  _one_list_li.eq(0).append('<span>' + onelist[i].seats[0].target.name + '</span>');
+	                }
+	
+	                _topd = listArry.eq(1).find(".unit_ul").eq(i).offset().top;
+	
+	                _topdY.push(_topd);
+	                listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><ul class="unit_ul" data-groupid=' + onelist[i].groups[0].id + ' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value=' + onelist[i].groups[0].seats[0].id + '><span class="recta_num">' + onelist[i].groups[0].seats[0].seatNumber + '</span><span class="recta_personname">' + (onelist[i].groups[0].seats[0].target ? onelist[i].groups[0].seats[0].target.name : "") + '</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value=' + onelist[i].groups[0].seats[1].id + '><span class="recta_num">' + onelist[i].groups[0].seats[1].seatNumber + '</span><span class="recta_personname">' + (onelist[i].groups[0].seats[1].target ? onelist[i].groups[0].seats[1].target.name : "") + '</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><ul data-groupid=' + onelist[i].groups[1].id + ' class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value=' + onelist[i].groups[1].seats[0].id + '><span class="recta_num">' + onelist[i].groups[1].seats[0].seatNumber + '</span><span class="recta_personname">' + (onelist[i].groups[1].seats[0].target ? onelist[i].groups[1].seats[0].target.name : "") + '</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value=' + onelist[i].groups[1].seats[1].id + '><span class="recta_num">' + onelist[i].groups[1].seats[1].seatNumber + '</span><span class="recta_personname">' + (onelist[i].groups[1].seats[1].target ? onelist[i].groups[1].seats[1].target.name : "") + '</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
+	              } else if (onelist[i].groups.length == 1) {
+	                if (onelist[i].seats[1].seatNumber) {
+	                  _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
+	                  _one_list.eq(1).text(onelist[i].seats[1].seatNumber);
+	                  if (onelist[i].seats[0].target) {
+	                    _one_list_li.eq(0).append('<span>' + onelist[i].seats[0].target.name + '</span>');
+	                  }
+	                  if (onelist[i].seats[1].target) {
+	                    _one_list_li.eq(1).append('<span>' + onelist[i].seats[1].target.name + '</span>');
+	                  }
+	                } else {
+	                  _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
+	                  if (onelist[i].seats[0].target) {
+	                    _one_list_li.eq(0).append('<span>' + onelist[i].seats[0].target.name + '</span>');
+	                  }
+	                }
+	                _tops = listArry.eq(1).find(".unit_ul").eq(i).offset().top;
+	
+	                _topsY.push(_tops);
+	                listArry.eq(0).append('<li class="out_li single_line"><ul class="unit_ul" data-groupid=' + onelist[i].groups[0].id + ' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value=' + onelist[i].groups[0].seats[0].id + '><span class="recta_num">' + onelist[i].groups[0].seats[0].seatNumber + '</span><span class="recta_personname">' + (onelist[i].groups[0].seats[0].target ? onelist[i].groups[0].seats[0].target.name : "") + '</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value=' + onelist[i].groups[0].seats[1].id + '><span class="recta_num">' + onelist[i].groups[0].seats[1].seatNumber + '</span><span class="recta_personname">' + (onelist[i].groups[0].seats[1].target ? onelist[i].groups[0].seats[1].target.name : "") + '</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');
+	              }
+	            } else {
+	              _topd = listArry.eq(1).find(".unit_ul").eq(i).offset().top;
+	
+	              _topdY.push(_topd);
+	              listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><ul class="unit_ul" data-groupid=' + onelist[i].groups[0].id + ' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value=' + onelist[i].groups[0].seats[0].id + '><span class="recta_num">' + onelist[i].groups[0].seats[0].seatNumber + '</span><span class="recta_personname">' + (onelist[i].groups[0].seats[0].target ? onelist[i].groups[0].seats[0].target.name : "") + '</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value=' + onelist[i].groups[0].seats[1].id + '><span class="recta_num">' + onelist[i].groups[0].seats[1].seatNumber + '</span><span class="recta_personname">' + (onelist[i].groups[0].seats[1].target ? onelist[i].groups[0].seats[1].target.name : "") + '</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><ul data-groupid=' + onelist[i].groups[1].id + ' class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value=' + onelist[i].groups[1].seats[0].id + '><span class="recta_num">' + onelist[i].groups[1].seats[0].seatNumber + '</span><span class="recta_personname">' + (onelist[i].groups[1].seats[0].target ? onelist[i].groups[1].seats[0].target.name : "") + '</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value=' + onelist[i].groups[1].seats[1].id + '><span class="recta_num">' + onelist[i].groups[1].seats[1].seatNumber + '</span><span class="recta_personname">' + (onelist[i].groups[1].seats[1].target ? onelist[i].groups[1].seats[1].target.name : "") + '</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
+	            }
+	          }
+	          list_first = listArry.eq(0).find(".single_line");
+	
+	          for (i = 0; i < _topsY.length; i++) {
+	            list_first.eq(i).offset({ 'top': _topsY[i] + 35 });
+	          }
+	
+	          if (_topdY.length != 0) {
+	            list_double = listArry.eq(0).find(".double_line");
+	
+	            for (i = 0; i < _topdY.length; i++) {
+	              list_double.eq(i).offset({ 'top': _topdY[i] - 35 });
+	            }
+	          }
+	
+	          _xy = [];
+	          coordinates = [];
+	
+	          for (i = 1; i < turn - 1; i++) {
+	            unit_list = listArry.eq(i).find(".unit_ul");
+	            unit_length = unit_list.length;
+	
+	
+	            _xy.length = 0;
+	
+	            var _loop = function _loop() {
+	              coordinates = [unit_list.eq(j).position().left, unit_list.eq(j).position().top];
+	              _xy.push(coordinates);
+	
+	              function drawline(id) {
+	
+	                var canvas = document.getElementById(id);
+	                if (canvas == null) return false;
+	                var context = canvas.getContext("2d");
+	                context.strokeStyle = "rgb(247,162,58)";
+	                context.moveTo(_xy[j][0] + unitul_w + 5, _xy[j][1] + unitul_h / 2);
+	                context.lineTo(_xy[j][0] + unitul_w + 5 + 40, _xy[j][1] + unitul_h / 2);
+	                if (j % 2 == 0) {
+	                  context.lineTo(_xy[j][0] + unitul_w + 5 + 40, _xy[j][1] + unitul_h + margin_bt[i - 1] / 2);
+	                  context.lineTo(_xy[j][0] + unitul_w + 5 + 40 * 2, _xy[j][1] + unitul_h + margin_bt[i - 1] / 2);
+	                } else {
+	                  context.lineTo(_xy[j][0] + unitul_w + 5 + 40, _xy[j][1] - margin_bt[i - 1] / 2);
+	                  context.lineTo(_xy[j][0] + unitul_w + 5 + 40 * 2, _xy[j][1] - margin_bt[i - 1] / 2);
+	                }
+	
+	                context.stroke();
+	              }
+	              drawline("mycanvas");
+	            };
+	
+	            for (j = 0; j < unit_length; j++) {
+	              _loop();
+	            }
+	          }
+	
+	          _xysingle = [];
+	          single_coord = [];
+	          single_arry = listArry.eq(0).find(".single_line");
+	
+	          var _loop2 = function _loop2() {
+	            single_coord = [single_arry.eq(i).position().left, single_arry.eq(i).position().top];
+	            _xysingle.push(single_coord);
+	
+	            function firstline(id) {
+	
+	              var canvas = document.getElementById(id);
+	              if (canvas == null) return false;
+	              var context = canvas.getContext("2d");
+	              context.strokeStyle = "rgb(247,162,58)";
+	              context.moveTo(_xysingle[i][0] + unitul_w + 5, _xysingle[i][1] + unitul_h / 2);
+	              context.lineTo(_xysingle[i][0] + unitul_w + 5 + 40, _xysingle[i][1] + unitul_h / 2);
+	              context.lineTo(_xysingle[i][0] + unitul_w + 5 + 40, _xysingle[i][1] - 5);
+	              context.lineTo(_xysingle[i][0] + unitul_w + 5 + 40 * 2, _xysingle[i][1] - 5);
+	              context.stroke();
+	            }
+	            firstline("mycanvas");
+	          };
+	
+	          for (i = 0; i < single_arry.length; i++) {
+	            _loop2();
+	          }
+	
+	          _xydouble = [];
+	          double_coord = [];
+	          double_arry = listArry.eq(0).find(".double_line");
+	
+	          var _loop3 = function _loop3() {
+	            double_coord = [double_arry.eq(i).position().left, double_arry.eq(i).position().top];
+	            _xydouble.push(double_coord);
+	
+	            function firstline(id) {
+	
+	              var canvas = document.getElementById(id);
+	              if (canvas == null) return false;
+	              var context = canvas.getContext("2d");
+	              context.strokeStyle = "rgb(247,162,58)";
+	              context.moveTo(_xydouble[i][0] + unitul_w + 5, _xydouble[i][1] + unitul_h / 2);
+	              context.lineTo(_xydouble[i][0] + unitul_w + 5 + 40, _xydouble[i][1] + unitul_h / 2);
+	              context.lineTo(_xydouble[i][0] + unitul_w + 5 + 40, _xydouble[i][1] + unitul_h / 2 + unitul_h + 10);
+	              context.lineTo(_xydouble[i][0] + unitul_w + 5, _xydouble[i][1] + unitul_h / 2 + unitul_h + 10);
+	              context.moveTo(_xydouble[i][0] + unitul_w + 5 + 40, _xydouble[i][1] + unitul_h + 5);
+	              context.lineTo(_xydouble[i][0] + unitul_w + 5 + 40 * 2, _xydouble[i][1] + unitul_h + 5);
+	              context.stroke();
+	            }
+	            firstline("mycanvas");
+	          };
+	
+	          for (i = 0; i < double_arry.length; i++) {
+	            _loop3();
+	          }
+	        })();
+	      } else {
+	        var i;
+	        var unitul;
+	        var listArry;
+	        var i;
+	
+	        var _height;
+	
+	        var _width;
+	
+	        var margin_bt;
+	        var i;
+	        var onelist;
+	        var i;
+	
+	        var _xy;
+	
+	        var coordinates;
+	        var i;
+	        var unit_list;
+	        var unit_length;
+	        var j;
+	
+	        (function () {
+	          var getnum = function getnum(arr) {
+	            for (var i = 0; i < arr.length; i++) {
+	              if (arr[i].turn == 1) {
+	                onelist.push(arr[i]);
+	              } else {
+	                for (var key in arr[i]) {
+	                  if (key == 'groups') {
+	                    getnum(arr[i][key]);
+	                  }
+	                }
+	              }
+	            }
+	          };
+	
+	          for (i = 0; i < turn - 1; i++) {
+	            listuls += listul;
+	          }
+	          _content.append(listuls);
+	
+	          unitul = '<ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;"></li><li class="recta"></li></ul>';
+	          listArry = _content.find($(".match_list"));
+	
+	
+	          listArry[turn - 1].innerHTML = '<li class="out_li">' + unitul + '</li>';
+	          for (i = 1; i < turn; i++) {
+	            listArry[turn - 1 - i].innerHTML = listArry[turn - i].innerHTML + listArry[turn - i].innerHTML;
+	          }
+	
+	          $.each(listArry, function (i, e) {
+	            if (i != 0) {
+	              $(this).css('margin-top', unitul_all / 2 * (Math.pow(2, i) - 1));
+	            }
+	          });
+	
+	          _height = unitul_all * Math.pow(2, turn - 1);
+	          _width = (unitul_w + 90) * turn;
+	
+	          _content.width(_width);
+	
+	          $(".tech_container").append('<canvas id="mycanvas" width=' + _width + ' height=' + _height + '></canvas> ');
+	
+	          margin_bt = [];
+	
+	          for (i = 0; i < turn - 1; i++) {
+	            margin_bt[0] = unitul_step;
+	            margin_bt[i + 1] = 2 * margin_bt[i] + unitul_h;
+	            listArry.eq(i).find(".out_li").css("margin-bottom", margin_bt[i]);
+	          }
+	
+	          onelist = [];
+	
+	          getnum(_this.matchdata);
+	          console.log(onelist);
+	
+	          listArry.eq(0).empty();
+	          for (i = 0; i < onelist.length; i++) {
+	            listArry.eq(0).append('<li style="margin-bottom:10px;" class="out_li"><ul class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><span class="recta_num">' + onelist[i].seats[0].seatNumber + '</span><span class="recta_personname">' + (onelist[i].seats[0].target ? onelist[i].seats[0].target.name : "") + '</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><span class="recta_num">' + onelist[i].seats[1].seatNumber + '</span><span class="recta_personname">' + (onelist[i].seats[1].target ? onelist[i].seats[1].target.name : "") + '</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');
+	          }
+	
+	          _xy = [];
+	          coordinates = [];
+	
+	          for (i = 0; i < turn - 1; i++) {
+	            unit_list = listArry.eq(i).find(".unit_ul");
+	            unit_length = unit_list.length;
+	
+	
+	            _xy.length = 0;
+	
+	            var _loop4 = function _loop4() {
+	              coordinates = [unit_list.eq(j).position().left, unit_list.eq(j).position().top];
+	              _xy.push(coordinates);
+	
+	              function drawline(id) {
+	
+	                var canvas = document.getElementById(id);
+	                if (canvas == null) return false;
+	                var context = canvas.getContext("2d");
+	                context.strokeStyle = "rgb(247,162,58)";
+	                context.moveTo(_xy[j][0] + unitul_w + 5, _xy[j][1] + unitul_h / 2);
+	                context.lineTo(_xy[j][0] + unitul_w + 5 + 40, _xy[j][1] + unitul_h / 2);
+	                if (j % 2 == 0) {
+	                  context.lineTo(_xy[j][0] + unitul_w + 5 + 40, _xy[j][1] + unitul_h + margin_bt[i] / 2);
+	                  context.lineTo(_xy[j][0] + unitul_w + 5 + 40 * 2, _xy[j][1] + unitul_h + margin_bt[i] / 2);
+	                } else {
+	                  context.lineTo(_xy[j][0] + unitul_w + 5 + 40, _xy[j][1] - margin_bt[i] / 2);
+	                  context.lineTo(_xy[j][0] + unitul_w + 5 + 40 * 2, _xy[j][1] - margin_bt[i] / 2);
+	                }
+	
+	                context.stroke();
+	              }
+	              drawline("mycanvas");
+	            };
+	
+	            for (j = 0; j < unit_length; j++) {
+	              _loop4();
+	            }
+	          }
+	        })();
+	      }
+	
+	      $(".edit_score").mouseover(function () {
+	        $(this).next(".float_edit").show();
+	      });
+	
+	      $(".edit_div").mouseleave(function () {
+	        $(this).find(".float_edit").hide();
+	      });
+	      $(".float_edit_edit").on("click", function () {
+	        $(".m-mask").show();
+	        var $this = $(this);
+	        var _parent = $this.closest(".out_li");
+	        var personname_a = _parent.find('.recta_personname').eq(0).text();
+	        var personname_b = _parent.find('.recta_personname').eq(1).text();
+	        _this.seatida = _parent.find('input').eq(0).val();
+	        _this.seatidb = _parent.find('input').eq(1).val();
+	        console.log(_this.seatids);
+	        _this.personNamea = personname_a;
+	        _this.personNameb = personname_b;
+	        _this.groupid.groupId = _parent.find(".unit_ul").data("groupid");
+	
+	        _this.$http.get('event/round/turn/getScores', _this.groupid).then(function (response) {
+	          console.log(response);
+	          if (response.data.object.scores.length) {
+	            _this.scorelis = response.data.object.scores;
+	          } else {
+	            var _index = $this.closest(".match_list").index();
+	            var _lis = $('.turn_num_li').eq(_index).find(".turn_select_number").text();
+	            _this.scorelis.length = 0;
+	            for (var i = 0; i < _lis; i++) {
+	              _this.scorelis.push({ best: i + 1, seatleft: '', seatright: '' });
+	            }
+	          }
+	        }, function (response) {
+	          console.log(22);
+	        });
+	      });
+	
+	      $(".made_winer").on('click', function () {
+	        $(".made_winer").removeClass("winer_active");
+	        $(this).addClass("winer_active");
+	      });
+	    }, function (response) {
+	      console.log(response);
+	    });
+	  },
+	  methods: {
+	    turnName: function turnName(e) {
+	      var _target = $(e.currentTarget);
+	      var _parent = _target.closest(".trunname_ed");
+	      _parent.hide();
+	      _parent.next(".trunname_ing").show();
+	      _parent.siblings(".turn_set_detail").show();
+	    },
+	    turnConfirm: function turnConfirm(e) {
+	      var _this = this;
+	      var turnparm = {};
+	      var _target = $(e.currentTarget);
+	      var _text = _target.siblings(".turn_input").val();
+	      var _parent = _target.closest(".turn_num_li");
+	      _parent.find('.trunname_ing').hide();
+	      _parent.find(".trunname_ed").show();
+	      _parent.find(".turn_num_text").text(_text);
+	      turnparm.id = _parent.find('.turn_turnid').text();
+	      turnparm.matchTime = _parent.find('.set_begin').val();
+	      turnparm.matchType = _parent.find('.turn_select_number').text();
+	      turnparm.name = _parent.find('.turn_num_text').text();
+	      var parmstr = (0, _stringify2.default)(turnparm);
+	      var parm = {};
+	      parm.turnJson = parmstr;
+	      _this.$http.get("event/round/turn/saveTurn", parm).then(function (response) {
+	        console.log(response);
+	      }, function (response) {
+	        console.log(response);
+	      });
+	    },
+	    turnQuit: function turnQuit(e) {
+	      var _target = $(e.currentTarget);
+	      _target.parent().hide();
+	      _target.parent().siblings(".trunname_ed").show();
+	    },
+	    randomPic: function randomPic() {
+	      var parm = {};
+	      parm.eventId = window.sessionStorage.getItem("eventid");
+	      this.$http.get("event/round/groupSeat/random", parm).then(function (response) {
+	        console.log(response);
+	        window.location.reload();
+	      }, function (response) {
+	        console.log(response);
+	      });
+	    },
+	    closeEdit: function closeEdit() {
+	      $(".m-mask").hide();
+	    },
+	    addScorelist: function addScorelist() {
+	      var _length = this.scorelis.length;
+	      this.scorelis.push({ best: _length + 1, seatleft: '', seatright: '' });
+	      console.log(this.scorelis);
+	    },
+	    submitScore: function submitScore() {
+	      var _this = this;
+	      var scoreparm = {};
+	      for (var i = 0; i < _this.scorelis.length; i++) {
+	        if (!_this.scorelis[i].seatleft) {
+	          _this.scorelis.splice(i, 1);
+	        }
+	      }
+	      scoreparm.groupid = _this.groupid.groupId;
+	      scoreparm.bs = _this.scorelis;
+	
+	      var parmstr = (0, _stringify2.default)(scoreparm);
+	      var parm = {};
+	      parm.scores = parmstr;
+	      if ($('.made_winer').hasClass('winer_active')) {
+	        parm.seatId = $(".winer_active").find('span').text();
+	      }
+	
+	      _this.$http.get('event/round/turn/saveScoreAndWin', parm).then(function (response) {
+	        console.log(response);
+	        if (response.data.code) {
+	          $(".m-mask").hide();
+	        }
+	      }, function (response) {
+	        console.log(22);
+	      });
+	    }
+	  },
+	  components: {
+	    topNav: _topNav2.default,
+	    topHead: _topHead2.default
+	
+	  }
+	};
 
 /***/ },
 /* 95 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAZCAYAAAAv3j5gAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFMUIxNTZGOTM5QUQxMUU2QTVENkFFREEzNjU4ODNCQyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFMUIxNTZGQTM5QUQxMUU2QTVENkFFREEzNjU4ODNCQyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkUxQjE1NkY3MzlBRDExRTZBNUQ2QUVEQTM2NTg4M0JDIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkUxQjE1NkY4MzlBRDExRTZBNUQ2QUVEQTM2NTg4M0JDIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+0Ifh5QAAA6FJREFUeNqkln1IU1EUwM+WTgzTZTozP0gnSVr+4z9mBakZ/VGQpaJmaVrRH0IYlkQRaRSiWFlmmmWx/KyQEjOs6ewDTTBT8yNnaqnlyrKZe2Jubp37epO1tuezDhzu3nn3nt/Oufec+3iA4uPnD+akq71FjIMdqg2qJSqPeaVDVaOqUCd4PF4/sIgFC2AVDrZV1TXuxaXloaOfRv2pKWqlWq0RIkkjsLIas7a2Vjg7L2+NDN9Zp9PpluL8HwiUm/LHMxURQrzv3qv0KrhelKxQfA5CJ3xgFy0CZYcOJF4M3xXWj7AeVhACnHBwOHzk2FaZrCF9VqtdDAsQPp8/tT4wICP/yqVKfPyGQMXcO6O5NhFRsXHSuvrMhULosHDN8xeNaWER0XH4+Md6vuGmxyUc3NHd8zbFxB9YiPDk8r4U9BWGKff8A4QQF8ntUo/W123pBqdqXglcFwCYJqh9+OAvGPF1u6RMjDBXw4h0eQWFSVqO6RIK7eBidiYU5ufCxg2BMDD43mQac6/kJ5GfNAiJwmPHT4omJye3c4F4eKyEihIJhG4OnrM1NTebnKuiqG3EN2GQiAQtLa0RXPbFS+wJkqJr4OrqArh4zo4HwOxBZHwLiHNKOaFcNx9E5OgI167mgr29Pcj73sHMjJq2D2LaBk2kTi+Mb4qApnCRNxvE0tISci5kgZOTCBqbXoJarQYrKwH9rvaJlPUPMr6n+FhUmAXdMrbJBxL3gd/aNdDxphN65X3g67P6d0l098D9qmpWEPp2IIx598Xd3Q1B8TA6qoAbNyWwd89u2j4+Pg4jIx9heHiEW9dgxq9s0eBRhROn0iD1aDIs4v9eQvaquuYRF8aYIajLZGu3sICQoE1wOv0cxERHwgpnZ9o+OzsLtyTFUC97ygXUaXhN1KNuMZ4RGxMF0noZLLG1gc3BQbTtu1IJZ85mQO1jKdcGIjOMqEJfwXqxs7OF0JBgyMw6D2JPT/gwNAS9vXK4dDkPpHUyzn2W+CY1Z3hNlKFG6WfsT4gHWcMz6B8Y+I/+CuXYR6ONb9hU1G3MlQ1t7R3g5uZKqznRaDR0TVEUhYU5ASqVCqanf9J2jEIlEjmeYBga4xuWRFS6kA5urnxQYzCacnMXH3mRbLxf/wA52t3xqhwLFfRqqmBzUMNQJ/8BQr6IYhGSba5gjaUKdQ0ToZbj6SJzfRFSyvkryLgLkXyjkkLyJY2csX9hCp2c9TsIYD2evwQYAPTHemFnwHxlAAAAAElFTkSuQmCC"
+	module.exports = "\n  <top-head></top-head> \n  <top-nav></top-nav> \n  <div class=\"tech_msg\">\n    <div class=\"body_top_pic\"><img src=\"" + __webpack_require__(96) + "\" width=\"100%\"></div>\n    <div class=\"tech_msg_text clearfix\">\n      <div class=\"tech_msg_left\"><img src=\"" + __webpack_require__(97) + "\" width=\"100%\" height=\"100%\"></div>\n      <div class=\"tech_msg_right\">\n      <div class=\"begin_tech clearfix\">\n        <div class=\"begin_tech_left\">\n          <h2 style=\"font-size:16px\">浙江省网娱大师•雪碧真英雄城市争霸赛</h2>\n           <p class=\"sponsor\">主办方：<span style=\"color:#f9a32a;\">网娱大师</span></p>\n          <div class=\"check_app\">\n            <input type=\"checkbox\" id=\"show_app\">\n            <label for=\"show_app\">在网娱大师App中展示</label>\n          </div>\n        </div>\n        <div class=\"begin_tech_right\">\n          <router-view></router-view>\n        </div>\n      </div>\n      <div class=\"begin_tech_msg\">\n        <ul class=\"begin_msg_list clearfix\">\n          <li class=\"clearfix\">\n            <div class=\"msg_list_left\"><img src=\"" + __webpack_require__(98) + "\"></div>\n            <div class=\"msg_list_right\">\n              <p class=\"msg_list_name\">竞技项目</p>\n              <p>英雄联盟•全服</p>\n            </div>\n          </li>\n          <li class=\"clearfix\">\n            <div class=\"msg_list_left\"><img src=\"" + __webpack_require__(99) + "\"></div>\n            <div class=\"msg_list_right\">\n              <p class=\"msg_list_name\">报名时间</p>\n              <p>2016.06.06-2016.07.07</p>\n            </div>\n          </li>\n          <li class=\"clearfix\">\n            <div class=\"msg_list_left\"><img src=\"" + __webpack_require__(100) + "\"></div>\n            <div class=\"msg_list_right\">\n              <p class=\"msg_list_name\">赛制</p>\n              <p>32人赛事＋单败淘汰制</p>\n            </div>\n          </li>\n        </ul>\n      </div>\n     </div>\n    </div>\n  </div>\n  <div class=\"against_container\">\n    <div class=\"tech_cup\"><img src=\"" + __webpack_require__(101) + "\"></div>\n    <p class=\"against_title\">\n     <a class=\"title_unit\"></a>\n      <span class=\"against_title_text\">对阵图</span>\n      <span class=\"against_title_tip\">此对阵图为预览，可拖曳参赛选手来交换位置</span>\n    </p>\n    <div class=\"tech_main_body\">\n        <div class=\"turn_num\">\n          <ul class=\"turn_num_list clearfix\">\n            <li class=\"turn_num_li\" v-for=\"turnnum of turnnums\">\n              <span class=\"turn_turnid\" style=\"display:none\"></span>\n              <div class=\"trunname_ed\">\n                <span class=\"turn_num_text\">{{turnnum.modelname}}</span>\n                <span class=\"turn_input_settime\" style=\"font-size:12px;margin:0 7px;\">{{turnnum.modeltime?turnnum.modeltime.split(' ',1):\" \"}}</span>\n                <span class=\"turn_select_num\" style=\"font-size:12px;color:#f9a32a;\">BO<span class=\"turn_select_number\">{{turnnum.modelbo}}</span></span>\n                <img class=\"turn_num_pic\" @click=\"turnName\" src=\"" + __webpack_require__(102) + "\"></div>\n              <div class=\"trunname_ing\">\n              <input class=\"turn_input\" type=\"text\" value={{turnnum.modelname}}>\n              <a class=\"turn_confirm turn_frame\" @click=\"turnConfirm\">确定</a>\n              <a class=\"turn_quit turn_frame\" @click=\"turnQuit\">取消</a>\n            </div>\n            <ul class=\"turn_set_detail\">\n              <li><label for=\"set_begin\" class=\"set_time_begin\">设置时间</label>\n                <input type=\"text\" id=\"set_begin\" class=\"set_begin\" v-model=\"turnnum.modeltime\">\n              </li>\n              <li><span>Best of</span>\n                <select style=\"height:18px;text-indent:0px;\" class=\"select_num\" v-model=\"turnnum.modelbo\">\n                  <option>1</option>\n                  <option>3</option>\n                  <option>5</option>\n                  <option>7</option>\n                </select>\n              </li>\n            </ul>\n            </li>\n          </ul>\n        </div>\n        <div class=\"turn_btn\" @click=\"randomPic\">随机排列对阵选手顺序</div>\n        <div class=\"tech_body\">\n            <div class=\"tech_container\">\n            <div class=\"match_content clearfix\">\n            </div>   \n          </div>\n        </div>\n    </div>\n  </div>\n  <div class=\"tech_down_tip\">\n    <img src=\"" + __webpack_require__(103) + "\" width=\"100%\">\n    <ul class=\"tech_footer_text clearfix\">\n      <li style=\"float:left\">\n        <h2 class=\"footer_text_title\">\n          <a class=\"title_unit\"></a>\n          <span style=\"font-size:18px;color:#fff;\">赛事规则</span>\n        </h2>\n        <p style=\"margin:20px 0\">比赛模式</p>\n          <p>\n            1. 决赛当天海选BO1（单场淘汰制），冠亚之争采用BO3（三局两胜）</br>\n            2. 所有比赛均为5v5、房间模式、征召模式；</br>\n            8支队伍进行BO1 决出4强    4支队伍进行BO1决出冠亚争夺战 \n                败者组两只队伍BO1争夺季军   胜者队伍冠亚争夺战</br>\n            </p>\n            <p style=\"margin:20px 0\">比赛规则：</p>\n            <p>\n            1.参赛选手须提前到达比赛现场报名抽签，迟到将视为自动弃权；</br> \n            2.参赛选手须在比赛服务器比赛，使用官方比赛服帐号</p>\n      </li>\n      <li style=\"float:right\">\n        <h2 class=\"footer_text_title\">\n          <a class=\"title_unit\"></a>\n          <span style=\"font-size:18px;color:#fff;\">奖金设置</span>\n        </h2>\n        <p style=\"margin:20px 0\">比赛模式</p>\n          <p>\n            1本次联赛奖品如下：</br>\n            冠军4000元现金；亚军2000元现金；季军1000元现金以及其他神秘大奖等你来拿！本次获奖战队可以参加下半年的省级冠军争夺赛，更有机会代表吉林省参加全国范围的争霸赛。</p>\n      </li>\n    </ul>\n  </div> \n  <div class=\"m-mask\">\n    <div class=\"m-pop\"style=\"margin: 50px auto 0;\">\n      <div class=\"wrap\">\n        <h3>编辑比分</h3>\n        <a href=\"javascript:void(0);\" class=\"u-btn-close\" @click=\"closeEdit\"></a>\n        <ul class=\"edit_detail_top clearfix\">\n          <li class=\"edit_detail_left\">\n            <div class=\"edit_ring\">{{personNamea.substr(0,1)}}</div>\n            <p style=\"margin:10px 0;\">{{personNamea}}</p>\n            <div class=\"made_winer\"><span style=\"display:none\">{{seatida}}</span></div>\n          </li>\n          <li class=\"edit_detail_mid\">vs</li>\n          <li class=\"edit_detail_right\">\n            <div class=\"edit_ring\">{{personNameb.substr(0,1)}}</div>\n            <p style=\"margin:10px 0;\">{{personNameb}}</p>\n            <div style=\"margin:0 auto;\" class=\"made_winer\"><span style=\"display:none\">{{seatidb}}</span></div>\n          </li>\n        </ul>\n        <div class=\"turn_edit_line\" style=\"text-align: center;\"><img src=\"" + __webpack_require__(104) + "\"></div>\n        <ul class='edit_detail_bt'>\n          <li style=\"margin-bottom:20px;\" v-for=\"scoreli in scorelis\">\n            <input type=\"text\" style=\"width:120px;\" v-model=\"scoreli.seatleft\">\n            <span class=\"edit_btn_mid\">:</span>\n            <input type=\"text\" style=\"width:120px;\" v-model=\"scoreli.seatright\">\n          </li>\n        </ul>\n        <div class=\"add_edit_list\" @click=\"addScorelist\">＋添加一组</div>\n        <a href=\"javascript:void(0);\" class=\"u-btn add-member\" @click=\"submitScore\">提交比分</a>\n      </div>      \n    </div>\n  </div>\n";
 
 /***/ },
 /* 96 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	module.exports = __webpack_require__.p + "body_bt.png?408b8f9c52e093a1c6180f03d88604bc";
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABLAAAAAJCAYAAAAiq9VhAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA4RpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyNGQ3MGQ1OS0wMGQzLTAwNDYtYjg3MS1iNDJkM2M1MjFhZTgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NkEwNDg5QTgzOTA0MTFFNjg3NDJEQkU5NDk1NDAzMkIiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NkEwNDg5QTczOTA0MTFFNjg3NDJEQkU5NDk1NDAzMkIiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NzFhYjQ3MTYtYTllZi1jMDQzLTkxNTAtYTAxYThlNGFiY2I5IiBzdFJlZjpkb2N1bWVudElEPSJhZG9iZTpkb2NpZDpwaG90b3Nob3A6MDk2Y2Y1M2QtMzVmNi0xMWU2LTk4ODgtYWU0OWEzZjE2N2ZjIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+OGn5tAAAAnRJREFUeNrs3D9oE2EYx/G7pFF7aC6VUtvBQfwzWIu0HRIXp6JSLQ46FcXVTZDilsmtiuDmKkpcdCgtxT+dXLRDDRKbwSoZHKxFbC6Vq5qm5/vUOw1aEx1ey53fDzxc3iUJz71wx++exPQ8z9Dpy+1uOej9EAAAAAAAAGw0c9OZWS1vHNP9zdPZYoLzBwAAAAAAEG06MyBT9wRW7y4zqQ47VdmcSgAAQsdU1aIqceHYjv7B3tTZlBXvpi34W2W3NjuZL9+6fv/djFpWVa0YTOkDABAljqo3+ZJX0XJTSoAFAAAakGntzaq2qbJUbTl3uL3ndLptqCOZ2E170MxCpfr67vTi+M3H7wtq+UmVq2pJ1WdVq3QIAIDICH2AJeNjrar4KSEAAOFj+tdwuZZLiCUPpOThVOv5gY6+k/2pU9u3tuylTfjZh48rc2Mz5Xs3phaeqeWyqop/Y7vkr2UKiwksAACiQ67ty/mSV9VyU/oPAixOIQAAITR9ef/31+lsMQiyZApLQqw2ww+yLg52Zo4etIdTVnwfXUPZrb188NzJXZucf2r8CK4WjW/hlUxfVdXe8vx9RcMAAIiYfElPzkSABQAA1lUfYAUaBFnWyInOzJEee9i24kxk/Ycctzb3sODkrk6sBVcSVP02uKrbTzQOAICICW2ABQAAwkceQK0XYAUaBVmXhroODRxISpC1h05GnwRXjwrOnSsT80+MPwyu6vaR1htdAAAQHQRYAADgF80CrEA6W5Q/eQ+CLAmwJMiyYzHDGjnelSHIii7Hrb2aelHJjY6/leBKfioogZUEVxJgBcHVapP9s3YkwAIAAM18FWAA3TvUEUrTrCkAAAAASUVORK5CYII="
 
 /***/ },
 /* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = __webpack_require__.p + "person_pic.png?70164bbe3009adf7c59c4d2574f74589";
+
+/***/ },
+/* 98 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpCNDU3MTYzMjM2QjQxMUU2QTc5MzhGQTg4OENCMTNDRSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpCNDU3MTYzMzM2QjQxMUU2QTc5MzhGQTg4OENCMTNDRSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkI0NTcxNjMwMzZCNDExRTZBNzkzOEZBODg4Q0IxM0NFIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkI0NTcxNjMxMzZCNDExRTZBNzkzOEZBODg4Q0IxM0NFIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/C8/5AAAAmlJREFUeNrEl01IVFEUx2cGPza1bCGpFO4EbSEtUxTcZSYoLUwL1CIxRCnBhcs2tigiDWljGUFIKLps5QStEtTSEmZEUlFwLTWDX/8T/weXw71v3rzx48CPN+/cc9//3fPO/ZhoaqI8oqwAPAGr4HPEbUPgKegCnxwxUfAIHIE3ZkPMEtwMnoFJ0OsjLHEXwS0fUREbAaPgWibhb2CXHV/4iEd9XsoTfcj7XyCRSXgd1AcUDyL6G9SBvUzCYoshxW2itWBHB8Z8HmITf2y0/+M1bfhGVXqtov/f0FLV2qQovoBL4ABcoGg1uAeGOQMkbsEQrXOJiuUFSJ838ndg2RhpnHgmxTPH7NzxEw064lOxWOSczCWcDxrBR6Z3n6vPiWH7xg3gFbhymiPOU3NQBHvOItWm8GvQfVbf2BNucYh+5TRa4X055+6NXIVlOsk2mATFhj/NFWic917bJq/3wRi30NBV3aJExR5Q9CYXhg2SoG+cMTlNp9vKF2d6RWAGlBltZfQ1MCaeyze+rnwfeH3p2HO9DWOWsdUBdA7BGvjJevkhwkUqaAmUqpFqk7YSxtr28xWKLBO5/6tHnApZJLZsSFFeDfqNt5WvEvxhpbssyZgK5d/Oprh0ulp57eO6qk18/fx9V7V9z0Z4WvlqQDuLp1GNPEnfDBeSGtV3+iQWkE4w4VhA2sBbUGj02WLRpYKOOG2kzjzUv+eJooMVXMLfc2wrVH36gorqE8gw/xmEsedgIOxBYJA7VLY2wr6hTyAHPL4261O/wxJc53vYN+vdyeYv4EObQBW4bBTQPJjif6t02LX6WIABANMvrmLyzMtpAAAAAElFTkSuQmCC"
+
+/***/ },
+/* 99 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAgCAYAAADjaQM7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpCNDU3MTYyRTM2QjQxMUU2QTc5MzhGQTg4OENCMTNDRSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpCNDU3MTYyRjM2QjQxMUU2QTc5MzhGQTg4OENCMTNDRSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkYxNzAyOEZGMzY5NzExRTZBNzkzOEZBODg4Q0IxM0NFIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkYxNzAyOTAwMzY5NzExRTZBNzkzOEZBODg4Q0IxM0NFIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+cWbbggAAAktJREFUeNq8l12IjFEYx2feHVsj0UqUJJFiRdiUVYQUF7ZwgbjgygXJ0t6IvdrWFWbiwg2hRcnHlnxNSdJSvtaNWy7Wx+7mxse2kbbd31P/V9PrnZlz3tnx1K/TOZ3n/M+c9znPeSb9u6sx5Wi74GrM+G645rJAkHK3PrgB/er3q9/nuoCPWA9sh171e9XvKeOzD5YkEfO1GZDTZjbaQMbRcb4clsIKjVl7Ad7CffgQ8ZkAQzAdbsHsdJkAScM2aIOVDht6DiehGybCU1gOrfDRxkv9sjlwEdZ6HNsquA2P4Cc0QTucCSfEia2Hm9CQ8FttUFuAznLRaEJ3qxAqtjWwrpTYPB1DdpyiMat7ODcqZm0XTBnn8J8KlxRsf8UsFTXX6L6thp2hmKkeTdXWjoVidocaayy2yHRMrCX1f6wlqOG3ilpzoLzn88wshlnwzFNsgYlN83C4DO/gszK6jzUEns/MsvDOYC/hk4dvxoS+ezhshldwQkKb4Kuj77eM3iGfo2wSlm0OKJoLDtnnfaCdJrH90AEv9O79qjD/tYk9rCKcj8NheAw7YKTM3EKgIxisQvAU7IU7akdj5gzYjzKxP8WvaQKz6DwPW+AKHIqZc9Z0wrDP+9R/MVYH1/X4ZmMSQb64LBiGPaof6hIK1sMDtaGNaN3h6Ev9BA5Wmf/qI/02rRtbg5yDIyU+so+Nap18pfI7p4s6kFBoUP4511r/HixUWA85iti805bd5f9v2Dr8ZZoEW1V+W5qaCZPhB3yBN7qr3ZU2NibAAJMJcQI6oOE3AAAAAElFTkSuQmCC"
+
+/***/ },
+/* 100 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpGMTcwMjhGRDM2OTcxMUU2QTc5MzhGQTg4OENCMTNDRSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpGMTcwMjhGRTM2OTcxMUU2QTc5MzhGQTg4OENCMTNDRSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkYxNzAyOEZCMzY5NzExRTZBNzkzOEZBODg4Q0IxM0NFIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkYxNzAyOEZDMzY5NzExRTZBNzkzOEZBODg4Q0IxM0NFIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+e2PJogAAAgBJREFUeNrs1ksoRFEYB/BLGpJIeUQk8oiUNxsLiVJkoSwsbEQpWbAhslIeK0opCyUWForERhIWRCEbkqLIwkJeC/L2//SfOm73mrkzxkhO/bqPOfd8c875zj3X52EiTbNQfCALCigf6mFds1j8LNYPhm3dPV/NhWL1oScYgCo419woVgPfQSvMwONPBv624snAhTAFh3AAIxDhanJZKfPgD2cQDymQC3nwqvZY1lUz9EAjRLoZWHoYBUmQAW+QDcn6HstaDFGu+6AYdnQNlvAYwGMuz3fhQqnXppzLUN9DIDzr53gIMiEHNvknWgx6skj2+RrgdcEXvS9j0D040ve4SzmfZkNGyddu0viByf1EGIMXaOKQfwocwkqx0CAJAOMGDfVbmGdpbwnCoA5WjbK6kJmocT7k3y24kVwpDBoONVxahutYhqqT2SiBh/mWcqWkwgpEcwqPmTvC9rHbmOxORbAM1xDKezbOu79JsAcm5SPzoNekXhyc2odahuPKnupKCVDOZagqHfR0jnU2vsiFW3WOS6GbwyPZV837k8oDFU4McTmPK+RwPz7hENbx+gYGocPie93pd7898BrEcJGLSy4njxU/g/32zs02cxz8Litm3xO705YTdUa99SFQKz1O54si6AcD2yTwLCR449MnwRtj/Sc/9v4D/47A7wIMAELYXWFrH1LlAAAAAElFTkSuQmCC"
+
+/***/ },
+/* 101 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "cup.png?7c621dfff6055eb0c5f3be47573bfe7c";
+
+/***/ },
+/* 102 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAZCAYAAAAv3j5gAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFMUIxNTZGOTM5QUQxMUU2QTVENkFFREEzNjU4ODNCQyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFMUIxNTZGQTM5QUQxMUU2QTVENkFFREEzNjU4ODNCQyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkUxQjE1NkY3MzlBRDExRTZBNUQ2QUVEQTM2NTg4M0JDIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkUxQjE1NkY4MzlBRDExRTZBNUQ2QUVEQTM2NTg4M0JDIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+0Ifh5QAAA6FJREFUeNqkln1IU1EUwM+WTgzTZTozP0gnSVr+4z9mBakZ/VGQpaJmaVrRH0IYlkQRaRSiWFlmmmWx/KyQEjOs6ewDTTBT8yNnaqnlyrKZe2Jubp37epO1tuezDhzu3nn3nt/Oufec+3iA4uPnD+akq71FjIMdqg2qJSqPeaVDVaOqUCd4PF4/sIgFC2AVDrZV1TXuxaXloaOfRv2pKWqlWq0RIkkjsLIas7a2Vjg7L2+NDN9Zp9PpluL8HwiUm/LHMxURQrzv3qv0KrhelKxQfA5CJ3xgFy0CZYcOJF4M3xXWj7AeVhACnHBwOHzk2FaZrCF9VqtdDAsQPp8/tT4wICP/yqVKfPyGQMXcO6O5NhFRsXHSuvrMhULosHDN8xeNaWER0XH4+Md6vuGmxyUc3NHd8zbFxB9YiPDk8r4U9BWGKff8A4QQF8ntUo/W123pBqdqXglcFwCYJqh9+OAvGPF1u6RMjDBXw4h0eQWFSVqO6RIK7eBidiYU5ufCxg2BMDD43mQac6/kJ5GfNAiJwmPHT4omJye3c4F4eKyEihIJhG4OnrM1NTebnKuiqG3EN2GQiAQtLa0RXPbFS+wJkqJr4OrqArh4zo4HwOxBZHwLiHNKOaFcNx9E5OgI167mgr29Pcj73sHMjJq2D2LaBk2kTi+Mb4qApnCRNxvE0tISci5kgZOTCBqbXoJarQYrKwH9rvaJlPUPMr6n+FhUmAXdMrbJBxL3gd/aNdDxphN65X3g67P6d0l098D9qmpWEPp2IIx598Xd3Q1B8TA6qoAbNyWwd89u2j4+Pg4jIx9heHiEW9dgxq9s0eBRhROn0iD1aDIs4v9eQvaquuYRF8aYIajLZGu3sICQoE1wOv0cxERHwgpnZ9o+OzsLtyTFUC97ygXUaXhN1KNuMZ4RGxMF0noZLLG1gc3BQbTtu1IJZ85mQO1jKdcGIjOMqEJfwXqxs7OF0JBgyMw6D2JPT/gwNAS9vXK4dDkPpHUyzn2W+CY1Z3hNlKFG6WfsT4gHWcMz6B8Y+I/+CuXYR6ONb9hU1G3MlQ1t7R3g5uZKqznRaDR0TVEUhYU5ASqVCqanf9J2jEIlEjmeYBga4xuWRFS6kA5urnxQYzCacnMXH3mRbLxf/wA52t3xqhwLFfRqqmBzUMNQJ/8BQr6IYhGSba5gjaUKdQ0ToZbj6SJzfRFSyvkryLgLkXyjkkLyJY2csX9hCp2c9TsIYD2evwQYAPTHemFnwHxlAAAAAElFTkSuQmCC"
+
+/***/ },
+/* 103 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "body_bt.png?408b8f9c52e093a1c6180f03d88604bc";
+
+/***/ },
+/* 104 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAY4AAAABCAYAAADJlUnFAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo5MDZFQUY5QjNDRkIxMUU2QjI5QUVENzFCOENCRDg5OSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo5MDZFQUY5QzNDRkIxMUU2QjI5QUVENzFCOENCRDg5OSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjhDMDRFM0RFM0MzRDExRTZCMjlBRUQ3MUI4Q0JEODk5IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjkwNkVBRjlBM0NGQjExRTZCMjlBRUQ3MUI4Q0JEODk5Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+5ZaY6wAAAK1JREFUeNqcU9EKxDAI03AfPY779c29rFwRo7kbSFNjtCupH+/Py8z8Cdvw2oNwvwRIbu+PNBNDHxR7F3glh4Fj/ZH+C2QORN4HnTd9UNwzxDusVhPOp2LmAcU7U33lZdtmeePnlYsHr/Wy73dtXI7MV5jlIuEgNVHgxbOafa/UL3wSvbpONV0d05zF+Zm+m/PPmdg9MW0I2hi0QXqF4JNofBrEy7mHFW8gbgEGADEPsnHYfoN+AAAAAElFTkSuQmCC"
+
+/***/ },
+/* 105 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(98)
-	__vue_template__ = __webpack_require__(99)
+	__vue_script__ = __webpack_require__(106)
+	__vue_template__ = __webpack_require__(107)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -12807,7 +15055,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "F:\\saishi\\src\\views\\login.vue"
+	  var id = "/Users/chenjinghua/matchtool_web/src/components/beforeTech.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -12816,7 +15064,142 @@
 	})()}
 
 /***/ },
-/* 98 */
+/* 106 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _stringify = __webpack_require__(21);
+	
+	var _stringify2 = _interopRequireDefault(_stringify);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = {
+	  data: function data() {
+	    return {
+	      beginparm: {}
+	    };
+	  },
+	
+	  methods: {
+	    beginTech: function beginTech() {
+	      var _this = this;
+	      _this.beginparm.oetInfoId = window.sessionStorage.getItem("eventid");
+	      _this.beginparm.oetRoundId = window.sessionStorage.getItem("roundid");
+	      var parmstr = (0, _stringify2.default)(this.beginparm);
+	      var parm = {};
+	      parm.jsonInfo = parmstr;
+	      _this.$http.get('event/start', parm).then(function (response) {
+	        if (response.data.msg == "success") {
+	          this.$route.router.go({ path: '/techPic/beginingTech' });
+	        }
+	      }, function (response) {
+	        console.log(response);
+	      });
+	    }
+	  }
+	};
+
+/***/ },
+/* 107 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = "\n\t<div class=\"before_tech\">\n            <p style=\"font-size:12px;\">当一切都准备就绪后，您就可以:</p>\n            <div class=\"start_btn\">\n              <img src=\"" + __webpack_require__(108) + "\" width=\"100%\" height=\"100%\">\n              <p class=\"start_text\" @click=\"beginTech\">开始比赛</p>\n            </div>\n          </div>\n";
+
+/***/ },
+/* 108 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVIAAAA4CAYAAACvzXBnAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3xpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyNGQ3MGQ1OS0wMGQzLTAwNDYtYjg3MS1iNDJkM2M1MjFhZTgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RDVGMTJDQTkzNkFFMTFFNjk5RjZDNjQzMTUzMDJFOEYiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RDVGMTJDQTgzNkFFMTFFNjk5RjZDNjQzMTUzMDJFOEYiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0QTc0MzMyRjUxMzRFNjExOUYzM0Q2MzU0QkNFMTFEQSIgc3RSZWY6ZG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOjdhMDBiZDA3LTM0MmUtMTFlNi04YjNhLTkyNzAyZGY5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"
+
+/***/ },
+/* 109 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(110)
+	__vue_template__ = __webpack_require__(111)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/chenjinghua/matchtool_web/src/components/beginingTech.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 110 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	   value: true
+	});
+	exports.default = {
+	   data: function data() {
+	      return {
+	         beginparm: {}
+	      };
+	   },
+	
+	   ready: function ready() {
+	      var _this = this;
+	      var _rate = window.sessionStorage.getItem("turnrate");
+	      if (_rate) {
+	         $(".tech_range_detail").width(_rate * 2);
+	         $(".tech_range_num").text(_rate + "%");
+	      } else {
+	         $(".tech_range_detail").width(0);
+	         $(".tech_range_num").text("0%");
+	         window.location.reload();
+	      }
+	   }
+	
+	};
+
+/***/ },
+/* 111 */
+/***/ function(module, exports) {
+
+	module.exports = "\n\t<div class=\"begining_tech\">\n\t\t<p style=\"font-size:12px;\">编辑比分以推进赛事进程:</p>\n\t\t<div class=\"start_btn\">\n\t\t\t<div class=\"tech_range\">\n\t\t\t\t<div class=\"tech_range_detail\">\n\t\t\t\t</div>\n\t\t\t\t<div class=\"tech_range_num\">20%</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n";
+
+/***/ },
+/* 112 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(113)
+	__vue_template__ = __webpack_require__(114)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/chenjinghua/matchtool_web/src/views/login.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 113 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -12835,10 +15218,10 @@
 	  methods: {
 	    checkin: function checkin() {
 	      this.$http.post('event/login', this.$data).then(function (response) {
+	        window.sessionStorage.setItem("username", this.username);
 	        document.cookie = "oetevent.login.sessionid=" + response.data.object["oetevent.login.sessionid"];
 	        document.cookie = "oetevent.login.token=" + response.data.object["oetevent.login.token"];
 	        document.cookie = "userId=" + response.data.object["userId"];
-	
 	        if (response.data.code) {
 	          this.$route.router.go({ path: '/homepage' });
 	        }
@@ -12850,49 +15233,571 @@
 	};
 
 /***/ },
-/* 99 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "\r\n<div class=\"s-col00\">\r\n\t<div class=\"m-lg\">\r\n\t\t<div class=\"g-lg\">\r\n\t\t\t<div class=\"m-lg-nav\">\r\n\t\t\t\t<img src=\"" + __webpack_require__(12) + "\" class=\"u-logo\">\r\n\t\t\t\t<ul class=\"r\">\r\n\t\t\t\t\t<li class=\"on\">产品介绍</li>\r\n\t\t\t\t\t<li>关于我们</li>\r\n\t\t\t\t\t<li>成功案例</li>\r\n\t\t\t\t</ul>\r\n\t\t\t</div>\r\n\t\t\t<img src=\"" + __webpack_require__(100) + "\" class=\"u-dzt\">\r\n\t\t\t<img src=\"" + __webpack_require__(101) + "\" class=\"u-jb\">\r\n\t\t\t<div class=\"m-lg-box\">\r\n\t\t\t\t<p class=\"u-p-lg\">用户登录</p>\r\n\t\t\t\t<form class=\"mt56\">\r\n\t\t\t\t\t<div class=\"g-ipt-lg\"><input type=\"text\" name=\"telephone\" placeholder=\"用户名/手机号码\" class=\"u-ipt-lg\" v-model=\"username\"></div>\r\n\t\t\t\t\t<div class=\"g-ipt-lg\"><input type=\"password\" name=\"password\" placeholder=\"密码\" class=\"u-ipt-lg\" v-model=\"password\"></div>\r\n\t\t\t\t\t<div class=\"g-forget\">\r\n\t\t\t\t\t\t<label class=\"l re\">\r\n\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"\">记住我\r\n\t\t\t\t\t\t\t<i class=\"u-mind-cb\"></i>\r\n\t\t\t\t\t\t</label>\r\n\t\t\t\t\t\t<span class=\"r\">忘记密码？</span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</form>\r\n\t\t\t\t<button type=\"button\" class=\"u-lg-btn\" @click = \"checkin\">登&nbsp&nbsp录</button>\r\n\t\t\t</div>\r\n\t\t\t<ul class=\"g-ts clearfix\">\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(102) + "\">\r\n\t\t\t\t\t<p class=\"s-ts-tit\">多元化赛制模板</p>\r\n\t\t\t\t\t<p class=\"mt10\">高效便捷</p>\r\n\t\t\t\t\t<p class=\"mt2\">一键生成赛事</p>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(103) + "\">\r\n\t\t\t\t\t<p class=\"s-ts-tit\">赛事进程管理</p>\r\n\t\t\t\t\t<p class=\"mt10\">透明比赛进程</p>\r\n\t\t\t\t\t<p class=\"mt2\">记录每个场次每局比分</p>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(104) + "\">\r\n\t\t\t\t\t<p class=\"s-ts-tit\">报名选手信息管理</p>\r\n\t\t\t\t\t<p class=\"mt10\">开放报名入口</p>\r\n\t\t\t\t\t<p class=\"mt2\">收集报名信息不再苦恼</p>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li>\r\n\t\t\t\t\t<img src=\"" + __webpack_require__(105) + "\">\r\n\t\t\t\t\t<p class=\"s-ts-tit\">个性化个人主页</p>\r\n\t\t\t\t\t<p class=\"mt10\">规范赛事</p>\r\n\t\t\t\t\t<p class=\"mt2\">建立统一赛事品牌</p>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n";
+	module.exports = "\n<div class=\"s-col00\">\n\t<div class=\"m-lg\">\n\t\t<div class=\"g-lg\">\n\t\t\t<div class=\"m-lg-nav\">\n\t\t\t\t<img src=\"" + __webpack_require__(12) + "\" class=\"u-logo\">\n\t\t\t\t<ul class=\"r\">\n\t\t\t\t\t<li class=\"on\">产品介绍</li>\n\t\t\t\t\t<li>关于我们</li>\n\t\t\t\t\t<li>成功案例</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<img src=\"" + __webpack_require__(115) + "\" class=\"u-dzt\">\n\t\t\t<img src=\"" + __webpack_require__(116) + "\" class=\"u-jb\">\n\t\t\t<div class=\"m-lg-box\">\n\t\t\t\t<p class=\"u-p-lg\">用户登录</p>\n\t\t\t\t<form class=\"mt56\">\n\t\t\t\t\t<div class=\"g-ipt-lg\"><input type=\"text\" name=\"telephone\" placeholder=\"用户名/手机号码\" class=\"u-ipt-lg\" v-model=\"username\"></div>\n\t\t\t\t\t<div class=\"g-ipt-lg\"><input type=\"password\" name=\"password\" placeholder=\"密码\" class=\"u-ipt-lg\" v-model=\"password\"></div>\n\t\t\t\t\t<div class=\"g-forget\">\n\t\t\t\t\t\t<label class=\"l re\">\n\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"\">记住我\n\t\t\t\t\t\t\t<i class=\"u-mind-cb\"></i>\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<span class=\"r\">忘记密码？</span>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t\t<button type=\"button\" class=\"u-lg-btn\" @click = \"checkin\">登&nbsp&nbsp录</button>\n\t\t\t</div>\n\t\t\t<ul class=\"g-ts clearfix\">\n\t\t\t\t<li>\n\t\t\t\t\t<img src=\"" + __webpack_require__(117) + "\">\n\t\t\t\t\t<p class=\"s-ts-tit\">多元化赛制模板</p>\n\t\t\t\t\t<p class=\"mt10\">高效便捷</p>\n\t\t\t\t\t<p class=\"mt2\">一键生成赛事</p>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<img src=\"" + __webpack_require__(118) + "\">\n\t\t\t\t\t<p class=\"s-ts-tit\">赛事进程管理</p>\n\t\t\t\t\t<p class=\"mt10\">透明比赛进程</p>\n\t\t\t\t\t<p class=\"mt2\">记录每个场次每局比分</p>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<img src=\"" + __webpack_require__(119) + "\">\n\t\t\t\t\t<p class=\"s-ts-tit\">报名选手信息管理</p>\n\t\t\t\t\t<p class=\"mt10\">开放报名入口</p>\n\t\t\t\t\t<p class=\"mt2\">收集报名信息不再苦恼</p>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<img src=\"" + __webpack_require__(120) + "\">\n\t\t\t\t\t<p class=\"s-ts-tit\">个性化个人主页</p>\n\t\t\t\t\t<p class=\"mt10\">规范赛事</p>\n\t\t\t\t\t<p class=\"mt2\">建立统一赛事品牌</p>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t</div>\n</div>\n";
 
 /***/ },
-/* 100 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "lg_against.png?2918e7db4868e33a77189946f62b9c44";
 
 /***/ },
-/* 101 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "lg_jb.png?0f2ca2ea0b6e227e5b4b348f8144f723";
 
 /***/ },
-/* 102 */
+/* 117 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "lg_ts1.png?7b547dd8c971c49bd531c4ce1ed6b955";
 
 /***/ },
-/* 103 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "lg_ts4.png?ce4d28f9fcf6fdfd9b70b5ecba5b874a";
 
 /***/ },
-/* 104 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "lg_ts3.png?2041f12bcd50c96ec8c81606ec102dcd";
 
 /***/ },
-/* 105 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "lg_ts2.png?2eacd112a8a859618d167735652b1d9a";
 
 /***/ },
-/* 106 */
+/* 121 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(122)
+	__vue_template__ = __webpack_require__(123)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/chenjinghua/matchtool_web/src/views/newsEdit.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 122 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _stringify = __webpack_require__(21);
+	
+	var _stringify2 = _interopRequireDefault(_stringify);
+	
+	var _topNav = __webpack_require__(59);
+	
+	var _topNav2 = _interopRequireDefault(_topNav);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = {
+		data: function data() {
+			var new_info = {
+				title: '',
+				type: '',
+				timerDate: '',
+				creater: '',
+				icon: '',
+				source: '',
+				remark: '',
+				imgs: [],
+				keyword: '',
+				cover: '',
+				videoUrl: '',
+				eventId: '',
+				isPublished: '',
+				id: ''
+			};
+			return {
+				oldVideoUrl: '',
+				new_infos: [new_info]
+			};
+		},
+	
+		components: {
+			topNav: _topNav2.default
+	
+		},
+		ready: function ready() {
+			var _this = this;
+			var obj = this.new_infos[0];
+			obj.eventId = window.sessionStorage.getItem("eventid");
+			obj.id = window.sessionStorage.getItem("newsId");
+			_this.$http.get('event/information/detail?id=' + obj.id).then(function (response) {
+				var code = response.data.code;
+				if (code == -1) {
+					alert("参数错误");
+				} else if (code == -2) {
+					alert("找不到资讯");
+				} else {
+					obj.title = response.data.object.information.title;
+					obj.type = response.data.object.information.type;
+					obj.timerDate = response.data.object.information.timerDate;
+					obj.creater = response.data.object.information.creater;
+					obj.icon = response.data.object.information.icon;
+					obj.source = response.data.object.information.source;
+					obj.remark = response.data.object.information.remark;
+					obj.cover = response.data.object.information.cover;
+					obj.keyword = response.data.object.information.keyword;
+					obj.videoUrl = response.data.object.information.videoUrl;
+					_this.oldVideoUrl = response.data.object.information.videoUrl;
+					obj.imgs = response.data.object.information.imgs;
+					$(".m-n-select option").each(function () {
+						if ($(this).val() == obj.type) {
+							$(this).attr("selected", true);
+							if (obj.type == 1) {
+								$('.m-n-lx').eq(0).removeClass('dn').siblings('.m-n-lx').addClass('dn');
+							} else if (obj.type == 4) {
+								$('.m-n-lx').eq(1).removeClass('dn').siblings('.m-n-lx').addClass('dn');
+							} else if (obj.type == 3) {
+								$('.m-n-lx').eq(2).removeClass('dn').siblings('.m-n-lx').addClass('dn');
+							}
+						}
+					});
+					_this.$nextTick(function () {
+						console.log(obj.imgs.length);
+	
+						for (var i = 0; i < obj.imgs.length; i++) {
+							var imgid = obj.imgs[i].id;
+							$('#tuji' + imgid).diyUpload({
+								url: 'http://192.168.30.62:8080/file/upload',
+								success: function success(data) {
+									console.info(data);
+									for (var i = 0; i < obj.imgs.length; i++) {
+										var a = obj.imgs[i].id;
+										if (a == imgid) {
+											obj.imgs[i].img = data.object.src;
+											$('#tuji' + imgid).siblings('input').val(data.object.src);
+										}
+									}
+								},
+								error: function error(err) {
+									console.info(err);
+								},
+								buttonText: '选择图片',
+								chunked: true,
+	
+								chunkSize: 512 * 1024,
+	
+								fileNumLimit: 1,
+								fileSizeLimit: 500000 * 1024,
+								fileSingleSizeLimit: 50000 * 1024,
+								accept: {}
+							});
+						}
+						$('.tuji').each(function (index, el) {
+							$(this).hover(function () {
+								var tuJiLen = $('.tuji').length;
+								var a = index;
+								if (tuJiLen != 1) {
+									$(this).find('.u-tuji-del').show();
+									$(this).find('.u-tuji-del').off('click');
+									$(this).find('.u-tuji-del').on('click', function () {
+										var objImgs = obj.imgs[index];
+										var thisrem = '';
+										if (objImgs && objImgs.length > 0) {
+											thisrem = obj.imgs[index].img;
+										}
+										if (thisrem != '') {
+											obj.imgs.splice(index, 1);
+											$(this).parent('.tuji').remove();
+										} else {
+											$(this).parent('.tuji').remove();
+										}
+									});
+								}
+							}, function () {
+								$(this).find('.u-tuji-del').hide();
+							});
+						});
+					});
+				}
+			}, function (response) {
+				console.log(response);
+			});
+	
+			$('#begintime').datetimepicker({
+				format: "Y-m-d H:i:s",
+				yearStart: 2000,
+				yearEnd: 2050,
+				minDate: new Date(),
+				step: 10
+			});
+			$.datetimepicker.setLocale('ch');
+	
+			$('.m-n-select').change(function (event) {
+				var lx = $(".m-n-select option:selected").val();
+				if (lx == 3) {
+					$('.m-n-lx').eq(2).removeClass('dn').siblings('.m-n-lx').addClass('dn');
+				} else if (lx == 4) {
+					$('.m-n-lx').eq(1).removeClass('dn').siblings('.m-n-lx').addClass('dn');
+				} else if (lx == 1) {
+					$('.m-n-lx').eq(0).removeClass('dn').siblings('.m-n-lx').addClass('dn');
+				}
+			});
+			$('#pic').diyUpload({
+				url: 'http://192.168.30.62:8080/file/upload',
+				success: function success(data) {
+					console.info(data);
+					_this.new_infos[0].icon = data.object.src;
+				},
+				error: function error(err) {
+					console.info(err);
+				},
+				buttonText: '选择图片',
+				chunked: true,
+	
+				chunkSize: 512 * 1024,
+	
+				fileNumLimit: 1,
+				fileSizeLimit: 500000 * 1024,
+				fileSingleSizeLimit: 50000 * 1024,
+				accept: {}
+			});
+			$('#firstpic').diyUpload({
+				url: 'http://192.168.30.62:8080/file/upload',
+				success: function success(data) {
+					console.info(data);
+					_this.new_infos[0].cover = data.object.src;
+				},
+				error: function error(err) {
+					console.info(err);
+				},
+				buttonText: '选择图片',
+				chunked: true,
+	
+				chunkSize: 512 * 1024,
+	
+				fileNumLimit: 1,
+				fileSizeLimit: 500000 * 1024,
+				fileSingleSizeLimit: 50000 * 1024,
+				accept: {}
+			});
+	
+			$('#tuji').diyUpload({
+				url: 'http://192.168.30.62:8080/file/upload',
+				success: function success(data) {
+					console.info(data);
+					var imgobj = new Object();
+					imgobj.img = data.object.src;
+					var m = data.object.src;
+					imgobj.remark = '';
+					_this.new_infos[0].imgs.push(imgobj);
+					$('#tuji').siblings('input[type="hidden"]').val(m);
+					$('.tuji').find('.attention').hide();
+				},
+				error: function error(err) {
+					console.info(err);
+				},
+				buttonText: '选择图片',
+				chunked: true,
+	
+				chunkSize: 512 * 1024,
+	
+				fileNumLimit: 1,
+				fileSizeLimit: 500000 * 1024,
+				fileSingleSizeLimit: 50000 * 1024,
+				accept: {}
+			});
+			var indexImg = 1;
+		},
+		methods: {
+			addPicture: function addPicture() {
+				var tuJiId = 'tuji' + indexImg;
+				var imgobj = new Object();
+				imgobj.img = '';
+				imgobj.remark = '';
+				_this.new_infos[0].imgs.push(imgobj);
+			},
+			openvideolay: function openvideolay(event) {
+				var _this = this;
+				layer.open({
+					type: 1,
+					skin: 'layui-layer-rim',
+					area: ['600px', '250px'],
+					content: '<form id="form-upload" action="">' + '<div style="width:80%; margin:40px auto 0;" >' + '<label style="color:#000000;" for="addvideo">视频：</label>' + '<input type="file" name="file" accept="video/*" id="addvideo"  style="width:90%;"/>' + '</div>' + '<div style="text-align:center;margin:20px 0 0 0;"><button type="button" style="width:10%; height:34px; line-height:34px;" id="check">校验</button><button style="display:none;width:10%;height:34px;line-height:34px;" id="upload">上传</button></div>' + '</form>'
+				});
+				var $fileForm = $('#form-upload');
+	
+				var checkFile = false;
+				function initUploadBtn() {
+					var filename = $fileForm.find('[name="file"]').val();
+					var $check = $fileForm.find('#check');
+					var $upload = $fileForm.find('#upload');
+					if (checkFile && checkFile == filename) {
+						$check.hide();
+						$upload.show();
+					} else {
+						$check.show();
+						$upload.hide();
+					}
+				}
+	
+				$fileForm.find('[name="file"]').change();
+				$('#check').off('click');
+				$('#check').on('click', function (ev) {
+					var $file = $fileForm.find('[name="file"]');
+					var filename = $file.val();
+					var fileChecked = true;
+					if (filename.length <= 0) {
+						console.log("请先选择文件");
+						fileChecked = false;
+					} else {
+						checkFile = filename;
+					}
+					if (fileChecked) {
+						var $this = $(this);
+						$this.prop('disabled', true);
+						console.log("文件校验中, 请稍等 ...");
+						_this.$http.get('http://192.168.30.62:8080/file/upYunFormSignature?filename=' + filename).then(function (response) {
+							var res = response.data.object;
+	
+							var action = res.action;
+							var signature = res.signature;
+							var policy = res.policy;
+							var params = res.params;
+	
+							function hidden(name, value) {
+								return '<input type="hidden" name="' + name + '" value="' + value + '" />';
+							}
+							$fileForm.attr('action', action);
+							if (params) {
+								for (var k in params) {
+									var value = params[k];
+									$fileForm.append(hidden(k, value));
+								}
+							}
+	
+							$fileForm.append(hidden('signature', signature));
+							$fileForm.append(hidden('policy', policy));
+	
+							checkFile = res.filename;
+							initUploadBtn();
+						}, function (response) {
+							console.log(response);
+						});
+					}
+				});
+				$('#upload').off('click');
+				$('#upload').on('click', function () {
+					var $this = $(this);
+					$this.prop('disabled', true);
+					console.log("上传中，请稍等 ..");
+					$fileForm.ajaxSubmit({
+						'url': $fileForm.attr('action'),
+						'type': 'post',
+						'dataType': 'json',
+						'success': function success(d) {
+							var code = d.code;
+							if (code == 200) {
+								$('#addinfo').find('input[name="videoUrlUpload"]').val(d.url).change();
+							} else {
+								console.log('操作失败,原因:' + d.message);
+							}
+							console.log(d);
+						},
+						complete: function complete() {
+							console.log('完成');
+							layer.closeAll();
+						}
+					});
+				});
+			},
+			savedraft: function savedraft(event) {
+				this.new_infos[0].isPublished = 0;
+				var typenum = this.new_infos[0].type;
+				var newsobj = this.new_infos[0];
+				if (typenum == 3) {
+					$('.tuji').each(function (index) {
+						var rem = $(this).find('.u-n-ttr').val();
+						if (rem == '') {
+							console.log("当前索引" + index + "的说明为空！");
+						} else {
+							newsobj.imgs[index].remark = rem;
+						}
+					});
+				}
+				var jsonInfos = (0, _stringify2.default)(newsobj);
+				var parm = new Object();
+				parm.jsonInfo = jsonInfos;
+				console.log(parm);
+				this.$http.post('event/information/save', parm).then(function (successResponse) {
+					var code = successResponse.data.code;
+					console.log(code);
+				}, function (errorResponse) {
+					console.log("通讯错误");
+				});
+			},
+			savetrue: function savetrue(event) {
+				this.new_infos[0].isPublished = 1;
+				var typenum = this.new_infos[0].type;
+				var newsobj = this.new_infos[0];
+				var isicon = this.new_infos[0].icon;
+				var iscover = this.new_infos[0].cover;
+				function errorPlacement(mes, element) {
+					var errorTips = element.parents(".m-lst").find('div.attention');
+					if (mes != "") {
+						errorTips.show().html(mes);
+					} else {
+						errorTips.hide();
+					}
+				}
+				function tujierrorPlacement(mes, element) {
+					var errorTips = element.parents(".tuji").find('div.attention');
+					if (mes != "") {
+						errorTips.show().html(mes);
+					} else {
+						errorTips.hide();
+					}
+				}
+				function formValidate() {
+					var valid = true;
+					$('.m-addzx [required]').each(function () {
+						var $this = $(this);
+						var value = $this.val(),
+						    name = $this.attr('title');
+						var text = '';
+						if (value == null || value == '') {
+							text = name + '不能为空！';
+							valid = false;
+						}
+						errorPlacement(text, $this);
+					});
+					var $slt = $('#pic');
+					if (isicon == '') {
+						valid = false;
+						errorPlacement('请先上传缩略图！', $slt);
+					} else {
+						errorPlacement('', $slt);
+					}
+					if (typenum == 1) {
+						var $this = $('.m-addzx [twsource]');
+						var twval = $this.val();
+						if (twval == null || twval == '') {
+							valid = false;
+							errorPlacement('资讯来源不能为空！', $this);
+						} else {
+							errorPlacement('', $this);
+						}
+						var $thistwrek = $('.m-addzx [twremark]'),
+						    thistwrek = $thistwrek.val();
+						if (thistwrek == null || thistwrek == '') {
+							valid = false;
+							errorPlacement('详细内容不能为空！', $thistwrek);
+						} else {
+							errorPlacement('', $thistwrek);
+						}
+					}
+					if (typenum == 4) {
+						var $thiskey = $('.m-addzx [spkeyword]'),
+						    thiskey = $thiskey.val();
+						if (thiskey == null || thiskey == '') {
+							valid = false;
+							errorPlacement('关键字不能为空！', $thiskey);
+						} else {
+							errorPlacement('', $thiskey);
+						}
+						var $thisspurl = $('.m-addzx [spurl]'),
+						    thisspurl = $thisspurl.val();
+						if (thisspurl == null || thisspurl == '') {
+							valid = false;
+							errorPlacement('视频地址不能为空！', $thisspurl);
+						} else {
+							errorPlacement('', $thisspurl);
+						}
+						var $st = $('#firstpic');
+						if (iscover == '') {
+							valid = false;
+							errorPlacement('首图不能为空！', $st);
+						} else {
+							errorPlacement('', $st);
+						}
+					}
+					if (typenum == 3) {
+						var $tjsource = $('.m-addzx [tjsource]'),
+						    tjsource = $tjsource.val();
+						if (tjsource == null || tjsource == '') {
+							valid = false;
+							errorPlacement('资讯来源不能为空！', $tjsource);
+						} else {
+							errorPlacement('', $tjsource);
+						}
+	
+						$('.tuji').each(function (index) {
+							var hidipt = $(this).find('input[type="hidden"]').val();
+							var hid = $(this).find('input[type="hidden"]');
+							if (hidipt == '') {
+								tujierrorPlacement('请先上传图片', hid);
+								valid = false;
+							} else {
+								tujierrorPlacement('', hid);
+								var n = $(this).find('.u-n-ttr');
+								var rem = $(this).find('.u-n-ttr').val();
+								if (rem == '') {
+									tujierrorPlacement('图片说明不能为空！', n);
+									valid = false;
+								} else {
+									tujierrorPlacement('', n);
+									newsobj.imgs[index].remark = rem;
+									console.log(newsobj.imgs);
+								}
+							}
+						});
+					}
+					return valid;
+				}
+				var jsonInfos = (0, _stringify2.default)(newsobj);
+				var parm = new Object();
+				parm.jsonInfo = jsonInfos;
+				parm.oldVideoUrl = this.oldVideoUrl;
+				console.log(parm);
+				console.log(formValidate());
+				if (formValidate()) {
+					this.$http.post('event/information/save', parm).then(function (successResponse) {
+						var code = successResponse.data.code;
+						console.log(code);
+					}, function (errorResponse) {
+						console.log("通讯错误");
+					});
+				}
+			}
+		}
+	};
+
+/***/ },
+/* 123 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = "\n\t\t<top-nav></top-nav> \n\t\t<div class=\"g-mg-reset\">\n\t\t\t<div class=\"g-tp\"></div>\n\t\t\t<div class=\"m-d pb80\" style=\"height:auto;\">\n\t\t\t\t<p class=\"s-n-title\">编辑资讯</p>\n\t\t\t\t<form id=\"addinfo\" v-for=\"new_info in new_infos\">\n\t\t\t\t<div class=\"m-addzx\">\t\n\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t\t<label for=\"\">标题:</label>\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入资讯标题\" value=\"{{new_info.title}}\" title=\"标题\" maxlength=\"15\"  v-model=\"new_info.title\" required>\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t\t<label for=\"\">类型:</label>\n\t\t\t\t\t\t<select class=\"m-n-select\" v-model=\"new_info.type\">\n\t\t\t\t\t\t\t<option v-bind:value=\"1\" selected=\"selected\">资讯</option>\n\t\t\t\t\t\t\t<option v-bind:value=\"3\">图集</option>\n\t\t\t\t\t\t\t<option v-bind:value=\"4\">视频</option>\t\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst clearfix\">\t\t\t\t\n\t\t\t\t\t\t<label for=\"\">生效时间:</label>\n\t\t\t\t\t\t<div class=\"input-append date form_datetime\">\n\t\t\t\t\t\t    <input size=\"16\" type=\"text\" id=\"begintime\" value=\"{{new_info.timerDate}}\" placeholder=\"请选择时间\" title=\"生效时间\"  v-model=\"new_info.timerDate\" style=\"cursor:not-allowed;\" required>\n\t\t\t\t\t\t    <label for=\"begintime\" class=\"add-on\"><i class=\"icon-th\"></i></label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t\t<label for=\"\">创建人:</label>\n\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" value=\"{{new_info.creater}}\" placeholder=\"请输入创建人\" title=\"创建人\"  maxlength=\"10\" v-model=\"new_info.creater\" required>\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst clearfix\" style=\"height:74px;\">\t\t\t\t\n\t\t\t\t\t\t<label for=\"\" style=\"margin-top:20px;\">缩略图:</label>\t\n\t\t\t\t\t\t<div class=\"picBox m-n-sltpic\">\n\t\t\t\t\t\t\t<div id=\"pic\" class=\"l mt10\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"previewPic previewPic-slt\">\n\t\t\t\t\t\t\t<img v-bind:src=\"'http://img.wangyuhudong.com'+new_info.icon\" alt=\"\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-n-lx\">\n\t\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t\t\t<label for=\"\">资讯来源:</label>\n\t\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" value=\"{{new_info.source}}\" placeholder=\"请输入资讯来源\" title=\"资讯来源\" maxlength=\"10\" v-model=\"new_info.source\" twsource>\n\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst\" style=\"margin: 10px 0;\">\t\t\t\t\n\t\t\t\t\t\t\t<label for=\"\">详细内容:</label>\n\t\t\t\t\t\t\t<textarea name=\"\" id=\"\" cols=\"50\" rows=\"3\"  title=\"详细内容\" value=\"{{new_info.remark}}\" placeholder=\"请输入比赛赛制规则，不超过200字\" v-model=\"new_info.remark\" twremark></textarea>\n\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-n-lx dn\">\n\t\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t\t\t<label for=\"\">关键字:</label>\n\t\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入关键字\" maxlength=\"15\" title=\"关键字\" v-model=\"new_info.keyword\" spkeyword value=\"{{new_info.keyword}}\">\n\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst clearfix\" style=\"height:80px;\">\t\t\t\t\n\t\t\t\t\t\t\t<label for=\"\" style=\"margin-top:20px;\">首图:</label>\n\t\t\t\t\t\t\t<div class=\"picBox m-n-sltpic\">\n\t\t\t\t\t\t\t\t<div id=\"firstpic\" class=\"l mt10\"></div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"previewPic previewPic-slt\">\n\t\t\t\t\t\t\t\t<img v-bind:src=\"'http://img.wangyuhudong.com'+new_info.cover\" alt=\"\">\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t\t\t<label for=\"\">视频地址:</label>\n\t\t\t\t\t\t\t<input type=\"text\" placeholder=\"点击上传视频\" name=\"videoUrlUpload\" wy-required=\"视频地址\" v-model=\"new_info.videoUrl\" @click=\"openvideolay\" spurl readonly value=\"{{new_info.videoUrl}}\"/>\n\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-n-lx dn\"> \n\t\t\t\t\t\t<div class=\"m-lst\">\t\t\t\t\n\t\t\t\t\t\t\t<label for=\"\">资讯来源:</label>\n\t\t\t\t\t\t\t<input type=\"text\" class=\"eventname\" placeholder=\"请输入资讯来源\" maxlength=\"10\" v-model=\"new_info.source\" tjsource>\n\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"m-lst clearfix\">\t\t\t\t\n\t\t\t\t\t\t\t<label for=\"\" class=\"l\">图集:</label>\n\t\t\t\t\t\t\t<div class=\"l\" style=\"width: 320px;\" id=\"tujidiv\">\n\t\t\t\t\t\t\t\t<div class=\"tuji clearfix l\" v-for=\"img in new_info.imgs\">\n\t\t\t\t\t\t\t\t  \t<div class=\"tujinei \">\n\t\t\t\t\t\t\t\t\t\t<div id=\"tuji{{img.id}}\" class=\"l mt10 m-tuji\"></div>\n\t\t\t\t\t\t\t\t\t\t<input type=\"hidden\" value=\"{{img.img}}\">\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<textarea placeholder=\"图片描述\" class=\"u-n-ttr\">{{img.remark}}</textarea>\n\t\t\t\t\t\t\t\t\t<img src=\"" + __webpack_require__(83) + "\" title=\"移出\" class=\"u-tuji-del\">\n\t\t\t\t\t\t\t\t\t<div class=\"tips\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"attention\"></div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"previewPic previewPic-slt previewPic-tuji\">\n\t\t\t\t\t\t\t\t\t\t<img v-bind:src=\"'http://img.wangyuhudong.com'+img.img\" alt=\"\">\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<p class=\"l col350 csp\" id=\"addPicture\" @click=\"addPicture\">+添加一张照片</p>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"m-lst tc m-n-mbtn\">\n\t\t\t\t\t\t<button type=\"button\" class=\"u-del-btn\" @click=\"savetrue\">确定</button>\n\t\t\t\t\t\t<button type=\"button\" class=\"u-del-btn u-draft-btn\" @click=\"savedraft\">存草稿</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t\t<div class=\"g-bt\"></div>\n\t\t</div>\n\t</div>\n";
+
+/***/ },
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -15606,7 +18511,7 @@
 	}));
 
 /***/ },
-/* 107 */
+/* 125 */
 /***/ function(module, exports) {
 
 	/*!

@@ -42,12 +42,12 @@ module.exports = {
     hot: true,
     inline: true,
     progress: true,
-    proxy: {
-      '/event/*': {
-          target: 'http://192.168.30.62:8080',
-          secure: false
-      }
-    }
+    // proxy: {
+    //   '/event/*': {
+    //       target: 'http://192.168.30.62:8080',
+    //       secure: false
+    //   }
+    // }
   },
   devtool: 'eval-source-map'
 }
