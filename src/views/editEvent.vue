@@ -618,9 +618,11 @@ import topHead from '../components/topHead.vue'
 
 			    	_this.$http.post('event/save',parm).then(function (response) {
 		  				console.log(parm);
-			  			// if(response.data.code){
-			  			// 	this.$route.router.go({path: '/homepage', replace: true})
-			  			// 	}
+			  			if(response.data.code==1){
+			  				this.$route.router.go({path: '/homepage', replace: true})
+			  			}else{
+			  				layer.msg(response.data.msg,{offset:"0px"});
+			  			}
 			        }, function (response) {
 			            console.log(22);
 			        }) 
