@@ -87,7 +87,6 @@
   				var code = response.data.code;
   				if(code==-10){
   					$('.attention').text('登录失败!').show();
-		  			window.sessionStorage.setItem("username",this.username);
   				}
   				else{
   					var msg = response.data.msg;
@@ -100,6 +99,7 @@
   					document.cookie="oetevent.login.sessionid="+response.data.object["oetevent.login.sessionid"];
 			  		document.cookie="oetevent.login.token="+response.data.object["oetevent.login.token"];
 			  		document.cookie="userId="+response.data.object["userId"];
+			  		window.sessionStorage.setItem("username",this.username);
 			  		this.$route.router.go({path: '/homepage'}); 
   				}
 	            }, function (response) {
