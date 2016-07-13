@@ -189,7 +189,7 @@ Date.prototype.Format = function (fmt) { // author: meizz
   		var obj = this.new_infos[0];
   		obj.eventId=window.sessionStorage.getItem("eventid");
 		obj.id=window.sessionStorage.getItem("newsId");
-		_this.$http.get('http://wy.oetapi.wangyuhudong.com/event/information/detail?id='+obj.id).then(function(response){
+		_this.$http.get('event/information/detail?id='+obj.id).then(function(response){
 			var code = response.data.code;
 			if(code==-1){
 		    	alert("参数错误");

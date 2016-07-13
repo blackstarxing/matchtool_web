@@ -5,7 +5,7 @@
 		<div class="g-mg-reset">
 			<div class="g-tp"></div>
 			<div class="m-d">
-				<p class="m-d-tit">浙江省网娱大师-雪碧真英雄城市争霸赛</p>
+				<p class="m-d-tit">{{eventname}}</p>
 				<div class="s-d">
 					<div class="s-d-in">
 						<p class="mb12 ls1">重置赛事</p>
@@ -36,12 +36,14 @@ import topHead from '../components/topHead.vue'
   export default {
     data () {
       return {
+      	eventname:"",
         oetInfoId:"",
         oetRoundId:""
       }
   	},
   	ready:function(){
   		var _this=this;
+  		_this.eventname=window.sessionStorage.getItem("eventname");
   		_this.oetInfoId=window.sessionStorage.getItem("eventid");
   		_this.oetRoundId=window.sessionStorage.getItem("roundid");
   	},
@@ -54,7 +56,7 @@ import topHead from '../components/topHead.vue'
 			}, function(){
 			  	var parm={};
 	   			parm.jsonInfo=JSON.stringify({oetRoundId:_this.oetRoundId});
-				_this.$http.get('http://wy.oetapi.wangyuhudong.com/event/reset',parm).then(function(response) {
+				_this.$http.get('event/reset',parm).then(function(response) {
 		        	console.log(response.data);
 		        	if(response.data.code==1){
 		        		layer.msg("重置成功",{offset:"0px"});
@@ -76,7 +78,7 @@ import topHead from '../components/topHead.vue'
 			}, function(){
 			  	var parm={};
 	   			parm.jsonInfo=JSON.stringify({oetInfoId:_this.oetInfoId});
-				_this.$http.get('http://wy.oetapi.wangyuhudong.com/event/delete',parm).then(function(response) {
+				_this.$http.get('event/delete',parm).then(function(response) {
 		        	console.log(response.data);
 		        	if(response.data.code==1){
 		        		layer.msg("删除成功",{offset:"0px"});
