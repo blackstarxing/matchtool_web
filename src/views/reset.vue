@@ -56,7 +56,7 @@ import topHead from '../components/topHead.vue'
 			}, function(){
 			  	var parm={};
 	   			parm.jsonInfo=JSON.stringify({oetRoundId:_this.oetRoundId});
-				_this.$http.get('http://wy.oetapi.wangyuhudong.com/event/reset',parm).then(function(response) {
+				_this.$http.get('event/reset',parm).then(function(response) {
 		        	console.log(response.data);
 		        	if(response.data.code==1){
 		        		layer.msg("重置成功",{offset:"0px"});
@@ -78,7 +78,7 @@ import topHead from '../components/topHead.vue'
 			}, function(){
 			  	var parm={};
 	   			parm.jsonInfo=JSON.stringify({oetInfoId:_this.oetInfoId});
-				_this.$http.get('http://wy.oetapi.wangyuhudong.com/event/delete',parm).then(function(response) {
+				_this.$http.get('event/delete',parm).then(function(response) {
 		        	console.log(response.data);
 		        	if(response.data.code==1){
 		        		layer.msg("删除成功",{offset:"0px"});

@@ -210,7 +210,7 @@ import topHead from '../components/topHead.vue'
    			_this.username=window.sessionStorage.getItem("username");
    			var parm={};
    			parm.jsonInfo=JSON.stringify({itemsId:""});
-   			_this.$http.get('http://wy.oetapi.wangyuhudong.com/event/queryActivityItem',parm).then(function (response) {
+   			_this.$http.get('event/queryActivityItem',parm).then(function (response) {
   				var gameList=response.data.object.itemsList;
   				var content='';
   				
@@ -380,7 +380,7 @@ import topHead from '../components/topHead.vue'
 		    	var _this=this;
 		    	var parm={};
 	   			parm.jsonInfo=JSON.stringify({itemsId:_this.formdata.itemId});
-	   			_this.$http.get('http://wy.oetapi.wangyuhudong.com/event/queryActivityItem',parm).then(function (response) {
+	   			_this.$http.get('event/queryActivityItem',parm).then(function (response) {
 	  				var gameList=response.data.object.itemsServerList;
 	  				var content='<option value="">请选择服务器</option>';
 	  				
@@ -538,7 +538,7 @@ import topHead from '../components/topHead.vue'
 						window.sessionStorage.setItem("isoverhalf",false);
 					}
 					
-			    	_this.$http.post('http://wy.oetapi.wangyuhudong.com/event/save',parm).then(function (response) {
+			    	_this.$http.post('event/save',parm).then(function (response) {
 		  				console.log(parm);
 			  			if(response.data.code==1){
 			  				this.$route.router.go({path: '/homepage', replace: true})

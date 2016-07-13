@@ -68,7 +68,7 @@
   },
   methods: {
   	checkin:function(){
-  		this.$http.post('http://wy.oetapi.wangyuhudong.com/event/login', this.$data).then(function (response) {
+  		this.$http.post('event/login', this.$data).then(function (response) {
   			window.sessionStorage.setItem("username",this.username);
   		document.cookie="oetevent.login.sessionid="+response.data.object["oetevent.login.sessionid"];
   		document.cookie="oetevent.login.token="+response.data.object["oetevent.login.token"];

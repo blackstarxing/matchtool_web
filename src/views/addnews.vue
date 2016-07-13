@@ -569,7 +569,7 @@
   				var parm = new Object();
   				parm.jsonInfo = jsonInfos;
 
-  				this.$http.post('http://wy.oetapi.wangyuhudong.com/event/information/save',parm).then(function(successResponse){
+  				this.$http.post('event/information/save',parm).then(function(successResponse){
 	  				var code = successResponse.data.code;
 	  				console.log(code);
 	  				this.$route.router.go({path: '/newslist'});
@@ -716,7 +716,7 @@
   				var parm = new Object();
   				parm.jsonInfo = jsonInfos;
 
-  				this.$http.post('http://wy.oetapi.wangyuhudong.com/event/information/save',parm).then(function(successResponse){
+  				this.$http.post('event/information/save',parm).then(function(successResponse){
 	  				var code = successResponse.data.code;
 	  				console.log(code);
 	  				this.$nextTick(function(){

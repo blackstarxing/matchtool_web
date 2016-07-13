@@ -138,6 +138,7 @@ import topHead from '../components/topHead.vue'
 		    upsetseat:function(e){
 		    	var _this=this;
 		    	var parm={eventId:_this.eventId};
+
 		    	_this.$http.get('event/round/groupSeat/random',parm).then(function(response) {
 		        	console.log(response.data);
 		        	if(response.data.code==1){
