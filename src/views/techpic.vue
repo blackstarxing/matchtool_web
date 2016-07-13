@@ -166,13 +166,13 @@
           <li class="edit_detail_left">
             <div class="edit_ring">{{personNamea.substr(0,1)}}</div>
             <p style="margin:10px 0;">{{personNamea}}</p>
-            <div class="alread_score"><span style="display:none">{{seatida}}</span></div>
+            <div class="alread_score"><span class="alread_score_dt"></span><span style="display:none">{{seatida}}</span></div>
           </li>
           <li class="edit_detail_mid">vs</li>
           <li class="edit_detail_right">
             <div class="edit_ring">{{personNameb.substr(0,1)}}</div>
             <p style="margin:10px 0;">{{personNameb}}</p>
-            <div style="margin:0 auto;" class="alread_score"><span style="display:none">{{seatidb}}</span></div>
+            <div style="margin:0 auto;" class="alread_score"><span class="alread_score_dt"></span><span style="display:none">{{seatidb}}</span></div>
           </li>
         </ul>
         <div class="turn_edit_line" style="text-align: center;"><img src="../../static/images/turnline.png"></div>
@@ -237,16 +237,6 @@ import topNav from '../components/topNav.vue'
       beginparm.oetInfoId=_eventid;
       beginparm.oetRoundId=_roundid;
       var parmstr=JSON.stringify(beginparm);
-      var _parm={};
-      _parm.jsonInfo=parmstr;
-    _this.$http.get('event/getStatusByTime',_parm).then(function(response){
-      if(response.data.object.roundStatus==4){
-        window.sessionStorage.setItem("turnrate",response.data.object.rate);
-        this.$route.router.go({path: '/techPic/beginingTech'})
-      }
-      },function(response) {
-              console.log(response);
-          });
 
     var parm={};
        parm.id=_eventid;
@@ -327,7 +317,7 @@ import topNav from '../components/topNav.vue'
                 $(".tech_container").append('<canvas id="mycanvas" width='+_width+' height='+_height+'></canvas> ');
 
                 //获取turn2的数据
-                 var onelist = []; 
+                 var onelist = [];
                 function getnum(arr){
                   for(var i=0;i<arr.length;i++){
                     if(arr[i].turn == 2){
@@ -357,56 +347,14 @@ import topNav from '../components/topNav.vue'
                     var _one_list_li=_one_ul.find(".recta");
 
                       if(onelist[i].seats[0].seatNumber){
-                        if(onelist[i].groups==null){
-                              if(onelist[i].seats[1].seatNumber){
-
-                                _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
-                                _one_list.eq(1).text(onelist[i].seats[1].seatNumber);
-                                 if(onelist[i].seats[0].target){
-                                    _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>');
-                                  }
-                                  if(onelist[i].seats[1].target){
-                                    _one_list_li.eq(1).append('<span>'+onelist[i].seats[1].target.name+'</span>');
-                                  }
-                            }else{
-                                _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
-                                if(onelist[i].seats[0].target){
-                                  _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>'); 
-                                }
-                                  
-                            }
-                          
-                          }else if(onelist[i].groups.length==2){
-                            if(onelist[i].seats[1].seatNumber){
-                              _one_ul.parents('.out_li').html('<ul class="unit_ul" data-groupid='+onelist[i].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].seats[0].id+'><span class="recta_num">'+onelist[i].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].seats[0].target?onelist[i].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].scores?onelist[i].scores.seatleft:"")+'</span></li><li  class="recta"><input type="hidden" value='+onelist[i].seats[1].id+'><span class="recta_num">'+onelist[i].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].seats[1].target?onelist[i].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].scores?onelist[i].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>');
-                              // _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
-                              // _one_list.eq(1).text(onelist[i].seats[1].seatNumber);
-                              // _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>');
-                              // _one_list_li.eq(1).append('<span>'+onelist[i].seats[1].target.name+'</span>');
-                          }else{
-                              _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
-                              _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>');
-                              
-                          }
+                        if(onelist[i].groups.length==2){
                           
                            var _topd=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                           _topdY.push(_topd);
                           listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[0].seats[0].id+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[0].seats[1].id+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[1].seats[0].id+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[1].seats[1].id+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[1].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
                         }else if(onelist[i].groups.length==1){
-                               if(onelist[i].seats[1].seatNumber){
-                                console.log(777);
-                                console.log(onelist[i].id);
-                                _one_ul.attr("data-groupid",onelist[i].id);
-                                _one_ul.parents('.out_li').html('<ul class="unit_ul" data-groupid='+onelist[i].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].seats[0].id+'><span class="recta_num">'+onelist[i].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].seats[0].target?onelist[i].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].scores?onelist[i].scores.seatleft:"")+'</span></li><li  class="recta"><input type="hidden" value='+onelist[i].seats[1].id+'><span class="recta_num">'+onelist[i].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].seats[1].target?onelist[i].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].scores?onelist[i].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>');
-                                  
-                              }else{
-                                  _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
-                                   if(onelist[i].seats[0].target){
-                                    _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>');
-                                  }
-                                  
-                              }
-                                var _tops=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
+                              
+                              var _tops=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                               _topsY.push(_tops);
                               listArry.eq(0).append('<li class="out_li single_line"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[0].seats[0].id+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[0].seats[1].id+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');
                             
@@ -432,6 +380,7 @@ import topNav from '../components/topNav.vue'
                     list_double.eq(i).offset({'top':_topdY[i]-35});
                   }
                 }
+
 
             
                  //根据矩形坐标画线
@@ -614,6 +563,104 @@ import topNav from '../components/topNav.vue'
                   }  
                 }
              }
+
+            var listtwo=[];
+             var listthree=[];
+             var listfour=[];
+             var listfive=[];
+             var _html;
+
+             function getnum2(arr){
+                  for(var i=0;i<arr.length;i++){
+                    if(arr[i].turn == 2){
+                      listtwo.push(arr[i]);
+                    }else{
+                        for(var key in arr[i]){
+                            if(key=='groups'){
+                              getnum2(arr[i][key]);
+                            }
+                          }  
+                      } 
+                  }
+                     
+                }
+                getnum2(_this.matchdata);
+                for(var i=0;i<listtwo.length;i++){
+                  listArry.eq(1).find('.out_li').eq(i).html(newdom(i,listtwo));
+                  
+                }
+
+               if(turn>2){
+                  function getnum3(arr){
+                  for(var i=0;i<arr.length;i++){
+                    if(arr[i].turn == 3){
+                      listthree.push(arr[i]);
+                    }else{
+                        for(var key in arr[i]){
+                            if(key=='groups'){
+                              getnum3(arr[i][key]);
+                            }
+                          }  
+                      } 
+                  }
+                     
+                }
+                getnum3(_this.matchdata);
+                for(var i=0;i<listthree.length;i++){
+                  listArry.eq(2).find('.out_li').eq(i).html(newdom(i,listthree));
+                  console.log(listthree[i].seats[0].seatNumber);
+                }
+
+                }
+
+                if(turn>3){
+                  function getnum4(arr){
+                  for(var i=0;i<arr.length;i++){
+                    if(arr[i].turn == 4){
+                      listfour.push(arr[i]);
+                    }else{
+                        for(var key in arr[i]){
+                            if(key=='groups'){
+                              getnum4(arr[i][key]);
+                            }
+                          }  
+                      } 
+                  }
+                     
+                }
+                getnum4(_this.matchdata);
+                for(var i=0;i<listfour.length;i++){
+                  listArry.eq(3).find('.out_li').eq(i).html(newdom(i,listfour));
+                }
+                }
+
+              if(turn>4){
+                  function getnum5(arr){
+                  for(var i=0;i<arr.length;i++){
+                    if(arr[i].turn == 5){
+                      listfive.push(arr[i]);
+                    }else{
+                        for(var key in arr[i]){
+                            if(key=='groups'){
+                              getnum5(arr[i][key]);
+                            }
+                          }  
+                      } 
+                  }
+                     
+                }
+                getnum5(_this.matchdata);
+                for(var i=0;i<listfive.length;i++){
+                  listArry.eq(4).find('.out_li').eq(i).html(newdom(i,listfive));
+                }
+                }
+
+            function newdom(i,list){
+                _html='<ul class="unit_ul" data-groupid='+list[i].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;"><input type="hidden" value='+list[i].seats[0].id+'><span class="recta_num">'+(list[i].seats[0].seatNumber?list[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(list[i].seats[0].target?list[i].seats[0].target.name:"")+'</span><span class="recta_right '+(list[i].seats[0].isWin?"add_winer":"")+'">'+(list[i].scores?list[i].scores.seatleft:"")+'</span></li><li  class="recta"><input type="hidden" value='+list[i].seats[1].id+'><span class="recta_num">'+(list[i].seats[1].seatNumber?list[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(list[i].seats[1].target?list[i].seats[1].target.name:"")+'</span><span class="recta_right '+(list[i].seats[1].isWin?"add_winer":"")+'">'+(list[i].scores?list[i].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(list[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>';
+
+                return _html;
+            }
+                
              //编辑查看悬浮框
               $(".edit_score").mouseover(function(){
                     $(this).next(".float_edit").show();
@@ -716,6 +763,18 @@ import topNav from '../components/topNav.vue'
           },function(response) {
               console.log(response);
           });
+
+      var _parm={};
+      _parm.jsonInfo=parmstr;
+    _this.$http.get('event/getStatusByTime',_parm).then(function(response){
+      if(response.data.object.roundStatus==4){
+        window.sessionStorage.setItem("turnrate",response.data.object.rate);
+        this.$route.router.go({path: '/techPic/beginingTech'})
+      }
+      },function(response) {
+              console.log(response);
+          });
+
      },
      methods:{
       turnName: function(e){
@@ -773,17 +832,19 @@ import topNav from '../components/topNav.vue'
       submitScore:function(){
         var _this=this;
         var scoreparm={};
+        var scorep=[];
         for(var i=0;i<_this.scorelis.length;i++){
-          if(!_this.scorelis[i].seatleft){
-            _this.scorelis.splice(i,1);
+          if(_this.scorelis[i].seatleft){
+            scorep.push(_this.scorelis[i]);
           }
         }
         scoreparm.groupid=_this.groupid.groupId;
-        scoreparm.bs=_this.scorelis;
+        scoreparm.bs=scorep;
 
       var parmstr=JSON.stringify(scoreparm);
       var parm={};
       parm.scores=parmstr;
+      console.log(parm);
       if($('.made_winer').hasClass('winer_active')){
         parm.seatId=$(".winer_active").find('span').text();
       }
@@ -792,7 +853,7 @@ import topNav from '../components/topNav.vue'
       console.log(response);
         if(response.data.code){
           $(".m_edit").hide();
-          window.location.reload();
+           window.location.reload();
 
         }
       },function(response) {

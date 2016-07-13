@@ -123,7 +123,7 @@ import topHead from '../components/topHead.vue'
 		        _this.$http.get('event/getEventRoundList',parm).then(function(response) {
 		        	console.log(response);
 		            _this.matchlists=response.data.object.pager;
-		            this.eventName="";
+		            // this.eventName="";
 		        },function(response) {
 		            console.log(response);
 		        });
