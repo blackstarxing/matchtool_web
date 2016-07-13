@@ -45,7 +45,7 @@
 								</div>
 	                        </td>
 	                        <td class="get_eventname">{{matchlist.eventName}}</td>
-	                        <td>网娱大师官方赛事组</td>
+	                        <td>{{username}}</td>
 	                        <td>单阶段  单败制</td>
 	                        <td>{{matchlist.num}}/{{matchlist.maxNum}}</td>
 	                        <td>{{new Date(matchlist.createDate).Format("yyyy-MM-dd hh:mm:ss")}}</td>
@@ -81,12 +81,14 @@ import topHead from '../components/topHead.vue'
     		return {
     			matchlists:'',
     			roundlist:{pageNumber: 1},
+    			username:"",
     			eventName:'',
     			eventRoundStatus:''
     		}
   		},
    		ready: function () {
    			  var _this=this;
+   			  _this.username=window.sessionStorage.getItem("username");
    			  var parmstr=JSON.stringify(this.roundlist);
    			  var parm={};
    			  parm.jsonInfo=parmstr;
@@ -123,7 +125,7 @@ import topHead from '../components/topHead.vue'
 		        _this.$http.get('event/getEventRoundList',parm).then(function(response) {
 		        	console.log(response);
 		            _this.matchlists=response.data.object.pager;
-		            this.eventName="";
+		            // this.eventName="";
 		        },function(response) {
 		            console.log(response);
 		        });

@@ -295,7 +295,7 @@ import topHead from '../components/topHead.vue'
 				    	parm.memberJson=parmstr;
 				    	_this.$http.get('event/round/group/member/edit',parm).then(function(response) {
 				        	console.log(response.data);
-				        	if(response.data.code==0){
+				        	if(response.data.code){
 				        		$('.m-mask').hide();
 				        		layer.msg('修改成功',{offset:"0px"});
 						    	_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
