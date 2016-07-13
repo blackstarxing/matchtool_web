@@ -403,7 +403,6 @@ import topHead from '../components/topHead.vue'
     				}
     				else{
     					this.$http.get('event/information/list?eventId='+this.eventId).then(function(response){
-
 				  			this.$set('newslists', response.data.object);
 				  			var len = response.data.object.pager.list.length;
 				  			for(var i=0;i<len;i++){
