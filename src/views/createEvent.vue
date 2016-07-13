@@ -15,11 +15,11 @@
 					</div>
 					<div class="m-lst f-cb">
 						<label for="">赛事主办方：</label>
-						<div class="organize f-fl">个人：网娱大师</div>
+						<div class="organize f-fl">个人：{{username}}</div>
 						<div class="sponsor">
 							<a href="javascript:void(0);" class="u-select" @click="chooseOrganize">更改</a>
 							<ul class="organize_option">
-								<li class="selected">个人：网娱大师</li>
+								<li class="selected">个人：{{username}}</li>
 								<li class="disabled">组织：暂无</li>
 							</ul>
 						</div>						
@@ -180,6 +180,7 @@ import topHead from '../components/topHead.vue'
   	export default {
        	data () {
     		return {
+    			username:"",
     			formdata:{
     				name:"",
 	    			sponsorType:1,
@@ -206,6 +207,7 @@ import topHead from '../components/topHead.vue'
   		},
    		ready: function () {
    			var _this=this;
+   			_this.username=window.sessionStorage.getItem("username");
    			var parm={};
    			parm.jsonInfo=JSON.stringify({itemsId:""});
    			_this.$http.get('http://wy.oetapi.wangyuhudong.com/event/queryActivityItem',parm).then(function (response) {
