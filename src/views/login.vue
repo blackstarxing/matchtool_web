@@ -16,13 +16,16 @@
 				<p class="u-p-lg">用户登录</p>
 				<form class="mt56">
 					<div class="g-ipt-lg"><input type="text" name="telephone" placeholder="用户名/手机号码" class="u-ipt-lg" v-model="username"></div>
-					<div class="g-ipt-lg"><input type="password" name="password" placeholder="密码" class="u-ipt-lg" v-model="password"></div>
+					<div class="g-ipt-lg"><input type="password" name="password" placeholder="密码" class="u-ipt-lg" v-model="password" @keyup.enter="checkin"></div>
 					<div class="g-forget" style="display:none;">
 						<label class="l re">
 							<input type="checkbox" name="">记住我
 							<i class="u-mind-cb"></i>
 						</label>
 						<span class="r">忘记密码？</span>
+					</div>
+					<div class="tips" style="margin-right:80px;">
+						<div class="attention"></div>
 					</div>
 				</form>
 				<button type="button" class="u-lg-btn" @click = "checkin">登&nbsp&nbsp录</button>
@@ -68,17 +71,42 @@
   },
   methods: {
   	checkin:function(){
-  		this.$http.post('event/login', this.$data).then(function (response) {
-  			window.sessionStorage.setItem("username",this.username);
-  		document.cookie="oetevent.login.sessionid="+response.data.object["oetevent.login.sessionid"];
-  		document.cookie="oetevent.login.token="+response.data.object["oetevent.login.token"];
-  		document.cookie="userId="+response.data.object["userId"]; 
-		if(response.data.code){
-  			this.$route.router.go({path: '/homepage'})
+  		var username = $('[name="telephone"]').val();
+  		var pwd = $('[name="password"]').val();
+  		if(username=='' && pwd==''){
+  			$('.attention').text('用户名和密码不能为空!').show();
+  		}
+  		else if(username==''){
+  			$('.attention').text('用户名不能为空!').show();
+  		}
+  		else if(pwd==''){
+			$('.attention').text('密码不能为空!').show();
+  		}
+  		else{
+  			this.$http.post('http://wy.oetapi.wangyuhudong.com/event/login', this.$data).then(function (response) {
+  				var code = response.data.code;
+  				if(code==-10){
+  					$('.attention').text('登录失败!').show();
+		  			window.sessionStorage.setItem("username",this.username);
   				}
-            }, function (response) {
-              console.log(22);
-            }) 
+  				else{
+  					var msg = response.data.msg;
+  					if(msg=='登陆成功'){
+  						$('.attention').hide();
+  					}
+  					else{
+  						$('.attention').text(msg).show();
+  					}
+  					document.cookie="oetevent.login.sessionid="+response.data.object["oetevent.login.sessionid"];
+			  		document.cookie="oetevent.login.token="+response.data.object["oetevent.login.token"];
+			  		document.cookie="userId="+response.data.object["userId"];
+			  		this.$route.router.go({path: '/homepage'}); 
+  				}
+	            }, function (response) {
+	              	console.log(22);
+	            }) 
+  		}
+  		
   	}
   }
   }
