@@ -57,7 +57,8 @@
 						</div>
 						<div class="m-lst" style="margin: 10px 0;">				
 							<label for="">详细内容:</label>
-							<textarea name="" id="" cols="50" rows="3"  title="详细内容" placeholder="请输入比赛赛制规则，不超过200字" v-model="new_info.remark" twremark></textarea>
+							<div id="brief" class="m-editor" style="margin-left:118px; width:500px;" twremark></div>
+							<!-- <textarea name="" id="" cols="50" rows="3"  title="详细内容" placeholder="请输入比赛赛制规则，不超过200字" v-model="new_info.remark" twremark></textarea> -->
 							<div class="tips">
 								<div class="attention"></div>
 							</div>
@@ -166,6 +167,14 @@
 			    step:10
 	        });
        	$.datetimepicker.setLocale('ch');
+       	//绑定编辑器
+       	$('#brief').editable({
+				inlineMode: false,
+				theme: 'dark', 
+				alwaysBlank: true,
+				language: "zh_cn",
+				placeholder: '请输入详细内容'
+			});
     	//类型选择
     	$('.m-n-select').change(function(event) {
     		var lx = $(".m-n-select option:selected").val();
@@ -349,9 +358,7 @@
 					$upload.hide();
 				}
 			}
-			// $fileForm.find('[name="file"]').on('change',function(){
-			// 	initUploadBtn();
-			// });
+			
 			$fileForm.find('[name="file"]').change();	
 			$('#check').off('click');
 			$('#check').on('click', function(ev) {
@@ -476,14 +483,15 @@
   				    else{
   				    	errorPlacement('',$this);
   				    }
-  				    var $thistwrek = $('.m-addzx [twremark]'),
-  				        thistwrek = $thistwrek.val();
-			        if(thistwrek==null||thistwrek==''){
-			        	valid = false;
-  				    	errorPlacement('详细内容不能为空！',$thistwrek);
+  				    var $thistwrek = $('.m-addzx [twremark]').find('.froala-element'),
+  				        thistwrek = $thistwrek.html();
+			        if(thistwrek!="<p><br></p>"){
+			        	errorPlacement('',$thistwrek);
+			        	newsobj.remark=thistwrek;   	
 			        }
 			        else{
-			        	errorPlacement('',$thistwrek);
+			        	valid = false;
+  				    	errorPlacement('详细内容不能为空！',$thistwrek);
 			        }
 
   				}
@@ -551,12 +559,6 @@
   				return valid;	
   			}
   				
-  			// console.log(newsobj);
-  			// console.log(jsonInfos);
-  			// console.log('========================================');
-  			
-  			// console.log(parm);
-  			// console.log(newsobj.imgs);
   			if(formValidate()){
   				$('.tuji').each(function(index){
   					var rem = $(this).find('.u-n-ttr').val();
@@ -628,14 +630,15 @@
   				    else{
   				    	errorPlacement('',$this);
   				    }
-  				    var $thistwrek = $('.m-addzx [twremark]'),
-  				        thistwrek = $thistwrek.val();
-			        if(thistwrek==null||thistwrek==''){
-			        	valid = false;
-  				    	errorPlacement('详细内容不能为空！',$thistwrek);
+  				    var $thistwrek = $('.m-addzx [twremark]').find('.froala-element'),
+  				        thistwrek = $thistwrek.html();
+			        if(thistwrek!="<p><br></p>"){
+			        	errorPlacement('',$thistwrek);
+			        	newsobj.remark=thistwrek;   	
 			        }
 			        else{
-			        	errorPlacement('',$thistwrek);
+			        	valid = false;
+  				    	errorPlacement('详细内容不能为空！',$thistwrek);
 			        }
 
   				}
@@ -703,12 +706,6 @@
   				return valid;	
   			}
   				
-  			// console.log(newsobj);
-  			// console.log(jsonInfos);
-  			// console.log('========================================');
-  			
-  			// console.log(parm);
-  			// console.log(newsobj.imgs);
   			if(formValidate()){
   				$('.tuji').each(function(index){
   					var rem = $(this).find('.u-n-ttr').val();
