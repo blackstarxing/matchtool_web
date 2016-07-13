@@ -90,7 +90,7 @@ import topHead from '../components/topHead.vue'
    			  var parmstr=JSON.stringify(this.roundlist);
    			  var parm={};
    			  parm.jsonInfo=parmstr;
-	        _this.$http.get('http://wy.oetapi.wangyuhudong.com/event/getEventRoundList',parm).then(function(response) {
+	        _this.$http.get('event/getEventRoundList',parm).then(function(response) {
 	        	console.log(response);
 	            _this.matchlists=response.data.object.pager;
 	        },function(response) {
@@ -120,7 +120,7 @@ import topHead from '../components/topHead.vue'
 	   			var parmstr=JSON.stringify({eventName:_this.eventName,pageNumber:1});
 	   			var parm={};
 	   			parm.jsonInfo=parmstr;
-		        _this.$http.get('http://wy.oetapi.wangyuhudong.com/event/getEventRoundList',parm).then(function(response) {
+		        _this.$http.get('event/getEventRoundList',parm).then(function(response) {
 		        	console.log(response);
 		            _this.matchlists=response.data.object.pager;
 		            this.eventName="";
@@ -133,7 +133,7 @@ import topHead from '../components/topHead.vue'
 	   			var parmstr=JSON.stringify({eventRoundStatus:_this.eventRoundStatus,pageNumber:1});
 	   			var parm={};
 	   			parm.jsonInfo=parmstr;
-		        _this.$http.get('http://wy.oetapi.wangyuhudong.com/event/getEventRoundList',parm).then(function(response) {
+		        _this.$http.get('event/getEventRoundList',parm).then(function(response) {
 		        	console.log(response);
 		            _this.matchlists=response.data.object.pager;
 		        },function(response) {
@@ -158,7 +158,7 @@ import topHead from '../components/topHead.vue'
 			        		var reloadstr=JSON.stringify({eventName:this.eventName,eventRoundStatus:this.eventRoundStatus,pageNumber:this.matchlists.pageNumber});
 				   			var reload={};
 				   			reload.jsonInfo=reloadstr;
-			    			this.$http.get("/event/getEventRoundList",reload).then(function(response){
+			    			this.$http.get("event/getEventRoundList",reload).then(function(response){
 			    				this.matchlists=response.data.object.pager;
 				    		}, function(response){
 				    			console.log(response);
@@ -191,7 +191,7 @@ import topHead from '../components/topHead.vue'
 	    			var parmstr=JSON.stringify({eventName:this.eventName,eventRoundStatus:this.eventRoundStatus,pageNumber:currentpage});
 		   			var parm={};
 		   			parm.jsonInfo=parmstr;
-	    			this.$http.get("/event/getEventRoundList",parm).then(function(response){
+	    			this.$http.get("event/getEventRoundList",parm).then(function(response){
 	    				this.matchlists=response.data.object.pager;
 		    		}, function(response){
 		    			console.log(response);
@@ -210,7 +210,7 @@ import topHead from '../components/topHead.vue'
 	    			var parmstr=JSON.stringify({eventName:this.eventName,eventRoundStatus:this.eventRoundStatus,pageNumber:currentpage});
 		   			var parm={};
 		   			parm.jsonInfo=parmstr;
-	    			this.$http.get("http://wy.oetapi.wangyuhudong.com/event/getEventRoundList",parm).then(function(response){
+	    			this.$http.get("event/getEventRoundList",parm).then(function(response){
 	    				this.matchlists=response.data.object.pager;
 		    		}, function(response){
 		    			console.log(response);
@@ -226,7 +226,7 @@ import topHead from '../components/topHead.vue'
   				var parmstr=JSON.stringify({eventName:this.eventName,eventRoundStatus:this.eventRoundStatus,pageNumber:pageNum});
 	   			var parm={};
 	   			parm.jsonInfo=parmstr;
-    			this.$http.get("http://wy.oetapi.wangyuhudong.com/event/getEventRoundList",parm).then(function(response){
+    			this.$http.get("event/getEventRoundList",parm).then(function(response){
     				this.matchlists=response.data.object.pager;
 	    		}, function(response){
 	    			console.log(response);
