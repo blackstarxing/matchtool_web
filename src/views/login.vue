@@ -17,7 +17,7 @@
 				<form class="mt56">
 					<div class="g-ipt-lg"><input type="text" name="telephone" placeholder="用户名/手机号码" class="u-ipt-lg" v-model="username"></div>
 					<div class="g-ipt-lg"><input type="password" name="password" placeholder="密码" class="u-ipt-lg" v-model="password"></div>
-					<div class="g-forget">
+					<div class="g-forget" style="display:none;">
 						<label class="l re">
 							<input type="checkbox" name="">记住我
 							<i class="u-mind-cb"></i>

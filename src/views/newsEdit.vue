@@ -60,7 +60,9 @@
 						</div>
 						<div class="m-lst" style="margin: 10px 0;">				
 							<label for="">详细内容:</label>
-							<textarea name="" id="" cols="50" rows="3"  title="详细内容" value="{{new_info.remark}}" placeholder="请输入比赛赛制规则，不超过200字" v-model="new_info.remark" twremark></textarea>
+							<div id="brief" class="m-editor" style="margin-left:118px; width:500px;" twremark></div>
+							<!-- <textarea name="" id="" cols="50" rows="3"  title="详细内容" placeholder="请输入比赛赛制规则，不超过200字" v-model="new_info.remark" twremark></textarea> -->
+							<!-- <textarea name="" id="" cols="50" rows="3"  title="详细内容" value="{{new_info.remark}}" placeholder="请输入比赛赛制规则，不超过200字" v-model="new_info.remark" twremark></textarea> -->
 							<div class="tips">
 								<div class="attention"></div>
 							</div>
@@ -135,7 +137,25 @@
 	</div>
 </template>
 <script type="text/javascript">
-   import topNav from '../components/topNav.vue'
+	/**
+ * Date 扩展
+ */
+Date.prototype.Format = function (fmt) { // author: meizz
+	var o = {
+			"M+": this.getMonth() + 1, // 月份
+			"d+": this.getDate(), // 日
+			"h+": this.getHours(), // 小时
+			"m+": this.getMinutes(), // 分
+			"s+": this.getSeconds(), // 秒
+			"q+": Math.floor((this.getMonth() + 3) / 3), // 季度
+			"S": this.getMilliseconds() // 毫秒
+	};
+	if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+	for (var k in o)
+		if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+	return fmt;
+}
+  import topNav from '../components/topNav.vue'
   export default {
     data () {
 	    var new_info={
@@ -180,11 +200,12 @@
 			else{
 				obj.title = response.data.object.information.title;
 				obj.type = response.data.object.information.type;
-				obj.timerDate = response.data.object.information.timerDate;
+				obj.timerDate = new Date(response.data.object.information.timerDate).Format('yyyy-MM-dd hh:mm:ss');
 				obj.creater = response.data.object.information.creater;
 				obj.icon = response.data.object.information.icon;
 				obj.source = response.data.object.information.source;
 				obj.remark = response.data.object.information.remark;
+				$('#brief .froala-element').html(obj.remark);
 				obj.cover = response.data.object.information.cover;
 				obj.keyword = response.data.object.information.keyword;
 				obj.videoUrl = response.data.object.information.videoUrl;
@@ -212,14 +233,6 @@
 								console.info( data );
 									 obj.imgs[index].img=data.object.src;
 									 $('#tuji'+index).siblings('input').val(data.object.src);
-								// for(var i =0;i<obj.imgs.length;i++){
-								// 	var a = obj.imgs[i].id;
-								// 	if(a==imgid){
-								// 		obj.imgs[i].img=data.object.src;
-								// 		$('#tuji'+imgid).siblings('input').val(data.object.src);
-								// 	}
-								// }
-								
 							},
 							error:function( err ) {
 								console.info( err );	
@@ -235,59 +248,12 @@
 							accept: {}
 	        			})
 	        		});
-	        		//编辑图集图片
-			    // 	 for(var i =0;i<obj.imgs.length;i++){
-			    // 	   // var imgid = obj.imgs[i].id;
-			    // 		$('#tuji'+i).diyUpload({
-							// url:'http://192.168.30.62:8080/file/upload',
-							// success:function( data ) {
-							// 	console.info( data );
-							// 		 obj.imgs[i].img=data.object.src;
-							// 		 $('#tuji'+i).siblings('input').val(data.object.src);
-							// 	// for(var i =0;i<obj.imgs.length;i++){
-							// 	// 	var a = obj.imgs[i].id;
-							// 	// 	if(a==imgid){
-							// 	// 		obj.imgs[i].img=data.object.src;
-							// 	// 		$('#tuji'+imgid).siblings('input').val(data.object.src);
-							// 	// 	}
-							// 	// }
-								
-							// },
-							// error:function( err ) {
-							// 	console.info( err );	
-							// },
-							// buttonText : '选择图片',	
-							// chunked:true,
-							// // 分片大小
-							// chunkSize:512 * 1024,
-							// //最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
-							// fileNumLimit:1,
-							// fileSizeLimit:500000 * 1024,
-							// fileSingleSizeLimit:50000 * 1024,
-							// accept: {}
-			    // 		});
-			    // 	}
 			    	$('.tuji').each(function(index, el) {
 						$(this).hover(function() {
 						   	var tuJiLen = $('.tuji').length;
 						   	// var a = index;
 						   	if(tuJiLen!=1){
 								$(this).find('.u-tuji-del').show();
-								// $(this).find('.u-tuji-del').off('click');
-								// $(this).find('.u-tuji-del').on('click', function(){
-								// 	var objImgs = obj.imgs[index];
-								// 	var thisrem = '';
-								// 	if(objImgs && objImgs.length > 0) {
-								// 		thisrem = obj.imgs[index].img;
-								// 	}
-								// 	if(thisrem!=''){
-								// 		obj.imgs.splice(index,1);	
-								// 		$(this).parent('.tuji').remove();
-								// 	}
-								// 	else{
-								// 		$(this).parent('.tuji').remove();
-								// 	}
-								// })
 							}
 						}, function() {
 							$(this).find('.u-tuji-del').hide();
@@ -299,6 +265,14 @@
 		}, function(response){
 			console.log(response);
 		})
+		//绑定编辑器
+       	$('#brief').editable({
+				inlineMode: false,
+				theme: 'dark', 
+				alwaysBlank: true,
+				language: "zh_cn",
+				placeholder: '请输入详细内容'
+			});
   		//日历控件
   		$('#begintime').datetimepicker({
 	        	format:"Y-m-d H:i:s",   
@@ -360,26 +334,6 @@
 			fileSingleSizeLimit:50000 * 1024,
 			accept: {}
     	});
-   //  	alert($('#tuji18').length);
-   //  	$('#tuji18').diyUpload({
-   //  		url:'http://192.168.30.62:8080/file/upload',
-			// success:function( data ) {
-			// 	console.info( data );	
-					
-			// },
-			// error:function( err ) {
-			// 	console.info( err );	
-			// },
-			// buttonText : '选择图片',	
-			// chunked:true,
-			// // 分片大小
-			// chunkSize:512 * 1024,
-			// //最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
-			// fileNumLimit:1,
-			// fileSizeLimit:500000 * 1024,
-			// fileSingleSizeLimit:50000 * 1024,
-			// accept: {}
-   //  	});
     	$('#tuji').diyUpload({
     		url:'http://wy.oetapi.wangyuhudong.com/file/upload',
 			success:function( data ) {
@@ -404,77 +358,7 @@
 			fileSizeLimit:500000 * 1024,
 			fileSingleSizeLimit:50000 * 1024,
 			accept: {}
-    	});
-		// var indexImg = 1;
-		// $('#addPicture').on('click', function(){
-			
-			// var tuJiDiv = '<div class="tuji clearfix l">'+
-			// 			  	'<div class="tujinei">'+
-			// 					'<div id="'+tuJiId+'" class="l mt10 m-tuji"></div>'+
-			// 					'<input type="hidden" value="">'+
-			// 				'</div>'+	
-			// 				'<textarea placeholder="图片描述" class="u-n-ttr"></textarea>'+
-			// 				'<img src="../../static/images/mg_del.png" title="移出" class="u-tuji-del">'+
-			// 				'<div class="tips">'+
-			// 				   '<div class="attention"></div>'+
-			// 				'</div>'+
-			// 			  '</div>';
-		 //    $('#addPicture').before(tuJiDiv);
-		   //  setTimeout(function(){
-	    // 		$('#'+tuJiId).diyUpload({
-	    // 			url:'http://192.168.30.62:8080/file/upload',
-					// success:function( data ) {
-					// 	console.info( data );
-					// 	var imgobj = new Object();
-					// 	imgobj.img = data.object.src;
-					// 	var m = data.object.src;
-					// 	imgobj.remark = '';
-					// 	_this.new_infos[0].imgs.push(imgobj);
-					// 	$('#'+tuJiId).siblings('input[type="hidden"]').val(m);
-					// 	$('.'+tuJiId).find('.attention').hide();
-					// },
-					// error:function( err ) {
-					// 	console.info( err );	
-					// },
-					// buttonText : '选择图片',	
-					// chunked:true,
-					// // 分片大小
-					// chunkSize:512 * 1024,
-					// //最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
-					// fileNumLimit:1,
-					// fileSizeLimit:500000 * 1024,
-					// fileSingleSizeLimit:50000 * 1024,
-					// accept: {}
-	    // 		})
-		   //  },100);
-		    // indexImg ++; 
-		 //    $('.tuji').each(function(index, el) {
-			// 	$(this).hover(function() {
-			// 	   	var tuJiLen = $('.tuji').length;
-			// 	   	var a = index;
-			// 	   	if(tuJiLen!=1){
-			// 			$(this).find('.u-tuji-del').show();
-			// 			$(this).find('.u-tuji-del').off('click');
-			// 			$(this).find('.u-tuji-del').on('click', function(){
-			// 				var objImgs = obj.imgs[index];
-			// 				var thisrem = '';
-			// 				if(objImgs && objImgs.length > 0) {
-			// 					thisrem = obj.imgs[index].img;
-			// 				}
-			// 				if(thisrem!=''){
-			// 					obj.imgs.splice(index,1);	
-			// 					$(this).parent('.tuji').remove();
-			// 				}
-			// 				else{
-			// 					$(this).parent('.tuji').remove();
-			// 				}
-			// 			})
-			// 		}
-			// 	}, function() {
-			// 		$(this).find('.u-tuji-del').hide();
-			// 	});	
-			// });
-		// });
+    	});    
   	},
   	methods:{
   		deleteimg:function(){
@@ -486,7 +370,7 @@
   		 			this.delImgIds = aaa.imgs[indexs].id;
   		 		}
   		 		else{
-  		 			this.delImgIds =','+ aaa.imgs[indexs].id;
+  		 			this.delImgIds =this.delImgIds+','+ aaa.imgs[indexs].id;
   		 		}
   		 	}
   		 	aaa.imgs.splice(indexs,1);
@@ -498,14 +382,6 @@
 							console.info( data );
 								 aaa.imgs[index].img=data.object.src;
 								 $('#tuji'+index).siblings('input').val(data.object.src);
-							// for(var i =0;i<obj.imgs.length;i++){
-							// 	var a = obj.imgs[i].id;
-							// 	if(a==imgid){
-							// 		obj.imgs[i].img=data.object.src;
-							// 		$('#tuji'+imgid).siblings('input').val(data.object.src);
-							// 	}
-							// }
-							
 						},
 						error:function( err ) {
 							console.info( err );	
@@ -525,7 +401,48 @@
 
   		},
   		addPicture:function(){
-  			
+  			var aaa = this.new_infos[0];
+  			var imgsobj = new Object();
+	    	imgsobj.img='';
+	    	imgsobj.remark='';
+	    	this.new_infos[0].imgs.push(imgsobj);
+  			this.$nextTick(function(){
+  			    var l = this.new_infos[0].imgs.length;
+  			    var nn = l-1;
+  			    $('#tuji'+nn).parents('.tuji').find('.previewPic-tuji').hide();
+	  			$('#tuji'+nn).diyUpload({
+	    			url:'http://wy.oetapi.wangyuhudong.com/file/upload',
+					success:function( data ) {
+						console.info( data );
+						aaa.imgs[nn].img =  data.object.src;	
+						$('#tuji'+nn).siblings('input[type="hidden"]').val(data.object.src);
+						$('#tuji'+nn).parents('.tuji').find('.attention').hide();
+					},
+					error:function( err ) {
+						console.info( err );	
+					},
+					buttonText : '选择图片',	
+					chunked:true,
+					// 分片大小
+					chunkSize:512 * 1024,
+					//最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+					fileNumLimit:1,
+					fileSizeLimit:500000 * 1024,
+					fileSingleSizeLimit:50000 * 1024,
+					accept: {}
+	    		})
+    		    $('.tuji').each(function(index, el) {
+					$(this).hover(function() {
+					   	var tuJiLen = $('.tuji').length;
+					   	// var a = index;
+					   	if(tuJiLen!=1){
+							$(this).find('.u-tuji-del').show();
+						}
+					}, function() {
+						$(this).find('.u-tuji-del').hide();
+					});	
+				});
+  			})
   		},
   		openvideolay:function(event){
   			var _this = this;
@@ -556,9 +473,6 @@
 					$upload.hide();
 				}
 			}
-			// $fileForm.find('[name="file"]').on('change',function(){
-			// 	initUploadBtn();
-			// });
 			$fileForm.find('[name="file"]').change();	
 			$('#check').off('click');
 			$('#check').on('click', function(ev) {
@@ -635,27 +549,151 @@
   			this.new_infos[0].isPublished = 0;
   			var typenum = this.new_infos[0].type;
   			var newsobj = this.new_infos[0];
-  			if(typenum==3){
+  			var isicon = this.new_infos[0].icon;
+  			var iscover = this.new_infos[0].cover;
+  			function errorPlacement(mes,element){
+		    	var errorTips=element.parents(".m-lst").find('div.attention');
+		    	if(mes!=""){
+		    		errorTips.show().html(mes);
+		    	}else{
+		    		errorTips.hide();
+		    	}			    				    	
+		    }
+		    function tujierrorPlacement(mes,element){
+		    	var errorTips=element.parents(".tuji").find('div.attention');
+		    	if(mes!=""){
+		    		errorTips.show().html(mes);
+		    	}else{
+		    		errorTips.hide();
+		    	}			    				    	
+		    }		
+  			function formValidate(){
+  				var valid=true;
+  				$('.m-addzx [required]').each(function(){
+  					var $this=$(this);
+  					var value=$this.val(),name=$this.attr('title');	
+  					var text='';
+  					if(value==null||value==''){
+						text=name+'不能为空！';
+						valid=false;
+					}
+					errorPlacement(text,$this);
+  				})
+  				var $slt = $('#pic');
+  				if(isicon == ''){
+  					valid = false;
+  					errorPlacement('请先上传缩略图！',$slt);
+  				}
+  				else{
+  					errorPlacement('',$slt);
+  				}
+  				if(typenum==1){
+  					var $this = $('.m-addzx [twsource]');
+  				    var twval = $this.val();
+  				    if(twval==null||twval==''){
+  				    	valid = false;
+  				    	errorPlacement('资讯来源不能为空！',$this);   	
+  				    }
+  				    else{
+  				    	errorPlacement('',$this);
+  				    }
+  				    var $thistwrek = $('.m-addzx [twremark]').find('.froala-element'),
+  				        thistwrek = $thistwrek.html();
+			        if(thistwrek!="<p><br></p>"){
+			        	errorPlacement('',$thistwrek);
+			        	newsobj.remark=thistwrek;   	
+			        }
+			        else{
+			        	valid = false;
+  				    	errorPlacement('详细内容不能为空！',$thistwrek);
+			        }
+
+  				}
+  				if(typenum==4){
+  					var $thiskey = $('.m-addzx [spkeyword]'),
+  						thiskey = $thiskey.val();
+  					if(thiskey==null||thiskey==''){
+  						valid = false;
+  				    	errorPlacement('关键字不能为空！',$thiskey);
+  					}
+  					else{
+  						errorPlacement('',$thiskey);
+  					}
+  					var $thisspurl = $('.m-addzx [spurl]'),
+  						thisspurl = $thisspurl.val();
+  					if(thisspurl==null||thisspurl==''){
+  						valid = false;
+  				    	errorPlacement('视频地址不能为空！',$thisspurl);
+  					}
+  					else{
+  						errorPlacement('',$thisspurl);
+  					}
+  					var $st = $('#firstpic');
+  					if(iscover == ''){
+  						valid = false;
+						errorPlacement('首图不能为空！',$st);
+  					}
+  					else{
+  						errorPlacement('',$st);
+  					}
+  				}
+  				if(typenum==3){
+  					var $tjsource = $('.m-addzx [tjsource]'),
+  						tjsource = $tjsource.val();
+  					if(tjsource==null||tjsource==''){
+  						valid = false;
+  				    	errorPlacement('资讯来源不能为空！',$tjsource);
+  					}
+  					else{
+  						errorPlacement('',$tjsource);
+  					}
+  					
+	  				$('.tuji').each(function(index){
+	  					var hidipt = $(this).find('input[type="hidden"]').val();
+	  					var hid = $(this).find('input[type="hidden"]');
+	  					if(hidipt==''){
+	  						tujierrorPlacement('请先上传图片',hid);
+	  						valid = false;
+	  					}
+	  				 	else{
+	  				 		tujierrorPlacement('',hid);
+	  				 		var n = $(this).find('.u-n-ttr');
+	  						var rem = $(this).find('.u-n-ttr').val();
+	  						if(rem==''){
+	  							tujierrorPlacement('图片说明不能为空！',n);
+	  							valid = false;
+		  					}
+		  				 	else{
+		  				 		tujierrorPlacement('',n);
+		  				 		// newsobj.imgs[index].remark = rem;
+		  				 	}
+	  				 	}
+	  				})
+  				}
+  				return valid;	
+  			}	
+  			if(formValidate()){
   				$('.tuji').each(function(index){
   					var rem = $(this).find('.u-n-ttr').val();
-  					if(rem==''){
-  						console.log("当前索引"+index+"的说明为空！")
-  					}
-  				 	else{
-  				 		newsobj.imgs[index].remark = rem;
-  				 	}
-  				})
+  					newsobj.imgs[index].remark = rem;
+  				});
+
+  				var jsonInfos = JSON.stringify(newsobj);
+  				var parm = new Object();
+  				parm.jsonInfo = jsonInfos;
+  				parm.oldVideoUrl = this.oldVideoUrl;
+  				parm.delImgIds = this.delImgIds;
+  				
+  				this.$http.post('event/information/save',parm).then(function(successResponse){
+	  				var code = successResponse.data.code;
+	  				console.log(code);
+	  				this.$nextTick(function(){
+	  					this.$route.router.go({path: '/newslist'});
+	  				})
+	  			}, function(errorResponse){
+	  				console.log("通讯错误")
+	  			})
   			}
-  			var jsonInfos = JSON.stringify(newsobj);
-  			var parm = new Object();
-  			parm.jsonInfo = jsonInfos;
-  			console.log(parm);
-  			this.$http.post('event/information/save',parm).then(function(successResponse){
-  				var code = successResponse.data.code;
-  				console.log(code);
-  			}, function(errorResponse){
-  				console.log("通讯错误")
-  			})
   		},
   		savetrue:function(event){//确定发布
   			this.new_infos[0].isPublished = 1;
@@ -709,14 +747,15 @@
   				    else{
   				    	errorPlacement('',$this);
   				    }
-  				    var $thistwrek = $('.m-addzx [twremark]'),
-  				        thistwrek = $thistwrek.val();
-			        if(thistwrek==null||thistwrek==''){
-			        	valid = false;
-  				    	errorPlacement('详细内容不能为空！',$thistwrek);
+  				    var $thistwrek = $('.m-addzx [twremark]').find('.froala-element'),
+  				        thistwrek = $thistwrek.html();
+			        if(thistwrek!="<p><br></p>"){
+			        	errorPlacement('',$thistwrek);
+			        	newsobj.remark=thistwrek;   	
 			        }
 			        else{
-			        	errorPlacement('',$thistwrek);
+			        	valid = false;
+  				    	errorPlacement('详细内容不能为空！',$thistwrek);
 			        }
 
   				}
@@ -757,7 +796,6 @@
   					}
   					else{
   						errorPlacement('',$tjsource);
-  						
   					}
   					
 	  				$('.tuji').each(function(index){
@@ -777,24 +815,31 @@
 		  					}
 		  				 	else{
 		  				 		tujierrorPlacement('',n);
-		  				 		newsobj.imgs[index].remark = rem;
-		  				 		console.log(newsobj.imgs);
+		  				 		// newsobj.imgs[index].remark = rem;
 		  				 	}
 	  				 	}
 	  				})
   				}
   				return valid;	
-  			}
-  			var jsonInfos = JSON.stringify(newsobj);
-  			var parm = new Object();
-  			parm.jsonInfo = jsonInfos;
-  			parm.oldVideoUrl = this.oldVideoUrl;
-  			console.log(parm);
-  			console.log(formValidate());
+  			}	
   			if(formValidate()){
+  				$('.tuji').each(function(index){
+  					var rem = $(this).find('.u-n-ttr').val();
+  					newsobj.imgs[index].remark = rem;
+  				});
+
+  				var jsonInfos = JSON.stringify(newsobj);
+  				var parm = new Object();
+  				parm.jsonInfo = jsonInfos;
+  				parm.oldVideoUrl = this.oldVideoUrl;
+  				parm.delImgIds = this.delImgIds;
+  				
   				this.$http.post('event/information/save',parm).then(function(successResponse){
-  				var code = successResponse.data.code;
-  				console.log(code);
+	  				var code = successResponse.data.code;
+	  				console.log(code);
+	  				this.$nextTick(function(){
+	  					this.$route.router.go({path: '/newslist'});
+	  				})
 	  			}, function(errorResponse){
 	  				console.log("通讯错误")
 	  			})
