@@ -10,6 +10,8 @@ import reset from './views/reset.vue'
 import techPic from './views/techPic.vue'
 import beforeTech from './components/beforeTech.vue'
 import beginingTech from './components/beginingTech.vue'
+import endTech from './components/endTech.vue'
+import resultTech from './components/resultTech.vue'
 import login from './views/login.vue'
 import newsEdit from './views/newsEdit.vue'
 import VueRouter from 'vue-router'
@@ -37,6 +39,12 @@ router.map({
           },
           '/beginingTech': {
             component: beginingTech
+          },
+          '/endTech': {
+            component: endTech
+          },
+          '/resultTech': {
+            component: resultTech
           }
         }
     },

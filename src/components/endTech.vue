@@ -1,9 +1,9 @@
 <template>
 	<div class="before_tech">
-            <p style="font-size:12px;">当一切都准备就绪后，您就可以:</p>
+            <p style="font-size:12px;"></p>
             <div class="start_btn">
               <img src="../../static/images/start.png" width="100%" height="100%">
-              <p class="start_text" @click="beginTech">开始比赛</p>
+              <p class="start_text" @click="endTech">结束比赛</p>
             </div>
           </div>
 </template>
@@ -11,21 +11,21 @@
   export default {
     data () {
     return {
-    	beginparm:{}
+    	
     }
 
   },
      methods: {
-        beginTech:function(){
+        endTech:function(){
           var _this=this;
-          _this.beginparm.oetInfoId=window.sessionStorage.getItem("eventid");
-          _this.beginparm.oetRoundId=window.sessionStorage.getItem("roundid");
-          var parmstr=JSON.stringify(this.beginparm);
+          var endparm={};
+          endparm.oetRoundId=window.sessionStorage.getItem("roundid");
+          var parmstr=JSON.stringify(endparm);
           var parm={};
           parm.jsonInfo=parmstr;
-        _this.$http.get('event/start',parm).then(function(response){
+        _this.$http.get('event/finish',parm).then(function(response){
           if(response.data.code){
-            this.$route.router.go({path: '/techPic/beginingTech'})
+            this.$route.router.go({path: '/techPic/resultTech'})
           }else{
             layer.msg(response.data.msg,{offset:"0px"});
           }

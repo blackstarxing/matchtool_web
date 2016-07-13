@@ -14,7 +14,7 @@
   export default {
     data () {
     return {
-    	beginparm:{}
+
     }
   },
   ready: function () {
@@ -23,6 +23,9 @@
     if(_rate){
        $(".tech_range_detail").width(_rate*2);
        $(".tech_range_num").text(_rate+"%");
+       if(_rate==100){
+        this.$route.router.go({path: '/techPic/endTech'})
+       }
     }else{
        $(".tech_range_detail").width(0);
        $(".tech_range_num").text("0%");
