@@ -71,7 +71,6 @@
   },
   methods: {
   	checkin:function(){
-
   		var username = $('[name="telephone"]').val();
   		var pwd = $('[name="password"]').val();
   		if(username=='' && pwd==''){
@@ -102,7 +101,10 @@
 			  		document.cookie="oetevent.login.token="+response.data.object["oetevent.login.token"];
 			  		document.cookie="userId="+response.data.object["userId"];
 			  		this.$route.router.go({path: '/homepage'}); 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e024696ab02cb89df3ea369f8db0d2cf235877af
   				}
 	            }, function (response) {
 	              	console.log(22);
