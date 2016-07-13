@@ -37,14 +37,14 @@
 	                        <th width="135px;">操作</th>
 	                        <th></th>
 	                    </tr>
-	                    <tr v-for='matchlist in matchlists.list'>
+	                    <tr v-for='matchlist in matchlists.list' @click="linkTechpic" style="cursor:pointer;">
 	                        <td>{{$index+1}}</td>
 	                        <td>
 	                        	<div class="s-n-img">
 									<img v-bind:src="'http://img.wangyuhudong.com'+matchlist.poster">
 								</div>
 	                        </td>
-	                        <td @click="linkTechpic"><a href="">{{matchlist.eventName}}</a></td>
+	                        <td class="get_eventname">{{matchlist.eventName}}</td>
 	                        <td>网娱大师官方赛事组</td>
 	                        <td>单阶段  单败制</td>
 	                        <td>{{matchlist.num}}/{{matchlist.maxNum}}</td>
@@ -142,6 +142,7 @@ import topHead from '../components/topHead.vue'
   			},
   			// 删除赛事
   			deleteEvent:function(e){
+  				e.stopPropagation();
   				var _this=this;
 				var _target=$(e.currentTarget);
 				var parmstr=JSON.stringify({oetInfoId:_target.attr("data-id")});
@@ -151,7 +152,7 @@ import topHead from '../components/topHead.vue'
 				}, function(){
 				  	var parm={};
 		   			parm.jsonInfo=parmstr;
-					_this.$http.get('/event/delete',parm).then(function(response) {
+					_this.$http.get('event/delete',parm).then(function(response) {
 			        	console.log(response.data);
 			        	if(response.data.code==1){
 			        		layer.msg("删除成功",{offset:"0px"});
@@ -174,9 +175,11 @@ import topHead from '../components/topHead.vue'
   			linkTechpic:function(e){
   				e.preventDefault();
   				var _target=$(e.currentTarget);
-  				var _eventid=_target.parent().find(".get_eventid").text();
-  				var _roundid=_target.parent().find(".get_roundid").text();
-  				var _needsign=_target.parent().find(".get_needsign").text();
+  				var _eventname=_target.find(".get_eventname").text();
+  				var _eventid=_target.find(".get_eventid").text();
+  				var _roundid=_target.find(".get_roundid").text();
+  				var _needsign=_target.find(".get_needsign").text();
+  				window.sessionStorage.setItem("eventname",_eventname);
   				window.sessionStorage.setItem("eventid",_eventid);
   				window.sessionStorage.setItem("roundid",_roundid);
   				window.sessionStorage.setItem("needsign",_needsign);

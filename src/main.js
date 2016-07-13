@@ -19,6 +19,7 @@ Vue.use(VueResource);
 Vue.use(VueRouter);
 
 // Vue.http.options.root = '/api';
+
 Vue.http.options.emulateJSON = true;
 var router = new VueRouter({
     hashbang: false

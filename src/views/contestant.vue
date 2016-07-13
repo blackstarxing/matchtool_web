@@ -4,7 +4,7 @@
 		<div class="g-bd" style="margin-top:20px;">
 			<div class="g-tp"></div>
 			<div class="g-list">
-				<h3>浙江省网娱大师-雪碧真英雄城市争霸赛</h3>
+				<h3>{{eventname}}</h3>
 				<div class="m-operate f-cb">
 					<div class="l-btn f-fl">
 						<a href="javascript:void(0);" class="u-btn u-btn-add" @click="addplayer"><img src="../../static/images/plus.png" alt="">添加选手</a>
@@ -101,12 +101,16 @@ import topHead from '../components/topHead.vue'
        	data () {
     		return {
       			memberlist:"",
+      			eventname:"",
+      			eventId:"",
       			roundId:"",
       			needsign:""
     		}
   		},
    		ready: function () {     		
      		var _this=this;
+     		_this.eventname=window.sessionStorage.getItem("eventname");
+     		_this.eventId=window.sessionStorage.getItem("eventid");
      		_this.roundId=window.sessionStorage.getItem("roundid");
      		_this.needsign=window.sessionStorage.getItem("needsign");
 	        _this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
@@ -133,7 +137,8 @@ import topHead from '../components/topHead.vue'
 		    // 打乱选手位置
 		    upsetseat:function(e){
 		    	var _this=this;
-		    	var parm={eventId:_this.roundId};
+		    	var parm={eventId:_this.eventId};
+
 		    	_this.$http.get('event/round/groupSeat/random',parm).then(function(response) {
 		        	console.log(response.data);
 		        	if(response.data.code==1){
@@ -170,7 +175,7 @@ import topHead from '../components/topHead.vue'
 		        	console.log(response.data.msg);
 		        	if(response.data.code==1){
 		        		layer.msg('签到状态已更改',{offset:"0px"});
-		        		_this.$http.post('http://wy.oetapi.wangyuhudong.com/event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
+		        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 				        	console.log(response.data);
 				        	_this.memberlist=response.data.object.pager;
 				        },function(response) {
@@ -212,7 +217,7 @@ import topHead from '../components/topHead.vue'
 			        	console.log(response.data);
 			        	if(response.data.code==1){
 			        		layer.msg('已删除',{offset:"0px"});
-			        		_this.$http.post('http://wy.oetapi.wangyuhudong.com/event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
+			        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 					        	console.log(response.data);
 					        	_this.memberlist=response.data.object.pager;
 					        },function(response) {
