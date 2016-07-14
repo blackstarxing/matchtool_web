@@ -27,12 +27,12 @@
 						<option v-bind:value="2">失效</option>
 					</select>
 					<div class="ib re">
-					    <input type="text" placeholder="请选择时间" class="w200  form_datetime" v-model="begindate">
+					    <input type="text" id="begintime" placeholder="请选择时间" class="w200  form_datetime" v-model="begindate">
 						<img src="../../static/images/datepicker.png" class="ab u-n-date">
 					</div>
 					&nbsp&nbsp—&nbsp&nbsp
 					<div class="ib re">
-					    <input type="text" placeholder="请选择时间" class="w200 form_datetime" v-model="enddate">
+					    <input type="text" id="endtime" placeholder="请选择时间" class="w200 form_datetime" v-model="enddate">
 						<img src="../../static/images/datepicker.png" class="ab u-n-date">
 					</div>
 				</div>
@@ -141,10 +141,18 @@ import topHead from '../components/topHead.vue'
   			console.log('fail' + status + "," + request);
   		});
   		
-  		$('.form_datetime').datetimepicker({
+  		$('#begintime').datetimepicker({
 	        	format:"Y-m-d",      
 			    yearStart:2000,     
 			    yearEnd:2050, 
+			    maxDate:new Date(),
+			    timepicker:false
+	        });
+  		$('#endtime').datetimepicker({
+	        	format:"Y-m-d",      
+			    yearStart:2000,     
+			    yearEnd:2050, 
+			    minDate:new Date('2016-07-05'),
 			    timepicker:false
 	        });
 	    $.datetimepicker.setLocale('ch');
