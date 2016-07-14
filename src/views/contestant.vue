@@ -267,7 +267,7 @@ import topHead from '../components/topHead.vue'
 			    			if(value==""){
 			    				valid=false;
 					    		message="选手名称不能为空";
-					    	}else if(strlen(value)>20){
+					    	}else if(strlen(value)>15){
 					    		valid=false;
 					    		message="选手名称过长";
 					    	}

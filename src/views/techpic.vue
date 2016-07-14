@@ -32,8 +32,9 @@
           <li class="clearfix">
             <div class="msg_list_left"><img src="../../static/images/msg_b.png"></div>
             <div class="msg_list_right">
-              <p class="msg_list_name">报名时间</p>
-              <p>{{techinfo.techinfobegin}}-{{techinfo.techinfoEnd}}</p>
+              <p class="msg_list_name">赛事时间:{{techinfo.techtime}}</p>
+              <p class="msg_list_name">报名时间:{{techinfo.techinfobegin}}-{{techinfo.techinfoEnd}}</p>
+              <p></p>
             </div>
           </li>
           <li class="clearfix">
@@ -64,7 +65,7 @@
         <div class="turn_num">
           <ul class="turn_num_list clearfix">
             <li class="turn_num_li" v-for="turnnum of turnnums">
-              <span class="turn_turnid" style="display:none"></span>
+              <span class="turn_turnid" style="display:none">{{turnnum.modelturnid}}</span>
               <div class="trunname_ed">
                 <span class="turn_num_text">{{turnnum.modelname}}</span>
                 <span class="turn_input_settime" style="font-size:12px;margin:0 7px;">{{turnnum.modeltime?turnnum.modeltime.split(' ',1):" "}}</span>
@@ -212,7 +213,7 @@ import topNav from '../components/topNav.vue'
     matchdata:'',
     checked:'',
     techinfo:{techinfoname:'',techinfobegin:'',techinfoEnd:'',techinfoNum:'',
-    techinfoPic:'',techrule:'',premium:'',itemName:'',ServerName:''},
+    techinfoPic:'',techrule:'',premium:'',itemName:'',ServerName:'',techtime:''},
     turnnums:[],
     personnum:"",
     overhalf:"",
@@ -223,6 +224,7 @@ import topNav from '../components/topNav.vue'
     groupid:{},
     seatida:{},
     seatidb:{},
+    roundStatus:''
     }
   },
      ready: function(){
@@ -236,12 +238,13 @@ import topNav from '../components/topNav.vue'
       var _parm={};
       _parm.jsonInfo=parmstr;
     _this.$http.get('event/getStatusByTime',_parm).then(function(response){
+      _this.roundStatus=response.data.object.roundStatus;
       if(response.data.object.roundStatus==1){
-        $('.start_text').text("报名开始前");
+        $('.start_text').text("报名预热中");
       }else if(response.data.object.roundStatus==2){
-        $('.start_text').text("报名开始");
+        $('.start_text').text("报名进行中...");
       }else if(response.data.object.roundStatus==3){
-        $('.start_text').text("签到开始");
+        $('.start_text').text("签到进行中...");
       }else if(response.data.object.roundStatus==4){
         if(_this.checked){
           $("#show_app").attr('disabled','disabled');
@@ -265,14 +268,15 @@ import topNav from '../components/topNav.vue'
       if(response.data.code){
         var _techinfo=response.data.object;
       _this.techinfo.techinfoname=_techinfo.event.name;
-      _this.techinfo.techinfobegin=_techinfo.applyBegin.split(' ',1);
-      _this.techinfo.techinfoEnd=_techinfo.applyEnd.split(' ',1);
+      _this.techinfo.techinfobegin=_techinfo.applyBegin;
+      _this.techinfo.techinfoEnd=_techinfo.applyEnd;
       _this.techinfo.techinfoNum=_techinfo.round.maxNum;
       _this.techinfo.techinfoPic=_techinfo.event.poster?'http://img.wangyuhudong.com/'+_techinfo.event.poster:'';
       _this.techinfo.techrule=_techinfo.event.regimeRule;
       _this.techinfo.premium=_techinfo.event.prizeSetting;
       _this.techinfo.itemName=_techinfo.event.itemName;
       _this.techinfo.ServerName=_techinfo.event.itemServerName;
+      _this.techinfo.techtime=_techinfo.activityBegin;
     }else{
       layer.msg(response.data.msg,{offset:"0px"});
     }
@@ -301,7 +305,7 @@ import topNav from '../components/topNav.vue'
             for(var i=0;i<turnid.length;i++){
               _this.turnnums.push({num:i+1,modeltime:turnid[i].matchTimestr,modelbo:turnid[i].matchType,modelname:turnid[i].name,modelturnid:turnid[i].id});
             }
-
+console.log(_this.turnnums);
             $(".turn_num_list").width(290*turn);
              _this.$nextTick(function () {
                  $('.set_begin').datetimepicker({
@@ -698,18 +702,15 @@ import topNav from '../components/topNav.vue'
                 }
 
             function newdom(i,list){
-                _html='<ul class="unit_ul" data-groupid='+list[i].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;"><input type="hidden" value='+list[i].seats[0].id+'><span class="recta_num">'+(list[i].seats[0].seatNumber?list[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(list[i].seats[0].target?list[i].seats[0].target.name:"")+'</span><span class="recta_right '+(list[i].seats[0].isWin?"add_winer":"")+'">'+(list[i].scores?list[i].scores.seatleft:"")+'</span></li><li  class="recta"><input type="hidden" value='+list[i].seats[1].id+'><span class="recta_num">'+(list[i].seats[1].seatNumber?list[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(list[i].seats[1].target?list[i].seats[1].target.name:"")+'</span><span class="recta_right '+(list[i].seats[1].isWin?"add_winer":"")+'">'+(list[i].scores?list[i].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(list[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>';
+                _html='<ul class="unit_ul" data-groupid='+list[i].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;"><input type="hidden" value='+list[i].seats[0].id+'><span class="recta_num">'+(list[i].seats[0].seatNumber?list[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(list[i].seats[0].target?list[i].seats[0].target.name:"")+'</span><span class="recta_right '+(list[i].seats[0].isWin?"add_winer":"")+'">'+(list[i].scores?list[i].scores.seatleft:"")+'</span></li><li class="recta"><input type="hidden" value='+list[i].seats[1].id+'><span class="recta_num">'+(list[i].seats[1].seatNumber?list[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(list[i].seats[1].target?list[i].seats[1].target.name:"")+'</span><span class="recta_right '+(list[i].seats[1].isWin?"add_winer":"")+'">'+(list[i].scores?list[i].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(list[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>';
 
                 return _html;
             }
 
-            // var rects_personname=$(".recta_personname");
-
-            // if(rects_personname.length>5){
-            //   var _text=(".recta_personname").text().substr(0,5);
-            //   $(".recta_personname").text(_text+"...");
-            // }
-                
+                if(_this.roundStatus<4){
+                  $('.edit_div').hide();
+                  $('.recta_right').hide();
+                }
              //编辑查看悬浮框
               $(".edit_score").mouseover(function(){
                     $(this).next(".float_edit").show();
@@ -855,8 +856,10 @@ import topNav from '../components/topNav.vue'
           var parm={};
           parm.turnJson=parmstr;
           _this.$http.get("event/round/turn/saveTurn",parm).then(function(response){
-            if(!response.data.code){
-                  layer.msg(response.data.msg,{offset:"0px"});
+            if(response.data.code){
+                  _parent.find('.turn_set_detail').hide();
+                  }else{
+                    layer.msg(response.data.msg,{offset:"0px"});
                   }
             },function(response) {
               console.log(response);
@@ -1043,12 +1046,11 @@ import topNav from '../components/topNav.vue'
   font-size: 12px;
 }
 .begin_msg_list{
-  width: 90%;
   margin: 20px auto 0;
 }
 .begin_msg_list li{
   float: left;
-  width: 33%;
+  margin-right: 30px;
 }
 .msg_list_name{
   margin-bottom: 5px;
