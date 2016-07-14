@@ -4,7 +4,7 @@
   <div class="tech_msg">
     <div class="body_top_pic"><img src="../../static/images/body_top.png" width="100%"></div>
     <div class="tech_msg_text clearfix">
-    <div class="tech_msg_left"><img src="../../static/images/person_pic.png" width="100%" height="100%"></div>
+      <div class="tech_msg_left"><img :src="techinfoPic" width="100%" height="100%"></div>
       <div class="tech_msg_right">
       <div class="begin_tech clearfix">
         <div class="begin_tech_left">
@@ -132,7 +132,7 @@
     </ul>
   </div> 
   <div class="m-mask m_edit">
-    <div class="m-pop"style="margin: 50px auto 0;">
+    <div class="m-pop"style="margin: 5px auto 0;">
       <div class="wrap">
         <h3>编辑比分</h3>
         <a href="javascript:void(0);" class="u-btn-close" @click="closeEdit"></a>
@@ -163,7 +163,7 @@
     </div>
   </div>
   <div class="m-mask m_check">
-    <div class="m-pop"style="margin: 50px auto 0;">
+    <div class="m-pop"style="margin: 5px auto 0;">
       <div class="wrap">
         <h3>查看比分</h3>
         <a href="javascript:void(0);" class="u-btn-close" @click="closeEdit"></a>
@@ -227,6 +227,7 @@ import topNav from '../components/topNav.vue'
     techinfobegin:'',
     techinfoEnd:'',
     techinfoNum:'',
+    techinfoPic:'',
     turnnums:[],
     personnum:"",
     overhalf:"",
@@ -263,7 +264,7 @@ import topNav from '../components/topNav.vue'
         window.sessionStorage.setItem("turnrate",response.data.object.rate);
         this.$route.router.go({path: '/techPic/beginingTech'});
       }else if(response.data.object.roundStatus==5){
-        if(_this.checked){
+         if(_this.checked){
           $("#show_app").attr('disabled','disabled');
         }
         console.log(response.data.object);
@@ -276,12 +277,14 @@ import topNav from '../components/topNav.vue'
           });
 
     _this.$http.get('event/openOetInfo',_parm).then(function(response){
+      console.log(response);
       if(response.data.code){
         var _techinfo=response.data.object;
       _this.techinfoname=_techinfo.event.name;
       _this.techinfobegin=_techinfo.applyBegin.split(' ',1);
       _this.techinfoEnd=_techinfo.applyEnd.split(' ',1);
       _this.techinfoNum=_techinfo.round.maxNum;
+      _this.techinfoPic=_techinfo.event.poster?'http://img.wangyuhudong.com/'+_techinfo.event.poster:'';
     }else{
       layer.msg(response.data.msg,{offset:"0px"});
     }
@@ -556,27 +559,26 @@ import topNav from '../components/topNav.vue'
                 }
 
                  //获取turn1的数据
-                 var onelist = []; 
-                function getnum(arr){
+                 var listone = []; 
+                function getnum1(arr){
                   for(var i=0;i<arr.length;i++){
                     if(arr[i].turn == 1){
-                      onelist.push(arr[i]);
+                      listone.push(arr[i]);
                     }else{
                         for(var key in arr[i]){
                             if(key=='groups'){
-                              getnum(arr[i][key]);
+                              getnum1(arr[i][key]);
                             }
                           }  
                       } 
                   }
                      
                  }
-                 getnum(_this.matchdata);
-                 console.log(onelist);
+                 getnum1(_this.matchdata);
+                 console.log(listone);
 
-                listArry.eq(0).empty();
-                for(var i=0;i<onelist.length;i++){
-                        listArry.eq(0).append('<li style="margin-bottom:10px;" class="out_li"><ul class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><span class="recta_num">'+onelist[i].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].seats[0].target?onelist[i].seats[0].target.name:"")+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><span class="recta_num">'+onelist[i].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].seats[1].target?onelist[i].seats[1].target.name:"")+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');  
+                for(var i=0;i<listone.length;i++){
+                  listArry.eq(0).find('.out_li').eq(i).html(newdom(i,listone)); 
                 }
                 
                  //根据矩形坐标画线
@@ -637,8 +639,7 @@ import topNav from '../components/topNav.vue'
                 }
                 getnum2(_this.matchdata);
                 for(var i=0;i<listtwo.length;i++){
-                  listArry.eq(1).find('.out_li').eq(i).html(newdom(i,listtwo));
-                  
+                  listArry.eq(1).find('.out_li').eq(i).html(newdom(i,listtwo)); 
                 }
 
                if(turn>2){
@@ -659,7 +660,6 @@ import topNav from '../components/topNav.vue'
                 getnum3(_this.matchdata);
                 for(var i=0;i<listthree.length;i++){
                   listArry.eq(2).find('.out_li').eq(i).html(newdom(i,listthree));
-                  console.log(listthree[i].seats[0].seatNumber);
                 }
 
                 }
@@ -734,7 +734,7 @@ import topNav from '../components/topNav.vue'
                   _this.groupid.groupId=_parent.find(".unit_ul").data("groupid");
                  
                    _this.$http.get('event/round/turn/getScores',_this.groupid).then(function(response){
-                    if(esponse.data.code){
+                    if(response.data.code){
                       if(response.data.object.scores.length){
                         _this.scorelis=response.data.object.scores;
                         var _winer=response.data.object.winner;
@@ -776,7 +776,7 @@ import topNav from '../components/topNav.vue'
                   _this.groupid.groupId=_parent.find(".unit_ul").data("groupid");
                  
                    _this.$http.get('event/round/turn/getScores',_this.groupid).then(function(response){
-                      if(esponse.data.code){
+                      if(response.data.code){
                        if(response.data.object.scores.length){
                         _this.scorelis=response.data.object.scores;
                         var _winer=response.data.object.winner;
@@ -923,7 +923,7 @@ import topNav from '../components/topNav.vue'
           });
       },
       isShowapp:function(){
-         var _eventid=window.sessionStorage.getItem("eventid");
+        var _eventid=window.sessionStorage.getItem("eventid");
         var ishowparm={};
         ishowparm.oetInfoId=_eventid;
         ishowparm.isShow=this.checked?1:0;

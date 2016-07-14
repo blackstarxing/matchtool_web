@@ -36,11 +36,12 @@
 	opacity: 0.7;
 }
 .tech_nav_list{
-	margin-left: 15%;
+	width:1200px;
+	margin: 0 auto;
 }
 .tech_nav_list li{
 	float: left;
-	padding:0 50px;
+	padding-right:120px;
 	color: #fff;
 	text-align: center;
 	cursor: pointer;
