@@ -60,7 +60,7 @@
 						</div>
 						<div class="m-lst" style="margin: 10px 0;">				
 							<label for="">详细内容:</label>
-							<div id="brief" class="m-editor" style="margin-left:118px; width:500px;" twremark></div>
+							<div id="brief" class="m-editor" style="margin-left:118px; width:600px;" twremark></div>
 							<!-- <textarea name="" id="" cols="50" rows="3"  title="详细内容" placeholder="请输入比赛赛制规则，不超过200字" v-model="new_info.remark" twremark></textarea> -->
 							<!-- <textarea name="" id="" cols="50" rows="3"  title="详细内容" value="{{new_info.remark}}" placeholder="请输入比赛赛制规则，不超过200字" v-model="new_info.remark" twremark></textarea> -->
 							<div class="tips">

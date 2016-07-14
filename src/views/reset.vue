@@ -82,6 +82,7 @@ import topHead from '../components/topHead.vue'
 		        	console.log(response.data);
 		        	if(response.data.code==1){
 		        		layer.msg("删除成功",{offset:"0px"});
+		        		_this.$route.router.go({path: '/homepage'});
 		        	}else{
 		        		layer.msg(response.data.msg,{offset:"0px"});
 		        	}		        	

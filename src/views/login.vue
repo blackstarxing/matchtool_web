@@ -98,8 +98,8 @@
   					}
   					document.cookie="oetevent.login.sessionid="+response.data.object["oetevent.login.sessionid"];
 			  		document.cookie="oetevent.login.token="+response.data.object["oetevent.login.token"];
-			  		document.cookie="userId="+response.data.object["userId"];
-			  		window.sessionStorage.setItem("username",this.username);
+			  		document.cookie="userId="+response.data.object.userInfo["id"];
+			  		window.sessionStorage.setItem("username",response.data.object.userInfo["nickname"]);
 			  		this.$route.router.go({path: '/homepage'}); 
   				}
 	            }, function (response) {
