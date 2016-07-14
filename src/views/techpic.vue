@@ -4,18 +4,18 @@
   <div class="tech_msg">
     <div class="body_top_pic"><img src="../../static/images/body_top.png" width="100%"></div>
     <div class="tech_msg_text clearfix">
-      <div class="tech_msg_left"><img src="../../static/images/person_pic.png" width="100%" height="100%"></div>
+      <div class="tech_msg_left"><img :src="techinfoPic" width="100%" height="100%"></div>
       <div class="tech_msg_right">
       <div class="begin_tech clearfix">
         <div class="begin_tech_left">
-          <h2 style="font-size:16px">浙江省网娱大师•雪碧真英雄城市争霸赛</h2>
+          <h2 style="font-size:16px">浙江省网娱大师•{{techinfoname}}</h2>
            <p class="sponsor">主办方：<span style="color:#f9a32a;">网娱大师</span></p>
           <div class="check_app">
-            <input type="checkbox" id="show_app">
+            <input type="checkbox" id="show_app" v-model="checked" @change="isShowapp">
             <label for="show_app">在网娱大师App中展示</label>
           </div>
         </div>
-        <div class="begin_tech_right">
+      <div class="begin_tech_right">
           <router-view></router-view>
         </div>
       </div>
@@ -32,19 +32,24 @@
             <div class="msg_list_left"><img src="../../static/images/msg_b.png"></div>
             <div class="msg_list_right">
               <p class="msg_list_name">报名时间</p>
-              <p>2016.06.06-2016.07.07</p>
+              <p>{{techinfobegin}}-{{techinfoEnd}}</p>
             </div>
           </li>
           <li class="clearfix">
             <div class="msg_list_left"><img src="../../static/images/msg_c.png"></div>
             <div class="msg_list_right">
               <p class="msg_list_name">赛制</p>
-              <p>32人赛事＋单败淘汰制</p>
+              <p>{{techinfoNum}}人赛事＋单败淘汰制</p>
             </div>
           </li>
         </ul>
       </div>
      </div>
+    </div>
+    <div class="tech_intro">
+      <h2>赛事简介</h2>
+      <p>你还在辛苦做小红本任务？不如来玩O.T.K娱乐赛， 赢小红本等级又可以体验各种娱乐模式，O.T.K群雄争霸，DOTA不止有空大！本联赛将混合使用技能征召、死亡随机、反队长 这三种官方娱乐模式，并在赛季进行中定
+期切换。周一、周二是技能征召模式（OMG），周三是单中模式，周四是死亡随机模式，周五周六是技能征召模式（OMG）,周日是死亡随机模式</p>
     </div>
   </div>
   <div class="against_container">
@@ -127,7 +132,7 @@
     </ul>
   </div> 
   <div class="m-mask m_edit">
-    <div class="m-pop"style="margin: 50px auto 0;">
+    <div class="m-pop"style="margin: 5px auto 0;">
       <div class="wrap">
         <h3>编辑比分</h3>
         <a href="javascript:void(0);" class="u-btn-close" @click="closeEdit"></a>
@@ -158,21 +163,21 @@
     </div>
   </div>
   <div class="m-mask m_check">
-    <div class="m-pop"style="margin: 50px auto 0;">
+    <div class="m-pop"style="margin: 5px auto 0;">
       <div class="wrap">
         <h3>查看比分</h3>
         <a href="javascript:void(0);" class="u-btn-close" @click="closeEdit"></a>
         <ul class="edit_detail_top clearfix">
-          <li class="edit_detail_left">
-            <div class="edit_ring">{{personNamea.substr(0,1)}}</div>
+          <li class="edit_detail_left edit_detail_li">
+            <div class="edit_ring check_ring">{{personNamea.substr(0,1)}}</div>
             <p style="margin:10px 0;">{{personNamea}}</p>
-            <div class="alread_score"><span style="display:none">{{seatida}}</span></div>
+            <div class="alread_score"><span class="alread_score_dt"></span><span style="display:none">{{seatida}}</span></div>
           </li>
           <li class="edit_detail_mid">vs</li>
-          <li class="edit_detail_right">
-            <div class="edit_ring">{{personNameb.substr(0,1)}}</div>
+          <li class="edit_detail_right edit_detail_li">
+            <div class="edit_ring check_ring">{{personNameb.substr(0,1)}}</div>
             <p style="margin:10px 0;">{{personNameb}}</p>
-            <div style="margin:0 auto;" class="alread_score"><span style="display:none">{{seatidb}}</span></div>
+            <div style="margin:0 auto;" class="alread_score"><span class="alread_score_dt"></span><span style="display:none">{{seatidb}}</span></div>
           </li>
         </ul>
         <div class="turn_edit_line" style="text-align: center;"><img src="../../static/images/turnline.png"></div>
@@ -217,6 +222,12 @@ import topNav from '../components/topNav.vue'
     data () {
     return {
     matchdata:'',
+    checked:'',
+    techinfoname:'',
+    techinfobegin:'',
+    techinfoEnd:'',
+    techinfoNum:'',
+    techinfoPic:'',
     turnnums:[],
     personnum:"",
     overhalf:"",
@@ -240,10 +251,43 @@ import topNav from '../components/topNav.vue'
       var _parm={};
       _parm.jsonInfo=parmstr;
     _this.$http.get('event/getStatusByTime',_parm).then(function(response){
-      if(response.data.object.roundStatus==4){
+      if(response.data.object.roundStatus==1){
+        $('.start_text').text("报名开始前");
+      }else if(response.data.object.roundStatus==2){
+        $('.start_text').text("报名开始");
+      }else if(response.data.object.roundStatus==3){
+        $('.start_text').text("签到开始");
+      }else if(response.data.object.roundStatus==4){
+        if(_this.checked){
+          $("#show_app").attr('disabled','disabled');
+        }
         window.sessionStorage.setItem("turnrate",response.data.object.rate);
-        this.$route.router.go({path: '/techPic/beginingTech'})
+        this.$route.router.go({path: '/techPic/beginingTech'});
+      }else if(response.data.object.roundStatus==5){
+         if(_this.checked){
+          $("#show_app").attr('disabled','disabled');
+        }
+        console.log(response.data.object);
+        window.sessionStorage.setItem("champion",response.data.object.firstName);
+        window.sessionStorage.setItem("second",response.data.object.secondName);
+        this.$route.router.go({path: '/techPic/resultTech'});
       }
+      },function(response) {
+              console.log(response);
+          });
+
+    _this.$http.get('event/openOetInfo',_parm).then(function(response){
+      console.log(response);
+      if(response.data.code){
+        var _techinfo=response.data.object;
+      _this.techinfoname=_techinfo.event.name;
+      _this.techinfobegin=_techinfo.applyBegin.split(' ',1);
+      _this.techinfoEnd=_techinfo.applyEnd.split(' ',1);
+      _this.techinfoNum=_techinfo.round.maxNum;
+      _this.techinfoPic=_techinfo.event.poster?'http://img.wangyuhudong.com/'+_techinfo.event.poster:'';
+    }else{
+      layer.msg(response.data.msg,{offset:"0px"});
+    }
       },function(response) {
               console.log(response);
           });
@@ -258,7 +302,7 @@ import topNav from '../components/topNav.vue'
 
              var turn=_this.matchdata[0].turn;
              var turnid=response.data.object.turns;
-             // console.log(turn);
+             
             var unitul_h=60;
             var unitul_w=200;
             var unitul_step=10;
@@ -327,7 +371,7 @@ import topNav from '../components/topNav.vue'
                 $(".tech_container").append('<canvas id="mycanvas" width='+_width+' height='+_height+'></canvas> ');
 
                 //获取turn2的数据
-                 var onelist = []; 
+                 var onelist = [];
                 function getnum(arr){
                   for(var i=0;i<arr.length;i++){
                     if(arr[i].turn == 2){
@@ -357,56 +401,14 @@ import topNav from '../components/topNav.vue'
                     var _one_list_li=_one_ul.find(".recta");
 
                       if(onelist[i].seats[0].seatNumber){
-                        if(onelist[i].groups==null){
-                              if(onelist[i].seats[1].seatNumber){
-
-                                _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
-                                _one_list.eq(1).text(onelist[i].seats[1].seatNumber);
-                                 if(onelist[i].seats[0].target){
-                                    _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>');
-                                  }
-                                  if(onelist[i].seats[1].target){
-                                    _one_list_li.eq(1).append('<span>'+onelist[i].seats[1].target.name+'</span>');
-                                  }
-                            }else{
-                                _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
-                                if(onelist[i].seats[0].target){
-                                  _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>'); 
-                                }
-                                  
-                            }
-                          
-                          }else if(onelist[i].groups.length==2){
-                            if(onelist[i].seats[1].seatNumber){
-                              _one_ul.parents('.out_li').html('<ul class="unit_ul" data-groupid='+onelist[i].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].seats[0].id+'><span class="recta_num">'+onelist[i].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].seats[0].target?onelist[i].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].scores?onelist[i].scores.seatleft:"")+'</span></li><li  class="recta"><input type="hidden" value='+onelist[i].seats[1].id+'><span class="recta_num">'+onelist[i].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].seats[1].target?onelist[i].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].scores?onelist[i].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>');
-                              // _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
-                              // _one_list.eq(1).text(onelist[i].seats[1].seatNumber);
-                              // _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>');
-                              // _one_list_li.eq(1).append('<span>'+onelist[i].seats[1].target.name+'</span>');
-                          }else{
-                              _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
-                              _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>');
-                              
-                          }
+                        if(onelist[i].groups.length==2){
                           
                            var _topd=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                           _topdY.push(_topd);
                           listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[0].seats[0].id+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[0].seats[1].id+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[1].seats[0].id+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[1].seats[1].id+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[1].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
                         }else if(onelist[i].groups.length==1){
-                               if(onelist[i].seats[1].seatNumber){
-                                console.log(777);
-                                console.log(onelist[i].id);
-                                _one_ul.attr("data-groupid",onelist[i].id);
-                                _one_ul.parents('.out_li').html('<ul class="unit_ul" data-groupid='+onelist[i].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].seats[0].id+'><span class="recta_num">'+onelist[i].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].seats[0].target?onelist[i].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].scores?onelist[i].scores.seatleft:"")+'</span></li><li  class="recta"><input type="hidden" value='+onelist[i].seats[1].id+'><span class="recta_num">'+onelist[i].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].seats[1].target?onelist[i].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].scores?onelist[i].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>');
-                                  
-                              }else{
-                                  _one_list.eq(0).text(onelist[i].seats[0].seatNumber);
-                                   if(onelist[i].seats[0].target){
-                                    _one_list_li.eq(0).append('<span>'+onelist[i].seats[0].target.name+'</span>');
-                                  }
-                                  
-                              }
-                                var _tops=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
+                              
+                              var _tops=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                               _topsY.push(_tops);
                               listArry.eq(0).append('<li class="out_li single_line"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[0].seats[0].id+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[0].seats[1].id+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');
                             
@@ -432,6 +434,7 @@ import topNav from '../components/topNav.vue'
                     list_double.eq(i).offset({'top':_topdY[i]-35});
                   }
                 }
+
 
             
                  //根据矩形坐标画线
@@ -493,7 +496,7 @@ import topNav from '../components/topNav.vue'
                     firstline("mycanvas"); 
                 }
 
-       //          //根据矩形坐标第一列双unit画线
+                //根据矩形坐标第一列双unit画线
                 var _xydouble=[];
                 var double_coord=[];
                 var double_arry=listArry.eq(0).find(".double_line");
@@ -556,27 +559,26 @@ import topNav from '../components/topNav.vue'
                 }
 
                  //获取turn1的数据
-                 var onelist = []; 
-                function getnum(arr){
+                 var listone = []; 
+                function getnum1(arr){
                   for(var i=0;i<arr.length;i++){
                     if(arr[i].turn == 1){
-                      onelist.push(arr[i]);
+                      listone.push(arr[i]);
                     }else{
                         for(var key in arr[i]){
                             if(key=='groups'){
-                              getnum(arr[i][key]);
+                              getnum1(arr[i][key]);
                             }
                           }  
                       } 
                   }
                      
                  }
-                 getnum(_this.matchdata);
-                 console.log(onelist);
+                 getnum1(_this.matchdata);
+                 console.log(listone);
 
-                listArry.eq(0).empty();
-                for(var i=0;i<onelist.length;i++){
-                        listArry.eq(0).append('<li style="margin-bottom:10px;" class="out_li"><ul class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><span class="recta_num">'+onelist[i].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].seats[0].target?onelist[i].seats[0].target.name:"")+'</span><span class="recta_right"></span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><span class="recta_num">'+onelist[i].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].seats[1].target?onelist[i].seats[1].target.name:"")+'</span><span class="recta_right"></span></li></ul><div class="edit_div"><div class="edit_score"></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');  
+                for(var i=0;i<listone.length;i++){
+                  listArry.eq(0).find('.out_li').eq(i).html(newdom(i,listone)); 
                 }
                 
                  //根据矩形坐标画线
@@ -614,6 +616,102 @@ import topNav from '../components/topNav.vue'
                   }  
                 }
              }
+
+            var listtwo=[];
+             var listthree=[];
+             var listfour=[];
+             var listfive=[];
+             var _html;
+
+             function getnum2(arr){
+                  for(var i=0;i<arr.length;i++){
+                    if(arr[i].turn == 2){
+                      listtwo.push(arr[i]);
+                    }else{
+                        for(var key in arr[i]){
+                            if(key=='groups'){
+                              getnum2(arr[i][key]);
+                            }
+                          }  
+                      } 
+                  }
+                     
+                }
+                getnum2(_this.matchdata);
+                for(var i=0;i<listtwo.length;i++){
+                  listArry.eq(1).find('.out_li').eq(i).html(newdom(i,listtwo)); 
+                }
+
+               if(turn>2){
+                  function getnum3(arr){
+                  for(var i=0;i<arr.length;i++){
+                    if(arr[i].turn == 3){
+                      listthree.push(arr[i]);
+                    }else{
+                        for(var key in arr[i]){
+                            if(key=='groups'){
+                              getnum3(arr[i][key]);
+                            }
+                          }  
+                      } 
+                  }
+                     
+                }
+                getnum3(_this.matchdata);
+                for(var i=0;i<listthree.length;i++){
+                  listArry.eq(2).find('.out_li').eq(i).html(newdom(i,listthree));
+                }
+
+                }
+
+                if(turn>3){
+                  function getnum4(arr){
+                  for(var i=0;i<arr.length;i++){
+                    if(arr[i].turn == 4){
+                      listfour.push(arr[i]);
+                    }else{
+                        for(var key in arr[i]){
+                            if(key=='groups'){
+                              getnum4(arr[i][key]);
+                            }
+                          }  
+                      } 
+                  }
+                     
+                }
+                getnum4(_this.matchdata);
+                for(var i=0;i<listfour.length;i++){
+                  listArry.eq(3).find('.out_li').eq(i).html(newdom(i,listfour));
+                }
+                }
+
+              if(turn>4){
+                  function getnum5(arr){
+                  for(var i=0;i<arr.length;i++){
+                    if(arr[i].turn == 5){
+                      listfive.push(arr[i]);
+                    }else{
+                        for(var key in arr[i]){
+                            if(key=='groups'){
+                              getnum5(arr[i][key]);
+                            }
+                          }  
+                      } 
+                  }
+                     
+                }
+                getnum5(_this.matchdata);
+                for(var i=0;i<listfive.length;i++){
+                  listArry.eq(4).find('.out_li').eq(i).html(newdom(i,listfive));
+                }
+                }
+
+            function newdom(i,list){
+                _html='<ul class="unit_ul" data-groupid='+list[i].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;"><input type="hidden" value='+list[i].seats[0].id+'><span class="recta_num">'+(list[i].seats[0].seatNumber?list[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(list[i].seats[0].target?list[i].seats[0].target.name:"")+'</span><span class="recta_right '+(list[i].seats[0].isWin?"add_winer":"")+'">'+(list[i].scores?list[i].scores.seatleft:"")+'</span></li><li  class="recta"><input type="hidden" value='+list[i].seats[1].id+'><span class="recta_num">'+(list[i].seats[1].seatNumber?list[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(list[i].seats[1].target?list[i].seats[1].target.name:"")+'</span><span class="recta_right '+(list[i].seats[1].isWin?"add_winer":"")+'">'+(list[i].scores?list[i].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(list[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>';
+
+                return _html;
+            }
+                
              //编辑查看悬浮框
               $(".edit_score").mouseover(function(){
                     $(this).next(".float_edit").show();
@@ -636,9 +734,8 @@ import topNav from '../components/topNav.vue'
                   _this.groupid.groupId=_parent.find(".unit_ul").data("groupid");
                  
                    _this.$http.get('event/round/turn/getScores',_this.groupid).then(function(response){
-                      console.log(response);
-                      console.log(_this.seatida,this.seatidb);
-                       if(response.data.object.scores.length){
+                    if(response.data.code){
+                      if(response.data.object.scores.length){
                         _this.scorelis=response.data.object.scores;
                         var _winer=response.data.object.winner;
                         if(_winer){
@@ -656,6 +753,10 @@ import topNav from '../components/topNav.vue'
                           _this.scorelis.push({best:i+1,seatleft:'',seatright:''});
                         }
                       }
+                    }else{        
+                        layer.msg(response.data.msg,{offset:"0px"});
+                      }
+                       
                       },function(response) {
                               console.log(22);
                           });
@@ -675,18 +776,29 @@ import topNav from '../components/topNav.vue'
                   _this.groupid.groupId=_parent.find(".unit_ul").data("groupid");
                  
                    _this.$http.get('event/round/turn/getScores',_this.groupid).then(function(response){
-                      console.log(response);
-                      console.log(_this.seatida,this.seatidb);
+                      if(response.data.code){
                        if(response.data.object.scores.length){
                         _this.scorelis=response.data.object.scores;
                         var _winer=response.data.object.winner;
-                        if(_winer){
-                          // if(_winer==_this.seatida){
-                          //   $('.made_winer').eq(0).addClass("winer_active");
-                          // }else{
-                          //   $('.made_winer').eq(1).addClass("winer_active");
-                          // }
+                        var _compare=response.data.object.compare;
+                        var _alscore=$('.alread_score_dt');
+                        if(_compare){
+                          var _comarr=_compare.split(":");
+                          _alscore.eq(0).text(_comarr[0]);
+                          _alscore.eq(1).text(_comarr[1]);
                         }
+                        if(_winer){
+                          if(_winer==_this.seatida){
+                            _alscore.eq(0).addClass("compare_active");
+                            _alscore.eq(0).closest('.edit_detail_li').append('<img class="add_guan" src="../../static/images/guan.png">');
+                          }else{
+                            _alscore.eq(1).addClass("compare_active");
+                            _alscore.eq(1).closest('.edit_detail_li').append('<img class="add_guan" src="../../static/images/guan.png">');
+                          }
+                        }
+                      }
+                       }else{        
+                        layer.msg(response.data.msg,{offset:"0px"});
                       }
                       },function(response) {
                               console.log(22);
@@ -702,7 +814,9 @@ import topNav from '../components/topNav.vue'
               _this.$http.get("event/group/resetResult",parm).then(function(response){
                 if(response.data.code){
                   window.location.reload();
-                }
+                }else{
+                  layer.msg(response.data.msg,{offset:"0px"});
+                  }
                 },function(response) {
                   console.log(response);
               });
@@ -716,6 +830,7 @@ import topNav from '../components/topNav.vue'
           },function(response) {
               console.log(response);
           });
+
      },
      methods:{
       turnName: function(e){
@@ -742,7 +857,9 @@ import topNav from '../components/topNav.vue'
           var parm={};
           parm.turnJson=parmstr;
           _this.$http.get("event/round/turn/saveTurn",parm).then(function(response){
-            console.log(response);
+            if(!response.data.code){
+                  layer.msg(response.data.msg,{offset:"0px"});
+                  }
             },function(response) {
               console.log(response);
           });
@@ -756,8 +873,11 @@ import topNav from '../components/topNav.vue'
         var parm={};
         parm.eventId=window.sessionStorage.getItem("eventid");
         this.$http.get("event/round/groupSeat/random",parm).then(function(response){
-            console.log(response);
+          if(response.data.code){
             window.location.reload();
+            }else{
+              layer.msg(response.data.msg,{offset:"0px"});
+              }
             },function(response) {
               console.log(response);
           });
@@ -773,17 +893,19 @@ import topNav from '../components/topNav.vue'
       submitScore:function(){
         var _this=this;
         var scoreparm={};
+        var scorep=[];
         for(var i=0;i<_this.scorelis.length;i++){
-          if(!_this.scorelis[i].seatleft){
-            _this.scorelis.splice(i,1);
+          if(_this.scorelis[i].seatleft){
+            scorep.push(_this.scorelis[i]);
           }
         }
         scoreparm.groupid=_this.groupid.groupId;
-        scoreparm.bs=_this.scorelis;
+        scoreparm.bs=scorep;
 
       var parmstr=JSON.stringify(scoreparm);
       var parm={};
       parm.scores=parmstr;
+      console.log(parm);
       if($('.made_winer').hasClass('winer_active')){
         parm.seatId=$(".winer_active").find('span').text();
       }
@@ -792,13 +914,31 @@ import topNav from '../components/topNav.vue'
       console.log(response);
         if(response.data.code){
           $(".m_edit").hide();
-          window.location.reload();
-
-        }
+           window.location.reload();
+        }else{
+            layer.msg(response.data.msg,{offset:"0px"});
+          }
       },function(response) {
               console.log(22);
           });
       },
+      isShowapp:function(){
+        var _eventid=window.sessionStorage.getItem("eventid");
+        var ishowparm={};
+        ishowparm.oetInfoId=_eventid;
+        ishowparm.isShow=this.checked?1:0;
+        var parmstr=JSON.stringify(ishowparm);
+        var parm={};
+        parm.jsonInfo=parmstr;
+        this.$http.get('event/show',parm).then(function(response){
+          if(!response.data.code){
+            layer.msg(response.data.msg,{offset:"0px"});
+          }
+        
+      },function(response) {
+              console.log(22);
+          });
+      }
      },
        components: {
           topNav,
@@ -838,7 +978,7 @@ import topNav from '../components/topNav.vue'
   width: 100%;
 }
 .tech_msg_text{
-  height: 235px;
+  height: 200px;
   background: rgba(52,57,63,0.9);
   padding: 40px 20px 0;
   margin-top: -14px;
@@ -1131,13 +1271,11 @@ import topNav from '../components/topNav.vue'
 .edit_detail_top li{
   float: left;
   text-align: center;
+  position: relative;
 }
 .edit_detail_mid{
   width: 50px;
   font-size: 20px;
-}
-.edit_detail_left .edit_detail_right{
-  width: 125px;
 }
 .edit_detail_bt{
   margin: 10px 100px 10px;
@@ -1178,5 +1316,22 @@ import topNav from '../components/topNav.vue'
 .edit_detail_table td{
   border: 1px solid #404244;
   height: 40px;
+}
+.compare_active{
+  color: #f9a32a;
+}
+.add_guan{
+  position: absolute;
+  top: 80px;
+  right:10px;
+}
+.tech_intro{
+  background: rgba(52,57,63,0.9);
+  padding: 0 20px 30px;
+  color: #fff;
+  font-size: 12px;
+}
+.tech_intro h2{
+  font-size: 18px;
 }
 </style>

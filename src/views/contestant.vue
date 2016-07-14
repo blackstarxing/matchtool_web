@@ -243,6 +243,20 @@ import topHead from '../components/topHead.vue'
 			    		errorTips.hide();
 			    	}			    				    	
 			    }
+			    function strlen(str){
+					var len = 0;
+					for (var i=0; i<str.length; i++) { 
+					    var c = str.charCodeAt(i); 
+					    //单字节加1 
+					    if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) { 
+					       len++; 
+					    } 
+					    else { 
+					      len+=2; 
+					    } 
+					} 
+				    return len;
+				}
 			    function formValidate(){
 			    	var valid=true;
 			    	$(".wrap input").each(function(){
@@ -253,6 +267,9 @@ import topHead from '../components/topHead.vue'
 			    			if(value==""){
 			    				valid=false;
 					    		message="选手名称不能为空";
+					    	}else if(strlen(value)>20){
+					    		valid=false;
+					    		message="选手名称过长";
 					    	}
 					    	errorPlacement(message,$this);
 			    		}else if(name=="tel"){
@@ -296,7 +313,7 @@ import topHead from '../components/topHead.vue'
 				    	parm.memberJson=parmstr;
 				    	_this.$http.get('event/round/group/member/edit',parm).then(function(response) {
 				        	console.log(response.data);
-				        	if(response.data.code==0){
+				        	if(response.data.code){
 				        		$('.m-mask').hide();
 				        		layer.msg('修改成功',{offset:"0px"});
 						    	_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {

@@ -83,7 +83,7 @@
 			$('.attention').text('密码不能为空!').show();
   		}
   		else{
-  			this.$http.post('http://wy.oetapi.wangyuhudong.com/event/login', this.$data).then(function (response) {
+  			this.$http.post('event/login', this.$data).then(function (response) {
   				var code = response.data.code;
   				if(code==-10){
   					$('.attention').text('登录失败!').show();

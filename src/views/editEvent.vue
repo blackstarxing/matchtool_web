@@ -595,38 +595,48 @@ import topHead from '../components/topHead.vue'
 			    var parm={};
 	   			parm.jsonInfo=JSON.stringify(_this.formdata);
 			    console.log(parm);
-			    if(formValidate()){
-			    	function power2fs(x) {
-					  	// 一句话版本
-					  	return (x & ( x - 1)) === 0 ? (x-1).toString(2).length : false;
-					}
-					// 是否为幂次方
-					if(power2fs(_this.formdata.maxNum)){
-						window.sessionStorage.setItem("ispower",true);
-					}else{
-						window.sessionStorage.setItem("ispower",false);
-					}
-					var n=0;
-					while(Math.pow(2,n)<_this.formdata.maxNum){
-						n++;
-					}
-					if(_this.formdata.maxNum>(Math.pow(2,n-1)+Math.pow(2,n-2))){
-						window.sessionStorage.setItem("isoverhalf",true);
-					}else{
-						window.sessionStorage.setItem("isoverhalf",false);
-					}
 
-			    	_this.$http.post('event/save',parm).then(function (response) {
-		  				console.log(parm);
-			  			if(response.data.code==1){
-			  				this.$route.router.go({path: '/homepage', replace: true})
-			  			}else{
-			  				layer.msg(response.data.msg,{offset:"0px"});
-			  			}
-			        }, function (response) {
-			            console.log(22);
-			        }) 
-			    }	    	
+			    var nowTime = new Date().getTime();
+			    var clickTime = $(_this).attr("ctime");
+			    if( clickTime != 'undefined' && (nowTime - clickTime < 5000)){
+			        layer.msg("操作过于频繁，稍后再试",{offset:"0px"});
+			        return false;
+			    }else{
+			        $(_this).attr("ctime",nowTime);
+				    if(formValidate()){
+				    	function power2fs(x) {
+						  	// 一句话版本
+						  	return (x & ( x - 1)) === 0 ? (x-1).toString(2).length : false;
+						}
+						// 是否为幂次方
+						if(power2fs(_this.formdata.maxNum)){
+							window.sessionStorage.setItem("ispower",true);
+						}else{
+							window.sessionStorage.setItem("ispower",false);
+						}
+						var n=0;
+						while(Math.pow(2,n)<_this.formdata.maxNum){
+							n++;
+						}
+						if(_this.formdata.maxNum>(Math.pow(2,n-1)+Math.pow(2,n-2))){
+							window.sessionStorage.setItem("isoverhalf",true);
+						}else{
+							window.sessionStorage.setItem("isoverhalf",false);
+						}
+
+				    	_this.$http.post('event/save',parm).then(function (response) {
+			  				console.log(parm);
+				  			if(response.data.code==1){
+				  				layer.msg("保存成功",{offset:"0px"});
+				  				this.$route.router.go({path: '/homepage', replace: true})
+				  			}else{
+				  				layer.msg(response.data.msg,{offset:"0px"});
+				  			}
+				        }, function (response) {
+				            console.log(22);
+				        }) 
+				    }
+				}	    	
 		    }
 	  	},
        components: {
