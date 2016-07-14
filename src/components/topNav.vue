@@ -23,7 +23,7 @@
 			</li>
 			<li v-link="{ path: '/homepage'}">
 				<div class="tect_nav_pic"><span class="icon-home icon_tool"></span></div>
-				<div>首页</div>
+				<div>返回</div>
 			</li>
 		</ul>
 	</div>

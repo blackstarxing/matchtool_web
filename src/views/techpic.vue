@@ -4,15 +4,16 @@
   <div class="tech_msg">
     <div class="body_top_pic"><img src="../../static/images/body_top.png" width="100%"></div>
     <div class="tech_msg_text clearfix">
-      <div class="tech_msg_left"><img :src="techinfoPic" width="100%" height="100%"></div>
+      <div class="tech_msg_left"><img :src="techinfo.techinfoPic" width="100%" height="100%"></div>
       <div class="tech_msg_right">
       <div class="begin_tech clearfix">
         <div class="begin_tech_left">
-          <h2 style="font-size:16px">浙江省网娱大师•{{techinfoname}}</h2>
+          <h2 style="font-size:16px">浙江省网娱大师•{{techinfo.techinfoname}}</h2>
            <p class="sponsor">主办方：<span style="color:#f9a32a;">网娱大师</span></p>
           <div class="check_app">
             <input type="checkbox" id="show_app" v-model="checked" @change="isShowapp">
             <label for="show_app">在网娱大师App中展示</label>
+            <label for="show_app" class="float_checkbox"><span class="check_gou" v-if="checked">√</span></label>
           </div>
         </div>
       <div class="begin_tech_right">
@@ -25,21 +26,21 @@
             <div class="msg_list_left"><img src="../../static/images/msg_a.png"></div>
             <div class="msg_list_right">
               <p class="msg_list_name">竞技项目</p>
-              <p>英雄联盟•全服</p>
+              <p>{{techinfo.itemName}}•{{techinfo.ServerName}}</p>
             </div>
           </li>
           <li class="clearfix">
             <div class="msg_list_left"><img src="../../static/images/msg_b.png"></div>
             <div class="msg_list_right">
               <p class="msg_list_name">报名时间</p>
-              <p>{{techinfobegin}}-{{techinfoEnd}}</p>
+              <p>{{techinfo.techinfobegin}}-{{techinfo.techinfoEnd}}</p>
             </div>
           </li>
           <li class="clearfix">
             <div class="msg_list_left"><img src="../../static/images/msg_c.png"></div>
             <div class="msg_list_right">
               <p class="msg_list_name">赛制</p>
-              <p>{{techinfoNum}}人赛事＋单败淘汰制</p>
+              <p>{{techinfo.techinfoNum}}人赛事＋单败淘汰制</p>
             </div>
           </li>
         </ul>
@@ -107,27 +108,14 @@
           <a class="title_unit"></a>
           <span style="font-size:18px;color:#fff;">赛事规则</span>
         </h2>
-        <p style="margin:20px 0">比赛模式</p>
-          <p>
-            1. 决赛当天海选BO1（单场淘汰制），冠亚之争采用BO3（三局两胜）</br>
-            2. 所有比赛均为5v5、房间模式、征召模式；</br>
-            8支队伍进行BO1 决出4强    4支队伍进行BO1决出冠亚争夺战 
-                败者组两只队伍BO1争夺季军   胜者队伍冠亚争夺战</br>
-            </p>
-            <p style="margin:20px 0">比赛规则：</p>
-            <p>
-            1.参赛选手须提前到达比赛现场报名抽签，迟到将视为自动弃权；</br> 
-            2.参赛选手须在比赛服务器比赛，使用官方比赛服帐号</p>
+          <div>{{techinfo.techrule}}</div>     
       </li>
       <li style="float:right">
         <h2 class="footer_text_title">
           <a class="title_unit"></a>
           <span style="font-size:18px;color:#fff;">奖金设置</span>
         </h2>
-        <p style="margin:20px 0">比赛模式</p>
-          <p>
-            1本次联赛奖品如下：</br>
-            冠军4000元现金；亚军2000元现金；季军1000元现金以及其他神秘大奖等你来拿！本次获奖战队可以参加下半年的省级冠军争夺赛，更有机会代表吉林省参加全国范围的争霸赛。</p>
+        <div>{{techinfo.premium}}</div> 
       </li>
     </ul>
   </div> 
@@ -223,11 +211,8 @@ import topNav from '../components/topNav.vue'
     return {
     matchdata:'',
     checked:'',
-    techinfoname:'',
-    techinfobegin:'',
-    techinfoEnd:'',
-    techinfoNum:'',
-    techinfoPic:'',
+    techinfo:{techinfoname:'',techinfobegin:'',techinfoEnd:'',techinfoNum:'',
+    techinfoPic:'',techrule:'',premium:'',itemName:'',ServerName:''},
     turnnums:[],
     personnum:"",
     overhalf:"",
@@ -267,24 +252,27 @@ import topNav from '../components/topNav.vue'
          if(_this.checked){
           $("#show_app").attr('disabled','disabled');
         }
-        console.log(response.data.object);
         window.sessionStorage.setItem("champion",response.data.object.firstName);
         window.sessionStorage.setItem("second",response.data.object.secondName);
         this.$route.router.go({path: '/techPic/resultTech'});
       }
       },function(response) {
-              console.log(response);
+              console.log(22);
           });
 
     _this.$http.get('event/openOetInfo',_parm).then(function(response){
       console.log(response);
       if(response.data.code){
         var _techinfo=response.data.object;
-      _this.techinfoname=_techinfo.event.name;
-      _this.techinfobegin=_techinfo.applyBegin.split(' ',1);
-      _this.techinfoEnd=_techinfo.applyEnd.split(' ',1);
-      _this.techinfoNum=_techinfo.round.maxNum;
-      _this.techinfoPic=_techinfo.event.poster?'http://img.wangyuhudong.com/'+_techinfo.event.poster:'';
+      _this.techinfo.techinfoname=_techinfo.event.name;
+      _this.techinfo.techinfobegin=_techinfo.applyBegin.split(' ',1);
+      _this.techinfo.techinfoEnd=_techinfo.applyEnd.split(' ',1);
+      _this.techinfo.techinfoNum=_techinfo.round.maxNum;
+      _this.techinfo.techinfoPic=_techinfo.event.poster?'http://img.wangyuhudong.com/'+_techinfo.event.poster:'';
+      _this.techinfo.techrule=_techinfo.event.regimeRule;
+      _this.techinfo.premium=_techinfo.event.prizeSetting;
+      _this.techinfo.itemName=_techinfo.event.itemName;
+      _this.techinfo.ServerName=_techinfo.event.itemServerName;
     }else{
       layer.msg(response.data.msg,{offset:"0px"});
     }
@@ -295,7 +283,6 @@ import topNav from '../components/topNav.vue'
     var parm={};
        parm.id=_eventid;
        _this.$http.get('event/info',parm).then(function(response){
-            console.log(response);
             _this.personnum=response.data.object.iscountm?true:false;
             _this.overhalf=response.data.object.iscountj1?true:false;
              _this.matchdata=response.data.object.groups;
@@ -368,7 +355,9 @@ import topNav from '../components/topNav.vue'
                 var _height=unitul_all*Math.pow(2,turn-2);
                 var _width=(unitul_w+90)*turn;
                 _content.width(_width);
-                $(".tech_container").append('<canvas id="mycanvas" width='+_width+' height='+_height+'></canvas> ');
+                var _techcon=$(".tech_container");
+                _techcon.height(_height+40);
+                _techcon.append('<canvas id="mycanvas" width='+_width+' height='+_height+'></canvas> ');
 
                 //获取turn2的数据
                  var onelist = [];
@@ -401,8 +390,8 @@ import topNav from '../components/topNav.vue'
                     var _one_list_li=_one_ul.find(".recta");
 
                       if(onelist[i].seats[0].seatNumber){
-                        if(onelist[i].groups.length==2){
-                          
+                        if(onelist[i].groups){
+                          if(onelist[i].groups.length==2){
                            var _topd=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                           _topdY.push(_topd);
                           listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[0].seats[0].id+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[0].seats[1].id+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[1].seats[0].id+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[1].seats[1].id+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[1].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
@@ -413,6 +402,8 @@ import topNav from '../components/topNav.vue'
                               listArry.eq(0).append('<li class="out_li single_line"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[0].seats[0].id+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[0].seats[1].id+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');
                             
                           }
+                        }
+                        
                             
                       }else{
                           var _topd=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
@@ -711,6 +702,13 @@ import topNav from '../components/topNav.vue'
 
                 return _html;
             }
+
+            // var rects_personname=$(".recta_personname");
+
+            // if(rects_personname.length>5){
+            //   var _text=(".recta_personname").text().substr(0,5);
+            //   $(".recta_personname").text(_text+"...");
+            // }
                 
              //编辑查看悬浮框
               $(".edit_score").mouseover(function(){
@@ -923,6 +921,7 @@ import topNav from '../components/topNav.vue'
           });
       },
       isShowapp:function(){
+        var _this=this;
         var _eventid=window.sessionStorage.getItem("eventid");
         var ishowparm={};
         ishowparm.oetInfoId=_eventid;
@@ -930,14 +929,21 @@ import topNav from '../components/topNav.vue'
         var parmstr=JSON.stringify(ishowparm);
         var parm={};
         parm.jsonInfo=parmstr;
-        this.$http.get('event/show',parm).then(function(response){
-          if(!response.data.code){
-            layer.msg(response.data.msg,{offset:"0px"});
-          }
-        
-      },function(response) {
+        var _html=this.checked?'你确定要在app中显示吗？':'你确定要取消在app中显示吗？';
+        layer.confirm(_html, {
+            btn: ['确定','取消'], 
+            move:false
+        }, function(){
+           _this.$http.get('event/show',parm).then(function(response){
+          if(response.data.code){
+            layer.msg("设置成功",{offset:"0px"});
+            }else{
+              layer.msg(response.data.msg,{offset:"0px"});
+            }
+          },function(response) {
               console.log(22);
           });
+        });
       }
      },
        components: {
@@ -1026,6 +1032,7 @@ import topNav from '../components/topNav.vue'
 }
 .check_app{
   font-size: 12px;
+  position: relative;
 }
 .msg_list_left{
   float: left;
@@ -1088,12 +1095,12 @@ import topNav from '../components/topNav.vue'
   width: 1200px;
   margin: 0 auto;
   position: relative;
-  height: 350px;
   padding-bottom: 50px;
   border-bottom: 1px solid #53585d;
   margin-top: -27px;
 }
 .tech_footer_text{
+  width:1200px;
   font-size: 12px;
   position: absolute;
   left:0;
@@ -1333,5 +1340,26 @@ import topNav from '../components/topNav.vue'
 }
 .tech_intro h2{
   font-size: 18px;
+}
+.float_checkbox{
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border: 1px solid #53585d;
+  border-radius: 2px;
+  position: absolute;
+  top:7px;
+  left:0;
+}
+.check_gou{
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  text-align: center;
+  color: #f9a32a;
+}
+#show_app{
+  opacity: 0;
+  z-index: 99999;
 }
 </style>
