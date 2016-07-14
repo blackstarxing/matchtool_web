@@ -15,7 +15,7 @@
 			</li>
 			<li v-link="{ path: '/editEvent'}">
 				<div class="tect_nav_pic"><span class="icon-install icon_tool"></span></div>
-				<div>设置</div>
+				<div>赛事编辑</div>
 			</li>
 			<li v-link="{ path: '/reset'}">
 				<div class="tect_nav_pic"><span class="icon-delete icon_tool"></span></div>
