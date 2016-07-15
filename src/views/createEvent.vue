@@ -90,9 +90,12 @@
 						</div>
 					</div>
 					<div class="m-lst">
-						<label for="">是否允许报名：</label>
+						<label for="" id="allowApply">是否允许报名：</label>
 						<input type="radio" id="radio-2-1" value="1" name="radio-2-set" class="regular-radio" v-model="formdata.allowApply" @click="slideToggle"/><label for="radio-2-1"></label><span class="radio_name">允许报名</span>
 						<input type="radio" id="radio-2-2" value="0" name="radio-2-set" class="regular-radio" v-model="formdata.allowApply"@click="slideToggle"/><label for="radio-2-2"></label><span class="radio_name">禁止报名</span>
+						<div class="tips">
+							<div class="attention"></div>
+						</div>
 					</div>
 					<div class="m-signup">
 						<div class="m-lst">
@@ -142,20 +145,29 @@
 								允许jpg、png格式，最大2MB
 							</div>					
 						</div>
-						<div class="m-lst">
+						<div class="m-lst f-cb">
 							<label for="">赛事简介：</label>
 							<!-- <textarea name="brief" id="edit" cols="55" rows="5" placeholder="请输入赛事简介，不超过500字" v-model="formdata.brief" required=""></textarea> -->
 							<div id="brief" class="m-editor"></div>
+							<div class="tips">
+								<div class="attention"></div>
+							</div>
 						</div>
-						<div class="m-lst">
+						<div class="m-lst f-cb">
 							<label for="">赛制规则：</label>
 							<!-- <textarea name="regimeRule" id="" cols="55" rows="5" placeholder="请输入赛制规则，不超过1000字" v-model="formdata.regimeRule" required=""></textarea> -->
 							<div id="regimeRule" class="m-editor"></div>
+							<div class="tips">
+								<div class="attention"></div>
+							</div>
 						</div>
-						<div class="m-lst f-mb50">
+						<div class="m-lst f-mb50 f-cb">
 							<label for="">奖金设置：</label>
 							<!-- <textarea name="prizeSetting" id="" cols="55" rows="5" placeholder="请输入奖励设置，不超过1000字" v-model="formdata.prizeSetting" required=""></textarea> -->
 							<div id="prizeSetting" class="m-editor"></div>
+							<div class="tips">
+								<div class="attention"></div>
+							</div>
 						</div>
 						<!-- <div class="m-lst">
 							<label for="">种子规则：</label>
@@ -505,6 +517,26 @@ import topHead from '../components/topHead.vue'
 			    				message="签到时间不能早于报名开始时间";
 			    			}
 			    			errorPlacement(message,$this);
+			    		}
+			    		if($('#brief .froala-element').text().length>500){
+			    			valid=false;
+			    			message="赛事简介不能超过500字";
+			    			errorPlacement(message,$('#brief'));
+			    		}
+			    		if($('#regimeRule .froala-element').text().length>1000){
+			    			valid=false;
+			    			message="赛制规则不能超过1000字";
+			    			errorPlacement(message,$('#regimeRule'));
+			    		}
+			    		if($('#prizeSetting .froala-element').text().length>1000){
+			    			valid=false;
+			    			message="奖励设置不能超过1000字";
+			    			errorPlacement(message,$('#prizeSetting'));
+			    		}
+			    		if(_this.formdata.allowApply==""){
+			    			valid=false;
+			    			message="请选择是否允许报名";
+			    			errorPlacement(message,$('#allowApply'));
 			    		}
 				    	   
 				    });

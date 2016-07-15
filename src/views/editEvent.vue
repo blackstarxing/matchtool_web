@@ -158,20 +158,29 @@
 								<img v-bind:src="'http://img.wangyuhudong.com'+eventlist.poster" alt="">
 							</div>			
 						</div>
-						<div class="m-lst">
+						<div class="m-lst f-cb">
 							<label for="">赛事简介：</label>
 							<!-- <textarea name="brief" id="" cols="55" rows="5" placeholder="请输入赛制规则，不超过500字" v-model="formdata.brief" required=""></textarea> -->
 							<div id="brief" class="m-editor"></div>
+							<div class="tips">
+								<div class="attention"></div>
+							</div>
 						</div>
-						<div class="m-lst">
+						<div class="m-lst f-cb">
 							<label for="">赛制规则：</label>
 							<!-- <textarea name="regimeRule" id="" cols="55" rows="5" placeholder="请输入赛制规则，不超过1000字" v-model="formdata.regimeRule" required=""></textarea> -->
 							<div id="regimeRule" class="m-editor"></div>
+							<div class="tips">
+								<div class="attention"></div>
+							</div>
 						</div>
-						<div class="m-lst f-mb50">
+						<div class="m-lst f-mb50 f-cb">
 							<label for="">奖金设置：</label>
 							<!-- <textarea name="prizeSetting" id="" cols="55" rows="5" placeholder="请输入奖励设置，不超过1000字" v-model="formdata.prizeSetting" required=""></textarea> -->
 							<div id="prizeSetting" class="m-editor"></div>
+							<div class="tips">
+								<div class="attention"></div>
+							</div>
 						</div>
 						<!-- <div class="m-lst">
 							<label for="">种子规则：</label>
@@ -583,6 +592,21 @@ import topHead from '../components/topHead.vue'
 			    				message="签到时间不能早于报名开始时间";
 			    			}
 			    			errorPlacement(message,$this);
+			    		}
+			    		if($('#brief .froala-element').text().length>500){
+			    			valid=false;
+			    			message="赛事简介不能超过500字";
+			    			errorPlacement(message,$('#brief'));
+			    		}
+			    		if($('#regimeRule .froala-element').text().length>1000){
+			    			valid=false;
+			    			message="赛制规则不能超过1000字";
+			    			errorPlacement(message,$('#regimeRule'));
+			    		}
+			    		if($('#prizeSetting .froala-element').text().length>1000){
+			    			valid=false;
+			    			message="奖励设置不能超过1000字";
+			    			errorPlacement(message,$('#prizeSetting'));
 			    		}
 				    	   
 				    });

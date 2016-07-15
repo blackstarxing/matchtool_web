@@ -175,7 +175,7 @@ label.add-on{
 .webuploader-pick {position: relative;display: inline-block;cursor: pointer;color: #fff;text-align: center;border-radius: 3px;overflow: hidden;width: 200px;height: 36px;line-height: 36px;padding:0;background: #f9a32a;}
 .webuploader-pick-hover {background: #e68700;}
 .webuploader-pick-disable {opacity: 0.6;pointer-events:none;}
-.m-lst .m-editor{width:425px;margin-left:127px;}
+.m-lst .m-editor{width:425px;float:left;}
 
 /*参赛选手*/
 .g-list{background:rgba(52,57,63,0.8);margin-top: -9px;padding:0 25px;}

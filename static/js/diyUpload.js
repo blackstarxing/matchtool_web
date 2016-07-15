@@ -208,7 +208,9 @@
 	
 	//创建文件操作div;	
 	function createBox( $fileInput, file, webUploader ) {
-
+		if($('.fileBoxUl li').length>0){
+			$('.fileBoxUl li').eq(0).remove();
+		}
 		var file_id = file.id;
 		var $parentFileBox = $fileInput.next('.parentFileBox');
 		
