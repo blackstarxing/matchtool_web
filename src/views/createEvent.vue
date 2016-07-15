@@ -99,9 +99,12 @@
 					</div>
 					<div class="m-signup">
 						<div class="m-lst">
-							<label for="">报名类型：</label>
+							<label for="" id="applyType">报名类型：</label>
 							<input type="radio" id="radio-3-1" name="radio-3-set" class="regular-radio" value="1" v-model="formdata.applyType"/><label for="radio-3-1"></label><span class="radio_name">个人报名</span>
 							<input type="radio" id="radio-3-2" name="radio-3-set" class="regular-radio" value="2" v-model="formdata.applyType"/><label for="radio-3-2"></label><span class="radio_name">战队报名</span>
+							<div class="tips">
+								<div class="attention"></div>
+							</div>
 						</div>
 						<div class="m-lst">
 							<label for="">报名时间：</label>
@@ -112,10 +115,11 @@
 							<span class="form-datetime-zhi">-</span>
 							<div class="input-append date form_datetime">
 							    <input size="16" type="text" id="applyEnd" value="" name="applyEnd" placeholder="请选择时间" v-model="formdata.applyEnd" required="">
-							    <label for="applyEnd" class="add-on"><i class="icon-th"></i></label>							</div>
+							    <label for="applyEnd" class="add-on"><i class="icon-th"></i></label>
+							</div>
 							<div class="tips">
-							<div class="attention"></div>
-						</div>
+								<div class="attention"></div>
+							</div>
 						</div>
 						<div class="m-lst f-mb50">
 							<div class="f-cb">
@@ -537,6 +541,11 @@ import topHead from '../components/topHead.vue'
 			    			valid=false;
 			    			message="请选择是否允许报名";
 			    			errorPlacement(message,$('#allowApply'));
+			    		}
+			    		if(_this.formdata.allowApply==1 && _this.formdata.applyType==""){
+			    			valid=false;
+			    			message="请选择报名类型";
+			    			errorPlacement(message,$('#applyType'));
 			    		}
 				    	   
 				    });
