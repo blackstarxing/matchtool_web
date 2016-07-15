@@ -159,25 +159,25 @@
 							</div>			
 						</div>
 						<div class="m-lst f-cb">
-							<label for="">赛事简介：</label>
-							<!-- <textarea name="brief" id="" cols="55" rows="5" placeholder="请输入赛制规则，不超过500字" v-model="formdata.brief" required=""></textarea> -->
-							<div id="brief" class="m-editor"></div>
+							<label for="" id="brief">赛事简介：</label>
+							<textarea name="brief" id="edit" cols="55" rows="5" placeholder="请输入赛事简介，不超过500字" v-model="formdata.brief"></textarea>
+							<!-- <div id="brief" class="m-editor"></div> -->
 							<div class="tips">
 								<div class="attention"></div>
 							</div>
 						</div>
 						<div class="m-lst f-cb">
-							<label for="">赛制规则：</label>
-							<!-- <textarea name="regimeRule" id="" cols="55" rows="5" placeholder="请输入赛制规则，不超过1000字" v-model="formdata.regimeRule" required=""></textarea> -->
-							<div id="regimeRule" class="m-editor"></div>
+							<label for="" id="regimeRule">赛制规则：</label>
+							<textarea name="regimeRule" id="" cols="55" rows="5" placeholder="请输入赛制规则，不超过1000字" v-model="formdata.regimeRule"></textarea>
+							<!-- <div id="regimeRule" class="m-editor"></div> -->
 							<div class="tips">
 								<div class="attention"></div>
 							</div>
 						</div>
 						<div class="m-lst f-mb50 f-cb">
-							<label for="">奖金设置：</label>
-							<!-- <textarea name="prizeSetting" id="" cols="55" rows="5" placeholder="请输入奖励设置，不超过1000字" v-model="formdata.prizeSetting" required=""></textarea> -->
-							<div id="prizeSetting" class="m-editor"></div>
+							<label for="" id="prizeSetting">奖金设置：</label>
+							<textarea name="prizeSetting" id="" cols="55" rows="5" placeholder="请输入奖励设置，不超过1000字" v-model="formdata.prizeSetting"></textarea>
+							<!-- <div id="prizeSetting" class="m-editor"></div> -->
 							<div class="tips">
 								<div class="attention"></div>
 							</div>
@@ -256,9 +256,9 @@ import topHead from '../components/topHead.vue'
 	        	_this.formdata.brief=_this.eventlist.brief;
 	        	_this.formdata.regimeRule=_this.eventlist.regimeRule;
 	        	_this.formdata.prizeSetting=_this.eventlist.prizeSetting;
-	        	$('#brief .froala-element').html(_this.formdata.brief);
-	        	$('#regimeRule .froala-element').html(_this.formdata.regimeRule);
-	        	$('#prizeSetting .froala-element').html(_this.formdata.prizeSetting);
+	        	// $('#brief .froala-element').html(_this.formdata.brief);
+	        	// $('#regimeRule .froala-element').html(_this.formdata.regimeRule);
+	        	// $('#prizeSetting .froala-element').html(_this.formdata.prizeSetting);
 	        	$("#gameList option").each(function(){
 	        		if($(this).val()==_this.eventlist.itemId){
 	        			$(this).attr("selected",true);
@@ -368,29 +368,29 @@ import topHead from '../components/topHead.vue'
 				
 			});
 
-			$('#brief').editable({
-				inlineMode: false,
-				theme: 'dark', 
-				alwaysBlank: true,
-				language: "zh_cn",
-				placeholder: ''
-			});
+			// $('#brief').editable({
+			// 	inlineMode: false,
+			// 	theme: 'dark', 
+			// 	alwaysBlank: true,
+			// 	language: "zh_cn",
+			// 	placeholder: ''
+			// });
 
-			$('#regimeRule').editable({
-				inlineMode: false,
-				theme: 'dark', 
-				alwaysBlank: true,
-				language: "zh_cn",
-				placeholder: ''
-			});
+			// $('#regimeRule').editable({
+			// 	inlineMode: false,
+			// 	theme: 'dark', 
+			// 	alwaysBlank: true,
+			// 	language: "zh_cn",
+			// 	placeholder: ''
+			// });
 
-			$('#prizeSetting').editable({
-				inlineMode: false,
-				theme: 'dark', 
-				alwaysBlank: true,
-				language: "zh_cn",
-				placeholder: ''
-			});
+			// $('#prizeSetting').editable({
+			// 	inlineMode: false,
+			// 	theme: 'dark', 
+			// 	alwaysBlank: true,
+			// 	language: "zh_cn",
+			// 	placeholder: ''
+			// });
   		},
   		methods: {
     		plus: function(e){
@@ -486,21 +486,21 @@ import topHead from '../components/topHead.vue'
 		    	else{
 		    		_this.formdata.needSign=0;
 		    	}
-		    	if($('#brief .froala-element').html()!="<p><br></p>"){
-		    		_this.formdata.brief=$('#brief .froala-element').html()
-		    	}else{
-		    		_this.formdata.brief="";
-		    	}
-		    	if($('#regimeRule .froala-element').html()!="<p><br></p>"){
-		    		_this.formdata.regimeRule=$('#regimeRule .froala-element').html()
-		    	}else{
-		    		_this.formdata.regimeRule="";
-		    	}
-		    	if($('#prizeSetting .froala-element').html()!="<p><br></p>"){
-		    		_this.formdata.prizeSetting=$('#prizeSetting .froala-element').html()
-		    	}else{
-		    		_this.formdata.prizeSetting="";
-		    	}
+		    	// if($('#brief .froala-element').html()!="<p><br></p>"){
+		    	// 	_this.formdata.brief=$('#brief .froala-element').html()
+		    	// }else{
+		    	// 	_this.formdata.brief="";
+		    	// }
+		    	// if($('#regimeRule .froala-element').html()!="<p><br></p>"){
+		    	// 	_this.formdata.regimeRule=$('#regimeRule .froala-element').html()
+		    	// }else{
+		    	// 	_this.formdata.regimeRule="";
+		    	// }
+		    	// if($('#prizeSetting .froala-element').html()!="<p><br></p>"){
+		    	// 	_this.formdata.prizeSetting=$('#prizeSetting .froala-element').html()
+		    	// }else{
+		    	// 	_this.formdata.prizeSetting="";
+		    	// }
 			    function errorPlacement(mes,element){
 			    	var errorTips=element.parents(".m-lst").find('div.attention');
 			    	if(mes!=""){
@@ -593,17 +593,17 @@ import topHead from '../components/topHead.vue'
 			    			}
 			    			errorPlacement(message,$this);
 			    		}
-			    		if($('#brief .froala-element').text().length>500){
+			    		if(_this.formdata.brief.length>500){
 			    			valid=false;
 			    			message="赛事简介不能超过500字";
 			    			errorPlacement(message,$('#brief'));
 			    		}
-			    		if($('#regimeRule .froala-element').text().length>1000){
+			    		if(_this.formdata.regimeRule.length>1000){
 			    			valid=false;
 			    			message="赛制规则不能超过1000字";
 			    			errorPlacement(message,$('#regimeRule'));
 			    		}
-			    		if($('#prizeSetting .froala-element').text().length>1000){
+			    		if(_this.formdata.prizeSetting.length>1000){
 			    			valid=false;
 			    			message="奖励设置不能超过1000字";
 			    			errorPlacement(message,$('#prizeSetting'));
