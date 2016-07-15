@@ -28,12 +28,12 @@
 					</select>
 					<div class="ib re">
 					    <input type="text" id="begintime" placeholder="请选择时间" class="w200  form_datetime" v-model="begindate">
-						<img src="../../static/images/datepicker.png" class="ab u-n-date">
+						<label style="margin:0;" for="begintime"><img src="../../static/images/datepicker.png" class="ab u-n-date"></label>
 					</div>
 					&nbsp&nbsp—&nbsp&nbsp
 					<div class="ib re">
 					    <input type="text" id="endtime" placeholder="请选择时间" class="w200 form_datetime" v-model="enddate">
-						<img src="../../static/images/datepicker.png" class="ab u-n-date">
+						<label style="margin:0;" for="endtime"><img src="../../static/images/datepicker.png" class="ab u-n-date"></label>
 					</div>
 				</div>
 				<button type="button" class="u-del-btn u-n-add" @click="linkaddnews"><img src="../../static/images/plus.png">添加资讯</button>
