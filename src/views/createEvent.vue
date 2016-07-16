@@ -100,8 +100,8 @@
 					<div class="m-signup">
 						<div class="m-lst">
 							<label for="" id="applyType">报名类型：</label>
-							<input type="radio" id="radio-3-1" name="radio-3-set" class="regular-radio" value="1" v-model="formdata.applyType"/><label for="radio-3-1"></label><span class="radio_name">个人报名</span>
-							<input type="radio" id="radio-3-2" name="radio-3-set" class="regular-radio" value="2" v-model="formdata.applyType"/><label for="radio-3-2"></label><span class="radio_name">战队报名</span>
+							<input type="radio" id="radio-3-1" name="radio-3-set" class="regular-radio" value="1" v-model="formdata.applyType" checked="" /><label for="radio-3-1"></label><span class="radio_name">个人报名</span>
+							<input type="radio" id="radio-3-2" name="radio-3-set" class="regular-radio" value="2" v-model="formdata.applyType" disabled/><label for="radio-3-2"></label><span class="radio_name">战队报名</span>
 							<div class="tips">
 								<div class="attention"></div>
 							</div>

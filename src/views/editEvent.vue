@@ -105,10 +105,10 @@
 						<div class="m-lst">
 							<label for="">报名类型：</label>
 							<input type="radio" id="radio-3-1" name="radio-3-set" class="regular-radio" value="1" v-model="formdata.applyType" checked="" v-if="roundlist.applyType==1"/>
-							<input type="radio" id="radio-3-1" name="radio-3-set" class="regular-radio" value="1" v-model="formdata.applyType" v-else/>
+							<input type="radio" id="radio-3-1" name="radio-3-set" class="regular-radio" value="1" v-model="formdata.applyType" checked="" v-else/>
 							<label for="radio-3-1"></label><span class="radio_name">个人报名</span>
-							<input type="radio" id="radio-3-2" name="radio-3-set" class="regular-radio" value="2" v-model="formdata.applyType" checked="" v-if="roundlist.applyType==2"/>
-							<input type="radio" id="radio-3-2" name="radio-3-set" class="regular-radio" value="2" v-model="formdata.applyType" v-else/>
+							<input type="radio" id="radio-3-2" name="radio-3-set" class="regular-radio" value="2" v-model="formdata.applyType" disabled v-if="roundlist.applyType==2"/>
+							<input type="radio" id="radio-3-2" name="radio-3-set" class="regular-radio" value="2" v-model="formdata.applyType" disabled v-else/>
 							<label for="radio-3-2"></label><span class="radio_name">战队报名</span>
 						</div>
 						<div class="m-lst">
