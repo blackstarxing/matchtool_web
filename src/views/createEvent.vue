@@ -150,25 +150,25 @@
 							</div>					
 						</div>
 						<div class="m-lst f-cb">
-							<label for="">赛事简介：</label>
-							<!-- <textarea name="brief" id="edit" cols="55" rows="5" placeholder="请输入赛事简介，不超过500字" v-model="formdata.brief" required=""></textarea> -->
-							<div id="brief" class="m-editor"></div>
+							<label for="" id="brief">赛事简介：</label>
+							<textarea name="brief" id="edit" cols="55" rows="5" placeholder="请输入赛事简介，不超过500字" v-model="formdata.brief"></textarea>
+							<!-- <div id="brief" class="m-editor"></div> -->
 							<div class="tips">
 								<div class="attention"></div>
 							</div>
 						</div>
 						<div class="m-lst f-cb">
-							<label for="">赛制规则：</label>
-							<!-- <textarea name="regimeRule" id="" cols="55" rows="5" placeholder="请输入赛制规则，不超过1000字" v-model="formdata.regimeRule" required=""></textarea> -->
-							<div id="regimeRule" class="m-editor"></div>
+							<label for="" id="regimeRule">赛制规则：</label>
+							<textarea name="regimeRule" id="" cols="55" rows="5" placeholder="请输入赛制规则，不超过1000字" v-model="formdata.regimeRule"></textarea>
+							<!-- <div id="regimeRule" class="m-editor"></div> -->
 							<div class="tips">
 								<div class="attention"></div>
 							</div>
 						</div>
 						<div class="m-lst f-mb50 f-cb">
-							<label for="">奖金设置：</label>
-							<!-- <textarea name="prizeSetting" id="" cols="55" rows="5" placeholder="请输入奖励设置，不超过1000字" v-model="formdata.prizeSetting" required=""></textarea> -->
-							<div id="prizeSetting" class="m-editor"></div>
+							<label for="" id="prizeSetting">奖金设置：</label>
+							<textarea name="prizeSetting" id="" cols="55" rows="5" placeholder="请输入奖励设置，不超过1000字" v-model="formdata.prizeSetting"></textarea>
+							<!-- <div id="prizeSetting" class="m-editor"></div> -->
 							<div class="tips">
 								<div class="attention"></div>
 							</div>
@@ -303,29 +303,29 @@ import topHead from '../components/topHead.vue'
 				
 			});
 
-			$('#brief').editable({
-				inlineMode: false,
-				theme: 'dark', 
-				alwaysBlank: true,
-				language: "zh_cn",
-				placeholder: '请输入赛事简介，不超过500字'
-			});
+			// $('#brief').editable({
+			// 	inlineMode: false,
+			// 	theme: 'dark', 
+			// 	alwaysBlank: true,
+			// 	language: "zh_cn",
+			// 	placeholder: '请输入赛事简介，不超过500字'
+			// });
 
-			$('#regimeRule').editable({
-				inlineMode: false,
-				theme: 'dark', 
-				alwaysBlank: true,
-				language: "zh_cn",
-				placeholder: '请输入赛制规则，不超过1000字'
-			});
+			// $('#regimeRule').editable({
+			// 	inlineMode: false,
+			// 	theme: 'dark', 
+			// 	alwaysBlank: true,
+			// 	language: "zh_cn",
+			// 	placeholder: '请输入赛制规则，不超过1000字'
+			// });
 
-			$('#prizeSetting').editable({
-				inlineMode: false,
-				theme: 'dark', 
-				alwaysBlank: true,
-				language: "zh_cn",
-				placeholder: '请输入奖励设置，不超过1000字'
-			})
+			// $('#prizeSetting').editable({
+			// 	inlineMode: false,
+			// 	theme: 'dark', 
+			// 	alwaysBlank: true,
+			// 	language: "zh_cn",
+			// 	placeholder: '请输入奖励设置，不超过1000字'
+			// })
   		},
   		methods: {
     		plus: function(e){
@@ -421,15 +421,15 @@ import topHead from '../components/topHead.vue'
 		    	else{
 		    		_this.formdata.needSign=0;
 		    	}
-		    	if($('#brief .froala-element').html()!="<p><br></p>"){
-		    		_this.formdata.brief=$('#brief .froala-element').html()
-		    	}
-		    	if($('#regimeRule .froala-element').html()!="<p><br></p>"){
-		    		_this.formdata.regimeRule=$('#regimeRule .froala-element').html()
-		    	}
-		    	if($('#prizeSetting .froala-element').html()!="<p><br></p>"){
-		    		_this.formdata.prizeSetting=$('#prizeSetting .froala-element').html()
-		    	}
+		    	// if($('#brief .froala-element').html()!="<p><br></p>"){
+		    	// 	_this.formdata.brief=$('#brief .froala-element').html()
+		    	// }
+		    	// if($('#regimeRule .froala-element').html()!="<p><br></p>"){
+		    	// 	_this.formdata.regimeRule=$('#regimeRule .froala-element').html()
+		    	// }
+		    	// if($('#prizeSetting .froala-element').html()!="<p><br></p>"){
+		    	// 	_this.formdata.prizeSetting=$('#prizeSetting .froala-element').html()
+		    	// }
 			    function errorPlacement(mes,element){
 			    	var errorTips=element.parents(".m-lst").find('div.attention');
 			    	if(mes!=""){
@@ -521,18 +521,18 @@ import topHead from '../components/topHead.vue'
 			    				message="签到时间不能早于报名开始时间";
 			    			}
 			    			errorPlacement(message,$this);
-			    		}
-			    		if($('#brief .froala-element').text().length>500){
+			    		}	
+			    		if(_this.formdata.brief.length>500){
 			    			valid=false;
 			    			message="赛事简介不能超过500字";
 			    			errorPlacement(message,$('#brief'));
 			    		}
-			    		if($('#regimeRule .froala-element').text().length>1000){
+			    		if(_this.formdata.regimeRule.length>1000){
 			    			valid=false;
 			    			message="赛制规则不能超过1000字";
 			    			errorPlacement(message,$('#regimeRule'));
 			    		}
-			    		if($('#prizeSetting .froala-element').text().length>1000){
+			    		if(_this.formdata.prizeSetting.length>1000){
 			    			valid=false;
 			    			message="奖励设置不能超过1000字";
 			    			errorPlacement(message,$('#prizeSetting'));
@@ -546,13 +546,12 @@ import topHead from '../components/topHead.vue'
 			    			valid=false;
 			    			message="请选择报名类型";
 			    			errorPlacement(message,$('#applyType'));
-			    		}
-				    	   
+			    		}		    	   
 				    });
 				    if(!valid){
 				    	var top=$('.attention').eq(0).offset().top-250;
 				    	$("body").scrollTop(top);
-				    }
+				    }	
 				    return valid;
 			    };
 			    var parm={};
