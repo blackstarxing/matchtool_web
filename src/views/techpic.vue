@@ -8,8 +8,8 @@
       <div class="tech_msg_right">
       <div class="begin_tech clearfix">
         <div class="begin_tech_left">
-          <h2 style="font-size:16px">浙江省网娱大师•{{techinfo.techinfoname}}</h2>
-           <p class="sponsor">主办方：<span style="color:#f9a32a;">网娱大师</span></p>
+          <h2 style="font-size:16px">{{techinfo.techinfoname}}</h2>
+           <p class="sponsor">主办方：<span style="color:#f9a32a;">{{nickName}}</span></p>
           <div class="check_app">
             <input type="checkbox" id="show_app" v-model="checked" @change="isShowapp">
             <label for="show_app">在网娱大师App中展示</label>
@@ -50,8 +50,7 @@
     </div>
     <div class="tech_intro">
       <h2>赛事简介</h2>
-      <p>你还在辛苦做小红本任务？不如来玩O.T.K娱乐赛， 赢小红本等级又可以体验各种娱乐模式，O.T.K群雄争霸，DOTA不止有空大！本联赛将混合使用技能征召、死亡随机、反队长 这三种官方娱乐模式，并在赛季进行中定
-期切换。周一、周二是技能征召模式（OMG），周三是单中模式，周四是死亡随机模式，周五周六是技能征召模式（OMG）,周日是死亡随机模式</p>
+      <p class="tech_detail_intro"></p>
     </div>
   </div>
   <div class="against_container">
@@ -108,15 +107,15 @@
         <h2 class="footer_text_title">
           <a class="title_unit"></a>
           <span style="font-size:18px;color:#fff;">赛事规则</span>
-        </h2>
-          <div>{{techinfo.techrule}}</div>     
+        </h2>  
+        <div class="footer_text_rules"></div> 
       </li>
       <li style="float:right">
         <h2 class="footer_text_title">
           <a class="title_unit"></a>
           <span style="font-size:18px;color:#fff;">奖金设置</span>
         </h2>
-        <div>{{techinfo.premium}}</div> 
+        <div class="footer_text_proud"></div> 
       </li>
     </ul>
   </div> 
@@ -213,7 +212,7 @@ import topNav from '../components/topNav.vue'
     matchdata:'',
     checked:'',
     techinfo:{techinfoname:'',techinfobegin:'',techinfoEnd:'',techinfoNum:'',
-    techinfoPic:'',techrule:'',premium:'',itemName:'',ServerName:'',techtime:''},
+    techinfoPic:'',itemName:'',ServerName:'',techtime:''},
     turnnums:[],
     personnum:"",
     overhalf:"",
@@ -224,7 +223,8 @@ import topNav from '../components/topNav.vue'
     groupid:{},
     seatida:{},
     seatidb:{},
-    roundStatus:''
+    roundStatus:'',
+    nickName:''
     }
   },
      ready: function(){
@@ -232,6 +232,7 @@ import topNav from '../components/topNav.vue'
       var beginparm={};
       var _eventid=window.sessionStorage.getItem("eventid");
       var _roundid=window.sessionStorage.getItem("roundid");
+      _this.nickName=window.sessionStorage.getItem("username");
       beginparm.oetInfoId=_eventid;
       beginparm.oetRoundId=_roundid;
       var parmstr=JSON.stringify(beginparm);
@@ -272,11 +273,14 @@ import topNav from '../components/topNav.vue'
       _this.techinfo.techinfoEnd=_techinfo.applyEnd;
       _this.techinfo.techinfoNum=_techinfo.round.maxNum;
       _this.techinfo.techinfoPic=_techinfo.event.poster?'http://img.wangyuhudong.com/'+_techinfo.event.poster:'';
-      _this.techinfo.techrule=_techinfo.event.regimeRule;
-      _this.techinfo.premium=_techinfo.event.prizeSetting;
       _this.techinfo.itemName=_techinfo.event.itemName;
       _this.techinfo.ServerName=_techinfo.event.itemServerName;
       _this.techinfo.techtime=_techinfo.activityBegin;
+      _this.checked=_techinfo.event.isShow?true:false;
+
+      $('.footer_text_rules').append(_techinfo.event.regimeRule);
+      $('.footer_text_proud').append(_techinfo.event.prizeSetting);
+      $(".tech_detail_intro").append(_techinfo.event.brief);
     }else{
       layer.msg(response.data.msg,{offset:"0px"});
     }
@@ -1350,7 +1354,7 @@ console.log(_this.turnnums);
   border: 1px solid #53585d;
   border-radius: 2px;
   position: absolute;
-  top:7px;
+  top:0;
   left:0;
 }
 .check_gou{
@@ -1363,5 +1367,7 @@ console.log(_this.turnnums);
 #show_app{
   opacity: 0;
   z-index: 99999;
+  width:15px;
+  height: 15px;
 }
 </style>

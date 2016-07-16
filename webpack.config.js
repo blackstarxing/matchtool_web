@@ -1,5 +1,6 @@
-var path = require('path')
-var webpack = require('webpack')
+var path = require('path');
+var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: './src/main.js',
@@ -34,9 +35,17 @@ module.exports = {
           limit: 10240,
           name: '[name].[ext]?[hash]'
         }
-      }
+      },
+      { test: /\.css$/, 
+        loader: ExtractTextPlugin.extract("style-loader","css-loader") 
+      },
     ]
   },
+  plugins: [
+      new ExtractTextPlugin('./index.[hash].css', {
+            allChunks: true
+        }),
+  ],
   devServer: {
      historyApiFallback: true,
     hot: true,
