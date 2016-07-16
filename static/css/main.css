@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /*公共*/
-body{font-family:'Microsoft YaHei','微软雅黑', Helvetica,Arial,sans-serif,STHeiTi;background:#000; letter-spacing:1px;}
+body{font:14px/1.5 'Microsoft YaHei','微软雅黑', Helvetica,Arial,sans-serif,STHeiTi;background:#000; letter-spacing:1px;}
 body,html{height: 100%;}
 html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,table,caption,th,td,form,fieldset,legend,input,button,textarea,menu{margin:0;padding:0;}
 header,footer,section,article,aside,nav,hgroup,address,figure,figcaption,menu,details{display:block;}
@@ -176,6 +176,7 @@ label.add-on{
 .webuploader-pick-hover {background: #e68700;}
 .webuploader-pick-disable {opacity: 0.6;pointer-events:none;}
 .m-lst .m-editor{width:425px;float:left;}
+.m-n-lx .m-lst .m-editor{float: none;}
 
 /*参赛选手*/
 .g-list{background:rgba(52,57,63,0.8);margin-top: -9px;padding:0 25px;}
