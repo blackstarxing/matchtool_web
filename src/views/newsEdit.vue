@@ -453,7 +453,7 @@ Date.prototype.Format = function (fmt) { // author: meizz
 			  content:'<form id="form-upload" action="">'+ 
 	  				  '<div style="width:80%; margin:40px auto 0;" >'+
 		  			  '<label style="color:#000000;" for="addvideo">视频：</label>'+
-		  			  '<input type="file" name="file" accept="video/*" id="addvideo"  style="width:90%;"/>'+
+		  			  '<input type="file" class="spinput" name="file" accept="video/*" id="addvideo"/>'+
 		  			  '</div>'+
 		  			  '<div style="text-align:center;margin:20px 0 0 0;"><button type="button" style="width:10%; height:34px; line-height:34px;" id="check">校验</button><button style="display:none;width:10%;height:34px;line-height:34px;" id="upload">上传</button></div>'+
 		  			  '</form>'
