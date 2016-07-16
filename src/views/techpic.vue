@@ -871,6 +871,8 @@ console.log(_this.turnnums);
       },
       turnQuit:function(e){
         var _target=$(e.currentTarget);
+        var _parent=_target.closest(".turn_num_li");
+        _parent.find('.turn_set_detail').hide();
         _target.parent().hide();
         _target.parent().siblings(".trunname_ed").show();
       },
