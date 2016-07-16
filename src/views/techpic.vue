@@ -276,6 +276,7 @@ import topNav from '../components/topNav.vue'
       _this.techinfo.itemName=_techinfo.event.itemName;
       _this.techinfo.ServerName=_techinfo.event.itemServerName;
       _this.techinfo.techtime=_techinfo.activityBegin;
+      _this.checked=_techinfo.event.isShow?true:false;
 
       $('.footer_text_rules').append(_techinfo.event.regimeRule);
       $('.footer_text_proud').append(_techinfo.event.prizeSetting);
