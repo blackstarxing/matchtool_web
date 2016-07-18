@@ -32,7 +32,6 @@ module.exports = {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'url',
         query: {
-          limit: 10240,
           name: '[name].[ext]?[hash]'
         }
       },
@@ -41,12 +40,37 @@ module.exports = {
       },
     ]
   },
+  babel: {
+    presets: ['es2015', 'stage-2'],
+    plugins: ['transform-runtime'],
+    comments: false
+  },
   plugins: [
-      new ExtractTextPlugin('./index.[hash].css', {
+      new ExtractTextPlugin('./index.css', {
             allChunks: true
         }),
   ],
-  devServer: {
+}
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports.plugins = [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"production"'
+      }
+    }),
+    new ExtractTextPlugin('./index.css', {
+            allChunks: true
+        }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    }),
+    new webpack.optimize.OccurenceOrderPlugin()
+  ]
+} else {
+  module.exports.devServer={
      historyApiFallback: true,
     hot: true,
     inline: true,
@@ -58,23 +82,5 @@ module.exports = {
       }
     }
   },
-  devtool: 'eval-source-map'
-}
-
-if (process.env.NODE_ENV === 'production') {
-  module.exports.plugins = [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    }),
-    new webpack.optimize.OccurenceOrderPlugin()
-  ]
-} else {
-  module.exports.devtool = '#source-map'
+  module.exports.devtool = '#eval-source-map'
 }

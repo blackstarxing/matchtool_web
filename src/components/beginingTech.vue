@@ -29,7 +29,6 @@
     }else{
        $(".tech_range_detail").width(0);
        $(".tech_range_num").text("0%");
-       window.location.reload();
     }
   },
    
