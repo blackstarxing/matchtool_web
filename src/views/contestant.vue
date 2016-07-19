@@ -46,7 +46,7 @@
 							</td>
 	                        <td>
 	                        	<div class="option">
-	                        		<a href="javascript:void(0);" class="u-btn-write" data-id="{{member.id}}" @click="editMember"></a><a href="" class="u-btn-delete" data-id="{{member.id}}" @click="deleteMember"></a>
+	                        		<a href="javascript:void(0);" class="u-btn-write" data-id="{{member.id}}" @click="editMember"></a><a href="" class="u-btn-delete" data-id="{{member.id}}" @click="deleteMember" v-if="roundStatus<=5"></a>
 	                        	</div>
 	                        </td>
 	                    </tr>
