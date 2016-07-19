@@ -25,6 +25,7 @@
           parm.jsonInfo=parmstr;
         _this.$http.get('event/finish',parm).then(function(response){
           if(response.data.code){
+            $('.edit_div').hide();
             this.$route.router.go({path: '/techPic/resultTech'})
           }else{
             layer.msg(response.data.msg,{offset:"0px"});
