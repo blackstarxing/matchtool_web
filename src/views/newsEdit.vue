@@ -21,6 +21,13 @@
 							<option v-bind:value="4">视频</option>	
 						</select>
 					</div>
+					<div class="m-lst">				
+						<label for="">摘要:</label>
+						<input type="text" class="eventname" placeholder="请输入摘要" value="{{new_info.brief}}" title="摘要" maxlength="26"  v-model="new_info.brief" required>
+						<div class="tips">
+							<div class="attention"></div>
+						</div>
+					</div>
 					<div class="m-lst clearfix">				
 						<label for="">生效时间:</label>
 						<div class="input-append date form_datetime">
@@ -168,6 +175,7 @@ Date.prototype.Format = function (fmt) { // author: meizz
 	    	remark:'',
 	    	imgs:[],
 	    	keyword:'',
+	    	brief:'',
 	    	cover:'',
 	    	videoUrl:'',
 	    	eventId:'',
@@ -208,6 +216,7 @@ Date.prototype.Format = function (fmt) { // author: meizz
 				$('#brief .froala-element').html(obj.remark);
 				obj.cover = response.data.object.information.cover;
 				obj.keyword = response.data.object.information.keyword;
+				obj.brief = response.data.object.information.brief;
 				obj.videoUrl = response.data.object.information.videoUrl;
 				_this.oldVideoUrl = response.data.object.information.videoUrl;
 				obj.imgs = response.data.object.information.imgs;

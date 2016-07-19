@@ -21,6 +21,13 @@
 							<option v-bind:value="4">视频</option>	
 						</select>
 					</div>
+					<div class="m-lst">				
+						<label for="">摘要:</label>
+						<input type="text" class="eventname" placeholder="请输入摘要" title="摘要" maxlength="26"  v-model="new_info.brief" required>
+						<div class="tips">
+							<div class="attention"></div>
+						</div>
+					</div>
 					<div class="m-lst clearfix">				
 						<label for="">生效时间:</label>
 						<div class="input-append date form_datetime">
@@ -143,7 +150,8 @@
 	    	cover:'',
 	    	videoUrl:'',
 	    	eventId:'',
-	    	isPublished:''
+	    	isPublished:'',
+	    	brief:''
 	    }
         return {
     	 	new_infos:[new_info]
