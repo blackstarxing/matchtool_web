@@ -71,7 +71,7 @@ if (process.env.NODE_ENV === 'production') {
   ]
 } else {
   module.exports.devServer={
-     historyApiFallback: true,
+    historyApiFallback: true,
     hot: true,
     inline: true,
     progress: true,
