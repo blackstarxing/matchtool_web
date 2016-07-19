@@ -25,6 +25,7 @@
           parm.jsonInfo=parmstr;
         _this.$http.get('event/start',parm).then(function(response){
           if(response.data.code){
+            window.location.reload();
             this.$route.router.go({path: '/techPic/beginingTech'})
           }else{
             layer.msg(response.data.msg,{offset:"0px"});

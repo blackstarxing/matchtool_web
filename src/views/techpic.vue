@@ -142,7 +142,8 @@
           <li style="margin-bottom:20px;" v-for="scoreli in scorelis">
             <input type="text" style="width:120px;" v-model="scoreli.seatleft">
             <span class="edit_btn_mid">:</span>
-            <input type="text" style="width:120px;" v-model="scoreli.seatright">
+            <input type="text" style="width:120px;margin-right:5px;" v-model="scoreli.seatright">
+            <img src="../../static/images/delli.png" @click="deleScoreli(scoreli)" v-if="!scoreli.seatleft || !scoreli.seatright">
           </li>
         </ul>
         <div class="add_edit_list" @click="addScorelist">＋添加一组</div>
@@ -590,7 +591,8 @@ console.log(_this.turnnums);
                 }
 
                 var listtwo=[];
-                function getnum2(arr){
+                if(turn>1){
+                  function getnum2(arr){
                   for(var i=0;i<arr.length;i++){
                     if(arr[i].turn == 2){
                       listtwo.push(arr[i]);
@@ -608,6 +610,8 @@ console.log(_this.turnnums);
                 for(var i=0;i<listtwo.length;i++){
                   listArry.eq(1).find('.out_li').eq(i).html(newdom(i,listtwo)); 
                 }
+                }
+                
                 
                  //根据矩形坐标画线
                 var _xy=[];
@@ -726,8 +730,13 @@ console.log(_this.turnnums);
                   $('.edit_div').hide();
                   $('.recta_right').hide();
                 }else{
+                  $('.turn_btn').hide();
                   $('.against_title_tip').hide();
                   $(".recta").attr('draggable',false);
+                }
+
+                if(_this.roundStatus<5){
+                  $('.start_text').css('background-color','#999');
                 }
              //编辑查看悬浮框
               $(".edit_score").mouseover(function(){
@@ -909,7 +918,9 @@ console.log(_this.turnnums);
       addScorelist:function(){
         var _length=this.scorelis.length;
         this.scorelis.push({best:_length+1,seatleft:'',seatright:''});
-        console.log(this.scorelis);
+      },
+      deleScoreli:function(scoreli){
+          this.scorelis.$remove(scoreli);
       },
       submitScore:function(){
         var _this=this;
