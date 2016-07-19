@@ -211,6 +211,7 @@ label.add-on{
 .signed .signbox label:after {background: #fff;border-radius: 3px;top: 0;width: 30px;height: 20px;}
 .signed .signbox input:checked + label {background: #FF980F;}
 .signed .signbox input:checked + label:after {left: 30px;}
+.signed .dis-sign{position: absolute;display: inline-block;width:60px;height: 20px;left:0;background: rgba(52,57,63,0.6);z-index: 99;}
 .previewPic{clear:both;margin-left: 128px;padding-top: 15px;}
 .previewPic img{width: 160px;height: 78px;}
 /*页码*/
