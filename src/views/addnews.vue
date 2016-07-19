@@ -17,7 +17,7 @@
 						<label for="">类型:</label>
 						<select class="m-n-select" v-model="new_info.type"  v-on:change="formreset">
 							<option v-bind:value="1" selected="selected">资讯</option>
-							<option v-bind:value="3">图集</option>
+							<!-- <option v-bind:value="3">图集</option> -->
 							<option v-bind:value="4">视频</option>	
 						</select>
 					</div>
