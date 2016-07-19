@@ -82,7 +82,7 @@
 							<option value="3" disabled="">小组内单循环制(RR)</option>
 							<option value="4" disabled="">积分循环制[瑞士轮](SS)</option>
 						</select>
-						<input type="checkbox" id="checkbox-1-1" class="regular-checkboxs f-ml15" value="1" v-model="formdata.needThird"/><label for="checkbox-1-1" class="f-ml15"></label><span class="check_name">决出第三名</span>
+						<!-- <input type="checkbox" id="checkbox-1-1" class="regular-checkboxs f-ml15" value="1" v-model="formdata.needThird"/><label for="checkbox-1-1" class="f-ml15"></label><span class="check_name">决出第三名</span> -->
 						<div class="tips">
 							<div class="">单败淘汰制：失败一场即淘汰</div>
 							<div>双败淘汰制：失败两场淘汰，比赛中将有败者组</div>
