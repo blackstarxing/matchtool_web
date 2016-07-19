@@ -32,7 +32,6 @@ module.exports = {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'url',
         query: {
-          limit: 10240,
           name: '[name].[ext]?[hash]'
         }
       },
@@ -41,24 +40,16 @@ module.exports = {
       },
     ]
   },
+  babel: {
+    presets: ['es2015', 'stage-2'],
+    plugins: ['transform-runtime'],
+    comments: false
+  },
   plugins: [
-      new ExtractTextPlugin('./index.[hash].css', {
+      new ExtractTextPlugin('./index.css', {
             allChunks: true
         }),
   ],
-  devServer: {
-     historyApiFallback: true,
-    hot: true,
-    inline: true,
-    progress: true,
-    proxy: {
-      '/event/*': {
-          target: 'http://192.168.30.248:8088',
-          secure: false
-      }
-    }
-  },
-  devtool: 'eval-source-map'
 }
 
 if (process.env.NODE_ENV === 'production') {
@@ -68,6 +59,9 @@ if (process.env.NODE_ENV === 'production') {
         NODE_ENV: '"production"'
       }
     }),
+    new ExtractTextPlugin('./index.css', {
+            allChunks: true
+        }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
@@ -76,5 +70,17 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.optimize.OccurenceOrderPlugin()
   ]
 } else {
-  module.exports.devtool = '#source-map'
+  module.exports.devServer={
+    historyApiFallback: true,
+    hot: true,
+    inline: true,
+    progress: true,
+    proxy: {
+      '/event/*': {
+          target: 'http://172.16.2.46/:8080',
+          secure: false
+      }
+    }
+  },
+  module.exports.devtool = '#eval-source-map'
 }

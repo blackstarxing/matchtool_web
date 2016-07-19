@@ -1,7 +1,7 @@
 <template>
 	<div class="before_tech">
             <p style="font-size:12px;">当一切都准备就绪后，您就可以:</p>
-            <div class="start_btn">
+            <div class="start_btn not_checked">
               <img src="../../static/images/start.png" width="100%" height="100%">
               <p class="start_text" @click="beginTech">开始比赛</p>
             </div>

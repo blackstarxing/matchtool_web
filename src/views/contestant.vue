@@ -37,6 +37,7 @@
 	                        <td v-if="needsign==1">
 	                        <section class="signed">
 								<div class="signbox">
+									<div class="dis-sign" v-if="roundStatus>5"></div>
 									<input type="checkbox" checked="" @click="signStatus" v-if="member.signed==1">
 									<input type="checkbox" @click="signStatus" v-else>
 									<label></label>
@@ -104,7 +105,8 @@ import topHead from '../components/topHead.vue'
       			eventname:"",
       			eventId:"",
       			roundId:"",
-      			needsign:""
+      			needsign:"",
+      			roundStatus:""
     		}
   		},
    		ready: function () {     		
@@ -113,6 +115,7 @@ import topHead from '../components/topHead.vue'
      		_this.eventId=window.sessionStorage.getItem("eventid");
      		_this.roundId=window.sessionStorage.getItem("roundid");
      		_this.needsign=window.sessionStorage.getItem("needsign");
+     		_this.roundStatus=window.sessionStorage.getItem("roundStatus");
 	        _this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 	        	console.log(response);
 	            _this.memberlist=response.data.object.pager;
