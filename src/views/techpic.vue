@@ -270,7 +270,6 @@ import topNav from '../components/topNav.vue'
           });
 
     _this.$http.get('event/openOetInfo',_parm).then(function(response){
-      console.log(response);
       if(response.data.code){
         var _techinfo=response.data.object;
       _this.techinfo.techinfoname=_techinfo.event.name;
@@ -296,6 +295,7 @@ import topNav from '../components/topNav.vue'
     var parm={};
        parm.id=_eventid;
        _this.$http.get('event/info',parm).then(function(response){
+        console.log(response);
             _this.personnum=response.data.object.iscountm?true:false;
             _this.overhalf=response.data.object.iscountj1?true:false;
              _this.matchdata=response.data.object.groups;
@@ -722,10 +722,11 @@ console.log(_this.turnnums);
                 return _html;
             }
 
-                if(_this.roundStatus<4){
+                if(_this.roundStatus<6){
                   $('.edit_div').hide();
                   $('.recta_right').hide();
                 }else{
+                  $('.against_title_tip').hide();
                   $(".recta").attr('draggable',false);
                 }
              //编辑查看悬浮框
@@ -947,7 +948,7 @@ console.log(_this.turnnums);
         var _eventid=window.sessionStorage.getItem("eventid");
         var ishowparm={};
         ishowparm.oetInfoId=_eventid;
-        ishowparm.isShow=this.checked?1:0;
+        ishowparm.isShow=_this.checked?1:0;
         var parmstr=JSON.stringify(ishowparm);
         var parm={};
         parm.jsonInfo=parmstr;
@@ -965,6 +966,8 @@ console.log(_this.turnnums);
           },function(response) {
               console.log(22);
           });
+        },function(){
+          _this.checked=_this.checked?false:true;
         });
       }
      },
