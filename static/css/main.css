@@ -181,8 +181,8 @@ label.add-on{
 /*参赛选手*/
 .g-list{background:rgba(52,57,63,0.8);margin-top: -9px;padding:0 25px;}
 .g-list h3{margin: 0;font-size: 18px;line-height: 100px;}
-.g-list .search{display: inline-block;height: 36px;}
-.g-list .search .u-search{width:100px; height:36px; background-color:#f9a32a;padding:0; font-size:14px; color:#ffffff;margin-left: -104px;}
+.g-list .search{display: inline-block;height: 36px;position: relative;}
+.g-list .search .u-search{width:100px; height:36px; background-color:#f9a32a;padding:0; font-size:14px; color:#ffffff;position: absolute;top:0;right: 0;}
 .m-operate .u-btn-add{width:140px;float: left;background: linear-gradient(to bottom, #f9a32a 50%,#e68700 50%,#f8a328 100%);}
 .m-operate .u-btn-add img{width:15px;height: 15px;margin-right: 10px;margin-top: -1px;}
 .m-operate .u-btn-upset{background:url(../images/upset.png) center center no-repeat #F9A329;width:54px;float: left;margin-left: 20px;}
@@ -257,7 +257,8 @@ label.add-on{
 .m-n-list{font-size:12px; height:34px; height:34px; margin-bottom:20px;}
 .m-n-list label{font-weight:normal; margin-left: 25px; margin-right: 10px;}
 .u-n-slt{width:380px;}
-.u-n-btn{position:absolute; width:100px; height:35px; background-color:#f9a32a; right:1px; top:-10px; padding:0; font-size:14px; color:#ffffff;}
+.m-n-list .re{display: inline-block;}
+.u-n-btn{position:absolute; width:100px; height:36px; background-color:#f9a32a; right:1px; top:0; padding:0; font-size:14px; color:#ffffff;}
 .u-n-date{right:13px; bottom:9px; cursor:pointer;}
 .u-n-add{margin:10px 0 0 25px;}
 .u-n-add img{margin-right:15px; width:15px; height:15px; vertical-align:-3px;}
