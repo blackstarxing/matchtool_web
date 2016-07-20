@@ -28,34 +28,3 @@
 		</ul>
 	</div>
 </template>
-<style>
-.tech_nav{
-	width: 100%;
-	height: 90px;
-	background-color: #2a2e32;
-	opacity: 0.7;
-}
-.tech_nav_list{
-	width:1200px;
-	margin: 0 auto;
-}
-.tech_nav_list li{
-	float: left;
-	padding-right:120px;
-	color: #fff;
-	text-align: center;
-	cursor: pointer;
-}
-.tect_nav_pic{
-	margin: 20px auto 10px;
-}
-.icon_tool{
-	font-size: 20px;
-}
-.tech_nav_list .tech_nav_action{
-	color: #f9a32a;
-}
-.v-link-active{
-	color: #f9a32a !important;
-}
-</style>

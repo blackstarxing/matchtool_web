@@ -34,11 +34,3 @@
      
   }
 </script>
-<style>
-.end_tech{
-    width: 300px;
-  }
-.end_tech li{
-    margin-bottom: 10px;
-  }
-</style>

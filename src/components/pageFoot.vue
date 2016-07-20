@@ -5,10 +5,3 @@
 		<img src="../../static/images/footer.png">
 	</div>
 </template>
-
-<style>
-.tech_footer{
-	text-align: center;
-	margin: 50px 0;
-}
-</style>
