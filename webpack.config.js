@@ -77,7 +77,7 @@ if (process.env.NODE_ENV === 'production') {
     progress: true,
     proxy: {
       '/event/*': {
-          target: 'http://172.16.2.46:8080',
+          target: 'http://172.16.2.21:8080',
           secure: false
       }
     }
