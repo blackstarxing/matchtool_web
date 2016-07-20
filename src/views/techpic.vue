@@ -17,7 +17,47 @@
           </div>
         </div>
       <div class="begin_tech_right">
-          <router-view></router-view>
+          <div class="before_tech tech_right_staus" style="display:none">
+            <p style="font-size:12px;">当一切都准备就绪后，您就可以:</p>
+            <div class="start_btn not_checked">
+              <img src="../../static/images/start.png" width="100%" height="100%">
+              <p class="start_text" @click="beginTech"></p>
+            </div>
+          </div>
+          <div class="begining_tech tech_right_staus" style="display:none">
+              <p style="font-size:12px;">编辑比分以推进赛事进程:</p>
+              <div class="start_btn">
+                <div class="tech_range">
+                  <div class="tech_range_detail">
+                    </div>
+              <div class="tech_range_num"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ending_tech tech_right_staus" style="display:none">
+            <p style="font-size:12px;"></p>
+            <div class="start_btn">
+              <img src="../../static/images/start.png" width="100%" height="100%">
+              <p class="start_text" @click="endTech">结束比赛</p>
+            </div>
+          </div>
+          <ul class="end_tech tech_right_staus" style="display:none">
+            <li>
+              <img src="../../static/images/one.png">
+        <span>冠军：</span>
+        <span>{{champion}}</span>
+      </li>
+      <li>
+        <img src="../../static/images/two.png">
+        <span>亚军：</span>
+        <span>{{second}}</span>
+      </li>
+      <!-- <li>
+        <img src="../../static/images/three.png">
+        <span>季军：</span>
+        <span></span>
+      </li>  -->   
+    </ul>
         </div>
       </div>
       <div class="begin_tech_msg">
@@ -93,7 +133,7 @@
         </div>
         <div class="turn_btn" @click="randomPic">随机排列对阵选手顺序</div>
         <div class="tech_body">
-            <div class="tech_container">
+            <div class="tech_container" style="margin-top:50px;">
             <div class="match_content clearfix">
             </div>   
           </div>
@@ -225,12 +265,15 @@ import topNav from '../components/topNav.vue'
     seatida:{},
     seatidb:{},
     roundStatus:'',
-    nickName:''
+    nickName:'',
+    champion:'',
+    second:'',
     }
   },
      ready: function(){
       var _this=this;
       var beginparm={};
+      var before_tech=$('.before_tech');
       var _eventid=window.sessionStorage.getItem("eventid");
       var _roundid=window.sessionStorage.getItem("roundid");
       _this.nickName=window.sessionStorage.getItem("username");
@@ -243,29 +286,43 @@ import topNav from '../components/topNav.vue'
       _this.roundStatus=response.data.object.roundStatus;
       window.sessionStorage.setItem("roundStatus",_this.roundStatus);
       if(response.data.object.roundStatus==1){
+        before_tech.show();
         $('.start_text').text("报名预热中");
       }else if(response.data.object.roundStatus==2){
+        before_tech.show();
         $('.start_text').text("报名进行中...");
       }else if(response.data.object.roundStatus==3){
+        before_tech.show();
         $('.start_text').text("签到进行中...");
       }else if(response.data.object.roundStatus==4){
+        before_tech.show();
         $('.start_text').text("报名已结束");
       }else if(response.data.object.roundStatus==5){
+        before_tech.show();
         $('.start_text').text("开始比赛");
       }else if(response.data.object.roundStatus==6){
         if(_this.checked){
           $("#show_app").attr('disabled','disabled');
         }
-        window.sessionStorage.setItem("turnrate",response.data.object.rate);
-        this.$route.router.go({path: '/techPic/beginingTech'});
+        $('.begining_tech').show();
+        var _rate=response.data.object.rate;
+           $(".tech_range_detail").width(_rate*2);
+           $(".tech_range_num").text(_rate+"%");
+           if(_rate==100){
+            $('.begining_tech').hide();
+            $('.ending_tech').show();
+           }
+        
       }else if(response.data.object.roundStatus==7){
          if(_this.checked){
           $("#show_app").attr('disabled','disabled');
         }
-        window.sessionStorage.setItem("champion",response.data.object.firstName);
-        window.sessionStorage.setItem("second",response.data.object.secondName);
-        this.$route.router.go({path: '/techPic/resultTech'});
+        $('.end_tech').show();
+        _this.champion=response.data.object.firstName;
+        _this.second=response.data.object.secondName;
+        // this.$route.router.go({path: '/techPic/resultTech/'});
       }
+
       },function(response) {
               console.log(22);
           });
@@ -315,7 +372,7 @@ import topNav from '../components/topNav.vue'
             for(var i=0;i<turnid.length;i++){
               _this.turnnums.push({num:i+1,modeltime:turnid[i].matchTimestr,modelbo:turnid[i].matchType,modelname:turnid[i].name,modelturnid:turnid[i].id});
             }
-console.log(_this.turnnums);
+
             $(".turn_num_list").width(290*turn);
              _this.$nextTick(function () {
                  $('.set_begin').datetimepicker({
@@ -427,7 +484,9 @@ console.log(_this.turnnums);
                 }
 
                 for(var i=0;i<onelist.length;i++){
-                  listArry.eq(1).find('.out_li').eq(i).html('<ul class="unit_ul" data-groupid='+onelist[i].id+' style="width:200px;"><li class="recta" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].seats[0].id+'><span class="recta_num">'+(onelist[i].seats[0].seatNumber?onelist[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(onelist[i].seats[0].target?onelist[i].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].scores?onelist[i].scores.seatleft:"")+'</span></li><li class="recta" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)"><input type="hidden" value='+onelist[i].seats[1].id+'><span class="recta_num">'+(onelist[i].seats[1].seatNumber?onelist[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(onelist[i].seats[1].target?onelist[i].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].scores?onelist[i].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>'); 
+                  console.log(i);
+                  console.log(onelist[i].id);
+                  listArry.eq(1).find('.out_li').eq(i).html('<ul class="unit_ul" data-groupid='+onelist[i].id+' style="width:200px;"><li class="recta" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].seats[0].id+'><span class="recta_num">'+(onelist[i].seats[0].seatNumber?onelist[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(onelist[i].seats[0].target?onelist[i].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].seats[0].isWin?"add_winer":"")+'" '+(onelist[i].seats[1].target?"":"style='display: none'")+'>'+(onelist[i].scores?onelist[i].scores.seatleft:"")+'</span></li><li class="recta" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)"><input type="hidden" value='+onelist[i].seats[1].id+'><span class="recta_num">'+(onelist[i].seats[1].seatNumber?onelist[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(onelist[i].seats[1].target?onelist[i].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].seats[1].isWin?"add_winer":"")+'" '+(onelist[i].seats[1].target?"":"style='display: none'")+'>'+(onelist[i].scores?onelist[i].scores.seatright:"")+'</span></li></ul><div class="edit_div" '+(onelist[i].seats[1].target?"":"style='display: none'")+'><div class="edit_score" '+(onelist[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>'); 
                 }
                 // console.log(_topdY);
 
@@ -587,7 +646,7 @@ console.log(_this.turnnums);
                  console.log(listone);
 
                 for(var i=0;i<listone.length;i++){
-                  listArry.eq(0).find('.out_li').eq(i).html('<ul class="unit_ul" data-groupid='+listone[i].id+' style="width:200px;"><li class="recta" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" style="margin-bottom:1px;"><input type="hidden" value='+listone[i].seats[0].id+'><span class="recta_num">'+(listone[i].seats[0].seatNumber?listone[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(listone[i].seats[0].target?listone[i].seats[0].target.name:"")+'</span><span class="recta_right '+(listone[i].seats[0].isWin?"add_winer":"")+'">'+(listone[i].scores?listone[i].scores.seatleft:"")+'</span></li><li class="recta" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)"><input type="hidden" value='+listone[i].seats[1].id+'><span class="recta_num">'+(listone[i].seats[1].seatNumber?listone[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(listone[i].seats[1].target?listone[i].seats[1].target.name:"")+'</span><span class="recta_right '+(listone[i].seats[1].isWin?"add_winer":"")+'">'+(listone[i].scores?listone[i].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(listone[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>'); 
+                  listArry.eq(0).find('.out_li').eq(i).html('<ul class="unit_ul" data-groupid='+listone[i].id+' style="width:200px;"><li class="recta" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" style="margin-bottom:1px;"><input type="hidden" value='+listone[i].seats[0].id+'><span class="recta_num">'+(listone[i].seats[0].seatNumber?listone[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(listone[i].seats[0].target?listone[i].seats[0].target.name:"")+'</span><span class="recta_right '+(listone[i].seats[0].isWin?"add_winer":"")+'">'+(listone[i].scores?listone[i].scores.seatleft:"")+'</span></li><li class="recta" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)"><input type="hidden" value='+listone[i].seats[1].id+'><span class="recta_num">'+(listone[i].seats[1].seatNumber?listone[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(listone[i].seats[1].target?listone[i].seats[1].target.name:"")+'</span><span class="recta_right '+(listone[i].seats[1].isWin?"add_winer":"")+'" '+(listone[i].seats[1].target?"":"style='display: none'")+'>'+(listone[i].scores?listone[i].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(listone[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>'); 
                 }
 
                 var listtwo=[];
@@ -721,13 +780,14 @@ console.log(_this.turnnums);
                 }
 
             function newdom(i,list){
-                _html='<ul class="unit_ul" data-groupid='+list[i].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;"><input type="hidden" value='+list[i].seats[0].id+'><span class="recta_num">'+(list[i].seats[0].seatNumber?list[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(list[i].seats[0].target?list[i].seats[0].target.name:"")+'</span><span class="recta_right '+(list[i].seats[0].isWin?"add_winer":"")+'">'+(list[i].scores?list[i].scores.seatleft:"")+'</span></li><li class="recta"><input type="hidden" value='+list[i].seats[1].id+'><span class="recta_num">'+(list[i].seats[1].seatNumber?list[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(list[i].seats[1].target?list[i].seats[1].target.name:"")+'</span><span class="recta_right '+(list[i].seats[1].isWin?"add_winer":"")+'">'+(list[i].scores?list[i].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(list[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>';
+                _html='<ul class="unit_ul" data-groupid='+list[i].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;"><input type="hidden" value='+list[i].seats[0].id+'><span class="recta_num">'+(list[i].seats[0].seatNumber?list[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(list[i].seats[0].target?list[i].seats[0].target.name:"")+'</span><span class="recta_right '+(list[i].seats[0].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatleft:"")+'</span></li><li class="recta"><input type="hidden" value='+list[i].seats[1].id+'><span class="recta_num">'+(list[i].seats[1].seatNumber?list[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(list[i].seats[1].target?list[i].seats[1].target.name:"")+'</span><span class="recta_right '+(list[i].seats[1].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatright:"")+'</span></li></ul><div class="edit_div" '+(list[i].seats[1].target?"":"style='display: none'")+'><div class="edit_score" '+(list[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>';
 
                 return _html;
             }
 
-                if(_this.roundStatus<6){
-                  console.log(789);
+            // _this.$nextTick(function(){
+              if(_this.roundStatus<6){
+                console.log($('.edit_div'));
                   $('.edit_div').hide();
                   $('.recta_right').hide();
                 }else{
@@ -741,8 +801,11 @@ console.log(_this.turnnums);
                 }
 
                 if(_this.roundStatus==7){
+                  console.log(900);
                   $('.edit_div').hide();
                 }
+            // });
+               
              //编辑查看悬浮框
               $(".edit_score").mouseover(function(){
                     $(this).next(".float_edit").show();
@@ -770,6 +833,7 @@ console.log(_this.turnnums);
                         _this.scorelis=response.data.object.scores;
                         var _winer=response.data.object.winner;
                         if(_winer){
+                          $('.made_winer').removeClass("winer_active");
                           if(_winer==_this.seatida){
                             $('.made_winer').eq(0).addClass("winer_active");
                           }else{
@@ -971,7 +1035,8 @@ console.log(_this.turnnums);
         var _html=this.checked?'你确定要在app中显示吗？':'你确定要取消在app中显示吗？';
         layer.confirm(_html, {
             btn: ['确定','取消'], 
-            move:false
+            move:false,
+            closeBtn: 0
         }, function(){
            _this.$http.get('event/show',parm).then(function(response){
           if(response.data.code){
@@ -985,6 +1050,62 @@ console.log(_this.turnnums);
         },function(){
           _this.checked=_this.checked?false:true;
         });
+      },
+      beginTech:function(){
+          var _this=this;
+          var beginparm={};
+          beginparm.oetInfoId=window.sessionStorage.getItem("eventid");
+          beginparm.oetRoundId=window.sessionStorage.getItem("roundid");
+          var parmstr=JSON.stringify(beginparm);
+          var parm={};
+          parm.jsonInfo=parmstr;
+        _this.$http.get('event/start',parm).then(function(response){
+          if(response.data.code){
+            window.location.reload();
+            $('.before_tech').hide();
+            $('.begining_tech').show();
+            $(".tech_range_detail").width(0);
+            $(".tech_range_num").text("0%");
+          }else{
+            layer.msg(response.data.msg,{offset:"0px"});
+          }
+        },function(response) {
+              console.log(response);
+          });
+      },
+      endTech:function(){
+          var _this=this;
+          var endparm={};
+          endparm.oetRoundId=window.sessionStorage.getItem("roundid");
+          var parmstr=JSON.stringify(endparm);
+          var parm={};
+          parm.jsonInfo=parmstr;
+        _this.$http.get('event/finish',parm).then(function(response){
+          if(response.data.code){
+            $('.edit_div').hide();
+            $('.ending_tech').hide();
+            $('.end_tech').show();
+            var beginparm={};
+            var _eventid=window.sessionStorage.getItem("eventid");
+            var _roundid=window.sessionStorage.getItem("roundid");
+            beginparm.oetInfoId=_eventid;
+            beginparm.oetRoundId=_roundid;
+            var parmstr=JSON.stringify(beginparm);
+            var _parm={};
+            _parm.jsonInfo=parmstr;
+          _this.$http.get('event/getStatusByTime',_parm).then(function(response){
+              _this.champion=response.data.object.firstName;
+              _this.second=response.data.object.secondName;
+
+          },function(response) {
+                    console.log(response);
+                });
+          }else{
+            layer.msg(response.data.msg,{offset:"0px"});
+          }
+        },function(response) {
+              console.log(response);
+          });
       }
      },
        components: {
