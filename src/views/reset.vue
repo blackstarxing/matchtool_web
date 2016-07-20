@@ -50,7 +50,7 @@ import topHead from '../components/topHead.vue'
 			  	move:false
 			}, function(){
 			  	var parm={};
-	   			parm.jsonInfo=JSON.stringify({oetRoundId:_this.oetRoundId});
+	   			parm.jsonInfo=JSON.stringify({oetRoundId:_this.oetRoundId,oetInfoId:_this.oetInfoId});
 				_this.$http.get('event/reset',parm).then(function(response) {
 		        	console.log(response.data);
 		        	if(response.data.code==1){
