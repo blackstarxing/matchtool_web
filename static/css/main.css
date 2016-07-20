@@ -236,7 +236,7 @@ label.add-on{
 .m-pop .m-lst input,.m-pop .m-lst select,.m-addzx .m-lst input,.m-addzx .m-lst select{width: 320px;margin:10px 0;}
 .m-pop .u-btn{display:block;background: linear-gradient(to bottom, #f9a32a 50%,#e68700 50%,#f8a328 100%);width: 180px;margin:30px auto 0;}
 /*重置-删除*/
-.g-mgbg{background: url(../images/managebg.jpg) center top no-repeat;}
+// .g-mgbg{background: url(../images/managebg.jpg) center top no-repeat;}
 .g-mg-tab{height:90px; background-color:rgba(52,57,63,0.8); color:#ffffff;}
 .g-mg-tab ul{width:1200px; margin:0 auto; padding:0;}
 .g-mg-tab ul li{list-style-type:none; text-align:center; width:68px; height:90px; float:left; margin-right:117px; cursor:pointer;}
