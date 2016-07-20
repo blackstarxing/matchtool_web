@@ -402,10 +402,15 @@ import topNav from '../components/topNav.vue'
                 var unitul='<ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;"><span class="recta_num"></span></li><li class="recta"><span class="recta_num"></span></li></ul>';
                 var listArry=_content.find($(".match_list"));
 
-                listArry[turn-2].innerHTML='<li class="out_li">'+unitul+'</li>';
+                if(turn>1){
+                   listArry[turn-2].innerHTML='<li class="out_li">'+unitul+'</li>';
                 for(var i=1;i<turn-1;i++){
                   listArry[turn-i-2].innerHTML=listArry[turn-i-1].innerHTML+listArry[turn-i-1].innerHTML;
                 }
+              }else{
+                listArry[0].innerHTML='<li class="out_li">'+unitul+'</li>';
+              }
+               
                 
                  //按照索引处理列表层高
                 $.each(listArry,function(i,e){
@@ -785,7 +790,7 @@ import topNav from '../components/topNav.vue'
                 return _html;
             }
 
-            // _this.$nextTick(function(){
+            _this.$nextTick(function(){
               if(_this.roundStatus<6){
                 console.log($('.edit_div'));
                   $('.edit_div').hide();
@@ -804,7 +809,7 @@ import topNav from '../components/topNav.vue'
                   console.log(900);
                   $('.edit_div').hide();
                 }
-            // });
+            });
                
              //编辑查看悬浮框
               $(".edit_score").mouseover(function(){
