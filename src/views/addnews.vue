@@ -57,7 +57,7 @@
 					<div class="m-n-lx">
 						<div class="m-lst">				
 							<label for="">资讯来源:</label>
-							<input type="text" class="eventname" placeholder="请输入资讯来源" title="资讯来源" maxlength="10" v-model="new_info.source" twsource>
+							<input type="text" class="eventname" placeholder="请输入资讯来源" title="资讯来源" maxlength="50" v-model="new_info.source" twsource>
 							<div class="tips">
 								<div class="attention"></div>
 							</div>
@@ -99,7 +99,7 @@
 					<div class="m-n-lx dn"> 
 						<div class="m-lst">				
 							<label for="">资讯来源:</label>
-							<input type="text" class="eventname" placeholder="请输入资讯来源" maxlength="10" v-model="new_info.source" tjsource>
+							<input type="text" class="eventname" placeholder="请输入资讯来源" maxlength="50" v-model="new_info.source" tjsource>
 							<div class="tips">
 								<div class="attention"></div>
 							</div>
