@@ -86,7 +86,7 @@
 						<div class="tips">
 							<div class="">单败淘汰制：失败一场即淘汰</div>
 							<div>双败淘汰制：失败两场淘汰，比赛中将有败者组</div>
-							<a href="#">查看详细帮助文档</a>
+							<!-- <a href="#">查看详细帮助文档</a> -->
 						</div>
 					</div>
 					<div class="m-lst">
