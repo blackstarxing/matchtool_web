@@ -5,9 +5,9 @@
 			<div class="m-lg-nav">
 				<img src="../../static/images/lg_logo.png" class="u-logo">
 				<ul class="r">
-					<li class="on">产品介绍</li>
+					<!-- <li class="on">产品介绍</li>
 					<li>关于我们</li>
-					<li>成功案例</li>
+					<li>成功案例</li> -->
 				</ul>
 			</div>
 			<img src="../../static/images/lg_against.png" class="u-dzt">
