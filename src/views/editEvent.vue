@@ -532,13 +532,13 @@ import topHead from '../components/topHead.vue'
 			    				valid=false;
 			    				message="请选择赛事游戏";
 			    			}
-			    			errorPlacement(message,$this);
+			    			errorPlacement(message,$this);			    			
 			    		}else if(name=="itemServerId" && _this.formdata.itemId!=""){
 			    			if(value==""){
 			    				valid=false;
 			    				message="请选择服务器";
+			    				errorPlacement(message,$this);
 			    			}
-			    			errorPlacement(message,$this);
 			    		}else if(name=="maxNum"){
 			    			if(value==""){
 			    				valid=false;
