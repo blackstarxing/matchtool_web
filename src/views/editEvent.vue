@@ -259,11 +259,6 @@ import topHead from '../components/topHead.vue'
 	        	// $('#brief .froala-element').html(_this.formdata.brief);
 	        	// $('#regimeRule .froala-element').html(_this.formdata.regimeRule);
 	        	// $('#prizeSetting .froala-element').html(_this.formdata.prizeSetting);
-	        	$("#gameList option").each(function(){
-	        		if($(this).val()==_this.eventlist.itemId){
-	        			$(this).attr("selected",true);
-	        		}
-	        	});
 	        	var parm={};
 	   			parm.jsonInfo=JSON.stringify({itemsId:_this.eventlist.itemId});
 	   			_this.$http.get('event/queryActivityItem',parm).then(function (response) {
@@ -305,6 +300,11 @@ import topHead from '../components/topHead.vue'
   					content+='<option value="'+gameList[i].id+'">'+gameList[i].name+'</option>'
   				}
   				$('#gameList').append(content);
+  				$("#gameList option").each(function(){
+	        		if($(this).val()==_this.eventlist.itemId){
+	        			$(this).attr("selected",true);
+	        		}
+	        	});
 	        }, function (response) {
 	            console.log(22);
 	        }) 
