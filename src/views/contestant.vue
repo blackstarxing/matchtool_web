@@ -8,7 +8,7 @@
 				<div class="m-operate f-cb">
 					<div class="l-btn f-fl">
 						<a href="javascript:void(0);" class="u-btn u-btn-add" @click="addplayer"><img src="../../static/images/plus.png" alt="">添加选手</a>
-						<a href="javascript:void(0);" class="u-btn u-btn-upset" @click="upsetseat"></a>
+						<!-- <a href="javascript:void(0);" class="u-btn u-btn-upset" @click="upsetseat"></a> -->
 					</div>					
 					<div class="r-btn f-fr">
 						<!-- <a href="">导入</a> -->

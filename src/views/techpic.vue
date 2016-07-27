@@ -133,7 +133,7 @@
         </div>
         <div class="turn_btn" @click="randomPic">随机排列对阵选手顺序</div>
         <div class="tech_body">
-            <div class="tech_container" style="margin-top:50px;">
+            <div class="tech_container" style="margin-top:60px;">
             <div class="match_content clearfix">
             </div>   
           </div>
@@ -274,6 +274,7 @@ import topNav from '../components/topNav.vue'
       var _this=this;
       var beginparm={};
       var before_tech=$('.before_tech');
+      var start_text=$('.start_text');
       var _eventid=window.sessionStorage.getItem("eventid");
       var _roundid=window.sessionStorage.getItem("roundid");
       _this.nickName=window.sessionStorage.getItem("username");
@@ -287,19 +288,19 @@ import topNav from '../components/topNav.vue'
       window.sessionStorage.setItem("roundStatus",_this.roundStatus);
       if(response.data.object.roundStatus==1){
         before_tech.show();
-        $('.start_text').text("报名预热中");
+        start_text.text("报名预热中");
       }else if(response.data.object.roundStatus==2){
         before_tech.show();
-        $('.start_text').text("报名进行中...");
+        start_text.text("报名进行中...");
       }else if(response.data.object.roundStatus==3){
         before_tech.show();
-        $('.start_text').text("签到进行中...");
+        start_text.text("签到进行中...");
       }else if(response.data.object.roundStatus==4){
         before_tech.show();
-        $('.start_text').text("报名已结束");
+        start_text.text("报名已结束");
       }else if(response.data.object.roundStatus==5){
         before_tech.show();
-        $('.start_text').text("开始比赛");
+        start_text.text("开始比赛");
       }else if(response.data.object.roundStatus==6){
         if(_this.checked){
           $("#show_app").attr('disabled','disabled');
@@ -320,7 +321,6 @@ import topNav from '../components/topNav.vue'
         $('.end_tech').show();
         _this.champion=response.data.object.firstName;
         _this.second=response.data.object.secondName;
-        // this.$route.router.go({path: '/techPic/resultTech/'});
       }
 
       },function(response) {
@@ -438,6 +438,8 @@ import topNav from '../components/topNav.vue'
                 //获取turn2的数据
                  var onelist = [];
                 function getnum(arr){
+                  console.log(arr);
+                  console.log(arr.length);
                   for(var i=0;i<arr.length;i++){
                     if(arr[i].turn == 2){
                       onelist.push(arr[i]);
@@ -717,70 +719,57 @@ import topNav from '../components/topNav.vue'
              var listthree=[];
              var listfour=[];
              var listfive=[];
+             var list = [listthree,listfour,listfive];
              var _html;
 
+             function getnum(arr,level){
+              for(var i=0;i<arr.length;i++){
+                if(arr[i].turn == level){
+                  list[level-3].push(arr[i]);
+                }else{
+                    for(var key in arr[i]){
+                        if(key=='groups'){
+                          getnum(arr[i][key],level);
+                        }
+                      }  
+                  } 
+              }
+                 
+            }
 
                if(turn>2){
-                  function getnum3(arr){
-                  for(var i=0;i<arr.length;i++){
-                    if(arr[i].turn == 3){
-                      listthree.push(arr[i]);
-                    }else{
-                        for(var key in arr[i]){
-                            if(key=='groups'){
-                              getnum3(arr[i][key]);
-                            }
-                          }  
-                      } 
-                  }
-                     
-                }
-                getnum3(_this.matchdata);
-                for(var i=0;i<listthree.length;i++){
-                  listArry.eq(2).find('.out_li').eq(i).html(newdom(i,listthree));
+                 getnum(_this.matchdata,3);
+                for(var i=0;i<list[0].length;i++){
+                  listArry.eq(2).find('.out_li').eq(i).html(newdom(i,list[0]));
                 }
 
                 }
 
                 if(turn>3){
-                  function getnum4(arr){
-                  for(var i=0;i<arr.length;i++){
-                    if(arr[i].turn == 4){
-                      listfour.push(arr[i]);
-                    }else{
-                        for(var key in arr[i]){
-                            if(key=='groups'){
-                              getnum4(arr[i][key]);
-                            }
-                          }  
-                      } 
+                  getnum(_this.matchdata,4);
+                  for(var i=0;i<list[1].length;i++){
+                    listArry.eq(3).find('.out_li').eq(i).html(newdom(i,list[1]));
                   }
-                     
-                }
-                getnum4(_this.matchdata);
-                for(var i=0;i<listfour.length;i++){
-                  listArry.eq(3).find('.out_li').eq(i).html(newdom(i,listfour));
-                }
                 }
 
               if(turn>4){
-                  function getnum5(arr){
-                  for(var i=0;i<arr.length;i++){
-                    if(arr[i].turn == 5){
-                      listfive.push(arr[i]);
-                    }else{
-                        for(var key in arr[i]){
-                            if(key=='groups'){
-                              getnum5(arr[i][key]);
-                            }
-                          }  
-                      } 
-                  }
+                //   function getnum5(arr){
+                //   for(var i=0;i<arr.length;i++){
+                //     if(arr[i].turn == 5){
+                //       listfive.push(arr[i]);
+                //     }else{
+                //         for(var key in arr[i]){
+                //             if(key=='groups'){
+                //               getnum5(arr[i][key]);
+                //             }
+                //           }  
+                //       } 
+                //   }
                      
-                }
-                getnum5(_this.matchdata);
-                for(var i=0;i<listfive.length;i++){
-                  listArry.eq(4).find('.out_li').eq(i).html(newdom(i,listfive));
+                // }
+                getnum(_this.matchdata,5);
+                for(var i=0;i<list[2].length;i++){
+                  listArry.eq(4).find('.out_li').eq(i).html(newdom(i,list[2]));
                 }
                 }
 
@@ -821,6 +810,7 @@ import topNav from '../components/topNav.vue'
                 });
               $(".float_edit_edit").on("click",function(){
                   $(".m_edit").show();
+                  $('.made_winer').removeClass("winer_active");
                   var $this=$(this);
                   var _parent=$this.closest(".out_li");
                   var personname_a=_parent.find('.recta_personname').eq(0).text();
@@ -838,7 +828,7 @@ import topNav from '../components/topNav.vue'
                         _this.scorelis=response.data.object.scores;
                         var _winer=response.data.object.winner;
                         if(_winer){
-                          $('.made_winer').removeClass("winer_active");
+                          
                           if(_winer==_this.seatida){
                             $('.made_winer').eq(0).addClass("winer_active");
                           }else{
@@ -865,6 +855,9 @@ import topNav from '../components/topNav.vue'
               $(".float_edit_check").on("click",function(){
                   $(".m_check").show();
                    var $this=$(this);
+                   var _alscore=$('.alread_score_dt');
+                   _alscore.removeClass("compare_active");
+                   $('.add_guan').remove();
                   var _parent=$this.closest(".out_li");
                   var personname_a=_parent.find('.recta_personname').eq(0).text();
                   var personname_b=_parent.find('.recta_personname').eq(1).text();

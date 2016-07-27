@@ -10,7 +10,7 @@ import homepage from './views/homepage.vue'
 import createEvent from './views/createEvent.vue'
 import editEvent from './views/editEvent.vue'
 import contestant from './views/contestant.vue'
-import newslist from './views/news.vue'
+// import newslist from './views/news.vue'
 import addnews from './views/addnews.vue'
 import reset from './views/reset.vue'
 import techPic from './views/techPic.vue'
@@ -46,7 +46,10 @@ router.map({
         component: contestant
     },
     '/newslist': {
-        component: newslist
+        // component: newslist
+        component: function (resolve) {
+          require(['./views/news.vue'], resolve)
+        }
     },
     '/addnews': {
         component: addnews
