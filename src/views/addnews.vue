@@ -180,6 +180,11 @@
 				inlineMode: false,
 				theme: 'dark', 
 				alwaysBlank: true,
+				allowedImageTypes: ["jpeg", "jpg", "png", "gif"],
+				// autosave: true,
+    			// autosaveInterval: 2500,
+				imageUploadURL: 'http://match.wangyuhudong.com/api/file/upload?fullPath=1',
+				// imageManagerLoadURL: 'http://img.wangyuhudong.com/',
 				language: "zh_cn",
 				placeholder: '请输入详细内容'
 			});
