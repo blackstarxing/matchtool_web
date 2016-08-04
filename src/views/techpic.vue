@@ -737,13 +737,12 @@ import topNav from '../components/topNav.vue'
               }
             _this.$nextTick(function(){
               if(_this.roundStatus<6){
-                console.log($('.edit_div'));
                   $('.edit_div').hide();
                   $('.recta_right').hide();
                 }else{
                   $('.turn_btn').hide();
                   $('.against_title_tip').hide();
-                  // $(".recta").attr('draggable',false);
+                  $(".recta").attr('draggable',false);
                 }
 
                 if(_this.roundStatus<5){
