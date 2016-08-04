@@ -6,7 +6,7 @@
 		</div>
 		<div class="header_right f-fr">
 			<a href="" class="notify"></a>
-			<div class="setNav">
+			<div class="avatar">
 				<img src="../../static/images/head.png" alt="">
 			</div>
 		</div>

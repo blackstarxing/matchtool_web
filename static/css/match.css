@@ -34,9 +34,20 @@
 	margin-right: 60px;
 	margin-left: 27px;
 }
-.setNav img{
+.avatar{
+	float: left;
+	background: #fff;
+	width: 32px;
+	height: 32px;
+	border:2px solid #666a74;
+	margin: 12px 60px 0 27px;
+	border-radius: 50% 50%;
+	overflow: hidden;
+}
+.avatar img{
 	vertical-align: bottom;
-	margin-top: 12px;
+	width:32px;
+	height: 32px;
 }
 /*固定侧边栏*/
 .m-sidebar{
