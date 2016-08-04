@@ -1,11 +1,7 @@
 <template>
 	<div class="g-hd">
-		
+		<div class="header_left fl">
+			<a href="" class="slide"></a>
+		</div>
 	</div>
 </template>
-<style>
-	.g-hd{
-		height: 60px;
-		background: #27282e;
-	}
-</style>

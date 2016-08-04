@@ -6,6 +6,7 @@
 
 import Vue from 'vue'
 import matchtool from './matchtool.vue'
+import createLeaguematch from './createLeaguematch.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -20,9 +21,9 @@ var router = new VueRouter({
 });
 
 router.map({
-    // '/techPic': {
-    //     component: techPic,
-    // },
+    '/createLeaguematch': {
+        component: createLeaguematch,
+    },
 
     
 })
