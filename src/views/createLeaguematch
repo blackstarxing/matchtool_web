@@ -1,7 +1,0 @@
-<template>
-	<div class="g-hd">
-		<div class="header_left fl">
-			<a href="" class="slide"></a>
-		</div>
-	</div>
-</template>
