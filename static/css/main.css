@@ -331,7 +331,7 @@ img.u-tuji-del{width:16px; height:20px; position:absolute; top:42%; right:10px; 
 	opacity: 0.8;
 }
 .tech_top_text{
-	width: 62%;
+	width: 1200px;
 	height: 50px;
 	margin: auto;
 }
@@ -386,10 +386,11 @@ img.u-tuji-del{width:16px; height:20px; position:absolute; top:42%; right:10px; 
 }
 .recta{
   width: 200px;
-  height: 29.5px;
+  height: 22px;
   background-color: #53585d;
   color: #fff;
-  line-height: 30px;
+  line-height: 22px;
+  position: relative;
 }
 .match_content{
   position: absolute;
@@ -398,7 +399,7 @@ img.u-tuji-del{width:16px; height:20px; position:absolute; top:42%; right:10px; 
 }
 .match_list{
   float: left;
-  margin-right: 90px;
+  margin-right: 50px;
 }
 .tech_msg{
   width: 1200px;
@@ -541,14 +542,14 @@ img.u-tuji-del{width:16px; height:20px; position:absolute; top:42%; right:10px; 
   left: 467px;
 }
 .turn_num_list{
-    margin: 0 20px 20px;
+    margin: 0 20px 20px 45px;
     font-size: 16px;
     color: #fff;
 
 }
 .turn_num_list li{
   float: left;
-  width: 288px;
+  width: 248px;
   height: 45px;
   text-align: center;
   line-height: 45px;
@@ -564,16 +565,19 @@ img.u-tuji-del{width:16px; height:20px; position:absolute; top:42%; right:10px; 
 .recta_num{
   display: inline-block;
   width: 30px;
-  height: 27.5px;
+  height: 22px;
   background-color: #838383;
   text-align: center;
   color: #000;
   font-size: 12px;
+  position: absolute;
+  top:0;
+  left:0;
 }
 .recta_right{
   display: inline-block;
   width: 30px;
-  height: 27.5px;
+  height: 22px;
   background-color: #838383;
   text-align: center;
   color: #000;
@@ -587,22 +591,23 @@ img.u-tuji-del{width:16px; height:20px; position:absolute; top:42%; right:10px; 
 }
 .edit_score{
   position: absolute;
-  top:-60px;
+  top:-65px;
   width:30px;
-  height: 60px;
+  height: 45px;
   left: 170px;
-  background: url(../images/edit.png) no-repeat 6px 22px #53585d;
+  background: url(../images/edit.png) no-repeat 6px 16px #53585d;
   cursor: pointer;
 }
 .float_edit{
   position: absolute;
   width: 180px;
-  height: 60px;
-  top:-60px;
+  height: 45px;
+  top:-65px;
   left:200px;
   background-color: #000;
   opacity: 0.8;
   display: none;
+  z-index: 999;
 }
 .float_edit li{
   float: left;
@@ -787,4 +792,17 @@ img.u-tuji-del{width:16px; height:20px; position:absolute; top:42%; right:10px; 
   z-index: 99999;
   width:15px;
   height: 15px;
+}
+.add_options{
+	width: 200px;
+	height: 20px;
+	background-color: #1d1d1d;
+	opacity: 0;
+}
+.recta:hover{
+	background-color: rgb(236,146,38);
+};
+.recta_personname{
+	display: inline-block;
+	margin-left: 35px;
 }

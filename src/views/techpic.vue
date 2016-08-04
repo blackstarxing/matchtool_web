@@ -224,26 +224,6 @@
 </template>
 
 <script>
-// window.allowDrop = function(e){
-//   e = window.event || e;
-//   e.preventDefault();
-        
-// }
-// var srcdiv = null;
-// window.drag = function(e,divdom){
-//           srcdiv=divdom;  
-//           e.dataTransfer.setData("text/html",divdom.innerHTML); 
-        
-// }
-// window.drop = function(e,divdom){
-//        e = window.event || e;
-//        e.preventDefault();
-//         if(srcdiv != divdom){  
-//             srcdiv.innerHTML = divdom.innerHTML;  
-//             divdom.innerHTML=e.dataTransfer.getData("text/html");  
-//           } 
-        
-// }
 
 import topHead from '../components/topHead.vue'
 import topNav from '../components/topNav.vue'
@@ -361,7 +341,7 @@ import topNav from '../components/topNav.vue'
              var turn=_this.matchdata[0].turn;
              var turnid=response.data.object.turns;
              
-            var unitul_h=60;
+            var unitul_h=65;
             var unitul_w=200;
             var unitul_step=10;
             var unitul_all=unitul_h+unitul_step;
@@ -389,7 +369,7 @@ import topNav from '../components/topNav.vue'
             
             if(!_this.personnum){
                 if(_this.overhalf){
-                  unitul_step=80;
+                  unitul_step=85;
                   unitul_all=unitul_h+unitul_step;
                 }
                 //dom生成矩形列表
@@ -399,7 +379,7 @@ import topNav from '../components/topNav.vue'
                 _content.append(listuls);
                 
                 //dom生成矩形unit,并放入矩形列表
-                var unitul='<ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;"><span class="recta_num"></span></li><li class="recta"><span class="recta_num"></span></li></ul>';
+                var unitul='<ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;"><span class="recta_num"></span></li><li class="recta"><span class="recta_num"></span></li></ul><div class="add_options"></div>';
                 var listArry=_content.find($(".match_list"));
 
                 if(turn>1){
@@ -438,8 +418,6 @@ import topNav from '../components/topNav.vue'
                 //获取turn2的数据
                  var onelist = [];
                 function getnum(arr){
-                  console.log(arr);
-                  console.log(arr.length);
                   for(var i=0;i<arr.length;i++){
                     if(arr[i].turn == 2){
                       onelist.push(arr[i]);
@@ -472,12 +450,12 @@ import topNav from '../components/topNav.vue'
                           if(onelist[i].groups.length==2){
                            var _topd=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                           _topdY.push(_topd);
-                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[0].seats[0].id+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[0].seats[1].id+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[1].seats[0].id+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[1].seats[1].id+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[1].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
+                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" data-seatid='+onelist[i].groups[0].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[1].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" data-seatid='+onelist[i].groups[1].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[1].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
                         }else if(onelist[i].groups.length==1){
                               
                               var _tops=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                               _topsY.push(_tops);
-                              listArry.eq(0).append('<li class="out_li single_line"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[0].seats[0].id+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[0].seats[1].id+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');
+                              listArry.eq(0).append('<li class="out_li single_line"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li data-seatid='+onelist[i].groups[0].seats[0].id+' ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');
                             
                           }
                         }
@@ -486,27 +464,21 @@ import topNav from '../components/topNav.vue'
                       }else{
                           var _topd=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                           _topdY.push(_topd);
-                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[0].seats[0].id+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[0].seats[1].id+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].groups[1].seats[0].id+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta"><input type="hidden" value='+onelist[i].groups[1].seats[1].id+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[1].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
+                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[0].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[1].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" class="recta" data-seatid='+onelist[i].groups[1].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[1].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
                     }
-                }
-
-                for(var i=0;i<onelist.length;i++){
-                  console.log(i);
-                  console.log(onelist[i].id);
-                  listArry.eq(1).find('.out_li').eq(i).html('<ul class="unit_ul" data-groupid='+onelist[i].id+' style="width:200px;"><li class="recta" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" style="margin-bottom:1px;"><input type="hidden" value='+onelist[i].seats[0].id+'><span class="recta_num">'+(onelist[i].seats[0].seatNumber?onelist[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(onelist[i].seats[0].target?onelist[i].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].seats[0].isWin?"add_winer":"")+'" '+(onelist[i].seats[1].target?"":"style='display: none'")+'>'+(onelist[i].scores?onelist[i].scores.seatleft:"")+'</span></li><li class="recta" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)"><input type="hidden" value='+onelist[i].seats[1].id+'><span class="recta_num">'+(onelist[i].seats[1].seatNumber?onelist[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(onelist[i].seats[1].target?onelist[i].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].seats[1].isWin?"add_winer":"")+'" '+(onelist[i].seats[1].target?"":"style='display: none'")+'>'+(onelist[i].scores?onelist[i].scores.seatright:"")+'</span></li></ul><div class="edit_div" '+(onelist[i].seats[1].target?"":"style='display: none'")+'><div class="edit_score" '+(onelist[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>'); 
                 }
                 // console.log(_topdY);
 
                 //根据轮空的坐标确定第一列坐标
                 var list_first=listArry.eq(0).find(".single_line");
                 for(i=0;i<_topsY.length;i++){
-                  list_first.eq(i).offset({'top':_topsY[i]+35});
+                  list_first.eq(i).offset({'top':_topsY[i]+(unitul_h+10)/2});
                 }
 
                 if(_topdY.length!=0){
                   var list_double=listArry.eq(0).find(".double_line");
                   for(i=0;i<_topdY.length;i++){
-                    list_double.eq(i).offset({'top':_topdY[i]-35});
+                    list_double.eq(i).offset({'top':_topdY[i]-(unitul_h+10)/2});
                   }
                 }
 
@@ -531,14 +503,14 @@ import topNav from '../components/topNav.vue'
                         return false;
                     var context = canvas.getContext("2d");
                     context.strokeStyle = "rgb(247,162,58)";
-                    context.moveTo(_xy[j][0]+unitul_w+5,_xy[j][1]+unitul_h/2);
-                    context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h/2);
+                    context.moveTo(_xy[j][0]+unitul_w+5,_xy[j][1]+(unitul_h-20)/2);
+                    context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]+(unitul_h-20)/2);
                     if(j%2==0){
-                      context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h+margin_bt[i-1]/2);
-                      context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]+unitul_h+margin_bt[i-1]/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]+unitul_h+(margin_bt[i-1]-20)/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20*2, _xy[j][1]+unitul_h+(margin_bt[i-1]-20)/2);
                     }else{
-                      context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]-margin_bt[i-1]/2);
-                      context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]-margin_bt[i-1]/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]-(margin_bt[i-1]+20)/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20*2, _xy[j][1]-(margin_bt[i-1]+20)/2);
                     }
 
                     context.stroke(); 
@@ -562,10 +534,10 @@ import topNav from '../components/topNav.vue'
                         return false;
                     var context = canvas.getContext("2d");
                     context.strokeStyle = "rgb(247,162,58)";
-                    context.moveTo(_xysingle[i][0]+unitul_w+5,_xysingle[i][1]+unitul_h/2);
-                    context.lineTo(_xysingle[i][0]+unitul_w+5+40,_xysingle[i][1]+unitul_h/2);
-                    context.lineTo(_xysingle[i][0]+unitul_w+5+40,_xysingle[i][1]-5);
-                    context.lineTo(_xysingle[i][0]+unitul_w+5+40*2, _xysingle[i][1]-5);
+                    context.moveTo(_xysingle[i][0]+unitul_w+5,_xysingle[i][1]+(unitul_h-20)/2);
+                    context.lineTo(_xysingle[i][0]+unitul_w+5+20,_xysingle[i][1]+(unitul_h-20)/2);
+                    context.lineTo(_xysingle[i][0]+unitul_w+5+20,_xysingle[i][1]-12.5);
+                    context.lineTo(_xysingle[i][0]+unitul_w+5+20*2, _xysingle[i][1]-13);
                     context.stroke(); 
                   }
                     firstline("mycanvas"); 
@@ -586,12 +558,12 @@ import topNav from '../components/topNav.vue'
                         return false;
                     var context = canvas.getContext("2d");
                     context.strokeStyle = "rgb(247,162,58)";
-                    context.moveTo(_xydouble[i][0]+unitul_w+5,_xydouble[i][1]+unitul_h/2);
-                    context.lineTo(_xydouble[i][0]+unitul_w+5+40,_xydouble[i][1]+unitul_h/2);
-                    context.lineTo(_xydouble[i][0]+unitul_w+5+40,_xydouble[i][1]+unitul_h/2+unitul_h+10);
-                    context.lineTo(_xydouble[i][0]+unitul_w+5,_xydouble[i][1]+unitul_h/2+unitul_h+10);
-                    context.moveTo(_xydouble[i][0]+unitul_w+5+40,_xydouble[i][1]+unitul_h+5);
-                    context.lineTo(_xydouble[i][0]+unitul_w+5+40*2,_xydouble[i][1]+unitul_h+5);
+                    context.moveTo(_xydouble[i][0]+unitul_w+5,_xydouble[i][1]+(unitul_h-20)/2);
+                    context.lineTo(_xydouble[i][0]+unitul_w+5+20,_xydouble[i][1]+(unitul_h-20)/2);
+                    context.lineTo(_xydouble[i][0]+unitul_w+5+20,_xydouble[i][1]+(unitul_h-20)/2+unitul_h+10);
+                    context.lineTo(_xydouble[i][0]+unitul_w+5,_xydouble[i][1]+(unitul_h-20)/2+unitul_h+10);
+                    context.moveTo(_xydouble[i][0]+unitul_w+5+20,_xydouble[i][1]+unitul_h-5);
+                    context.lineTo(_xydouble[i][0]+unitul_w+5+20*2,_xydouble[i][1]+unitul_h-5);
                     context.stroke(); 
                   }
                     firstline("mycanvas"); 
@@ -653,31 +625,8 @@ import topNav from '../components/topNav.vue'
                  console.log(listone);
 
                 for(var i=0;i<listone.length;i++){
-                  listArry.eq(0).find('.out_li').eq(i).html('<ul class="unit_ul" data-groupid='+listone[i].id+' style="width:200px;"><li class="recta" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)" style="margin-bottom:1px;"><input type="hidden" value='+listone[i].seats[0].id+'><span class="recta_num">'+(listone[i].seats[0].seatNumber?listone[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(listone[i].seats[0].target?listone[i].seats[0].target.name:"")+'</span><span class="recta_right '+(listone[i].seats[0].isWin?"add_winer":"")+'">'+(listone[i].scores?listone[i].scores.seatleft:"")+'</span></li><li class="recta" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)"><input type="hidden" value='+listone[i].seats[1].id+'><span class="recta_num">'+(listone[i].seats[1].seatNumber?listone[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(listone[i].seats[1].target?listone[i].seats[1].target.name:"")+'</span><span class="recta_right '+(listone[i].seats[1].isWin?"add_winer":"")+'" '+(listone[i].seats[1].target?"":"style='display: none'")+'>'+(listone[i].scores?listone[i].scores.seatright:"")+'</span></li></ul><div class="edit_div"><div class="edit_score" '+(listone[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>'); 
-                }
-
-                var listtwo=[];
-                if(turn>1){
-                  function getnum2(arr){
-                  for(var i=0;i<arr.length;i++){
-                    if(arr[i].turn == 2){
-                      listtwo.push(arr[i]);
-                    }else{
-                        for(var key in arr[i]){
-                            if(key=='groups'){
-                              getnum2(arr[i][key]);
-                            }
-                          }  
-                      } 
-                  }
-                     
-                }
-                getnum2(_this.matchdata);
-                for(var i=0;i<listtwo.length;i++){
-                  listArry.eq(1).find('.out_li').eq(i).html(newdom(i,listtwo)); 
-                }
-                }
-                
+                  listArry.eq(0).find('.out_li').eq(i).html(newdom(i,listone)); 
+                }             
                 
                  //根据矩形坐标画线
                 var _xy=[];
@@ -699,13 +648,13 @@ import topNav from '../components/topNav.vue'
                     var context = canvas.getContext("2d");
                     context.strokeStyle = "rgb(247,162,58)";
                     context.moveTo(_xy[j][0]+unitul_w+5,_xy[j][1]+unitul_h/2);
-                    context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h/2);
+                    context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]+unitul_h/2);
                     if(j%2==0){
-                      context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]+unitul_h+margin_bt[i]/2);
-                      context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]+unitul_h+margin_bt[i]/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]+unitul_h+margin_bt[i]/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20*2, _xy[j][1]+unitul_h+margin_bt[i]/2);
                     }else{
-                      context.lineTo(_xy[j][0]+unitul_w+5+40, _xy[j][1]-margin_bt[i]/2);
-                      context.lineTo(_xy[j][0]+unitul_w+5+40*2, _xy[j][1]-margin_bt[i]/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]-margin_bt[i]/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20*2, _xy[j][1]-margin_bt[i]/2);
                     }
 
                     context.stroke(); 
@@ -715,17 +664,18 @@ import topNav from '../components/topNav.vue'
                 }
              }
 
-           
+           //获取turn>1的数据
+             var listtwo=[];
              var listthree=[];
              var listfour=[];
              var listfive=[];
-             var list = [listthree,listfour,listfive];
+             var list = [listtwo,listthree,listfour,listfive];
              var _html;
 
              function getnum(arr,level){
               for(var i=0;i<arr.length;i++){
                 if(arr[i].turn == level){
-                  list[level-3].push(arr[i]);
+                  list[level-2].push(arr[i]);
                 }else{
                     for(var key in arr[i]){
                         if(key=='groups'){
@@ -737,48 +687,54 @@ import topNav from '../components/topNav.vue'
                  
             }
 
-               if(turn>2){
-                 getnum(_this.matchdata,3);
-                for(var i=0;i<list[0].length;i++){
-                  listArry.eq(2).find('.out_li').eq(i).html(newdom(i,list[0]));
+            //重新渲染turn2以及turn2之后的dom
+            if(turn>1){
+              for(var j=2;j<turn+1;j++){
+                getnum(_this.matchdata,j);
+                for(var i=0;i<list[j-2].length;i++){
+                  listArry.eq(j-1).find('.out_li').eq(i).html(newdom(i,list[j-2]));
                 }
-
-                }
-
-                if(turn>3){
-                  getnum(_this.matchdata,4);
-                  for(var i=0;i<list[1].length;i++){
-                    listArry.eq(3).find('.out_li').eq(i).html(newdom(i,list[1]));
-                  }
-                }
-
-              if(turn>4){
-                //   function getnum5(arr){
-                //   for(var i=0;i<arr.length;i++){
-                //     if(arr[i].turn == 5){
-                //       listfive.push(arr[i]);
-                //     }else{
-                //         for(var key in arr[i]){
-                //             if(key=='groups'){
-                //               getnum5(arr[i][key]);
-                //             }
-                //           }  
-                //       } 
-                //   }
-                     
-                // }
-                getnum(_this.matchdata,5);
-                for(var i=0;i<list[2].length;i++){
-                  listArry.eq(4).find('.out_li').eq(i).html(newdom(i,list[2]));
-                }
-                }
+              }
+            }
 
             function newdom(i,list){
-                _html='<ul class="unit_ul" data-groupid='+list[i].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;"><input type="hidden" value='+list[i].seats[0].id+'><span class="recta_num">'+(list[i].seats[0].seatNumber?list[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(list[i].seats[0].target?list[i].seats[0].target.name:"")+'</span><span class="recta_right '+(list[i].seats[0].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatleft:"")+'</span></li><li class="recta"><input type="hidden" value='+list[i].seats[1].id+'><span class="recta_num">'+(list[i].seats[1].seatNumber?list[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(list[i].seats[1].target?list[i].seats[1].target.name:"")+'</span><span class="recta_right '+(list[i].seats[1].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatright:"")+'</span></li></ul><div class="edit_div" '+(list[i].seats[1].target?"":"style='display: none'")+'><div class="edit_score" '+(list[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:11px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:11px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:11px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>';
+                _html='<ul class="unit_ul" data-groupid='+list[i].id+' style="width:200px;"><li class="recta" data-seatid='+list[i].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+list[i].seats[0].targetId+'><span class="recta_num">'+(list[i].seats[0].seatNumber?list[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(list[i].seats[0].target?list[i].seats[0].target.name:"")+'</span><span class="recta_right '+(list[i].seats[0].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+list[i].seats[1].id+'><input name="target_id" type="hidden" value='+list[i].seats[1].targetId+'><span class="recta_num">'+(list[i].seats[1].seatNumber?list[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(list[i].seats[1].target?list[i].seats[1].target.name:"")+'</span><span class="recta_right '+(list[i].seats[1].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div" '+(list[i].seats[1].target?"":"style='display: none'")+'><div class="edit_score" '+(list[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>';
 
                 return _html;
             }
 
+               window.allowDrop = function(e){
+                  e = window.event || e;
+                  e.preventDefault();
+                        
+                }
+              var srcdiv = null;
+              window.drag = function(e,divdom){
+                  srcdiv=divdom;  
+                  e.dataTransfer.setData("text/html",divdom.innerHTML); 
+                      
+              }
+              window.drop = function(e,divdom){
+                 e = window.event || e;
+                 e.preventDefault();
+                  var _seatid=$(divdom).data("seatid");
+                  var _targetid=$(srcdiv).find('input[name=target_id]').val();
+                  var parm={};
+                  parm.seatId=_seatid;
+                  parm.targetId=_targetid;
+                  var _getdata=e.dataTransfer.getData("text/html");
+                  _this.$http.get('event/round/groupSeat/change',parm).then(function(response){
+                    if(response.data.code){
+                        if(srcdiv != divdom){  
+                          srcdiv.innerHTML = divdom.innerHTML;  
+                          divdom.innerHTML=_getdata;  
+                      }
+                    }
+                    
+                  },function(response) {
+                    console.log(22);
+                  });
+              }
             _this.$nextTick(function(){
               if(_this.roundStatus<6){
                 console.log($('.edit_div'));
@@ -787,7 +743,7 @@ import topNav from '../components/topNav.vue'
                 }else{
                   $('.turn_btn').hide();
                   $('.against_title_tip').hide();
-                  $(".recta").attr('draggable',false);
+                  // $(".recta").attr('draggable',false);
                 }
 
                 if(_this.roundStatus<5){
