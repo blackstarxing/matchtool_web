@@ -279,6 +279,8 @@ Date.prototype.Format = function (fmt) { // author: meizz
 				inlineMode: false,
 				theme: 'dark', 
 				alwaysBlank: true,
+				allowedImageTypes: ["jpeg", "jpg", "png", "gif"],
+				imageUploadURL: 'http://match.wangyuhudong.com/api/file/upload?fullPath=1',
 				language: "zh_cn",
 				placeholder: '请输入详细内容'
 			});
