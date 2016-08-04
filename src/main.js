@@ -6,7 +6,7 @@
 
 import Vue from 'vue'
 import matchtool from './matchtool.vue'
-import createLeaguematch from './createLeaguematch.vue'
+import createLeaguematch from './views/createLeaguematch.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -28,7 +28,7 @@ router.map({
     
 })
 router.redirect({
-  '*': ''
+  '*': '/createLeaguematch'
 })
 
 router.start(matchtool, '#app')
