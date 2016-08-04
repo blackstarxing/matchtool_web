@@ -1,0 +1,11 @@
+<template>
+	<div class="g-hd">
+		
+	</div>
+</template>
+<style>
+	.g-hd{
+		height: 60px;
+		background: #27282e;
+	}
+</style>
