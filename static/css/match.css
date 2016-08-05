@@ -28,12 +28,6 @@
 	height: 60px;
 	background: url(../images/remind.png) center center no-repeat;
 }
-.setNav{
-	float: left;
-	height: 60px;
-	margin-right: 60px;
-	margin-left: 27px;
-}
 .avatar{
 	float: left;
 	background: #fff;
@@ -48,6 +42,7 @@
 	vertical-align: bottom;
 	width:32px;
 	height: 32px;
+	cursor: pointer;
 }
 /*固定侧边栏*/
 .m-sidebar{
