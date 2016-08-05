@@ -102,5 +102,157 @@ input::-webkit-input-placeholder{
 	margin-right: 60px;
 }
 
-
+ /*头部*/
+.g-hd{
+	height: 60px;
+	background: #27282e;
+}
+.slidein{
+	display: inline-block;
+	float: left;
+	width:100px;
+	height: 60px;
+	background: url(../images/slidein.png) center center no-repeat;
+}
+.header_left,.header_right{
+	display: inline-block;
+}
+.header_left img{
+	margin-top: 13px;
+}
+.notify{
+	display: inline-block;
+	float: left;
+	width: 30px;
+	height: 60px;
+	background: url(../images/remind.png) center center no-repeat;
+}
+.setNav{
+	float: left;
+	height: 60px;
+	margin-right: 60px;
+	margin-left: 27px;
+}
+.avatar{
+	float: left;
+	background: #fff;
+	width: 32px;
+	height: 32px;
+	border:2px solid #666a74;
+	margin: 12px 60px 0 27px;
+	border-radius: 50% 50%;
+	overflow: hidden;
+}
+.avatar img{
+	vertical-align: bottom;
+	width:32px;
+	height: 32px;
+}
+/*固定侧边栏*/
+.m-sidebar{
+	position: fixed;
+	left: 0;
+	width: 100px;
+	height: 100%;
+	background: #36383f;
+}
+.m-sidebar ul{
+	padding-top: 20px;
+}
+.m-sidebar li{
+	text-align: center;
+	height: 80px;
+	line-height: 80px;
+}
+/*滑入侧边栏*/
+.m-slideInto{
+	position: fixed;
+	background: #36383f;
+	top:0;
+	left: -230px;
+	width: 230px;
+	height: 100%;
+}
+.slideout{
+	display: inline-block;
+	float: left;
+	width:70px;
+	height: 60px;
+	background: url(../images/slideout.png) center center no-repeat;
+}
+.top-logo img{
+	margin-top: 13px;
+}
+.m-slideInto li{
+	height: 80px;
+	line-height: 80px;
+	text-indent: 20px;
+}
+.m-slideInto li.arrow{
+	background: url(../images/arrow.png) 200px center no-repeat;
+}
+.m-slideInto li a{
+	display: block;
+	color:#b7c1c6;
+}
+.m-slideInto li a img{
+	vertical-align: middle;
+	margin-right: 20px;
+}
+/*创建比赛入口*/
+.createPop{
+	position: fixed;
+	width: 488px;
+	height: 388px;
+	border:6px solid #292f3b;
+	top:0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin:auto;
+	background: #1b1e25;
+	padding:20px 50px;
+	box-sizing: border-box;
+	color:#7a8387;
+	display: none;
+}
+.createPop h3{
+	color:#fdb91a;
+}
+.createBox{
+	width:280px;
+	margin:40px auto 0;
+	font-size: 12px;
+	text-align: center;
+}
+.createBox .createBtn{
+	display: block;
+	height: 48px;
+	line-height: 48px;
+	font-size: 18px;
+	border-radius: 2px;
+	color:#1e1f24;
+	background: #fdb91a;
+	text-align:center;
+	margin-bottom: 10px;
+}
+.createPop .closeBtn{
+	position: absolute;
+	display: block;
+	top:-20px;
+	right:-20px;
+	width:40px;
+	height: 40px;
+	background: url(../images/closeBtn.png) center top no-repeat;
+}
+.createBox .leagueEnter{
+	color:#fff;
+	background: #42aa53;
+}
+.createBox .or{
+	width: 100%;
+	height: 50px;
+	background: url(../images/or.png) center top no-repeat;
+	margin:20px 0;
+}
 
