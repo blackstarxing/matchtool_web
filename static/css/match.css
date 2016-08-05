@@ -224,19 +224,20 @@ input::-webkit-input-placeholder{
 }
 .avatar{
 	float: left;
-	background: #fff;
-	width: 32px;
-	height: 32px;
-	border:2px solid #666a74;
-	margin: 12px 60px 0 27px;
-	border-radius: 50% 50%;
+	width: 60px;
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+	margin: 0 60px 0 27px;
 	overflow: hidden;
+	cursor: pointer;
 }
 .avatar img{
-	vertical-align: bottom;
+	vertical-align: middle;
+	border:2px solid #666a74;
+	border-radius: 50%;
 	width:32px;
 	height: 32px;
-	cursor: pointer;
 }
 /*固定侧边栏*/
 .m-sidebar{
