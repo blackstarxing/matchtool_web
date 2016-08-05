@@ -2,3 +2,105 @@
  * 此样式文件只编写模块样式 网娱大师 赛事工具
  */
  @charset "utf-8";
+ /*主体模板公共*/
+ .g-w{
+ 	width:1024px;
+ 	margin:0 auto;
+ }
+ .g-z{
+ 	width:600px;
+ 	margin:0 auto;
+ }
+ .mt40{margin-top: 40px;}.h36{height: 36px;}
+/*创建快捷赛事*/
+.m-c-tit{
+	font-size: 14px;
+	line-height: 14px;
+	color: #fdb91a;
+	margin:40px 0 20px 0;
+}
+.m-c-w{
+	background: #292f3b;
+	padding: 5px;
+    box-shadow: 0px 2px 8px -2px #000000;
+}
+.m-c-info{
+	background: #1b1e25;
+	padding:25px 45px;
+}
+.g-c-l{
+	color: #7a8387;
+	font-size: 12px;
+	line-height: 12px;
+	margin-bottom: 12px;
+}
+.u-c-ipt,.u-c-slt{
+	background: #14181d;
+	font-size: 14px;
+	color: #f2f6f9;
+	border: 1px solid #353d48;
+    text-indent: 12px;
+    height:34px;
+}
+input::-webkit-input-placeholder{
+	color: #343b45;
+}
+.g-c-zbf{
+	color: #f2f6f9;
+	font-size: 14px;
+	height: 36px;
+	line-height: 36px;
+}
+.u-c-per{
+	display: inline-block;
+	height: 36px;
+}
+.u-c-headimg{
+	float: left;
+	box-sizing: border-box;
+    margin-right: 10px;
+	height: 36px;
+	width: 36px;
+	padding: 2px;
+	background: #353d48;
+	border-radius: 18px;
+	-webkit-border-radius:18px;
+}
+.u-c-headimg img{
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	-webkit-border-radius: 50%;
+}
+.regular-radio{
+	display: none;
+}
+.regular-radio + label {
+	box-sizing: border-box;
+    width: 16px;
+    height: 16px;
+    margin: 0 10px 10px 0;
+    -webkit-appearance: none;
+    background-color: #12151b;
+    border: 1px solid #353d48;
+    border-radius: 50px;
+    display: inline-block;
+    position: relative;
+}
+.regular-radio:checked + label{
+	background: url(../images/radio.png) no-repeat top center;
+}
+.u-c-slt{
+	width: 200px;
+	background: url(../images/arrow.png) no-repeat 180px center #14181d;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+.g-c-ms{
+	height: 36px;
+	margin-right: 60px;
+}
+
+
+

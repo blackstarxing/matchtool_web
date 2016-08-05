@@ -6,6 +6,7 @@
 
 import Vue from 'vue'
 import matchtool from './matchtool.vue'
+import quickmatch from './views/createquickmatch.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -23,11 +24,13 @@ router.map({
     // '/techPic': {
     //     component: techPic,
     // },
-
+    '/quickmatch': {
+    	component: quickmatch,
+    }
     
 })
 router.redirect({
-  '*': ''
+  '*': '/quickmatch'
 })
 
 router.start(matchtool, '#app')
