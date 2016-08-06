@@ -96,7 +96,7 @@ export default {
   			itemId:"",
   			mode:""
   		}
-		},
+	},
   	ready:function(){
   		var _this=this;
   		
