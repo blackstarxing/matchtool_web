@@ -32,3 +32,5 @@ a,a:hover{color:#333;}
 .f-db{display:block;}
 .f-fl{float:left;}
 .f-fr{float:right;}
+.f-re{position: relative;}
+.f-ab{position: absolute;}

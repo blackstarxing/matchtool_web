@@ -11,7 +11,8 @@
  	width:600px;
  	margin:0 auto;
  }
- .mt40{margin-top: 40px;}.h36{height: 36px;}
+ .mt40{margin-top: 40px;}.h36{height: 36px;}.mr56{margin-right: 56px;}.mb6{margin-bottom: 6px;}
+ .colfdb{color: #fdb91a;}
  .backLast{
  	height:40px;
  	line-height: 20px;
@@ -167,7 +168,7 @@ input::-webkit-input-placeholder{
 	border-radius: 50%;
 	-webkit-border-radius: 50%;
 }
-.regular-radio{
+.regular-radio,.regular-checkboxs{
 	display: none;
 }
 .regular-radio + label {
@@ -195,6 +196,117 @@ input::-webkit-input-placeholder{
 .g-c-ms{
 	height: 36px;
 	margin-right: 60px;
+}
+.button_group {
+    width: 33px;
+    line-height: 0;
+    float: left;
+    margin-left: -36px;
+    margin-top: 1px;
+    border-left: 1px solid #353d48;
+}
+.button_group button{
+	border: 0;
+	width: 34px;
+	height: 17px;
+	color:#fff;
+	font-size: 14px;
+}
+.button_group .plus{
+	border-bottom: 1px solid #353d48;
+	background: url(../images/plus.png) center center no-repeat #14181d;
+}
+.button_group .minus{
+	background: url(../images/minus.png) center center no-repeat #14181d;
+}
+.button_group .minus[disabled]{
+	cursor: not-allowed;
+}
+.regular-checkboxs + label {
+    width: 14px;
+    height: 14px;
+    margin-right: 10px;
+    background-color: #14181d;
+    border: 1px solid #353d48;
+    display: inline-block;
+    position: relative;
+}
+.regular-checkboxs:checked + label{
+	background: url(../images/checkbox.png) center center no-repeat;
+}
+label.u-c-ck,span.u-c-ck{
+	color: #f2f6f9;
+	font-size: 14px;
+	vertical-align: 3px;
+}
+.g-c-timeipt{
+	width: 200px; 
+	position:relative; 
+	display: inline-block;
+}
+label.add-on{
+	position: absolute;
+    width: 16px;
+    height: 16px;
+    background: url(../images/datepicker.png) no-repeat center center;
+    right: 10px;
+    top: 10px;
+}
+.g-c-qd{
+    margin-top: -6px;
+}
+.u-c-tslt{
+	width: 60px;
+	background: url(../images/arrow.png) no-repeat 40px center #14181d;
+    vertical-align: 4px;
+    margin: 0 2px;
+}
+.checkboxThree {
+    position: absolute;
+    width: 68px;
+    height: 20px;
+    background: #42aa53;
+    border-radius: 3px;
+    top: -5px;
+    left: 150px;
+}
+.checkboxThree:before {
+	content: '开启';
+    position: absolute;
+    top: 5px;
+    left: 6px;
+    height: 12px;
+    color: #f2f6f9;
+    font-size: 12px;
+}
+.checkboxThree:after {
+	content: '关闭';
+	position: absolute;
+    top: 5px;
+    left: 39px;
+    height: 12px;
+    color: #f2f6f9;
+    font-size: 12px;
+}
+.checkboxThree label {
+	display: block;
+	width: 34px;
+    height: 20px;
+    border-radius: 3px;
+	-webkit-transition: all .5s ease;
+	-moz-transition: all .5s ease;
+	-o-transition: all .5s ease;
+	-ms-transition: all .5s ease;
+	transition: all .5s ease;
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	z-index: 1;
+	left: 0;
+	background: #ffffff;
+}
+.checkboxThree input[type=checkbox]:checked + label {
+	left: 34px;
 }
 
  /*头部*/

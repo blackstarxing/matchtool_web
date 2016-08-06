@@ -22,9 +22,6 @@ var router = new VueRouter({
 });
 
 router.map({
-    // '/techPic': {
-    //     component: techPic,
-    // },
     '/quickmatch': {
     	component: quickmatch,
     },
