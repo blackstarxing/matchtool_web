@@ -1,4 +1,13 @@
 <template>
+	<top-head></top-head>
+	<side-bar></side-bar>
+	<slide-bar></slide-bar>
+	<create-pop></create-pop>
+	<div class="backLast">
+		<div class="g-z">
+			<a href=""></a>赛制设置
+		</div>
+	</div>
 	<div class="g-w">
 		<div class="g-z">
 			<p class="m-c-tit">设置赛事采用赛制</p>
@@ -66,10 +75,27 @@
 					</div>
 				</div>
 			</div>
+			<div class="confirmBtn mb120">
+				<a href="" class="nextBtn"><i></i>确认，进入赛制设置</a>
+			</div>
+		</div>
+		<div class="steps">
+			<span class="line"></span>
+			<ul>
+				<li><i></i>填写基本信息</li>
+				<li><i></i>设置参赛方式</li>
+				<li><i></i>确认赛事时间</li>
+				<li class="current"><i></i>设置采用赛制</li>
+				<li><i></i>完善信息并发布</li>
+			</ul>
 		</div>
 	</div>
 </template>
 <script type="text/javascript">
+import topHead from '../components/topHead.vue'
+import sideBar from '../components/sideBar.vue'
+import slideBar from '../components/slideBar.vue'
+import createPop from '../components/createPop.vue'
 	export default {
 		data () {
 			return{
@@ -77,7 +103,10 @@
 			}
 		},
 		components:{
-
+			topHead,
+	        sideBar,
+	        slideBar,
+	        createPop
 		},
 		ready:function(){
 
