@@ -1,4 +1,13 @@
 <template>
+	<top-head></top-head>
+	<side-bar></side-bar>
+	<slide-bar></slide-bar>
+	<create-pop></create-pop>
+	<div class="backLast">
+		<div class="g-z">
+			<a href=""></a>创建快捷赛事
+		</div>
+	</div>
 	<div class="g-w">
 		<div class="g-z">
 			<p class="m-c-tit">完善赛事基本信息</p>
@@ -182,6 +191,10 @@
 	</div>
 </template>
 <script type="text/javascript">
+import topHead from '../components/topHead.vue'
+import sideBar from '../components/sideBar.vue'
+import slideBar from '../components/slideBar.vue'
+import createPop from '../components/createPop.vue'
 	export default {
 		data () {
 			return{
@@ -189,7 +202,10 @@
 			}
 		},
 		components:{
-
+			topHead,
+	        sideBar,
+	        slideBar,
+	        createPop
 		},
 		ready:function(){
 
