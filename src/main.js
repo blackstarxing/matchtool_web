@@ -7,6 +7,7 @@
 import Vue from 'vue'
 import matchtool from './matchtool.vue'
 import quickmatch from './views/createquickmatch.vue'
+import quickformat from './views/quickmatchformat.vue'
 import createLeaguematch from './views/createLeaguematch.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
@@ -30,10 +31,13 @@ router.map({
     },
     '/createLeaguematch': {
         component: createLeaguematch,
+    },
+    '/quickformat': {
+        component: quickformat,
     }
 })
 router.redirect({
-  '*': '/quickmatch'
+  '*': '/quickformat'
 })
 
 
