@@ -14,17 +14,17 @@
 			<div class="m-c-w">
 				<div class="m-c-info">
 					<p class="g-c-l">联赛名称</p>
-					<input type="text" class="u-c-ipt" placeholder="请输入赛事名称" style="width:480px;">
+					<input type="text" class="u-c-ipt" placeholder="请输入赛事名称" style="width:480px;" v-model="name">
 					<p class="g-c-l mt40">联赛主办方</p>
 					<div class="g-c-zbf">
 						<input type="radio" id="personal" class="regular-radio" checked="checked" />
 						<label for="personal"></label>
 						<label for="personal" class="u-c-per">
 							<span class="u-c-headimg">
-								<img src="../../static/images/me.jpg">
+								<img src="../../static/images/head.png">
 							</span>
 							<span class="f-fl">
-								未来老公
+								blackstar
 							</span>
 						</label>
 					</div>
@@ -39,7 +39,7 @@
 					<p class="g-c-l mt40">联赛模式</p>
 					<div class="g-c-zbf">
 					    <div class="f-fl g-c-ms">
-							<input type="radio" id="online" name="matchitem" class="regular-radio" checked="checked" value="" />
+							<input type="radio" id="online" name="matchitem" class="regular-radio" checked="checked" value="1" v-model="mode"/>
 							<label for="online"></label>
 							<label for="online" class="u-c-per">		
 								<span class="f-fl">
@@ -48,7 +48,7 @@
 							</label>
 						</div>
 						<div class="f-fl g-c-ms">
-							<input type="radio" id="offline" name="matchitem" class="regular-radio" value="" />
+							<input type="radio" id="offline" name="matchitem" class="regular-radio" value="2" v-model="mode"/>
 							<label for="offline"></label>
 							<label for="offline" class="u-c-per">		
 								<span class="f-fl">
@@ -57,7 +57,7 @@
 							</label>
 						</div>
 						<div class="f-fl h36">
-							<input type="radio" id="unite" name="matchitem" class="regular-radio" value="" />
+							<input type="radio" id="unite" name="matchitem" class="regular-radio" value="3" v-model="mode"/>
 							<label for="unite"></label>
 							<label for="unite" class="u-c-per">		
 								<span class="f-fl">
@@ -69,7 +69,7 @@
 				</div>
 			</div>
 			<div class="confirmBtn">
-				<a href="" class="nextBtn"><i></i>确认，进入赛制设置</a>
+				<a href="" class="nextBtn" @click="nextStep"><i></i>确认，进入赛制设置</a>
 			</div>
 		</div>
 		<div class="steps">
@@ -88,18 +88,26 @@ import topHead from '../components/topHead.vue'
 import sideBar from '../components/sideBar.vue'
 import slideBar from '../components/slideBar.vue'
 import createPop from '../components/createPop.vue'
-  export default {
-    data () {
-      return {
-
-      }
-  	},
+export default {
+	data () {
+  		return {
+  			name:"",
+  			sponsorId:"",
+  			itemId:"",
+  			mode:""
+  		}
+		},
   	ready:function(){
   		var _this=this;
   		
   	},
   	methods:{
-  		
+  		nextStep:function(e){
+  			e.preventDefault();
+  			var _this=this;
+  			var parm={};
+	   		parm.jsonInfo=JSON.stringify();
+  		}
   	},
   	components:{
         topHead,
@@ -107,5 +115,5 @@ import createPop from '../components/createPop.vue'
         slideBar,
         createPop
   	}
-  }
+}
 </script>
