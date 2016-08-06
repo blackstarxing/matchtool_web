@@ -5,7 +5,7 @@
 			<img src="../../static/images/logo.png" alt="">
 		</div>
 		<ul>
-			<li><a href=""><img src="../../static/images/nav1.png" alt="">首页</a></li>
+			<li class="current"><a href=""><img src="../../static/images/nav1.png" alt="">首页</a></li>
 			<li class="arrow"><a href=""><img src="../../static/images/nav2.png" alt="">申请认证</a></li>
 			<li class="arrow" @click="showPop"><a href=""><img src="../../static/images/nav3.png" alt="">创建赛事</a></li>
 		</ul>

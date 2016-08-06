@@ -13,6 +13,102 @@
  }
  .mt40{margin-top: 40px;}.h36{height: 36px;}.mr56{margin-right: 56px;}.mb6{margin-bottom: 6px;}
  .colfdb{color: #fdb91a;}
+ .backLast{
+ 	height:40px;
+ 	line-height: 20px;
+ 	background: #27282e;
+ 	color:#b7c1c6;
+ 	font-size: 18px;
+ }
+.backLast a{
+	float: left;
+	display: inline-block;
+	margin-right: 10px;
+	height: 40px;
+	width:20px;
+	background: url(../images/back.png) top center no-repeat;
+}
+/*生成主页按钮*/
+.confirmBtn{
+	margin-top: 50px;
+	height: 48px;
+	background: url(../images/star.png) center center no-repeat;
+}
+.confirmBtn .nextBtn{
+	display: block;
+	width: 280px;
+	height: 48px;
+	line-height: 48px;
+	text-align: center;
+	margin:0 auto;
+	background: #fdb91a;
+	border-radius: 2px;
+	color:#1e1f24;
+	font-size: 18px;
+}
+.confirmBtn .nextBtn i{
+	display: inline-block;
+	vertical-align: middle;
+	width: 20px;
+	height: 48px;
+	margin-right: 12px;
+	background: url(../images/checkmark.png) center center no-repeat;
+}
+/*创建进度*/
+.steps{
+	position: fixed;
+	top:225px;
+	right:150px;
+}
+.steps .line{
+	position: absolute;
+	left: 15px;
+	display: block;
+	width: 1px;
+	height: 100%;
+	padding:10px 0;	
+	box-sizing: border-box;
+}
+.steps .line:after{
+	display: block;
+	height: 100%;
+	width: 1px;
+	content: " ";
+	background: #865b1e;
+}
+.steps li{
+	position: relative;
+	color:#7a8387;
+	height: 19px;
+	line-height: 19px;
+	padding: 0 8px;
+	text-indent: 17px;
+	border:1px solid #66676a;
+	border-radius: 50px;
+	margin-bottom: 22px;
+}
+.steps li:last-child{
+	margin-bottom: 0;
+}
+.steps li i{
+	position: absolute;
+	display: inline-block;
+	top: 3px;
+	left:8px;
+	width:9px;
+	height: 9px;
+	border:2px solid #9c7720;
+	border-radius: 50%;
+	margin-right: 10px;
+	background: #1e1f24;
+}
+.steps li.current{
+	color:#d4dde1;
+}
+.steps li.current i{
+	border-color: #fdb91a;
+}
+>>>>>>> 80c9e127216372dfab517b3e81106e56dcf27b4b
 /*创建快捷赛事*/
 .m-c-tit{
 	font-size: 14px;
@@ -296,11 +392,14 @@ label.add-on{
 	text-indent: 20px;
 }
 .m-slideInto li.arrow{
-	background: url(../images/arrow.png) 200px center no-repeat;
+	background: url(../images/slideArrow.png) 200px center no-repeat;
 }
 .m-slideInto li a{
 	display: block;
 	color:#b7c1c6;
+}
+.m-slideInto li.current a{
+	color:#fdb91a;
 }
 .m-slideInto li a img{
 	vertical-align: middle;
@@ -322,6 +421,7 @@ label.add-on{
 	box-sizing: border-box;
 	color:#7a8387;
 	display: none;
+	z-index: 9999;
 }
 .createPop h3{
 	color:#fdb91a;
