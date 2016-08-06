@@ -34,7 +34,7 @@ router.map({
     }
 })
 router.redirect({
-  '*': '/quickformat'
+  '*': '/quickmatch'
 })
 
 
