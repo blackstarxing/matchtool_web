@@ -223,7 +223,7 @@ input::-webkit-input-placeholder{
 .button_group .minus{
 	background: url(../images/minus.png) center center no-repeat #14181d;
 }
-.button_group .minus[disabled]{
+.button_group .minus[disabled],.button_group .plus[disabled]{
 	cursor: not-allowed;
 }
 .regular-checkboxs + label {
@@ -238,7 +238,7 @@ input::-webkit-input-placeholder{
 .regular-checkboxs:checked + label{
 	background: url(../images/checkbox.png) center center no-repeat;
 }
-label.u-c-ck,span.u-c-ck{
+.u-c-ck{
 	color: #f2f6f9;
 	font-size: 14px;
 	vertical-align: 3px;
@@ -308,6 +308,7 @@ label.add-on{
 	z-index: 1;
 	left: 0;
 	background: #ffffff;
+	cursor: pointer;
 }
 .checkboxThree input[type=checkbox]:checked + label {
 	left: 34px;
@@ -381,7 +382,7 @@ label.u-c-kz-sz{
 	vertical-align: 3px;
 	margin-left: -3px;
 }
-
+.col8f{color: #8F8F8F;}
 
  /*头部*/
 .g-hd{
