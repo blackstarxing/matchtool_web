@@ -14,12 +14,15 @@
  .mt40{margin-top: 40px;}.h36{height: 36px;}.mr56{margin-right: 56px;}.mb6{margin-bottom: 6px;}.mt16{margin-top: 16px;}.mt5{margin-top: 5px;}.mb120{margin-bottom: 120px;}
  .colfdb{color: #fdb91a;}
  .backLast{
- 	margin-top: 60px;
+ 	position: fixed;
+ 	width: 100%;
+ 	top: 60px;
  	height:40px;
  	line-height: 20px;
  	background: #27282e;
  	color:#b7c1c6;
  	font-size: 18px;
+ 	z-index: 999;
  }
 .backLast a{
 	float: left;
@@ -433,6 +436,7 @@ label.u-c-kz-sz{
 	width: 100px;
 	height: 100%;
 	background: #36383f;
+	z-index: 9999;
 }
 .m-sidebar ul{
 	padding-top: 20px;
@@ -450,7 +454,7 @@ label.u-c-kz-sz{
 	left: -230px;
 	width: 230px;
 	height: 100%;
-	z-index: 9999;
+	z-index: 99999;
 }
 .slideout{
 	display: inline-block;
