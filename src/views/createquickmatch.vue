@@ -39,32 +39,38 @@
 					<p class="g-c-l mt40">赛事模式</p>
 					<div class="g-c-zbf">
 					    <div class="f-fl g-c-ms">
-							<input type="radio" id="online" name="matchitem" class="regular-radio" checked="checked" value="1" />
-							<label for="online"></label>
-							<label for="online" class="u-c-per">		
+							<input type="radio" id="online" name="matchitem" class="regular-radio" checked="checked" value="1" v-model="formdata.mode"/>
+							<label for="online" @click="slideup"></label>
+							<label for="online" class="u-c-per" @click="slideup">		
 								<span class="f-fl">
 									纯线上赛事
 								</span>
 							</label>
 						</div>
 						<div class="f-fl g-c-ms">
-							<input type="radio" id="offline" name="matchitem" class="regular-radio" value="2" />
-							<label for="offline"></label>
-							<label for="offline" class="u-c-per">		
+							<input type="radio" id="offline" name="matchitem" class="regular-radio" value="2" v-model="formdata.mode"/>
+							<label for="offline" @click="slidedown"></label>
+							<label for="offline" class="u-c-per" @click="slidedown">		
 								<span class="f-fl">
 									纯线下赛事
 								</span>
 							</label>
 						</div>
 						<div class="f-fl h36">
-							<input type="radio" id="unite" name="matchitem" class="regular-radio" value="3" />
-							<label for="unite"></label>
-							<label for="unite" class="u-c-per">		
+							<input type="radio" id="unite" name="matchitem" class="regular-radio" value="3" v-model="formdata.mode"/>
+							<label for="unite" @click="slidedown"></label>
+							<label for="unite" class="u-c-per" @click="slidedown">		
 								<span class="f-fl">
 									线上与线下结合模式
 								</span>
 							</label>
 						</div>
+					</div>
+					<div class="m-c-xx">
+						<p class="g-c-l mt40">比赛地点</p>
+						<input type="text" class="u-c-ipt" placeholder="请输入比赛地点" style="width:480px;">
+						<p class="g-c-l mt40">具体地址</p>
+						<input type="text" class="u-c-ipt" placeholder="请输入具体地址" style="width:480px;">
 					</div>
 				</div>
 			</div>
@@ -212,7 +218,8 @@ import createPop from '../components/createPop.vue'
 		data () {
 			return{
 				formdata:{
-    				maxNum:""
+    				maxNum:"",
+    				mode:""
     			}
 			}
 		},
@@ -314,6 +321,12 @@ import createPop from '../components/createPop.vue'
 		    	else{
 		    		$('[name="needSignMinu"]').attr('disabled',false).removeClass('col8f');
 		    	}
+		    },
+		    slidedown:function(){
+		    	$('.m-c-xx').slideDown();
+		    },
+		    slideup:function(){
+		    	$('.m-c-xx').slideUp();
 		    }
 		},
 		events:{
