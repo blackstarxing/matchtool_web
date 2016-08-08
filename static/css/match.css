@@ -11,7 +11,7 @@
  	width:600px;
  	margin:0 auto;
  }
- .mt40{margin-top: 40px;}.h36{height: 36px;}.mr56{margin-right: 56px;}.mb6{margin-bottom: 6px;}.mt16{margin-top: 16px;}.mt5{margin-top: 5px;}.mb120{margin-bottom: 120px;}
+ .mt40{margin-top: 40px;}.h36{height: 36px;}.mr56{margin-right: 56px;}.mb6{margin-bottom: 6px;}.mt16{margin-top: 16px;}.mt5{margin-top: 5px;}.mb120{margin-bottom: 120px;}.mb12{margin-bottom: 12px;}
  .colfdb{color: #fdb91a;}
  .backLast{
  	position: fixed;
@@ -322,12 +322,14 @@ label.add-on{
 	margin-right: 7px;
 }
 .g-c-sz{
+	position: relative;
 	width: 240px;
 	height: 154px;
 	box-sizing: border-box;
 	background: #14181d;
 	border: 1px solid #353d48;
 	padding: 0 8px;
+	cursor: pointer;
 }
 .g-c-szt{
 	height: 36px;
@@ -350,6 +352,7 @@ label.add-on{
 	background: #14181d;
 	margin: 12px 0;
 	position: relative;
+	display: none;
 }
 .g-tri-up {
     width: 0;
@@ -385,6 +388,24 @@ label.u-c-kz-sz{
 .col8f{color: #8F8F8F;}
 .m-c-xx{
 	display:none;
+}
+.g-c-sz-cherk{
+	position: absolute;
+	width: 238px;
+	height: 152px;
+	border: 1px solid #42aa53;
+    top: -1px;
+    left: -1px;
+    display: none;
+}
+.g-sz-gimg{
+	position: absolute;
+	display: inline-block;
+	height: 20px;
+	width: 20px;
+	background: url(../images/szgou.png);
+	top: 0;
+	right: 0;
 }
 
 

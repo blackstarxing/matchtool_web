@@ -25,21 +25,24 @@
 							</label>
 						</div>
 						<div class="f-fl g-c-ms">
-							<input type="radio" id="offline" name="matchitem" class="regular-radio" value="" />
+							<input type="radio" id="offline" name="matchitem" class="regular-radio" value="" disabled />
 							<label for="offline"></label>
 							<label for="offline" class="u-c-per">		
-								<span class="f-fl">
+								<span class="f-fl col8f">
 									双阶段
 								</span>
 							</label>
 						</div>
 					</div>
 					<p class="g-c-l mt40">采用赛制<span class="f-fr"><span class="g-help"></span>查看赛制帮助</span></p>
-					<div class="clearfix">
-						<div class="f-fl g-c-sz">
+					<div class="clearfix mb12">
+						<div class="f-fl g-c-sz" @click="cherksz">
 							<p class="g-c-szt">单败淘汰制</p>
 							<div class="g-c-szm">
 								<img src="../../static/images/danbai.png" class="mt16">
+							</div>
+							<div class="g-c-sz-cherk">
+								<i class="g-sz-gimg"></i>
 							</div>
 						</div>
 						<div class="f-fr g-c-sz">
@@ -56,7 +59,7 @@
 						<div class="f-fl mr56 g-c-kz-sz">
 							<input type="checkbox" id="dbsz" class="regular-checkboxs" name="" />
 							<label for="dbsz"></label>
-							<label for="dbsz" class="u-c-kz-sz">单败淘汰制</label>
+							<label for="dbsz" class="u-c-kz-sz">需要增加一场第三名争夺战</label>
 						</div>
 					</div>
 					<div class="clearfix">
@@ -112,7 +115,11 @@ import createPop from '../components/createPop.vue'
 
 		},
 		methods:{
-
+			cherksz:function(event){
+				var _this = $(event.target);
+				_this.parents('.g-c-sz').find('.g-c-sz-cherk').toggle();
+				$('.g-c-szgz').fadeToggle();
+			}
 		}
 	}
 </script>
