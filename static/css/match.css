@@ -407,6 +407,13 @@ label.u-c-kz-sz{
 	top: 0;
 	right: 0;
 }
+.f-tip{
+	display: none;
+	background: url(../images/tip.png) no-repeat left center;
+	height:12px;
+	text-indent: 20px;
+	margin-left: 10px;
+}
 
 
  /*头部*/
