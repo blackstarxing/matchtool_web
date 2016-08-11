@@ -9,6 +9,7 @@ import matchtool from './matchtool.vue'
 import quickmatch from './views/createquickmatch.vue'
 import quickformat from './views/quickmatchformat.vue'
 import createLeaguematch from './views/createLeaguematch.vue'
+import landRegister from './views/landRegister.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -16,6 +17,7 @@ Vue.use(VueResource);
 Vue.use(VueRouter);
 
 // Vue.http.options.root = '/api';
+Vue.http.options.root = 'http://172.16.2.63:8088/';
 
 Vue.http.options.emulateJSON = true;
 var router = new VueRouter({
@@ -31,10 +33,13 @@ router.map({
     },
     '/quickformat': {
         component: quickformat,
+    },
+    '/landRegister': {
+        component: landRegister,
     }
 })
 router.redirect({
-  '*': '/quickmatch'
+  '*': '/landRegister'
 })
 
 
