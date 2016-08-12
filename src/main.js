@@ -10,6 +10,7 @@ import quickmatch from './views/createquickmatch.vue'
 import quickformat from './views/quickmatchformat.vue'
 import createLeaguematch from './views/createLeaguematch.vue'
 import landRegister from './views/landRegister.vue'
+import matchDetails from './views/matchDetails.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -36,11 +37,14 @@ router.map({
     },
     '/landRegister': {
         component: landRegister,
+    },
+    '/matchDetails': {
+        component: matchDetails,
     }
 })
+
 router.redirect({
   '*': '/landRegister'
 })
-
 
 router.start(matchtool, '#app')

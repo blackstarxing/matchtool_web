@@ -4,6 +4,7 @@
 @media only screen and (max-width: 959px){ html { font-size: 64px; } }
 @media only screen and (max-width: 767px) { html { font-size: 40px; } }
 @media only screen and (max-width: 413px) { html { font-size: 25px; } }
+
 html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,table,caption,th,td,form,fieldset,legend,input,button,textarea,menu{margin:0;padding:0;}
 header,footer,section,article,aside,nav,hgroup,address,figure,figcaption,menu,details{display:block;}
 table{border-collapse:collapse;border-spacing:0;}
@@ -20,7 +21,7 @@ textarea{overflow:auto;resize:none;}
 label,summary{cursor:default;}
 a,button{cursor:pointer;}
 h1,h2,h3,h4,h5,h6,em,strong,b{font-weight:bold;}
-del,ins,u,s,a,a:hover{text-decoration:none;}
+del,ins,u,s,a{text-decoration:none;}
 body,textarea,input,button,select,keygen,legend{font:12px/1.14 arial,\5b8b\4f53;color:#333;outline:0;}
 body{font:14px/1.5 'Microsoft YaHei','微软雅黑', Helvetica,Arial,sans-serif,STHeiTi;background:#1e1f24; /*letter-spacing:1px;*/}
 input{font:14px/1.5 'Microsoft YaHei','微软雅黑', Helvetica,Arial,sans-serif,STHeiTi;/*letter-spacing:1px;*/}
@@ -29,6 +30,7 @@ input:-webkit-autofill {
 -webkit-box-shadow: 0 0 0px 1000px #14181d inset;
 color: #fff !important;
 } 
+
 
 .clearfix:before, .clearfix:after { content: " "; display: block; height: 0; overflow: hidden; }  
 .clearfix:after { clear: both; }  
