@@ -105,6 +105,22 @@ import createPop from '../components/createPop.vue'
 	
 		},
 		methods:{
+			//判断是否满足注册的要求
+			validateReg: function () {
+				if(this.nickname && this.password && this.account && this.ident && this.checked && this.errorTip){
+					this.allowReg=true;
+				}else{
+					this.allowReg=false;
+				}
+			},
+			//判断是否满足登录的要求
+			validateLog: function () {
+				if(this.account && this.password && this.errorTip){
+					this.allowLogin=true;
+				}else{
+					this.allowLogin=false;
+				}
+			},
 			changeLand: function (e) {
 				var _current=$(e.currentTarget);
 				this.landReg=true;
@@ -140,18 +156,10 @@ import createPop from '../components/createPop.vue'
 					_error.show();
 					_error.find('.error_tip').text('请填写正确的手机号');
 				}
-				//判断是否满足注册的要求
-				if(this.nickname && this.password && this.account && this.ident && this.checked && this.errorTip){
-					this.allowReg=true;
-				}else{
-					this.allowReg=false;
-				}
-				//判断是否满足登录的要求
-				if(this.account && this.password && this.errorTip){
-					this.allowLogin=true;
-				}else{
-					this.allowLogin=false;
-				}
+
+				//判断是否满足注册和登录的要求
+				this.validateLog();
+				this.validateReg();	
 			},
 			getIdent: function (e) {
 				var _current=$(e.currentTarget);
@@ -163,7 +171,7 @@ import createPop from '../components/createPop.vue'
 					return;
 				}
 				parm.type=1;
-				this.$http.post('http://172.16.2.63:8088/sendVerifyCode',parm).then(function(response){
+				this.$http.post('oet/sendVerifyCode',parm).then(function(response){
 					if(response.data.code){
 						_error.hide();
 						this.errorTip=true;
@@ -175,11 +183,7 @@ import createPop from '../components/createPop.vue'
 			      },function(response) {
 			              console.log(response);
 			          });
-				if(this.nickname && this.password && this.account && this.ident && this.checked && this.errorTip){
-					this.allowReg=true;
-				}else{
-					this.allowReg=false;
-				}
+				this.validateReg();
 			},
 			getNickname: function (e) {
 				var _current=$(e.currentTarget);
@@ -191,11 +195,7 @@ import createPop from '../components/createPop.vue'
 					_error.hide();
 					this.errorTip=true;
 				}
-				if(this.nickname && this.password && this.account && this.ident && this.checked && this.errorTip){
-					this.allowReg=true;
-				}else{
-					this.allowReg=false;
-				}
+				this.validateReg();
 			},
 			getpwd: function (e) {
 				var _current=$(e.currentTarget);
@@ -207,16 +207,8 @@ import createPop from '../components/createPop.vue'
 					_error.hide();
 					this.errorTip=true;
 				}
-				if(this.nickname && this.password && this.account && this.ident && this.checked && this.errorTip){
-					this.allowReg=true;
-				}else{
-					this.allowReg=false;
-				}
-				if(this.account && this.password && this.errorTip){
-					this.allowLogin=true;
-				}else{
-					this.allowLogin=false;
-				}
+				this.validateReg();
+				this.validateLog();
 			},
 			acceptRule: function () {
 				if(this.checked){
@@ -232,7 +224,7 @@ import createPop from '../components/createPop.vue'
 				parm.telephone=this.account;
 				parm.verifyCode=this.ident;
 				console.log(this.errorTip);
-				this.$http.post('http://172.16.2.63:8088/register',parm).then(function(response){
+				this.$http.post('oet/register',parm).then(function(response){
 					console.log(response);
 			      },function(response) {
 			              console.log(response);
@@ -242,9 +234,14 @@ import createPop from '../components/createPop.vue'
 				var parm={};
 				parm.username=this.account;
 				parm.password=this.password;
-				this.$http.post('http://172.16.2.63:8088/login',parm).then(function(response){
+				this.$http.post('oet/login',parm).then(function(response){
 					console.log(response);
 					if(response.data.code){
+						document.cookie="oetevent.login.sessionid="+response.data.object["oetevent.login.sessionid"];
+						document.cookie="oetevent.login.token="+response.data.object["oetevent.login.token"];
+			  			document.cookie="oetUser="+response.data.object.oetUser.id;
+			  			document.cookie="appUser="+response.data.object.appUser.id;
+			  			window.sessionStorage.setItem("appusericon",response.data.object.appUser.icon);
 						this.$route.router.go({path: '/quickmatch'}); 
 					}
 			      },function(response) {

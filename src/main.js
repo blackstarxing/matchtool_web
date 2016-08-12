@@ -18,8 +18,6 @@ Vue.use(VueResource);
 Vue.use(VueRouter);
 
 // Vue.http.options.root = '/api';
-Vue.http.options.root = 'http://172.16.2.63:8088/';
-
 Vue.http.options.emulateJSON = true;
 var router = new VueRouter({
     hashbang: false
