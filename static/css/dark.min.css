@@ -83,9 +83,10 @@
 }
 
 .dark-theme.froala-box .froala-element.f-basic {
-	border: solid 1px #8f8f8f;
+	border: solid 1px #353d48;
 	background: #111115;
 	height: 150px;
+	color:#f2f6f9;
 }
 
 .dark-theme.froala-box .froala-element table td {
@@ -101,7 +102,7 @@
 
 .dark-theme.froala-editor {
 	background: #111115;
-	border: solid 1px #8f8f8f;
+	border: solid 1px #353d48;
 	/*border-top: solid 5px #252525*/
 }
 
