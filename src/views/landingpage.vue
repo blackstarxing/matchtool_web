@@ -30,7 +30,7 @@
 						<img src="http://img.wangyuhudong.com///uploads/2016/08/01/7ce9d883e8fb400eb95dfe9115055c54.jpg" alt="" width="100%">
 						<div class="title"><i class="iconfont"></i><span style="margin-left:6px;margin-right:4px;">by</span><span class="f-col">网娱官方赛事组</span></div>
 					</div>
-					<div class="content">
+					<div class="match-progress">
 						<h4>【英雄联盟】八月福利SOLO赛 死歌VS维鲁斯</h4>
 						<div class="list mid">
 							<div class="progress">

@@ -52,7 +52,7 @@ router.map({
     },
     '/reset': {
         component: reset,
-    }
+    },
     '/landRegister': {
         component: landRegister,
     },
