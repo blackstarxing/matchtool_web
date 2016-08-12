@@ -11,9 +11,9 @@
  	width:600px;
  	margin:0 auto;
  }
- .mt40{margin-top: 40px;}.h36{height: 36px;}.mr56{margin-right: 56px;}.mb6{margin-bottom: 6px;}.mt16{margin-top: 16px;}.mt5{margin-top: 5px;}.mb120{margin-bottom: 120px;}.mb12{margin-bottom: 12px;}
  .pt40{padding-top: 40px;}
- .colfdb{color: #fdb91a;}
+ .mt90{margin-top: 90px;}.mt40{margin-top: 40px;}.h36{height: 36px;}.mr56{margin-right: 56px;}.mb6{margin-bottom: 6px;}.mt16{margin-top: 16px;}.mt5{margin-top: 5px;}.mb120{margin-bottom: 120px;}.mb12{margin-bottom: 12px;}.ml20{margin-left:20px;}.pt20{padding-top: 20px;}.mb100{margin-bottom: 100px;}
+ .colfdb{color: #fdb91a;}.col7a8{color: #7a8387;}.col42a{color: #42aa53;}
  .backLast{
  	position: fixed;
  	width: 100%;
@@ -510,6 +510,204 @@ label.u-c-kz-sz{
 	text-indent: 20px;
 	margin-left: 10px;
 }
+/*赛事pc详情*/
+.g-q-hb{
+	width: 100%;
+	height: 4.4rem;
+}
+.g-q-hb img{
+	width: 100%;
+}
+.g-q-info{
+	box-sizing: border-box;
+	width: 100%;
+	height: 2.86rem;
+	background: #171a21;
+	padding: 0.2rem 0.2rem 0;
+	position: relative;
+}
+.g-q-name{
+	color: #f2f6f9;
+	font-size: 20px;
+	line-height: 0.2rem;
+}
+.g-q-zbf{
+	height: 0.4rem;
+	line-height: 0.4rem;
+	color: #f2f6f9;
+	font-size: 13px;
+	margin:20px 0 32px;
+}
+.g-q-hp{
+	display: inline-block;
+	box-sizing: border-box;
+	height: 0.4rem;
+	width: 0.4rem;
+	background: #ffffff;
+	border-radius: 0.2rem;
+	-webkit-border-radius: 0.2rem;
+	padding: 0.02rem;
+}
+.g-q-hp img{
+	width: 100%;
+}
+.g-q-jj{
+	margin-bottom: 0.27rem;
+	font-size: 13px;
+	line-height: 0.13rem;
+}
+.g-q-jj a,.g-q-gofb a{
+	color: #fdb91a;
+	text-decoration: underline;
+}
+.g-q-jj i{
+	display: inline-block;
+	width: 0.16rem;
+	height: 0.16rem;
+	background: url(../images/gopage.png) no-repeat center center;
+	vertical-align: -4px;
+	margin-left: 0.1rem;
+}
+.g-q-dz{
+	font-size: 13px;
+	line-height: 0.13rem;
+	border-bottom: 1px solid #2a3946;
+	padding-bottom: 0.29rem;
+}
+.g-q-tab{
+	font-size: 18px;
+	color: #f2f6f9;
+	line-height: 0.18rem;
+	margin-top: 0.3rem;
+}
+.g-q-tab li{
+	float: left;
+    padding: 0 0.34rem 0.16rem;
+    margin-right: 1.08rem; 
+}
+.g-q-tabon{
+	border-bottom: 4px solid #fdb91a;
+}
+.g-q-gofb{
+	width: 100%;
+	height: 0.6rem;
+	line-height: 0.6rem;
+	font-size: 13px;
+	margin: 0.2rem 0;
+	background: #171a21;
+	text-align: center;
+	color: #7a8387;
+}
+.g-q-ssinfo{
+	box-sizing: border-box;
+	width: 100%;
+	padding: 0.2rem 0.2rem 0;
+	background: #171a21;
+	color: #7a8387;
+	margin: 0.2rem 0;
+}
+.g-q-if{
+	height: 0.85rem;
+	position: relative;
+}
+.g-q-if img{
+	top: 0.18rem;
+    left: 0.10rem;
+}
+.g-q-if-in{
+	margin-left: 0.5rem;
+	padding: 0.1rem 0 0 0.08rem;
+}
+.g-q-if-p1{
+	font-size: 13px;
+	line-height: 0.13rem;
+	margin-bottom: 0.18rem;
+}
+.g-q-if-p2{
+	font-size: 14px;
+	line-height: 0.14rem;
+	color: #f2f6f9;
+}
+.bb2a3{
+	border-bottom: 1px solid #2a3946;
+}
+.g-q-jx{
+	box-sizing: border-box;
+	width: 100%;
+	background: #171a21;
+	color: #f2f6f9;
+	padding: 0.3rem 0.2rem;
+	margin:0.2rem 0;
+}
+.g-q-jxp{
+	font-size: 18px;
+	margin-bottom: 0.3rem;
+}
+.infosteps{
+    position: absolute;
+    top: 0.8rem;
+    right: -1.6rem;
+    height: 2.4rem;
+}
+.g-q-sssz{
+	position: absolute;
+	background: #36383f;
+	width: 0.24rem;
+	height: 0.92rem;
+	line-height: 0.13rem;
+    box-sizing: border-box;
+    padding: 0.1rem 0.06rem;
+	border-radius: 0.12rem;
+	-webkit-border-radius:0.12rem;
+    bottom: -0.7rem;
+    left: 0.03rem;
+    color: #fdb91a;
+    font-size: 12px;
+}
+.g-q-sssz img{
+	margin-bottom: 0.06rem;
+}
+.g-q-fbs{
+	position: absolute;
+    right: 0.3rem;
+    top: 0.2rem;
+}
+.u-q-start{
+	width: 2.5rem;
+	height: 0.48rem;
+	line-height: 0.48rem;
+	background: #fdb91a;
+	color: #1e1f24;
+	font-size: 18px;
+	text-align: center;
+    border: 0;
+    border-radius: 0.02rem;
+    -webkit-border-radius:0.02rem;
+}
+.s-q-start{
+	display: inline-block;
+	width: 0.15rem;
+	height: 0.21rem;
+	background: url(../images/start.png) no-repeat center;
+    vertical-align: -4px;
+    margin-right: 0.05rem;
+}
+.g-q-remtime{
+	font-size: 12px;
+	line-height: 0.12rem;
+	color: #7a8387;
+	margin:0.12rem 0;
+	text-align: center;
+}
+.u-q-enter{
+	color: #42aa53;
+	font-size: 12px;
+	text-decoration: underline;
+	display: block;
+    text-align: center;
+}
+
+
 
 
  /*头部*/

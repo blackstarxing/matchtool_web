@@ -14,6 +14,8 @@ import backend from './views/backend.vue'
 import backendTechpic from './views/backendTechpic.vue'
 import backendContestant from './views/backendContestant.vue'
 import reset from './views/reset.vue'
+import landRegister from './views/landRegister.vue'
+import matchDetails from './views/matchDetails.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -21,7 +23,6 @@ Vue.use(VueResource);
 Vue.use(VueRouter);
 
 // Vue.http.options.root = '/api';
-
 Vue.http.options.emulateJSON = true;
 var router = new VueRouter({
     hashbang: false
@@ -52,10 +53,16 @@ router.map({
     '/reset': {
         component: reset,
     }
+    '/landRegister': {
+        component: landRegister,
+    },
+    '/matchDetails': {
+        component: matchDetails
+    }
 })
+
 router.redirect({
   '*': '/landingpage'
 })
-
 
 router.start(matchtool, '#app')
