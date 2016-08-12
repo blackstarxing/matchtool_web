@@ -34,7 +34,7 @@
 					<div class="forgot_pw"><a href="">忘记密码？</a></div>
 				</div>
 				<div class="twolines"></div>
-				<div class="allow_login" v-show="allowLogin">登录</div>
+				<div class="allow_login" v-show="allowLogin" @click="logIn">登录</div>
 				<div class="login_in" v-else>登录</div>
 			</div>
 			<div class="landreg_list reg_list" v-else>
@@ -236,7 +236,20 @@ import createPop from '../components/createPop.vue'
 					console.log(response);
 			      },function(response) {
 			              console.log(response);
-			        });
+			      });
+			},
+			logIn: function () {
+				var parm={};
+				parm.username=this.account;
+				parm.password=this.password;
+				this.$http.post('http://172.16.2.63:8088/login',parm).then(function(response){
+					console.log(response);
+					if(response.data.code){
+						this.$route.router.go({path: '/quickmatch'}); 
+					}
+			      },function(response) {
+			              console.log(response);
+			      });
 			}
 		}
 	}
