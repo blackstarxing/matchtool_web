@@ -15,7 +15,7 @@
 				<div class="m-c-info">
 					<div class="f-c">
 						<p class="g-c-l">赛事名称<span class="colfdb f-tip"></span></p>
-						<input type="text" class="u-c-ipt" title="赛事名称" placeholder="请输入赛事名称" style="width:480px;" oninput="onInput.call(this)" v-model="formdata.name" required>
+						<input type="text" name="name" class="u-c-ipt" title="赛事名称" placeholder="请输入赛事名称" style="width:480px;" oninput="onInput.call(this)" v-model="formdata.name" required>
 					</div>
 					<div class="f-c">
 						<p class="g-c-l mt40">主办方<span class="colfdb f-tip"><i class="g-c-tip"></i></span></p>
@@ -24,7 +24,7 @@
 							<label for="personal"></label>
 							<label for="personal" class="u-c-per">
 								<span class="u-c-headimg">
-									<img src="../../static/images/me.jpg">
+									<img src="{{headicon}}">
 								</span>
 								<span class="f-fl">
 									未来老公
@@ -77,7 +77,7 @@
 						</div>
 						<div class="f-c">
 							<p class="g-c-l mt40">具体地址<span class="colfdb f-tip"></span></p>
-							<input type="text" class="u-c-ipt" title="具体地址" placeholder="请输入具体地址" style="width:480px;" v-model="formdata.detailAddreass" req>
+							<input type="text" class="u-c-ipt" title="具体地址" placeholder="请输入具体地址" style="width:480px;" v-model="formdata.detailAddreass">
 						</div>
 					</div>
 				</div>
@@ -88,7 +88,7 @@
 					<div class="f-c">
 						<p class="g-c-l">最大参与人数（需要在4-512之间）<span class="colfdb f-tip"></span></p>
 						<div class="clearfix">
-							<input type="text" id="personnum" class="u-c-ipt f-fl" title="参赛人数" style="width: 200px;" required placeholder="请输入参与人数上限"  v-model="formdata.maxNum" @input="numberChange" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
+							<input type="text" id="personnum" name="personnum" class="u-c-ipt f-fl" title="参赛人数" style="width: 200px;" required placeholder="请输入参与人数上限"  v-model="formdata.maxNum" @input="numberChange" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
 							<div class="button_group">
 								<button class="plus" @click="plus"></button>
 								<button class="minus" @click="minus" disabled="true"></button>
@@ -148,11 +148,6 @@
 								<label for="qqnumber" class="u-c-ck col8f">QQ号</label>
 							</div>
 							<div class="f-fl mr56">
-								<input type="checkbox" id="wxnumber" class="regular-checkboxs" name="bminfo" v-model="formdata.wechatRequired" v-bind:true-value="1" v-bind:false-value="0" disabled />
-								<label for="wxnumber"></label>
-								<label for="wxnumber" class="u-c-ck col8f">微信号</label>
-							</div>
-							<div class="f-fl mr56">
 								<input type="checkbox" id="telephone" class="regular-checkboxs" name="bminfo" v-model="formdata.telephoneRequired" v-bind:true-value="1" v-bind:false-value="0" disabled />
 								<label for="telephone"></label>
 								<label for="telephone" class="u-c-ck col8f">手机号</label>
@@ -178,7 +173,7 @@
 					<div class="f-c">
 						<p class="g-c-l">赛事开始时间<span class="colfdb f-tip"></span></p>
 						<div style="width: 200px; position:relative;">
-							<input type="text" class="u-c-ipt form_datetime" title="赛事开始时间" id="activityBegin" placeholder="请输入开赛时间" style="width:200px;" v-model="formdata.activityBegin" required>
+							<input type="text" class="u-c-ipt form_datetime" name="activityBegin" title="赛事开始时间" id="activityBegin" placeholder="请输入开赛时间" style="width:200px;" v-model="formdata.activityBegin" required>
 							<label for="activityBegin" class="add-on"></label>
 						</div>
 					</div>
@@ -240,6 +235,7 @@ import createPop from '../components/createPop.vue'
 		data () {
 			return{
 				username:"",
+				headicon:"",
 				formdata:{
 					name:"",
 					sponsorType:1,
@@ -248,22 +244,20 @@ import createPop from '../components/createPop.vue'
 					detailAddreass:"",
     				maxNum:"",
     				mode:"",
-    				allowApply:"",
+    				allowApply:0,
     				applyType:"",
-    				nicknameRequired:"",
-    				nameRequired:"",
-    				idcardRequired:"",
-    				qqRequired:"",
-    				wechatRequired:"",
-    				telephoneRequired:"",
-    				otherRequired:"",
+    				nicknameRequired:0,
+    				nameRequired:0,
+    				idcardRequired:0,
+    				qqRequired:0,
+    				telephoneRequired:0,
+    				otherRequired:0,
     				otherDescribe:"",
     				activityBegin:"",
     				applyBegin:"",
     				applyEnd:"",
-    				needSign:"",
+    				needSign:0,
     				needSignMinu:""
-    				// sponsorId:""
     			}
 			}
 		},
@@ -313,6 +307,7 @@ import createPop from '../components/createPop.vue'
 			    step:10
 	        });
 	        var _this=this;
+	        _this.headicon = 'http://img.wangyuhudong.com/'+ window.sessionStorage.getItem("appusericon");
 	        $('#applyEnd').on('change', function(){
 	        	var t = _this.formdata.applyEnd;
 	        	if(t!=""){
@@ -403,7 +398,7 @@ import createPop from '../components/createPop.vue'
 	        $.datetimepicker.setLocale('ch');
 	        //end
 	        
-	        _this.$http.get('http://172.16.2.21:8080/event/league/queryActivityItem').then(function(response){
+	        _this.$http.get('oet/event/league/queryActivityItem').then(function(response){
 	        	var gameList=response.data.object.itemsList;
 	        	var content='';
   				for(var i=0;i<gameList.length;i++){
@@ -416,7 +411,6 @@ import createPop from '../components/createPop.vue'
 
 		},
 		methods:{
-			
 			showotherinfo:function(){
 				if(this.formdata.allowApply==1){
 					if($('#another').is(':checked')){
@@ -515,22 +509,8 @@ import createPop from '../components/createPop.vue'
 			    	}
 		    	}
 		    	function formValidate(){
-		    		var valid=true,valid2 = true;
-		    		$('.g-z [required]').each(function(){
-		    			var $this=$(this);
-						var value=$this.val(),name=$this.attr('title');	
-			    		var message="";
-			    		if(value==null||value==''){
-							message=name+'不能为空！';
-							valid=false;
-						}
-						errorPlacement(message,$this);		    		
-		    		})
-		    		if(_this.formdata.itemId==""){
-		    			valid=false;
-		    			var $this = $('#gameList'),message="必须选择一个比赛项目!";
-		    			errorPlacement(message,$this);
-		    		}
+		    		var nowDate = Date.parse(new Date()); 
+		    		var valid=true,valid2 = true,valid3 = true;
 		    		if(_this.formdata.mode==2 || _this.formdata.mode==3){
 		    			$('.m-c-xx [req]').each(function(){
 		    				var $this=$(this);
@@ -540,86 +520,165 @@ import createPop from '../components/createPop.vue'
 								message=name+'不能为空！';
 								valid=false;
 							}
-							errorPlacement(message,$this);	
+							errorPlacement(message,$this);
 		    			})
 		    		}
-		    		if(_this.formdata.maxNum<4 || _this.formdata.maxNum>512){
-		    			valid=false;
-		    			var $this=$('#personnum'),message="人数/队伍范围必须在4 ~ 512之间!";		
+		    		else{
+		    			valid=true;
+		    			var $this = $('.m-c-xx [req]'),message="";
 		    			errorPlacement(message,$this);
 		    		}
+		    		$('.g-z [required]').each(function(index, el) {
+		    			var $this=$(this);
+		    			var value=$this.val(),name=$this.attr('name');	
+			    		var message="";
+			    		if(name=="name"){
+			    			function strlen(str){
+								var len = 0;
+						        for (var i = 0; i < str.length; i++) {
+						            var c = str.charCodeAt(i);
+						            //单字节加1 
+						            if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+						                len++;
+						            }
+						            else {
+						                len += 2;
+						            }
+						        }
+						        return len;
+							}
+							var vl = strlen(value);
+							if(value==""){
+								valid=false;
+					    		message="赛事名称不能为空!";
+							}else if(vl<8 && value!=""){
+								valid = false;
+								message="赛事名称必须在4 ~ 26个汉字之间!";
+							}
+							errorPlacement(message,$this);
+			    		}else if(name=="activityBegin"){
+			    			var a =  (Date.parse(value) - nowDate)/1000;
+			    			if(value==""){
+			    				valid = false;
+			    				message="赛事开始时间不能为空!";
+			    			}else if(a<3600 && value!=""){
+			    				valid = false;
+			    				message="赛事开始时间至少晚于当前时间1小时!";
+			    			}
+			    			errorPlacement(message,$this);
+			    		}else if(name=="personnum"){
+			    			if(value==""){
+			    				valid = false;
+			    				message="赛事参与人数不能为空！";
+			    			}
+			    			else if(value!="" && (_this.formdata.maxNum<4 || _this.formdata.maxNum>512)){
+			    				valid = false;
+			    				message="人数/队伍范围必须在4 ~ 512之间!"
+			    			}
+			    			errorPlacement(message,$this);
+			    		}
+			    	 	else if(name=="itemId"){
+			    	 		if(_this.formdata.itemId==""){
+				    			valid=false;
+				    			message="必须选择一个比赛项目!";
+				    		}
+				    		errorPlacement(message,$this);
+			    	 	}
+		    		});
+
+		    		
+		    		
+		    		// if(_this.formdata.maxNum<4 || _this.formdata.maxNum>512){
+		    		// 	valid=false;
+		    		// 	var $this=$('#personnum'),message="人数/队伍范围必须在4 ~ 512之间!";		
+		    		// 	errorPlacement(message,$this);
+		    		// }
 		    		if(_this.formdata.allowApply==1){
-		    			if(_this.formdata.nicknameRequired ==0 && _this.formdata.nameRequired ==0 && _this.formdata.wechatRequired ==0 && _this.formdata.telephoneRequired ==0 && _this.formdata.qqRequired ==0 && _this.formdata.idcardRequired ==0 && _this.formdata.otherRequired ==0){
-		    				valid2=false;
-		    				var $this = $('#gamenickname'),message="至少选择一个需要收集的报名信息!";
+		    			var message="";
+		    			var $this = $('#gamenickname');
+		    			if(_this.formdata.nicknameRequired ==0 && _this.formdata.nameRequired ==0 && _this.formdata.telephoneRequired ==0 && _this.formdata.qqRequired ==0 && _this.formdata.idcardRequired ==0 && _this.formdata.otherRequired ==0){
+		    				valid3=false;
+		    				message="至少选择一个需要收集的报名信息!";
 		    				errorPlacement(message,$this);
 		    			}
 		    			else{
 		    				if(_this.formdata.otherRequired ==1){
 		    					if(_this.formdata.otherDescribe==""){
-		    						valid2=false;
-		    						var $this = $('#gamenickname'),message="其他报名信息不能为空！";
-		    						errorPlacement(message,$this);
+		    						valid3=false;
+		    						message="其他报名信息不能为空！";
 		    					}
-		    					else{
-		    						var $this = $('#gamenickname'),message="";
-		    						errorPlacement(message,$this);
-		    						valid2=true;
-		    					}
+		    					
+		    					// else{
+		    					// 	var $this = $('#gamenickname'),message="";
+		    					// 	errorPlacement(message,$this);
+		    					// 	valid2=true;
+		    					// }
 		    				}
-		    				else{
-		    					var $this = $('#gamenickname'),message="";
-		    					errorPlacement(message,$this);
-		    					valid2=true;
-		    				}
+		    				errorPlacement(message,$this);
+		    				// else{
+		    				// 	var $this = $('#gamenickname'),message="";
+		    				// 	errorPlacement(message,$this);
+		    				// 	valid2=true;
+		    				// }
 		    				
 		    			}
 		    			if(_this.formdata.applyBegin){
 		    				if(_this.formdata.applyEnd){
 		    					if(_this.formdata.applyBegin >= _this.formdata.applyEnd){
 		    						valid2=false;
-		    						var $this = $('#applyBegin'),message="报名开始时间不能晚于报名结束时间!";
-		    						errorPlacement(message,$this);
+		    						var $thiss = $('#applyBegin'),messages="报名开始时间不能晚于报名结束时间!";
+		    						errorPlacement(messages,$thiss);
 		    					}
 		    					else if(_this.formdata.activityBegin!="" && (_this.formdata.applyEnd>= _this.formdata.activityBegin)){
 		    						valid2=false;
-		    						var $this = $('#activityBegin'),message="赛事开始时间不能早于报名结束时间!";
-		    						errorPlacement(message,$this);
+		    						var $thiss = $('#activityBegin'),messages="赛事开始时间不能早于报名结束时间!";
+		    						errorPlacement(messages,$thiss);
 		    					}
 		    					else{
 		    						valid2=true;
-		    						var $this = $('#applyBegin'),message="";
-		    						errorPlacement(message,$this);
+		    						var $thiss = $('#applyBegin'),messages="";
+		    						errorPlacement(messages,$thiss);
 		    					}
 		    				}else{
 		    					valid2=false;
-		    					var $this = $('#applyBegin'),message="报名结束时间不能为空!";
-		    					errorPlacement(message,$this);
+		    					var $thiss = $('#applyBegin'),messages="报名结束时间不能为空!";
+		    					errorPlacement(messages,$thiss);
 		    				}
 		    			}
 		    			else{
 		    				if(_this.formdata.applyEnd){
 		    					valid2=false;
-		    					var $this = $('#applyBegin'),message="报名开始时间不能为空!";
-		    					errorPlacement(message,$this);
+		    					var $thiss = $('#applyBegin'),messages="报名开始时间不能为空!";
+		    					errorPlacement(messages,$thiss);
 		    				}
 		    				else{
 		    					valid2=false;
-		    					var $this = $('#applyBegin'),message="报名时间不能为空!";
-		    					errorPlacement(message,$this);
+		    					var $thiss = $('#applyBegin'),messages="报名时间不能为空!";
+		    					errorPlacement(messages,$thiss);
 		    				}
 		    			}
 		    		}
-		    		if(valid && valid2){
+		    		if(valid && valid2 && valid3){
 		    			return true;
 		    		}
 		    	}
 		    	if(formValidate()){
+		    		var sjc = Date.parse(_this.formdata.activityBegin);
+		    		var kssjc = Date.parse(_this.formdata.applyBegin);
+		    		var jssjc = Date.parse(_this.formdata.applyEnd);
+		    		_this.formdata.activityBegin = sjc;
+		    		_this.formdata.applyBegin = kssjc;
+		    		_this.formdata.applyEnd = jssjc;
 		    		var newsobj = _this.formdata;
 		    		var jsonInfo = JSON.stringify(newsobj);
 	  				var parm = new Object();
 	  				parm.jsonInfo = jsonInfo;
-		    		_this.$http.post('http://172.16.2.21:8080/event/saveBaseInfo',parm).then(function(response){	
+		    		_this.$http.post('oet/event/saveBaseInfo',parm).then(function(response){
+		    			var code = response.data.code;
+		    			if(code==1){
+		    				window.sessionStorage.setItem("eventRoundId",response.data.object.eventRoundId);
+		    				_this.$route.router.go({path: '/quickformat'});
+		    			}
 		    			console.log("成功");
 		    		}, function(response){
 		    			console.log(22);
