@@ -62,7 +62,7 @@ router.map({
 })
 
 router.redirect({
-  '*': '/landingpage'
+  '*': '/landRegister'
 })
 
 router.start(matchtool, '#app')
