@@ -6,9 +6,14 @@
 
 import Vue from 'vue'
 import matchtool from './matchtool.vue'
+import landingpage from './views/landingpage.vue'
 import quickmatch from './views/createquickmatch.vue'
 import quickformat from './views/quickmatchformat.vue'
 import createLeaguematch from './views/createLeaguematch.vue'
+import backend from './views/backend.vue'
+import backendTechpic from './views/backendTechpic.vue'
+import backendContestant from './views/backendContestant.vue'
+import reset from './views/reset.vue'
 import landRegister from './views/landRegister.vue'
 import matchDetails from './views/matchDetails.vue'
 import VueRouter from 'vue-router'
@@ -24,6 +29,9 @@ var router = new VueRouter({
 });
 
 router.map({
+    '/landingpage': {
+        component: landingpage,
+    },
     '/quickmatch': {
     	component: quickmatch,
     },
@@ -33,11 +41,23 @@ router.map({
     '/quickformat': {
         component: quickformat,
     },
+    '/backend': {
+        component: backend,
+    },
+    '/backendTechpic': {
+        component: backendTechpic,
+    },
+    '/backendContestant': {
+        component: backendContestant,
+    },
+    '/reset': {
+        component: reset,
+    },
     '/landRegister': {
         component: landRegister,
     },
     '/matchDetails': {
-        component: matchDetails,
+        component: matchDetails
     }
 })
 
