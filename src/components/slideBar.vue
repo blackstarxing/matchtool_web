@@ -1,13 +1,13 @@
 <template>
 	<div class="m-slideInto">
 		<div class="top-logo clearfix">
-			<a href="" class="slideout" @click="slideout"></a>
+			<a href="" class="slideout" @click="slideout"><i class="iconfont">&#xe609</i></a>
 			<img src="../../static/images/logo.png" alt="">
 		</div>
 		<ul>
-			<li class="current"><a href=""><img src="../../static/images/nav1.png" alt="">首页</a></li>
-			<li class="arrow"><a href=""><img src="../../static/images/nav2.png" alt="">申请认证</a></li>
-			<li class="arrow" @click="showPop"><a href=""><img src="../../static/images/nav3.png" alt="">创建赛事</a></li>
+			<li class="current"><a href=""><i class="iconfont">&#xe60c</i>首页</a></li>
+			<li><a href=""><i class="iconfont">&#xe607</i>申请认证<i class="iconfont f-fr">&#xe60b</i></a></li>
+			<li @click="showPop"><a href=""><i class="iconfont">&#xe60a</i>创建赛事<i class="iconfont f-fr">&#xe60b</i></a></li>
 		</ul>
 	</div>
 </template>
