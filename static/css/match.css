@@ -67,21 +67,21 @@
 .content{
 	
 }
-.content h4{
+.match-progress h4{
 	font-size: 18px;
 	font-weight: normal;
 	color:#f2f6f9;
 }
-.content .list{
+.match-progress .list{
 	overflow: hidden;
 	/*font-size: 1.4rem;*/
 	line-height: 28px;
 	color:#666;
 }
-.content .mid{
+.match-progress .mid{
 	margin:8px 0;
 }
-.content label{
+.match-progress label{
 	float:left;
 	width:80px;
 	text-align: right;
@@ -89,7 +89,7 @@
 	position: relative;
 	margin-right: 9px;
 }
-.content label .iconfont{
+.match-progress label .iconfont{
 	position: absolute;
 	left: 1px;
 }
