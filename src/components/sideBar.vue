@@ -1,9 +1,9 @@
 <template>
 	<div class="m-sidebar">
 		<ul>
-			<li><a href=""><img src="../../static/images/nav1.png" alt=""></a></li>
-			<li><a href=""><img src="../../static/images/nav2.png" alt=""></a></li>
-			<li @click="showPop"><a href=""><img src="../../static/images/nav3.png" alt=""></a></li>
+			<li><a href=""><i class="iconfont">&#xe60c</i></a></li>
+			<li><a href=""><i class="iconfont">&#xe607</i></a></li>
+			<li @click="showPop"><i class="iconfont">&#xe60a</i></a></li>
 		</ul>
 	</div>
 </template>
