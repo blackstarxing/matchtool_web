@@ -3352,8 +3352,23 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
+<<<<<<< HEAD
 			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.23.1/css-loader/index.js!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/style-rewriter.js?id=_v-60b21860&file=landRegister.vue!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/selector.js?type=style&index=0!./landRegister.vue", function() {
 				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.23.1/css-loader/index.js!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/style-rewriter.js?id=_v-60b21860&file=landRegister.vue!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/selector.js?type=style&index=0!./landRegister.vue");
+=======
+<<<<<<< HEAD
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.23.1/css-loader/index.js!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/style-rewriter.js?id=_v-286fc56e&file=landRegister.vue!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/selector.js?type=style&index=0!./landRegister.vue", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.23.1/css-loader/index.js!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/style-rewriter.js?id=_v-286fc56e&file=landRegister.vue!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/selector.js?type=style&index=0!./landRegister.vue");
+=======
+<<<<<<< HEAD
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-1ff4a5b8&file=landRegister.vue!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./landRegister.vue", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-1ff4a5b8&file=landRegister.vue!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./landRegister.vue");
+=======
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.23.1/css-loader/index.js!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/style-rewriter.js?id=_v-60b21860&file=landRegister.vue!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/selector.js?type=style&index=0!./landRegister.vue", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.23.1/css-loader/index.js!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/style-rewriter.js?id=_v-60b21860&file=landRegister.vue!./../../node_modules/.npminstall/vue-loader/7.5.3/vue-loader/lib/selector.js?type=style&index=0!./landRegister.vue");
+>>>>>>> e47ee4096e8256f5cd7d34807f6539faf85ca3d0
+>>>>>>> 7ceebd323e9817c4c6096404c273d18d19f62dc2
+>>>>>>> 2916a5fc7ee681e12a0594ad20732d9e59bd374c
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -7787,7 +7802,19 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/*!
+<<<<<<< HEAD
 	 * Vue.js v1.0.25
+=======
+<<<<<<< HEAD
+	 * Vue.js v1.0.26
+=======
+<<<<<<< HEAD
+	 * Vue.js v1.0.26
+=======
+	 * Vue.js v1.0.25
+>>>>>>> e47ee4096e8256f5cd7d34807f6539faf85ca3d0
+>>>>>>> 7ceebd323e9817c4c6096404c273d18d19f62dc2
+>>>>>>> 2916a5fc7ee681e12a0594ad20732d9e59bd374c
 	 * (c) 2016 Evan You
 	 * Released under the MIT License.
 	 */
@@ -11197,7 +11224,19 @@
 	  }
 	  var isA = isArray(val);
 	  var isO = isObject(val);
+<<<<<<< HEAD
 	  if (isA || isO) {
+=======
+<<<<<<< HEAD
+	  if ((isA || isO) && Object.isExtensible(val)) {
+=======
+<<<<<<< HEAD
+	  if ((isA || isO) && Object.isExtensible(val)) {
+=======
+	  if (isA || isO) {
+>>>>>>> e47ee4096e8256f5cd7d34807f6539faf85ca3d0
+>>>>>>> 7ceebd323e9817c4c6096404c273d18d19f62dc2
+>>>>>>> 2916a5fc7ee681e12a0594ad20732d9e59bd374c
 	    if (val.__ob__) {
 	      var depId = val.__ob__.dep.id;
 	      if (seen.has(depId)) {
@@ -12683,13 +12722,40 @@
 	    this.vm.$on('hook:attached', function () {
 	      nextTick(_this.forceUpdate);
 	    });
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	    if (!inDoc(el)) {
+	      nextTick(this.forceUpdate);
+	    }
+=======
+<<<<<<< HEAD
+	    if (!inDoc(el)) {
+	      nextTick(this.forceUpdate);
+	    }
+=======
+>>>>>>> e47ee4096e8256f5cd7d34807f6539faf85ca3d0
+>>>>>>> 7ceebd323e9817c4c6096404c273d18d19f62dc2
+>>>>>>> 2916a5fc7ee681e12a0594ad20732d9e59bd374c
 	  },
 
 	  update: function update(value) {
 	    var el = this.el;
+<<<<<<< HEAD
 	    if (!inDoc(el)) {
 	      return nextTick(this.forceUpdate);
 	    }
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	    if (!inDoc(el)) {
+	      return nextTick(this.forceUpdate);
+	    }
+>>>>>>> e47ee4096e8256f5cd7d34807f6539faf85ca3d0
+>>>>>>> 7ceebd323e9817c4c6096404c273d18d19f62dc2
+>>>>>>> 2916a5fc7ee681e12a0594ad20732d9e59bd374c
 	    el.selectedIndex = -1;
 	    var multi = this.multiple && isArray(value);
 	    var options = el.options;
@@ -17637,7 +17703,27 @@
 
 	  pluralize: function pluralize(value) {
 	    var args = toArray(arguments, 1);
+<<<<<<< HEAD
 	    return args.length > 1 ? args[value % 10 - 1] || args[args.length - 1] : args[0] + (value === 1 ? '' : 's');
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 7ceebd323e9817c4c6096404c273d18d19f62dc2
+	    var length = args.length;
+	    if (length > 1) {
+	      var index = value % 10 - 1;
+	      return index in args ? args[index] : args[length - 1];
+	    } else {
+	      return args[0] + (value === 1 ? '' : 's');
+	    }
+<<<<<<< HEAD
+=======
+=======
+	    return args.length > 1 ? args[value % 10 - 1] || args[args.length - 1] : args[0] + (value === 1 ? '' : 's');
+>>>>>>> e47ee4096e8256f5cd7d34807f6539faf85ca3d0
+>>>>>>> 7ceebd323e9817c4c6096404c273d18d19f62dc2
+>>>>>>> 2916a5fc7ee681e12a0594ad20732d9e59bd374c
 	  },
 
 	  /**
@@ -17839,7 +17925,19 @@
 
 	installGlobalAPI(Vue);
 
+<<<<<<< HEAD
 	Vue.version = '1.0.25';
+=======
+<<<<<<< HEAD
+	Vue.version = '1.0.26';
+=======
+<<<<<<< HEAD
+	Vue.version = '1.0.26';
+=======
+	Vue.version = '1.0.25';
+>>>>>>> e47ee4096e8256f5cd7d34807f6539faf85ca3d0
+>>>>>>> 7ceebd323e9817c4c6096404c273d18d19f62dc2
+>>>>>>> 2916a5fc7ee681e12a0594ad20732d9e59bd374c
 
 	// devtools global hook
 	/* istanbul ignore next */
