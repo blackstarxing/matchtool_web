@@ -239,8 +239,8 @@ import createPop from '../components/createPop.vue'
 					if(response.data.code){
 						document.cookie="oetevent.login.sessionid="+response.data.object["oetevent.login.sessionid"];
 						document.cookie="oetevent.login.token="+response.data.object["oetevent.login.token"];
-			  			document.cookie="oetUser="+response.data.object.oetUser.id;
-			  			document.cookie="appUser="+response.data.object.appUser.id;
+			  			document.cookie="oetUserId="+response.data.object.oetUser.id;
+			  			document.cookie="appUserId="+response.data.object.appUser.id;
 			  			window.sessionStorage.setItem("appusericon",response.data.object.appUser.icon);
 						this.$route.router.go({path: '/quickmatch'}); 
 					}

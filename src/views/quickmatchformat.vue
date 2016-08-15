@@ -108,7 +108,7 @@ import createPop from '../components/createPop.vue'
 					eventRoundId:'',
 					needThird:'',
 					regime:'',
-					type:''
+					type:1
 				}
 			}
 		},
@@ -119,7 +119,8 @@ import createPop from '../components/createPop.vue'
 	        createPop
 		},
 		ready:function(){
-
+			var _this = this;
+			_this.formdata.eventRoundId = window.sessionStorage.getItem("eventRoundId");
 		},
 		methods:{
 			cherksz:function(event){
@@ -162,13 +163,25 @@ import createPop from '../components/createPop.vue'
 		    	}
 
 				if($('#dbsz').is(':checked')){
-					_this.formdata.needThird = 0;
-				}
-				else{
 					_this.formdata.needThird = 1;
 				}
+				else{
+					_this.formdata.needThird = 0;
+				}
 				if(formValidate()){
-					alert('好了')
+					var newsobj = _this.formdata;
+		    		var jsonInfo = JSON.stringify(newsobj);
+	  				var parm = new Object();
+	  				parm.jsonInfo = jsonInfo;
+					_this.$http.post('oet/event/saveRegime',parm).then(function(response){
+						var code = response.data.code;
+		    			if(code==1){
+		    				_this.$route.router.go({path: '/matchDetails'});
+		    			}
+		    			console.log("成功");
+					}, function(response){
+						console.log(22);
+					})
 				}
 			}
 		}
