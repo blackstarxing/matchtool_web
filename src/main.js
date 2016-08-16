@@ -17,6 +17,7 @@ import backendContestant from './views/backendContestant.vue'
 import reset from './views/reset.vue'
 import landRegister from './views/landRegister.vue'
 import matchDetails from './views/matchDetails.vue'
+import myclan from './views/clan/myclan.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -62,6 +63,9 @@ router.map({
     },
     '/matchDetails': {
         component: matchDetails
+    },
+    '/myclan': {
+        component: myclan
     }
 })
 
