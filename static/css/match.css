@@ -209,6 +209,9 @@
 	margin-right: 2%;
 	float: left;
 }
+.flip-container:nth-child(3n+1){
+	margin-right: 0;
+}
 /* flip the pane when hovered */
 .flip-container:hover .flipper, .flip-container.hover .flipper {
 	transform: rotateY(180deg);
@@ -217,6 +220,7 @@
 
 .flip-container, .front, .back {
 	height: 150px;
+	overflow: hidden;
 }
 
 /* flip speed goes here */
@@ -285,6 +289,9 @@
 .back .flip-btn .iconfont{
 	font-size: 24px;
 	color:#fdba33;
+}
+.get_eventid,.get_roundid{
+	display: none;
 }
 /*生成主页按钮*/
 .confirmBtn{
