@@ -18,6 +18,9 @@ import reset from './views/reset.vue'
 import landRegister from './views/landRegister.vue'
 import matchDetails from './views/matchDetails.vue'
 import myclan from './views/clan/myclan.vue'
+import passWord from './views/changepw/passWord.vue'
+import pwFill from './views/changepw/pwFill.vue'
+import identPw from './views/changepw/identPw.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -66,6 +69,17 @@ router.map({
     },
     '/myclan': {
         component: myclan
+    },
+    '/passWord': {
+        component: passWord,
+        subRoutes: {
+             '/': {
+            component: pwFill
+        },
+          '/identPw': {
+            component: identPw
+          }
+        }
     }
 })
 

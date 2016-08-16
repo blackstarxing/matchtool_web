@@ -31,7 +31,7 @@
 						<label class="remeber_label" for="auto_land">下次自动登录</label>
 						<label for="auto_land" class="float_checkbox"><span class="check_gou" v-show="checked">√</span></label>
 					</div>
-					<div class="forgot_pw"><a href="">忘记密码？</a></div>
+					<div class="forgot_pw"><a  v-link="{ path: '/passWord'}">忘记密码？</a></div>
 				</div>
 				<div class="twolines"></div>
 				<div class="allow_login" v-show="allowLogin" @click="logIn">登录</div>
