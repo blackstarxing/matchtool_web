@@ -16,8 +16,10 @@ import backendContestant from './views/backendContestant.vue'
 import reset from './views/reset.vue'
 import landRegister from './views/landRegister.vue'
 import matchDetails from './views/matchDetails.vue'
+import perSetting from './views/perSetting.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
+
 
 Vue.use(VueResource);
 Vue.use(VueRouter);
@@ -58,11 +60,14 @@ router.map({
     },
     '/matchDetails': {
         component: matchDetails
+    },
+    '/perSetting': {
+        component: perSetting
     }
 })
 
 router.redirect({
-  '*': '/landRegister'
+  '*': '/perSetting'
 })
 
 router.start(matchtool, '#app')

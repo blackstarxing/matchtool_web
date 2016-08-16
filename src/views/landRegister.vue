@@ -3,7 +3,7 @@
 	<side-bar></side-bar>
 	<slide-bar></slide-bar>
 	<create-pop></create-pop>
-<div class="landregister">
+	<div class="landregister">
 		<div class="landreg_head">
 			<ul class="landreg_tab">
 				<li class="reg_active" @click="changeLand">登录</li>
