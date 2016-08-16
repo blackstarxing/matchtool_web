@@ -176,6 +176,8 @@ import createPop from '../components/createPop.vue'
 					_this.$http.post('oet/event/saveRegime',parm).then(function(response){
 						var code = response.data.code;
 		    			if(code==1){
+		    				window.sessionStorage.setItem("eventRoundId",response.data.object.eventRoundId);
+		    				window.sessionStorage.setItem("eventId",response.data.object.eventId);
 		    				_this.$route.router.go({path: '/matchDetails'});
 		    			}
 		    			console.log("成功");
