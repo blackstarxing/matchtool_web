@@ -535,15 +535,35 @@ label.u-c-kz-sz{
 /*赛事pc详情*/
 .g-q-hb{
 	width: 100%;
-	height: 4.4rem;
+	height: 4.6rem;
+	position: relative;
+	cursor: pointer;
 }
 .g-q-hb img{
 	width: 100%;
+	height: 100%;
+}
+.g-q-ptr{
+    height: 134px;
+    width: 300px;
+    font-size: 24px;
+    color: #1e1f24;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+.iconfont-xj{
+	color: #36383f;
+	font-size: 60px;
 }
 .g-q-info{
 	box-sizing: border-box;
 	width: 100%;
-	height: 2.86rem;
+	/*height: 2.86rem;*/
 	background: #171a21;
 	padding: 0.2rem 0.2rem 0;
 	position: relative;
@@ -589,6 +609,7 @@ label.u-c-kz-sz{
 	background: url(../images/gopage.png) no-repeat center center;
 	vertical-align: -4px;
 	margin-left: 0.1rem;
+	cursor: pointer;
 }
 .g-q-dz{
 	font-size: 13px;
