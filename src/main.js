@@ -6,6 +6,7 @@
 
 import Vue from 'vue'
 import matchtool from './matchtool.vue'
+import index from './views/index.vue'
 import landingpage from './views/landingpage.vue'
 import quickmatch from './views/createquickmatch.vue'
 import quickformat from './views/quickmatchformat.vue'
@@ -17,6 +18,8 @@ import reset from './views/reset.vue'
 import landRegister from './views/landRegister.vue'
 import matchDetails from './views/matchDetails.vue'
 import perSetting from './views/perSetting.vue'
+import myclan from './views/clan/myclan.vue'
+import passWord from './views/passWord.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -31,6 +34,9 @@ var router = new VueRouter({
 });
 
 router.map({
+    '/index': {
+        component: index,
+    },
     '/landingpage': {
         component: landingpage,
     },
@@ -63,6 +69,12 @@ router.map({
     },
     '/perSetting': {
         component: perSetting
+    },
+    '/myclan': {
+        component: myclan
+    },
+    '/passWord': {
+        component: passWord
     }
 })
 

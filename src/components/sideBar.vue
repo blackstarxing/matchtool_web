@@ -1,9 +1,9 @@
 <template>
 	<div class="m-sidebar">
 		<ul>
-			<li><a href=""><img src="../../static/images/nav1.png" alt=""></a></li>
-			<li><a href=""><img src="../../static/images/nav2.png" alt=""></a></li>
-			<li @click="showPop"><a href=""><img src="../../static/images/nav3.png" alt=""></a></li>
+			<li class="v-link-active"><span class="icon-uniE60C"></span></li>
+			<li><span class="icon-uniE607"></span></li>
+			<li @click="showPop"><span class="icon-uniE60A"></span></li>
 		</ul>
 	</div>
 </template>

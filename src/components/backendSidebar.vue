@@ -1,11 +1,11 @@
 <template>
 	<div class="m-slideInto backendSidebar">
 		<ul>
-			<li class="current"><a href=""><img src="../../static/images/nav1.png" alt="">返回</a></li>
-			<li><a href=""><img src="../../static/images/nav2.png" alt="">信息与赛制</a></li>
-			<li><a href=""><img src="../../static/images/nav3.png" alt="">对阵图管理</a></li>
-      <li><a href=""><img src="../../static/images/nav3.png" alt="">选手管理</a></li>
-      <li><a href=""><img src="../../static/images/nav3.png" alt="">发布管理</a></li>
+			<li><span class="icon-uniE603"></span>返回</li>
+			<li v-link="{ path: '/backend'}"><span class="icon-uniE605"></span>信息与赛制</li>
+			<li v-link="{ path: '/backendTechPic'}"><span class="icon-uniE604"></span>对阵图管理</li>
+      <li v-link="{ path: '/backendContestant'}"><span class="icon-uniE602"></span>选手管理</li>
+      <li v-link="{ path: '/reset'}"><span class="icon-uniE606"></span>发布管理</li>
 		</ul>
 	</div>
 </template>

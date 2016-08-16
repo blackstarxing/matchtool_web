@@ -10,8 +10,17 @@
 	</div>
 	<div class="g-bd">
 		<div class="g-wrap showItem">
-			<div class="setPoster">
-				<a href="">编辑 、更改赛事海报</a>
+			<!-- <div class="setPoster">
+				<div class="g-q-ptr">
+					<i class="iconfont iconfont-xj">&#xe60a</i>
+					<p>编辑、更改赛事海报</p>
+				</div>
+			</div> -->
+			<div class="setPoster g-q-hb">
+				<div class="g-q-ptr">
+					<span class="icon-uniE62B"></span>
+					<p>编辑、更改赛事海报</p>
+				</div>
 			</div>
 			<div class="m-c-info">
 				<p class="g-c-l">赛事名称</p>
@@ -22,20 +31,16 @@
 					<label for="personal"></label>
 					<label for="personal" class="u-c-per">
 						<span class="u-c-headimg">
-							<img src="../../static/images/head.png">
+							<img v-bind:src="'http://img.wangyuhudong.com/'+roundlist.icon">
 						</span>
 						<span class="f-fl">
-							blackstar
+							{{roundlist.nickname}}
 						</span>
 					</label>
 				</div>
 				<p class="g-c-l mt40">比赛项目</p>
-				<select class="u-c-slt">
+				<select id="gameList" class="u-c-slt" v-model="formdata.itemId">
 					<option>选择一个竞技项目</option>
-					<option>英雄联盟</option>
-					<option>星际争霸</option>
-					<option>炉石传说</option>
-					<option>自由篮球</option>
 				</select>
 				<p class="g-c-l mt40">赛事模式</p>
 				<div class="g-c-zbf">
@@ -67,10 +72,13 @@
 						</label>
 					</div>
 				</div>
-				<p class="g-c-l mt40">比赛地址</p>
-				<input type="text" class="u-c-ipt" placeholder="请输入赛事名称" style="width:480px;" v-model="">
-				<p class="g-c-l mt40">具体地址</p>
-				<input type="text" class="u-c-ipt" placeholder="请输入赛事名称" style="width:480px;" v-model="">
+				<div v-if="formdata.mode>1">
+					<p class="g-c-l mt40">比赛地址</p>
+					<input type="text" class="u-c-ipt" placeholder="请输入赛事名称" style="width:480px;" v-model="">
+					<p class="g-c-l mt40">具体地址</p>
+					<input type="text" class="u-c-ipt" placeholder="请输入赛事名称" style="width:480px;" v-model="">
+				</div>
+				
 				<p class="g-c-l mt40">赛事简介</p>
 				<div id="brief" class="m-editor"></div>
 				<p class="g-c-l mt40">赛事奖励</p>
@@ -145,11 +153,11 @@
 								<label for="qqnumber"></label>
 								<label for="qqnumber" class="u-c-ck col8f">QQ号</label>
 							</div>
-							<div class="f-fl mr56">
+							<!-- <div class="f-fl mr56">
 								<input type="checkbox" id="wxnumber" class="regular-checkboxs" name="bminfo" v-model="formdata.wechatRequired" v-bind:true-value="1" v-bind:false-value="0" disabled />
 								<label for="wxnumber"></label>
 								<label for="wxnumber" class="u-c-ck col8f">微信号</label>
-							</div>
+							</div> -->
 							<div class="f-fl mr56">
 								<input type="checkbox" id="telephone" class="regular-checkboxs" name="bminfo" v-model="formdata.telephoneRequired" v-bind:true-value="1" v-bind:false-value="0" disabled />
 								<label for="telephone"></label>
@@ -253,7 +261,11 @@ export default {
 	data () {
   		return{
 			username:"",
+			eventlist:"",
+			roundlist:"",
 			formdata:{
+				eventRoundId:"",
+				eventId:"",
 				name:"",
 				sponsorType:1,
 				itemId:"",
@@ -267,7 +279,6 @@ export default {
 				nameRequired:"",
 				idcardRequired:"",
 				qqRequired:"",
-				wechatRequired:"",
 				telephoneRequired:"",
 				otherRequired:"",
 				otherDescribe:"",
@@ -282,7 +293,58 @@ export default {
 	},
   	ready:function(){
   		var _this=this;
-  		
+  		_this.formdata.eventId=window.sessionStorage.getItem("eventId");
+   		_this.formdata.eventRoundId=window.sessionStorage.getItem("eventRoundId");
+   		var eve={};
+   		eve.jsonInfo=JSON.stringify({oetInfoId:_this.formdata.eventId,oetRoundId:_this.formdata.eventRoundId});
+   		_this.$http.get('oet/event/openOetInfo',eve).then(function(response) {
+        	console.log(response);
+        	_this.eventlist=response.data.object.event;
+        	_this.roundlist=response.data.object.round;
+
+        	_this.formdata.name=_this.eventlist.name;
+        	_this.formdata.itemId=_this.eventlist.itemId;
+        	_this.formdata.itemServerId=_this.eventlist.itemServerId;
+        	_this.formdata.needSignMinu=_this.eventlist.needSignMinute;
+        	_this.formdata.poster=_this.eventlist.poster;
+        	_this.formdata.maxNum=_this.roundlist.maxNum;
+        	_this.formdata.nicknameRequired=_this.eventlist.nicknameRequired;
+        	_this.formdata.nameRequired=_this.eventlist.nameRequired;
+        	_this.formdata.idcardRequired=_this.eventlist.idcardRequired;
+        	_this.formdata.qqRequired=_this.eventlist.qqRequired;
+        	_this.formdata.telephoneRequired=_this.roundlist.telephoneRequired;
+        	_this.formdata.otherRequired=_this.eventlist.otherRequired;
+        	_this.formdata.otherDescribe=_this.roundlist.otherDescribe;
+        	_this.formdata.activityBegin=response.data.object.activityBegin;
+        	_this.formdata.applyBegin=response.data.object.applyBegin;
+        	_this.formdata.applyEnd=response.data.object.applyEnd;
+        	_this.formdata.brief=_this.eventlist.brief;
+        	_this.formdata.regimeRule=_this.eventlist.regimeRule;
+        	_this.formdata.prizeSetting=_this.eventlist.prizeSetting;
+        	$('#brief .froala-element').html(_this.formdata.brief);
+        	$('#regimeRule .froala-element').html(_this.formdata.regimeRule);
+        	$('#prizeSetting .froala-element').html(_this.formdata.prizeSetting);
+        },function(response) {
+            console.log(response);
+        });
+        var parm={};
+   		parm.jsonInfo=JSON.stringify({itemsId:""});
+   			_this.$http.get('oet/event/queryActivityItem',parm).then(function (response) {
+  				var gameList=response.data.object.itemsList;
+  				var content='';
+  				
+  				for(var i=0;i<gameList.length;i++){
+  					content+='<option value="'+gameList[i].id+'">'+gameList[i].name+'</option>'
+  				}
+  				$('#gameList').append(content);
+  				$("#gameList option").each(function(){
+	        		if($(this).val()==_this.formdata.itemId){
+	        			$(this).attr("selected",true);
+	        		}
+	        	});
+	        }, function (response) {
+	            console.log(22);
+	        })
 		// $('.backend-tab li').click(function(){
 		// 	var that=this;
 		// 	var index=$(that).index();
