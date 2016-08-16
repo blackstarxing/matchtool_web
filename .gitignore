@@ -1,4 +1,3 @@
-.gitignore/
 node_modules/*
 .idea/*
-build.js/*
+static/build.js

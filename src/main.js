@@ -6,6 +6,7 @@
 
 import Vue from 'vue'
 import matchtool from './matchtool.vue'
+import index from './views/index.vue'
 import landingpage from './views/landingpage.vue'
 import quickmatch from './views/createquickmatch.vue'
 import quickformat from './views/quickmatchformat.vue'
@@ -29,6 +30,9 @@ var router = new VueRouter({
 });
 
 router.map({
+    '/index': {
+        component: index,
+    },
     '/landingpage': {
         component: landingpage,
     },
