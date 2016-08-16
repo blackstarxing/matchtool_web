@@ -24,5 +24,6 @@
 		height: 280px;
 		padding: 6px;
 		background-color: #292f3b;
+		margin: auto;
 	}
 </style>

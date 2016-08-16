@@ -17,6 +17,9 @@ import backendContestant from './views/backendContestant.vue'
 import reset from './views/reset.vue'
 import landRegister from './views/landRegister.vue'
 import matchDetails from './views/matchDetails.vue'
+import passWord from './views/changepw/passWord.vue'
+import pwFill from './views/changepw/pwFill.vue'
+import identPw from './views/changepw/identPw.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -62,7 +65,18 @@ router.map({
     },
     '/matchDetails': {
         component: matchDetails
-    }
+    },
+     '/passWord': {
+        component: passWord,
+        subRoutes: {
+             '/': {
+            component: pwFill
+          },
+          '/identPw': {
+            component: identPw
+          }
+        }
+    },
 })
 
 router.redirect({
