@@ -7,7 +7,7 @@
 		<div class="header_right f-fr">
 			<a href="" class="notify"><i class="iconfont">&#xe60d</i></a>
 			<div class="avatar">
-				<img src="../../static/images/head.png" alt=""><i class="iconfont">&#xe60e</i>
+				<img v-bind:src="'http://img.wangyuhudong.com/'+avatar" alt=""><i class="iconfont">&#xe60e</i>
         <div class="nav-list">
           <ul>
             <li><a href=""><i class="iconfont">&#xe617</i>创建赛事</a></li>
@@ -27,7 +27,7 @@
   export default {
     data () {
       return {
-
+        avatar:""
       }
   	},
   	ready:function(){
@@ -39,7 +39,8 @@
         function(){
           $('.nav-list').hide();
         }
-      )
+      );
+      _this.avatar=window.sessionStorage.getItem("appusericon");
   	},
   	methods:{
   		slidein:function(e){

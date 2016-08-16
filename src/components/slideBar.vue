@@ -5,9 +5,9 @@
 			<img src="../../static/images/logo.png" alt="">
 		</div>
 		<ul>
-			<li class="current"><a href=""><i class="iconfont">&#xe60c</i>首页</a></li>
-			<li><a href=""><i class="iconfont">&#xe607</i>申请认证<i class="iconfont f-fr">&#xe60b</i></a></li>
-			<li @click="showPop"><a href=""><i class="iconfont">&#xe60a</i>创建赛事<i class="iconfont f-fr">&#xe60b</i></a></li>
+			<li class="v-link-active"><i class="iconfont">&#xe60c</i>首页</li>
+			<li><i class="iconfont">&#xe607</i>申请认证<i class="iconfont f-fr">&#xe60b</i></li>
+			<li @click="showPop"><i class="iconfont">&#xe60a</i>创建赛事<i class="iconfont f-fr">&#xe60b</i></li>
 		</ul>
 	</div>
 </template>

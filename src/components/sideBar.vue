@@ -1,9 +1,9 @@
 <template>
 	<div class="m-sidebar">
 		<ul>
-			<li><a href=""><i class="iconfont">&#xe60c</i></a></li>
-			<li><a href=""><i class="iconfont">&#xe607</i></a></li>
-			<li @click="showPop"><i class="iconfont">&#xe60a</i></a></li>
+			<li class="v-link-active"><i class="iconfont">&#xe60c</i></li>
+			<li><i class="iconfont">&#xe607</i></li>
+			<li @click="showPop"><i class="iconfont">&#xe60a</i></li>
 		</ul>
 	</div>
 </template>
