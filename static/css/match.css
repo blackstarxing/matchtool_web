@@ -4,19 +4,173 @@
  @charset "utf-8";
  /*主体模板公共*/
 
-@font-face {font-family: 'iconfont';
-    src: url('../fonts/iconfont.eot'); /* IE9*/
-    src: url('../fonts/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../fonts/iconfont.woff') format('woff'), /* chrome、firefox */
-    url('../fonts/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-    url('../fonts/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/icomoon.eot?gc1sqw');
+  src:  url('../fonts/icomoon.eot?gc1sqw#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?gc1sqw') format('truetype'),
+    url('../fonts/icomoon.woff?gc1sqw') format('woff'),
+    url('../fonts/icomoon.svg?gc1sqw#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
-.iconfont{
-	font-family:"iconfont";
-	font-size:24px;
-	font-style:normal;
-	color:#b1c7c6;
-	vertical-align: middle;
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  font-size: 24px;
+  color:#b1c7c6;
+  vertical-align: middle;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-uniE600:before {
+  content: "\e600";
+}
+.icon-uniE601:before {
+  content: "\e601";
+}
+.icon-uniE602:before {
+  content: "\e602";
+}
+.icon-uniE603:before {
+  content: "\e603";
+}
+.icon-uniE604:before {
+  content: "\e604";
+}
+.icon-uniE605:before {
+  content: "\e605";
+}
+.icon-uniE606:before {
+  content: "\e606";
+}
+.icon-uniE607:before {
+  content: "\e607";
+}
+.icon-uniE608:before {
+  content: "\e608";
+}
+.icon-uniE609:before {
+  content: "\e609";
+}
+.icon-uniE60A:before {
+  content: "\e60a";
+}
+.icon-uniE60B:before {
+  content: "\e60b";
+}
+.icon-uniE60C:before {
+  content: "\e60c";
+}
+.icon-uniE60D:before {
+  content: "\e60d";
+}
+.icon-uniE60E:before {
+  content: "\e60e";
+}
+.icon-uniE60F:before {
+  content: "\e60f";
+}
+.icon-uniE610:before {
+  content: "\e610";
+}
+.icon-uniE611:before {
+  content: "\e611";
+}
+.icon-uniE612:before {
+  content: "\e612";
+}
+.icon-uniE613:before {
+  content: "\e613";
+}
+.icon-uniE614:before {
+  content: "\e614";
+}
+.icon-uniE615:before {
+  content: "\e615";
+}
+.icon-uniE616:before {
+  content: "\e616";
+}
+.icon-uniE617:before {
+  content: "\e617";
+}
+.icon-uniE618:before {
+  content: "\e618";
+}
+.icon-uniE619:before {
+  content: "\e619";
+}
+.icon-uniE61A:before {
+  content: "\e61a";
+}
+.icon-uniE61B:before {
+  content: "\e61b";
+}
+.icon-uniE61C:before {
+  content: "\e61c";
+}
+.icon-uniE61D:before {
+  content: "\e61d";
+}
+.icon-uniE61E:before {
+  content: "\e61e";
+}
+.icon-uniE61F:before {
+  content: "\e61f";
+}
+.icon-uniE620:before {
+  content: "\e620";
+}
+.icon-uniE621:before {
+  content: "\e621";
+}
+.icon-uniE622:before {
+  content: "\e622";
+}
+.icon-uniE623:before {
+  content: "\e623";
+}
+.icon-uniE624:before {
+  content: "\e624";
+}
+.icon-uniE625:before {
+  content: "\e625";
+}
+.icon-uniE626:before {
+  content: "\e626";
+}
+.icon-uniE627:before {
+  content: "\e627";
+}
+.icon-uniE628:before {
+  content: "\e628";
+}
+.icon-uniE629:before {
+  content: "\e629";
+}
+.icon-uniE62A:before {
+  content: "\e62a";
+}
+.icon-uniE62B:before {
+  content: "\e62b";
+}
+.icon-uniE62C:before {
+  content: "\e62c";
+}
+.icon-uniE62D:before {
+  content: "\e62d";
 }
  .g-w{
  	width:1024px;
@@ -272,9 +426,13 @@
 .back h4{
 	margin-bottom: 35px;
 }
-.back .iconfont{
+.back [class^="icon-"]{
 	font-size: 12px;
 	margin-right: 10px;
+}
+.back .flip-num [class^="icon-"]{
+	font-size: 16px;
+	margin-left: -2px;
 }
 .back strong{
 	color:#fdba33;
@@ -286,7 +444,7 @@
 	bottom: 20px;
 	transform: rotate(180deg);
 }
-.back .flip-btn .iconfont{
+.back .flip-btn [class^="icon-"]{
 	font-size: 24px;
 	color:#fdba33;
 }
@@ -896,9 +1054,6 @@ label.u-c-kz-sz{
     text-align: center;
 }
 
-
-
-
  /*头部*/
 .g-hd{
 	position: fixed;
@@ -927,7 +1082,7 @@ label.u-c-kz-sz{
 	color:#b7c1c6;
 	line-height: 60px;
 }
-.notify i{
+.notify span{
 	display: inline-block;
 	float: left;
 	width: 30px;
@@ -941,7 +1096,7 @@ label.u-c-kz-sz{
 	height: 60px;
 	line-height: 60px;
 	/*text-align: center;*/
-	margin: 0 60px 0 27px;
+	margin: 0 60px 0 20px;
 	cursor: pointer;
 	position: relative;
 }
@@ -978,7 +1133,7 @@ label.u-c-kz-sz{
 .nav-list a{
 	color:#f2f6f9;
 }
-.nav-list li .iconfont{
+.nav-list li [class^="icon-"]{
 	margin-right: 15px;
 }
 .backend-head img{
@@ -1018,7 +1173,7 @@ label.u-c-kz-sz{
 	left:0;
 	top:60px;
 }
-.slideout i{
+.slideout [class^="icon-"]{
 	display: inline-block;
 	text-align: center;
 	float: left;
@@ -1030,20 +1185,25 @@ label.u-c-kz-sz{
 .m-slideInto li{
 	height: 80px;
 	line-height: 80px;
-	text-indent: 20px;
+	text-indent: 30px;
 }
-.m-slideInto li i{
+.m-slideInto li [class^="icon-"]{
 	margin-right: 20px;
 }
 .m-slideInto li{
 	display: block;
 	cursor: pointer;
 }
-.m-slideInto li.v-link-active i,
-.m-sidebar li.v-link-active i,
+.m-slideInto li.v-link-active [class^="icon-"],
+.m-sidebar li.v-link-active [class^="icon-"],
 .m-sidebar li.v-link-active,
 .m-slideInto li.v-link-active{
 	color:#fdb91a;
+}
+.m-slideInto li span.f-fr{
+	display: inline-block;
+	height: 80px;
+	line-height: 80px;
 }
 .m-slideInto li a img{
 	vertical-align: middle;
@@ -1155,6 +1315,10 @@ label.u-c-kz-sz{
 	background: -webkit-linear-gradient(top, #9a9a9a, #929292 70%,#4d4d4d 100%);
 	text-align: center;
 }
+.setPoster [class^="icon-"]{
+	font-size: 60px;
+	color:#36383f;
+}
 .setPoster a{
 	display: block;
 	height: 100%;
@@ -1173,6 +1337,14 @@ label.u-c-kz-sz{
 .r-btn a{display:inline-block;color:#42aa53;margin:30px 10px 0;font-size: 12px;}
 .m-tb{margin-top: 20px;padding-bottom: 80px;}
 
+.u-btn-add [class^="icon-"]{
+	color:#1e1f24;
+}
+.exportExcel [class^="icon-"]{
+	color:#3e9b4e;
+	vertical-align: middle;
+	margin-right: 3px;
+}
 .member-content{
 	margin-bottom: 20px;
 }

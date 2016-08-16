@@ -6,11 +6,11 @@
 				<div class="m-operate f-cb">
 					<div class="l-btn f-fl">
 						<a href="javascript:void(0);" class="u-btn u-btn-upset" @click="upsetseat">打乱选手顺序</a>
-						<a href="javascript:void(0);" class="u-btn u-btn-add" @click="addplayer">+ 添加选手</a>
+						<a href="javascript:void(0);" class="u-btn u-btn-add" @click="addplayer"><span class="icon-uniE621"></span>添加选手</a>
 					</div>					
 					<div class="r-btn f-fr">
 						<!-- <a href="">导入</a> -->
-						<a href="" @click="exportExcel">导出选手信息</a>
+						<a href="" class="exportExcel" @click="exportExcel"><span class="icon-uniE61F"></span>导出选手信息</a>
 					</div>
 				</div>
 				<div class="g-list">
@@ -26,10 +26,10 @@
 									<li class="column-1">展开</li>
 								</ul>
 							</div>
-							<div class="member-list">
+							<div class="member-list" v-for="member in memberlist.list">
 								<ul>
-									<li class="column-2">1</li>
-			                        <li class="memberName column-3">aa</li>
+									<li class="column-2">{{$index+1}}</li>
+			                        <li class="memberName column-3">{{member.name}}</li>
 			                        <li class="column-2">
 			                        <section class="signed">
 										<div class="signbox">
@@ -50,70 +50,24 @@
 									<img src="" alt="">
 									<div class="m-info">
 										<div>
-											<label for="">游戏昵称</label>菊花在骚动
+											<label for="">游戏昵称</label>{{member.nickname}}
 										</div>
 										<div>
-											<label for="">真实姓名</label>菊花在骚动
+											<label for="">真实姓名</label>{{member.nickname}}
 										</div>
 										<div>
-											<label for="">身份证</label>菊花在骚动
+											<label for="">身份证</label>{{member.idcard}}
 										</div>
 										<div>
-											<label for="">其他</label>菊花在骚动
+											<label for="">其他</label>{{member.other}}
 										</div>
 									</div>
 									<div class="m-info">
 										<div>
-											<label for="">手机号</label>菊花在骚动
+											<label for="">手机号</label>{{member.telephone}}
 										</div>
 										<div>
-											<label for="">QQ号</label>菊花在骚动
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="member-list">
-								<ul>
-									<li class="column-2">1</li>
-			                        <li class="memberName column-3">aa</li>
-			                        <li class="column-2">
-			                        <section class="signed">
-										<div class="signbox">
-											<div class="dis-sign" v-if="roundStatus>5"></div>
-											<input type="checkbox" checked="" @click="signStatus">
-											<label></label>
-										</div>
-									</section>
-									</li>
-			                        <li class="column-2">
-			                        	<div class="option">
-			                        		<a href="javascript:void(0);" class="u-btn-write" data-id="" @click="editMember"></a><a href="" class="u-btn-delete" data-id="" @click="deleteMember"></a>
-			                        	</div>
-			                        </li>
-			                        <li class="column-1"><a href="javascript:void(0);" class="u-btn-deploy" @click="toggleInfo"></a></li>
-								</ul>
-								<div class="moreInfo">
-									<img src="" alt="">
-									<div class="m-info">
-										<div>
-											<label for="">游戏昵称</label>菊花在骚动
-										</div>
-										<div>
-											<label for="">真实姓名</label>菊花在骚动
-										</div>
-										<div>
-											<label for="">身份证</label>菊花在骚动
-										</div>
-										<div>
-											<label for="">其他</label>菊花在骚动
-										</div>
-									</div>
-									<div class="m-info">
-										<div>
-											<label for="">手机号</label>菊花在骚动
-										</div>
-										<div>
-											<label for="">QQ号</label>菊花在骚动
+											<label for="">QQ号</label>{{member.qq}}
 										</div>
 									</div>
 								</div>
@@ -181,11 +135,11 @@ import backendSidebar from '../components/backendSidebar.vue'
    		ready: function () {     		
      		var _this=this;
      		_this.eventname=window.sessionStorage.getItem("eventname");
-     		_this.eventId=window.sessionStorage.getItem("eventid");
-     		_this.roundId=window.sessionStorage.getItem("roundid");
+     		_this.eventId=window.sessionStorage.getItem("eventId");
+     		_this.roundId=window.sessionStorage.getItem("eventRoundId");
      		_this.needsign=window.sessionStorage.getItem("needsign");
      		_this.roundStatus=window.sessionStorage.getItem("roundStatus");
-	        _this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
+	        _this.$http.post('oet/event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 	        	console.log(response);
 	            _this.memberlist=response.data.object.pager;
 	        },function(response) {
