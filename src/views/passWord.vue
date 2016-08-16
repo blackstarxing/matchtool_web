@@ -26,7 +26,7 @@
 	</div>
 	<div class="pw_container">
 		<div class="pw_list">
-			<div class="list_fill list_detail" style="display:none">
+			<div class="list_fill list_detail">
 				<div class="list_every">
 					<label>手机号：</label>
 					<input type="text" class="pw_input" placeholder="请输入你要找回的手机号" v-model="pwPhone">
@@ -44,16 +44,18 @@
 				</div>
 				<div class="next_btn" @click="nextReset">下一步</div>
 			</div>
-			<div class="list_fill list_detail">
-				<div class="list_every">
+			<div class="list_reset list_detail" style="display:none">
+				<div class="list_every" style="margin-bottom:20px">
 					<label class="list_label">新密码：</label>
-					<input type="text" class="pw_input" placeholder="请输入新密码" v-model="newPw">
+					<input type="password" class="pw_input" placeholder="新密码(6-16位，允许数字字母常用符号)" v-model="newPw" @blur="getNpw">
+					<span class="pw_error"><img src="../../static/images/tip.png"><i class="error_tip">密码位数太短</i></span>
 				</div>
 				<div class="list_every">
 					<label class="list_label">再次输入：</label>
-					<input type="text" class="pw_input" placeholder="请输入新密码" v-model="confirmPw">
+					<input type="password" class="pw_input" placeholder="请输入新密码" @blur="getConform" v-model="confirmPw">
+					<span class="pw_error"><img src="../../static/images/tip.png"><i class="error_tip">密码与上方不一致</i></span>
 				</div>
-				<div class="next_btn" @click="nextIdent">下一步</div>
+				<div class="next_btn" style="margin: 30px auto 0;" @click="nextSucess">下一步</div>
 			</div>
 		</div>
 	</div>
@@ -130,12 +132,47 @@ import createPop from '../components/createPop.vue'
 				parm.verifyCode=this.pwIdent;
 				this.$http.post('oet/checkVerifyCode',parm).then(function(response){
 					if(response.data.code){
-
+						$('.list_reset').show().siblings('.list_detail').hide();
+						$('.status_li').eq(2).find('.status_num').addClass('status_finish');
+						$('.status_li').eq(2).find('.status_line').addClass('line_finish');
 					}
 					
 			      },function(response) {
 			              console.log(response);
 			          });
+			},
+			nextSucess: function () {
+				var parm={};
+				parm.password=this.newPw;
+				parm.username=this.pwPhone;
+				parm.verifyCode=this.pwIdent;
+				this.$http.post('oet/user/reset',parm).then(function(response){
+					console.log(response);
+					if(response.data.code){
+						
+					}
+					
+			      },function(response) {
+			              console.log(response);
+			          });
+			},
+			getNpw: function (e) {
+				var _current=$(e.currentTarget);
+				var _error=_current.next('.pw_error');
+				if(this.newPw.length<7){
+					_error.show();
+				}else{
+					_error.hide();
+				}
+			},
+			getConform: function (e) {
+				var _current=$(e.currentTarget);
+				var _error=_current.next('.pw_error');
+				if(this.confirmPw != this.newPw){
+					_error.show();
+				}else{
+					_error.hide();
+				}
 			}
 		}
 	}
@@ -253,4 +290,34 @@ import createPop from '../components/createPop.vue'
 		width: 90px;
 		text-align: right;
 	}
+	 .reg_error{
+		display: inline-block;
+		position: absolute;
+		top: 0;
+		right:-170px;
+		color: #42aa53;
+		width: 160px;
+		height: 35px;
+		background-color: #171a21;
+		line-height: 35px;
+		text-align: center;
+		border: 1px solid #343b45;
+		display: none;
+    }
+    .pw_error{
+		position: absolute;
+		top: 0;
+		right:-80px;
+		color: #42aa53;
+		width: 160px;
+		height: 30px;
+		background-color: #171a21;
+		line-height: 30px;
+		text-align: center;
+		border: 1px solid #343b45;
+		display: none;
+    }
+    .list_every{
+    	position: relative;
+    }
 </style>
