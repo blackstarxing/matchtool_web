@@ -7,63 +7,30 @@
 		<div class="banner">
 			<img src="../../static/images/landing.jpg" alt="">
 		</div>
-		<div class="landing-box">
-			<h3>最新赛事</h3>
+		<div class="landing-box" style="margin-bottom:0;">
+			<h3>赛事推荐</h3>
 			<div class="landing-content f-cb">
-				<div class="match">
+				<div class="match" v-for="match in matchlists">
 					<div class="pic">
-						<img src="http://img.wangyuhudong.com///uploads/2016/08/01/7ce9d883e8fb400eb95dfe9115055c54.jpg" alt="" width="100%">
-						<div class="title"><i class="iconfont"></i><span class="f-col">2016.08.06 18:00</span></div>
+						<img v-bind:src="'http://img.wangyuhudong.com'+match.poster" alt="" width="100%">
+						<div class="title"><i class="iconfont"></i><span class="f-col" v-text="match.createDate | formatDate"></span></div>
 					</div>
 					<div class="match-progress">
 						<div class="match-name">
-							【英雄联盟】八月福利SOLO赛 死歌VS维鲁斯
+							{{match.eventName}}
 						</div>
 						<div class="list mid">
 							<div class="progress">
-						      <span class="orange" id="bar" style="width: 73.4375%;"><span></span></span>
+						      <span class="orange" id="bar" v-bind:style="'width: '+match.num/match.maxNum*100+'%;'"><span></span></span>
 						    </div>
-						    <div>by 网娱大师官方赛事组<span class="f-col f-fr"><strong>47</strong>/64</span></div>
-						</div>
-					</div>			
-				</div>
-				<div class="match" style="margin:0 2%;">
-					<div class="pic">
-						<img src="http://img.wangyuhudong.com///uploads/2016/08/01/7ce9d883e8fb400eb95dfe9115055c54.jpg" alt="" width="100%">
-						<div class="title"><i class="iconfont"></i><span class="f-col">2016.08.06 18:00</span></div>
-					</div>
-					<div class="match-progress">
-						<div class="match-name">
-							【英雄联盟】八月福利SOLO赛 死歌VS维鲁斯
-						</div>
-						<div class="list mid">
-							<div class="progress">
-						      <span class="orange" id="bar" style="width: 73.4375%;"><span></span></span>
-						    </div>
-						    <div>by 网娱大师官方赛事组<span class="f-col f-fr"><strong>47</strong>/64</span></div>
-						</div>
-					</div>			
-				</div>
-				<div class="match">
-					<div class="pic">
-						<img src="http://img.wangyuhudong.com///uploads/2016/08/01/7ce9d883e8fb400eb95dfe9115055c54.jpg" alt="" width="100%">
-						<div class="title"><i class="iconfont"></i><span class="f-col">2016.08.06 18:00</span></div>
-					</div>
-					<div class="match-progress">
-						<div class="match-name">
-							【英雄联盟】八月福利SOLO赛 死歌VS
-						</div>
-						<div class="list mid">
-							<div class="progress">
-						      <span class="orange" id="bar" style="width: 73.4375%;"><span></span></span>
-						    </div>
-						    <div>by 网娱大师官方赛事组<span class="f-col f-fr"><strong>47</strong>/64</span></div>
+						    <div>by {{match.nickname ? match.nickname : '网娱大师赛事组'}}<span class="f-col f-fr"><strong>{{match.num}}</strong>/{{match.maxNum}}</span></div>
 						</div>
 					</div>			
 				</div>
 			</div>
 		</div>
 		<div class="landing-box">
+			<h3>全部赛事</h3>
 			<div class="landing-content f-cb">
 				<div class="m-advertise">
 					<img src="../../static/images/ad.jpg">
@@ -192,7 +159,7 @@ import createPop from '../components/createPop.vue'
 	export default {
 		data () {
 			return{
-				
+				matchlists:""
 			}
 		},
 		components:{
@@ -202,8 +169,29 @@ import createPop from '../components/createPop.vue'
 	        createPop
 		},
 		ready:function(){
-			
+			var _this=this;
+			var parm={};
+			parm.jsonInfo=JSON.stringify({pageNumber:1});
+	        _this.$http.get('oet/event/getAllEventRoundList',parm).then(function(response) {
+	        	console.log(response);
+	            _this.matchlists=response.data.object.pager.list.slice(0,3);
+	            console.log(_this.matchlists);
+	        },function(response) {
+	            console.log(response);
+	        });
 
+		},
+		filters:{
+			formatDate:function(value){
+				var time = new Date(value);
+				var year=time.getFullYear();  
+				var month=time.getMonth()+1;     
+				var date=time.getDate();     
+				var hour=time.getHours();     
+				var minute=time.getMinutes();     
+				var second=time.getSeconds();     
+				return year+"-"+month+"-"+date+"   "+hour+":"+minute;
+			}
 		},
 		methods:{
 			
