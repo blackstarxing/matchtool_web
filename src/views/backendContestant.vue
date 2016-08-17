@@ -20,7 +20,7 @@
 							<div class="member-head">
 								<ul>
 									<li class="column-2">序号</li>
-									<li class="column-3">选手名称</li>
+									<li class="column-3">用户昵称</li>
 									<li class="column-2">已签到</li>
 									<li class="column-2">操作</li>
 									<li class="column-1">展开</li>
@@ -29,31 +29,32 @@
 							<div class="member-list" v-for="member in memberlist.list">
 								<ul>
 									<li class="column-2">{{$index+1}}</li>
-			                        <li class="memberName column-3">{{member.name}}</li>
+			                        <li class="memberName column-3">{{member.usernickme}}</li>
 			                        <li class="column-2">
 			                        <section class="signed">
 										<div class="signbox">
 											<div class="dis-sign" v-if="roundStatus>5"></div>
-											<input type="checkbox" checked="" @click="signStatus">
+											<input type="checkbox" checked="" @click="signStatus" v-if="member.signed==1">
+											<input type="checkbox" @click="signStatus" v-else>
 											<label></label>
 										</div>
 									</section>
 									</li>
 			                        <li class="column-2">
 			                        	<div class="option">
-			                        		<a href="javascript:void(0);" class="u-btn-write" data-id="" @click="editMember"></a><a href="" class="u-btn-delete" data-id="" @click="deleteMember"></a>
+			                        		<a href="javascript:void(0);" class="u-btn-write" data-id="{{member.id}}" @click="editMember"></a><a href="" class="u-btn-delete" data-id="{{member.id}}" @click="deleteMember"></a>
 			                        	</div>
 			                        </li>
 			                        <li class="column-1"><a href="javascript:void(0);" class="u-btn-deploy" @click="toggleInfo"></a></li>
 								</ul>
 								<div class="moreInfo">
-									<img src="" alt="">
+									<img v-bind:src="'http://img.wangyuhudong.com/'+icon" alt="">
 									<div class="m-info">
 										<div>
 											<label for="">游戏昵称</label>{{member.nickname}}
 										</div>
 										<div>
-											<label for="">真实姓名</label>{{member.nickname}}
+											<label for="">真实姓名</label>{{member.realname}}
 										</div>
 										<div>
 											<label for="">身份证</label>{{member.idcard}}
@@ -186,7 +187,7 @@ import backendSidebar from '../components/backendSidebar.vue'
 		    signStatus:function(e){
 		    	var _this=this;
 		    	var _target=$(e.currentTarget);
-		    	var memberId=_target.parents(".memberInfo").find(".u-btn-delete").attr("data-id");
+		    	var memberId=_target.parents(".member-list").find(".u-btn-delete").attr("data-id");
 		    	var sign=0;
 
 		    	if(_target.attr('checked')=="checked"){
@@ -197,11 +198,11 @@ import backendSidebar from '../components/backendSidebar.vue'
 		    		sign=1;
 		    	}
 		    	var parm={memberId:memberId,sign:sign};
-		    	_this.$http.get('event/round/group/member/sign',parm).then(function(response) {
+		    	_this.$http.get('oet/event/round/group/member/sign',parm).then(function(response) {
 		        	console.log(response.data.msg);
 		        	if(response.data.code==1){
 		        		layer.msg('签到状态已更改',{offset:"0px"});
-		        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
+		        		_this.$http.post('oet/event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 				        	console.log(response.data);
 				        	_this.memberlist=response.data.object.pager;
 				        },function(response) {

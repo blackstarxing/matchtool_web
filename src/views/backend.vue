@@ -205,7 +205,7 @@
 						</div>
 					</div>
 					<div class="f-c">
-						<p class="g-c-l mt40">采用赛制<span class="colfdb f-tip"></span><span class="f-fr"><span class="g-help"></span>查看赛制帮助</span></p>
+						<p class="g-c-l mt40">采用赛制<span class="colfdb f-tip"></span><span class="f-fr"><span class="icon-uniE625" style="font-size:28px;"></span>查看赛制帮助</span></p>
 						<div class="clearfix mb12">
 							<div class="f-fl g-c-sz" @click="cherksz" selected="1">
 								<p class="g-c-szt">单败淘汰制</p>
@@ -329,7 +329,7 @@ export default {
         });
         var parm={};
    		parm.jsonInfo=JSON.stringify({itemsId:""});
-   			_this.$http.get('oet/event/queryActivityItem',parm).then(function (response) {
+   			_this.$http.get('oet/event/league/queryActivityItem',parm).then(function (response) {
   				var gameList=response.data.object.itemsList;
   				var content='';
   				

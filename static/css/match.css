@@ -1438,7 +1438,7 @@ label.u-c-kz-sz{
 .m-page #next{background-image: url(../images/next.png);}
 .m-page .u-btn{width: 68px;height: 30px;line-height: 30px;margin-left: 20px;font-size: 14px;border:0;background: #fdb91a;color: #1e1f24;}
 .m-page input{width: 78px;height: 30px;vertical-align: middle;background: #15181e; border: 1px solid #353d48; color: #ffffff; text-indent: 12px;}
-.m-page .pagination{display: inline-block;}
+.m-page .pagination{display: inline-block;color:#b7c1c6;}
 .m-page .pagination span{margin:0 5px;}
 .m-page .pagination span.current{color:#fdb91a;}
 
@@ -1472,6 +1472,15 @@ label.u-c-kz-sz{
     height: 30px;
     line-height: 30px;
     font-size: 14px;
+}
+.reset-btn button.u-btn{
+	border:none;
+	outline: none;
+}
+.reset-btn button[disabled]{
+	color:#fff;
+	background: #62646d;
+	cursor: not-allowed;
 }
 .setbox {position: relative;display: inline-block;width:60px;height: 20px;top:8px;}
 .setbox label {width: 80px;height: 30px;background: #ccc;position: relative;display: inline-block;border-radius: 3px;-webkit-transition: 0.4s;transition: 0.4s;}
