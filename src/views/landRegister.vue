@@ -16,7 +16,7 @@
 				<div class="landreg_form">
 					<div class="form_account form_list">
 						<label class="reg_label"><img src="../../static/images/account.png"></label>
-						<input class="input_text" type="text" placeholder="手机号／网娱大师帐号" v-model="account" @blur="blurPhone">
+						<input class="input_text" type="text" placeholder="手机号／网娱大师帐号" v-model="account" @blur="blurAccount">
 						<span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">手机号码位数不对</i></span>
 					</div>
 					<div class="form_pw form_list">
@@ -34,22 +34,21 @@
 					<div class="forgot_pw"><a v-link="{ path: '/passWord'}">忘记密码？</a></div>
 				</div>
 				<div class="twolines"></div>
-				<div class="allow_login" v-show="allowLogin" @click="logIn">登录</div>
-				<div class="login_in" v-else>登录</div>
+				<div class="allow_login" @click="logIn">登录</div>
 			</div>
 			<div class="landreg_list reg_list" v-else>
 				<p class="landreg_tip"><span>•</span>加入开赛吧开启全新办赛、参赛体验!</p>
 				<div class="landreg_form">
 					<div class="form_account form_list">
 						<label class="reg_label"><img src="../../static/images/account.png"></label>
-						<input class="input_text" type="text" placeholder="手机号" v-model="account" @blur="blurPhone">
+						<input class="input_text" type="text" placeholder="手机号" v-model="phone" @blur="blurPhone">
 						<span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">手机号码位数不对</i></span>
 					</div>
 					<div class="form_ident form_list">
 						<label class="reg_label"><img src="../../static/images/ident.png"></label>
-						<input class="input_text" type="text" placeholder="验证码" v-model="ident">
-						<div class="get_indent" @click="getIdent">获取验证码</div>
-						<span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">该手机号已经注册</i></span>
+						<input class="input_text" type="text" placeholder="验证码" v-model="ident" @blur="blurId">
+						<span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">验证码错误</i></span>
+						<div class="get_indent" @click="getIdent" v-bind:class="{ 'can_ident': isident }">获取验证码</div>
 					</div>
 					<div class="form_nickname form_list">
 						<label class="reg_label"><img src="../../static/images/nickname.png"></label>
@@ -68,8 +67,7 @@
 						<label for="accept_input" class="float_checkbox"><span class="check_gou" v-show="checked">√</span></label>
 					</div>
 				<div class="twolines"></div>
-				<div class="allow_reg" @click="regIn" v-show="allowReg">注册</div>
-				<div class="regi_in" v-else>注册</div>
+				<div class="allow_reg" @click="regIn">注册</div>
 			</div>
 		</div>
 
@@ -88,13 +86,14 @@ import createPop from '../components/createPop.vue'
 				checked:'',
 				account:'',
 				password:'',
+				phone:'',
 				ident:'',
 				nickname:'',
 				errorTip:true,
 				allowReg:false,
-				allowLogin:false,
 				isLand: true,
-				isReg: false
+				isReg: false,
+				isident: true
 			}
 		},
 		components:{
@@ -107,22 +106,6 @@ import createPop from '../components/createPop.vue'
 	
 		},
 		methods:{
-			//判断是否满足注册的要求
-			validateReg: function () {
-				if(this.nickname && this.password && this.account && this.ident && this.checked && this.errorTip){
-					this.allowReg=true;
-				}else{
-					this.allowReg=false;
-				}
-			},
-			//判断是否满足登录的要求
-			validateLog: function () {
-				if(this.account && this.password && this.errorTip){
-					this.allowLogin=true;
-				}else{
-					this.allowLogin=false;
-				}
-			},
 			changeLand: function (e) {
 				var _current=$(e.currentTarget);
 				this.landReg=true;
@@ -143,7 +126,7 @@ import createPop from '../components/createPop.vue'
 					_target.addClass("bottom_line");
 				}
 			},
-			blurPhone: function (e) {
+			blurAccount: function (e) {
 				var _current=$(e.currentTarget);
 				var _error=_current.next('.reg_error');
 				if(/^\d+$/.test(this.account)){
@@ -160,17 +143,52 @@ import createPop from '../components/createPop.vue'
 					_error.show();
 					_error.find('.error_tip').text('请填写正确的手机号');
 				}
-
-				//判断是否满足注册和登录的要求
-				this.validateLog();
-				this.validateReg();	
+			},
+			blurPhone: function (e) {
+				var _current=$(e.currentTarget);
+				var _error=_current.next('.reg_error');
+				if(/^\d+$/.test(this.phone)){
+					_error.hide();
+					//判断是否有错误提示
+					this.errorTip=true;
+					if(this.phone.length!=11){
+						_error.show();
+						//判断是否有错误提示
+						this.errorTip=false;
+						_error.find('.error_tip').text('手机号码位数不对');
+					}else{
+						var parm={}
+						parm.telephone=this.phone;
+						this.$http.post('oet/registerCheck',parm).then(function(response){
+							if(response.data.object.telephoneValid){
+								_error.hide();
+								this.errorTip=true;
+							}else{
+								_error.show();
+								_error.find('.error_tip').text('手机号已被注册');
+								this.errorTip=false;
+							}
+					      },function(response) {
+					              console.log(response);
+					          });
+					}
+				}else{
+					_error.show();
+					_error.find('.error_tip').text('请填写正确的手机号');
+				}
 			},
 			getIdent: function (e) {
+				var _this=this;
 				var _current=$(e.currentTarget);
 				var _error=_current.next('.reg_error');
 				var parm={};
-				if(/^\d+$/.test(this.account) && this.account.length==11){
-					parm.telephone=this.account;
+				if(/^\d+$/.test(_this.phone) && _this.phone.length=='11'){
+					parm.telephone=_this.phone;
+					_error.hide();
+					_this.isident=false;
+					setTimeout(function() {  
+					                _this.isident=true;
+					            },60000);
 				}else{
 					return;
 				}
@@ -181,13 +199,23 @@ import createPop from '../components/createPop.vue'
 						this.errorTip=true;
 					}else{
 						_error.show();
-						this.errorTip=false;
 						_error.find('.error_tip').text(response.data.msg);
+						this.errorTip=false;
 					}
 			      },function(response) {
 			              console.log(response);
 			          });
-				this.validateReg();
+			},
+			blurId: function (e) {
+				var _current=$(e.currentTarget);
+				var _error=_current.next('.reg_error');
+				if(this.ident.length==6){
+					_error.hide();
+					this.errorTip=true;
+				}else{
+					_error.show();
+					this.errorTip=false;
+				}
 			},
 			getNickname: function (e) {
 				var _current=$(e.currentTarget);
@@ -196,10 +224,21 @@ import createPop from '../components/createPop.vue'
 					_error.show();
 					this.errorTip=false;
 				}else{
-					_error.hide();
-					this.errorTip=true;
+					var parm={}
+					parm.nickname=this.nickname;
+					this.$http.post('oet/registerCheck',parm).then(function(response){
+						if(response.data.object.nicknameValid){
+							_error.hide();
+							this.errorTip=true;
+						}else{
+							_error.show();
+							_error.find('.error_tip').text('昵称已被注册');
+							this.errorTip=false;
+						}
+				      },function(response) {
+				              console.log(response);
+				          });
 				}
-				this.validateReg();
 			},
 			getpwd: function (e) {
 				var _current=$(e.currentTarget);
@@ -211,8 +250,6 @@ import createPop from '../components/createPop.vue'
 					_error.hide();
 					this.errorTip=true;
 				}
-				this.validateReg();
-				this.validateLog();
 			},
 			acceptRule: function () {
 				if(this.checked){
@@ -225,20 +262,36 @@ import createPop from '../components/createPop.vue'
 				var parm={};
 				parm.nickname=this.nickname;
 				parm.password=this.password;
-				parm.telephone=this.account;
+				parm.telephone=this.phone;
 				parm.verifyCode=this.ident;
-				console.log(this.errorTip);
-				this.$http.post('oet/register',parm).then(function(response){
-					console.log(response);
-			      },function(response) {
-			              console.log(response);
-			      });
+
+				if(this.nickname && this.password && this.phone && this.ident && this.checked && this.errorTip){
+					this.$http.post('oet/register',parm).then(function(response){
+						console.log(response);
+						if(response.data.code){
+							document.cookie="oetevent.login.sessionid="+response.data.object["oetevent.login.sessionid"];
+							document.cookie="oetevent.login.token="+response.data.object["oetevent.login.token"];
+				  			document.cookie="oetUserId="+response.data.object.oetUser.id;
+				  			document.cookie="appUserId="+response.data.object.appUser.id;
+				  			window.sessionStorage.setItem("appusericon",response.data.object.appUser.icon);
+				  			window.sessionStorage.setItem("nickname",response.data.object.appUser.nickname);
+							this.$route.router.go({path: '/index'}); 
+						}else{
+							var _formid=$('.form_ident');
+					        _formid.find('.reg_error').show();
+						}
+				      },function(response) {
+				              console.log(response);
+				      });
+				}
+				
 			},
 			logIn: function () {
 				var parm={};
 				parm.username=this.account;
 				parm.password=this.password;
-				this.$http.post('oet/login',parm).then(function(response){
+				if(this.account && this.password && this.errorTip){
+					this.$http.post('oet/login',parm).then(function(response){
 					console.log(response);
 					if(response.data.code){
 						document.cookie="oetevent.login.sessionid="+response.data.object["oetevent.login.sessionid"];
@@ -248,10 +301,16 @@ import createPop from '../components/createPop.vue'
 			  			window.sessionStorage.setItem("appusericon",response.data.object.appUser.icon);
 			  			window.sessionStorage.setItem("nickname",response.data.object.appUser.nickname);
 						this.$route.router.go({path: '/index'}); 
+					}else{
+						var _formpw=$('.form_pw');
+						var _text=response.data.msg;
+						_formpw.find('.reg_error').show();
+						_formpw.find('.error_tip').text(_text);
 					}
 			      },function(response) {
 			              console.log(response);
 			      });
+				}
 			}
 		}
 	}
@@ -451,5 +510,9 @@ import createPop from '../components/createPop.vue'
 	     border-bottom: 7px solid transparent;
 	     top: -7px;
 	     left:2px;
+    }
+    .form_ident .can_ident{
+    	background-color: #fdb91a;
+    	color: #000;
     }
 </style>
