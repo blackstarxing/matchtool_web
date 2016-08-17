@@ -6,8 +6,8 @@
 	<div class="landregister">
 		<div class="landreg_head">
 			<ul class="landreg_tab">
-				<li class="reg_active" @click="changeLand">登录</li>
-				<li @click="changeReg">注册</li>
+				<li class="reg_active" @click="changeLand" v-bind:class="{ 'reg_active': isLand }">登录</li>
+				<li @click="changeReg" v-bind:class="{ 'reg_active': isReg}">注册</li>
 			</ul>
 		</div>
 		<div class="landreg_content" @click="inputFoucs">
@@ -17,12 +17,12 @@
 					<div class="form_account form_list">
 						<label class="reg_label"><img src="../../static/images/account.png"></label>
 						<input class="input_text" type="text" placeholder="手机号／网娱大师帐号" v-model="account" @blur="blurPhone">
-						<span class="reg_error"><img src="../../static/images/tip.png"><i class="error_tip">手机号码位数不对</i></span>
+						<span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">手机号码位数不对</i></span>
 					</div>
 					<div class="form_pw form_list">
 						<label class="reg_label"><img src="../../static/images/password.png"></label>
 						<input class="input_text" type="password" placeholder="请输入密码" v-model="password" @blur="getpwd">
-						<span class="reg_error"><img src="../../static/images/tip.png"><i class="error_tip">密码位数不对</i></span>
+						<span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">密码位数不对</i></span>
 					</div>
 				</div>
 				<div class="password_st clearfix">
@@ -43,23 +43,23 @@
 					<div class="form_account form_list">
 						<label class="reg_label"><img src="../../static/images/account.png"></label>
 						<input class="input_text" type="text" placeholder="手机号" v-model="account" @blur="blurPhone">
-						<span class="reg_error"><img src="../../static/images/tip.png"><i class="error_tip">手机号码位数不对</i></span>
+						<span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">手机号码位数不对</i></span>
 					</div>
 					<div class="form_ident form_list">
 						<label class="reg_label"><img src="../../static/images/ident.png"></label>
 						<input class="input_text" type="text" placeholder="验证码" v-model="ident">
 						<div class="get_indent" @click="getIdent">获取验证码</div>
-						<span class="reg_error"><img src="../../static/images/tip.png"><i class="error_tip">该手机号已经注册</i></span>
+						<span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">该手机号已经注册</i></span>
 					</div>
 					<div class="form_nickname form_list">
 						<label class="reg_label"><img src="../../static/images/nickname.png"></label>
 						<input class="input_text" type="text" maxlength='8' placeholder="昵称(最多8位，允许数字字母常用符号)" v-model="nickname" @blur="getNickname">
-						<span class="reg_error"><img src="../../static/images/tip.png"><i class="error_tip">昵称有非法字符</i></span>
+						<span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">昵称有非法字符</i></span>
 					</div>
 					<div class="form_pw form_list">
 						<label class="reg_label"><img src="../../static/images/password.png"></label>
 						<input class="input_text" type="password" placeholder="密码(6-16位，允许数字字母常用符号)" maxlength='16' v-model="password" @blur="getpwd">
-						<span class="reg_error"><img src="../../static/images/tip.png"><i class="error_tip">密码位数太短</i></span>
+						<span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">密码位数太短</i></span>
 					</div>
 				</div>
 				<div class="accept_rule">
@@ -92,7 +92,9 @@ import createPop from '../components/createPop.vue'
 				nickname:'',
 				errorTip:true,
 				allowReg:false,
-				allowLogin:false
+				allowLogin:false,
+				isLand: true,
+				isReg: false
 			}
 		},
 		components:{
@@ -124,12 +126,14 @@ import createPop from '../components/createPop.vue'
 			changeLand: function (e) {
 				var _current=$(e.currentTarget);
 				this.landReg=true;
-				_current.addClass('reg_active').siblings().removeClass('reg_active');
+				this.isLand=true;
+				this.isReg=false;
 			},
 			changeReg: function (e) {
 				var _current=$(e.currentTarget);
 				this.landReg=false;
-				_current.addClass('reg_active').siblings().removeClass('reg_active');
+				this.isLand=false;
+				this.isReg=true;
 			},
 			inputFoucs: function (e) {
 				var _current=$(e.currentTarget);
@@ -379,7 +383,7 @@ import createPop from '../components/createPop.vue'
 	  height: 15px;
     }
     .bottom_line{
-    	border-bottom: 2px solid #fff !important;
+    	border-bottom: 1px solid #fff !important;
     }
     .form_list{
     	position: relative;
@@ -388,7 +392,7 @@ import createPop from '../components/createPop.vue'
 		display: inline-block;
 		position: absolute;
 		top: 0;
-		right:-170px;
+		right:-175px;
 		color: #42aa53;
 		width: 160px;
 		height: 35px;
@@ -397,6 +401,8 @@ import createPop from '../components/createPop.vue'
 		text-align: center;
 		border: 1px solid #343b45;
 		display: none;
+		font-size: 12px;
+		border-radius: 2px;
     }
     .get_indent{
     	position: absolute;
@@ -421,5 +427,29 @@ import createPop from '../components/createPop.vue'
 		margin: 30px auto;
 		border-radius: 5px;
 		font-size: 18px;
+    }
+    .error_tip{
+    	margin-left:7px;
+    }
+    .error_tri{
+    	position: absolute;
+    	width: 0;
+	    height: 0;
+	    border-top: 8px solid transparent;
+	    border-right: 9px solid #343b45;
+	    border-bottom: 8px solid transparent;
+	    top: 11px;
+	    left:-10px;
+    }
+    .error_tri:before {
+		 position: absolute;
+		 content: '';
+		 width: 0;
+	     height: 0;
+	     border-top: 7px solid transparent;
+	     border-right: 8px solid #171a21;
+	     border-bottom: 7px solid transparent;
+	     top: -7px;
+	     left:2px;
     }
 </style>
