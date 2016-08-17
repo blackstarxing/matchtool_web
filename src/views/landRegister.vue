@@ -243,8 +243,7 @@ import createPop from '../components/createPop.vue'
 			  			document.cookie="appUserId="+response.data.object.appUser.id;
 			  			window.sessionStorage.setItem("appusericon",response.data.object.appUser.icon);
 			  			window.sessionStorage.setItem("nickname",response.data.object.appUser.nickname);
-			  			console.log(document.cookie.split(";"));
-						this.$route.router.go({path: '/quickmatch'}); 
+						this.$route.router.go({path: '/index'}); 
 					}
 			      },function(response) {
 			              console.log(response);

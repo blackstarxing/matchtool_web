@@ -57,6 +57,13 @@
 				</div>
 				<div class="next_btn" style="margin: 30px auto 0;" @click="nextSucess">下一步</div>
 			</div>
+			<div class="list_sucess" style="padding-top:30px;display:none">
+				<div class="sucess_pic">
+					<img src="../../static/images/pw_sucess.png">
+				</div>
+				<p class="sucess_conform">重置成功</p>
+				<div class="sucess_btn" @clcik="changepwSucess">确 认</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -73,7 +80,8 @@ import createPop from '../components/createPop.vue'
 				pwPhone:'',
 				pwIdent:'',
 				newPw:'',
-				confirmPw:''
+				confirmPw:'',
+				pwOk:''
 			}
 		},
 		components:{
@@ -88,7 +96,7 @@ import createPop from '../components/createPop.vue'
 		methods:{
 			nextIdent: function () {
 				if(this.pwPhone.length=="11"){
-					$('.list_ident').show().siblings('.list_detail').hide();
+					$('.list_ident').show().siblings().hide();
 					$('.status_li').eq(1).find('.status_num').addClass('status_finish');
 					$('.status_li').eq(1).find('.status_line').addClass('line_finish');
 				}
@@ -131,25 +139,10 @@ import createPop from '../components/createPop.vue'
 				parm.telephone=this.pwPhone;
 				parm.verifyCode=this.pwIdent;
 				this.$http.post('oet/checkVerifyCode',parm).then(function(response){
-					if(response.data.code){
-						$('.list_reset').show().siblings('.list_detail').hide();
+					if(response.data.object.valid){
+						$('.list_reset').show().siblings().hide();
 						$('.status_li').eq(2).find('.status_num').addClass('status_finish');
 						$('.status_li').eq(2).find('.status_line').addClass('line_finish');
-					}
-					
-			      },function(response) {
-			              console.log(response);
-			          });
-			},
-			nextSucess: function () {
-				var parm={};
-				parm.password=this.newPw;
-				parm.username=this.pwPhone;
-				parm.verifyCode=this.pwIdent;
-				this.$http.post('oet/user/reset',parm).then(function(response){
-					console.log(response);
-					if(response.data.code){
-						
 					}
 					
 			      },function(response) {
@@ -159,10 +152,12 @@ import createPop from '../components/createPop.vue'
 			getNpw: function (e) {
 				var _current=$(e.currentTarget);
 				var _error=_current.next('.pw_error');
-				if(this.newPw.length<7){
+				if(this.newPw.length<6){
 					_error.show();
+					this.pwOk=false;
 				}else{
 					_error.hide();
+					this.pwOk=true;
 				}
 			},
 			getConform: function (e) {
@@ -170,9 +165,31 @@ import createPop from '../components/createPop.vue'
 				var _error=_current.next('.pw_error');
 				if(this.confirmPw != this.newPw){
 					_error.show();
+					this.pwOk=false;
 				}else{
 					_error.hide();
+					this.pwOk=true;
 				}
+			},
+			nextSucess: function () {
+				var parm={};
+				parm.password=this.newPw;
+				parm.username=this.pwPhone;
+				parm.verifyCode=this.pwIdent;
+				if(this.newPw && this.confirmPw && this.pwOk){
+					this.$http.post('oet/user/reset',parm).then(function(response){
+						console.log(response);
+						if(response.data.code){
+							$('.list_sucess').show().siblings().hide();
+							$('.status_li').eq(3).find('.status_num').addClass('status_finish');
+						}
+				      },function(response) {
+				              console.log(response);
+				    });
+				}
+			},
+			changepwSucess: function () {
+				this.$route.router.go({path: '/index'}); 
 			}
 		}
 	}
@@ -319,5 +336,25 @@ import createPop from '../components/createPop.vue'
     }
     .list_every{
     	position: relative;
+    }
+    .sucess_pic{
+    	text-align: center;
+    	margin-bottom: 20px;
+    }
+    .sucess_conform{
+    	text-align: center;
+    	color: #fff;
+    }
+    .sucess_btn{
+    	width: 200px;
+    	height: 50px;
+    	color: #000;
+    	background-color: #fdb91a;
+    	text-align: center;
+    	line-height: 50px;
+    	font-size: 18px;
+    	margin: 40px auto 0;
+    	cursor: pointer;
+    	border-radius: 3px;
     }
 </style>
