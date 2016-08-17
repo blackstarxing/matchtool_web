@@ -139,9 +139,9 @@
 		},
 		components: {
 			topHead,
-      sideBar,
-      slideBar,
-      createPop
+		    sideBar,
+		    slideBar,
+		    createPop
 		},
 		ready: function () {
 			

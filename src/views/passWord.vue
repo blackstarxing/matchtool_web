@@ -62,7 +62,7 @@
 					<img src="../../static/images/pw_sucess.png">
 				</div>
 				<p class="sucess_conform">重置成功</p>
-				<div class="sucess_btn" @clcik="changepwSucess">确 认</div>
+				<div class="sucess_btn" @click="changepwSucess">确 认</div>
 			</div>
 		</div>
 	</div>
