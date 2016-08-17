@@ -79,7 +79,7 @@ router.map({
 })
 
 router.redirect({
-  '*': '/landRegister'
+  '*': '/index'
 })
 
 router.start(matchtool, '#app')
