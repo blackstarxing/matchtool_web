@@ -16,7 +16,7 @@
               <li><a href=""><span class="icon-uniE61A"></span>参赛信息设置</a></li>
               <li><a href=""><span class="icon-uniE61D"></span>战队系统</a></li>
               <li><a href=""><span class="icon-uniE61C"></span>反馈我们</a></li>
-              <li><a href=""><span class="icon-uniE61B"></span>登出</a></li>
+              <li><a href="" @click="logout"><span class="icon-uniE61B"></span>登出</a></li>
           </ul>
         </div>
       </div>
@@ -46,7 +46,15 @@
   		slidein:function(e){
   			e.preventDefault();
   			$('.m-slideInto').animate({left:"0px"},200);
-  		}
+  		},
+      logout:function(e){
+        e.preventDefault();
+        this.$http.post("oet/logout").then(function(response){
+          this.$route.router.go({path: '/landRegister'})     
+        }, function(response){
+          console.log(response);
+        })
+      }
   	}
   }
 </script>

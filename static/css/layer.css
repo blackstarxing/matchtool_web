@@ -542,7 +542,7 @@ html #layui_layer_skinlayercss
 .layui-layer-setwin .layui-layer-close1
 {
 	/*background-position: 0 -40px;*/
-	background: url(../images/delete.png) no-repeat;
+	background: url(../images/close.png) no-repeat;
 	cursor: pointer
 }
 
