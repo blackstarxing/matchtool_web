@@ -160,9 +160,9 @@
 		},
 		components: {
 			topHead,
-      sideBar,
-      slideBar,
-      createPop
+		    sideBar,
+		    slideBar,
+		    createPop
 		},
 		ready: function () {
 			$.$http.get('oet/sysuser/saveSysUserInfo', function (data) {
