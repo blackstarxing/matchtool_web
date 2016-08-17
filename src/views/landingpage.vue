@@ -141,7 +141,6 @@ import createPop from '../components/createPop.vue'
 	        createPop
 		},
 		ready:function(){
-			
 
 		},
 		methods:{
