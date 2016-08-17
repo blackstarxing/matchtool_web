@@ -50,9 +50,9 @@
 						<div class="back">
 							<!-- 背面内容 -->
 							<h4>{{match.nickname ? match.nickname : '网娱大师赛事组'}}</h4>
-							<div class="flip-time"><i class="iconfont">&#xe60f</i><span v-text="match.createDate | formatDate"></span></div>
-							<div class="flip-num"><i class="iconfont">&#xe619</i><strong>{{match.num}}</strong>/ {{match.maxNum}}人</div>
-							<a href="" class="flip-btn" @click="linkDetail"><i class="iconfont">&#xe603</i></a>
+							<div class="flip-time"><span class="icon-uniE60F"></span><span v-text="match.createDate | formatDate"></span></div>
+							<div class="flip-num"><span class="icon-uniE619"></span><strong>{{match.num}}</strong>/ {{match.maxNum}}人</div>
+							<a href="" class="flip-btn" @click="linkDetail"><span class="icon-uniE603"></span></a>
 							<span class="get_eventid">{{match.eventId}}</span><span class="get_roundid">{{match.id}}</span>
 						</div>
 					</div>
