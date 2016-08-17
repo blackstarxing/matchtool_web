@@ -7,25 +7,27 @@
 	<div class="pw_status">
 		<ul class="status_list clearfix">
 			<li class="status_li">
-				<span class="status_title"></span>
+				<span class="status_title">注册账号</span>
 				<span class="status_num status_finish">1</span>
 				<span class="status_line line_finish"></span>
 			</li>
 			<li class="status_li">
-				<span class="status_num">2</span>
-				<span class="status_line"></span>
+				<span class="status_title">验证账号</span>
+				<span class="status_num" v-bind:class="{ 'status_finish': statusOne }">2</span>
+				<span class="status_line" v-bind:class="{ 'line_finish': lineOne }"></span>
 			</li>
 			<li class="status_li">
-				<span class="status_num">3</span>
-				<span class="status_line"></span>
+				<span class="status_title">重置密码</span>
+				<span class="status_num" v-bind:class="{ 'status_finish': statusTwo }">3</span>
+				<span class="status_line" v-bind:class="{ 'line_finish': linetwo }"></span>
 			</li>
 			<li class="status_li">
-				<span class="status_num">4</span>
+				<span class="status_title">修改完成</span>
+				<span class="status_num" v-bind:class="{ 'status_finish': statusThree }">4</span>
 			</li>
 		</ul>
 	</div>
 	<div class="pw_container">
-		<div class="pw_list">
 			<div class="list_fill list_detail">
 				<div class="list_every">
 					<label>手机号：</label>
@@ -48,16 +50,22 @@
 				<div class="list_every" style="margin-bottom:20px">
 					<label class="list_label">新密码：</label>
 					<input type="password" class="pw_input" placeholder="新密码(6-16位，允许数字字母常用符号)" v-model="newPw" @blur="getNpw">
-					<span class="pw_error"><img src="../../static/images/tip.png"><i class="error_tip">密码位数太短</i></span>
+					<span class="pw_error"><span class="error_pwtri"></span><img src="../../static/images/tip.png"><i class="error_tip">密码位数太短</i></span>
 				</div>
 				<div class="list_every">
 					<label class="list_label">再次输入：</label>
 					<input type="password" class="pw_input" placeholder="请输入新密码" @blur="getConform" v-model="confirmPw">
-					<span class="pw_error"><img src="../../static/images/tip.png"><i class="error_tip">密码与上方不一致</i></span>
+					<span class="pw_error"><span class="error_pwtri"></span><img src="../../static/images/tip.png"><i class="error_tip">密码与上方不一致</i></span>
 				</div>
 				<div class="next_btn" style="margin: 30px auto 0;" @click="nextSucess">下一步</div>
 			</div>
-		</div>
+			<div class="list_sucess" style="padding-top:30px;display:none">
+				<div class="sucess_pic">
+					<img src="../../static/images/pw_sucess.png">
+				</div>
+				<p class="sucess_conform">重置成功</p>
+				<div class="sucess_btn" @click="changepwSucess">确 认</div>
+			</div>
 	</div>
 </div>
 </template>
@@ -73,7 +81,13 @@ import createPop from '../components/createPop.vue'
 				pwPhone:'',
 				pwIdent:'',
 				newPw:'',
-				confirmPw:''
+				confirmPw:'',
+				pwOk:'',
+				statusOne: false,
+				lineOne: false,
+				statusTwo: false,
+				linetwo: false,
+				statusThree: false,
 			}
 		},
 		components:{
@@ -88,9 +102,9 @@ import createPop from '../components/createPop.vue'
 		methods:{
 			nextIdent: function () {
 				if(this.pwPhone.length=="11"){
-					$('.list_ident').show().siblings('.list_detail').hide();
-					$('.status_li').eq(1).find('.status_num').addClass('status_finish');
-					$('.status_li').eq(1).find('.status_line').addClass('line_finish');
+					$('.list_ident').show().siblings().hide();
+					this.statusOne=true;
+					this.lineOne=true;
 				}
 			},
 			getPWident: function () {
@@ -131,25 +145,10 @@ import createPop from '../components/createPop.vue'
 				parm.telephone=this.pwPhone;
 				parm.verifyCode=this.pwIdent;
 				this.$http.post('oet/checkVerifyCode',parm).then(function(response){
-					if(response.data.code){
-						$('.list_reset').show().siblings('.list_detail').hide();
-						$('.status_li').eq(2).find('.status_num').addClass('status_finish');
-						$('.status_li').eq(2).find('.status_line').addClass('line_finish');
-					}
-					
-			      },function(response) {
-			              console.log(response);
-			          });
-			},
-			nextSucess: function () {
-				var parm={};
-				parm.password=this.newPw;
-				parm.username=this.pwPhone;
-				parm.verifyCode=this.pwIdent;
-				this.$http.post('oet/user/reset',parm).then(function(response){
-					console.log(response);
-					if(response.data.code){
-						
+					if(response.data.object.valid){
+						$('.list_reset').show().siblings().hide();
+						this.statusTwo=true;
+						this.linetwo=true;
 					}
 					
 			      },function(response) {
@@ -159,10 +158,12 @@ import createPop from '../components/createPop.vue'
 			getNpw: function (e) {
 				var _current=$(e.currentTarget);
 				var _error=_current.next('.pw_error');
-				if(this.newPw.length<7){
+				if(this.newPw.length<6){
 					_error.show();
+					this.pwOk=false;
 				}else{
 					_error.hide();
+					this.pwOk=true;
 				}
 			},
 			getConform: function (e) {
@@ -170,9 +171,31 @@ import createPop from '../components/createPop.vue'
 				var _error=_current.next('.pw_error');
 				if(this.confirmPw != this.newPw){
 					_error.show();
+					this.pwOk=false;
 				}else{
 					_error.hide();
+					this.pwOk=true;
 				}
+			},
+			nextSucess: function () {
+				var parm={};
+				parm.password=this.newPw;
+				parm.username=this.pwPhone;
+				parm.verifyCode=this.pwIdent;
+				if(this.newPw && this.confirmPw && this.pwOk){
+					this.$http.post('oet/user/reset',parm).then(function(response){
+						console.log(response);
+						if(response.data.code){
+							$('.list_sucess').show().siblings().hide();
+							this.statusThree=true;
+						}
+				      },function(response) {
+				              console.log(response);
+				    });
+				}
+			},
+			changepwSucess: function () {
+				this.$route.router.go({path: '/index'}); 
 			}
 		}
 	}
@@ -219,12 +242,7 @@ import createPop from '../components/createPop.vue'
 	.pw_container{
 		width: 488px;
 		height: 280px;
-		padding: 6px;
-		background-color: #292f3b;
-	}
-	.pw_list{
-		width: 100%;
-		height: 100%;
+		border: 6px solid #292f3b;
 		background-color: #1b1e25;
 	}
 	.list_detail{
@@ -290,20 +308,6 @@ import createPop from '../components/createPop.vue'
 		width: 90px;
 		text-align: right;
 	}
-	 .reg_error{
-		display: inline-block;
-		position: absolute;
-		top: 0;
-		right:-170px;
-		color: #42aa53;
-		width: 160px;
-		height: 35px;
-		background-color: #171a21;
-		line-height: 35px;
-		text-align: center;
-		border: 1px solid #343b45;
-		display: none;
-    }
     .pw_error{
 		position: absolute;
 		top: 0;
@@ -319,5 +323,56 @@ import createPop from '../components/createPop.vue'
     }
     .list_every{
     	position: relative;
+    }
+    .sucess_pic{
+    	text-align: center;
+    	margin-bottom: 20px;
+    }
+    .sucess_conform{
+    	text-align: center;
+    	color: #fff;
+    }
+    .sucess_btn{
+    	width: 200px;
+    	height: 50px;
+    	color: #000;
+    	background-color: #fdb91a;
+    	text-align: center;
+    	line-height: 50px;
+    	font-size: 18px;
+    	margin: 40px auto 0;
+    	cursor: pointer;
+    	border-radius: 3px;
+    }
+    .error_tip{
+    	margin-left:7px;
+    }
+    .error_pwtri{
+    	position: absolute;
+    	width: 0;
+	    height: 0;
+	    border-top: 8px solid transparent;
+	    border-right: 9px solid #343b45;
+	    border-bottom: 8px solid transparent;
+	    top: 7px;
+	    left:-10px;
+    }
+    .error_pwtri:before {
+		 position: absolute;
+		 content: '';
+		 width: 0;
+	     height: 0;
+	     border-top: 7px solid transparent;
+	     border-right: 8px solid #171a21;
+	     border-bottom: 7px solid transparent;
+	     top: -7px;
+	     left:2px;
+    }
+    .status_title{
+    	position: absolute;
+    	top:-25px;
+    	left: -16px;
+    	color: #fff;
+    	width:60px;
     }
 </style>

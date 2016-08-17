@@ -10,7 +10,7 @@
         <img v-bind:src="'http://img.wangyuhudong.com/'+avatar"  alt=""><span class="icon-uniE60E"></span>
         <div class="nav-list">
           <ul>
-              <li><a href=""><span class="icon-uniE617"></span>创建赛事</a></li>
+              <li><a v-link="{ path: '/quickmatch'}"><span class="icon-uniE617"></span>创建赛事</a></li>
               <li><a href=""><span class="icon-uniE618"></span>我的赛事</a></li>
               <li><a href=""><span class="icon-uniE619"></span>个人设置</a></li>
               <li><a href=""><span class="icon-uniE61A"></span>参赛信息设置</a></li>

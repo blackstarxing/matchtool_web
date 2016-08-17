@@ -40,36 +40,36 @@
 					</div>
 					<div class="f-c">
 						<p class="g-c-l mt40">赛事模式<span class="colfdb f-tip"></span></p>
-						<div class="g-c-zbf">
-						    <div class="f-fl g-c-ms">
-								<input type="radio" id="online" name="matchitem" class="regular-radio" checked="checked" value="1" v-model="formdata.mode"/>
-								<label for="online" @click="slideup"></label>
-								<label for="online" class="u-c-per" @click="slideup">		
-									<span class="f-fl">
-										纯线上赛事
-									</span>
-								</label>
-							</div>
-							<div class="f-fl g-c-ms">
-								<input type="radio" id="offline" name="matchitem" class="regular-radio" value="2" v-model="formdata.mode"/>
-								<label for="offline" @click="slidedown"></label>
-								<label for="offline" class="u-c-per" @click="slidedown">		
-									<span class="f-fl">
-										纯线下赛事
-									</span>
-								</label>
-							</div>
-							<div class="f-fl h36">
-								<input type="radio" id="unite" name="matchitem" class="regular-radio" value="3" v-model="formdata.mode"/>
-								<label for="unite" @click="slidedown"></label>
-								<label for="unite" class="u-c-per" @click="slidedown">		
-									<span class="f-fl">
-										线上与线下结合模式
-									</span>
-								</label>
+							<div class="g-c-zbf">
+							  <div class="f-fl g-c-ms">
+									<input type="radio" id="online" name="matchitem" class="regular-radio" checked="checked" value="1" v-model="formdata.mode"/>
+									<label for="online" @click="slideup"></label>
+									<label for="online" class="u-c-per" @click="slideup">		
+										<span class="f-fl">
+											纯线上赛事
+										</span>
+									</label>
+								</div>
+								<div class="f-fl g-c-ms">
+									<input type="radio" id="offline" name="matchitem" class="regular-radio" value="2" v-model="formdata.mode"/>
+									<label for="offline" @click="slidedown"></label>
+									<label for="offline" class="u-c-per" @click="slidedown">		
+										<span class="f-fl">
+											纯线下赛事
+										</span>
+									</label>
+								</div>
+								<div class="f-fl h36">
+									<input type="radio" id="unite" name="matchitem" class="regular-radio" value="3" v-model="formdata.mode"/>
+									<label for="unite" @click="slidedown"></label>
+									<label for="unite" class="u-c-per" @click="slidedown">		
+										<span class="f-fl">
+											线上与线下结合模式
+										</span>
+									</label>
+								</div>
 							</div>
 						</div>
-					</div>
 					<div class="m-c-xx">
 						<div class="f-c">
 							<p class="g-c-l mt40">比赛地点<span class="colfdb f-tip"></span></p>
@@ -242,30 +242,30 @@ import createPop from '../components/createPop.vue'
 					itemId:"",
 					addreass:"",
 					detailAddreass:"",
-    				maxNum:"",
-    				mode:"",
-    				allowApply:0,
-    				applyType:"",
-    				nicknameRequired:0,
-    				nameRequired:0,
-    				idcardRequired:0,
-    				qqRequired:0,
-    				telephoneRequired:0,
-    				otherRequired:0,
-    				otherDescribe:"",
-    				activityBegin:"",
-    				applyBegin:"",
-    				applyEnd:"",
-    				needSign:0,
-    				needSignMinu:""
-    			}
+  				maxNum:"",
+  				mode:"",
+  				allowApply:0,
+  				applyType:"",
+  				nicknameRequired:0,
+  				nameRequired:0,
+  				idcardRequired:0,
+  				qqRequired:0,
+  				telephoneRequired:0,
+  				otherRequired:0,
+  				otherDescribe:"",
+  				activityBegin:"",
+  				applyBegin:"",
+  				applyEnd:"",
+  				needSign:0,
+  				needSignMinu:""
+    		}
 			}
 		},
 		components:{
 			topHead,
-	        sideBar,
-	        slideBar,
-	        createPop
+      sideBar,
+      slideBar,
+      createPop
 		},
 		ready:function(){
 			// 赛事名称字符规则
