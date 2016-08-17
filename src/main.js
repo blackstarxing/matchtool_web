@@ -79,7 +79,7 @@ router.map({
 })
 
 router.redirect({
-  '*': '/perSetting'
+  '*': '/landRegister'
 })
 
 router.start(matchtool, '#app')

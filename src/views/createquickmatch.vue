@@ -242,30 +242,30 @@ import createPop from '../components/createPop.vue'
 					itemId:"",
 					addreass:"",
 					detailAddreass:"",
-    				maxNum:"",
-    				mode:"",
-    				allowApply:0,
-    				applyType:"",
-    				nicknameRequired:0,
-    				nameRequired:0,
-    				idcardRequired:0,
-    				qqRequired:0,
-    				telephoneRequired:0,
-    				otherRequired:0,
-    				otherDescribe:"",
-    				activityBegin:"",
-    				applyBegin:"",
-    				applyEnd:"",
-    				needSign:0,
-    				needSignMinu:""
-    			}
+  				maxNum:"",
+  				mode:"",
+  				allowApply:0,
+  				applyType:"",
+  				nicknameRequired:0,
+  				nameRequired:0,
+  				idcardRequired:0,
+  				qqRequired:0,
+  				telephoneRequired:0,
+  				otherRequired:0,
+  				otherDescribe:"",
+  				activityBegin:"",
+  				applyBegin:"",
+  				applyEnd:"",
+  				needSign:0,
+  				needSignMinu:""
+    		}
 			}
 		},
 		components:{
 			topHead,
-	        sideBar,
-	        slideBar,
-	        createPop
+      sideBar,
+      slideBar,
+      createPop
 		},
 		ready:function(){
 			// 赛事名称字符规则
