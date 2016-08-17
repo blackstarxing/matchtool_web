@@ -204,7 +204,7 @@ import createPop from '../components/createPop.vue'
 			getpwd: function (e) {
 				var _current=$(e.currentTarget);
 				var _error=_current.next('.reg_error');
-				if(this.password.length<7){
+				if(this.password.length<6){
 					_error.show();
 					this.errorTip=false;
 				}else{
