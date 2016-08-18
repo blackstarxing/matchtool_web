@@ -84,7 +84,6 @@ import createPop from '../components/createPop.vue'
 			var parm={};
 			parm.jsonInfo=JSON.stringify({pageNumber:1});
 	        _this.$http.get('oet/event/getAllEventRoundList',parm).then(function(response) {
-	        	console.log(response.data.code);
 	        	if(response.data.code==-1){
 	        		_this.$route.router.go({path: '/landingpage'}); 
 	        	}else if(response.data.code){
