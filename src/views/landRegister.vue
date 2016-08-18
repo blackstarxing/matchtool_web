@@ -161,7 +161,7 @@ import createPop from '../components/createPop.vue'
 					}else{
 						var parm={}
 						parm.telephone=this.phone;
-						this.$http.post('/registerCheck',parm).then(function(response){
+						this.$http.post('registerCheck',parm).then(function(response){
 							if(response.data.object.telephoneValid){
 								_error.hide();
 								this.errorTip=true;
@@ -195,7 +195,7 @@ import createPop from '../components/createPop.vue'
 					return;
 				}
 				parm.type=1;
-				this.$http.post('/sendVerifyCode',parm).then(function(response){
+				this.$http.post('sendVerifyCode',parm).then(function(response){
 					if(response.data.code){
 						_error.hide();
 						this.errorTip=true;
@@ -228,7 +228,7 @@ import createPop from '../components/createPop.vue'
 				}else{
 					var parm={}
 					parm.nickname=this.nickname;
-					this.$http.post('/registerCheck',parm).then(function(response){
+					this.$http.post('registerCheck',parm).then(function(response){
 						if(response.data.object.nicknameValid){
 							_error.hide();
 							this.errorTip=true;
@@ -261,7 +261,7 @@ import createPop from '../components/createPop.vue'
 				parm.verifyCode=this.ident;
 
 				if(this.nickname && this.password && this.phone && this.ident && this.acceptchecked && this.errorTip){
-					this.$http.post('/register',parm).then(function(response){
+					this.$http.post('register',parm).then(function(response){
 						console.log(response);
 						if(response.data.code){
 							document.cookie="oetevent.login.sessionid="+response.data.object["oetevent.login.sessionid"];
@@ -286,7 +286,7 @@ import createPop from '../components/createPop.vue'
 				parm.username=this.account;
 				parm.password=this.password;
 				if(this.account && this.password && this.errorTip && this.autochecked){
-					this.$http.post('/login',parm).then(function(response){
+					this.$http.post('login',parm).then(function(response){
 					console.log(response);
 					if(response.data.code){
 						document.cookie="oetevent.login.sessionid="+response.data.object["oetevent.login.sessionid"];

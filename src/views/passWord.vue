@@ -129,7 +129,7 @@ import createPop from '../components/createPop.vue'
 				var parm={};
 				parm.type=2;
 				parm.telephone=this.pwPhone;
-				this.$http.post('/sendVerifyCode',parm).then(function(response){
+				this.$http.post('sendVerifyCode',parm).then(function(response){
 					var _pwident=$(".get_pwident");
 					var _countdown=$(".count_down");
 					var _time=60;
@@ -162,7 +162,7 @@ import createPop from '../components/createPop.vue'
 				parm.type=2;
 				parm.telephone=this.pwPhone;
 				parm.verifyCode=this.pwIdent;
-				this.$http.post('/checkVerifyCode',parm).then(function(response){
+				this.$http.post('checkVerifyCode',parm).then(function(response){
 					if(response.data.object.valid){
 						$('.list_reset').show().siblings().hide();
 						this.finishTwo=true;
@@ -200,7 +200,7 @@ import createPop from '../components/createPop.vue'
 				parm.username=this.pwPhone;
 				parm.verifyCode=this.pwIdent;
 				if(this.newPw && this.confirmPw && this.pwOk){
-					this.$http.post('/user/reset',parm).then(function(response){
+					this.$http.post('user/reset',parm).then(function(response){
 						if(response.data.code){
 							$('.list_sucess').show().siblings().hide();
 							this.statusThree=true;
