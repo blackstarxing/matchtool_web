@@ -292,8 +292,15 @@
 							</select>
 						</div>
 						<div class="g-cgl-bj">
-							<label for="">上传战队图标：</label>
-							<input type="text" class="u-c-ipt" style="width: 61.85%;" />
+							<label for="" class="f-fl">上传战队图标：</label>
+							<div class="g-cgl-sctb">
+								<div class="g-cgl-icon">
+									<i class="icon-uniE62B"></i>
+								</div>
+								<div class="picBox m-cgl-pixbox">
+									<div id="pic"></div>
+								</div>
+							</div>
 						</div>
 						<div class="g-cgl-bj">
 							<label for="" class="f-fl">战队简介：</label>
@@ -323,10 +330,27 @@ import createPop from '../../components/createPop.vue'
 	        createPop
 		},
 		ready:function(){
-
+			$('#pic').diyUpload({
+	    		url:'http://match.wangyuhudong.com/api/file/upload',
+				success:function( data ) {
+					console.info( data );	
+				},
+				error:function( err ) {
+					console.info( err );	
+				},
+				buttonText : '设置头像',	
+				chunked:true,
+				// 分片大小
+				chunkSize:512 * 1024,
+				//最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+				fileNumLimit:1,
+				fileSizeLimit:500000 * 1024,
+				fileSingleSizeLimit:50000 * 1024,
+				accept: {}
+	    	});
 		},
 		methods:{
-
+			
 		}
 	}
 </script>
