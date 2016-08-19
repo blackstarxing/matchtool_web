@@ -140,7 +140,7 @@ import backendSidebar from '../components/backendSidebar.vue'
      		_this.roundId=window.sessionStorage.getItem("eventRoundId");
      		_this.needsign=window.sessionStorage.getItem("needsign");
      		_this.roundStatus=window.sessionStorage.getItem("roundStatus");
-	        _this.$http.post('oet/event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
+	        _this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 	        	console.log(response);
 	            _this.memberlist=response.data.object.pager;
 	        },function(response) {
@@ -198,11 +198,11 @@ import backendSidebar from '../components/backendSidebar.vue'
 		    		sign=1;
 		    	}
 		    	var parm={memberId:memberId,sign:sign};
-		    	_this.$http.get('oet/event/round/group/member/sign',parm).then(function(response) {
+		    	_this.$http.get('event/round/group/member/sign',parm).then(function(response) {
 		        	console.log(response.data.msg);
 		        	if(response.data.code==1){
 		        		layer.msg('签到状态已更改',{offset:"0px"});
-		        		_this.$http.post('oet/event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
+		        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 				        	console.log(response.data);
 				        	_this.memberlist=response.data.object.pager;
 				        },function(response) {
