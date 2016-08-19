@@ -22,7 +22,7 @@
 						<label for="" class="text_label">昵称 : </label>
 						<input id="" type="text" class="nickname text_box">
 					</div>	
-					<div class="form_item">
+					<div class="form_item gender_item">
 						<label for="" class="text_label">性别 : </label>
 						<div class="g-c-zbf perset_zbf">
 							<div class="f-fl g-c-ms">
@@ -43,7 +43,7 @@
 										</span>
 									</label>
 								</div>
-								<div class="f-fl h36">
+								<div class="f-fl">
 									<input type="radio" id="secret" name="gender" class="regular-radio" value="3" v-model="formdata.mode"/>
 									<label for="secret" @click="slidedown"></label>
 									<label for="secret" class="u-c-per" @click="slidedown">		
@@ -91,34 +91,46 @@
 					</div>
 				</div>
 				</div>
-			<div class="perset_competingInfo" v-show="tabFlag == 1">
-				<p class="cptInfo_title">选手信息</p>
-				<div class="cptInfo_content">
-					<div class="cpt_item form_item">
-						<label for="realName">真实姓名 ：</label>
-						<input type="text" id="realName" class="text_box">
+				<div class="perset_competingInfo" v-show="tabFlag == 1">
+					<p class="cptInfo_title">选手信息</p>
+					<div class="cptInfo_content">
+						<div class="cpt_item form_item">
+							<label for="realName">真实姓名 ：</label>
+							<input type="text" id="realName" class="text_box">
+						</div>
+						<div class="cpt_item form_item">
+							<label for="validatePerId">有效身份证 ：</label>
+							<input type="text" id="validatePerId" class="text_box">
+						</div>
+						<div class="cpt_item form_item">
+							<label for="telephone">手机号 ：</label>
+							<input type="text" id="telephone" class="text_box">
+						</div>
+						<div class="cpt_item form_item">
+							<label for="qq">QQ ：</label>
+							<input type="text" id="qq" class="text_box">
+						</div>
+						<div class="cpt_item form_item">
+							<label for="weixin">微信号 ：</label>
+							<input type="text" id="weixin" class="text_box">
+						</div>
 					</div>
-					<div class="cpt_item form_item">
-						<label for="validatePerId">有效身份证 ：</label>
-						<input type="text" id="validatePerId" class="text_box">
+				</div>
+				<div class="perset_organizersCfct" v-show="tabFlag == 2">
+					<p class="organizersCfct_title">输入组织者认证内测邀请码</p>
+					<div class="oCfct_item form_item">
+						<label for="privateInviteCode">内测邀请码 ：</label>
+						<input type="text" id="privateInviteCode" class="text_box">
+						<p class="errorInfo"><i></i><span>邀请码已被使用</span></p>
 					</div>
-					<div class="cpt_item form_item">
-						<label for="telephone">手机号 ：</label>
-						<input type="text" id="telephone" class="text_box">
-					</div>
-					<div class="cpt_item form_item">
-						<label for="qq">QQ ：</label>
-						<input type="text" id="qq" class="text_box">
-					</div>
-					<div class="cpt_item form_item">
-						<label for="weixin">微信号 ：</label>
-						<input type="text" id="weixin" class="text_box">
-					</div>
+					<!-- <div class="PICExplain"> -->
+						<p class="organizersCfct_title">关于组织者内测邀请码</p>
+						<p class="PICExplain_text">组织者内测邀请码是开赛吧提供给专业的赛事组织或民间赛事举办达人在开赛吧平台创建维护赛事的授权。认证的组织者可通过开赛吧提供的赛事举办工具自定义个性赛事，并帮助完成报名信息收集、对阵分组匹配等相关赛事组织筹办工作。</p>
+					<!-- </div> -->
 				</div>
 			</div>
 		</div>
-		</div>
-		<a href="javascript:;" class="saveBtn">保 存</a>
+		<a href="javascript:;" class="saveBtn" v-text="btnText"></a>
 	</div>
 </template>
 <script type="text/javascript">
@@ -134,7 +146,16 @@
 					{ id: 0, name: '基本资料',isCur: true },
 					{ id: 1, name: '参赛资料', isCur: false },
 					{ id: 2, name: '组织者认证', isCur: false }
-				]
+				],
+				btnText: '保 存',
+				userInfo: {
+					code: 0,
+					msg: '',
+					object: {
+						sysUser: {},
+						userInfo: {}
+					}
+				}
 			}
 		},
 		components: {
@@ -144,7 +165,11 @@
 		    createPop
 		},
 		ready: function () {
-			
+			$.$http.get('oet/sysuser/saveSysUserInfo', function (data) {
+				// this.$set('userInfo', data)
+				// console.log(this.userInfo)
+				alert(123)
+			})
 		},
 		methods: {
 			setCur: function (index) {
@@ -152,6 +177,7 @@
 					i == index ? v.isCur = true : v.isCur = false
 				})
 				this.tabFlag = index
+				this.btnText = (this.tabFlag === 2 ? '认 证' : '保 存')
 			}
 		}
 	}
@@ -210,6 +236,10 @@
 		margin-top: 28px;
 		font-size: 14px;
 	}
+	.form_item.gender_item {
+		height: auto;
+		line-height: 1
+	}
 	.form_item .text_label {
 		font-weight: bold;
 		color: #7a8387;
@@ -231,10 +261,22 @@
 	}
 	.g-c-zbf.perset_zbf {
 		display: inline-block;
+		height: auto;
+		line-height: 1;
 	}
 	.u-c-slt.perset_slt {
 		width: 120px;
 		background-position: 100px center;
+	}
+	.perset_zbf .g-c-ms {
+		height: auto;
+	}
+	.perset_zbf .u-c-per {
+		height: auto;
+		vertical-align: top;
+	}
+	.perset_zbf .regular-radio + label {
+		margin: 0 10px 0 0;
 	}
 	.mr-20 {
 		margin-right: 20px;
@@ -289,29 +331,63 @@
 		
 		filter: alpha(opacity=70); 
 	}
+
 	/* 参赛信息 */
-	.cptInfo_title {
+
+	.cptInfo_title, .organizersCfct_title {
 		font-size: 14px;
 		color: #b7c1c6;
 	}
-	.cpt_item {
+	.cpt_item, .oCfct_item {
 		box-sizing: border-box;
 		height: 36px;
 		line-height: 36px;
 		margin-top: 20px;
 		font-size: 14px;
 	}
-	.cpt_item label {
+	.cpt_item label , .oCfct_item label{
 		display: inline-block;
 		width: 94px;
 		font-size: 14px;
 		font-weight: bold;
 		color: #7a8387;
 	}
-	.cpt_item input {
+	.cpt_item input, .oCfct_item input{
 		width: 260px;
 		height: 36px;
 	}
+
+	/* 组织者认证 */
+
+	.perset_organizersCfct  p {
+		line-height: 1;
+	}
+	.perset_organizersCfct .oCfct_item {
+		height: auto;
+		margin-bottom: 46px;
+	}
+	.oCfct_item .errorInfo {
+		margin-top: 10px;
+		margin-left: 98px;
+		font-size: 12px;
+		color: #fdb91a;
+	}
+	.oCfct_item .errorInfo i {
+		display: inline-block;
+		width: 12px;
+		height: 12px;
+		margin-right: 9px;
+		vertical-align: top;
+		background: url(../../static/images/tip.png);
+	}
+	.PICExplain_text {
+		width: 440px;
+		margin-top: 18px;
+		font-size: 12px;
+		color: #7a8387;
+		letter-spacing: 1px;
+	}
+
 	.saveBtn {
 		display: block;
 		width: 200px;

@@ -6,30 +6,33 @@
 <div class="change_pw">
 	<div class="pw_status">
 		<ul class="status_list clearfix">
-			<li class="status_li">
-				<span class="status_title"></span>
-				<span class="status_num status_finish">1</span>
-				<span class="status_line line_finish"></span>
+			<li class="status_li status_finish">
+				<span class="status_title">注册账号</span>
+				<span class="status_num">1</span>
+				<span class="status_line"></span>
 			</li>
-			<li class="status_li">
+			<li class="status_li" v-bind:class="{ 'status_finish': finishOne }">
+				<span class="status_title" >验证账号</span>
 				<span class="status_num">2</span>
 				<span class="status_line"></span>
 			</li>
-			<li class="status_li">
+			<li class="status_li" v-bind:class="{ 'status_finish': finishTwo }">
+				<span class="status_title">重置密码</span>
 				<span class="status_num">3</span>
 				<span class="status_line"></span>
 			</li>
-			<li class="status_li">
+			<li class="status_li" v-bind:class="{ 'status_finish': finishThree }">
+				<span class="status_title">修改完成</span>
 				<span class="status_num">4</span>
 			</li>
 		</ul>
 	</div>
 	<div class="pw_container">
-		<div class="pw_list">
 			<div class="list_fill list_detail">
 				<div class="list_every">
 					<label>手机号：</label>
-					<input type="text" class="pw_input" placeholder="请输入你要找回的手机号" v-model="pwPhone">
+					<input type="text" class="pw_input" placeholder="请输入你要找回的手机号" v-model="pwPhone" @blur="blurPhone">
+					<span class="pw_error" style="right:-50px"><span class="error_pwtri"></span><img src="../../static/images/tip.png"><i class="error_tip">手机号码位数不对</i></span>
 				</div>
 				<div class="next_btn" @click="nextIdent">下一步</div>
 			</div>
@@ -48,12 +51,12 @@
 				<div class="list_every" style="margin-bottom:20px">
 					<label class="list_label">新密码：</label>
 					<input type="password" class="pw_input" placeholder="新密码(6-16位，允许数字字母常用符号)" v-model="newPw" @blur="getNpw">
-					<span class="pw_error"><img src="../../static/images/tip.png"><i class="error_tip">密码位数太短</i></span>
+					<span class="pw_error"><span class="error_pwtri"></span><img src="../../static/images/tip.png"><i class="error_tip">密码位数太短</i></span>
 				</div>
 				<div class="list_every">
 					<label class="list_label">再次输入：</label>
 					<input type="password" class="pw_input" placeholder="请输入新密码" @blur="getConform" v-model="confirmPw">
-					<span class="pw_error"><img src="../../static/images/tip.png"><i class="error_tip">密码与上方不一致</i></span>
+					<span class="pw_error"><span class="error_pwtri"></span><img src="../../static/images/tip.png"><i class="error_tip">密码与上方不一致</i></span>
 				</div>
 				<div class="next_btn" style="margin: 30px auto 0;" @click="nextSucess">下一步</div>
 			</div>
@@ -64,7 +67,6 @@
 				<p class="sucess_conform">重置成功</p>
 				<div class="sucess_btn" @click="changepwSucess">确 认</div>
 			</div>
-		</div>
 	</div>
 </div>
 </template>
@@ -81,7 +83,10 @@ import createPop from '../components/createPop.vue'
 				pwIdent:'',
 				newPw:'',
 				confirmPw:'',
-				pwOk:''
+				pwOk:'',
+				finishOne: false,
+				finishTwo: false,
+				finishThree: false
 			}
 		},
 		components:{
@@ -97,15 +102,34 @@ import createPop from '../components/createPop.vue'
 			nextIdent: function () {
 				if(this.pwPhone.length=="11"){
 					$('.list_ident').show().siblings().hide();
-					$('.status_li').eq(1).find('.status_num').addClass('status_finish');
-					$('.status_li').eq(1).find('.status_line').addClass('line_finish');
+					this.finishOne=true;
+				}
+			},
+			blurPhone: function (e) {
+				var _current=$(e.currentTarget);
+				var _error=_current.next('.pw_error');
+				if(/^\d+$/.test(this.pwPhone)){
+					_error.hide();
+					//判断是否有错误提示
+					this.errorTip=true;
+					if(this.pwPhone.length==11){
+						_error.hide();
+						this.errorTip=true;
+					}else{
+						_error.show();
+						this.errorTip=false;
+						_error.find('.error_tip').text('手机号码位数不对');
+					}
+				}else{
+					_error.show();
+					_error.find('.error_tip').text('请填写正确的手机号');
 				}
 			},
 			getPWident: function () {
 				var parm={};
 				parm.type=2;
 				parm.telephone=this.pwPhone;
-				this.$http.post('oet/sendVerifyCode',parm).then(function(response){
+				this.$http.post('sendVerifyCode',parm).then(function(response){
 					var _pwident=$(".get_pwident");
 					var _countdown=$(".count_down");
 					var _time=60;
@@ -138,11 +162,10 @@ import createPop from '../components/createPop.vue'
 				parm.type=2;
 				parm.telephone=this.pwPhone;
 				parm.verifyCode=this.pwIdent;
-				this.$http.post('oet/checkVerifyCode',parm).then(function(response){
+				this.$http.post('checkVerifyCode',parm).then(function(response){
 					if(response.data.object.valid){
 						$('.list_reset').show().siblings().hide();
-						$('.status_li').eq(2).find('.status_num').addClass('status_finish');
-						$('.status_li').eq(2).find('.status_line').addClass('line_finish');
+						this.finishTwo=true;
 					}
 					
 			      },function(response) {
@@ -177,11 +200,16 @@ import createPop from '../components/createPop.vue'
 				parm.username=this.pwPhone;
 				parm.verifyCode=this.pwIdent;
 				if(this.newPw && this.confirmPw && this.pwOk){
-					this.$http.post('oet/user/reset',parm).then(function(response){
-						console.log(response);
+					this.$http.post('user/reset',parm).then(function(response){
 						if(response.data.code){
 							$('.list_sucess').show().siblings().hide();
-							$('.status_li').eq(3).find('.status_num').addClass('status_finish');
+							this.statusThree=true;
+							document.cookie="oetevent.login.sessionid="+response.data.object["oetevent.login.sessionid"];
+							document.cookie="oetevent.login.token="+response.data.object["oetevent.login.token"];
+				  			document.cookie="oetUserId="+response.data.object.oetUser.id;
+				  			document.cookie="appUserId="+response.data.object.appUser.id;
+				  			window.sessionStorage.setItem("appusericon",response.data.object.appUser.icon);
+				  			window.sessionStorage.setItem("nickname",response.data.object.appUser.nickname);
 						}
 				      },function(response) {
 				              console.log(response);
@@ -222,26 +250,24 @@ import createPop from '../components/createPop.vue'
 	.status_line{
 		display: inline-block;
 		width: 110px;
-		height: 5px;
+		height: 2px;
 		background-color: #865b1e;
 		margin: 0 0 2px 3px;
 	}
-	.status_li .status_finish{
+	.status_finish .status_num{
 		background: url(../../static/images/pw_a.png) no-repeat;
 		color: #000;
 	}
-	.status_li .line_finish{
+	.status_finish .status_line{
 		background-color: #fdb91a;
+	}
+	.status_finish .status_title{
+		color: #fff;
 	}
 	.pw_container{
 		width: 488px;
 		height: 280px;
-		padding: 6px;
-		background-color: #292f3b;
-	}
-	.pw_list{
-		width: 100%;
-		height: 100%;
+		border: 6px solid #292f3b;
 		background-color: #1b1e25;
 	}
 	.list_detail{
@@ -256,7 +282,7 @@ import createPop from '../components/createPop.vue'
 		color: #fff;
 	}
 	.list_detail label{
-		color: #c9c6be;
+		color: #7a8387;
 	}
 	.next_btn{
 		width: 200px;
@@ -307,20 +333,6 @@ import createPop from '../components/createPop.vue'
 		width: 90px;
 		text-align: right;
 	}
-	 .reg_error{
-		display: inline-block;
-		position: absolute;
-		top: 0;
-		right:-170px;
-		color: #42aa53;
-		width: 160px;
-		height: 35px;
-		background-color: #171a21;
-		line-height: 35px;
-		text-align: center;
-		border: 1px solid #343b45;
-		display: none;
-    }
     .pw_error{
 		position: absolute;
 		top: 0;
@@ -356,5 +368,36 @@ import createPop from '../components/createPop.vue'
     	margin: 40px auto 0;
     	cursor: pointer;
     	border-radius: 3px;
+    }
+    .error_tip{
+    	margin-left:7px;
+    }
+    .error_pwtri{
+    	position: absolute;
+    	width: 0;
+	    height: 0;
+	    border-top: 8px solid transparent;
+	    border-right: 9px solid #343b45;
+	    border-bottom: 8px solid transparent;
+	    top: 7px;
+	    left:-10px;
+    }
+    .error_pwtri:before {
+		 position: absolute;
+		 content: '';
+		 width: 0;
+	     height: 0;
+	     border-top: 7px solid transparent;
+	     border-right: 8px solid #171a21;
+	     border-bottom: 7px solid transparent;
+	     top: -7px;
+	     left:2px;
+    }
+    .status_title{
+    	position: absolute;
+    	top:-25px;
+    	left: -16px;
+    	color: #7a8387;
+    	width:60px;
     }
 </style>

@@ -1,5 +1,5 @@
 <template>
-	<top-head></top-head>
+	<visitor-head></visitor-head>
 	<side-bar></side-bar>
 	<slide-bar></slide-bar>
 	<create-pop></create-pop>
@@ -90,7 +90,7 @@
 					<p>沉淀每一场赛事</p>
 				</div>
 			</div>
-			<a href="" class="u-btn u-landing-btn">申请成为赛事组织者</a>
+			<a href="" class="u-btn u-landing-btn" v-link="{ path: '/landRegister'}">申请成为赛事组织者</a>
 		</div>
 		<div class="landing-box">
 			<div class="landing-content f-cb">
@@ -119,12 +119,12 @@
 					<p>打造属于你的电竞档案</p>
 				</div>
 			</div>
-			<a href="" class="u-btn u-landing-btn u-enter-btn">立即加入</a>
+			<a href="" class="u-btn u-landing-btn u-enter-btn" v-link="{ path: '/landRegister'}">立即加入</a>
 		</div>
 	</div>
 </template>
 <script type="text/javascript">
-import topHead from '../components/topHead.vue'
+import visitorHead from '../components/visitorHead.vue'
 import sideBar from '../components/sideBar.vue'
 import slideBar from '../components/slideBar.vue'
 import createPop from '../components/createPop.vue'
@@ -135,13 +135,12 @@ import createPop from '../components/createPop.vue'
 			}
 		},
 		components:{
-			topHead,
+			visitorHead,
 	        sideBar,
 	        slideBar,
 	        createPop
 		},
 		ready:function(){
-			
 
 		},
 		methods:{
