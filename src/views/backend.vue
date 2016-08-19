@@ -17,7 +17,8 @@
 				</div>
 			</div> -->
 			<div class="setPoster g-q-hb">
-				<div class="g-q-ptr">
+				<img src="" v-bind:src="'http://img.wangyuhudong.com/'+formdata.poster" v-if="formdata.poster">
+				<div class="g-q-ptr" @click="selectPic">
 					<span class="icon-uniE62B"></span>
 					<p>编辑、更改赛事海报</p>
 				</div>
@@ -190,6 +191,48 @@
 						</div>
 					</div>
 				</div>
+				<div class="f-c">
+					<div class="m-c-info">
+						<div class="f-c">
+							<p class="g-c-l">赛事开始时间<span class="colfdb f-tip"></span></p>
+							<div style="width: 200px; position:relative;">
+								<input type="text" class="u-c-ipt form_datetime" name="activityBegin" title="赛事开始时间" id="activityBegin" placeholder="请输入开赛时间" style="width:200px;" v-model="formdata.activityBegin" required>
+								<label for="activityBegin" class="add-on"></label>
+							</div>
+						</div>
+						<div class="f-c">
+							<p class="g-c-l mt40">报名时间<span class="colfdb f-tip"></span></p>
+							<div class="g-c-timeipt">
+								<input type="text" class="u-c-ipt form_datetime" id="applyBegin" placeholder="请输入开始时间" style="width:200px;" v-model="formdata.applyBegin" disabled>
+								<label for="applyBegin" class="add-on"></label>
+							</div>
+							&nbsp－&nbsp
+							<div class="g-c-timeipt">
+								<input type="text" class="u-c-ipt form_datetime" id="applyEnd" placeholder="请输入结束时间" style="width:200px;" v-model="formdata.applyEnd" disabled/>
+								<label for="applyEnd" class="add-on"></label>
+							</div>
+						</div>
+						<p class="g-c-l mt40">签到时间</p>
+						<div class="g-c-qd">
+							<input type="checkbox" id="signtime" class="regular-checkboxs" name="" v-model="formdata.needSign" v-bind:true-value="1" v-bind:false-value="0" disabled/>
+							<label for="signtime" @click="signtime"></label><span class="u-c-ck col8f">要求参赛者赛前签到 (仅签到一次)<span class="colfdb">&nbsp&nbsp•&nbsp&nbsp</span>比赛开始前</span>
+							<select class="u-c-slt u-c-tslt col8f" name="needSignMinu" v-model="formdata.needSignMinu" disabled>
+								<option v-bind:value="10" selected>10</option>
+								<option v-bind:value="15">15</option>
+								<option v-bind:value="20">20</option>
+								<option v-bind:value="25">25</option>
+								<option v-bind:value="30">30</option>
+								<option v-bind:value="35">35</option>
+								<option v-bind:value="40">40</option>
+								<option v-bind:value="45">45</option>
+								<option v-bind:value="50">50</option>
+								<option v-bind:value="55">55</option>
+								<option v-bind:value="60">60</option>
+							</select>
+							<span class="u-c-ck col8f">分钟</span>
+						</div>
+					</div>
+				</div>
 				<a href="" class="saveModify" @click="nextStep">保存修改</a>
 			</div>
 		</div>
@@ -266,6 +309,16 @@
 			</div>
 		</div>
 	</div>
+	<div class="m-mask" style="padding-left:100px;">
+		<div class="pic-select">
+			<div class="wrap">
+				<a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
+				<div class="picBox">
+					<div id="pic"></div>
+				</div>	
+			</div>			
+		</div>
+	</div>
 </template>
 <script>
 import backendHead from '../components/backendHead.vue'
@@ -279,6 +332,7 @@ export default {
 			formdata:{
 				eventRoundId:"",
 				eventId:"",
+				poster:"",
 				name:"",
 				sponsorType:1,
 				itemId:"",
@@ -359,6 +413,27 @@ export default {
             console.log(22);
         })
 
+		// 图片上传
+		$('#pic').diyUpload({
+			url:'http://wy.oetapi.wangyuhudong.com/file/upload',
+			success:function( data ) {
+				console.info( data );
+				_this.formdata.poster=data.object.src;
+				$(".m-mask").hide();
+			},
+			error:function( err ) {
+				console.info( err );	
+			},
+			buttonText : '选择图片',
+			chunked:true,
+			// 分片大小
+			chunkSize:512 * 1024,
+			//最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+			fileNumLimit:1,
+			fileSizeLimit:500000 * 1024,
+			fileSingleSizeLimit:50000 * 1024
+		});
+
   		$('#brief').editable({
 			inlineMode: false,
 			theme: 'dark', 
@@ -385,6 +460,12 @@ export default {
   		
   	},
   	methods:{
+  		selectPic: function(e){
+	        $('.m-mask').show();
+	    },
+	    closePop: function(e){
+	        $('.m-mask').hide();
+	    },
   		tabTurn:function(e){
   			var tabs=$('.backend-tab li');
   			var items=$('.g-wrap');
