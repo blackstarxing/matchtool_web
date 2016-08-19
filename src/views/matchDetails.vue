@@ -32,12 +32,61 @@
 			<p class="g-q-jj col7a8">赛事还没有简介信息，<a href="#" v-link="{ path: '/backend'}">去完善</a><i v-link="{ path: '/backend'}"></i></p>
 			<p class="col7a8 g-q-dz" v-show="changemodedz">地址&nbsp<span class="colfdb">•</span>&nbsp{{addreass}}{{detailAddreass}}</p>
 			<ul class="g-q-tab clearfix">
-				<li v-bind:class="{'g-q-tabon':tap1}" val="1" @click="tapswitch">赛事信息</li>
-				<li v-bind:class="{'g-q-tabon':tap2}" val="2" @click="tapswitch">对阵图预览</li>
+				<li v-bind:class="{'g-q-tabon':tap1}" val="1" @click="tapswitch">对阵图预览</li>
+				<li v-bind:class="{'g-q-tabon':tap2}" val="2" @click="tapswitch">赛事信息</li>
 			</ul>
 		</div>
 		<div class="g-q-gofb">当前赛事<a v-link="{ path: '/backend'}">尚未发布</a>，前往管理赛事页面，完善赛事信息并<a v-link="{ path: '/backend'}">发布</a>，让更多用户看到你的赛事。</div>
 		<div v-show="tap1">
+			<!-- 在这个div放置对阵图哦 -->
+			<div class="against_container">
+			    <p class="against_title">
+			     <a class="title_unit"></a>
+			      <span class="against_title_text">对阵图</span>
+			      <span class="against_title_tip">此对阵图为预览，可拖曳参赛选手来交换位置</span>
+			    </p>
+			    <div class="tech_main_body">
+			        <!-- <div class="turn_num">
+			          <ul class="turn_num_list clearfix">
+			            <li class="turn_num_li" v-for="turnnum of turnnums">
+			              <span class="turn_turnid" style="display:none">{{turnnum.modelturnid}}</span>
+			              <div class="trunname_ed">
+			                <span class="turn_num_text">{{turnnum.modelname}}</span>
+			                <span class="turn_input_settime" style="font-size:12px;margin:0 7px;">{{turnnum.modeltime?turnnum.modeltime.split(' ',1):" "}}</span>
+			                <span class="turn_select_num" style="font-size:12px;color:#f9a32a;">BO<span class="turn_select_number">{{turnnum.modelbo}}</span></span>
+			                <img class="turn_num_pic" @click="turnName" src="../../static/images/turn.png"></div>
+			              <div class="trunname_ing">
+			              <input class="turn_input" type="text" value={{turnnum.modelname}}>
+			              <a class="turn_confirm turn_frame" @click="turnConfirm">确定</a>
+			              <a class="turn_quit turn_frame" @click="turnQuit">取消</a>
+			            </div>
+			            <ul class="turn_set_detail">
+			              <li><label for="set_begin" class="set_time_begin">设置时间</label>
+			                <input type="text" id="set_begin" class="set_begin" v-model="turnnum.modeltime">
+			              </li>
+			              <li><span>Best of</span>
+			                <select style="height:18px;text-indent:0px;" class="select_num" v-model="turnnum.modelbo">
+			                  <option>1</option>
+			                  <option>3</option>
+			                  <option>5</option>
+			                  <option>7</option>
+			                </select>
+			              </li>
+			            </ul>
+			            </li>
+			          </ul>
+			        </div> -->
+			        <div class="turn_btn" @click="randomPic">随机排列对阵选手顺序</div>
+			        <div class="tech_body">
+			            <div class="tech_container" style="margin-top:60px;">
+			            <div class="match_content clearfix">
+			            </div>   
+			          </div>
+			        </div>
+			    </div>
+			  </div>
+		</div>
+		<div v-show="tap2">
 			<div class="g-q-ssinfo">
 				<div class="clearfix bb2a3">
 					<div style="width: 223px;" class="g-q-if f-fl">
@@ -109,18 +158,6 @@
 				<p class="g-q-jj col7a8" style="margin-bottom: 0;">还没有赛事规则，<a v-link="{ path: '/backend'}">去完善</a><i v-link="{ path: '/backend'}"></i></p>
 			</div>
 		</div>
-		<div v-show="tap2" class="g-c-plan">
-			<!-- 在这个div放置对阵图哦 -->
-			<div class="tech_main_body">
-		        <div class="turn_btn">随机排列对阵选手顺序</div>
-		        <div class="tech_body">
-		            <div class="tech_container" style="margin-top:60px;">
-		            <div class="match_content clearfix">
-		            </div>   
-		          </div>
-		        </div>
-		    </div>
-		</div>
 		<div class="steps infosteps">
 			<span class="line"></span>
 			<ul>
@@ -173,6 +210,7 @@ import createPop from '../components/createPop.vue'
 				matchdata:'',
 				personnum:"",
     			overhalf:"",
+    			turnnums:[],
     			roundStatus:'',
 			}
 		},
@@ -816,7 +854,20 @@ import createPop from '../components/createPop.vue'
 					this.tap1 = true;
 					this.tap2 = false;
 				}
-			}
+			},
+			randomPic:function(){
+		        var parm={};
+		        parm.eventId=window.sessionStorage.getItem("eventid");
+		        this.$http.get("event/round/groupSeat/random",parm).then(function(response){
+		          if(response.data.code){
+		            window.location.reload();
+		            }else{
+		              layer.msg(response.data.msg,{offset:"0px"});
+		              }
+		            },function(response) {
+		              console.log(response);
+		          });
+		      },
 		}
 	}
 </script>
@@ -895,7 +946,7 @@ import createPop from '../components/createPop.vue'
 .recta{
   width: 200px;
   height: 22px;
-  background-color: #53585d;
+  background-color: #36383f;
   color: #fff;
   line-height: 22px;
   position: relative;
@@ -992,9 +1043,9 @@ import createPop from '../components/createPop.vue'
   background-color: #f9a32a;
 }
 .against_container{
-  width: 1200px;
+  width: 1024px;
   margin: 20px auto;
-  background: rgba(52,57,63,0.9);
+  background-color: #171a21;
   padding-top: 30px;
   position: relative;
 }
@@ -1074,7 +1125,7 @@ import createPop from '../components/createPop.vue'
   display: inline-block;
   width: 30px;
   height: 22px;
-  background-color: #838383;
+  background-color: #6c6c6e;
   text-align: center;
   color: #000;
   font-size: 12px;
