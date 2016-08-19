@@ -35,26 +35,26 @@
 									</span>
 								</label>
 							</div>
-								<div class="f-fl g-c-ms">
-									<input type="radio" id="woman" name="gender" class="regular-radio" value="1" v-model="userInfoData.sex"/>
-									<label for="woman"></label>
-									<label for="woman" class="u-c-per">		
-										<span class="f-fl">
-											女
-										</span>
-									</label>
-								</div>
-								<div class="f-fl">
-									<input type="radio" id="secret" name="gender" class="regular-radio" value="2" v-model="userInfoData.sex"/>
-									<label for="secret"></label>
-									<label for="secret" class="u-c-per">		
-										<span class="f-fl">
-											保密
-										</span>
-									</label>
-								</div>
+							<div class="f-fl g-c-ms">
+								<input type="radio" id="woman" name="gender" class="regular-radio" value="1" v-model="userInfoData.sex"/>
+								<label for="woman"></label>
+								<label for="woman" class="u-c-per">		
+									<span class="f-fl">
+										女
+									</span>
+								</label>
+							</div>
+							<div class="f-fl">
+								<input type="radio" id="secret" name="gender" class="regular-radio" value="2" v-model="userInfoData.sex"/>
+								<label for="secret"></label>
+								<label for="secret" class="u-c-per">		
+									<span class="f-fl">
+										保密
+									</span>
+								</label>
 							</div>
 						</div>
+					</div>
 					<div class="form_item region">
 						<label for="" class="text_label">地区 : </label>
 						<select class="u-c-slt perset_slt mr-20" name="provinces" id="provinces" v-model="rootAreaId"  @change="getSecondArea(rootAreaId)" required>
@@ -158,9 +158,9 @@
 				userInfoData: {},
 				rootArea: [],
 				SecondArea: [],
-				rootAreaId: "-1",
+				rootAreaId: "",
 				secondArea: [],
-				secondAreaId: "-2",
+				secondAreaId: "",
 				userBirthday: {
 					yearList: [],
 					monthList: [],
@@ -193,18 +193,31 @@
 			 // this.$set('userInfoData', data);
 			  this.userInfoData = response.data.object.userInfo
 			  this.saveUserInfo.sysUserId = response.data.object.sysUser.id
+
+			  this.$http.get('sysuser/querySysAreaInfo').then(function (response) {
+					//console.log(response)
+					this.rootArea = response.data.object.areaMap.sysRootArea
+				})
+			  // 如果已设置省份和城市
+			  this.rootAreaId = response.data.object.areaMap.pid.toString()
+			  console.log(this.rootAreaId)
+			  if (this.rootAreaId != "") {
+			  	this.secondAreaId = response.data.object.areaMap.areaCode
+			  	this.getSecondArea(this.rootAreaId)
+			  	
+			  	console.log(this.secondAreaId)
+			  }
+			  // 如果已设置生日
+
+
 			  if (this.userInfoData.sex === null) {
 			  	this.userInfoData.sex = 0;
 			  }
-			  // console.log(this.userInfoData)
 				if (this.userInfoData.speech === null) {
 					this.userInfoData.speech = ''
 				}
 			})
-			this.$http.get('sysuser/querySysAreaInfo').then(function (response) {
-				//console.log(response)
-				this.rootArea = response.data.object.areaMap.sysRootArea
-			})
+		
 			// 设置初始的年份和月份
 			// function setBirthdayData () {
 			// 	for (var i = 2016; i >= 1900; i--) {
@@ -236,12 +249,14 @@
 					this.secondArea = response.data.object.areaMap.sysSecondArea
 					//this.secondAreaId = this.secondArea[0].id
 					// 不能把这个放在外面，外面是同步的，得放在这个异步的回调中
-					this.$nextTick(function () {
-						// console.log(this.secondArea)
-						$('#citys option').eq(0).attr('selected', false)
-						$('#citys option').eq(1).attr('selected', true)
-						//console.log($('#citys option').eq(0).attr('checked'))
-					})
+					if (this.secondAreaId === "-2") {
+						this.$nextTick(function () {
+							// console.log(this.secondArea)
+							$('#citys option').eq(0).attr('selected', false)
+							$('#citys option').eq(1).attr('selected', true)
+							//console.log($('#citys option').eq(0).attr('checked'))
+						})
+					}
 				})
 			},
 			setBirthdayData: function () {
@@ -325,7 +340,7 @@
 							_this.saveUserInfo.nickname = _this.userInfoData.nickname
 						}
 						// 性别
-						_this.saveUserInfo.nickname = _this.userInfoData.sex
+						_this.saveUserInfo.sex = _this.userInfoData.sex
 						// 个人介绍
 						_this.saveUserInfo.speech = _this.userInfoData.speech
 						// 系统用户id(前面已设置)
@@ -334,8 +349,7 @@
 						// console.log(_this.saveUserInfo)
 						var params = {}
 						params.jsonInfo = JSON.stringify(_this.saveUserInfo)
-
-						this.$http.post(v.url, _this.saveUserInfo).then(function (response) {
+						_this.$http.post(v.url, params).then(function (response) {
 							console.log(response)
 						})
 					}
@@ -476,7 +490,7 @@
 		position: relative;
 		height: 100%;
 		background: #fff;
-		background-color: rgba(255, 255, 255, .5);
+		background-color: rgba(255, 255, 255, .1);
 		filter: alpha(opacity=50); 
 	}
 	.pic_mask_text {
@@ -485,11 +499,11 @@
 		width: 100%;
 		height: 30px;
 		background: #000;
-		color: #fff;
+		color: #7a8387;
 		text-align: center;
 		font-size: 12px;
 		line-height: 30px;
-		background-color: rgba(0, 0, 0, .7);
+		background-color: rgba(0, 0, 0, .3);
 		
 		filter: alpha(opacity=70); 
 	}
