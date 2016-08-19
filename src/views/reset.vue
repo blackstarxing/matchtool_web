@@ -78,7 +78,7 @@ import backendSidebar from '../components/backendSidebar.vue'
   		_this.oetRoundId=window.sessionStorage.getItem("eventRoundId");
   		var eve={};
    		eve.jsonInfo=JSON.stringify({oetInfoId:_this.oetInfoId});
-   		_this.$http.get('oet/event/getEventStatus',eve).then(function(response) {
+   		_this.$http.get('event/getEventStatus',eve).then(function(response) {
    			_this.status=response.data.object;
         	_this.isPublish=response.data.object.isPublish;
         	_this.privacy=response.data.object.privacy;
@@ -94,7 +94,7 @@ import backendSidebar from '../components/backendSidebar.vue'
   			var _this=this;
   			var eve={};
 	   		eve.jsonInfo=JSON.stringify({oetInfoId:_this.oetInfoId});
-	   		_this.$http.get('oet/event/getEventStatus',eve).then(function(response) {
+	   		_this.$http.get('event/getEventStatus',eve).then(function(response) {
 	   			_this.status=response.data.object;
 	        	_this.isPublish=response.data.object.isPublish;
 	        	_this.privacy=response.data.object.privacy;
@@ -110,12 +110,13 @@ import backendSidebar from '../components/backendSidebar.vue'
 	    	var isPublish=0;
 	    	var _html=_this.isPublish?'你确定要取消发布该赛事吗？':'你确定要发布该赛事吗？';
 	        layer.confirm(_html, {
-			  	btn: ['确定','取消'], //按钮
+			  	btn: ['取消','确定'], //按钮
 			  	move:false,
 			  	closeBtn:0
 			}, function(){
-				// _this.isPublish=_this.isPublish?1:0;
-				// _target.attr('checked',_this.isPublish);
+				layer.closeAll();
+				_this.refresh();
+			}, function(){				
 				if(_target.attr('checked')=="checked"){
 		    		_target.attr('checked',false);
 		    		isPublish=0;
@@ -125,7 +126,7 @@ import backendSidebar from '../components/backendSidebar.vue'
 		    	}
 			  	var parm={};
    				parm.jsonInfo=JSON.stringify({eventId:_this.oetInfoId,isPublish:isPublish});
-		    	_this.$http.get('oet/event/setPublish',parm).then(function(response) {
+		    	_this.$http.get('event/setPublish',parm).then(function(response) {
 		        	console.log(response.data.msg);
 		        	if(response.data.code==1){
 		        		layer.msg('发布状态已更改',{offset:"0px"});
@@ -136,8 +137,6 @@ import backendSidebar from '../components/backendSidebar.vue'
 		        },function(response) {
 		            console.log(response);
 		        });
-			}, function(){
-				_this.refresh();
 			});
 	    },
 	    // 隐私设置
@@ -154,7 +153,7 @@ import backendSidebar from '../components/backendSidebar.vue'
 	    	}
 	    	var parm={};
    			parm.jsonInfo=JSON.stringify({eventId:_this.oetInfoId,privacy:privacy});
-	    	_this.$http.get('oet/event/setPrivacy',parm).then(function(response) {
+	    	_this.$http.get('event/setPrivacy',parm).then(function(response) {
 	        	console.log(response.data.msg);
 	        	if(response.data.code==1){
 	        		layer.msg('隐私状态已更改',{offset:"0px"});
@@ -167,13 +166,16 @@ import backendSidebar from '../components/backendSidebar.vue'
 	    },
   		resetEvent:function(e){
   			var _this=this;
-  			layer.confirm('你确定要重置该项赛事吗？', {
-			  	btn: ['确定','取消'], //按钮
-			  	move:false
+  			layer.confirm('重置后所有比分数据将被清除，确定要重置赛事吗？', {
+			  	btn: ['取消','重置'], //按钮
+			  	move:false,
+			  	closeBtn:0
+			}, function(){
+			  	layer.closeAll();
 			}, function(){
 			  	var parm={};
 	   			parm.jsonInfo=JSON.stringify({oetRoundId:_this.oetRoundId,oetInfoId:_this.oetInfoId});
-				_this.$http.get('oet/event/reset',parm).then(function(response) {
+				_this.$http.get('event/reset',parm).then(function(response) {
 		        	console.log(response.data);
 		        	if(response.data.code==1){
 		        		layer.msg("重置成功",{offset:"0px"});
@@ -183,20 +185,21 @@ import backendSidebar from '../components/backendSidebar.vue'
 		        },function(response) {
 		            console.log(response);
 		        });
-			}, function(){
-			  	
 			});
   		},
   		deleteEvent:function(e){
   			e.preventDefault();
   			var _this=this;
-  			layer.confirm('你确定要删除该项赛事吗？', {
-			  	btn: ['确定','取消'], //按钮
-			  	move:false
+  			layer.confirm('删除后所有数据将被清除，确定要删除赛事吗？', {
+			  	btn: ['取消','确定'], //按钮
+			  	move:false,
+			  	closeBtn:0
+			}, function(){
+			  	layer.closeAll();
 			}, function(){
 			  	var parm={};
 	   			parm.jsonInfo=JSON.stringify({oetInfoId:_this.oetInfoId});
-				_this.$http.get('oet/event/delete',parm).then(function(response) {
+				_this.$http.get('event/delete',parm).then(function(response) {
 		        	console.log(response.data);
 		        	if(response.data.code==1){
 		        		layer.msg("删除成功",{offset:"0px"});
@@ -207,8 +210,6 @@ import backendSidebar from '../components/backendSidebar.vue'
 		        },function(response) {
 		            console.log(response);
 		        });
-			}, function(){
-			  	
 			});
   		}
   	},

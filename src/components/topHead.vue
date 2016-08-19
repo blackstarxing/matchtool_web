@@ -49,7 +49,7 @@
   		},
       logout:function(e){
         e.preventDefault();
-        this.$http.post("oet/logout").then(function(response){
+        this.$http.post("logout").then(function(response){
           this.$route.router.go({path: '/landRegister'})     
         }, function(response){
           console.log(response);
