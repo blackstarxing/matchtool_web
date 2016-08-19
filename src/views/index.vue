@@ -83,7 +83,7 @@ import createPop from '../components/createPop.vue'
 			var _this=this;
 			var parm={};
 			parm.jsonInfo=JSON.stringify({pageNumber:1});
-	        _this.$http.get('oet/event/getAllEventRoundList',parm).then(function(response) {
+	        _this.$http.get('event/getAllEventRoundList',parm).then(function(response) {
 	        	if(response.data.code == 1){
 	        		_this.matchlists=response.data.object.pager.list.slice(0,6);
 	        	}else{
