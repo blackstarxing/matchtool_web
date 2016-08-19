@@ -1,34 +1,36 @@
 @charset "utf-8";
 /* CSS Document*/
 .parentFileBox {
-	width:auto;
+	width:100%;
 	height:auto;
-	// overflow:hidden;
+	overflow:hidden;
 	position:relative;
 	margin-top: 20px;
 }
 .parentFileBox>.fileBoxUl {
 	position:relative;
-	width:100%;
+	left: 50%;
+	margin-left: -142.5px;
+	width:285px;
 	height:auto;
-	// overflow:hidden;
+	/*overflow:hidden;*/
 	padding-bottom:5px;
 }
 .parentFileBox>.fileBoxUl>li {
-	float:left;
+	/*float:left;*/
 	border-radius:5px;
-	width:160px;
-	height:78px;
-	margin-top:5px;
-	position:relative;
-	// background-color:#099;
+	width:285px;
+	height:130px;
+	margin:5px auto;
+	/*position:relative;*/
+	/*background-color:#099;*/
 }
 .parentFileBox>.fileBoxUl>li>.viewThumb {
-	position:absolute;
+	/*position:absolute;
 	top:0;
-	left:0;
-	width:160px;
-	height:78px;
+	left:0;*/
+	width:285px;
+	height:130px;
 	overflow:hidden;
 }
 .parentFileBox>.fileBoxUl>li>.viewThumb>img {
@@ -71,9 +73,9 @@
 	top:0;
 	left:0;
 	position: absolute;
-	width: 160px;
-	height: 78px;
-	line-height:78px;
+	width: 285px;
+	height: 130px;
+	line-height:130px;
 	background:url(../images/bgblack.png);
 	display:none;
 }
@@ -97,23 +99,34 @@
 	z-index:97;
 }
 .parentFileBox>.diyButton {
-	width:160px;
+	/*width:285px;*/
 	margin-top:5px;
 	margin-bottom:5px;
 	text-align:center;
 }
 .parentFileBox>.diyButton>a {
-	padding:5px 10px 5px 10px;
-	background-color:#f9a32a;
+	display: inline-block;
+	/*padding:5px 10px 5px 10px;
+	background-color:#f9a32a;*/
+	width: 200px;
+	height: 48px;
+	margin: 0 10px;
+	line-height: 48px;
+	text-align: center;
+	background: url(../images/btn0.png) no-repeat;
 	color:#FFF;
-	font-size:12px;
+	font-size:18px;
 	text-decoration:none;
 	border-radius:3px;
 }
-.parentFileBox>.diyButton>a:hover {
+.parentFileBox>.diyButton>a.diyStart{
+	background-image: url(../images/btn1.png);
+	color:#1e1f24;
+}
+/*.parentFileBox>.diyButton>a:hover {
 	background-color:#e68700;
 	color:#fff;
-}
+}*/
 /*.parentFileBox>.fileBoxUl>li:hover {
 	-moz-box-shadow: 3px 3px 4px #FF0;
 	-webkit-box-shadow: 3px 3px 4px #FF0;

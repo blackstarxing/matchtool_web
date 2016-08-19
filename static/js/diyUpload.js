@@ -229,8 +229,8 @@
 		if ( $parentFileBox.find('.diyButton').length <= 0 ) {
 			
 			var div = '<div class="diyButton"> \
-						<a class="diyStart" href="javascript:void(0)">开始上传</a> \
-						<a class="diyCancelAll" href="javascript:void(0)">全部取消</a> \
+						<a class="diyCancelAll" href="javascript:void(0)">取消</a> \
+						<a class="diyStart" href="javascript:void(0)">确认上传</a> \
 					</div>';
 			$parentFileBox.append( div );
 			var $startButton = $parentFileBox.find('.diyStart');
@@ -276,7 +276,7 @@
 		$parentFileBox.children('.fileBoxUl').append( li );
 		
 		//父容器宽度;
-		var $width = $('.fileBoxUl>li').length * 180;
+		var $width = $('.fileBoxUl>li').length * 500;
 		var $maxWidth = $fileInput.parent().width();
 		$width = $maxWidth > $width ? $width : $maxWidth;
 		$parentFileBox.width( $width );

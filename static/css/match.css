@@ -850,8 +850,8 @@ label.u-c-kz-sz{
 	height: 100%;
 }
 .g-q-ptr{
-    height: 134px;
-    width: 300px;
+    /*height: 134px;
+    width: 300px;*/
     font-size: 24px;
     color: #1e1f24;
     text-align: center;
@@ -861,6 +861,8 @@ label.u-c-kz-sz{
     left: 0;
     right: 0;
     margin: auto;
+    background: rgba(0,0,0,0.2);
+    padding-top: 140px;
 }
 .iconfont-xj{
 	color: #36383f;
@@ -1058,9 +1060,9 @@ label.u-c-kz-sz{
 }
 .g-c-plan{
 	width: 100%;
-	height: 10.24rem;
 	background: #171a21;
-	overflow: scroll;
+	position: relative;
+	padding-top: 30px;
 }
 
  /*头部*/
@@ -1340,6 +1342,12 @@ label.u-c-kz-sz{
 	display: block;
 	height: 100%;
 }
+#pic{width: 200px;height: 36px;margin:0 auto;}
+.webuploader-container {position: relative;}
+.webuploader-element-invisible {position: absolute !important;clip: rect(1px 1px 1px 1px);clip: rect(1px,1px,1px,1px);}
+.webuploader-pick {position: relative;display: inline-block;cursor: pointer;color: #fff;text-align: center;border-radius: 3px;overflow: hidden;width: 200px;height: 48px;line-height: 48px;padding:0;background: url(../images/btn1.png) no-repeat;}
+.webuploader-pick-hover {background: #e68700;}
+.webuploader-pick-disable {opacity: 0.6;pointer-events:none;}
 
 /*参赛选手*/
 .u-btn{display: inline-block;height: 48px;line-height: 48px;text-align: center;border-radius: 3px;color:#1e1f24;background: #F9A329;vertical-align: middle;font-size: 18px;}
@@ -1461,12 +1469,19 @@ label.u-c-kz-sz{
 
 /*弹出层*/
 .m-mask{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;z-index:9999;}
-.m-pop{width: 500px;min-height:370px;margin:180px auto 0;background: #1b1e25;border:7px solid #292f3a;padding-bottom: 50px;}
-.m-pop .wrap{position: relative;width: 100%;}
+.pic-select,.m-pop{width: 500px;margin:180px auto 0;background: #1b1e25;border:7px solid #292f3a;min-height: 100px;padding-bottom: 20px;}
+.m-pop{
+	min-height:370px;
+	padding-bottom: 50px;
+}
+.pic-select .wrap{
+	padding-top: 25px;
+}
+.pic-select .wrap,.m-pop .wrap{position: relative;width: 100%;}
 .m-pop h3{font-size: 14px;color:#7892a9;background:#000;margin-bottom: 30px;height: 40px;line-height:40px;border-bottom: 1px solid #2e2d3a;}
 .m-addzx{padding-left:45px; padding-top:38px;}
-.m-pop .u-btn-close,.m-addzx .u-btn-close{position:absolute;top:205px;right:375px;display:block;width: 30px;height: 30px;background: url(../images/closeBtn.png) center center no-repeat;background-size: 100%;}
-.m-pop .u-btn-close{top:-15px;right: -22px;}
+.pic-select .u-btn-close,.m-pop .u-btn-close,.m-addzx .u-btn-close{position:absolute;top:205px;right:375px;display:block;width: 30px;height: 30px;background: url(../images/closeBtn.png) center center no-repeat;background-size: 100%;}
+.pic-select .u-btn-close,.m-pop .u-btn-close{top:-15px;right: -22px;}
 .m-pop .m-lst,.m-addzx .m-lst{margin-bottom: 0;color:#fff;font-size: 12px;}
 .m-pop .m-lst label,.m-addzx .m-lst label{margin-top: 8px;width:103px; font-weight: normal;}
 .m-pop .m-lst input,.m-pop .m-lst select,.m-addzx .m-lst input,.m-addzx .m-lst select{width: 320px;margin:10px 0;}
