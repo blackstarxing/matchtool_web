@@ -22,7 +22,7 @@ label,summary{cursor:default;}
 a,button{cursor:pointer;}
 h1,h2,h3,h4,h5,h6,em,strong,b{font-weight:bold;}
 del,ins,u,s,a{text-decoration:none;}
-body,textarea,input,button,select,keygen,legend{font:12px/1.14 arial,\5b8b\4f53;color:#333;outline:0;}
+body,textarea,input,button,select,keygen,legend{font:12px/1.14 'Microsoft YaHei','微软雅黑', Helvetica,Arial,sans-serif,STHeiTi;color:#333;outline:0;}
 body{font:14px/1.5 'Microsoft YaHei','微软雅黑', Helvetica,Arial,sans-serif,STHeiTi;background:#1e1f24; /*letter-spacing:1px;*/}
 input{font:14px/1.5 'Microsoft YaHei','微软雅黑', Helvetica,Arial,sans-serif,STHeiTi;/*letter-spacing:1px;*/}
 a,a:hover{color:#333;}
@@ -45,3 +45,4 @@ color: #fff !important;
 .f-fr{float:right;}
 .f-re{position: relative;}
 .f-ab{position: absolute;}
+.f-tr{text-align: right;}
