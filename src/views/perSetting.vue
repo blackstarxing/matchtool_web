@@ -18,10 +18,10 @@
 				<div class="perset_basicInfo" v-show="tabFlag == 0">
 					<p class="idInfo">当前登录账号：<span class="curId" v-text="userInfoData.username"></span></p>
 					<div class="basicInfo_form">
-					<div class="form_item">
+					<div class="form_item nickname_item">
 						<label for="" class="text_label">昵称 : </label>
-						<input id="" type="text" class="nickname text_box" v-model="userInfoData.nickname">
-						<!-- <p class="nicknameError"><i></i><span>昵称已被使用</span></p> -->
+						<input id="" type="text" class="nickname text_box" v-model="userInfoData.nickname" @blur="checkNickname">
+						<p id="nicknameErrorText" class="errorInfo" style="display: none;"><i></i><span>昵称已被使用</span></p>
 					</div>	
 					<div class="form_item gender_item">
 						<label for="" class="text_label">性别 : </label>
@@ -88,10 +88,10 @@
 						<label for="" class="text_label">个人介绍 : </label>
 						<textarea class="introduction-text text_box" v-model="userInfoData.speech" placeholder="150字以内"></textarea>
 					</div>
-					<div class="setImage">
-						<img class="user_pic"/>
+					<div class="setImage" @click="setUserPic">
+						<img class="user_pic" v-bind:src="'http://img.wangyuhudong.com/'+saveUserInfo.icon" v-if="saveUserInfo.icon"/>
 						<div class="pic_mask">
-							<img class="pic_mask_icon">
+							<span class="icon-uniE62B"></span>
 							<p class="pic_mask_text"><span>设置头像</span></p>
 						</div>
 					</div>
@@ -137,7 +137,17 @@
 			</div>
 		</div>
 		<a href="javascript:;" class="saveBtn" v-text="btnText" @click="savePerSetting"></a>
-	</div>
+		</div>
+			<div class="m-mask m-userpic-mask" style="padding-left:100px;">
+			<div class="pic-select">
+				<div class="wrap">
+					<a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
+					<div class="picBox">
+						<div id="pic"></div>
+					</div>	
+				</div>			
+			</div>
+		</div>
 </template>
 <script type="text/javascript">
 	import topHead from '../components/topHead.vue'
@@ -147,6 +157,7 @@
 	export default {
 		data () {
 			return {
+				nicknameErrorTexr: false,
 				dayFlag: false,
 				tabFlag: 0,
 				tabList: [
@@ -188,6 +199,28 @@
 	    createPop
 		},
 		ready: function () {
+			var _this = this
+			// 图片上传
+			$('#pic').diyUpload({
+				url:'http://wy.oetapi.wangyuhudong.com/file/upload',
+				success:function( data ) {
+					console.info( data );
+					_this.saveUserInfo.icon=data.object.src;
+					$(".m-userpic-mask").hide();
+				},
+				error:function( err ) {
+					console.info( err );	
+				},
+				buttonText : '选择图片',
+				chunked:true,
+				// 分片大小
+				chunkSize:512 * 1024,
+				//最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+				fileNumLimit:1,
+				fileSizeLimit:500000 * 1024,
+				fileSingleSizeLimit:50000 * 1024
+			});
+
 			// var _this = this
 			this.$http.get('sysuser/querySysUserInfo').then(function (response) {
 			 // this.$set('userInfoData', data);
@@ -198,6 +231,11 @@
 					//console.log(response)
 					this.rootArea = response.data.object.areaMap.sysRootArea
 				})
+			  // 如果已设置头像
+			 	 if (response.data.object.userInfo.icon != "") {
+			 	 	this.saveUserInfo.icon = response.data.object.userInfo.icon
+			 	}
+
 			  // 如果已设置省份和城市
 			  this.rootAreaId = response.data.object.areaMap.pid.toString()
 			  console.log(this.rootAreaId)
@@ -217,7 +255,7 @@
 					this.userInfoData.speech = ''
 				}
 			})
-		
+			
 			// 设置初始的年份和月份
 			// function setBirthdayData () {
 			// 	for (var i = 2016; i >= 1900; i--) {
@@ -231,6 +269,26 @@
 			this.setBirthdayData()
 		},
 		methods: {
+			checkNickname: function () {
+				var json = { nickname: this.userInfoData.nickname, telephone: this.userInfoData.username }
+				this.$http.get('registerCheck', json).then(function (response) {
+					// console.log(response)
+					var data = response.data.object
+					if (data.nicknameValid === 0) {
+						$('#nicknameErrorText').show()
+						//this.nicknameErrorTexr = true
+					} else {
+						$('#nicknameErrorText').hide()
+						//this.nicknameErrorTexr = false
+					}
+				})
+			},
+			setUserPic: function(e){
+	        $('.m-userpic-mask').show();
+	    },
+	    closePop: function(e){
+	        $('.m-userpic-mask').hide();
+	    },
 			setCur: function (index) {
 				this.tabList.map(function (v, i) {
 					i == index ? v.isCur = true : v.isCur = false
@@ -351,6 +409,7 @@
 						params.jsonInfo = JSON.stringify(_this.saveUserInfo)
 						_this.$http.post(v.url, params).then(function (response) {
 							console.log(response)
+							// alert("修改成功！")
 						})
 					}
 				})
@@ -407,14 +466,14 @@
 	}
 	.form_item {
 		box-sizing: border-box;
-		height: 36px;
+		/*height: 36px;*/
 		line-height: 36px;
 		margin-top: 28px;
 		font-size: 14px;
 	}
 	.form_item.gender_item {
 		height: auto;
-		line-height: 1
+		line-height: 1;
 	}
 	.form_item .text_label {
 		font-weight: bold;
@@ -424,6 +483,14 @@
 	}
 	.form_item input {
 		text-indent: 12px;
+	}
+	.nickname_item .errorInfo {
+		line-height: 1;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		margin-left: 50px;
+		font-size: 12px;
+		color: #fdb91a;
 	}
 	.form_item .nickname {
 		width: 260px;
@@ -485,27 +552,35 @@
 	}
 	.user_pic {
 		position: absolute;
+		width: 100%;
+		height: 100%;
 	}
 	.pic_mask {
 		position: relative;
 		height: 100%;
-		background: #fff;
-		background-color: rgba(255, 255, 255, .1);
-		filter: alpha(opacity=50); 
+		background: #000;
+		filter: alpha(opacity=20); 
+		background-color: rgba(0, 0, 0, .2);
+	}
+	.pic_mask .icon-uniE62B {
+		display: inline-block;
+		margin-left: 54px;
+		margin-top: 54px;
+		font-size: 40px;
+		color: #7a8387;
 	}
 	.pic_mask_text {
 		position: absolute;
 		bottom: 0;
 		width: 100%;
 		height: 30px;
-		background: #000;
 		color: #7a8387;
 		text-align: center;
 		font-size: 12px;
-		line-height: 30px;
+		line-height: 30px;		
+		background: #000;
+		filter: alpha(opacity=30); 
 		background-color: rgba(0, 0, 0, .3);
-		
-		filter: alpha(opacity=70); 
 	}
 
 	/* 参赛信息 */
@@ -548,7 +623,7 @@
 		font-size: 12px;
 		color: #fdb91a;
 	}
-	.oCfct_item .errorInfo i {
+	.oCfct_item .errorInfo i, .nickname_item .errorInfo i {
 		display: inline-block;
 		width: 12px;
 		height: 12px;
