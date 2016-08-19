@@ -173,7 +173,7 @@ import createPop from '../components/createPop.vue'
 		    		var jsonInfo = JSON.stringify(newsobj);
 	  				var parm = new Object();
 	  				parm.jsonInfo = jsonInfo;
-					_this.$http.post('oet/event/saveRegime',parm).then(function(response){
+					_this.$http.post('event/saveRegime',parm).then(function(response){
 						var code = response.data.code;
 		    			if(code==1){
 		    				window.sessionStorage.setItem("eventRoundId",response.data.object.eventRoundId);
