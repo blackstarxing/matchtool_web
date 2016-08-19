@@ -19,6 +19,7 @@ import landRegister from './views/landRegister.vue'
 import matchDetails from './views/matchDetails.vue'
 import perSetting from './views/perSetting.vue'
 import myclan from './views/clan/myclan.vue'
+import clandetails from './views/clan/clandetails.vue'
 import passWord from './views/passWord.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
@@ -73,6 +74,9 @@ router.map({
     },
     '/myclan': {
         component: myclan
+    },
+    '/clandetails': {
+        component: clandetails
     },
     '/passWord': {
         component: passWord
