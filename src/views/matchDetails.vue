@@ -32,80 +32,85 @@
 			<p class="g-q-jj col7a8">赛事还没有简介信息，<a href="#" v-link="{ path: '/backend'}">去完善</a><i v-link="{ path: '/backend'}"></i></p>
 			<p class="col7a8 g-q-dz" v-show="changemodedz">地址&nbsp<span class="colfdb">•</span>&nbsp{{addreass}}{{detailAddreass}}</p>
 			<ul class="g-q-tab clearfix">
-				<li class="g-q-tabon">赛事信息</li>
-				<li>对阵图预览</li>
+				<li v-bind:class="{'g-q-tabon':tap1}" val="1" @click="tapswitch">赛事信息</li>
+				<li v-bind:class="{'g-q-tabon':tap2}" val="2" @click="tapswitch">对阵图预览</li>
 			</ul>
 		</div>
 		<div class="g-q-gofb">当前赛事<a v-link="{ path: '/backend'}">尚未发布</a>，前往管理赛事页面，完善赛事信息并<a v-link="{ path: '/backend'}">发布</a>，让更多用户看到你的赛事。</div>
-		<div class="g-q-ssinfo">
-			<div class="clearfix bb2a3">
-				<div style="width: 223px;" class="g-q-if f-fl">
-					<img src="../../static/images/icon_xm.png" class="f-ab">
-					<div class="g-q-if-in">
-						<p class="g-q-if-p1">比赛项目</p>
-						<p class="g-q-if-p2">{{itemName}}</p>
+		<div v-show="tap1">
+			<div class="g-q-ssinfo">
+				<div class="clearfix bb2a3">
+					<div style="width: 223px;" class="g-q-if f-fl">
+						<img src="../../static/images/icon_xm.png" class="f-ab">
+						<div class="g-q-if-in">
+							<p class="g-q-if-p1">比赛项目</p>
+							<p class="g-q-if-p2">{{itemName}}</p>
+						</div>
+					</div>
+					<div style="width: 223px;" class="g-q-if f-fl">
+						<img src="../../static/images/icon_ms.png" class="f-ab">
+						<div class="g-q-if-in">
+							<p class="g-q-if-p1">赛事模式</p>
+							<p class="g-q-if-p2">{{mode}}</p>
+						</div>
+					</div>
+					<div style="width: 330px;" class="g-q-if f-fl">
+						<img src="../../static/images/icon_jd.png" class="f-ab">
+						<div class="g-q-if-in">
+							<p class="g-q-if-p1">赛事阶段</p>
+							<p class="g-q-if-p2">{{type}}</p>
+						</div>
+					</div>
+					<div style="width: 150px; margin-left: 40px;" class="g-q-if f-fl">
+						<img src="../../static/images/icon_sz.png" class="f-ab">
+						<div class="g-q-if-in">
+							<p class="g-q-if-p1">赛制</p>
+							<p class="g-q-if-p2">{{regime}}</p>
+						</div>
 					</div>
 				</div>
-				<div style="width: 223px;" class="g-q-if f-fl">
-					<img src="../../static/images/icon_ms.png" class="f-ab">
-					<div class="g-q-if-in">
-						<p class="g-q-if-p1">赛事模式</p>
-						<p class="g-q-if-p2">{{mode}}</p>
+				<div class="clearfix pt20">
+					<div style="width: 223px;" class="g-q-if f-fl">
+						<img src="../../static/images/icon_rs.png" class="f-ab">
+						<div class="g-q-if-in">
+							<p class="g-q-if-p1">最大参与人数</p>
+							<p class="g-q-if-p2">{{maxNum}}人</p>
+						</div>
 					</div>
-				</div>
-				<div style="width: 330px;" class="g-q-if f-fl">
-					<img src="../../static/images/icon_jd.png" class="f-ab">
-					<div class="g-q-if-in">
-						<p class="g-q-if-p1">赛事阶段</p>
-						<p class="g-q-if-p2">{{type}}</p>
+					<div style="width: 223px;" class="g-q-if f-fl">
+						<img src="../../static/images/icon_sj.png" class="f-ab">
+						<div class="g-q-if-in">
+							<p class="g-q-if-p1">比赛开始时间</p>
+							<p class="g-q-if-p2">{{activityBegin}}</p>
+						</div>
 					</div>
-				</div>
-				<div style="width: 150px; margin-left: 40px;" class="g-q-if f-fl">
-					<img src="../../static/images/icon_sz.png" class="f-ab">
-					<div class="g-q-if-in">
-						<p class="g-q-if-p1">赛制</p>
-						<p class="g-q-if-p2">{{regime}}</p>
+					<div style="width: 330px;" class="g-q-if f-fl">
+						<img src="../../static/images/icon_bmsj.png" class="f-ab">
+						<div class="g-q-if-in">
+							<p class="g-q-if-p1">报名时间</p>
+							<p class="g-q-if-p2">{{applyBegin}} - {{applyEnd}}</p>
+						</div>
+					</div>
+					<div style="width: 150px; margin-left: 40px;" class="g-q-if f-fl">
+						<img src="../../static/images/icon_qdsj.png" class="f-ab">
+						<div class="g-q-if-in">
+							<p class="g-q-if-p1">签到时间</p>
+							<p class="g-q-if-p2">{{needSignMinu}}</p>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="clearfix pt20">
-				<div style="width: 223px;" class="g-q-if f-fl">
-					<img src="../../static/images/icon_rs.png" class="f-ab">
-					<div class="g-q-if-in">
-						<p class="g-q-if-p1">最大参与人数</p>
-						<p class="g-q-if-p2">{{maxNum}}人</p>
-					</div>
-				</div>
-				<div style="width: 223px;" class="g-q-if f-fl">
-					<img src="../../static/images/icon_sj.png" class="f-ab">
-					<div class="g-q-if-in">
-						<p class="g-q-if-p1">比赛开始时间</p>
-						<p class="g-q-if-p2">{{activityBegin}}</p>
-					</div>
-				</div>
-				<div style="width: 330px;" class="g-q-if f-fl">
-					<img src="../../static/images/icon_bmsj.png" class="f-ab">
-					<div class="g-q-if-in">
-						<p class="g-q-if-p1">报名时间</p>
-						<p class="g-q-if-p2">{{applyBegin}} - {{applyEnd}}</p>
-					</div>
-				</div>
-				<div style="width: 150px; margin-left: 40px;" class="g-q-if f-fl">
-					<img src="../../static/images/icon_qdsj.png" class="f-ab">
-					<div class="g-q-if-in">
-						<p class="g-q-if-p1">签到时间</p>
-						<p class="g-q-if-p2">{{needSignMinu}}</p>
-					</div>
-				</div>
+			<div class="g-q-jx">
+				<p class="g-q-jxp">赛事奖项</p>
+				<p class="g-q-jj col7a8" style="margin-bottom: 0;">还没有赛事奖项，<a v-link="{ path: '/backend'}">去完善</a><i v-link="{ path: '/backend'}"></i></p>
+			</div>
+			<div class="g-q-jx" style="margin-bottom:100px;">
+				<p class="g-q-jxp">赛事规则</p>
+				<p class="g-q-jj col7a8" style="margin-bottom: 0;">还没有赛事规则，<a v-link="{ path: '/backend'}">去完善</a><i v-link="{ path: '/backend'}"></i></p>
 			</div>
 		</div>
-		<div class="g-q-jx">
-			<p class="g-q-jxp">赛事奖项</p>
-			<p class="g-q-jj col7a8" style="margin-bottom: 0;">还没有赛事奖项，<a v-link="{ path: '/backend'}">去完善</a><i v-link="{ path: '/backend'}"></i></p>
-		</div>
-		<div class="g-q-jx" style="margin-bottom:100px;">
-			<p class="g-q-jxp">赛事规则</p>
-			<p class="g-q-jj col7a8" style="margin-bottom: 0;">还没有赛事规则，<a v-link="{ path: '/backend'}">去完善</a><i v-link="{ path: '/backend'}"></i></p>
+		<div v-show="tap2" class="g-c-plan">
+			<!-- 在这个div放置对阵图哦 -->
 		</div>
 		<div class="steps infosteps">
 			<span class="line"></span>
@@ -153,7 +158,9 @@ import createPop from '../components/createPop.vue'
 				},
 				changemodedz:true,
 				isstart:false,
-				isfabu:false
+				isfabu:false,
+				tap1:true,
+				tap2:false
 			}
 		},
 		components:{
@@ -170,7 +177,7 @@ import createPop from '../components/createPop.vue'
 			var jsonInfo = JSON.stringify(newsobj);
 			var parm = new Object();
 			parm.jsonInfo = jsonInfo;
-			_this.$http.get('oet/event/openOetInfo',parm).then(function(response){
+			_this.$http.get('event/openOetInfo',parm).then(function(response){
 				console.log("成功");
 				var code = response.data.code;
 				if(code==1){
@@ -236,7 +243,18 @@ import createPop from '../components/createPop.vue'
 			})
 		},
 		methods:{
-
+			tapswitch:function(event){
+				var _this = $(event.target);
+				var v = _this.attr("val");
+				if(v==2){
+					this.tap1 = false;
+					this.tap2 = true;
+				}
+				else if(v==1){
+					this.tap1 = true;
+					this.tap2 = false;
+				}
+			}
 		}
 	}
 </script>
