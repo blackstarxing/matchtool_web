@@ -1058,9 +1058,9 @@ label.u-c-kz-sz{
 }
 .g-c-plan{
 	width: 100%;
-	height: 10.24rem;
 	background: #171a21;
-	overflow: scroll;
+	position: relative;
+	padding-top: 30px;
 }
 
  /*头部*/
