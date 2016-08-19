@@ -17,76 +17,90 @@
 				</div>
 			</div> -->
 			<div class="setPoster g-q-hb">
-				<div class="g-q-ptr">
+				<img src="" v-bind:src="'http://img.wangyuhudong.com/'+formdata.poster" v-if="formdata.poster">
+				<div class="g-q-ptr" @click="selectPic">
 					<span class="icon-uniE62B"></span>
 					<p>编辑、更改赛事海报</p>
 				</div>
 			</div>
-			<div class="m-c-info">
-				<p class="g-c-l">赛事名称</p>
-				<input type="text" class="u-c-ipt" placeholder="请输入赛事名称" style="width:480px;" v-model="formdata.name">
-				<p class="g-c-l mt40">主办方</p>
-				<div class="g-c-zbf">
-					<input type="radio" id="personal" class="regular-radio" checked="checked" />
-					<label for="personal"></label>
-					<label for="personal" class="u-c-per">
-						<span class="u-c-headimg">
-							<img v-bind:src="'http://img.wangyuhudong.com/'+roundlist.icon">
-						</span>
-						<span class="f-fl">
-							{{roundlist.nickname}}
-						</span>
-					</label>
+			<div class="m-c-info saveinfo">
+				<div class="f-c">
+					<p class="g-c-l">赛事名称<span class="colfdb f-tip"></span></p>
+					<input type="text" class="u-c-ipt" name="matchname" placeholder="请输入赛事名称" style="width:480px;" v-model="formdata.name" required="">
 				</div>
-				<p class="g-c-l mt40">比赛项目</p>
-				<select id="gameList" class="u-c-slt" v-model="formdata.itemId">
-					<option>选择一个竞技项目</option>
-				</select>
-				<p class="g-c-l mt40">赛事模式</p>
-				<div class="g-c-zbf">
-				    <div class="f-fl g-c-ms">
-						<input type="radio" id="online" name="matchitem" class="regular-radio" checked="checked" value="1" v-model="formdata.mode"/>
-						<label for="online"></label>
-						<label for="online" class="u-c-per">		
-							<span class="f-fl">
-								纯线上赛事
+				<div class="f-c">
+					<p class="g-c-l mt40">主办方</p>
+					<div class="g-c-zbf">
+						<input type="radio" id="personal" class="regular-radio" checked="checked" />
+						<label for="personal"></label>
+						<label for="personal" class="u-c-per">
+							<span class="u-c-headimg">
+								<img v-bind:src="'http://img.wangyuhudong.com/'+roundlist.icon">
 							</span>
-						</label>
-					</div>
-					<div class="f-fl g-c-ms">
-						<input type="radio" id="offline" name="matchitem" class="regular-radio" value="2" v-model="formdata.mode"/>
-						<label for="offline"></label>
-						<label for="offline" class="u-c-per">		
 							<span class="f-fl">
-								纯线下赛事
-							</span>
-						</label>
-					</div>
-					<div class="f-fl h36">
-						<input type="radio" id="unite" name="matchitem" class="regular-radio" value="3" v-model="formdata.mode"/>
-						<label for="unite"></label>
-						<label for="unite" class="u-c-per">		
-							<span class="f-fl">
-								线上与线下结合模式
+								{{roundlist.nickname}}
 							</span>
 						</label>
 					</div>
 				</div>
-				<div v-if="formdata.mode>1">
-					<p class="g-c-l mt40">比赛地址</p>
-					<input type="text" class="u-c-ipt" placeholder="请输入赛事名称" style="width:480px;" v-model="">
-					<p class="g-c-l mt40">具体地址</p>
-					<input type="text" class="u-c-ipt" placeholder="请输入赛事名称" style="width:480px;" v-model="">
+				<div class="f-c">
+					<p class="g-c-l mt40">比赛项目<span class="colfdb f-tip"></span></p>
+					<select id="gameList" name="gameItem" class="u-c-slt" v-model="formdata.itemId" required="">
+						<option value="0">选择一个竞技项目</option>
+					</select>
 				</div>
-				
-				<p class="g-c-l mt40">赛事简介</p>
-				<div id="brief" class="m-editor"></div>
-				<p class="g-c-l mt40">赛事奖励</p>
-				<div id="prizeSetting" class="m-editor"></div>
-				<p class="g-c-l mt40">赛事规则</p>
-				<div id="regimeRule" class="m-editor"></div>
+				<div class="f-c">
+					<p class="g-c-l mt40">赛事模式</p>
+					<div class="g-c-zbf">
+					    <div class="f-fl g-c-ms">
+							<input type="radio" id="online" name="matchitem" class="regular-radio" checked="checked" value="1" v-model="formdata.mode"/>
+							<label for="online"></label>
+							<label for="online" class="u-c-per">		
+								<span class="f-fl">
+									纯线上赛事
+								</span>
+							</label>
+						</div>
+						<div class="f-fl g-c-ms">
+							<input type="radio" id="offline" name="matchitem" class="regular-radio" value="2" v-model="formdata.mode"/>
+							<label for="offline"></label>
+							<label for="offline" class="u-c-per">		
+								<span class="f-fl">
+									纯线下赛事
+								</span>
+							</label>
+						</div>
+						<div class="f-fl h36">
+							<input type="radio" id="unite" name="matchitem" class="regular-radio" value="3" v-model="formdata.mode"/>
+							<label for="unite"></label>
+							<label for="unite" class="u-c-per">		
+								<span class="f-fl">
+									线上与线下结合模式
+								</span>
+							</label>
+						</div>
+					</div>
+					<div v-if="formdata.mode>1" class="f-c">
+						<p class="g-c-l mt40">比赛地址<span class="colfdb f-tip"></span></p>
+						<input type="text" class="u-c-ipt" name="matchaddress" placeholder="请输入赛事名称" style="width:480px;" v-model="addreass" required="">
+						<p class="g-c-l mt40">具体地址</p>
+						<input type="text" class="u-c-ipt" placeholder="请输入赛事名称" style="width:480px;" v-model="detailAddreass">
+					</div>
+				</div>
+				<div class="f-c">
+					<p class="g-c-l mt40">赛事简介</p>
+					<div id="brief" class="m-editor"></div>
+				</div>
+				<div class="f-c">
+					<p class="g-c-l mt40">赛事奖励</p>
+					<div id="prizeSetting" class="m-editor"></div>
+				</div>
+				<div class="f-c">
+					<p class="g-c-l mt40">赛事规则</p>
+					<div id="regimeRule" class="m-editor"></div>
+				</div>
 			</div>
-			<a href="" class="saveModify" @click="nextStep">保存修改</a>
+			<a href="" class="saveModify" @click="saveInfo">保存修改</a>
 		</div>
 		<div class="g-wrap">
 			<div class="g-z">
@@ -97,7 +111,7 @@
 							<input type="text" id="personnum" class="u-c-ipt f-fl" title="参赛人数" style="width: 200px;" required placeholder="请输入参与人数上限"  v-model="formdata.maxNum" @input="numberChange" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
 							<div class="button_group">
 								<button class="plus" @click="plus"></button>
-								<button class="minus" @click="minus" disabled="true"></button>
+								<button class="minus" @click="minus"></button>
 							</div>
 						</div>
 					</div>
@@ -177,6 +191,48 @@
 						</div>
 					</div>
 				</div>
+				<div class="f-c">
+					<div class="m-c-info">
+						<div class="f-c">
+							<p class="g-c-l">赛事开始时间<span class="colfdb f-tip"></span></p>
+							<div style="width: 200px; position:relative;">
+								<input type="text" class="u-c-ipt form_datetime" name="activityBegin" title="赛事开始时间" id="activityBegin" placeholder="请输入开赛时间" style="width:200px;" v-model="formdata.activityBegin" required>
+								<label for="activityBegin" class="add-on"></label>
+							</div>
+						</div>
+						<div class="f-c">
+							<p class="g-c-l mt40">报名时间<span class="colfdb f-tip"></span></p>
+							<div class="g-c-timeipt">
+								<input type="text" class="u-c-ipt form_datetime" id="applyBegin" placeholder="请输入开始时间" style="width:200px;" v-model="formdata.applyBegin" disabled>
+								<label for="applyBegin" class="add-on"></label>
+							</div>
+							&nbsp－&nbsp
+							<div class="g-c-timeipt">
+								<input type="text" class="u-c-ipt form_datetime" id="applyEnd" placeholder="请输入结束时间" style="width:200px;" v-model="formdata.applyEnd" disabled/>
+								<label for="applyEnd" class="add-on"></label>
+							</div>
+						</div>
+						<p class="g-c-l mt40">签到时间</p>
+						<div class="g-c-qd">
+							<input type="checkbox" id="signtime" class="regular-checkboxs" name="" v-model="formdata.needSign" v-bind:true-value="1" v-bind:false-value="0" disabled/>
+							<label for="signtime" @click="signtime"></label><span class="u-c-ck col8f">要求参赛者赛前签到 (仅签到一次)<span class="colfdb">&nbsp&nbsp•&nbsp&nbsp</span>比赛开始前</span>
+							<select class="u-c-slt u-c-tslt col8f" name="needSignMinu" v-model="formdata.needSignMinu" disabled>
+								<option v-bind:value="10" selected>10</option>
+								<option v-bind:value="15">15</option>
+								<option v-bind:value="20">20</option>
+								<option v-bind:value="25">25</option>
+								<option v-bind:value="30">30</option>
+								<option v-bind:value="35">35</option>
+								<option v-bind:value="40">40</option>
+								<option v-bind:value="45">45</option>
+								<option v-bind:value="50">50</option>
+								<option v-bind:value="55">55</option>
+								<option v-bind:value="60">60</option>
+							</select>
+							<span class="u-c-ck col8f">分钟</span>
+						</div>
+					</div>
+				</div>
 				<a href="" class="saveModify" @click="nextStep">保存修改</a>
 			</div>
 		</div>
@@ -253,6 +309,16 @@
 			</div>
 		</div>
 	</div>
+	<div class="m-mask" style="padding-left:100px;">
+		<div class="pic-select">
+			<div class="wrap">
+				<a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
+				<div class="picBox">
+					<div id="pic"></div>
+				</div>	
+			</div>			
+		</div>
+	</div>
 </template>
 <script>
 import backendHead from '../components/backendHead.vue'
@@ -266,6 +332,7 @@ export default {
 			formdata:{
 				eventRoundId:"",
 				eventId:"",
+				poster:"",
 				name:"",
 				sponsorType:1,
 				itemId:"",
@@ -297,7 +364,7 @@ export default {
    		_this.formdata.eventRoundId=window.sessionStorage.getItem("eventRoundId");
    		var eve={};
    		eve.jsonInfo=JSON.stringify({oetInfoId:_this.formdata.eventId,oetRoundId:_this.formdata.eventRoundId});
-   		_this.$http.get('oet/event/openOetInfo',eve).then(function(response) {
+   		_this.$http.get('event/openOetInfo',eve).then(function(response) {
         	console.log(response);
         	_this.eventlist=response.data.object.event;
         	_this.roundlist=response.data.object.round;
@@ -329,30 +396,44 @@ export default {
         });
         var parm={};
    		parm.jsonInfo=JSON.stringify({itemsId:""});
-   			_this.$http.get('oet/event/league/queryActivityItem',parm).then(function (response) {
-  				var gameList=response.data.object.itemsList;
-  				var content='';
-  				
-  				for(var i=0;i<gameList.length;i++){
-  					content+='<option value="'+gameList[i].id+'">'+gameList[i].name+'</option>'
-  				}
-  				$('#gameList').append(content);
-  				$("#gameList option").each(function(){
-	        		if($(this).val()==_this.formdata.itemId){
-	        			$(this).attr("selected",true);
-	        		}
-	        	});
-	        }, function (response) {
-	            console.log(22);
-	        })
-		// $('.backend-tab li').click(function(){
-		// 	var that=this;
-		// 	var index=$(that).index();
-		// 	tabs.removeClass('current');
-		// 	items.removeClass('showItem');
-		// 	$(that).addClass('current');
-		// 	items.eq(index).addClass('showItem');
-		// })
+		_this.$http.get('event/league/queryActivityItem',parm).then(function (response) {
+			var gameList=response.data.object.itemsList;
+			var content='';
+			
+			for(var i=0;i<gameList.length;i++){
+				content+='<option value="'+gameList[i].id+'">'+gameList[i].name+'</option>'
+			}
+			$('#gameList').append(content);
+			$("#gameList option").each(function(){
+        		if($(this).val()==_this.formdata.itemId){
+        			$(this).attr("selected",true);
+        		}
+        	});
+        }, function (response) {
+            console.log(22);
+        })
+
+		// 图片上传
+		$('#pic').diyUpload({
+			url:'http://wy.oetapi.wangyuhudong.com/file/upload',
+			success:function( data ) {
+				console.info( data );
+				_this.formdata.poster=data.object.src;
+				$(".m-mask").hide();
+			},
+			error:function( err ) {
+				console.info( err );	
+			},
+			buttonText : '选择图片',
+			chunked:true,
+			// 分片大小
+			chunkSize:512 * 1024,
+			//最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+			fileNumLimit:1,
+			fileSizeLimit:500000 * 1024,
+			fileSingleSizeLimit:50000 * 1024
+		});
+
   		$('#brief').editable({
 			inlineMode: false,
 			theme: 'dark', 
@@ -379,6 +460,12 @@ export default {
   		
   	},
   	methods:{
+  		selectPic: function(e){
+	        $('.m-mask').show();
+	    },
+	    closePop: function(e){
+	        $('.m-mask').hide();
+	    },
   		tabTurn:function(e){
   			var tabs=$('.backend-tab li');
   			var items=$('.g-wrap');
@@ -458,21 +545,29 @@ export default {
 	    		$('#signtime').parents('.g-c-qd').find('.u-c-ck').removeClass('col8f');
 	    	}
 	    },
+	    // 字符串长度
+	    strlen:function(str){
+	    	var len = 0;
+	        for (var i = 0; i < str.length; i++) {
+	            var c = str.charCodeAt(i);
+	            //单字节加1 
+	            if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+	                len++;
+	            }
+	            else {
+	                len += 2;
+	            }
+	        }
+	        return len;
+	    },
 	    cherksz:function(event){
 			var _this = $(event.target);
 			_this.parents('.g-c-sz').find('.g-c-sz-cherk').toggle();
 			$('.g-c-szgz').fadeToggle();
 		},
-		creatematch:function(event){
+		saveInfo:function(event){
 			var _this = this;
 			event.preventDefault();
-			var slt = $('.g-c-sz-cherk').css('display') != 'none';
-			if(slt){
-				_this.formdata.regime = 1;
-			}
-			else{
-				_this.formdata.regime = '';
-			}
 			function errorPlacement(mes,element){
 	    		var errorTips=element.parents(".f-c").find('.f-tip');
 		    	if(mes!=""){
@@ -483,17 +578,42 @@ export default {
 	    	}
 	    	function formValidate(){
 	    		var valid=true;
-	    		var $this=$('#dbsz');
-	    		var message="请选择赛制！";
-	    		if(_this.formdata.regime ==''){
-	    			valid=false;
-	    			errorPlacement(message,$this);
-	    		}
-	    		else{
-	    			valid=true;
-	    			message='';
-	    			errorPlacement(message,$this);
-	    		}
+	    		$(".saveinfo [required]").each(function(){
+		    		var $this=$(this);
+					var value=$this.val(),name=$this.attr('name');	
+		    		var message="";
+		    		if(name=="matchname"){
+						var vl = _this.strlen(value);
+						if(value==""){
+							valid=false;
+				    		message="赛事名称不能为空!";
+						}else if((vl<8 && value!="") || vl>52){
+							valid = false;
+							message="赛事名称必须在4 ~ 26个汉字之间!";
+						}
+						errorPlacement(message,$this);
+		    		}else if(name=="gameItem"){
+		    			if(value=="0"){
+							valid=false;
+				    		message="请选择比赛项目!";
+						}
+						errorPlacement(message,$this);
+		    		}else if(name=="matchaddress" && _this.formdata.mode>1){
+		    			var vl = _this.strlen(value);
+		    			if(value==""){
+							valid=false;
+				    		message="比赛地址不能为空!";
+						}else if((vl<10 && value!="") || vl>120){
+							valid = false;
+							message="比赛地址必须在5 ~ 60个汉字之间!";
+						}
+						errorPlacement(message,$this);
+		    		}
+		    	});
+    			if(!valid){
+			    	var top=$('.f-tip').eq(0).offset().top-550;
+			    	$("body").scrollTop(top);
+			    }
 	    		return valid;
 	    	}
 
