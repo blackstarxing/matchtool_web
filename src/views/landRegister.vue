@@ -27,9 +27,9 @@
 				</div>
 				<div class="password_st clearfix">
 					<div class="remeber_pw">
-						<input type="checkbox" id="auto_land" v-model="checked">
+						<input type="checkbox" id="auto_land" v-model="autochecked">
 						<label class="remeber_label" for="auto_land">下次自动登录</label>
-						<label for="auto_land" class="float_checkbox"><span class="check_gou" v-show="checked">√</span></label>
+						<label for="auto_land" class="float_checkbox"><span class="check_gou" v-show="autochecked">√</span></label>
 					</div>
 					<div class="forgot_pw"><a v-link="{ path: '/passWord'}">忘记密码？</a></div>
 				</div>
@@ -62,9 +62,9 @@
 					</div>
 				</div>
 				<div class="accept_rule">
-						<input type="checkbox" id="accept_input" checked v-model="checked"  @change="acceptRule">
+						<input type="checkbox" id="accept_input" checked v-model="acceptchecked">
 						<span>我接受<i>《开赛吧服务条款》</i></span>
-						<label for="accept_input" class="float_checkbox"><span class="check_gou" v-show="checked">√</span></label>
+						<label for="accept_input" class="float_checkbox"><span class="check_gou" v-show="acceptchecked">√</span></label>
 					</div>
 				<div class="twolines"></div>
 				<div class="allow_reg" @click="regIn">注册</div>
@@ -82,15 +82,16 @@ import createPop from '../components/createPop.vue'
 	export default {
 		data () {
 			return{
-				landReg:true,
-				checked:'',
-				account:'',
-				password:'',
-				phone:'',
-				ident:'',
-				nickname:'',
-				errorTip:true,
-				allowReg:false,
+				landReg: true,
+				autochecked: true,
+				acceptchecked: true,
+				account: '',
+				password: '',
+				phone: '',
+				ident: '',
+				nickname: '',
+				errorTip: true,
+				allowReg: false,
 				isLand: true,
 				isReg: false,
 				isident: true
@@ -103,7 +104,8 @@ import createPop from '../components/createPop.vue'
 	        createPop
 		},
 		ready: function () {
-	
+			
+
 		},
 		methods:{
 			changeLand: function (e) {
@@ -159,7 +161,7 @@ import createPop from '../components/createPop.vue'
 					}else{
 						var parm={}
 						parm.telephone=this.phone;
-						this.$http.post('oet/registerCheck',parm).then(function(response){
+						this.$http.post('registerCheck',parm).then(function(response){
 							if(response.data.object.telephoneValid){
 								_error.hide();
 								this.errorTip=true;
@@ -193,7 +195,7 @@ import createPop from '../components/createPop.vue'
 					return;
 				}
 				parm.type=1;
-				this.$http.post('oet/sendVerifyCode',parm).then(function(response){
+				this.$http.post('sendVerifyCode',parm).then(function(response){
 					if(response.data.code){
 						_error.hide();
 						this.errorTip=true;
@@ -226,7 +228,7 @@ import createPop from '../components/createPop.vue'
 				}else{
 					var parm={}
 					parm.nickname=this.nickname;
-					this.$http.post('oet/registerCheck',parm).then(function(response){
+					this.$http.post('registerCheck',parm).then(function(response){
 						if(response.data.object.nicknameValid){
 							_error.hide();
 							this.errorTip=true;
@@ -251,13 +253,6 @@ import createPop from '../components/createPop.vue'
 					this.errorTip=true;
 				}
 			},
-			acceptRule: function () {
-				if(this.checked){
-					this.allowReg=true;
-				}else{
-					this.allowReg=false;
-				}
-			},
 			regIn: function () {
 				var parm={};
 				parm.nickname=this.nickname;
@@ -265,8 +260,8 @@ import createPop from '../components/createPop.vue'
 				parm.telephone=this.phone;
 				parm.verifyCode=this.ident;
 
-				if(this.nickname && this.password && this.phone && this.ident && this.checked && this.errorTip){
-					this.$http.post('oet/register',parm).then(function(response){
+				if(this.nickname && this.password && this.phone && this.ident && this.acceptchecked && this.errorTip){
+					this.$http.post('register',parm).then(function(response){
 						console.log(response);
 						if(response.data.code){
 							document.cookie="oetevent.login.sessionid="+response.data.object["oetevent.login.sessionid"];
@@ -290,8 +285,8 @@ import createPop from '../components/createPop.vue'
 				var parm={};
 				parm.username=this.account;
 				parm.password=this.password;
-				if(this.account && this.password && this.errorTip){
-					this.$http.post('oet/login',parm).then(function(response){
+				if(this.account && this.password && this.errorTip && this.autochecked){
+					this.$http.post('login',parm).then(function(response){
 					console.log(response);
 					if(response.data.code){
 						document.cookie="oetevent.login.sessionid="+response.data.object["oetevent.login.sessionid"];

@@ -7,7 +7,7 @@
 		<div class="header_right f-fr">
       <a href="" class="notify"><span class="icon-uniE60D"></span></a>
       <div class="avatar">
-        <img v-bind:src="'http://img.wangyuhudong.com/'+avatar"  alt=""><span class="icon-uniE60E"></span>
+        <img v-bind:src="'http://img.wangyuhudong.com/'+avatar"  alt="" v-if="avatar"><span class="icon-uniE60E"></span>
         <div class="nav-list">
           <ul>
               <li><a v-link="{ path: '/quickmatch'}"><span class="icon-uniE617"></span>创建赛事</a></li>
