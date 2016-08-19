@@ -27,7 +27,7 @@
 									<img src="{{headicon}}">
 								</span>
 								<span class="f-fl">
-									未来老公
+									{{nickname}}
 								</span>
 							</label>
 						</div>
@@ -234,7 +234,7 @@ import createPop from '../components/createPop.vue'
 	export default {
 		data () {
 			return{
-				username:"",
+				nickname:"",
 				headicon:"",
 				formdata:{
 					name:"",
@@ -308,6 +308,7 @@ import createPop from '../components/createPop.vue'
 	        });
 	        var _this=this;
 	        _this.headicon = 'http://img.wangyuhudong.com/'+ window.sessionStorage.getItem("appusericon");
+	        _this.nickname = window.sessionStorage.getItem("nickname");
 	        $('#applyEnd').on('change', function(){
 	        	var t = _this.formdata.applyEnd;
 	        	if(t!=""){
@@ -398,7 +399,7 @@ import createPop from '../components/createPop.vue'
 	        $.datetimepicker.setLocale('ch');
 	        //end
 	        
-	        _this.$http.get('oet/event/league/queryActivityItem').then(function(response){
+	        _this.$http.get('event/league/queryActivityItem').then(function(response){
 	        	var gameList=response.data.object.itemsList;
 	        	var content='';
   				for(var i=0;i<gameList.length;i++){
@@ -673,7 +674,7 @@ import createPop from '../components/createPop.vue'
 		    		var jsonInfo = JSON.stringify(newsobj);
 	  				var parm = new Object();
 	  				parm.jsonInfo = jsonInfo;
-		    		_this.$http.post('oet/event/saveBaseInfo',parm).then(function(response){
+		    		_this.$http.post('event/saveBaseInfo',parm).then(function(response){
 		    			var code = response.data.code;
 		    			if(code==1){
 		    				window.sessionStorage.setItem("eventRoundId",response.data.object.eventRoundId);
