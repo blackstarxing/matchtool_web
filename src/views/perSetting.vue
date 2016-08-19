@@ -16,37 +16,37 @@
 			</div>
 			<div class="perset_content">
 				<div class="perset_basicInfo" v-show="tabFlag == 0">
-					<p class="idInfo">当前登录账号：<span class="curId">1233556666</span></p>
+					<p class="idInfo">当前登录账号：<span class="curId" v-text="userInfoData.username"></span></p>
 					<div class="basicInfo_form">
 					<div class="form_item">
 						<label for="" class="text_label">昵称 : </label>
-						<input id="" type="text" class="nickname text_box">
+						<input id="" type="text" class="nickname text_box" v-model="userInfoData.nickname">
 					</div>	
 					<div class="form_item gender_item">
 						<label for="" class="text_label">性别 : </label>
 						<div class="g-c-zbf perset_zbf">
 							<div class="f-fl g-c-ms">
-								<input type="radio" id="man" name="gender" class="regular-radio" checked="checked" value="1" v-model="formdata.mode"/>
-								<label for="man" @click="slideup"></label>
-								<label for="man" class="u-c-per" @click="slideup">		
+								<input type="radio" id="man" name="gender" class="regular-radio" checked value="0" v-model="userInfoData.sex"/>
+								<label for="man"></label>
+								<label for="man" class="u-c-per">		
 									<span class="f-fl">
 										男
 									</span>
 								</label>
 							</div>
 								<div class="f-fl g-c-ms">
-									<input type="radio" id="woman" name="gender" class="regular-radio" value="2" v-model="formdata.mode"/>
-									<label for="woman" @click="slidedown"></label>
-									<label for="woman" class="u-c-per" @click="slidedown">		
+									<input type="radio" id="woman" name="gender" class="regular-radio" value="1" v-model="userInfoData.sex"/>
+									<label for="woman"></label>
+									<label for="woman" class="u-c-per">		
 										<span class="f-fl">
 											女
 										</span>
 									</label>
 								</div>
 								<div class="f-fl">
-									<input type="radio" id="secret" name="gender" class="regular-radio" value="3" v-model="formdata.mode"/>
-									<label for="secret" @click="slidedown"></label>
-									<label for="secret" class="u-c-per" @click="slidedown">		
+									<input type="radio" id="secret" name="gender" class="regular-radio" value="2" v-model="userInfoData.sex"/>
+									<label for="secret"></label>
+									<label for="secret" class="u-c-per">		
 										<span class="f-fl">
 											保密
 										</span>
@@ -56,31 +56,36 @@
 						</div>
 					<div class="form_item region">
 						<label for="" class="text_label">地区 : </label>
-						<select class="u-c-slt perset_slt mr-20" name="provinces" id="" v-model="formdata.itemId" @change="getServerList" required>
-							<option value="" selected>浙江省</option>
+						<select class="u-c-slt perset_slt mr-20" name="provinces" id="" v-model="rootAreaId"  @change="getSecondArea(rootAreaId)" required>
+							<option value="-1">请选择省份</option>
+							<option value="{{ item.id }}" v-for="item in rootArea" v-text="item.name"></option>
 						</select>
-						<select class="u-c-slt perset_slt" name="citys" id="" v-model="formdata.itemId" @change="getServerList" required>
-							<option value="" selected>杭州市</option>
+						<select class="u-c-slt perset_slt" name="citys" id="citys" v-model="secondAreaId" required>
+							<option value="-2">请选择城市</option>
+							<option value="{{ item.id }}" v-for="item in secondArea" v-text="item.name"></option>
 						</select>
 					</div>
 					<div class="form_item birthday">
 						<label for="" class="text_label">生日 : </label>
-						<select class="u-c-slt perset_slt" name="year" id="" v-model="formdata.itemId" @change="getServerList" required>
-							<option value="" selected>2016</option>
+						<select class="u-c-slt perset_slt" name="year" id="" v-model="userBirthday.yearNum" @change="setYearNextDo" required>
+							<option value="-1">请选择</option>
+							<option value="{{ item }}" v-for="item in userBirthday.yearList" v-text="item"></option>
 						</select>
 						<span>年</span>
-						<select class="u-c-slt perset_slt" name="month" id="" v-model="formdata.itemId" @change="getServerList" required>
-							<option value="" selected>12</option>
+						<select class="u-c-slt perset_slt" name="month" id="" v-model="userBirthday.monthNum" @change="setMonthNextDo" required>
+							<option value="-1">请选择</option>
+							<option value="{{ item }}" v-for="item in userBirthday.monthList" v-text="item"></option>
 						</select>
 						<span>月</span>
-						<select class="u-c-slt perset_slt" name="day" id="" v-model="formdata.itemId" @change="getServerList" required>
-							<option value="" selected>12</option>
+						<select class="u-c-slt perset_slt" name="day" id="" v-model="userBirthday.dayNum" required>
+							<option value="-1">请选择</option>
+							<option value="{{ item }}" v-for="item in userBirthday.dayList" v-text="item"></option>
 						</select>
 						<span class="mr-0">日</span>
 					</div>
 					<div class="form_item introduction">
 						<label for="" class="text_label">个人介绍 : </label>
-						<textarea class="introduction-text text_box" placeholder="150字以内"></textarea>
+						<textarea class="introduction-text text_box" v-model="userInfoData.speech" placeholder="150字以内"></textarea>
 					</div>
 					<div class="setImage">
 						<img class="user_pic"/>
@@ -130,7 +135,7 @@
 				</div>
 			</div>
 		</div>
-		<a href="javascript:;" class="saveBtn" v-text="btnText"></a>
+		<a href="javascript:;" class="saveBtn" v-text="btnText" @click="savePerSetting"></a>
 	</div>
 </template>
 <script type="text/javascript">
@@ -141,35 +146,74 @@
 	export default {
 		data () {
 			return {
+				dayFlag: false,
 				tabFlag: 0,
 				tabList: [
-					{ id: 0, name: '基本资料',isCur: true },
-					{ id: 1, name: '参赛资料', isCur: false },
-					{ id: 2, name: '组织者认证', isCur: false }
+					{ id: 0, name: '基本资料', isCur: true, url: 'oet/sysuser/saveSysUserInfo' },
+					{ id: 1, name: '参赛资料', isCur: false, url: 'oet/sysuser/saveSysUserInfo' },
+					{ id: 2, name: '组织者认证', isCur: false, url: 'oet/identify/identifyByCode' }
 				],
 				btnText: '保 存',
-				userInfo: {
-					code: 0,
-					msg: '',
-					object: {
-						sysUser: {},
-						userInfo: {}
-					}
-				}
+				userInfoData: {},
+				rootArea: [],
+				SecondArea: [],
+				rootAreaId: "-1",
+				secondArea: [],
+				secondAreaId: "-2",
+				userBirthday: {
+					yearList: [],
+					monthList: [],
+					dayList: [],
+					yearNum: "-1",
+					monthNum: "-1",
+					dayNum: "-1"
+				},
+				saveUserInfo: {
+					birthday: "",
+					cityCode: "",
+					icon: "",
+					nickname: "",
+					sex: 0,
+					speech: "",
+					sysUserId: -1,
+					userId: -1
+				} 
 			}
 		},
 		components: {
 			topHead,
-		    sideBar,
-		    slideBar,
-		    createPop
+	    sideBar,
+	    slideBar,
+	    createPop
 		},
 		ready: function () {
-			$.$http.get('oet/sysuser/saveSysUserInfo', function (data) {
-				// this.$set('userInfo', data)
-				// console.log(this.userInfo)
-				alert(123)
+			// var _this = this
+			this.$http.get('sysuser/querySysUserInfo').then(function (response) {
+			 // this.$set('userInfoData', data);
+			  this.userInfoData = response.data.object.userInfo
+			  if (this.userInfoData.sex === null) {
+			  	this.userInfoData.sex = 0;
+			  }
+			  // console.log(this.userInfoData)
+				if (this.userInfoData.speech === null) {
+					this.userInfoData.speech = ''
+				}
 			})
+			this.$http.get('sysuser/querySysAreaInfo').then(function (response) {
+				//console.log(response)
+				this.rootArea = response.data.object.areaMap.sysRootArea
+			})
+			// 设置初始的年份和月份
+			// function setBirthdayData () {
+			// 	for (var i = 2016; i >= 1900; i--) {
+			// 		_this.userBirthday.yearList.push(i);
+			// 	}
+			// 	for (var i = 1; i < 13; i++) {
+			// 		_this.userBirthday.monthList.push(i);
+			// 	}
+			// }
+			// setBirthdayData()
+			this.setBirthdayData()
 		},
 		methods: {
 			setCur: function (index) {
@@ -178,6 +222,99 @@
 				})
 				this.tabFlag = index
 				this.btnText = (this.tabFlag === 2 ? '认 证' : '保 存')
+			},
+			getSecondArea: function (rootId) {
+				// console.log(rootId)
+				var params = {}
+				var json = {}
+				json.pid = rootId
+				params.jsonInfo = JSON.stringify(json)
+				this.$http.get('sysuser/querySysAreaInfo', params).then(function (response) {
+					// console.log(response)
+					this.secondArea = response.data.object.areaMap.sysSecondArea
+					// 不能把这个放在外面，外面是同步的，得放在这个异步的回调中
+					this.$nextTick(function () {
+						 console.log(this.secondArea)
+						$('#citys option').eq(0).attr('selected', false)
+						$('#citys option').eq(1).attr('selected', true)
+						//console.log($('#citys option').eq(0).attr('checked'))
+					})
+				})
+			},
+			setBirthdayData: function () {
+				for (var i = 2016; i >= 1900; i--) {
+					this.userBirthday.yearList.push(i);
+				}
+				for (var i = 1; i < 13; i++) {
+					this.userBirthday.monthList.push(i);
+				}
+			}, 
+			getDayList: function () {
+				var year = parseInt(this.userBirthday.yearNum)
+				var month = parseInt(this.userBirthday.monthNum)
+				var dayListTmp = []
+				if (year === -1 || month === -1) return 
+				for (var i = 1; i <= 28; i++) {
+					dayListTmp.push(i)
+				}
+				if (month === 2) {
+					if (year % 400 === 0 || (year % 4 === 0 && year % 100 != 0)) {
+						dayListTmp.push(29)
+					}
+				} else if (month === 1 || month === 3 || month === 5 || month === 7 || month === 8 || month === 10 || month === 12) {
+					dayListTmp.push(29, 30, 31)	
+				} else {
+					dayListTmp.push(29, 30)
+				}
+				this.userBirthday.dayList = dayListTmp
+			},
+			setYearNextDo: function () {	
+				// this.getDayList()
+				if (this.userBirthday.monthNum === "-1") {
+					this.userBirthday.monthNum = "1"
+				}
+				this.getDayList()
+				// 只第一次修改年份时天数变成1，其余修改年份，天数不变
+				if (!this.dayFlag) {
+					this.userBirthday.dayNum = 1
+					this.dayFlag = !this.dayFlag
+				}
+			},
+			setMonthNextDo: function () {
+				this.getDayList()
+			},
+			savePerSetting: function () {
+				var _this = this
+				this.tabList.forEach(function (v, i) {
+					// console.log(v.isCur)
+					if (v.isCur === true) {
+						// console.log(v.url)
+						// console.log(typeof _this.userBirthday.yearNum)
+						// 生日
+						var y = _this.userBirthday.yearNum,
+								m = _this.userBirthday.monthNum,
+								d = _this.userBirthday.dayNum
+						if (y === "-1" || m === "-1" || d === "-1") {
+							_this.userInfoData.birthday = ''
+						} else {
+							if (y < 10) y = "0" + y
+							if (m < 10) m = "0" + m
+							if (d < 10) d = "0" + d
+							_this.userInfoData.birthday = y + "-" + m + "-" + d
+						}
+						console.log(_this.userInfoData.birthday)
+
+						// 城市编码
+						console.log(_this.rootAreaId + ' ' + _this.secondAreaId)
+						if (_this.rootAreaId === "-1" || _this.secondAreaId === "-2") {
+							_this.userInfoData.cityCode = ""
+						} else {
+							_this.userInfoData.cityCode = _this.secondAreaId
+						}
+						//this.userInfoData.birthday = 
+						//this.$http.post(v.url, )
+					}
+				})
 			}
 		}
 	}
