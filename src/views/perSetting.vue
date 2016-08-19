@@ -21,6 +21,7 @@
 					<div class="form_item">
 						<label for="" class="text_label">昵称 : </label>
 						<input id="" type="text" class="nickname text_box" v-model="userInfoData.nickname">
+						<!-- <p class="nicknameError"><i></i><span>昵称已被使用</span></p> -->
 					</div>	
 					<div class="form_item gender_item">
 						<label for="" class="text_label">性别 : </label>
@@ -56,13 +57,13 @@
 						</div>
 					<div class="form_item region">
 						<label for="" class="text_label">地区 : </label>
-						<select class="u-c-slt perset_slt mr-20" name="provinces" id="" v-model="rootAreaId"  @change="getSecondArea(rootAreaId)" required>
+						<select class="u-c-slt perset_slt mr-20" name="provinces" id="provinces" v-model="rootAreaId"  @change="getSecondArea(rootAreaId)" required>
 							<option value="-1">请选择省份</option>
 							<option value="{{ item.id }}" v-for="item in rootArea" v-text="item.name"></option>
 						</select>
 						<select class="u-c-slt perset_slt" name="citys" id="citys" v-model="secondAreaId" required>
 							<option value="-2">请选择城市</option>
-							<option value="{{ item.id }}" v-for="item in secondArea" v-text="item.name"></option>
+							<option value="{{ item.area_code }}" v-for="item in secondArea" v-text="item.name"></option>
 						</select>
 					</div>
 					<div class="form_item birthday">
@@ -149,9 +150,9 @@
 				dayFlag: false,
 				tabFlag: 0,
 				tabList: [
-					{ id: 0, name: '基本资料', isCur: true, url: 'oet/sysuser/saveSysUserInfo' },
-					{ id: 1, name: '参赛资料', isCur: false, url: 'oet/sysuser/saveSysUserInfo' },
-					{ id: 2, name: '组织者认证', isCur: false, url: 'oet/identify/identifyByCode' }
+					{ id: 0, name: '基本资料', isCur: true, url: 'sysuser/saveSysUserInfo' },
+					{ id: 1, name: '参赛资料', isCur: false, url: 'sysuser/saveSysUserInfo' },
+					{ id: 2, name: '组织者认证', isCur: false, url: 'identify/identifyByCode' }
 				],
 				btnText: '保 存',
 				userInfoData: {},
@@ -191,6 +192,7 @@
 			this.$http.get('sysuser/querySysUserInfo').then(function (response) {
 			 // this.$set('userInfoData', data);
 			  this.userInfoData = response.data.object.userInfo
+			  this.saveUserInfo.sysUserId = response.data.object.sysUser.id
 			  if (this.userInfoData.sex === null) {
 			  	this.userInfoData.sex = 0;
 			  }
@@ -232,9 +234,10 @@
 				this.$http.get('sysuser/querySysAreaInfo', params).then(function (response) {
 					// console.log(response)
 					this.secondArea = response.data.object.areaMap.sysSecondArea
+					//this.secondAreaId = this.secondArea[0].id
 					// 不能把这个放在外面，外面是同步的，得放在这个异步的回调中
 					this.$nextTick(function () {
-						 console.log(this.secondArea)
+						// console.log(this.secondArea)
 						$('#citys option').eq(0).attr('selected', false)
 						$('#citys option').eq(1).attr('selected', true)
 						//console.log($('#citys option').eq(0).attr('checked'))
@@ -295,24 +298,46 @@
 								m = _this.userBirthday.monthNum,
 								d = _this.userBirthday.dayNum
 						if (y === "-1" || m === "-1" || d === "-1") {
-							_this.userInfoData.birthday = ''
+							_this.saveUserInfo.birthday = ''
 						} else {
 							if (y < 10) y = "0" + y
 							if (m < 10) m = "0" + m
 							if (d < 10) d = "0" + d
-							_this.userInfoData.birthday = y + "-" + m + "-" + d
+							_this.saveUserInfo.birthday = y + "-" + m + "-" + d
 						}
-						console.log(_this.userInfoData.birthday)
+						//console.log(_this.userInfoData.birthday)
 
 						// 城市编码
-						console.log(_this.rootAreaId + ' ' + _this.secondAreaId)
-						if (_this.rootAreaId === "-1" || _this.secondAreaId === "-2") {
-							_this.userInfoData.cityCode = ""
+						//console.log($('#provinces').val() + ' ' + $('#citys').val())
+						//console.log(_this.rootAreaId + ' ' + _this.secondAreaId)
+						if ($('#provinces').val() === "-1" || $('#citys').val() === "-2") {
+							_this.saveUserInfo.cityCode = ""
 						} else {
-							_this.userInfoData.cityCode = _this.secondAreaId
+							_this.saveUserInfo.cityCode = $('#citys').val()
 						}
-						//this.userInfoData.birthday = 
-						//this.$http.post(v.url, )
+						//console.log(_this.userInfoData.cityCode)
+						// 头像
+
+						// 昵称
+						if (_this.userInfoData.nickname === '') {
+
+						} else {
+							_this.saveUserInfo.nickname = _this.userInfoData.nickname
+						}
+						// 性别
+						_this.saveUserInfo.nickname = _this.userInfoData.sex
+						// 个人介绍
+						_this.saveUserInfo.speech = _this.userInfoData.speech
+						// 系统用户id(前面已设置)
+						// 用户id
+						_this.saveUserInfo.userId = _this.userInfoData.id
+						// console.log(_this.saveUserInfo)
+						var params = {}
+						params.jsonInfo = JSON.stringify(_this.saveUserInfo)
+
+						this.$http.post(v.url, _this.saveUserInfo).then(function (response) {
+							console.log(response)
+						})
 					}
 				})
 			}
