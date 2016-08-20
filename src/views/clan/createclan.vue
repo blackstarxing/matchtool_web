@@ -41,7 +41,7 @@
 						<p class="g-c-l mt40">战队简介<span class="colfdb f-tip"></span></p>
 						<div class="f-re">
 							<textarea type="text" class="u-c-ipt u-c-ttr" placeholder="战队简介" maxlength="500" v-model="formdata.brief"></textarea>
-							
+							<span class="u-c-syzs">500字</span>
 						</div>
 					</div>
 				</div>
