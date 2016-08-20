@@ -98,75 +98,19 @@
 			</div>
 			<div v-show="tap1">
 				<ul class="g-cl-zd clearfix">
-					<li>
+					<li v-for="team in myteams">
 						<span class="g-cl-cap">队长</span>
 						<div class="clearfix g-cl-zdif">
 							<span class="g-cl-dtx">
-								<img src="../../../static/images/me.jpg">
+								<img v-bind:src="'http://img.wangyuhudong.com/'+team.icon">
 							</span>
 							<div class="g-cl-sszd">
-								<p class="g-cl-zdname">WE战队</p>
-								<p class="g-cl-yxname">英雄联盟</p>
+								<p class="g-cl-zdname">{{team.name}}</p>
+								<p class="g-cl-yxname">{{team.name}}</p>
 							</div>
 						</div>
 						<div class="g-cl-bmrs">
-							<span class="col42a">126</span>/300
-						</div>
-					</li>
-					<li>
-						<div class="clearfix g-cl-zdif">
-							<span class="g-cl-dtx">
-								<img src="../../../static/images/me.jpg">
-							</span>
-							<div class="g-cl-sszd">
-								<p class="g-cl-zdname">WE战队</p>
-								<p class="g-cl-yxname">英雄联盟</p>
-							</div>
-						</div>
-						<div class="g-cl-bmrs">
-							<span class="col42a">126</span>/300
-						</div>
-					</li>
-					<li>
-						<div class="clearfix g-cl-zdif">
-							<span class="g-cl-dtx">
-								<img src="../../../static/images/me.jpg">
-							</span>
-							<div class="g-cl-sszd">
-								<p class="g-cl-zdname">WE战队</p>
-								<p class="g-cl-yxname">英雄联盟</p>
-							</div>
-						</div>
-						<div class="g-cl-bmrs">
-							<span class="col42a">126</span>/300
-						</div>
-					</li>
-					<li>
-						<div class="clearfix g-cl-zdif">
-							<span class="g-cl-dtx">
-								<img src="../../../static/images/me.jpg">
-							</span>
-							<div class="g-cl-sszd">
-								<p class="g-cl-zdname">WE战队</p>
-								<p class="g-cl-yxname">英雄联盟</p>
-							</div>
-						</div>
-						<div class="g-cl-bmrs">
-							<span class="col42a">126</span>/300
-						</div>
-					</li>
-					<li>
-						<div class="clearfix g-cl-zdif">
-							<span class="g-cl-dtx">
-								<img src="../../../static/images/me.jpg">
-							</span>
-							<div class="g-cl-sszd">
-								<p class="g-cl-zdname">WE战队</p>
-								<p class="g-cl-yxname">英雄联盟</p>
-							</div>
-						</div>
-						<div class="g-cl-bmrs">
-							<span class="col42a">126</span>/300
+							<span class="col42a">{{team.memberCount}}</span>/20
 						</div>
 					</li>
 				</ul>
@@ -183,7 +127,8 @@ import createPop from '../../components/createPop.vue'
 		data (){
 			return{
 				tap1:true,
-				tap2:false
+				tap2:false,
+				myteams:''
 			}
 		},
 		components:{
@@ -193,7 +138,12 @@ import createPop from '../../components/createPop.vue'
 	        createPop
 		},
 		ready:function(){
-
+			var _this = this;
+			_this.$http.get('team/mine').then(function(response){
+				_this.myteams = response.data.object.teams;
+			}, function(response){
+				console.log(22)
+			})
 		},
 		methods:{
 			tapswitch:function(event){

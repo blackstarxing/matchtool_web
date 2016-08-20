@@ -180,13 +180,13 @@
 					<div class="f-c">
 						<p class="g-c-l mt40">报名时间<span class="colfdb f-tip"></span></p>
 						<div class="g-c-timeipt">
-							<input type="text" class="u-c-ipt form_datetime" id="applyBegin" placeholder="请输入开始时间" style="width:200px;" v-model="formdata.applyBegin" disabled>
-							<label for="applyBeginStr" class="add-on"></label>
+							<input type="text" class="u-c-ipt form_datetime" id="applyBegin" placeholder="请输入开始时间" style="width:200px;" v-model="formdata.applyBeginStr" disabled>
+							<label for="applyBegin" class="add-on"></label>
 						</div>
 						&nbsp－&nbsp
 						<div class="g-c-timeipt">
-							<input type="text" class="u-c-ipt form_datetime" id="applyEnd" placeholder="请输入结束时间" style="width:200px;" v-model="formdata.applyEnd" disabled/>
-							<label for="applyEndStr" class="add-on"></label>
+							<input type="text" class="u-c-ipt form_datetime" id="applyEnd" placeholder="请输入结束时间" style="width:200px;" v-model="formdata.applyEndStr" disabled/>
+							<label for="applyEnd" class="add-on"></label>
 						</div>
 					</div>
 					<p class="g-c-l mt40">签到时间</p>
