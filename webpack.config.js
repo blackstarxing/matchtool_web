@@ -77,7 +77,7 @@ if (process.env.NODE_ENV === 'production') {
     progress: true,
     proxy: {
       '/oet/*': {
-          target: 'http://172.16.2.63:8088',
+          target: 'http://172.16.2.21:8081',
           secure: false
       }
     }
