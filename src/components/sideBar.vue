@@ -21,7 +21,7 @@
   	methods:{
   		showPop:function(e){
   			e.preventDefault();
-  			$('.m-mask').show();
+  			$('.m-create').show();
   		}
   	}
   }

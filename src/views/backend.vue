@@ -383,11 +383,14 @@ export default {
         	_this.formdata.otherRequired=_this.eventlist.otherRequired;
         	_this.formdata.otherDescribe=_this.roundlist.otherDescribe;
         	_this.formdata.activityBegin=response.data.object.activityBegin;
+        	_this.formdata.allowApply=_this.roundlist.allowApply;
         	_this.formdata.applyBegin=response.data.object.applyBegin;
         	_this.formdata.applyEnd=response.data.object.applyEnd;
         	_this.formdata.brief=_this.eventlist.brief;
         	_this.formdata.regimeRule=_this.eventlist.regimeRule;
         	_this.formdata.prizeSetting=_this.eventlist.prizeSetting;
+
+        	_this.isapply();
         	$('#brief').editable({
 				inlineMode: false,
 				theme: 'dark', 
