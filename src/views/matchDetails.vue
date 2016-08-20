@@ -46,37 +46,20 @@
 			      <span class="against_title_tip">此对阵图为预览，可拖曳参赛选手来交换位置</span>
 			    </p>
 			    <div class="tech_main_body">
-			        <!-- <div class="turn_num">
+			        <div class="turn_num">
 			          <ul class="turn_num_list clearfix">
 			            <li class="turn_num_li" v-for="turnnum of turnnums">
-			              <span class="turn_turnid" style="display:none">{{turnnum.modelturnid}}</span>
+			              <div class="turn_turnid" style="display:none">{{turnnum.modelturnid}}</div>
 			              <div class="trunname_ed">
-			                <span class="turn_num_text">{{turnnum.modelname}}</span>
-			                <span class="turn_input_settime" style="font-size:12px;margin:0 7px;">{{turnnum.modeltime?turnnum.modeltime.split(' ',1):" "}}</span>
-			                <span class="turn_select_num" style="font-size:12px;color:#f9a32a;">BO<span class="turn_select_number">{{turnnum.modelbo}}</span></span>
-			                <img class="turn_num_pic" @click="turnName" src="../../static/images/turn.png"></div>
-			              <div class="trunname_ing">
-			              <input class="turn_input" type="text" value={{turnnum.modelname}}>
-			              <a class="turn_confirm turn_frame" @click="turnConfirm">确定</a>
-			              <a class="turn_quit turn_frame" @click="turnQuit">取消</a>
-			            </div>
-			            <ul class="turn_set_detail">
-			              <li><label for="set_begin" class="set_time_begin">设置时间</label>
-			                <input type="text" id="set_begin" class="set_begin" v-model="turnnum.modeltime">
-			              </li>
-			              <li><span>Best of</span>
-			                <select style="height:18px;text-indent:0px;" class="select_num" v-model="turnnum.modelbo">
-			                  <option>1</option>
-			                  <option>3</option>
-			                  <option>5</option>
-			                  <option>7</option>
-			                </select>
-			              </li>
-			            </ul>
+			                <div class="turn_num_text">{{turnnum.modelname}}</div>
+			                <div class="turn_num_detail">
+			                	<span class="turn_select_num" style="font-size:12px;">BO{{turnnum.modelbo}}</span>
+			                	<span class="turn_input_settime" style="font-size:12px;margin:0 7px;">{{turnnum.modeltime?turnnum.modeltime.split(' ',1):"时间待定"}}</span>
+			                </div>
+			                </div>
 			            </li>
 			          </ul>
-			        </div> -->
-			        <div class="turn_btn" @click="randomPic">随机排列对阵选手顺序</div>
+			        </div>
 			        <div class="tech_body">
 			            <div class="tech_container" style="margin-top:60px;">
 			            <div class="match_content clearfix">
@@ -168,7 +151,7 @@
 				<li class="current"><i></i>完善信息并发布</li>
 			</ul>
 			<a href="#">
-				<div class="g-q-sssz">
+				<div class="g-q-sssz" v-link="{ path: '/backend'}">
 					<img src="../../static/images/sssz.png">
 					赛事设置
 				</div>
@@ -386,7 +369,7 @@ import createPop from '../components/createPop.vue'
                       onelist.push(arr[i]);
                     }else{
                         for(var key in arr[i]){
-                            if(key=='groups'){
+                            if(key=='groups' && arr[i].groups){
                               getnum(arr[i][key]);
                             }
                           }  
@@ -394,6 +377,7 @@ import createPop from '../components/createPop.vue'
                   }
                      
                 }
+            
                 getnum(_this.matchdata);
 
                 console.log(onelist);
@@ -410,24 +394,15 @@ import createPop from '../components/createPop.vue'
 
                       if(onelist[i].seats[0].seatNumber){
                         if(onelist[i].groups){
-                          if(onelist[i].groups.length==2){
-                           var _topd=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
-                          _topdY.push(_topd);
-                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li class="recta" data-seatid='+onelist[i].groups[0].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[1].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[1].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[1].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
-                        }else if(onelist[i].groups.length==1){
-                              
                               var _tops=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                               _topsY.push(_tops);
-                              listArry.eq(0).append('<li class="out_li single_line"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li data-seatid='+onelist[i].groups[0].seats[0].id+' class="recta" style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');
-                            
-                          }
-                        }
-                        
+                              listArry.eq(0).append('<li class="out_li single_line"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li data-seatid='+onelist[i].groups[0].seats[0].id+' class="recta" style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div></li>'); 
+                        } 
                             
                       }else{
                           var _topd=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                           _topdY.push(_topd);
-                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[0].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[1].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[1].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[1].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
+                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[0].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div></div><div class="out_li"><div class="group_num" style="top:90px;">'+onelist[i].groups[1].groupNumber+'</div><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[1].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[1].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div></div></div>');
                     }
                 }
                 // console.log(_topdY);
@@ -538,7 +513,7 @@ import createPop from '../components/createPop.vue'
                   _content.append(listuls);
 
                   //dom生成矩形unit,并放入矩形列表
-                  var unitul='<ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;"></li><li class="recta"></li></ul>';
+                  var unitul='<ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;"></li><li class="recta"></li></ul><div class="add_options"></div>';
                   var listArry=_content.find($(".match_list"));
 
                   listArry[turn-1].innerHTML='<li class="out_li">'+unitul+'</li>';
@@ -568,28 +543,7 @@ import createPop from '../components/createPop.vue'
                   listArry.eq(i).find(".out_li").css("margin-bottom",margin_bt[i]);
                 }
 
-                 //获取turn1的数据
-                 var listone = []; 
-                function getnum1(arr){
-                  for(var i=0;i<arr.length;i++){
-                    if(arr[i].turn == 1){
-                      listone.push(arr[i]);
-                    }else{
-                        for(var key in arr[i]){
-                            if(key=='groups'){
-                              getnum1(arr[i][key]);
-                            }
-                          }  
-                      } 
-                  }
-                     
-                 }
-                 getnum1(_this.matchdata);
-                 console.log(listone);
-
-                for(var i=0;i<listone.length;i++){
-                  listArry.eq(0).find('.out_li').eq(i).html(newdom(i,listone)); 
-                }             
+                          
                 
                  //根据矩形坐标画线
                 var _xy=[];
@@ -610,14 +564,14 @@ import createPop from '../components/createPop.vue'
                         return false;
                     var context = canvas.getContext("2d");
                     context.strokeStyle = "rgb(247,162,58)";
-                    context.moveTo(_xy[j][0]+unitul_w+5,_xy[j][1]+unitul_h/2);
-                    context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]+unitul_h/2);
+                    context.moveTo(_xy[j][0]+unitul_w+5,_xy[j][1]+unitul_h/2-10);
+                    context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]+unitul_h/2-10);
                     if(j%2==0){
-                      context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]+unitul_h+margin_bt[i]/2);
-                      context.lineTo(_xy[j][0]+unitul_w+5+20*2, _xy[j][1]+unitul_h+margin_bt[i]/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]+unitul_h+margin_bt[i]/2-10);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20*2, _xy[j][1]+unitul_h+margin_bt[i]/2-10);
                     }else{
-                      context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]-margin_bt[i]/2);
-                      context.lineTo(_xy[j][0]+unitul_w+5+20*2, _xy[j][1]-margin_bt[i]/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]-margin_bt[i]/2-10);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20*2, _xy[j][1]-margin_bt[i]/2-10);
                     }
 
                     context.stroke(); 
@@ -627,6 +581,31 @@ import createPop from '../components/createPop.vue'
                 }
              }
 
+             if(_this.personnum){
+             	  //获取幂次方turn1的数据
+                 var listone = []; 
+                function getnum1(arr){
+                  for(var i=0;i<arr.length;i++){
+                    if(arr[i].turn == 1){
+                      listone.push(arr[i]);
+                    }else{
+                        for(var key in arr[i]){
+                            if(key=='groups' && arr[i].groups){
+                              getnum1(arr[i][key]);
+                            }
+                          }  
+                      } 
+                  }
+                     
+                 }
+                 getnum1(_this.matchdata);
+                 console.log(listone);
+
+                for(var i=0;i<listone.length;i++){
+                	listArry.eq(0).find('.out_li').css('position','relative');
+                  listArry.eq(0).find('.out_li').eq(i).html(newdom(i,listone)); 
+                }  
+             }
            //获取turn>1的数据
              var listtwo=[];
              var listthree=[];
@@ -635,38 +614,43 @@ import createPop from '../components/createPop.vue'
              var list = [listtwo,listthree,listfour,listfive];
              var _html;
 
-             function getnum(arr,level){
+             function getnumall(arr,level){
               for(var i=0;i<arr.length;i++){
                 if(arr[i].turn == level){
                   list[level-2].push(arr[i]);
                 }else{
                     for(var key in arr[i]){
-                        if(key=='groups'){
-                          getnum(arr[i][key],level);
+                        if(key=='groups' && arr[i].groups){
+                          getnumall(arr[i][key],level);
                         }
                       }  
                   } 
               }
                  
             }
-
             //重新渲染turn2以及turn2之后的dom
             if(turn>1){
               for(var j=2;j<turn+1;j++){
-                getnum(_this.matchdata,j);
+                getnumall(_this.matchdata,j);
                 for(var i=0;i<list[j-2].length;i++){
+                  listArry.eq(j-1).find('.out_li').css('position','relative');
                   listArry.eq(j-1).find('.out_li').eq(i).html(newdom(i,list[j-2]));
                 }
               }
             }
 
             function newdom(i,list){
-                _html='<ul class="unit_ul" data-groupid='+list[i].id+' style="width:200px;"><li class="recta" data-seatid='+list[i].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+list[i].seats[0].targetId+'><span class="recta_num">'+(list[i].seats[0].seatNumber?list[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(list[i].seats[0].target?list[i].seats[0].target.name:"")+'</span><span class="recta_right '+(list[i].seats[0].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+list[i].seats[1].id+'><input name="target_id" type="hidden" value='+list[i].seats[1].targetId+'><span class="recta_num">'+(list[i].seats[1].seatNumber?list[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(list[i].seats[1].target?list[i].seats[1].target.name:"")+'</span><span class="recta_right '+(list[i].seats[1].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div" '+(list[i].seats[1].target?"":"style='display: none'")+'><div class="edit_score" '+(list[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>';
+                _html='<div class="group_num">'+list[i].groupNumber+'</div><ul class="unit_ul" data-groupid='+list[i].id+' style="width:200px;"><li class="recta" data-seatid='+list[i].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+list[i].seats[0].targetId+'><span class="recta_num">'+(list[i].seats[0].seatNumber?list[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(list[i].seats[0].target?list[i].seats[0].target.name:"")+'</span><span class="recta_right '+(list[i].seats[0].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+list[i].seats[1].id+'><input name="target_id" type="hidden" value='+list[i].seats[1].targetId+'><span class="recta_num">'+(list[i].seats[1].seatNumber?list[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(list[i].seats[1].target?list[i].seats[1].target.name:"")+'</span><span class="recta_right '+(list[i].seats[1].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatright:"")+'</span></li></ul><div class="add_options"></div>';
 
                 return _html;
             }
 
-               window.allowDrop = function(e){
+            if(_this.matchdata.length == 2){
+            	listArry.eq(turn-1).find('.out_li').css('margin-bottom','60px');
+            	listArry.eq(turn-1).append('<li class="out_li"><ul class="unit_ul" data-groupid='+_this.matchdata[1].id+' style="width:200px;"><li class="recta" data-seatid='+_this.matchdata[1].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+_this.matchdata[1].seats[0].targetId+'><span class="recta_num">'+(_this.matchdata[1].seats[0].seatNumber?_this.matchdata[1].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(_this.matchdata[1].seats[0].target?_this.matchdata[1].seats[0].target.name:"")+'</span><span class="recta_right '+(_this.matchdata[1].seats[0].isWin?"add_winer":"")+'" '+(_this.matchdata[1].seats[1].target?"":"style='display: none'")+'>'+(_this.matchdata[1].scores?list[i].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+_this.matchdata[1].seats[1].id+'><input name="target_id" type="hidden" value='+_this.matchdata[1].seats[1].targetId+'><span class="recta_num">'+(_this.matchdata[1].seats[1].seatNumber?_this.matchdata[1].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(_this.matchdata[1].seats[1].target?_this.matchdata[1].seats[1].target.name:"")+'</span><span class="recta_right '+(_this.matchdata[1].seats[1].isWin?"add_winer":"")+'" '+(_this.matchdata[1].seats[1].target?"":"style='display: none'")+'>'+(_this.matchdata[1].scores?_this.matchdata[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div></li>')
+            }
+
+              window.allowDrop = function(e){
                   e = window.event || e;
                   e.preventDefault();
                         
@@ -854,508 +838,8 @@ import createPop from '../components/createPop.vue'
 					this.tap1 = true;
 					this.tap2 = false;
 				}
-			},
-			randomPic:function(){
-		        var parm={};
-		        parm.eventId=window.sessionStorage.getItem("eventid");
-		        this.$http.get("event/round/groupSeat/random",parm).then(function(response){
-		          if(response.data.code){
-		            window.location.reload();
-		            }else{
-		              layer.msg(response.data.msg,{offset:"0px"});
-		              }
-		            },function(response) {
-		              console.log(response);
-		          });
-		      },
+			}
 		}
 	}
 </script>
-<style>
-	/*－－－－－－－－－－－－－－－－－－－－－－－－对阵图－－－－－－－－－－－－－－－－－－－－－－－*/
-.tech_footer{
-	text-align: center;
-	margin: 50px 0;
-}
-.end_tech{
-    width: 300px;
-  }
-.end_tech li{
-    margin-bottom: 10px;
-  }
-  .tech_top{
-	width: 100%;
-	height: 50px;
-	background-color: #000;
-	opacity: 0.8;
-}
-.tech_top_text{
-	width: 1200px;
-	height: 50px;
-	margin: auto;
-}
-.tech_top_logo{
-	float: left;
-	cursor: pointer;
-	height: 40px;
-	margin-top: 5px;
-}
-.tech_top_person{
-	float: right;
-	line-height: 50px;
-	color: #fff;
-}
-.logout{
-	cursor:pointer;
-}
-.tech_nav{
-	width: 100%;
-	height: 90px;
-	background-color: #2a2e32;
-	opacity: 0.7;
-}
-.tech_nav_list{
-	width:1200px;
-	margin: 0 auto;
-}
-.tech_nav_list li{
-	float: left;
-	padding-right:120px;
-	color: #fff;
-	text-align: center;
-	cursor: pointer;
-}
-.tect_nav_pic{
-	margin: 20px auto 10px;
-}
-.icon_tool{
-	font-size: 20px;
-}
-.tech_nav_list .tech_nav_action{
-	color: #f9a32a;
-}
-.v-link-active{
-	color: #f9a32a !important;
-}
-.tech_body{
-  padding:0 70px;
-}
-.tech_container{
-  position: relative; 
-}
-.recta{
-  width: 200px;
-  height: 22px;
-  background-color: #36383f;
-  color: #fff;
-  line-height: 22px;
-  position: relative;
-}
-.match_content{
-  position: absolute;
-  top:0;
-  left:0;
-}
-.match_list{
-  float: left;
-  margin-right: 50px;
-}
-.tech_msg{
-  width: 1200px;
-  margin:20px auto;
-}
-.body_top_pic{
-  width: 100%;
-}
-.tech_msg_text{
-  height: 200px;
-  background: rgba(52,57,63,0.9);
-  padding: 40px 20px 0;
-  margin-top: -14px;
-}
-.tech_msg_left{
-  width: 325px;
-  height: 160px;
-  float: left;
-}
-.tech_msg_right{
-  float: right;
-  width: 815px;
-  color: #fff;
-}
-.begin_tech{
-  padding-bottom: 20px;
-  border-bottom: 1px dashed #53585d;
-}
-.begin_tech_left{
-  float: left;
-}
-.begin_tech_right{
-  float: right;
-}
-.start_btn{
-  width: 200px;
-  height: 40px;
-  position: relative;
-  cursor: pointer;
-  margin-top: 15px;
-}
-.start_text{
-  position: absolute;
-  width: 200px;
-  height: 40px;
-  left: 0;
-  top: 0;
-  text-align: center;
-  line-height: 40px;
-  font-size: 16px;
-}
-.sponsor{
-  font-size: 12px;
-  margin: 20px 0 15px;
-}
-.check_app{
-  font-size: 12px;
-  position: relative;
-}
-.msg_list_left{
-  float: left;
-  margin-right: 15px;
-}
-.msg_list_right{
-  float: left;
-  font-size: 12px;
-}
-.begin_msg_list{
-  margin: 20px auto 0;
-}
-.begin_msg_list li{
-  float: left;
-  margin-right: 30px;
-}
-.msg_list_name{
-  margin-bottom: 5px;
-}
-.title_unit{
-  display: inline-block;
-  width: 7px;
-  height: 20px;
-  background-color: #f9a32a;
-}
-.against_container{
-  width: 1024px;
-  margin: 20px auto;
-  background-color: #171a21;
-  padding-top: 30px;
-  position: relative;
-}
-.against_title{
-  color: #fff;
-  height: 25px;
-  line-height: 25px;
-  margin:0 0 30px 20px;
-}
-.against_title_text{
-  font-size: 18px;
-  margin-left: 5px;
-}
-.against_title_tip{
-  font-size: 12px;
-  color: #53585d;
-}
-.turn_btn{
-  width: 220px;
-  height: 35px;
-  line-height: 30px;
-  background:url(../../static/images/luck.png) no-repeat 10px 7px #f9a32a;
-  color: #fff;
-  border-radius: 5px;
-  margin: 0 70px 30px;
-  text-align: center;
-  cursor: pointer;
-}
-.tech_down_tip{
-  width: 1200px;
-  margin: 0 auto;
-  position: relative;
-  padding-bottom: 50px;
-  border-bottom: 1px solid #53585d;
-  margin-top: -27px;
-}
-.tech_footer_text{
-  width:1200px;
-  font-size: 12px;
-  position: absolute;
-  left:0;
-  top:75px;
-  color: #fff;
-}
-.tech_footer_text li{
-  float: left;
-  width: 45%;
-}
-.tech_cup{
-  opacity: 0.3;
-  position: absolute;
-  bottom:50px;
-  left: 467px;
-}
-.turn_num_list{
-    margin: 0 20px 20px 45px;
-    font-size: 16px;
-    color: #fff;
 
-}
-.turn_num_list li{
-  float: left;
-  width: 248px;
-  height: 45px;
-  text-align: center;
-  line-height: 45px;
-  margin-right: 2px;
-  position: relative;
-  cursor: pointer;
-}
-.turn_num_pic{
-    position: absolute;
-    top:11px;
-    right:15px;
-}
-.recta_num{
-  display: inline-block;
-  width: 30px;
-  height: 22px;
-  background-color: #6c6c6e;
-  text-align: center;
-  color: #000;
-  font-size: 12px;
-  position: absolute;
-  top:0;
-  left:0;
-}
-.recta_right{
-  display: inline-block;
-  width: 30px;
-  height: 22px;
-  background-color: #838383;
-  text-align: center;
-  color: #000;
-  font-size: 12px;
-  float: right;
-}
-.edit_div{
-  position: relative;
-  width: 0;
-  height: 0;
-}
-/*.edit_score{
-  position: absolute;
-  top:-65px;
-  width:30px;
-  height: 45px;
-  left: 170px;
-  background: url(../../static/images/edit.png) no-repeat 6px 16px #53585d;
-  cursor: pointer;
-}*/
-.float_edit{
-  position: absolute;
-  width: 180px;
-  height: 45px;
-  top:-65px;
-  left:200px;
-  background-color: #000;
-  opacity: 0.8;
-  display: none;
-  z-index: 999;
-}
-.float_edit li{
-  float: left;
-  width: 33%;
-  text-align: center;
-  cursor: pointer;
-}
-.tech_main_body{
-  overflow-x: scroll;
-  overflow-y: hidden;
-}
-.turn_input{
-  width: 140px;
-  height: 25px;
-  background-color: #27292d;
-}
-.turn_frame{
-  display: inline-block;
-  width: 50px;
-  height: 30px;
-  border-radius: 5px;
-  line-height: 30px;
-  cursor: pointer;
-  font-size: 12px;
-}
-.turn_confirm{
-  background-color: #f9a32a;
-  color: #fff;
-}
-.turn_quit{
-  background-color: #dcdcdc;
-  color: #000;
-}
-.trunname_ed{
-  background:#53585d;
-}
-.trunname_ing{
-  display: none;
-  background-color: #81858a;
-}
-.turn_set_detail{
-  background-color: #16181d;
-  height: 60px;
-  font-size: 12px;
-  display: none;
-}
-.turn_set_detail li{
-  height: 20px;
-  margin: 5px 0;
-  line-height: 20px;
-  cursor: pointer;
-}
-.turn_set_detail li:hover{
-  background-color: #7f5b2f;
-}
-.tech_range{
-  width: 200px;
-  height: 25px;
-  background-color: #838383;
-  border-radius: 3px;
-}
-.tech_range_detail{
-  width:40px;
-  height: 25px;
-  border-radius: 3px;
-  background-color: #f9a32a;
-  float: left;
-}
-.tech_range_num{
-  float: right;
-  font-size: 12px;
-  line-height: 25px;
-}
-#set_begin{
-  opacity: 0;
-  height:20px;
-  width:288px
-}
-.set_time_begin{
-  position: absolute;
-  top:2px;
-  left:100px;
-  font-size: 12px;
-}
-.edit_ring{
-  width: 120px;
-  height: 120px;
-  background-color: #181b1f;
-  border-radius: 60px;
-  text-align: center;
-  line-height: 120px;
-  font-size: 20px;
-}
-.edit_detail_top{
-  margin: 10px 100px;
-}
-.edit_detail_top li{
-  float: left;
-  text-align: center;
-  position: relative;
-}
-.edit_detail_mid{
-  width: 50px;
-  font-size: 20px;
-}
-.edit_detail_bt{
-  margin: 10px 100px 10px;
-  height: 130px;
-  overflow-y: scroll;
-}
-.edit_btn_mid{
-  display: inline-block;
-  width: 20px;
-  font-size: 18px;
-  text-align: center;
-}
-.add_edit_list{
-  color: #fe3507;
-  font-size: 12px;
-  margin: 0 100px;
-  cursor: pointer;
-}
-.add_winer{
-  background-color: #f9a32a;
-}
-.edit_detail_table{
-  width: 300px;
-  max-height: 200px;
-  margin: 10px auto;
-  text-align: center;
-  background-color: #1c1d21;
-  overflow-y:scroll;
-}
-.edit_detail_table td{
-  border: 1px solid #404244;
-  height: 40px;
-}
-.compare_active{
-  color: #f9a32a;
-}
-.add_guan{
-  position: absolute;
-  top: 80px;
-  right:10px;
-}
-.tech_intro{
-  background: rgba(52,57,63,0.9);
-  padding: 0 20px 30px;
-  color: #fff;
-  font-size: 12px;
-}
-.tech_intro h2{
-  font-size: 18px;
-}
-.float_checkbox{
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  border: 1px solid #53585d;
-  border-radius: 2px;
-  position: absolute;
-  top:0;
-  left:0;
-}
-.check_gou{
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  text-align: center;
-  color: #f9a32a;
-}
-#show_app{
-  opacity: 0;
-  z-index: 99999;
-  width:15px;
-  height: 15px;
-}
-.add_options{
-	width: 200px;
-	height: 20px;
-	background-color: #1d1d1d;
-	opacity: 0;
-}
-.recta:hover{
-	background-color: rgb(236,146,38);
-};
-.recta_personname{
-	display: inline-block;
-	margin-left: 35px;
-	width: 130px;
-}
-</style>

@@ -10,7 +10,7 @@
 		<div class="landing-box" style="margin-bottom:0;">
 			<h3>赛事推荐</h3>
 			<div class="landing-content f-cb">
-				<!-- <div class="match" v-for="match in matchlists">
+				<div class="match" v-for="match in recommendlists">
 					<div class="pic">
 						<img v-bind:src="'http://img.wangyuhudong.com'+match.poster" alt="" width="100%">
 						<div class="title"><i class="iconfont"></i><span class="f-col" v-text="match.createDate | formatDate"></span></div>
@@ -26,7 +26,7 @@
 						    <div>by {{match.nickname ? match.nickname : '网娱大师赛事组'}}<span class="f-col f-fr"><strong>{{match.num}}</strong>/{{match.maxNum}}</span></div>
 						</div>
 					</div>			
-				</div> -->
+				</div>
 			</div>
 		</div>
 		<div class="landing-box">
@@ -58,7 +58,7 @@
 					</div>
 				</div>
 			</div>
-			<a href="" class="u-btn u-landing-btn">查看全部赛事</a>
+			<a href="" class="u-btn u-landing-btn" v-link="{ path: '/matchlist'}">查看全部赛事</a>
 		</div>
 	</div>
 </template>
@@ -70,7 +70,8 @@ import createPop from '../components/createPop.vue'
 	export default {
 		data () {
 			return{
-				matchlists:""
+				matchlists:"",
+				recommendlists:""
 			}
 		},
 		components:{
@@ -86,6 +87,15 @@ import createPop from '../components/createPop.vue'
 	        _this.$http.get('event/getAllEventRoundList',parm).then(function(response) {
 	        	if(response.data.code == 1){
 	        		_this.matchlists=response.data.object.pager.list.slice(0,6);
+	        	}else{
+	        		_this.$route.router.go({path: '/landingpage'}); 
+	        	}
+	        },function(response) {
+	            console.log(response);
+	        });
+	        _this.$http.get('event/getRecommendEventRoundList',parm).then(function(response) {
+	        	if(response.data.code == 1){
+	        		_this.recommendlists=response.data.object.pager.list.slice(0,3);
 	        	}else{
 	        		_this.$route.router.go({path: '/landingpage'}); 
 	        	}

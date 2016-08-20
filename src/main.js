@@ -8,6 +8,7 @@ import Vue from 'vue'
 import matchtool from './matchtool.vue'
 import index from './views/index.vue'
 import landingpage from './views/landingpage.vue'
+import matchlist from './views/matchlist.vue'
 import quickmatch from './views/createquickmatch.vue'
 import quickformat from './views/quickmatchformat.vue'
 import createLeaguematch from './views/createLeaguematch.vue'
@@ -44,6 +45,9 @@ router.map({
     },
     '/landingpage': {
         component: landingpage,
+    },
+    '/matchlist': {
+        component: matchlist,
     },
     '/quickmatch': {
     	component: quickmatch,
