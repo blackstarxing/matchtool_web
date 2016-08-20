@@ -581,8 +581,8 @@ import createPop from '../components/createPop.vue'
                 }
              }
 
+             //获取幂次方turn1的数据
              if(_this.personnum){
-             	  //获取幂次方turn1的数据
                  var listone = []; 
                 function getnum1(arr){
                   for(var i=0;i<arr.length;i++){
@@ -606,6 +606,7 @@ import createPop from '../components/createPop.vue'
                   listArry.eq(0).find('.out_li').eq(i).html(newdom(i,listone)); 
                 }  
              }
+             
            //获取turn>1的数据
              var listtwo=[];
              var listthree=[];
