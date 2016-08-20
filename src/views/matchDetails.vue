@@ -46,36 +46,19 @@
 			      <span class="against_title_tip">此对阵图为预览，可拖曳参赛选手来交换位置</span>
 			    </p>
 			    <div class="tech_main_body">
-			        <!-- <div class="turn_num">
+			        <div class="turn_num">
 			          <ul class="turn_num_list clearfix">
 			            <li class="turn_num_li" v-for="turnnum of turnnums">
-			              <span class="turn_turnid" style="display:none">{{turnnum.modelturnid}}</span>
+			              <div class="turn_turnid" style="display:none">{{turnnum.modelturnid}}</div>
 			              <div class="trunname_ed">
-			                <span class="turn_num_text">{{turnnum.modelname}}</span>
-			                <span class="turn_input_settime" style="font-size:12px;margin:0 7px;">{{turnnum.modeltime?turnnum.modeltime.split(' ',1):" "}}</span>
-			                <span class="turn_select_num" style="font-size:12px;color:#f9a32a;">BO<span class="turn_select_number">{{turnnum.modelbo}}</span></span>
-			                <img class="turn_num_pic" @click="turnName" src="../../static/images/turn.png"></div>
-			              <div class="trunname_ing">
-			              <input class="turn_input" type="text" value={{turnnum.modelname}}>
-			              <a class="turn_confirm turn_frame" @click="turnConfirm">确定</a>
-			              <a class="turn_quit turn_frame" @click="turnQuit">取消</a>
-			            </div>
-			            <ul class="turn_set_detail">
-			              <li><label for="set_begin" class="set_time_begin">设置时间</label>
-			                <input type="text" id="set_begin" class="set_begin" v-model="turnnum.modeltime">
-			              </li>
-			              <li><span>Best of</span>
-			                <select style="height:18px;text-indent:0px;" class="select_num" v-model="turnnum.modelbo">
-			                  <option>1</option>
-			                  <option>3</option>
-			                  <option>5</option>
-			                  <option>7</option>
-			                </select>
-			              </li>
-			            </ul>
+			                <div class="turn_num_text">{{turnnum.modelname}}</div>
+			                <div class="turn_num_detail"><span class="turn_input_settime" style="font-size:12px;margin:0 7px;">{{turnnum.modeltime?turnnum.modeltime.split(' ',1):" "}}</span>
+			                <span class="turn_select_num" style="font-size:12px;color:#f9a32a;">BO<span class="turn_select_number">{{turnnum.modelbo}}</span></span></div>
+			                
+			                </div>
 			            </li>
 			          </ul>
-			        </div> -->
+			        </div>
 			        <div class="tech_body">
 			            <div class="tech_container" style="margin-top:60px;">
 			            <div class="match_content clearfix">
