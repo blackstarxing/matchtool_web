@@ -76,7 +76,6 @@
 			            </li>
 			          </ul>
 			        </div> -->
-			        <div class="turn_btn" @click="randomPic">随机排列对阵选手顺序</div>
 			        <div class="tech_body">
 			            <div class="tech_container" style="margin-top:60px;">
 			            <div class="match_content clearfix">
@@ -168,7 +167,7 @@
 				<li class="current"><i></i>完善信息并发布</li>
 			</ul>
 			<a href="#">
-				<div class="g-q-sssz">
+				<div class="g-q-sssz" v-link="{ path: '/backend'}">
 					<img src="../../static/images/sssz.png">
 					赛事设置
 				</div>
@@ -859,20 +858,7 @@ import createPop from '../components/createPop.vue'
 					this.tap1 = true;
 					this.tap2 = false;
 				}
-			},
-			randomPic:function(){
-		        var parm={};
-		        parm.eventId=window.sessionStorage.getItem("eventid");
-		        this.$http.get("event/round/groupSeat/random",parm).then(function(response){
-		          if(response.data.code){
-		            window.location.reload();
-		            }else{
-		              layer.msg(response.data.msg,{offset:"0px"});
-		              }
-		            },function(response) {
-		              console.log(response);
-		          });
-		      },
+			}
 		}
 	}
 </script>
