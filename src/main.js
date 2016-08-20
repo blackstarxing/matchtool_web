@@ -21,6 +21,8 @@ import matchDetails from './views/matchDetails.vue'
 import perSetting from './views/perSetting.vue'
 import myclan from './views/clan/myclan.vue'
 import clandetails from './views/clan/clandetails.vue'
+import createclan from './views/clan/createclan.vue'
+import claninvite from './views/clan/claninvite.vue'
 import passWord from './views/passWord.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
@@ -29,7 +31,7 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource);
 Vue.use(VueRouter);
 
-Vue.http.options.root = '/oet/';
+Vue.http.options.root = '/oet';
 
 Vue.http.options.emulateJSON = true;
 var router = new VueRouter({
@@ -84,6 +86,12 @@ router.map({
     },
     '/passWord': {
         component: passWord
+    },
+    '/createclan': {
+        component: createclan
+    },
+    '/claninvite': {
+        component: claninvite
     }
 })
 

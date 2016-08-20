@@ -18,9 +18,10 @@
 				<div class="perset_basicInfo" v-show="tabFlag == 0">
 					<p class="idInfo">当前登录账号：<span class="curId" v-text="userInfoData.username"></span></p>
 					<div class="basicInfo_form">
-					<div class="form_item">
+					<div class="form_item nickname_item">
 						<label for="" class="text_label">昵称 : </label>
-						<input id="" type="text" class="nickname text_box" v-model="userInfoData.nickname">
+						<input id="" type="text" class="nickname text_box" v-model="userInfoData.nickname" @blur="checkNickname">
+						<p id="nicknameErrorText" class="errorInfo" style="display: none;"><i></i><span>昵称已被使用</span></p>
 					</div>	
 					<div class="form_item gender_item">
 						<label for="" class="text_label">性别 : </label>
@@ -34,35 +35,35 @@
 									</span>
 								</label>
 							</div>
-								<div class="f-fl g-c-ms">
-									<input type="radio" id="woman" name="gender" class="regular-radio" value="1" v-model="userInfoData.sex"/>
-									<label for="woman"></label>
-									<label for="woman" class="u-c-per">		
-										<span class="f-fl">
-											女
-										</span>
-									</label>
-								</div>
-								<div class="f-fl">
-									<input type="radio" id="secret" name="gender" class="regular-radio" value="2" v-model="userInfoData.sex"/>
-									<label for="secret"></label>
-									<label for="secret" class="u-c-per">		
-										<span class="f-fl">
-											保密
-										</span>
-									</label>
-								</div>
+							<div class="f-fl g-c-ms">
+								<input type="radio" id="woman" name="gender" class="regular-radio" value="1" v-model="userInfoData.sex"/>
+								<label for="woman"></label>
+								<label for="woman" class="u-c-per">		
+									<span class="f-fl">
+										女
+									</span>
+								</label>
+							</div>
+							<div class="f-fl">
+								<input type="radio" id="secret" name="gender" class="regular-radio" value="2" v-model="userInfoData.sex"/>
+								<label for="secret"></label>
+								<label for="secret" class="u-c-per">		
+									<span class="f-fl">
+										保密
+									</span>
+								</label>
 							</div>
 						</div>
+					</div>
 					<div class="form_item region">
 						<label for="" class="text_label">地区 : </label>
-						<select class="u-c-slt perset_slt mr-20" name="provinces" id="" v-model="rootAreaId"  @change="getSecondArea(rootAreaId)" required>
+						<select class="u-c-slt perset_slt mr-20" name="provinces" id="provinces" v-model="rootAreaId"  @change="getSecondArea(rootAreaId)" required>
 							<option value="-1">请选择省份</option>
 							<option value="{{ item.id }}" v-for="item in rootArea" v-text="item.name"></option>
 						</select>
 						<select class="u-c-slt perset_slt" name="citys" id="citys" v-model="secondAreaId" required>
 							<option value="-2">请选择城市</option>
-							<option value="{{ item.id }}" v-for="item in secondArea" v-text="item.name"></option>
+							<option value="{{ item.area_code }}" v-for="item in secondArea" v-text="item.name"></option>
 						</select>
 					</div>
 					<div class="form_item birthday">
@@ -87,10 +88,10 @@
 						<label for="" class="text_label">个人介绍 : </label>
 						<textarea class="introduction-text text_box" v-model="userInfoData.speech" placeholder="150字以内"></textarea>
 					</div>
-					<div class="setImage">
-						<img class="user_pic"/>
+					<div class="setImage" @click="setUserPic">
+						<img class="user_pic" v-bind:src="'http://img.wangyuhudong.com/'+saveUserInfo.icon" v-if="saveUserInfo.icon"/>
 						<div class="pic_mask">
-							<img class="pic_mask_icon">
+							<span class="icon-uniE62B"></span>
 							<p class="pic_mask_text"><span>设置头像</span></p>
 						</div>
 					</div>
@@ -136,7 +137,17 @@
 			</div>
 		</div>
 		<a href="javascript:;" class="saveBtn" v-text="btnText" @click="savePerSetting"></a>
-	</div>
+		</div>
+			<div class="m-mask m-userpic-mask" style="padding-left:100px;">
+			<div class="pic-select">
+				<div class="wrap">
+					<a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
+					<div class="picBox">
+						<div id="pic"></div>
+					</div>	
+				</div>			
+			</div>
+		</div>
 </template>
 <script type="text/javascript">
 	import topHead from '../components/topHead.vue'
@@ -146,20 +157,21 @@
 	export default {
 		data () {
 			return {
+				nicknameErrorTexr: false,
 				dayFlag: false,
 				tabFlag: 0,
 				tabList: [
-					{ id: 0, name: '基本资料', isCur: true, url: 'oet/sysuser/saveSysUserInfo' },
-					{ id: 1, name: '参赛资料', isCur: false, url: 'oet/sysuser/saveSysUserInfo' },
-					{ id: 2, name: '组织者认证', isCur: false, url: 'oet/identify/identifyByCode' }
+					{ id: 0, name: '基本资料', isCur: true, url: 'sysuser/saveSysUserInfo' },
+					{ id: 1, name: '参赛资料', isCur: false, url: 'sysuser/saveSysUserInfo' },
+					{ id: 2, name: '组织者认证', isCur: false, url: 'identify/identifyByCode' }
 				],
 				btnText: '保 存',
 				userInfoData: {},
 				rootArea: [],
 				SecondArea: [],
-				rootAreaId: "-1",
+				rootAreaId: "",
 				secondArea: [],
-				secondAreaId: "-2",
+				secondAreaId: "",
 				userBirthday: {
 					yearList: [],
 					monthList: [],
@@ -187,22 +199,63 @@
 	    createPop
 		},
 		ready: function () {
+			var _this = this
+			// 图片上传
+			$('#pic').diyUpload({
+				url:'http://wy.oetapi.wangyuhudong.com/file/upload',
+				success:function( data ) {
+					console.info( data );
+					_this.saveUserInfo.icon=data.object.src;
+					$(".m-userpic-mask").hide();
+				},
+				error:function( err ) {
+					console.info( err );	
+				},
+				buttonText : '选择图片',
+				chunked:true,
+				// 分片大小
+				chunkSize:512 * 1024,
+				//最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+				fileNumLimit:1,
+				fileSizeLimit:500000 * 1024,
+				fileSingleSizeLimit:50000 * 1024
+			});
+
 			// var _this = this
 			this.$http.get('sysuser/querySysUserInfo').then(function (response) {
 			 // this.$set('userInfoData', data);
 			  this.userInfoData = response.data.object.userInfo
+			  this.saveUserInfo.sysUserId = response.data.object.sysUser.id
+
+			  this.$http.get('sysuser/querySysAreaInfo').then(function (response) {
+					//console.log(response)
+					this.rootArea = response.data.object.areaMap.sysRootArea
+				})
+			  // 如果已设置头像
+			 	 if (response.data.object.userInfo.icon != "") {
+			 	 	this.saveUserInfo.icon = response.data.object.userInfo.icon
+			 	}
+
+			  // 如果已设置省份和城市
+			  this.rootAreaId = response.data.object.areaMap.pid.toString()
+			  console.log(this.rootAreaId)
+			  if (this.rootAreaId != "") {
+			  	this.secondAreaId = response.data.object.areaMap.areaCode
+			  	this.getSecondArea(this.rootAreaId)
+			  	
+			  	console.log(this.secondAreaId)
+			  }
+			  // 如果已设置生日
+
+
 			  if (this.userInfoData.sex === null) {
 			  	this.userInfoData.sex = 0;
 			  }
-			  // console.log(this.userInfoData)
 				if (this.userInfoData.speech === null) {
 					this.userInfoData.speech = ''
 				}
 			})
-			this.$http.get('sysuser/querySysAreaInfo').then(function (response) {
-				//console.log(response)
-				this.rootArea = response.data.object.areaMap.sysRootArea
-			})
+			
 			// 设置初始的年份和月份
 			// function setBirthdayData () {
 			// 	for (var i = 2016; i >= 1900; i--) {
@@ -216,6 +269,26 @@
 			this.setBirthdayData()
 		},
 		methods: {
+			checkNickname: function () {
+				var json = { nickname: this.userInfoData.nickname, telephone: this.userInfoData.username }
+				this.$http.get('registerCheck', json).then(function (response) {
+					// console.log(response)
+					var data = response.data.object
+					if (data.nicknameValid === 0) {
+						$('#nicknameErrorText').show()
+						//this.nicknameErrorTexr = true
+					} else {
+						$('#nicknameErrorText').hide()
+						//this.nicknameErrorTexr = false
+					}
+				})
+			},
+			setUserPic: function(e){
+	        $('.m-userpic-mask').show();
+	    },
+	    closePop: function(e){
+	        $('.m-userpic-mask').hide();
+	    },
 			setCur: function (index) {
 				this.tabList.map(function (v, i) {
 					i == index ? v.isCur = true : v.isCur = false
@@ -232,13 +305,16 @@
 				this.$http.get('sysuser/querySysAreaInfo', params).then(function (response) {
 					// console.log(response)
 					this.secondArea = response.data.object.areaMap.sysSecondArea
+					//this.secondAreaId = this.secondArea[0].id
 					// 不能把这个放在外面，外面是同步的，得放在这个异步的回调中
-					this.$nextTick(function () {
-						 console.log(this.secondArea)
-						$('#citys option').eq(0).attr('selected', false)
-						$('#citys option').eq(1).attr('selected', true)
-						//console.log($('#citys option').eq(0).attr('checked'))
-					})
+					if (this.secondAreaId === "-2") {
+						this.$nextTick(function () {
+							// console.log(this.secondArea)
+							$('#citys option').eq(0).attr('selected', false)
+							$('#citys option').eq(1).attr('selected', true)
+							//console.log($('#citys option').eq(0).attr('checked'))
+						})
+					}
 				})
 			},
 			setBirthdayData: function () {
@@ -295,24 +371,46 @@
 								m = _this.userBirthday.monthNum,
 								d = _this.userBirthday.dayNum
 						if (y === "-1" || m === "-1" || d === "-1") {
-							_this.userInfoData.birthday = ''
+							_this.saveUserInfo.birthday = ''
 						} else {
 							if (y < 10) y = "0" + y
 							if (m < 10) m = "0" + m
 							if (d < 10) d = "0" + d
-							_this.userInfoData.birthday = y + "-" + m + "-" + d
+							_this.saveUserInfo.birthday = y + "-" + m + "-" + d
 						}
-						console.log(_this.userInfoData.birthday)
+						//console.log(_this.userInfoData.birthday)
 
 						// 城市编码
-						console.log(_this.rootAreaId + ' ' + _this.secondAreaId)
-						if (_this.rootAreaId === "-1" || _this.secondAreaId === "-2") {
-							_this.userInfoData.cityCode = ""
+						//console.log($('#provinces').val() + ' ' + $('#citys').val())
+						//console.log(_this.rootAreaId + ' ' + _this.secondAreaId)
+						if ($('#provinces').val() === "-1" || $('#citys').val() === "-2") {
+							_this.saveUserInfo.cityCode = ""
 						} else {
-							_this.userInfoData.cityCode = _this.secondAreaId
+							_this.saveUserInfo.cityCode = $('#citys').val()
 						}
-						//this.userInfoData.birthday = 
-						//this.$http.post(v.url, )
+						//console.log(_this.userInfoData.cityCode)
+						// 头像
+
+						// 昵称
+						if (_this.userInfoData.nickname === '') {
+
+						} else {
+							_this.saveUserInfo.nickname = _this.userInfoData.nickname
+						}
+						// 性别
+						_this.saveUserInfo.sex = _this.userInfoData.sex
+						// 个人介绍
+						_this.saveUserInfo.speech = _this.userInfoData.speech
+						// 系统用户id(前面已设置)
+						// 用户id
+						_this.saveUserInfo.userId = _this.userInfoData.id
+						// console.log(_this.saveUserInfo)
+						var params = {}
+						params.jsonInfo = JSON.stringify(_this.saveUserInfo)
+						_this.$http.post(v.url, params).then(function (response) {
+							console.log(response)
+							// alert("修改成功！")
+						})
 					}
 				})
 			}
@@ -368,14 +466,14 @@
 	}
 	.form_item {
 		box-sizing: border-box;
-		height: 36px;
+		/*height: 36px;*/
 		line-height: 36px;
 		margin-top: 28px;
 		font-size: 14px;
 	}
 	.form_item.gender_item {
 		height: auto;
-		line-height: 1
+		line-height: 1;
 	}
 	.form_item .text_label {
 		font-weight: bold;
@@ -385,6 +483,14 @@
 	}
 	.form_item input {
 		text-indent: 12px;
+	}
+	.nickname_item .errorInfo {
+		line-height: 1;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		margin-left: 50px;
+		font-size: 12px;
+		color: #fdb91a;
 	}
 	.form_item .nickname {
 		width: 260px;
@@ -446,27 +552,35 @@
 	}
 	.user_pic {
 		position: absolute;
+		width: 100%;
+		height: 100%;
 	}
 	.pic_mask {
 		position: relative;
 		height: 100%;
-		background: #fff;
-		background-color: rgba(255, 255, 255, .5);
-		filter: alpha(opacity=50); 
+		background: #000;
+		filter: alpha(opacity=20); 
+		background-color: rgba(0, 0, 0, .2);
+	}
+	.pic_mask .icon-uniE62B {
+		display: inline-block;
+		margin-left: 54px;
+		margin-top: 54px;
+		font-size: 40px;
+		color: #7a8387;
 	}
 	.pic_mask_text {
 		position: absolute;
 		bottom: 0;
 		width: 100%;
 		height: 30px;
-		background: #000;
-		color: #fff;
+		color: #7a8387;
 		text-align: center;
 		font-size: 12px;
-		line-height: 30px;
-		background-color: rgba(0, 0, 0, .7);
-		
-		filter: alpha(opacity=70); 
+		line-height: 30px;		
+		background: #000;
+		filter: alpha(opacity=30); 
+		background-color: rgba(0, 0, 0, .3);
 	}
 
 	/* 参赛信息 */
@@ -509,7 +623,7 @@
 		font-size: 12px;
 		color: #fdb91a;
 	}
-	.oCfct_item .errorInfo i {
+	.oCfct_item .errorInfo i, .nickname_item .errorInfo i {
 		display: inline-block;
 		width: 12px;
 		height: 12px;
