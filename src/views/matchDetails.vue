@@ -386,7 +386,7 @@ import createPop from '../components/createPop.vue'
                       onelist.push(arr[i]);
                     }else{
                         for(var key in arr[i]){
-                            if(key=='groups'){
+                            if(key=='groups' && arr[i].groups){
                               getnum(arr[i][key]);
                             }
                           }  
@@ -394,6 +394,7 @@ import createPop from '../components/createPop.vue'
                   }
                      
                 }
+            
                 getnum(_this.matchdata);
 
                 console.log(onelist);
@@ -635,25 +636,24 @@ import createPop from '../components/createPop.vue'
              var list = [listtwo,listthree,listfour,listfive];
              var _html;
 
-             function getnum(arr,level){
+             function getnumall(arr,level){
               for(var i=0;i<arr.length;i++){
                 if(arr[i].turn == level){
                   list[level-2].push(arr[i]);
                 }else{
                     for(var key in arr[i]){
-                        if(key=='groups'){
-                          getnum(arr[i][key],level);
+                        if(key=='groups' && arr[i].groups){
+                          getnumall(arr[i][key],level);
                         }
                       }  
                   } 
               }
                  
             }
-
             //重新渲染turn2以及turn2之后的dom
             if(turn>1){
               for(var j=2;j<turn+1;j++){
-                getnum(_this.matchdata,j);
+                getnumall(_this.matchdata,j);
                 for(var i=0;i<list[j-2].length;i++){
                   listArry.eq(j-1).find('.out_li').eq(i).html(newdom(i,list[j-2]));
                 }
@@ -666,7 +666,12 @@ import createPop from '../components/createPop.vue'
                 return _html;
             }
 
-               window.allowDrop = function(e){
+            if(_this.matchdata.length == 2){
+            	listArry.eq(turn-1).find('.out_li').css('margin-bottom','60px');
+            	listArry.eq(turn-1).append('<li class="out_li"><ul class="unit_ul" data-groupid='+_this.matchdata[1].id+' style="width:200px;"><li class="recta" data-seatid='+_this.matchdata[1].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+_this.matchdata[1].seats[0].targetId+'><span class="recta_num">'+(_this.matchdata[1].seats[0].seatNumber?_this.matchdata[1].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(_this.matchdata[1].seats[0].target?_this.matchdata[1].seats[0].target.name:"")+'</span><span class="recta_right '+(_this.matchdata[1].seats[0].isWin?"add_winer":"")+'" '+(_this.matchdata[1].seats[1].target?"":"style='display: none'")+'>'+(_this.matchdata[1].scores?list[i].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+_this.matchdata[1].seats[1].id+'><input name="target_id" type="hidden" value='+_this.matchdata[1].seats[1].targetId+'><span class="recta_num">'+(_this.matchdata[1].seats[1].seatNumber?_this.matchdata[1].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(_this.matchdata[1].seats[1].target?_this.matchdata[1].seats[1].target.name:"")+'</span><span class="recta_right '+(_this.matchdata[1].seats[1].isWin?"add_winer":"")+'" '+(_this.matchdata[1].seats[1].target?"":"style='display: none'")+'>'+(_this.matchdata[1].scores?_this.matchdata[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div" '+(_this.matchdata[1].target?"":"style='display: none'")+'><div class="edit_score" '+(_this.matchdata[1].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>')
+            }
+
+              window.allowDrop = function(e){
                   e = window.event || e;
                   e.preventDefault();
                         
@@ -1045,7 +1050,7 @@ import createPop from '../components/createPop.vue'
 .against_container{
   width: 1024px;
   margin: 20px auto;
-  background-color: #171a21;
+  background: #171a21;
   padding-top: 30px;
   position: relative;
 }
