@@ -513,7 +513,7 @@ import createPop from '../components/createPop.vue'
                   _content.append(listuls);
 
                   //dom生成矩形unit,并放入矩形列表
-                  var unitul='<ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;"></li><li class="recta"></li></ul>';
+                  var unitul='<ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;"></li><li class="recta"></li></ul><div class="add_options"></div>';
                   var listArry=_content.find($(".match_list"));
 
                   listArry[turn-1].innerHTML='<li class="out_li">'+unitul+'</li>';
@@ -543,28 +543,7 @@ import createPop from '../components/createPop.vue'
                   listArry.eq(i).find(".out_li").css("margin-bottom",margin_bt[i]);
                 }
 
-                 //获取turn1的数据
-                 var listone = []; 
-                function getnum1(arr){
-                  for(var i=0;i<arr.length;i++){
-                    if(arr[i].turn == 1){
-                      listone.push(arr[i]);
-                    }else{
-                        for(var key in arr[i]){
-                            if(key=='groups'){
-                              getnum1(arr[i][key]);
-                            }
-                          }  
-                      } 
-                  }
-                     
-                 }
-                 getnum1(_this.matchdata);
-                 console.log(listone);
-
-                for(var i=0;i<listone.length;i++){
-                  listArry.eq(0).find('.out_li').eq(i).html(newdom(i,listone)); 
-                }             
+                          
                 
                  //根据矩形坐标画线
                 var _xy=[];
@@ -585,14 +564,14 @@ import createPop from '../components/createPop.vue'
                         return false;
                     var context = canvas.getContext("2d");
                     context.strokeStyle = "rgb(247,162,58)";
-                    context.moveTo(_xy[j][0]+unitul_w+5,_xy[j][1]+unitul_h/2);
-                    context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]+unitul_h/2);
+                    context.moveTo(_xy[j][0]+unitul_w+5,_xy[j][1]+unitul_h/2-10);
+                    context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]+unitul_h/2-10);
                     if(j%2==0){
-                      context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]+unitul_h+margin_bt[i]/2);
-                      context.lineTo(_xy[j][0]+unitul_w+5+20*2, _xy[j][1]+unitul_h+margin_bt[i]/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]+unitul_h+margin_bt[i]/2-10);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20*2, _xy[j][1]+unitul_h+margin_bt[i]/2-10);
                     }else{
-                      context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]-margin_bt[i]/2);
-                      context.lineTo(_xy[j][0]+unitul_w+5+20*2, _xy[j][1]-margin_bt[i]/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]-margin_bt[i]/2-10);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20*2, _xy[j][1]-margin_bt[i]/2-10);
                     }
 
                     context.stroke(); 
@@ -602,6 +581,31 @@ import createPop from '../components/createPop.vue'
                 }
              }
 
+             if(_this.personnum){
+             	  //获取幂次方turn1的数据
+                 var listone = []; 
+                function getnum1(arr){
+                  for(var i=0;i<arr.length;i++){
+                    if(arr[i].turn == 1){
+                      listone.push(arr[i]);
+                    }else{
+                        for(var key in arr[i]){
+                            if(key=='groups' && arr[i].groups){
+                              getnum1(arr[i][key]);
+                            }
+                          }  
+                      } 
+                  }
+                     
+                 }
+                 getnum1(_this.matchdata);
+                 console.log(listone);
+
+                for(var i=0;i<listone.length;i++){
+                	listArry.eq(0).find('.out_li').css('position','relative');
+                  listArry.eq(0).find('.out_li').eq(i).html(newdom(i,listone)); 
+                }  
+             }
            //获取turn>1的数据
              var listtwo=[];
              var listthree=[];
