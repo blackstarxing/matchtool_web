@@ -2129,7 +2129,7 @@ label.u-c-kz-sz{
     margin: auto;
 }
 /*战队上传图片重置*/
-.m-cgl-pixbox #pic{width: 1.48rem;height: 0.3rem;font-size: 12px;}
+/*.m-cgl-pixbox #pic{width: 1.48rem;height: 0.3rem;font-size: 12px;}
 .m-cgl-pixbox .webuploader-container {position: relative;}
 .m-cgl-pixbox .webuploader-element-invisible {position: absolute !important;clip: rect(1px 1px 1px 1px);clip: rect(1px,1px,1px,1px);}
 .m-cgl-pixbox .webuploader-pick {position: relative;display: inline-block;cursor: pointer;color: #f2f6f9;text-align: center;overflow: hidden;width: 1.48rem;height: 0.3rem;line-height: 0.3rem;padding:0;background: #27282e;}
@@ -2139,7 +2139,22 @@ label.u-c-kz-sz{
 .m-cgl-pixbox .parentFileBox>.fileBoxUl>li>.viewThumb{width:1.48rem;height:1.18rem;top: -1.54rem;left: 0;}
 .m-cgl-pixbox .parentFileBox>.diyButton{position:absolute; top: -80px;right: -160px;}
 .m-cgl-pixbox .parentFileBox>.fileBoxUl>li>.diyFileName{bottom: 0.4rem;left: 0; width: 1.48rem;}
-.m-cgl-pixbox .parentFileBox>.fileBoxUl>li>.diyBar{ width: 1.48rem; line-height: 0.9rem;top: -0.92rem;}
+.m-cgl-pixbox .parentFileBox>.fileBoxUl>li>.diyBar{ width: 1.48rem; line-height: 0.9rem;top: -0.92rem;}*/
+.g-cgl-xztp{
+	width: 1.48rem;
+	height: 0.3rem;
+	line-height: 0.3rem;
+	font-size: 12px;
+	background: #27282e;
+	color: #f2f6f9;
+	text-align: center;
+	border: 0;
+}
+.m-cgl-yytp{
+	display: inline-block;
+	width: 1.48rem;
+	height: 1.18rem;
+}
 /*邀请加入战队*/
 .g-cyq-m1{
 	background: #1b1e25;
