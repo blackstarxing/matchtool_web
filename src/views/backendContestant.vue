@@ -95,22 +95,7 @@
 				<a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
 				<div class="m-lst">				
 					<label for="">选手名称：</label>
-					<input type="text" class="name" name="name" placeholder="请输入参赛者名称">
-					<div class="attention"></div>
-				</div>
-				<div class="m-lst">				
-					<label for="">手机号码：</label>
-					<input type="text" class="tel" name="tel" placeholder="请输入参赛者手机号码">
-					<div class="attention"></div>
-				</div>
-				<div class="m-lst">				
-					<label for="">QQ：</label>
-					<input type="text" class="qq" name="qq" placeholder="请输入参赛者QQ号码">
-					<div class="attention"></div>
-				</div>
-				<div class="m-lst">				
-					<label for="">身份证：</label>
-					<input type="text" class="idcard" name="idcard" placeholder="请输入参赛者身份证号码">
+					<input type="text" class="name u-c-ipt" name="name" placeholder="请输入参赛者名称">
 					<div class="attention"></div>
 				</div>
 				<div class="member-id" style="display:none"></div>
@@ -367,7 +352,7 @@ import backendSidebar from '../components/backendSidebar.vue'
 				            console.log(response.data.msg);
 				        });
 			    	}else{
-			    		var parmstr=JSON.stringify({roundId:_this.roundId,name:$('.name').val(),telephone:$('.tel').val(),qq:$('.qq').val(),idcard:$('.idcard').val()});
+			    		var parmstr=JSON.stringify({roundId:_this.roundId,name:$('.name').val()});
 				    	var parm={};
 				    	parm.memberJson=parmstr;
 			    		_this.$http.get('event/round/group/member/add',parm).then(function(response) {

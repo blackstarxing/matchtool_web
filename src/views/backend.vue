@@ -17,7 +17,7 @@
 				</div>
 			</div> -->
 			<div class="setPoster g-q-hb">
-				<img src="" v-bind:src="'http://img.wangyuhudong.com/'+formdata.poster" v-if="formdata.poster">
+				<img v-bind:src="'http://img.wangyuhudong.com/'+formdata.poster" v-if="formdata.poster">
 				<div class="g-q-ptr" @click="selectPic">
 					<span class="icon-uniE62B"></span>
 					<p>编辑、更改赛事海报</p>
@@ -35,7 +35,7 @@
 						<label for="personal"></label>
 						<label for="personal" class="u-c-per">
 							<span class="u-c-headimg">
-								<img v-bind:src="'http://img.wangyuhudong.com/'+roundlist.icon">
+								<img v-bind:src="'http://img.wangyuhudong.com/'+roundlist.icon" v-if="roundlist.icon">
 							</span>
 							<span class="f-fl">
 								{{roundlist.nickname}}
@@ -82,9 +82,9 @@
 					</div>
 					<div v-if="formdata.mode>1" class="f-c">
 						<p class="g-c-l mt40">比赛地址<span class="colfdb f-tip"></span></p>
-						<input type="text" class="u-c-ipt" name="matchaddress" placeholder="请输入赛事名称" style="width:480px;" v-model="addreass" required="">
+						<input type="text" class="u-c-ipt" name="matchaddress" placeholder="请输入赛事名称" style="width:480px;" v-model="formdata.addreass" required="">
 						<p class="g-c-l mt40">具体地址</p>
-						<input type="text" class="u-c-ipt" placeholder="请输入赛事名称" style="width:480px;" v-model="detailAddreass">
+						<input type="text" class="u-c-ipt" placeholder="请输入赛事名称" style="width:480px;" v-model="formdata.detailAddreass">
 					</div>
 				</div>
 				<div class="f-c">
@@ -103,7 +103,7 @@
 			<a href="" class="saveModify" @click="saveInfo">保存修改</a>
 		</div>
 		<div class="g-wrap">
-			<div class="g-z">
+			<div class="g-z saveapply">
 				<div class="m-c-info">
 					<div class="f-c">
 						<p class="g-c-l">最大参与人数（需要在4-512之间）<span class="colfdb f-tip"></span></p>
@@ -198,7 +198,7 @@
 							<div style="width: 200px; position:relative;">
 								<input type="text" class="u-c-ipt form_datetime" name="activityBegin" title="赛事开始时间" id="activityBegin" placeholder="请输入开赛时间" style="width:200px;" v-model="formdata.activityBegin" required>
 								<label for="activityBegin" class="add-on"></label>
-							</div>
+							</div> 
 						</div>
 						<div class="f-c">
 							<p class="g-c-l mt40">报名时间<span class="colfdb f-tip"></span></p>
@@ -233,7 +233,7 @@
 						</div>
 					</div>
 				</div>
-				<a href="" class="saveModify" @click="nextStep">保存修改</a>
+				<a href="" class="saveModify" @click="saveApply">保存修改</a>
 			</div>
 		</div>
 		<div class="g-wrap">
@@ -309,7 +309,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="m-mask" style="padding-left:100px;">
+	<div class="m-mask">
 		<div class="pic-select">
 			<div class="wrap">
 				<a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
@@ -388,9 +388,45 @@ export default {
         	_this.formdata.brief=_this.eventlist.brief;
         	_this.formdata.regimeRule=_this.eventlist.regimeRule;
         	_this.formdata.prizeSetting=_this.eventlist.prizeSetting;
+        	$('#brief').editable({
+				inlineMode: false,
+				theme: 'dark', 
+				alwaysBlank: true,
+				language: "zh_cn",
+				placeholder: _this.formdata.brief?'':'请输入赛事简介，不超过500字'
+			});
+
+			$('#regimeRule').editable({
+				inlineMode: false,
+				theme: 'dark', 
+				alwaysBlank: true,
+				language: "zh_cn",
+				placeholder: _this.formdata.regimeRule?'':'请输入赛制规则，不超过1000字'
+			});
+
+			$('#prizeSetting').editable({
+				inlineMode: false,
+				theme: 'dark', 
+				alwaysBlank: true,
+				language: "zh_cn",
+				placeholder: _this.formdata.regimeRule?'':'请输入奖励设置，不超过1000字'
+			})
         	$('#brief .froala-element').html(_this.formdata.brief);
         	$('#regimeRule .froala-element').html(_this.formdata.regimeRule);
         	$('#prizeSetting .froala-element').html(_this.formdata.prizeSetting);
+        	$('.form_datetime').datetimepicker({
+	        	format:"Y-m-d H:i",      
+			    yearStart:2000,     
+			    yearEnd:2050, 
+			    onShow:function(ct){
+			    	this.setOptions({
+		               minDate: true,
+		               minTime: true
+		            })
+			    },
+			    step:10
+	        });
+	        $.datetimepicker.setLocale('ch');
         },function(response) {
             console.log(response);
         });
@@ -433,30 +469,6 @@ export default {
 			fileSizeLimit:500000 * 1024,
 			fileSingleSizeLimit:50000 * 1024
 		});
-
-  		$('#brief').editable({
-			inlineMode: false,
-			theme: 'dark', 
-			alwaysBlank: true,
-			language: "zh_cn",
-			placeholder: '请输入赛事简介，不超过500字'
-		});
-
-		$('#regimeRule').editable({
-			inlineMode: false,
-			theme: 'dark', 
-			alwaysBlank: true,
-			language: "zh_cn",
-			placeholder: '请输入赛制规则，不超过1000字'
-		});
-
-		$('#prizeSetting').editable({
-			inlineMode: false,
-			theme: 'dark', 
-			alwaysBlank: true,
-			language: "zh_cn",
-			placeholder: '请输入奖励设置，不超过1000字'
-		})
   		
   	},
   	methods:{
@@ -545,6 +557,19 @@ export default {
 	    		$('#signtime').parents('.g-c-qd').find('.u-c-ck').removeClass('col8f');
 	    	}
 	    },
+	    signtime:function(){
+	    	if($('#signtime').is(':disabled')){
+	    		return;
+	    	}
+	    	else{
+	    		if($('#signtime').is(':checked')){
+		    		$('[name="needSignMinu"]').attr('disabled',true).addClass('col8f');
+		    	}
+		    	else{
+		    		$('[name="needSignMinu"]').attr('disabled',false).removeClass('col8f');
+	    		}
+	    	}
+	    },
 	    // 字符串长度
 	    strlen:function(str){
 	    	var len = 0;
@@ -565,17 +590,34 @@ export default {
 			_this.parents('.g-c-sz').find('.g-c-sz-cherk').toggle();
 			$('.g-c-szgz').fadeToggle();
 		},
-		saveInfo:function(event){
-			var _this = this;
-			event.preventDefault();
-			function errorPlacement(mes,element){
-	    		var errorTips=element.parents(".f-c").find('.f-tip');
-		    	if(mes!=""){
-		    		errorTips.css("display","inline-block").html(mes);	
-		    	}else{
-		    		errorTips.css("display","none");	
-		    	}
+		// 保存修改
+		saveModify:function(value){
+			console.log(value);
+			var _this=this;
+  			var parm={};
+	   		parm.jsonInfo=JSON.stringify(value);
+    		_this.$http.post('event/saveBaseInfo',parm).then(function(response){
+    			var code = response.data.code;
+    			if(code==1){
+    				// window.sessionStorage.setItem("eventRoundId",response.data.object.eventRoundId);
+    				// _this.$route.router.go({path: '/quickformat'});
+    			}
+    			console.log("成功");
+    		}, function(response){
+    			console.log(22);
+    		})
+		},
+		errorPlacement:function(mes,element){
+			var errorTips=element.parents(".f-c").eq(0).find('.f-tip');
+	    	if(mes!=""){
+	    		errorTips.css("display","inline-block").html(mes);	
+	    	}else{
+	    		errorTips.css("display","none");	
 	    	}
+		},
+		saveInfo:function(e){
+			var _this = this;
+			e.preventDefault();
 	    	function formValidate(){
 	    		var valid=true;
 	    		$(".saveinfo [required]").each(function(){
@@ -591,13 +633,13 @@ export default {
 							valid = false;
 							message="赛事名称必须在4 ~ 26个汉字之间!";
 						}
-						errorPlacement(message,$this);
+						_this.errorPlacement(message,$this);
 		    		}else if(name=="gameItem"){
 		    			if(value=="0"){
 							valid=false;
 				    		message="请选择比赛项目!";
 						}
-						errorPlacement(message,$this);
+						_this.errorPlacement(message,$this);
 		    		}else if(name=="matchaddress" && _this.formdata.mode>1){
 		    			var vl = _this.strlen(value);
 		    			if(value==""){
@@ -607,7 +649,7 @@ export default {
 							valid = false;
 							message="比赛地址必须在5 ~ 60个汉字之间!";
 						}
-						errorPlacement(message,$this);
+						_this.errorPlacement(message,$this);
 		    		}
 		    	});
     			if(!valid){
@@ -616,16 +658,155 @@ export default {
 			    }
 	    		return valid;
 	    	}
-
-			if($('#dbsz').is(':checked')){
-				_this.formdata.needThird = 0;
-			}
-			else{
-				_this.formdata.needThird = 1;
-			}
 			if(formValidate()){
-				alert('好了')
+				if($('#brief .froala-element').html()!="<p><br></p>"){
+		    		_this.formdata.brief=$('#brief .froala-element').html()
+		    	}else{
+		    		_this.formdata.brief="";
+		    	}
+		    	if($('#regimeRule .froala-element').html()!="<p><br></p>"){
+		    		_this.formdata.regimeRule=$('#regimeRule .froala-element').html()
+		    	}else{
+		    		_this.formdata.regimeRule="";
+		    	}
+		    	if($('#prizeSetting .froala-element').html()!="<p><br></p>"){
+		    		_this.formdata.prizeSetting=$('#prizeSetting .froala-element').html()
+		    	}else{
+		    		_this.formdata.prizeSetting="";
+		    	}
+				var form={
+					eventRoundId:_this.formdata.eventRoundId,
+					eventId:_this.formdata.eventId,
+					maxNum:_this.formdata.maxNum,
+					name:_this.formdata.name,
+					itemId:_this.formdata.itemId,
+					mode:_this.formdata.mode,
+					addreass:_this.formdata.addreass,
+					detailAddreass:_this.formdata.detailAddreass,
+					brief:_this.formdata.brief,
+					regimeRule:_this.formdata.regimeRule,
+					prizeSetting:_this.formdata.prizeSetting
+				}
+				_this.saveModify(form);
 			}
+		},
+		saveApply:function(e){
+			var _this = this;
+			e.preventDefault();
+			var nowDate = Date.parse(new Date()); 
+			function formValidate(){
+	    		var valid=true;
+	    // 		$(".saveinfo [required]").each(function(){
+		   //  		var $this=$(this);
+					// var value=$this.val(),name=$this.attr('name');	
+		   //  		var message="";
+		    		
+		   //  	});
+	   			var error="";
+    			if(_this.formdata.maxNum==""){
+    				valid = false;
+    				error="赛事参与人数不能为空！";
+    			}
+    			else if(_this.formdata.maxNum!="" && (_this.formdata.maxNum<4 || _this.formdata.maxNum>512)){
+    				valid = false;
+    				error="人数/队伍范围必须在4 ~ 512之间!"
+    			}
+    			_this.errorPlacement(error,$('#personnum'));
+		    	if(_this.formdata.allowApply==1){
+	    			var message="";
+	    			var $this = $('#gamenickname');
+	    			if(!_this.formdata.nicknameRequired && !_this.formdata.nameRequired && !_this.formdata.telephoneRequired && !_this.formdata.qqRequired && !_this.formdata.idcardRequired && !_this.formdata.otherRequired){
+	    				valid=false;
+	    				message="至少选择一个需要收集的报名信息!";
+	    				_this.errorPlacement(message,$this);
+	    			}
+	    			else{
+	    				if(_this.formdata.otherRequired ==1){
+	    					if(!_this.formdata.otherDescribe){
+	    						valid=false;
+	    						message="其他报名信息不能为空！";
+	    					}
+	    				}
+	    				_this.errorPlacement(message,$this);	    				
+	    			}
+	    			if(!_this.formdata.activityBegin){
+	    				valid = false;
+	    				message="赛事开始时间不能为空!";
+	    				_this.errorPlacement(message,$("#activityBegin"));
+	    			}else if(_this.formdata.activityBegin){
+	    				var a =  (Date.parse(_this.formdata.activityBegin) - nowDate)/1000;
+	    				if(a<3600 && _this.formdata.activityBegin!=""){
+		    				valid = false;
+		    				message="赛事开始时间至少晚于当前时间1小时!";
+		    				_this.errorPlacement(message,$("#activityBegin"));
+		    			}else{
+		    				message="";
+		    				_this.errorPlacement(message,$("#activityBegin"));
+		    			}
+	    			}
+	    			if(_this.formdata.applyBegin){
+	    				if(_this.formdata.applyEnd){
+	    					if(_this.formdata.applyBegin >= _this.formdata.applyEnd){
+	    						valid=false;
+	    						var $thiss = $('#applyBegin'),messages="报名开始时间不能晚于报名结束时间!";
+	    						_this.errorPlacement(messages,$thiss);
+	    					}
+	    					else if(_this.formdata.activityBegin!="" && (_this.formdata.applyEnd>= _this.formdata.activityBegin)){
+	    						valid=false;
+	    						var $thiss = $('#activityBegin'),messages="赛事开始时间不能早于报名结束时间!";
+	    						_this.errorPlacement(messages,$thiss);
+	    					}
+	    					else{
+	    						valid=true;
+	    						var $thiss = $('#applyBegin'),messages="";
+	    						_this.errorPlacement(messages,$thiss);
+	    					}
+	    				}else{
+	    					valid=false;
+	    					var $thiss = $('#applyBegin'),messages="报名结束时间不能为空!";
+	    					_this.errorPlacement(messages,$thiss);
+	    				}
+	    			}
+	    			else{
+	    				if(_this.formdata.applyEnd){
+	    					valid=false;
+	    					var $thiss = $('#applyBegin'),messages="报名开始时间不能为空!";
+	    					_this.errorPlacement(messages,$thiss);
+	    				}
+	    				else{
+	    					valid=false;
+	    					var $thiss = $('#applyBegin'),messages="报名时间不能为空!";
+	    					_this.errorPlacement(messages,$thiss);
+	    				}
+	    			}
+	    		}
+    			if(!valid){
+			    	var top=$('.f-tip').eq(0).offset().top-550;
+			    	$("body").scrollTop(top);
+			    }
+	    		return valid;
+	    	}
+	    	if(formValidate()){
+	    		var form={
+					eventRoundId:_this.formdata.eventRoundId,
+					eventId:_this.formdata.eventId,
+					allowApply:_this.formdata.allowApply,
+					applyType:_this.formdata.applyType,
+					nicknameRequired:_this.formdata.nicknameRequired,
+					nameRequired:_this.formdata.nameRequired,
+					idcardRequired:_this.formdata.idcardRequired,
+					qqRequired:_this.formdata.qqRequired,
+					telephoneRequired:_this.formdata.telephoneRequired,
+					otherRequired:_this.formdata.otherRequired,
+					otherDescribe:_this.formdata.otherDescribe
+					// activityBegin:_this.formdata.activityBegin,
+					// applyBegin:_this.formdata.applyBegin,
+					// applyEnd:_this.formdata.applyEnd,
+					// needSign:_this.formdata.needSign,
+					// needSignMinu:_this.formdata.needSignMinu
+				}
+				_this.saveModify(form);
+	    	}
 		},
   		nextStep:function(e){
   			e.preventDefault();

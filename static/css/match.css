@@ -1466,24 +1466,23 @@ label.u-c-kz-sz{
 .m-page .pagination span.current{color:#fdb91a;}
 
 /*弹出层*/
-.m-mask{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;z-index:9999;}
+.m-mask{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;z-index:9999;padding-left: 100px;}
 .pic-select,.m-pop{width: 500px;margin:180px auto 0;background: #1b1e25;border:7px solid #292f3a;min-height: 100px;padding-bottom: 20px;}
 .m-pop{
-	min-height:370px;
+	width: 420px;
 	padding-bottom: 50px;
 }
 .pic-select .wrap{
 	padding-top: 25px;
 }
 .pic-select .wrap,.m-pop .wrap{position: relative;width: 100%;}
-.m-pop h3{font-size: 14px;color:#7892a9;background:#000;margin-bottom: 30px;height: 40px;line-height:40px;border-bottom: 1px solid #2e2d3a;}
-.m-addzx{padding-left:45px; padding-top:38px;}
+.m-pop h3{font-size: 14px;color:#7892a9;background:#000;margin-bottom: 30px;height: 40px;line-height:40px;border-bottom: 1px solid #2e2d3a;text-indent: 15px;}
 .pic-select .u-btn-close,.m-pop .u-btn-close,.m-addzx .u-btn-close{position:absolute;top:205px;right:375px;display:block;width: 30px;height: 30px;background: url(../images/closeBtn.png) center center no-repeat;background-size: 100%;}
 .pic-select .u-btn-close,.m-pop .u-btn-close{top:-15px;right: -22px;}
-.m-pop .m-lst,.m-addzx .m-lst{margin-bottom: 0;color:#fff;font-size: 12px;}
+.m-pop .m-lst{margin-bottom: 0;color:#7a8387;font-size: 14px;padding:0 30px;}
 .m-pop .m-lst label,.m-addzx .m-lst label{margin-top: 8px;width:103px; font-weight: normal;}
-.m-pop .m-lst input,.m-pop .m-lst select,.m-addzx .m-lst input,.m-addzx .m-lst select{width: 320px;margin:10px 0;}
-.m-pop .u-btn{display:block;background: linear-gradient(to bottom, #f9a32a 50%,#e68700 50%,#f8a328 100%);width: 180px;margin:30px auto 0;}
+.m-pop .m-lst input,.m-pop .m-lst select,.m-addzx .m-lst input,.m-addzx .m-lst select{width: 260px;margin:10px 0;}
+.m-pop .u-btn{display:block;background:url(../images/btn1.png) no-repeat;width: 200px;margin:30px auto 0;}
 
 /*发布管理*/
 .reset-box{
