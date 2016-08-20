@@ -690,7 +690,7 @@ import createPop from '../components/createPop.vue'
                 }else{
                   $('.turn_btn').hide();
                   $('.against_title_tip').hide();
-                  $(".recta").attr('draggable',false);
+                  // $(".recta").attr('draggable',false);
                 }
 
                 if(_this.roundStatus<5){
