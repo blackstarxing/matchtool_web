@@ -3,12 +3,12 @@
 	<side-bar></side-bar>
 	<slide-bar></slide-bar>
 	<create-pop></create-pop>
-	<div class="persetting">
-		<h2 class="perset_title">个人中心</h2>
+	<div class="perCenter_wrap perSetting">
+		<h2 class="perCenter_title">个人设置</h2>
 		<div class="perset_body">
 			<div class="perset_head">
 				<ul class="perset">
-					<li v-for="item in tabList" v-text="item.name" :class="{ perset_active: item.isCur }" @click="setCur($index)"></li>
+					<li v-for="item in tabList" v-text="item.name" :class="{ tab_active: item.isCur }" @click="setCur($index)"></li>
 					<!-- <li class="perset_active">基本资料</li>
 					<li>参赛资料</li>
 					<li>组织者认证</li> -->
@@ -110,7 +110,7 @@
 						</div>
 						<div class="cpt_item form_item">
 							<label for="telephone">手机号 ：</label>
-							<input type="text" id="telephone" class="text_box">
+							<input type="text" id="telephone" class="text_box" v-model="userInfoData.username">
 						</div>
 						<div class="cpt_item form_item">
 							<label for="qq">QQ ：</label>
@@ -138,7 +138,7 @@
 		</div>
 		<a href="javascript:;" class="saveBtn" v-text="btnText" @click="savePerSetting"></a>
 		</div>
-			<div class="m-mask m-userpic-mask" style="padding-left:100px;">
+			<div class="m-userpic-mask" style="padding-left:100px;">
 			<div class="pic-select">
 				<div class="wrap">
 					<a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
@@ -181,7 +181,7 @@
 					dayNum: "-1"
 				},
 				saveUserInfo: {
-					birthday: "",
+					birthdayStr: "",
 					cityCode: "",
 					icon: "",
 					nickname: "",
@@ -232,21 +232,36 @@
 					this.rootArea = response.data.object.areaMap.sysRootArea
 				})
 			  // 如果已设置头像
-			 	 if (response.data.object.userInfo.icon != "") {
-			 	 	this.saveUserInfo.icon = response.data.object.userInfo.icon
+			 	if (response.data.object.userInfo.icon != "") {
+			 		this.saveUserInfo.icon = response.data.object.userInfo.icon
 			 	}
 
 			  // 如果已设置省份和城市
-			  this.rootAreaId = response.data.object.areaMap.pid.toString()
-			  console.log(this.rootAreaId)
-			  if (this.rootAreaId != "") {
-			  	this.secondAreaId = response.data.object.areaMap.areaCode
-			  	this.getSecondArea(this.rootAreaId)
-			  	
-			  	console.log(this.secondAreaId)
+			  if (response.data.object.areaMap) {
+			  	this.rootAreaId = response.data.object.areaMap.pid.toString()
+				  console.log(this.rootAreaId + 'aaaaaaaaa')
+				  if (this.rootAreaId != "") {
+				  	this.secondAreaId = response.data.object.areaMap.areaCode
+				  	this.getSecondArea(this.rootAreaId)
+				  	console.log(this.secondAreaId)
+				  }
+			  } else {
+			  	this.rootAreaId = "-1"
+			  	this.secondAreaId = "-2"
 			  }
+			  
 			  // 如果已设置生日
-
+			  if (response.data.object.sysUser.birthdayStr != "") {
+			  	
+			  	var str = response.data.object.sysUser.birthdayStr
+			  	var arr = str.split('-');
+			  	this.userBirthday.yearNum = arr[0]
+			  	if (arr[1].length > 1) this.userBirthday.monthNum = arr[1].charAt(1) + ""
+			  	else this.userBirthday.monthNum = arr[1]
+			  	this.getDayList()
+			  	if (arr[2].length > 1) this.userBirthday.dayNum = arr[2].charAt(1) + ""
+			  	else this.userBirthday.dayNum = arr[2]
+			  }
 
 			  if (this.userInfoData.sex === null) {
 			  	this.userInfoData.sex = 0;
@@ -298,6 +313,13 @@
 			},
 			getSecondArea: function (rootId) {
 				// console.log(rootId)
+				//alert(123)
+				// 如果切换到了请选择省份option，则不查询城市，直接赋空数组并设置为请选择城市option
+				if (rootId === "-1") {
+					this.secondArea = []
+					this.secondAreaId = "-2"
+					return 
+				}
 				var params = {}
 				var json = {}
 				json.pid = rootId
@@ -350,8 +372,8 @@
 					this.userBirthday.monthNum = "1"
 				}
 				this.getDayList()
-				// 只第一次修改年份时天数变成1，其余修改年份，天数不变
-				if (!this.dayFlag) {
+				// 只第一次修改年份并且还没有设置生日（如果以设置生日，那么修改年份，天数不变）时天数变成1，其余修改年份，天数不变
+				if (!this.dayFlag && this.userBirthday.dayNum === "-1") {
 					this.userBirthday.dayNum = 1
 					this.dayFlag = !this.dayFlag
 				}
@@ -365,52 +387,58 @@
 					// console.log(v.isCur)
 					if (v.isCur === true) {
 						// console.log(v.url)
-						// console.log(typeof _this.userBirthday.yearNum)
-						// 生日
-						var y = _this.userBirthday.yearNum,
-								m = _this.userBirthday.monthNum,
-								d = _this.userBirthday.dayNum
-						if (y === "-1" || m === "-1" || d === "-1") {
-							_this.saveUserInfo.birthday = ''
-						} else {
-							if (y < 10) y = "0" + y
-							if (m < 10) m = "0" + m
-							if (d < 10) d = "0" + d
-							_this.saveUserInfo.birthday = y + "-" + m + "-" + d
-						}
-						//console.log(_this.userInfoData.birthday)
+						if (v.name === '基本资料') {
+							// console.log(typeof _this.userBirthday.yearNum)
+							// 生日
+							var y = _this.userBirthday.yearNum,
+									m = _this.userBirthday.monthNum,
+									d = _this.userBirthday.dayNum
+							if (y === "-1" || m === "-1" || d === "-1") {
+								_this.saveUserInfo.birthdayStr = ""
+							} else {
+								if (y < 10) y = "0" + y
+								if (m < 10) m = "0" + m
+								if (d < 10) d = "0" + d
+								_this.saveUserInfo.birthdayStr = y + "-" + m + "-" + d
+							}
+							//console.log(_this.userInfoData.birthday)
 
-						// 城市编码
-						//console.log($('#provinces').val() + ' ' + $('#citys').val())
-						//console.log(_this.rootAreaId + ' ' + _this.secondAreaId)
-						if ($('#provinces').val() === "-1" || $('#citys').val() === "-2") {
-							_this.saveUserInfo.cityCode = ""
-						} else {
-							_this.saveUserInfo.cityCode = $('#citys').val()
-						}
-						//console.log(_this.userInfoData.cityCode)
-						// 头像
+							// 城市编码
+							//console.log($('#provinces').val() + ' ' + $('#citys').val())
+							//console.log(_this.rootAreaId + ' ' + _this.secondAreaId)
+							if ($('#provinces').val() === "-1" || $('#citys').val() === "-2") {
+								_this.saveUserInfo.cityCode = ""
+							} else {
+								_this.saveUserInfo.cityCode = $('#citys').val()
+							}
+							//console.log(_this.userInfoData.cityCode)
+							// 头像
 
-						// 昵称
-						if (_this.userInfoData.nickname === '') {
+							// 昵称
+							if (_this.userInfoData.nickname === '') {
 
+							} else {
+								_this.saveUserInfo.nickname = _this.userInfoData.nickname
+							}
+							// 性别
+							_this.saveUserInfo.sex = _this.userInfoData.sex
+							// 个人介绍
+							_this.saveUserInfo.speech = _this.userInfoData.speech
+							// 系统用户id(前面已设置)
+							// 用户id
+							_this.saveUserInfo.userId = _this.userInfoData.id
+							// console.log(_this.saveUserInfo)
+							var params = {}
+							params.jsonInfo = JSON.stringify(_this.saveUserInfo)
+							_this.$http.post(v.url, params).then(function (response) {
+								console.log(response)
+								// alert("修改成功！")
+							})
+						} else if (v.name === '参赛资料') {
+							
 						} else {
-							_this.saveUserInfo.nickname = _this.userInfoData.nickname
+							alert(456)
 						}
-						// 性别
-						_this.saveUserInfo.sex = _this.userInfoData.sex
-						// 个人介绍
-						_this.saveUserInfo.speech = _this.userInfoData.speech
-						// 系统用户id(前面已设置)
-						// 用户id
-						_this.saveUserInfo.userId = _this.userInfoData.id
-						// console.log(_this.saveUserInfo)
-						var params = {}
-						params.jsonInfo = JSON.stringify(_this.saveUserInfo)
-						_this.$http.post(v.url, params).then(function (response) {
-							console.log(response)
-							// alert("修改成功！")
-						})
 					}
 				})
 			}
@@ -418,12 +446,12 @@
 	}
 </script>
 <style type="text/css">
-	.persetting {
+	.perCenter_wrap {
 		width: 600px;
 		margin: 60px auto;
 		overflow: hidden;
 	}
-	.perset_title {
+	.perCenter_title {
 		margin-top: 40px;
 		margin-bottom: 15px; 
 		color: #fdb91a;
@@ -447,7 +475,7 @@
 		margin: 0 18px 0 24px;
 		cursor: pointer;	
 	}
-	.perset .perset_active {
+	.perCenter_wrap .tab_active {
 		border-bottom: 4px solid #fdb91a;
 		color: #fdb91a;
 	}
