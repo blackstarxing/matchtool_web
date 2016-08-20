@@ -121,6 +121,7 @@ import createPop from '../components/createPop.vue'
 				this.isReg=true;
 			},
 			inputFoucs: function (e) {
+				debugger;
 				var _current=$(e.currentTarget);
 				var _target=$(e.target);
 				_current.find('.input_text').removeClass("bottom_line");
