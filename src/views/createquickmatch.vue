@@ -34,7 +34,7 @@
 					</div>
 					<div class="f-c">
 						<p class="g-c-l mt40">比赛项目<span class="colfdb f-tip"></span></p>
-						<select class="u-c-slt" name="itemId" id="gameList" v-model="formdata.itemId" @change="getServerList" required>
+						<select class="u-c-slt" name="itemId" id="gameList" v-model="formdata.itemId"required>
 							<option value="" selected>选择一个竞技项目</option>
 						</select>
 					</div>
