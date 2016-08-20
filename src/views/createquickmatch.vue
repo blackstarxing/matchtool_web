@@ -173,7 +173,7 @@
 					<div class="f-c">
 						<p class="g-c-l">赛事开始时间<span class="colfdb f-tip"></span></p>
 						<div style="width: 200px; position:relative;">
-							<input type="text" class="u-c-ipt form_datetime" name="activityBegin" title="赛事开始时间" id="activityBegin" placeholder="请输入开赛时间" style="width:200px;" v-model="formdata.activityBegin" required>
+							<input type="text" class="u-c-ipt form_datetime" name="activityBegin" title="赛事开始时间" id="activityBegin" placeholder="请输入开赛时间" style="width:200px;" v-model="formdata.activityBeginStr" required>
 							<label for="activityBegin" class="add-on"></label>
 						</div>
 					</div>
@@ -181,12 +181,12 @@
 						<p class="g-c-l mt40">报名时间<span class="colfdb f-tip"></span></p>
 						<div class="g-c-timeipt">
 							<input type="text" class="u-c-ipt form_datetime" id="applyBegin" placeholder="请输入开始时间" style="width:200px;" v-model="formdata.applyBegin" disabled>
-							<label for="applyBegin" class="add-on"></label>
+							<label for="applyBeginStr" class="add-on"></label>
 						</div>
 						&nbsp－&nbsp
 						<div class="g-c-timeipt">
 							<input type="text" class="u-c-ipt form_datetime" id="applyEnd" placeholder="请输入结束时间" style="width:200px;" v-model="formdata.applyEnd" disabled/>
-							<label for="applyEnd" class="add-on"></label>
+							<label for="applyEndStr" class="add-on"></label>
 						</div>
 					</div>
 					<p class="g-c-l mt40">签到时间</p>
@@ -253,9 +253,9 @@ import createPop from '../components/createPop.vue'
   				telephoneRequired:0,
   				otherRequired:0,
   				otherDescribe:"",
-  				activityBegin:"",
-  				applyBegin:"",
-  				applyEnd:"",
+  				activityBeginStr:"",
+  				applyBeginStr:"",
+  				applyEndStr:"",
   				needSign:0,
   				needSignMinu:""
     		}
@@ -339,7 +339,7 @@ import createPop from '../components/createPop.vue'
 	        	}
 	        });
 	        $('#applyBegin').on('change', function(){
-	        	var t = _this.formdata.applyBegin;
+	        	var t = _this.formdata.applyBeginStr;
 	        	if(t!=""){
 	        		$('#activityBegin').datetimepicker({
 			        	format:"Y-m-d H:i",      
@@ -368,7 +368,7 @@ import createPop from '../components/createPop.vue'
 	        	}
 	        });
 	        $('#activityBegin').on('change', function(event) {
-	        	var t = _this.formdata.activityBegin;
+	        	var t = _this.formdata.activityBeginStr;
 	        	if(t!=""){
 	        		$('#applyBegin').datetimepicker({
 			        	format:"Y-m-d H:i",      
@@ -510,7 +510,7 @@ import createPop from '../components/createPop.vue'
 			    	}
 		    	}
 		    	function formValidate(){
-		    		var nowDate = Date.parse(new Date()); 
+		    		var nowDate = new Date(); 
 		    		var valid=true,valid2 = true,valid3 = true;
 		    		if(_this.formdata.mode==2 || _this.formdata.mode==3){
 		    			$('.m-c-xx [req]').each(function(){
@@ -558,7 +558,7 @@ import createPop from '../components/createPop.vue'
 							}
 							errorPlacement(message,$this);
 			    		}else if(name=="activityBegin"){
-			    			var a =  (Date.parse(value) - nowDate)/1000;
+			    			var a =  (new Date(value) - nowDate)/1000;
 			    			if(value==""){
 			    				valid = false;
 			    				message="赛事开始时间不能为空!";
@@ -623,14 +623,14 @@ import createPop from '../components/createPop.vue'
 		    				// }
 		    				
 		    			}
-		    			if(_this.formdata.applyBegin){
-		    				if(_this.formdata.applyEnd){
-		    					if(_this.formdata.applyBegin >= _this.formdata.applyEnd){
+		    			if(_this.formdata.applyBeginStr){
+		    				if(_this.formdata.applyEndStr){
+		    					if(_this.formdata.applyBeginStr >= _this.formdata.applyEndStr){
 		    						valid2=false;
 		    						var $thiss = $('#applyBegin'),messages="报名开始时间不能晚于报名结束时间!";
 		    						errorPlacement(messages,$thiss);
 		    					}
-		    					else if(_this.formdata.activityBegin!="" && (_this.formdata.applyEnd>= _this.formdata.activityBegin)){
+		    					else if(_this.formdata.activityBeginStr!="" && (_this.formdata.applyEndStr>= _this.formdata.activityBeginStr)){
 		    						valid2=false;
 		    						var $thiss = $('#activityBegin'),messages="赛事开始时间不能早于报名结束时间!";
 		    						errorPlacement(messages,$thiss);
@@ -647,7 +647,7 @@ import createPop from '../components/createPop.vue'
 		    				}
 		    			}
 		    			else{
-		    				if(_this.formdata.applyEnd){
+		    				if(_this.formdata.applyEndStr){
 		    					valid2=false;
 		    					var $thiss = $('#applyBegin'),messages="报名开始时间不能为空!";
 		    					errorPlacement(messages,$thiss);
@@ -664,12 +664,21 @@ import createPop from '../components/createPop.vue'
 		    		}
 		    	}
 		    	if(formValidate()){
-		    		var sjc = Date.parse(_this.formdata.activityBegin);
-		    		var kssjc = Date.parse(_this.formdata.applyBegin);
-		    		var jssjc = Date.parse(_this.formdata.applyEnd);
-		    		_this.formdata.activityBegin = sjc;
-		    		_this.formdata.applyBegin = kssjc;
-		    		_this.formdata.applyEnd = jssjc;
+		    		// var sjc = Date.parse(_this.formdata.activityBegin);
+		    		// if(sjc == null){
+		    		// 	sjc = '';
+		    		// }
+		    		// var kssjc = Date.parse(_this.formdata.applyBegin);
+		    		// if(kssjc == null){
+		    		// 	kssjc = '';
+		    		// }
+		    		// var jssjc = Date.parse(_this.formdata.applyEnd);
+		    		// if(jssjc == null){
+		    		// 	jssjc = '';
+		    		// }
+		    		// _this.formdata.activityBegin = sjc;
+		    		// _this.formdata.applyBegin = kssjc;
+		    		// _this.formdata.applyEnd = jssjc;
 		    		var newsobj = _this.formdata;
 		    		var jsonInfo = JSON.stringify(newsobj);
 	  				var parm = new Object();
