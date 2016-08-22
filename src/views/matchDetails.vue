@@ -45,7 +45,8 @@
 			      <span class="against_title_text">对阵图</span>
 			      <span class="against_title_tip">此对阵图为预览，可拖曳参赛选手来交换位置</span>
 			    </p>
-			    <div class="tech_main_body">
+			    <div class="techpic_move">
+			    	<div class="tech_main_body">
 			        <div class="turn_num">
 			          <ul class="turn_num_list clearfix">
 			            <li class="turn_num_li" v-for="turnnum of turnnums">
@@ -67,6 +68,8 @@
 			          </div>
 			        </div>
 			    </div>
+			    </div>
+			    
 			  </div>
 		</div>
 		<div v-show="tap2">
@@ -357,6 +360,7 @@ import createPop from '../components/createPop.vue'
                 var _height=unitul_all*Math.pow(2,turn-2);
                 var _width=(unitul_w+90)*turn;
                 _content.width(_width);
+                $('.techpic_move').height(_height);
                 var _techcon=$(".tech_container");
                 _techcon.height(_height+40);
                 _techcon.append('<canvas id="mycanvas" width='+_width+' height='+_height+'></canvas> ');
@@ -606,7 +610,7 @@ import createPop from '../components/createPop.vue'
                   listArry.eq(0).find('.out_li').eq(i).html(newdom(i,listone)); 
                 }  
              }
-             
+
            //获取turn>1的数据
              var listtwo=[];
              var listthree=[];
@@ -701,6 +705,27 @@ import createPop from '../components/createPop.vue'
                   console.log(900);
                   $('.edit_div').hide();
                 }
+
+                var move=false,
+				    left_=0,
+				    top_=0;
+				$('.tech_main_body').mousedown(function(e){
+					console.log(777);
+				    move=true;
+				    left_=e.pageX-parseInt($('.tech_main_body').css("left"));
+				    top_=e.pageY-parseInt($('.tech_main_body').css("top"));
+
+				}).mouseup(function(){
+				    move=false;
+				});
+				$(document).mousemove(function(e){
+				    if(move){
+				        var left_r=e.pageX-left_,
+				            top_r=e.pageY-top_;
+				            // console.log(e.pageX,left_,left_r)
+				            $('.tech_main_body').css({"top":top_r,"left":left_r});
+				    }
+				});
             });
                
              //编辑查看悬浮框

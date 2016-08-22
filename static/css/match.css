@@ -2466,9 +2466,20 @@ label.u-c-kz-sz{
   text-align: center;
   cursor: pointer;
 }
+.techpic_move{
+	background-color: #171a21;
+	overflow: hidden;
+	width: 1024px;
+	cursor: move;
+	z-index: 999;
+}
 .tech_main_body{
-  overflow-x: scroll;
-  overflow-y: hidden;
+  /*overflow-x: scroll;
+  overflow-y: hidden;*/
+  z-index:99;
+  position: absolute;
+  top:0;
+  left: 0;
 }
 .turn_input{
   width: 140px;
