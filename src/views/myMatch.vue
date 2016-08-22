@@ -17,26 +17,27 @@
 					<li class="matchList_item clearfix" v-for="item in eventShowList">
 						<img src="../../static/images/jlimg.png"" alt="">
 						<div class="textInfo">
-							<h3 class="info_name" v-text="item.name"></h3>
+							<h3 class="info_name" v-text="item.eventName"></h3>
 							<ul class="match_otherInfo">
 								<li>
-									<span>主办方：</span><span>网娱大师官方赛事组</span>
+									<span>主办方：</span><span v-text="item.sponsorName">网娱大师官方赛事组</span>
 								</li>
 								<li>
-									<span>采用赛制：</span><span>网娱大师官方赛事组</span>
+									<span>采用赛制：</span><span v-text="item.regime">网娱大师官方赛事组</span>
 								</li>
 								<li>
-									<span>参与人数：<span class="g-cjl-rsw"><span class="g-cjl-rsn"></span></span>
-									<span class="col42a">80</span>/100
+									<span>参与人数：<span class="g-cjl-rsw"><span class="g-cjl-rsn" :style="{ width: (item.num / item.maxNum) + '%' }"></span></span>
+									<span class="col42a">{{ item.num }}</span>/{{ item.maxNum }}
 								</li>
 								<li>
-									<span>报名方式：</span><span>6人战队报名</span>
+									<span>报名方式：</span><span>{{ item.applyType }}</span>
 								</li>
 							</ul>
 						</div>
 						<div class="timeInfo">
-							<p class="createtime">2012.8.10 12:30 创建</p>
-							<div class="statusBox">未发布</div>
+							<p class="createtime" v-text=" item.createDate | formatDate ">2012.8.10 12:30 创建</p>
+							<div class="statusBox" v-text="item.statusText" :class=" { onGoing: item.isGoing } ">未发布</div>
+							<p class="m-cjl-kssj" v-if="item.matchBegin"><span class="col42a">{{ item._day }}</span>天<span class="col42a">{{ item._hour }}</span>小时<span class="col42a">{{ item._minute }}</span>分后可开赛</p>
 						</div>
 					</li>
 					<!-- <li class="matchList_item clearfix">
@@ -149,16 +150,34 @@
 					{ id: 0, name: '我组织的', isCur: true },
 					{ id: 1, name: '我参与的', isCur: false },
 				],
+				responseFieldList: [
+					"activityBegin",
+					"allowApply",
+					"applyType",
+					"createDate",
+					"isPublish",
+					"maxNum",
+					"num",
+					"privacy",
+					"publishTime",
+					"regime",
+					"sponsorName",
+					"status",
+					"eventName",
+					"statusText",
+					"teamMemeberNum",
+					"activityBegin"
+				],
 				eventShowList: [
 
 				],
 				ZZEventList: [
-					{ name: 'aaaaaaa' }
+
 				],
 				CYEventList: [
 					{ name: 'bbbbb' }
 				],
-				pageId: 1	
+				pageId: 1,
 			}
 		},
 		components: {
@@ -171,21 +190,100 @@
 			// 初始化时就查询我组织的赛事列表，仅查询一次，以后就不查询了
 			if (!this.ZZEventListFlag) {
 				this.ZZEventListFlag = true
+				this.ZZEventList = []
+				this.eventShowList = []
+				console.log(this.eventShowList.length + 'dasdasda')
 				this.getZZEventList()
+				
+				console.log(this.eventShowList.length + 'sdasd')
 				this.eventShowList = this.ZZEventList
+
+				
 			}
+
 
 			
 		},
+		filters: {
+			formatDate: function(value) {
+				var time = new Date(value);
+				var year=time.getFullYear();  
+				var month=time.getMonth()+1;     
+				var date=time.getDate();     
+				var hour=time.getHours();     
+				var minute=time.getMinutes();     
+				var second=time.getSeconds();     
+				return year+"."+month+"."+date+"   "+hour+":"+minute+" 创建";
+			}
+		},
 		methods: {
 			getZZEventList: function () {
+				this.ZZEventList = []
 				var params = {}
 				var json = {}
 				json.pageNumber = this.pageId
 				params.jsonInfo = JSON.stringify(json)
 				console.log('当前页数： ' + this.pageId)
 				this.$http.get('event/getEventRoundList', params).then(function (response) {
-					console.log(response)
+					// console.log(response)
+					var matchList = response.data.object.pager.list
+					for (var i = 0; i < matchList.length; i++) {
+						var obj = {}
+						obj.isGoing = false
+						// 是否是已发布但还未开赛
+						obj.matchBegin = false
+						this.responseFieldList.forEach(function (v, j) {
+							if (v === "regime") {
+								if (matchList[i][v] === 1) {
+									obj[v] = "单阶段 单败淘汰制"
+								} else if (matchList[i][v] === 2) {
+									obj[v] = "单阶段 双败淘汰制"		
+								} else if (matchList[i][v] === 3) {
+									obj[v] = "单阶段 小组内单循环制"		
+								} else {
+									obj[v] = "单阶段 积分循环制"		
+								}
+							} else {
+								obj[v] = matchList[i][v]
+							}
+						})
+
+						if (obj.isPublish === null || obj.isPublish  === 0) {
+							obj.statusText = "未发布"
+						} else if (obj.isPublish  === 1){
+							if (obj.status === 1) {
+								obj.matchBegin = true
+								var matchBeginTimestamp = obj.activityBegin
+								var nowTimestamp = new Date().getTime()
+								var time = matchBeginTimestamp - nowTimestamp
+								var d=24*60*60*1000,
+				       	 		h=60*60*1000,
+				        		m=60*1000
+				        obj._day=parseInt(time/d),
+				        obj._hour=parseInt(time%d/h),
+				       	obj._minute=parseInt(time%d%h/m),
+								obj.statusText = "未开赛"
+							} else if (obj.status === 2) {
+								obj.statusText = "进行中"
+								// 添加是否正在进行比赛的字段：isGoing
+								obj.isGoing = true
+							} else if (obj.status === 3) {
+								obj.statusText = "已完结"
+							}
+						}
+
+						if (obj.applyType === 1) {
+							obj.applyType = "个人报名"
+						} else if (obj.applyType  === 2) {
+							if (obj.teamMemeberNum === null) obj.teamMemeberNum = 0
+							obj.applyType = obj.teamMemeberNum + "人战队报名"
+						}
+							
+						this.ZZEventList.push(obj)
+					}
+					console.log(this.ZZEventList)
+					console.log(this.ZZEventList.length + 'bb')
+					console.log(this.eventShowList.length + 'aa')
 				})
 			},
 			getCYEventList: function () {
@@ -196,19 +294,17 @@
 					this.tabList[0].isCur = true
 					this.tabList[1].isCur = false
 					// 设置列表为我组织的赛事
-					// alert('ZZ')
-					this.eventShowList = this.ZZEventList
+					//this.eventShowList = this.ZZEventList
 				} else {
 					this.tabList[1].isCur = true
 					this.tabList[0].isCur = false
-					// alert('CY')
 					// 仅第一次切换tab进来查询我参与的赛事列表，以后就不查询了
 					if (!this.CYEventListFlag) {
 						this.CYEventListFlag = true
 						this.getCYEventList()
 					}
 					// 设置列表为我参与的赛事
-					this.eventShowList = this.CYEventList
+					//this.eventShowList = this.CYEventList
 				}
 			}
 		}
