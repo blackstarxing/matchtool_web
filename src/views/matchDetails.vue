@@ -40,13 +40,7 @@
 		<div v-show="tap1">
 			<!-- 在这个div放置对阵图哦 -->
 			<div class="against_container">
-			    <p class="against_title">
-			     <a class="title_unit"></a>
-			      <span class="against_title_text">对阵图</span>
-			      <span class="against_title_tip">此对阵图为预览，可拖曳参赛选手来交换位置</span>
-			    </p>
-			    <div class="techpic_move">
-			    	<div class="tech_main_body">
+			    <div class="tech_main_body">
 			        <div class="turn_num">
 			          <ul class="turn_num_list clearfix">
 			            <li class="turn_num_li" v-for="turnnum of turnnums">
@@ -67,7 +61,7 @@
 			            </div>   
 			          </div>
 			        </div>
-			    </div>
+			    
 			    </div>
 			    
 			  </div>
@@ -709,11 +703,12 @@ import createPop from '../components/createPop.vue'
                 var move=false,
 				    left_=0,
 				    top_=0;
-				$('.tech_main_body').mousedown(function(e){
+				var _movebody=$('.tech_main_body');
+				_movebody.mousedown(function(e){
 					console.log(777);
 				    move=true;
-				    left_=e.pageX-parseInt($('.tech_main_body').css("left"));
-				    top_=e.pageY-parseInt($('.tech_main_body').css("top"));
+				    left_=e.pageX-parseInt(_movebody.css("left"));
+				    top_=e.pageY-parseInt(_movebody.css("top"));
 
 				}).mouseup(function(){
 				    move=false;
@@ -723,7 +718,7 @@ import createPop from '../components/createPop.vue'
 				        var left_r=e.pageX-left_,
 				            top_r=e.pageY-top_;
 				            // console.log(e.pageX,left_,left_r)
-				            $('.tech_main_body').css({"top":top_r,"left":left_r});
+				            _movebody.css({"top":top_r,"left":left_r});
 				    }
 				});
             });
