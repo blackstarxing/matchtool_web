@@ -102,15 +102,17 @@
 					<div class="cptInfo_content">
 						<div class="cpt_item form_item">
 							<label for="realName">真实姓名 ：</label>
-							<input type="text" id="realName" class="text_box" v-model="saveMatchInfo.realname">
+							<input type="text" id="realName" class="text_box" v-model="saveMatchInfo.realname"> 
 						</div>
 						<div class="cpt_item form_item">
 							<label for="validatePerId">有效身份证 ：</label>
-							<input type="text" id="validatePerId" class="text_box" v-model="saveMatchInfo.idcard">
+							<input type="text" id="validatePerId" class="text_box" v-model="saveMatchInfo.idcard" @blur="validateIdCard(saveMatchInfo.idcard)">
+							<p id="idCardError" class="errorInfo" style="display: none;"><i></i><span>请输入正确的身份证号码</span></p>
 						</div>
 						<div class="cpt_item form_item">
 							<label for="telephone">手机号 ：</label>
-							<input type="text" id="telephone" class="text_box" v-model="saveMatchInfo.telephone">
+							<input type="text" id="telephone" class="text_box" v-model="saveMatchInfo.telephone" @blur="validateTel(saveMatchInfo.telephone)">
+							<p id="telephoneError" class="errorInfo" style="display: none;"><i></i><span>请输入正确的手机号</span></p>
 						</div>
 						<div class="cpt_item form_item">
 							<label for="qq">QQ ：</label>
@@ -127,7 +129,7 @@
 					<div class="oCfct_item form_item">
 						<label for="privateInviteCode">内测邀请码 ：</label>
 						<input type="text" id="privateInviteCode" class="text_box" v-model="betaCode">
-						<p class="errorInfo"><i></i><span>邀请码已被使用</span></p>
+						<p id="codeError" class="errorInfo" style="display: none;"><i></i><span id="codeErrorText">邀请码已被使用</span></p>
 					</div>
 					<!-- <div class="PICExplain"> -->
 						<p class="organizersCfct_title">关于组织者内测邀请码</p>
@@ -295,6 +297,20 @@
 			this.setBirthdayData()
 		},
 		methods: {
+			validateTel: (qq) => {
+				if(!/^1([0-9]){10}$/.test(qq) && qq != ""){
+	    		$('#telephoneError').show()
+  			} else {
+  				$('#telephoneError').hide()
+  			}
+			},
+			validateIdCard: (id) => {
+				if(!/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/.test(id) && id != ""){
+  				$('#idCardError').show()
+  			} else {
+  				$('#idCardError').hide()
+  			}
+			},
 			checkNickname: function () {
 				var json = { nickname: this.userInfoData.nickname, telephone: this.userInfoData.username }
 				this.$http.get('registerCheck', json).then(function (response) {
@@ -447,18 +463,26 @@
 							})
 						} else if (v.name === '参赛资料') {
 							var params = {}
-							params.jsonInfo = JSON.stringify(this.saveMatchInfo)
-							this.$http.post('sysuser/saveSysUserInfo', params).then(function (response) {
+							params.jsonInfo = JSON.stringify(_this.saveMatchInfo)
+							_this.$http.post('sysuser/saveSysUserInfo', params).then(function (response) {
 								console.log("参赛资料：" + response)
 							})
 						} else {
 							alert(456)
 							var params = {}
 							var json = {}
-							json.code = this.betaCode
+							json.code = _this.betaCode
 							params.jsonInfo = JSON.stringify(json)
-							this.$http.post('identify/identifyByCode', params).then(function (response) {
-								console.log("内测邀请码：" + response)
+							_this.$http.post('identify/identifyByCode', params).then(function (response) {
+								// console.log("内测邀请码：" + response)
+								var msg = response.data.msg
+								if (response.data.code === 0) {
+									$('#codeError').show();
+									$('#codeErrorText').html(msg)
+								} else {
+									$('#codeError').hide();
+									alert("成功！")
+								}
 							})
 						}
 					}
@@ -536,7 +560,7 @@
 	.form_item input {
 		text-indent: 12px;
 	}
-	.nickname_item .errorInfo {
+	.nickname_item .errorInfo, .cpt_item .errorInfo {
 		line-height: 1;
 		margin-top: 10px;
 		margin-bottom: 10px;
@@ -643,12 +667,12 @@
 	}
 	.cpt_item, .oCfct_item {
 		box-sizing: border-box;
-		height: 36px;
-		line-height: 36px;
+		/*height: 36px;
+		line-height: 36px;*/
 		margin-top: 20px;
 		font-size: 14px;
 	}
-	.cpt_item label , .oCfct_item label{
+	.cpt_item label , .oCfct_item label {
 		display: inline-block;
 		width: 94px;
 		font-size: 14px;
@@ -659,7 +683,9 @@
 		width: 260px;
 		height: 36px;
 	}
-
+	.cpt_item .errorInfo {
+		margin-left: 100px;
+	}
 	/* 组织者认证 */
 
 	.perset_organizersCfct  p {
@@ -675,7 +701,7 @@
 		font-size: 12px;
 		color: #fdb91a;
 	}
-	.oCfct_item .errorInfo i, .nickname_item .errorInfo i {
+	.oCfct_item .errorInfo i, .nickname_item .errorInfo i, .cpt_item .errorInfo i {
 		display: inline-block;
 		width: 12px;
 		height: 12px;
