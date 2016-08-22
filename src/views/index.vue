@@ -10,7 +10,7 @@
 		<div class="landing-box" style="margin-bottom:0;">
 			<h3>赛事推荐</h3>
 			<div class="landing-content f-cb">
-				<div class="match" v-for="match in recommendlists">
+				<div class="match" v-for="match in recommendlists" @click="linkDetailTo">
 					<div class="pic">
 						<img v-bind:src="'http://img.wangyuhudong.com'+match.poster" alt="" width="100%">
 						<div class="title"><i class="iconfont"></i><span class="f-col" v-text="match.createDate | formatDate"></span></div>
@@ -24,6 +24,7 @@
 						      <span class="orange" id="bar" v-bind:style="'width: '+match.num/match.maxNum*100+'%;'"><span></span></span>
 						    </div>
 						    <div>by {{match.nickname ? match.nickname : '网娱大师赛事组'}}<span class="f-col f-fr"><strong>{{match.num}}</strong>/{{match.maxNum}}</span></div>
+						    <span class="get_eventid">{{match.eventId}}</span><span class="get_roundid">{{match.id}}</span>
 						</div>
 					</div>			
 				</div>
@@ -125,7 +126,15 @@ import createPop from '../components/createPop.vue'
   				window.sessionStorage.setItem("eventId",_eventid);
   				window.sessionStorage.setItem("eventRoundId",_roundid);
   				this.$route.router.go({path: '/matchDetails'})
-			}
+			},
+			linkDetailTo:function(e){
+				var _target=$(e.currentTarget);
+  				var _eventid=_target.find(".get_eventid").text();
+  				var _roundid=_target.find(".get_roundid").text();
+  				window.sessionStorage.setItem("eventId",_eventid);
+  				window.sessionStorage.setItem("eventRoundId",_roundid);
+  				this.$route.router.go({path: '/matchDetails'})
+			},
 		},
 		events:{
 			

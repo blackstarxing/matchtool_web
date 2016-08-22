@@ -36,7 +36,7 @@
     </div>
   </div>
   <div class="m-mask">
-    <div class="m-pop">
+    <div class="m-pop" style="width:590px;">
       <div class="wrap f-cb">
         <table>
           <tbody>
@@ -46,20 +46,29 @@
                 <th>本轮进行时间</th>
             </tr>
             <tr v-for="turn in turnnums" class="turn-info">
-                <td><input type="text" class="u-c-ipt" name="matchname" placeholder="请输入赛事名称" style="width:150px;" v-model="turn.modelname" required=""></td>
-                <td>
-                  <input type="text" class="u-c-ipt f-fl turnbo" title="参赛人数" style="width: 100px;" required v-model="turn.modelbo" @input="numberChange">
-                  <div class="button_group">
-                    <button class="plus" @click="plus"></button>
-                    <button class="minus" @click="minus"></button>
-                  </div>
-                </td>
-                <td><input type="text" class="u-c-ipt form_datetime" name="activityBegin" title="赛事开始时间"  placeholder="请输入开赛时间" style="width:200px;" v-model="turn.modeltime" required></td>
+              <td class="turnid" style="display:none;">{{turn.modelturnid}}</td>
+              <td><input type="text" class="u-c-ipt turnname" name="matchname" placeholder="请输入赛事名称" style="width:150px;" v-model="turn.modelname" required=""></td>
+              <td>
+                <input type="text" class="u-c-ipt f-fl turnbo" title="参赛人数" style="width: 100px;" required v-model="turn.modelbo" @input="numberChange">
+                <div class="button_group">
+                  <button class="plus" @click="plus"></button>
+                  <button class="minus" @click="minus"></button>
+                </div>
+              </td>
+              <td>
+                <div class="g-c-timeipt">
+                  <input type="text" class="u-c-ipt set_begin" placeholder="请选择本轮进行时间" style="width:200px;">
+                  <label for="applyEnd" class="add-on"></label>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
-        <a href="javascript:void(0);" class="u-btn techpic-btn close-techpic" @click="closePop">放弃修改</a>
-        <a href="javascript:void(0);" class="u-btn techpic-btn" @click="saveTurn">保存修改</a>
+        <div class="turn-btns">
+          <a href="javascript:void(0);" class="u-btn techpic-btn close-techpic" style="color:#fff;" @click="closePop">放弃修改</a>
+          <a href="javascript:void(0);" class="u-btn techpic-btn" @click="saveTurn">保存修改</a>
+        </div>
+        
       </div>      
     </div>
   </div>
@@ -81,20 +90,6 @@
     },
     ready: function(){
       var _this=this;
-
-      $('.form_datetime').datetimepicker({
-        format:"Y-m-d H:i",      
-        yearStart:2000,     
-        yearEnd:2050, 
-        onShow:function(ct){
-          this.setOptions({
-                 minDate: true,
-                 minTime: true
-              })
-        },
-        step:10
-      });
-      $.datetimepicker.setLocale('ch');
 
       var parm={};
        parm.id=window.sessionStorage.getItem("eventId");
@@ -121,15 +116,19 @@
 
             $(".turn_num_list").width(290*turn);
              _this.$nextTick(function () {
-                 $('.set_begin').datetimepicker({
-                          format:"Y-m-d H:i", 
-                          timepicker:false,     
-                          yearStart:2000,     
-                          yearEnd:2050, 
-                          minDate:new Date(),
-                          step:30
-                          });
-                    $.datetimepicker.setLocale('ch');
+                $('.set_begin').datetimepicker({
+                  format:"Y-m-d H:i",      
+                  yearStart:2000,     
+                  yearEnd:2050, 
+                  onShow:function(ct){
+                    this.setOptions({
+                           minDate: true,
+                           minTime: true
+                        })
+                  },
+                  step:10
+                });
+                $.datetimepicker.setLocale('ch');
               })
             
             
@@ -666,57 +665,108 @@
         $('.m-mask').show();
       },
       closePop: function(e){
-          $('.m-mask').hide();
+        var _this=this;
+        var parm={};
+        parm.id=window.sessionStorage.getItem("eventId");
+        _this.$http.get('event/info',parm).then(function(response){
+          var turnid=response.data.object.turns;
+          _this.turnnums=[];
+          for(var i=0;i<turnid.length;i++){
+            _this.turnnums.push({num:i+1,modeltime:turnid[i].matchTimestr,modelbo:turnid[i].matchType,modelname:turnid[i].name,modelturnid:turnid[i].id});
+          }
+        },function(response) {
+            console.log(response);
+        });
+        $('.m-mask').hide();
+      },
+      saveTurn:function(e){
+        e.preventDefault();
+        var _this=this;
+        var turns=$('.turn-info');
+        var turnparm=[];
+        var roundId=window.sessionStorage.getItem("eventRoundId");
+        for(var i=0;i<turns.length;i++){
+          turnparm.push({id:turns.eq(i).find('.turnid').val(),name:turns.eq(i).find('.turnname').val(),matchType:turns.eq(i).find('.turnbo').val(),matchTime:turns.eq(i).find('.set_begin').val()});
+        }
+        var parmstr=JSON.stringify(turnparm);
+        var parm={};
+        parm.turnJson=parmstr;
+        _this.$http.get("event/round/turn/saveTurn",parm).then(function(response){
+          if(response.data.code){
+                _parent.find('.turn_set_detail').hide();
+                }else{
+                  layer.msg(response.data.msg,{offset:"0px"});
+                }
+          },function(response) {
+            console.log(response);
+        });
       },
       startGame: function(e){
+        var _this=this;
         e.preventDefault();
         var parm={};
         parm.jsonInfo=JSON.stringify({oetInfoId:window.sessionStorage.getItem("eventId"),oetRoundId:window.sessionStorage.getItem("eventRoundId")});
-        this.$http.get("event/start",parm).then(function(response){
-          if(response.data.code){
-            layer.msg(response.data.msg);
-          }else{
-            layer.msg(response.data.msg);
-          }
-        },function(response) {
-          console.log(response);
-        });
+        var nowTime = new Date().getTime();
+        var clickTime = $(_this).attr("ctime");
+        if( clickTime != 'undefined' && (nowTime - clickTime < 60000)){
+            layer.msg("操作过于频繁，稍后再试");
+            return false;
+        }else{
+          $(_this).attr("ctime",nowTime);
+          _this.$http.get("event/start",parm).then(function(response){
+            if(response.data.code){
+              layer.msg('比赛已开始');
+              window.location.reload();
+            }else{
+              layer.msg(response.data.msg);
+            }
+          },function(response) {
+            console.log(response);
+          });
+        }
+        
       },
       //参与人数控制
       numberChange: function(e){
-        if(this.formdata.maxNum==512){
-          $('.plus').attr('disabled',true);
-        }
-          if(this.formdata.maxNum>4){
-          $('.minus').attr('disabled',false);
-        }else{
+        e.stopPropagation();
+        var parent=$(e.currentTarget).parents('td');
+        var num=parent.find('.turnbo').val();
+        if(num<=1){
+          num=1;
+          parent.find('.turnbo').val(num);
           $('.minus').attr('disabled',true);
+        }else{
+          $('.minus').attr('disabled',false);
         }
-        },
-        plus: function(e){
-          var _this=this;
-          var num=_this.parents('td').find('.turnbo').value();
+      },
+      plus: function(e){
+        e.stopPropagation();
+        var parent=$(e.currentTarget).parents('td');
+        var num=parent.find('.turnbo').val();
         if(num==""){
           num=1;
         }
-            num=parseInt(num)+1;
-        $('#number').val(num);
+        num=parseInt(num)+1;
+        parent.find('.turnbo').val(num);
         if(num>0){
-          $('.minus').attr('disabled',false);
+          parent.find('.minus').attr('disabled',false);
         }
         if(num==512){
-          $('.plus').attr('disabled',true);
+          parent.find('.plus').attr('disabled',true);
         }
-        },
-        minus: function(e){
-            num=parseInt(num)-1;
-        $('#number').val(num); 
-        if(num<=4){
-          $('.minus').attr('disabled',true);
+      },
+      minus: function(e){
+        e.stopPropagation();
+        var parent=$(e.currentTarget).parents('td');
+        var num=parent.find('.turnbo').val();
+        num=parseInt(num)-1;
+        parent.find('.turnbo').val(num);
+        if(num<=1){
+          parent.find('.minus').attr('disabled',true);
         }else{
-          $('.minus').attr('disabled',false);
+          parent.find('.minus').attr('disabled',false);
         }
-        $('.plus').attr('disabled',false);  
+        parent.find('.plus').attr('disabled',false);  
       },
     },
   }
@@ -753,18 +803,32 @@
     color:#7892a9;
     height: 40px;
     text-align: center;
+    border-bottom:1px solid #2e2d3a;
+  }
+  .m-pop td,.m-pop th{
+    padding-left:25px;
+  }
+  .m-pop td{
+    padding-top: 10px;
   }
   .m-pop td input{
-    margin:10px 0;
+    margin:10px 0 0;
   }
   .m-pop td .button_group{
     margin-top:11px;
   }
   .m-pop .techpic-btn{
     float: left;
-    margin:0 25px;
+    margin:0 15px;
   }
   .m-pop .close-techpic{
     background: url(../../static/images/btn0.png) no-repeat;
+  }
+  .turn-info label.add-on{
+    top:20px;
+  }
+  .turn-btns{
+    width:460px;
+    margin:30px auto 0;
   }
 </style>
