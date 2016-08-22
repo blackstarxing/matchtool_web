@@ -6,7 +6,7 @@
 		</div>
 		<ul>
 			<li class="v-link-active" v-link="{ path: '/index'}"><span class="icon-uniE60C"></span>首页</li>
-			<li><span class="icon-uniE607"></span>申请认证<span class="icon-uniE60B f-fr"></span></li>
+			<li v-link="{ path: '/matchlist'}"><span class="icon-uniE607"></span>全部赛事<span class="icon-uniE60B f-fr"></span></li>
 			<li @click="showPop"><span class="icon-uniE60A"></span>创建赛事<span class="icon-uniE60B f-fr"></span></li>
 		</ul>
 	</div>

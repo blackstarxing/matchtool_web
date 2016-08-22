@@ -26,7 +26,7 @@
 							</div>
 							<div class="member-list" v-for="member in memberlist.list">
 								<ul>
-									<li class="column-2">{{$index+1}}</li>
+									<li v-bind:class="['column-2',member.isfill==1 ? 'isfill' : '']">{{$index+1}}</li>
 			                        <li class="memberName column-3">{{member.name}}</li>
 			                        <li class="column-2">
 			                        <section class="signed">
@@ -348,7 +348,7 @@
 				            console.log(response.data.msg);
 				        });
 			    	}else{
-			    		var parmstr=JSON.stringify({roundId:_this.roundId,nickname:$('.name').val(),name:$('.name').val()});
+			    		var parmstr=JSON.stringify({roundId:_this.roundId,name:$('.name').val(),nickname:$('.name').val()});
 				    	var parm={};
 				    	parm.memberJson=parmstr;
 			    		_this.$http.get('event/round/group/member/add',parm).then(function(response) {

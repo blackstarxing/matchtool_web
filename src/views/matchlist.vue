@@ -76,10 +76,11 @@ import createPop from '../components/createPop.vue'
 		},
 		methods:{
 			linkDetail:function(e){
-				e.preventDefault();
+				// e.preventDefault();
 				var _target=$(e.currentTarget);
-  				var _eventid=_target.parent().find(".get_eventid").text();
-  				var _roundid=_target.parent().find(".get_roundid").text();
+				console.log(_target);
+  				var _eventid=_target.find(".get_eventid").text();
+  				var _roundid=_target.find(".get_roundid").text();
   				window.sessionStorage.setItem("eventId",_eventid);
   				window.sessionStorage.setItem("eventRoundId",_roundid);
   				this.$route.router.go({path: '/matchDetails'})

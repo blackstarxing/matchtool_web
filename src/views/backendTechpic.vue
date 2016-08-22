@@ -2,7 +2,7 @@
   <div class="g-bd g-w">
     <div class="techpic-option">
       <a href="" class="techpic-edit" @click="editTechpic">编辑对阵图</a>
-      <a href="" class="techpic-start"><span class="icon-uniE62A"></span>开始比赛</a>
+      <a href="" class="techpic-start" @click="startGame"><span class="icon-uniE62A"></span>开始比赛</a>
     </div>
     <div class="against_container">
       <p class="against_title">
@@ -45,43 +45,21 @@
                 <th>Best of</th>
                 <th>本轮进行时间</th>
             </tr>
-            <tr>
-                <td><input type="text" class="u-c-ipt" name="matchname" placeholder="请输入赛事名称" style="width:150px;" v-model="formdata.name" required=""></td>
+            <tr v-for="turn in turnnums" class="turn-info">
+                <td><input type="text" class="u-c-ipt" name="matchname" placeholder="请输入赛事名称" style="width:150px;" v-model="turn.modelname" required=""></td>
                 <td>
-                  <input type="text" id="personnum" class="u-c-ipt f-fl" title="参赛人数" style="width: 100px;" required placeholder="请输入参与人数上限"  v-model="formdata.maxNum" @input="numberChange" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
+                  <input type="text" class="u-c-ipt f-fl turnbo" title="参赛人数" style="width: 100px;" required v-model="turn.modelbo" @input="numberChange">
                   <div class="button_group">
                     <button class="plus" @click="plus"></button>
                     <button class="minus" @click="minus"></button>
                   </div>
                 </td>
-                <td><input type="text" class="u-c-ipt form_datetime" name="activityBegin" title="赛事开始时间" id="activityBegin" placeholder="请输入开赛时间" style="width:200px;" v-model="formdata.activityBegin" required></td>
-            </tr>
-            <tr>
-                <td><input type="text" class="u-c-ipt" name="matchname" placeholder="请输入赛事名称" style="width:150px;" v-model="formdata.name" required=""></td>
-                <td>
-                  <input type="text" id="personnum" class="u-c-ipt f-fl" title="参赛人数" style="width: 100px;" required placeholder="请输入参与人数上限"  v-model="formdata.maxNum" @input="numberChange" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
-                  <div class="button_group">
-                    <button class="plus" @click="plus"></button>
-                    <button class="minus" @click="minus"></button>
-                  </div>
-                </td>
-                <td><input type="text" class="u-c-ipt form_datetime" name="activityBegin" title="赛事开始时间" id="activityBegin" placeholder="请输入开赛时间" style="width:200px;" v-model="formdata.activityBegin" required></td>
-            </tr>
-            <tr>
-                <td><input type="text" class="u-c-ipt" name="matchname" placeholder="请输入赛事名称" style="width:150px;" v-model="formdata.name" required=""></td>
-                <td>
-                  <input type="text" id="personnum" class="u-c-ipt f-fl" title="参赛人数" style="width: 100px;" required placeholder="请输入参与人数上限"  v-model="formdata.maxNum" @input="numberChange" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
-                  <div class="button_group">
-                    <button class="plus" @click="plus"></button>
-                    <button class="minus" @click="minus"></button>
-                  </div>
-                </td>
-                <td><input type="text" class="u-c-ipt form_datetime" name="activityBegin" title="赛事开始时间" id="activityBegin" placeholder="请输入开赛时间" style="width:200px;" v-model="formdata.activityBegin" required></td>
+                <td><input type="text" class="u-c-ipt form_datetime" name="activityBegin" title="赛事开始时间"  placeholder="请输入开赛时间" style="width:200px;" v-model="turn.modeltime" required></td>
             </tr>
           </tbody>
         </table>
-        <a href="javascript:void(0);" class="u-btn techpic-btn close-techpic" @click="setMember">放弃修改</a>
-        <a href="javascript:void(0);" class="u-btn techpic-btn" @click="setMember">保存修改</a>
+        <a href="javascript:void(0);" class="u-btn techpic-btn close-techpic" @click="closePop">放弃修改</a>
+        <a href="javascript:void(0);" class="u-btn techpic-btn" @click="saveTurn">保存修改</a>
       </div>      
     </div>
   </div>
@@ -103,6 +81,21 @@
     },
     ready: function(){
       var _this=this;
+
+      $('.form_datetime').datetimepicker({
+        format:"Y-m-d H:i",      
+        yearStart:2000,     
+        yearEnd:2050, 
+        onShow:function(ct){
+          this.setOptions({
+                 minDate: true,
+                 minTime: true
+              })
+        },
+        step:10
+      });
+      $.datetimepicker.setLocale('ch');
+
       var parm={};
        parm.id=window.sessionStorage.getItem("eventId");
        _this.$http.get('event/info',parm).then(function(response){
@@ -674,6 +667,56 @@
       },
       closePop: function(e){
           $('.m-mask').hide();
+      },
+      startGame: function(e){
+        e.preventDefault();
+        var parm={};
+        parm.jsonInfo=JSON.stringify({oetInfoId:window.sessionStorage.getItem("eventId"),oetRoundId:window.sessionStorage.getItem("eventRoundId")});
+        this.$http.get("event/start",parm).then(function(response){
+          if(response.data.code){
+            layer.msg(response.data.msg);
+          }else{
+            layer.msg(response.data.msg);
+          }
+        },function(response) {
+          console.log(response);
+        });
+      },
+      //参与人数控制
+      numberChange: function(e){
+        if(this.formdata.maxNum==512){
+          $('.plus').attr('disabled',true);
+        }
+          if(this.formdata.maxNum>4){
+          $('.minus').attr('disabled',false);
+        }else{
+          $('.minus').attr('disabled',true);
+        }
+        },
+        plus: function(e){
+          var _this=this;
+          var num=_this.parents('td').find('.turnbo').value();
+        if(num==""){
+          num=1;
+        }
+            num=parseInt(num)+1;
+        $('#number').val(num);
+        if(num>0){
+          $('.minus').attr('disabled',false);
+        }
+        if(num==512){
+          $('.plus').attr('disabled',true);
+        }
+        },
+        minus: function(e){
+            num=parseInt(num)-1;
+        $('#number').val(num); 
+        if(num<=4){
+          $('.minus').attr('disabled',true);
+        }else{
+          $('.minus').attr('disabled',false);
+        }
+        $('.plus').attr('disabled',false);  
       },
     },
   }
