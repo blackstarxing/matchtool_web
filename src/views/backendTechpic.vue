@@ -1,6 +1,4 @@
 <template>
-  <backend-head></backend-head>
-  <backend-sidebar></backend-sidebar>
   <div class="g-bd g-w">
     <div class="techpic-option">
       <a href="" class="techpic-edit" @click="editTechpic">编辑对阵图</a>
@@ -70,8 +68,6 @@
 
 <script>
 
-import backendHead from '../components/backendHead.vue'
-import backendSidebar from '../components/backendSidebar.vue'
   export default {
     data () {
       return {
@@ -723,11 +719,6 @@ import backendSidebar from '../components/backendSidebar.vue'
         $('.plus').attr('disabled',false);  
       },
     },
-   components: {
-      backendHead,
-      backendSidebar
-           
-    }
   }
 </script>
 <style type="text/css">
