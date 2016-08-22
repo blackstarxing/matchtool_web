@@ -44,7 +44,7 @@
           </div>
       </div>
   </div>
-
+</div>
   <div class="m-mask m_turn">
     <div class="m-pop" style="width:590px;">
       <div class="wrap f-cb">
@@ -812,7 +812,7 @@
 
             })
              
-             $(".made_winer").on('click',function(){
+            $(".made_winer").on('click',function(){
               $(".made_winer").removeClass("winer_active");
               $(this).addClass("winer_active");
              })
@@ -853,28 +853,34 @@
         });
         $('.m-mask').hide();
       },
-      beginTech:function(){
-          var _this=this;
-          var beginparm={};
-          beginparm.oetInfoId=window.sessionStorage.getItem("eventId");
-          beginparm.oetRoundId=window.sessionStorage.getItem("eventRoundId");
-          var parmstr=JSON.stringify(beginparm);
-          var parm={};
-          parm.jsonInfo=parmstr;
-        _this.$http.get('event/start',parm).then(function(response){
-          if(response.data.code){
-            window.location.reload();
-            $('.before_tech').hide();
-            $('.begining_tech').show();
-            $(".tech_range_detail").width(0);
-            $(".tech_range_num").text("0%");
-          }else{
-            layer.msg(response.data.msg,{offset:"0px"});
-          }
-        },function(response) {
-              console.log(response);
+      beginTech:function(e){
+        var _this=this;
+        e.preventDefault();
+        var parm={};
+        parm.jsonInfo=JSON.stringify({oetInfoId:window.sessionStorage.getItem("eventId"),oetRoundId:window.sessionStorage.getItem("eventRoundId")});
+        var nowTime = new Date().getTime();
+        var clickTime = $(_this).attr("ctime");
+        if( clickTime != 'undefined' && (nowTime - clickTime < 60000)){
+            layer.msg("操作过于频繁，稍后再试");
+            return false;
+        }else{
+          $(_this).attr("ctime",nowTime);
+          _this.$http.get("event/start",parm).then(function(response){
+            if(response.data.code){
+              layer.msg('比赛已开始');
+              window.location.reload();
+              $('.before_tech').hide();
+              $('.begining_tech').show();
+              $(".tech_range_detail").width(0);
+              $(".tech_range_num").text("0%");
+            }else{
+              layer.msg(response.data.msg);
+            }
+          },function(response) {
+            console.log(response);
           });
-
+        }
+      },
       saveTurn:function(e){
         e.preventDefault();
         var _this=this;
@@ -914,15 +920,41 @@
             if(response.data.code){
               layer.msg('比赛已开始');
               window.location.reload();
+              $('.before_tech').hide();
+              $('.begining_tech').show();
+              $(".tech_range_detail").width(0);
+              $(".tech_range_num").text("0%");
             }else{
               layer.msg(response.data.msg);
             }
           },function(response) {
             console.log(response);
           });
-        }
-        
+        } 
       },
+      saveTurn:function(e){
+        e.preventDefault();
+        var _this=this;
+        var turns=$('.turn-info');
+        var turnparm=[];
+        var roundId=window.sessionStorage.getItem("eventRoundId");
+        for(var i=0;i<turns.length;i++){
+          turnparm.push({id:turns.eq(i).find('.turnid').val(),name:turns.eq(i).find('.turnname').val(),matchType:turns.eq(i).find('.turnbo').val(),matchTime:turns.eq(i).find('.set_begin').val()});
+        }
+        var parmstr=JSON.stringify(turnparm);
+        var parm={};
+        parm.turnJson=parmstr;
+        _this.$http.get("event/round/turn/saveTurn",parm).then(function(response){
+          if(response.data.code){
+                _parent.find('.turn_set_detail').hide();
+                }else{
+                  layer.msg(response.data.msg,{offset:"0px"});
+                }
+          },function(response) {
+            console.log(response);
+        });
+      },
+      
       //参与人数控制
       numberChange: function(e){
         e.stopPropagation();
@@ -984,27 +1016,27 @@
         scoreparm.groupid=_this.groupid.groupId;
         scoreparm.bs=scorep;
 
-      var parmstr=JSON.stringify(scoreparm);
-      var parm={};
-      parm.scores=parmstr;
-      console.log(parm);
-      if($('.made_winer').hasClass('winer_active')){
-        parm.seatId=$(".winer_active").find('span').text();
-      }
+        var parmstr=JSON.stringify(scoreparm);
+        var parm={};
+        parm.scores=parmstr;
+        console.log(parm);
+        if($('.made_winer').hasClass('winer_active')){
+          parm.seatId=$(".winer_active").find('span').text();
+        }
 
-    _this.$http.get('event/round/turn/saveScoreAndWin',parm).then(function(response){
-      console.log(response);
-        if(response.data.code){
-           $(".m_edit").hide();
-           window.location.reload();
-        }else{
-            layer.msg(response.data.msg,{offset:"0px"});
+        _this.$http.get('event/round/turn/saveScoreAndWin',parm).then(function(response){
+          console.log(response);
+          if(response.data.code){
+             $(".m_edit").hide();
+             window.location.reload();
+          }else{
+              layer.msg(response.data.msg,{offset:"0px"});
           }
-      },function(response) {
-              console.log(22);
-          });
-      },
-    },
+        },function(response) {
+          console.log(22);
+        });
+      }
+    }
   }
 </script>
 <style type="text/css">
