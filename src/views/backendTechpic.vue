@@ -853,7 +853,6 @@
         });
         $('.m-mask').hide();
       },
-<<<<<<< HEAD
       beginTech:function(){
           var _this=this;
           var beginparm={};
@@ -875,7 +874,7 @@
         },function(response) {
               console.log(response);
           });
-=======
+
       saveTurn:function(e){
         e.preventDefault();
         var _this=this;
@@ -897,7 +896,6 @@
           },function(response) {
             console.log(response);
         });
->>>>>>> 91f6b539a4c72bdc4d1fe65a4560407d6c56dec6
       },
       startGame: function(e){
         var _this=this;
