@@ -52,7 +52,7 @@
               </td>
               <td>
                 <div class="g-c-timeipt">
-                  <input type="text" class="u-c-ipt set_begin" placeholder="请选择本轮进行时间" style="width:200px;">
+                  <input type="text" class="u-c-ipt set_begin" placeholder="请选择本轮进行时间" style="width:200px;" v-model="turn.modeltime">
                   <label for="applyEnd" class="add-on"></label>
                 </div>
               </td>
@@ -703,14 +703,15 @@
         var turnparm=[];
         var roundId=window.sessionStorage.getItem("eventRoundId");
         for(var i=0;i<turns.length;i++){
-          turnparm.push({id:turns.eq(i).find('.turnid').val(),name:turns.eq(i).find('.turnname').val(),matchType:turns.eq(i).find('.turnbo').val(),matchTime:turns.eq(i).find('.set_begin').val()});
+          turnparm.push({id:turns.eq(i).find('.turnid').text(),name:turns.eq(i).find('.turnname').val(),matchType:turns.eq(i).find('.turnbo').val(),matchTimeStr:turns.eq(i).find('.set_begin').val()});
         }
         var parmstr=JSON.stringify(turnparm);
         var parm={};
-        parm.turnJson=parmstr;
-        _this.$http.get("event/round/turn/saveTurn",parm).then(function(response){
+        parm.jsonArray=parmstr;
+        _this.$http.get("event/turn/batchUpdate",parm).then(function(response){
           if(response.data.code){
-                _parent.find('.turn_set_detail').hide();
+                layer.msg(response.data.msg,{offset:"0px"});
+                window.location.reload();
                 }else{
                   layer.msg(response.data.msg,{offset:"0px"});
                 }
