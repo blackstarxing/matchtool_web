@@ -44,7 +44,7 @@
           </div>
       </div>
   </div>
-
+</div>
   <div class="m-mask m_turn">
     <div class="m-pop" style="width:590px;">
       <div class="wrap f-cb">
@@ -853,28 +853,62 @@
         });
         $('.m-mask').hide();
       },
-      beginTech:function(){
+      beginTech:function(e){
           var _this=this;
-          var beginparm={};
-          beginparm.oetInfoId=window.sessionStorage.getItem("eventId");
-          beginparm.oetRoundId=window.sessionStorage.getItem("eventRoundId");
-          var parmstr=JSON.stringify(beginparm);
+          e.preventDefault();
           var parm={};
-          parm.jsonInfo=parmstr;
-        _this.$http.get('event/start',parm).then(function(response){
-          if(response.data.code){
-            window.location.reload();
-            $('.before_tech').hide();
-            $('.begining_tech').show();
-            $(".tech_range_detail").width(0);
-            $(".tech_range_num").text("0%");
+          parm.jsonInfo=JSON.stringify({oetInfoId:window.sessionStorage.getItem("eventId"),oetRoundId:window.sessionStorage.getItem("eventRoundId")});
+          var nowTime = new Date().getTime();
+          var clickTime = $(_this).attr("ctime");
+          if( clickTime != 'undefined' && (nowTime - clickTime < 60000)){
+              layer.msg("操作过于频繁，稍后再试");
+              return false;
           }else{
-            layer.msg(response.data.msg,{offset:"0px"});
-          }
-        },function(response) {
+            $(_this).attr("ctime",nowTime);
+            _this.$http.get("event/start",parm).then(function(response){
+              if(response.data.code){
+                layer.msg('比赛已开始');
+                window.location.reload();
+                $('.before_tech').hide();
+                $('.begining_tech').show();
+                $(".tech_range_detail").width(0);
+                $(".tech_range_num").text("0%");
+              }else{
+                layer.msg(response.data.msg);
+              }
+            },function(response) {
               console.log(response);
+            });
+          } 
+      },
+      startGame: function(e){
+        var _this=this;
+        e.preventDefault();
+        var parm={};
+        parm.jsonInfo=JSON.stringify({oetInfoId:window.sessionStorage.getItem("eventId"),oetRoundId:window.sessionStorage.getItem("eventRoundId")});
+        var nowTime = new Date().getTime();
+        var clickTime = $(_this).attr("ctime");
+        if( clickTime != 'undefined' && (nowTime - clickTime < 60000)){
+            layer.msg("操作过于频繁，稍后再试");
+            return false;
+        }else{
+          $(_this).attr("ctime",nowTime);
+          _this.$http.get("event/start",parm).then(function(response){
+            if(response.data.code){
+              layer.msg('比赛已开始');
+              window.location.reload();
+              $('.before_tech').hide();
+              $('.begining_tech').show();
+              $(".tech_range_detail").width(0);
+              $(".tech_range_num").text("0%");
+            }else{
+              layer.msg(response.data.msg);
+            }
+          },function(response) {
+            console.log(response);
           });
-
+        } 
+      },
       saveTurn:function(e){
         e.preventDefault();
         var _this=this;
@@ -897,31 +931,7 @@
             console.log(response);
         });
       },
-      startGame: function(e){
-        var _this=this;
-        e.preventDefault();
-        var parm={};
-        parm.jsonInfo=JSON.stringify({oetInfoId:window.sessionStorage.getItem("eventId"),oetRoundId:window.sessionStorage.getItem("eventRoundId")});
-        var nowTime = new Date().getTime();
-        var clickTime = $(_this).attr("ctime");
-        if( clickTime != 'undefined' && (nowTime - clickTime < 60000)){
-            layer.msg("操作过于频繁，稍后再试");
-            return false;
-        }else{
-          $(_this).attr("ctime",nowTime);
-          _this.$http.get("event/start",parm).then(function(response){
-            if(response.data.code){
-              layer.msg('比赛已开始');
-              window.location.reload();
-            }else{
-              layer.msg(response.data.msg);
-            }
-          },function(response) {
-            console.log(response);
-          });
-        }
-        
-      },
+      
       //参与人数控制
       numberChange: function(e){
         e.stopPropagation();
