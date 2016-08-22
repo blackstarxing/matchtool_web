@@ -20,6 +20,7 @@ import landRegister from './views/landRegister.vue'
 import matchDetails from './views/matchDetails.vue'
 import perSetting from './views/perSetting.vue'
 import myMatch from './views/myMatch.vue'
+import myMessage from './views/myMessage.vue'
 import myclan from './views/clan/myclan.vue'
 import clandetails from './views/clan/clandetails.vue'
 import createclan from './views/clan/createclan.vue'
@@ -81,6 +82,9 @@ router.map({
     },
     '/myMatch': {
         component: myMatch
+    },
+    '/myMessage': {
+        component: myMessage
     },
     '/myclan': {
         component: myclan
