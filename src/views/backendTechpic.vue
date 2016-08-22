@@ -217,7 +217,6 @@
         _this.second=response.data.object.secondName;
       }
 
-<<<<<<< HEAD
       },function(response) {
               console.log(22);
           });
@@ -235,8 +234,6 @@
       });
       $.datetimepicker.setLocale('ch');
 
-=======
->>>>>>> 91f6b539a4c72bdc4d1fe65a4560407d6c56dec6
       var parm={};
        parm.id=window.sessionStorage.getItem("eventId");
        _this.$http.get('event/info',parm).then(function(response){
