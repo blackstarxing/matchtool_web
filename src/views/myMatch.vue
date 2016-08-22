@@ -5,19 +5,19 @@
 	<create-pop></create-pop>
 	<div class="perCenter_wrap myMatch">
 		<h2 class="perCenter_title">我的赛事</h2>
-		<div class="myMatch_body">
-			<div class="myMatch_head">
-				<ul class="myMatch_head_tabList">
+		<div class="perCenter_body">
+			<div class="perCenter_head">
+				<ul class="perCenter_head_tabList">
 					<li v-for="item in tabList" v-text="item.name" :class="{ tab_active: item.isCur }" @click="changeTab($index)">我组织的</li>
 					<!-- <li>我参与的</li> -->
 				</ul>
 			</div>
-			<div class="myMatch_content">
+			<div class="perCenter_content">
 				<ul class="matchList">
 					<li class="matchList_item clearfix" v-for="item in eventShowList">
 						<img src="../../static/images/jlimg.png"" alt="">
-						<div class="matchInfo">
-							<h3 class="match_name" v-text="item.name"></h3>
+						<div class="textInfo">
+							<h3 class="info_name" v-text="item.name"></h3>
 							<ul class="match_otherInfo">
 								<li>
 									<span>主办方：</span><span>网娱大师官方赛事组</span>
@@ -34,7 +34,7 @@
 								</li>
 							</ul>
 						</div>
-						<div class="matchTimeInfo">
+						<div class="timeInfo">
 							<p class="createtime">2012.8.10 12:30 创建</p>
 							<div class="statusBox">未发布</div>
 						</div>
@@ -196,12 +196,12 @@
 					this.tabList[0].isCur = true
 					this.tabList[1].isCur = false
 					// 设置列表为我组织的赛事
-					alert('ZZ')
+					// alert('ZZ')
 					this.eventShowList = this.ZZEventList
 				} else {
 					this.tabList[1].isCur = true
 					this.tabList[0].isCur = false
-					alert('CY')
+					// alert('CY')
 					// 仅第一次切换tab进来查询我参与的赛事列表，以后就不查询了
 					if (!this.CYEventListFlag) {
 						this.CYEventListFlag = true
@@ -215,19 +215,19 @@
 	}
 </script>
 <style>
-	.myMatch {
+	.myMatch, .myMessage {
 		width: 1020px;
 	}
-	.myMatch_body {
+	.perCenter_body {
 		background-color: #171a21;
 	}
-	.myMatch_head_tabList {
+	.perCenter_head_tabList {
 		width: 100%;
 		height: 50px;
 		line-height: 50px;
 		border-bottom: 1px solid #2a3946;
 	}
-	.myMatch_head_tabList li {
+	.perCenter_head_tabList li {
 		display: inline-block;
 		width: 80px;
 		height: 46px;
@@ -238,7 +238,7 @@
 		color: #fff;
 		cursor: pointer;
 	}
-	.matchList_item {
+	.matchList_item, .messageList_item {
 		width: 940px;
 		font-size: 12px;
 		color: #7a8387;
@@ -251,11 +251,11 @@
 		width: 200px;
 		height: 90px;
 	}
-	.matchInfo {
+	.textInfo {
 		float: left;
 		margin-left: 12px;
 	}
-	.matchInfo h3 {
+	.textInfo h3 {
 		font-size: 18px;
 		color: #f2f6f9;
 		line-height: 1;
@@ -264,7 +264,7 @@
 		margin-top: 14px;
 		line-height: 1;
 	}
-	.matchTimeInfo {
+	.timeInfo {
 		float: right;
 		text-align: right;
 	}
