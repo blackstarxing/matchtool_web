@@ -2301,14 +2301,7 @@ label.u-c-kz-sz{
   margin-top: 15px;
 }
 .start_text{
-  position: absolute;
-  width: 200px;
-  height: 40px;
-  left: 0;
-  top: 0;
-  text-align: center;
-  line-height: 40px;
-  font-size: 16px;
+  cursor: pointer;
 }
 .sponsor{
   font-size: 12px;
@@ -2437,7 +2430,7 @@ label.u-c-kz-sz{
   width: 0;
   height: 0;
 }
-/*.edit_score{
+.edit_score{
   position: absolute;
   top:-65px;
   width:30px;
@@ -2445,7 +2438,7 @@ label.u-c-kz-sz{
   left: 170px;
   background: url(../../static/images/edit.png) no-repeat 6px 16px #53585d;
   cursor: pointer;
-}*/
+}
 .float_edit{
   position: absolute;
   width: 180px;
@@ -2456,6 +2449,7 @@ label.u-c-kz-sz{
   opacity: 0.8;
   display: none;
   z-index: 999;
+  color: #fff;
 }
 .float_edit li{
   float: left;
@@ -2654,5 +2648,49 @@ label.u-c-kz-sz{
 	margin-left: 35px;
 	width: 130px;
 }
-
-
+.techpic-edit{
+	float: left;
+	width: 200px;
+	height: 50px;
+	background-color: #42aa53;
+	color: #fff;
+	font-size: 16px;
+	line-height: 50px;
+	text-align: center;
+	border-radius: 3px;
+	margin-right: 30px;
+}
+.tech_right_staus{
+	float: left;
+	width: 200px;
+	height: 50px;
+	background-color: #fdb91a;
+	color: #000;
+	font-size: 16px;
+	line-height: 50px;
+	text-align: center;
+	border-radius: 3px;
+}
+.begining_tech{
+	float: left;
+}
+.m_edit,.m_check{
+	color: #fff;
+}
+.edit_detail_input{
+	background-color: #1c1e22;
+	border: 1px solid #333;
+	color: #fff;
+	text-indent: 5px;
+}
+.made_winer{
+  height: 30px;
+  background: url(../../static/images/lose.png) no-repeat center;
+  cursor: pointer;
+}
+.winer_active{
+  background: url(../../static/images/winer.png) no-repeat center !important;
+}
+.add_winer{
+  background-color: #f9a32a;
+}
