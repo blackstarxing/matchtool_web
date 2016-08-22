@@ -8,89 +8,27 @@
 			<img src="../../static/images/landing.jpg" alt="">
 		</div>
 		<div class="landing-box">
-			<h3>最新赛事</h3>
+			<h3>推荐赛事</h3>
 			<div class="landing-content f-cb">
-				<div class="match">
+				<div class="match" v-for="match in recommendlists" @click="linkDetail">
 					<div class="pic">
-						<img src="http://img.wangyuhudong.com///uploads/2016/08/01/7ce9d883e8fb400eb95dfe9115055c54.jpg" alt="" width="100%">
-						<div class="title"><i class="iconfont"></i><span class="f-col">2016.08.06 18:00</span></div>
+						<img v-bind:src="'http://img.wangyuhudong.com'+match.poster" alt="" width="100%">
+						<div class="title"><i class="iconfont"></i><span class="f-col" v-text="match.createDate | formatDate"></span></div>
 					</div>
 					<div class="match-progress">
 						<div class="match-name">
-							【英雄联盟】八月福利SOLO赛 死歌VS维鲁斯
+							{{match.eventName}}
 						</div>
 						<div class="list mid">
 							<div class="progress">
-						      <span class="orange" id="bar" style="width: 73.4375%;"><span></span></span>
+						      <span class="orange" id="bar" v-bind:style="'width: '+match.num/match.maxNum*100+'%;'"><span></span></span>
 						    </div>
-						    <div>by 网娱大师官方赛事组<span class="f-col f-fr"><strong>47</strong>/64</span></div>
-						</div>
-					</div>			
-				</div>
-				<div class="match" style="margin:0 2%;">
-					<div class="pic">
-						<img src="http://img.wangyuhudong.com///uploads/2016/08/01/7ce9d883e8fb400eb95dfe9115055c54.jpg" alt="" width="100%">
-						<div class="title"><i class="iconfont"></i><span class="f-col">2016.08.06 18:00</span></div>
-					</div>
-					<div class="match-progress">
-						<div class="match-name">
-							【英雄联盟】八月福利SOLO赛 死歌VS维鲁斯
-						</div>
-						<div class="list mid">
-							<div class="progress">
-						      <span class="orange" id="bar" style="width: 73.4375%;"><span></span></span>
-						    </div>
-						    <div>by 网娱大师官方赛事组<span class="f-col f-fr"><strong>47</strong>/64</span></div>
-						</div>
-					</div>			
-				</div>
-				<div class="match">
-					<div class="pic">
-						<img src="http://img.wangyuhudong.com///uploads/2016/08/01/7ce9d883e8fb400eb95dfe9115055c54.jpg" alt="" width="100%">
-						<div class="title"><i class="iconfont"></i><span class="f-col">2016.08.06 18:00</span></div>
-					</div>
-					<div class="match-progress">
-						<div class="match-name">
-							【英雄联盟】八月福利SOLO赛 死歌VS
-						</div>
-						<div class="list mid">
-							<div class="progress">
-						      <span class="orange" id="bar" style="width: 73.4375%;"><span></span></span>
-						    </div>
-						    <div>by 网娱大师官方赛事组<span class="f-col f-fr"><strong>47</strong>/64</span></div>
+						    <div>by {{match.nickname ? match.nickname : '网娱大师赛事组'}}<span class="f-col f-fr"><strong>{{match.num}}</strong>/{{match.maxNum}}</span></div>
+						    <span class="get_eventid">{{match.eventId}}</span><span class="get_roundid">{{match.id}}</span>
 						</div>
 					</div>			
 				</div>
 			</div>
-		</div>
-		<div class="landing-box">
-			<div class="landing-content f-cb">
-				<div class="m-organize">
-					<img src="../../static/images/organize1.png">
-					<h3>多元化赛制模板</h3>
-					<p>高效便捷</p>
-					<p>一键生成赛事</p>
-				</div>
-				<div class="m-organize">
-					<img src="../../static/images/organize2.png">
-					<h3>赛事进程管理</h3>
-					<p>透明比赛进程</p>
-					<p>记录每个场次每局比分</p>
-				</div>
-				<div class="m-organize">
-					<img src="../../static/images/organize3.png">
-					<h3>报名自动化管理</h3>
-					<p>选手自主报名</p>
-					<p>告别QQ群收集记录的繁琐</p>
-				</div>
-				<div class="m-organize">
-					<img src="../../static/images/organize4.png">
-					<h3>个性化赛事主页</h3>
-					<p>打造品牌</p>
-					<p>沉淀每一场赛事</p>
-				</div>
-			</div>
-			<a href="" class="u-btn u-landing-btn" v-link="{ path: '/landRegister'}">申请成为赛事组织者</a>
 		</div>
 		<div class="landing-box">
 			<div class="landing-content f-cb">
@@ -131,7 +69,7 @@ import createPop from '../components/createPop.vue'
 	export default {
 		data () {
 			return{
-				
+				recommendlists:""
 			}
 		},
 		components:{
@@ -141,10 +79,29 @@ import createPop from '../components/createPop.vue'
 	        createPop
 		},
 		ready:function(){
-
+			var _this=this;
+			var parm={};
+			parm.jsonInfo=JSON.stringify({pageNumber:1});
+	        _this.$http.get('event/getRecommendEventRoundList',parm).then(function(response) {
+	        	if(response.data.code == 1){
+	        		_this.recommendlists=response.data.object.pager.list.slice(0,3);
+	        	}else{
+	        		_this.$route.router.go({path: '/landingpage'}); 
+	        	}
+	        },function(response) {
+	            console.log(response);
+	        });
 		},
 		methods:{
-			
+			linkDetail:function(e){
+				// e.preventDefault();
+				var _target=$(e.currentTarget);
+  				var _eventid=_target.find(".get_eventid").text();
+  				var _roundid=_target.find(".get_roundid").text();
+  				window.sessionStorage.setItem("eventId",_eventid);
+  				window.sessionStorage.setItem("eventRoundId",_roundid);
+  				this.$route.router.go({path: '/matchDetails'})
+			}
 		},
 		events:{
 			

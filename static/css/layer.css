@@ -629,7 +629,7 @@ html #layui_layer_skinlayercss
 .layui-layer-dialog .layui-layer-content
 {
 	position: relative;
-	padding: 20px;
+	padding: 18px;
 	line-height: 24px;
 	word-break: break-all;
 	overflow: hidden;
@@ -700,17 +700,22 @@ html #layui_layer_skinlayercss
 .layui-layer-hui
 {
 	min-width: 100px;
+	height: 60px;
+	line-height: 60px;
+	box-sizing: border-box;
 	background-color: #000;
 	filter: alpha(opacity=60);
 	/*background-color: rgba(0,0,0,.6);*/
-	background-color:rgba(249, 163, 42, 0.6);
-	color: #fff;
-	border: none
+	background-color:rgba(23, 26, 33, 0.9);
+	box-shadow: 0 0 6px 2px rgba(0,0,0,0.8);
+	color: #fdba33;
+	border:1px solid #2f3646;
 }
 
 .layui-layer-hui .layui-layer-content
 {
-	padding: 12px 25px;
+	/*padding: 12px 25px;*/
+	color:#fdba33;
 	text-align: center
 }
 
