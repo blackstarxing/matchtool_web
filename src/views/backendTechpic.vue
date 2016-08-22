@@ -1,6 +1,4 @@
 <template>
-  <backend-head></backend-head>
-  <backend-sidebar></backend-sidebar>
   <div class="g-bd g-w">
     <div class="techpic-option">
       <a href="" class="techpic-edit" @click="editTechpic">编辑对阵图</a>
@@ -92,8 +90,6 @@
 
 <script>
 
-import backendHead from '../components/backendHead.vue'
-import backendSidebar from '../components/backendSidebar.vue'
   export default {
     data () {
       return {
@@ -661,7 +657,7 @@ import backendSidebar from '../components/backendSidebar.vue'
     methods:{
       randomPic:function(){
         var parm={};
-        parm.eventId=window.sessionStorage.getItem("eventid");
+        parm.eventId=window.sessionStorage.getItem("eventId");
         this.$http.get("event/round/groupSeat/random",parm).then(function(response){
           if(response.data.code){
             window.location.reload();
@@ -680,11 +676,6 @@ import backendSidebar from '../components/backendSidebar.vue'
           $('.m-mask').hide();
       },
     },
-   components: {
-      backendHead,
-      backendSidebar
-           
-    }
   }
 </script>
 <style type="text/css">
