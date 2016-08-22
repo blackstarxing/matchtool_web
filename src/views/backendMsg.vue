@@ -51,7 +51,7 @@
 					<p class="g-c-l mt40">赛事模式</p>
 					<div class="g-c-zbf">
 					    <div class="f-fl g-c-ms">
-							<input type="radio" id="online" name="matchitem" class="regular-radio" checked="checked" value="1" v-model="formdata.mode"/>
+							<input type="radio" id="online" name="matchitem" class="regular-radio" v-bind:checked="formdata.mode==1" value="1" v-model="formdata.mode"/>
 							<label for="online"></label>
 							<label for="online" class="u-c-per">		
 								<span class="f-fl">
@@ -60,7 +60,7 @@
 							</label>
 						</div>
 						<div class="f-fl g-c-ms">
-							<input type="radio" id="offline" name="matchitem" class="regular-radio" value="2" v-model="formdata.mode"/>
+							<input type="radio" id="offline" name="matchitem" class="regular-radio" v-bind:checked="formdata.mode==2" value="2" v-model="formdata.mode"/>
 							<label for="offline"></label>
 							<label for="offline" class="u-c-per">		
 								<span class="f-fl">
@@ -69,7 +69,7 @@
 							</label>
 						</div>
 						<div class="f-fl h36">
-							<input type="radio" id="unite" name="matchitem" class="regular-radio" value="3" v-model="formdata.mode"/>
+							<input type="radio" id="unite" name="matchitem" class="regular-radio" v-bind:checked="formdata.mode==3" value="3" v-model="formdata.mode"/>
 							<label for="unite"></label>
 							<label for="unite" class="u-c-per">		
 								<span class="f-fl">
@@ -212,9 +212,9 @@
 						</div>
 						<p class="g-c-l mt40">签到时间</p>
 						<div class="g-c-qd">
-							<input type="checkbox" id="signtime" class="regular-checkboxs" name="" v-model="formdata.needSign" v-bind:true-value="1" v-bind:false-value="0" disabled/>
+							<input type="checkbox" id="signtime" class="regular-checkboxs" name="" v-model="formdata.needSign" v-bind:true-value="1" v-bind:false-value="0" v-bind:checked="formdata.needSign==1"/>
 							<label for="signtime" @click="signtime"></label><span class="u-c-ck col8f">要求参赛者赛前签到 (仅签到一次)<span class="colfdb">&nbsp&nbsp•&nbsp&nbsp</span>比赛开始前</span>
-							<select class="u-c-slt u-c-tslt col8f" name="needSignMinu" v-model="formdata.needSignMinu" disabled>
+							<select class="u-c-slt u-c-tslt col8f" name="needSignMinu" v-model="formdata.needSignMinute">
 								<option v-bind:value="10" selected>10</option>
 								<option v-bind:value="15">15</option>
 								<option v-bind:value="20">20</option>
@@ -261,12 +261,12 @@
 					<div class="f-c">
 						<p class="g-c-l mt40">采用赛制<span class="colfdb f-tip"></span><span class="f-fr"><span class="icon-uniE625" style="font-size:28px;"></span>查看赛制帮助</span></p>
 						<div class="clearfix mb12">
-							<div class="f-fl g-c-sz" @click="cherksz" selected="1">
+							<div class="f-fl g-c-sz" selected="1">
 								<p class="g-c-szt">单败淘汰制</p>
 								<div class="g-c-szm">
 									<img src="../../static/images/danbai.png" class="mt16">
 								</div>
-								<div class="g-c-sz-cherk">
+								<div class="g-c-sz-cherk" style="display:block;">
 									<i class="g-sz-gimg"></i>
 								</div>
 							</div>
@@ -277,12 +277,12 @@
 								</div>
 							</div>
 						</div>
-						<div class="g-c-szgz">
+						<div class="g-c-szgz" style="display:block;">
 							<div class="g-tri-up">
 								<div class="g-tri-iup"></div>
 							</div>
 							<div class="f-fl mr56 g-c-kz-sz">
-								<input type="checkbox" id="dbsz" class="regular-checkboxs" name="" />
+								<input type="checkbox" id="dbsz" class="regular-checkboxs" name="" v-bind:checked="formdata.needThird==1" v-model=""/>
 								<label for="dbsz"></label>
 								<label for="dbsz" class="u-c-kz-sz">需要增加一场第三名争夺战</label>
 							</div>
@@ -303,7 +303,7 @@
 						</div>
 					</div>
 				</div>
-				<a href="" class="saveModify" @click="nextStep">保存修改</a>
+				<a href="" class="saveModify" @click="saveRegime">保存修改</a>
 			</div>
 		</div>
 	</div>
@@ -349,7 +349,8 @@ export default {
 				applyBegin:"",
 				applyEnd:"",
 				needSign:"",
-				needSignMinu:""
+				needSignMinute:"",
+				needThird:""
 				// sponsorId:""
 			}
 		}
@@ -368,16 +369,19 @@ export default {
         	_this.formdata.name=_this.eventlist.name;
         	_this.formdata.itemId=_this.eventlist.itemId;
         	_this.formdata.itemServerId=_this.eventlist.itemServerId;
-        	_this.formdata.needSignMinu=_this.eventlist.needSignMinute;
+        	_this.formdata.needSignMinute=_this.eventlist.needSignMinute;
         	_this.formdata.poster=_this.eventlist.poster;
         	_this.formdata.maxNum=_this.roundlist.maxNum;
+        	_this.formdata.mode=_this.eventlist.mode;
+        	_this.formdata.addreass=_this.roundlist.addreass;
+        	_this.formdata.detailAddreass=_this.roundlist.detailAddreass;
         	_this.formdata.nicknameRequired=_this.eventlist.nicknameRequired;
         	_this.formdata.nameRequired=_this.eventlist.nameRequired;
         	_this.formdata.idcardRequired=_this.eventlist.idcardRequired;
         	_this.formdata.qqRequired=_this.eventlist.qqRequired;
-        	_this.formdata.telephoneRequired=_this.roundlist.telephoneRequired;
+        	_this.formdata.telephoneRequired=_this.eventlist.telephoneRequired;
         	_this.formdata.otherRequired=_this.eventlist.otherRequired;
-        	_this.formdata.otherDescribe=_this.roundlist.otherDescribe;
+        	_this.formdata.otherDescribe=_this.eventlist.otherDescribe;
         	_this.formdata.activityBegin=response.data.object.activityBegin;
         	_this.formdata.allowApply=_this.roundlist.allowApply;
         	_this.formdata.applyBegin=response.data.object.applyBegin;
@@ -385,6 +389,8 @@ export default {
         	_this.formdata.brief=_this.eventlist.brief;
         	_this.formdata.regimeRule=_this.eventlist.regimeRule;
         	_this.formdata.prizeSetting=_this.eventlist.prizeSetting;
+        	_this.formdata.needSign=_this.eventlist.needSign;
+        	_this.formdata.needThird=_this.roundlist.needThird;
 
         	_this.isapply();
         	$('#brief').editable({
@@ -584,11 +590,11 @@ export default {
 	        }
 	        return len;
 	    },
-	    cherksz:function(event){
-			var _this = $(event.target);
-			_this.parents('.g-c-sz').find('.g-c-sz-cherk').toggle();
-			$('.g-c-szgz').fadeToggle();
-		},
+	 //    cherksz:function(event){
+		// 	var _this = $(event.target);
+		// 	_this.parents('.g-c-sz').find('.g-c-sz-cherk').toggle();
+		// 	$('.g-c-szgz').fadeToggle();
+		// },
 		// 保存修改
 		saveModify:function(value){
 			console.log(value);
@@ -678,6 +684,7 @@ export default {
 					eventId:_this.formdata.eventId,
 					maxNum:_this.formdata.maxNum,
 					name:_this.formdata.name,
+					poster:_this.formdata.poster,
 					itemId:_this.formdata.itemId,
 					mode:_this.formdata.mode,
 					addreass:_this.formdata.addreass,
@@ -797,21 +804,31 @@ export default {
 					qqRequired:_this.formdata.qqRequired,
 					telephoneRequired:_this.formdata.telephoneRequired,
 					otherRequired:_this.formdata.otherRequired,
-					otherDescribe:_this.formdata.otherDescribe
-					// activityBegin:_this.formdata.activityBegin,
-					// applyBegin:_this.formdata.applyBegin,
-					// applyEnd:_this.formdata.applyEnd,
-					// needSign:_this.formdata.needSign,
-					// needSignMinu:_this.formdata.needSignMinu
+					otherDescribe:_this.formdata.otherDescribe,
+					activityBeginStr:_this.formdata.activityBegin,
+					applyBeginStr:_this.formdata.applyBegin,
+					applyEndStr:_this.formdata.applyEnd,
+					needSign:_this.formdata.needSign,
+					needSignMinute:_this.formdata.needSignMinute
 				}
 				_this.saveModify(form);
 	    	}
 		},
-  		nextStep:function(e){
+  		saveRegime:function(e){
   			e.preventDefault();
   			var _this=this;
-  			var parm={};
-	   		parm.jsonInfo=JSON.stringify();
+  			if($('#dbsz').is(':checked')){
+				_this.formdata.needThird = 1;
+			}
+			else{
+				_this.formdata.needThird = 0;
+			}
+  			var form={
+  				eventRoundId:_this.formdata.eventRoundId,
+				eventId:_this.formdata.eventId,
+				needThird:_this.formdata.needThird
+			}
+			_this.saveModify(form);
   		}
   	},
 

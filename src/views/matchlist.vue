@@ -15,7 +15,7 @@
 					<label class="isover" v-if="match.status==3">已完结</label>
 				</div>
 				<div>
-					<span class="icon-uniE610"></span><span class="match-info">{{}}</span><span class="icon-uniE615"></span><span class="match-info">单阶段</span><span class="icon-uniE613"></span><span class="match-info">单败淘汰制</span><span class="icon-uniE612"></span><span class="match-info">{{match.maxNum}}</span><span class="icon-uniE60F"></span><span v-text="match.createDate | formatDate"></span>
+					<span class="icon-uniE610"></span><span class="match-info">{{match.gameName}}</span><span class="icon-uniE615"></span><span class="match-info">单阶段</span><span class="icon-uniE613"></span><span class="match-info">单败淘汰制</span><span class="icon-uniE612"></span><span class="match-info">{{match.maxNum}}</span><span class="icon-uniE60F"></span><span v-text="match.createDate | formatDate"></span>
 				</div>
 				<span class="get_eventid">{{match.eventId}}</span><span class="get_roundid">{{match.id}}</span>
 			</div>
@@ -78,7 +78,6 @@ import createPop from '../components/createPop.vue'
 			linkDetail:function(e){
 				// e.preventDefault();
 				var _target=$(e.currentTarget);
-				console.log(_target);
   				var _eventid=_target.find(".get_eventid").text();
   				var _roundid=_target.find(".get_roundid").text();
   				window.sessionStorage.setItem("eventId",_eventid);
@@ -98,7 +97,7 @@ import createPop from '../components/createPop.vue'
 		    		})
 	    		}
 	    		else{
-	    			layer.msg('没有上一页了',{offset:"0px"});
+	    			layer.msg('没有上一页了');
 	    		}
   			},
   			nextpage:function(e){
@@ -114,7 +113,7 @@ import createPop from '../components/createPop.vue'
 		    		})
 	    		}
 	    		else{
-	    			layer.msg('没有下一页了',{offset:"0px"});
+	    			layer.msg('没有下一页了');
 	    		}
   			},
   			gopage:function(e){

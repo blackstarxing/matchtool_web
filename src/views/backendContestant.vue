@@ -24,6 +24,9 @@
 									<li class="column-1">展开</li>
 								</ul>
 							</div>
+							<div class="member-empty" v-if="memberlist.list.length==0">
+								这里还没有内容哦~~								
+							</div>
 							<div class="member-list" v-for="member in memberlist.list">
 								<ul>
 									<li v-bind:class="['column-2',member.isfill==1 ? 'isfill' : '']">{{$index+1}}</li>
