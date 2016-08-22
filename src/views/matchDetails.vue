@@ -4,7 +4,7 @@
 	<slide-bar></slide-bar>
 	<create-pop></create-pop>
 	<div class="g-w mt90 f-re">
-		<div class="g-q-hb" v-link="{ path: '/backend'}">
+		<div class="g-q-hb" v-link="{ path: '/backend/backendMsg'}">
 			<!-- <img src="../../static/images/dfposter.jpg" alt=""> -->
 			<img v-bind:src="'http://img.wangyuhudong.com'+poster" alt="" v-if="poster">
 			<div class="g-q-ptr">
@@ -29,14 +29,14 @@
 				<span class="f-fl ml20">网娱官方赛事出品</span>
 				<span class="col7a8 f-fl ml20" v-show="isfabu">2016-7-29 13:03发布</span>
 			</div>
-			<p class="g-q-jj col7a8">赛事还没有简介信息，<a href="#" v-link="{ path: '/backend'}">去完善</a><i v-link="{ path: '/backend'}"></i></p>
+			<p class="g-q-jj col7a8">赛事还没有简介信息，<a href="#" v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
 			<p class="col7a8 g-q-dz" v-show="changemodedz">地址&nbsp<span class="colfdb">•</span>&nbsp{{addreass}}{{detailAddreass}}</p>
 			<ul class="g-q-tab clearfix">
 				<li v-bind:class="{'g-q-tabon':tap1}" val="1" @click="tapswitch">对阵图预览</li>
 				<li v-bind:class="{'g-q-tabon':tap2}" val="2" @click="tapswitch">赛事信息</li>
 			</ul>
 		</div>
-		<div class="g-q-gofb">当前赛事<a v-link="{ path: '/backend'}">尚未发布</a>，前往管理赛事页面，完善赛事信息并<a v-link="{ path: '/backend'}">发布</a>，让更多用户看到你的赛事。</div>
+		<div class="g-q-gofb">当前赛事<a v-link="{ path: '/backend/backendMsg'}">尚未发布</a>，前往管理赛事页面，完善赛事信息并<a v-link="{ path: '/backend/backendMsg'}">发布</a>，让更多用户看到你的赛事。</div>
 		<div v-show="tap1">
 			<!-- 在这个div放置对阵图哦 -->
 			<div class="against_container">
@@ -134,11 +134,11 @@
 			</div>
 			<div class="g-q-jx">
 				<p class="g-q-jxp">赛事奖项</p>
-				<p class="g-q-jj col7a8" style="margin-bottom: 0;">还没有赛事奖项，<a v-link="{ path: '/backend'}">去完善</a><i v-link="{ path: '/backend'}"></i></p>
+				<p class="g-q-jj col7a8" style="margin-bottom: 0;">还没有赛事奖项，<a v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
 			</div>
 			<div class="g-q-jx" style="margin-bottom:100px;">
 				<p class="g-q-jxp">赛事规则</p>
-				<p class="g-q-jj col7a8" style="margin-bottom: 0;">还没有赛事规则，<a v-link="{ path: '/backend'}">去完善</a><i v-link="{ path: '/backend'}"></i></p>
+				<p class="g-q-jj col7a8" style="margin-bottom: 0;">还没有赛事规则，<a v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
 			</div>
 		</div>
 		<div class="steps infosteps">
@@ -151,7 +151,7 @@
 				<li class="current"><i></i>完善信息并发布</li>
 			</ul>
 			<a href="#">
-				<div class="g-q-sssz" v-link="{ path: '/backend'}">
+				<div class="g-q-sssz" v-link="{ path: '/backend/backendMsg'}">
 					<img src="../../static/images/sssz.png">
 					赛事设置
 				</div>
@@ -581,8 +581,8 @@ import createPop from '../components/createPop.vue'
                 }
              }
 
+             //获取幂次方turn1的数据
              if(_this.personnum){
-             	  //获取幂次方turn1的数据
                  var listone = []; 
                 function getnum1(arr){
                   for(var i=0;i<arr.length;i++){
@@ -606,6 +606,7 @@ import createPop from '../components/createPop.vue'
                   listArry.eq(0).find('.out_li').eq(i).html(newdom(i,listone)); 
                 }  
              }
+             
            //获取turn>1的数据
              var listtwo=[];
              var listthree=[];
@@ -689,7 +690,7 @@ import createPop from '../components/createPop.vue'
                 }else{
                   $('.turn_btn').hide();
                   $('.against_title_tip').hide();
-                  $(".recta").attr('draggable',false);
+                  // $(".recta").attr('draggable',false);
                 }
 
                 if(_this.roundStatus<5){

@@ -1,6 +1,4 @@
 <template>
-	<backend-head></backend-head>
-	<backend-sidebar></backend-sidebar>
 		<div class="g-bd">
 			<div class="g-mb">
 				<div class="m-operate f-cb">
@@ -29,7 +27,7 @@
 							<div class="member-list" v-for="member in memberlist.list">
 								<ul>
 									<li class="column-2">{{$index+1}}</li>
-			                        <li class="memberName column-3">{{member.usernickme}}</li>
+			                        <li class="memberName column-3">{{member.name}}</li>
 			                        <li class="column-2">
 			                        <section class="signed">
 										<div class="signbox">
@@ -105,8 +103,6 @@
 	</div>
 </template>
 <script>
-import backendHead from '../components/backendHead.vue'
-import backendSidebar from '../components/backendSidebar.vue'
   	export default {
        	data () {
     		return {
@@ -329,7 +325,7 @@ import backendSidebar from '../components/backendSidebar.vue'
 		    	var _target=$(e.currentTarget); 
 		    	if(formValidate()){
 		    		if(_target.hasClass('edit-member')){
-			    		var parmstr=JSON.stringify({roundId:_this.roundId,id:$('.member-id').html(),name:$('.name').val(),telephone:$('.tel').val(),qq:$('.qq').val(),idcard:$('.idcard').val()});
+			    		var parmstr=JSON.stringify({roundId:_this.roundId,id:$('.member-id').html(),nickname:$('.name').val(),telephone:$('.tel').val(),qq:$('.qq').val(),idcard:$('.idcard').val()});
 				    	var parm={};
 				    	parm.memberJson=parmstr;
 				    	_this.$http.get('event/round/group/member/edit',parm).then(function(response) {
@@ -352,7 +348,7 @@ import backendSidebar from '../components/backendSidebar.vue'
 				            console.log(response.data.msg);
 				        });
 			    	}else{
-			    		var parmstr=JSON.stringify({roundId:_this.roundId,name:$('.name').val()});
+			    		var parmstr=JSON.stringify({roundId:_this.roundId,nickname:$('.name').val(),name:$('.name').val()});
 				    	var parm={};
 				    	parm.memberJson=parmstr;
 			    		_this.$http.get('event/round/group/member/add',parm).then(function(response) {
@@ -435,10 +431,6 @@ import backendSidebar from '../components/backendSidebar.vue'
 		    	}
   			}
 	  	},
-       components: {
-          backendHead,
-          backendSidebar
-         
-  }
+       
   	}
 </script>

@@ -13,6 +13,7 @@ import quickmatch from './views/createquickmatch.vue'
 import quickformat from './views/quickmatchformat.vue'
 import createLeaguematch from './views/createLeaguematch.vue'
 import backend from './views/backend.vue'
+import backendMsg from './views/backendMsg.vue'
 import backendTechpic from './views/backendTechpic.vue'
 import backendContestant from './views/backendContestant.vue'
 import reset from './views/reset.vue'
@@ -61,15 +62,23 @@ router.map({
     },
     '/backend': {
         component: backend,
-    },
-    '/backendTechpic': {
-        component: backendTechpic,
-    },
-    '/backendContestant': {
-        component: backendContestant,
-    },
-    '/reset': {
-        component: reset,
+        subRoutes: {
+             '/': {
+            component: backendMsg
+          },
+          '/backendMsg': {
+            component: backendMsg
+          },
+          '/backendTechpic': {
+            component: backendTechpic
+          },
+          '/backendContestant': {
+            component: backendContestant
+          },
+          '/reset': {
+            component: reset
+          }
+        }
     },
     '/landRegister': {
         component: landRegister,

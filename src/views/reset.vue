@@ -1,6 +1,4 @@
 <template>
-	<backend-head></backend-head>
-	<backend-sidebar></backend-sidebar>
 	<div class="g-bd">
 		<div class="g-z pt40">
 			<div class="reset-box f-cb">
@@ -57,8 +55,7 @@
 	</div>
 </template>
 <script>
-import backendHead from '../components/backendHead.vue'
-import backendSidebar from '../components/backendSidebar.vue'
+
   export default {
     data () {
       return {
@@ -209,10 +206,6 @@ import backendSidebar from '../components/backendSidebar.vue'
 			});
   		}
   	},
-    components: {
-          backendHead,
-          backendSidebar
-         
-  }
+
   }
 </script>

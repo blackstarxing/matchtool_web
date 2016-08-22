@@ -316,7 +316,7 @@ import createPop from '../components/createPop.vue'
 		width: 488px;
 		background-color: #292f3b;
 		padding: 6px;
-		margin: 2.2rem auto;
+		margin: 1.5rem auto;
 	}
 	.landreg_head{
 		width: 100%;

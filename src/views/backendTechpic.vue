@@ -1,41 +1,88 @@
 <template>
-  <backend-head></backend-head>
-  <backend-sidebar></backend-sidebar>
   <div class="g-bd g-w">
     <div class="techpic-option">
-      <a href="" class="techpic-edit">编辑对阵图</a>
+      <a href="" class="techpic-edit" @click="editTechpic">编辑对阵图</a>
       <a href="" class="techpic-start"><span class="icon-uniE62A"></span>开始比赛</a>
     </div>
     <div class="against_container">
-          <p class="against_title">
-           <a class="title_unit"></a>
-            <span class="against_title_text">对阵图</span>
-            <span class="against_title_tip">此对阵图为预览，可拖曳参赛选手来交换位置</span>
-          </p>
-          <div class="tech_main_body">
-               <div class="turn_num">
-                <ul class="turn_num_list clearfix">
-                  <li class="turn_num_li" v-for="turnnum of turnnums">
-                    <div class="turn_turnid" style="display:none">{{turnnum.modelturnid}}</div>
-                    <div class="trunname_ed">
-                      <div class="turn_num_text">{{turnnum.modelname}}</div>
-                      <div class="turn_num_detail">
-                        <span class="turn_select_num" style="font-size:12px;">BO{{turnnum.modelbo}}</span>
-                        <span class="turn_input_settime" style="font-size:12px;margin:0 7px;">{{turnnum.modeltime?turnnum.modeltime.split(' ',1):"时间待定"}}</span>
-                      </div>
-                      </div>
-                  </li>
-                </ul>
-              </div>
-              <div class="turn_btn" @click="randomPic">随机排列对阵选手顺序</div>
-              <div class="tech_body">
-                  <div class="tech_container" style="margin-top:60px;">
-                  <div class="match_content clearfix">
-                  </div>   
-                </div>
-              </div>
+      <p class="against_title">
+       <a class="title_unit"></a>
+        <span class="against_title_text">对阵图</span>
+        <span class="against_title_tip">此对阵图为预览，可拖曳参赛选手来交换位置</span>
+      </p>
+      <div class="tech_main_body">
+           <div class="turn_num">
+            <ul class="turn_num_list clearfix">
+              <li class="turn_num_li" v-for="turnnum of turnnums">
+                <div class="turn_turnid" style="display:none">{{turnnum.modelturnid}}</div>
+                <div class="trunname_ed">
+                  <div class="turn_num_text">{{turnnum.modelname}}</div>
+                  <div class="turn_num_detail">
+                    <span class="turn_select_num" style="font-size:12px;">BO{{turnnum.modelbo}}</span>
+                    <span class="turn_input_settime" style="font-size:12px;margin:0 7px;">{{turnnum.modeltime?turnnum.modeltime.split(' ',1):"时间待定"}}</span>
+                  </div>
+                  </div>
+              </li>
+            </ul>
           </div>
-        </div>
+          <div class="turn_btn" @click="randomPic">随机排列对阵选手顺序</div>
+          <div class="tech_body">
+              <div class="tech_container" style="margin-top:60px;">
+              <div class="match_content clearfix">
+              </div>   
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="m-mask">
+    <div class="m-pop">
+      <div class="wrap f-cb">
+        <table>
+          <tbody>
+             <tr>
+                <th>编辑轮次名称</th>
+                <th>Best of</th>
+                <th>本轮进行时间</th>
+            </tr>
+            <tr>
+                <td><input type="text" class="u-c-ipt" name="matchname" placeholder="请输入赛事名称" style="width:150px;" v-model="formdata.name" required=""></td>
+                <td>
+                  <input type="text" id="personnum" class="u-c-ipt f-fl" title="参赛人数" style="width: 100px;" required placeholder="请输入参与人数上限"  v-model="formdata.maxNum" @input="numberChange" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
+                  <div class="button_group">
+                    <button class="plus" @click="plus"></button>
+                    <button class="minus" @click="minus"></button>
+                  </div>
+                </td>
+                <td><input type="text" class="u-c-ipt form_datetime" name="activityBegin" title="赛事开始时间" id="activityBegin" placeholder="请输入开赛时间" style="width:200px;" v-model="formdata.activityBegin" required></td>
+            </tr>
+            <tr>
+                <td><input type="text" class="u-c-ipt" name="matchname" placeholder="请输入赛事名称" style="width:150px;" v-model="formdata.name" required=""></td>
+                <td>
+                  <input type="text" id="personnum" class="u-c-ipt f-fl" title="参赛人数" style="width: 100px;" required placeholder="请输入参与人数上限"  v-model="formdata.maxNum" @input="numberChange" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
+                  <div class="button_group">
+                    <button class="plus" @click="plus"></button>
+                    <button class="minus" @click="minus"></button>
+                  </div>
+                </td>
+                <td><input type="text" class="u-c-ipt form_datetime" name="activityBegin" title="赛事开始时间" id="activityBegin" placeholder="请输入开赛时间" style="width:200px;" v-model="formdata.activityBegin" required></td>
+            </tr>
+            <tr>
+                <td><input type="text" class="u-c-ipt" name="matchname" placeholder="请输入赛事名称" style="width:150px;" v-model="formdata.name" required=""></td>
+                <td>
+                  <input type="text" id="personnum" class="u-c-ipt f-fl" title="参赛人数" style="width: 100px;" required placeholder="请输入参与人数上限"  v-model="formdata.maxNum" @input="numberChange" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
+                  <div class="button_group">
+                    <button class="plus" @click="plus"></button>
+                    <button class="minus" @click="minus"></button>
+                  </div>
+                </td>
+                <td><input type="text" class="u-c-ipt form_datetime" name="activityBegin" title="赛事开始时间" id="activityBegin" placeholder="请输入开赛时间" style="width:200px;" v-model="formdata.activityBegin" required></td>
+            </tr>
+          </tbody>
+        </table>
+        <a href="javascript:void(0);" class="u-btn techpic-btn close-techpic" @click="setMember">放弃修改</a>
+        <a href="javascript:void(0);" class="u-btn techpic-btn" @click="setMember">保存修改</a>
+      </div>      
     </div>
   </div>
   
@@ -43,8 +90,6 @@
 
 <script>
 
-import backendHead from '../components/backendHead.vue'
-import backendSidebar from '../components/backendSidebar.vue'
   export default {
     data () {
       return {
@@ -295,7 +340,7 @@ import backendSidebar from '../components/backendSidebar.vue'
                   _content.append(listuls);
 
                   //dom生成矩形unit,并放入矩形列表
-                  var unitul='<ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;"></li><li class="recta"></li></ul>';
+                  var unitul='<ul class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;"></li><li class="recta"></li></ul><div class="add_options"></div>';
                   var listArry=_content.find($(".match_list"));
 
                   listArry[turn-1].innerHTML='<li class="out_li">'+unitul+'</li>';
@@ -325,28 +370,7 @@ import backendSidebar from '../components/backendSidebar.vue'
                   listArry.eq(i).find(".out_li").css("margin-bottom",margin_bt[i]);
                 }
 
-                 //获取turn1的数据
-                 var listone = []; 
-                function getnum1(arr){
-                  for(var i=0;i<arr.length;i++){
-                    if(arr[i].turn == 1){
-                      listone.push(arr[i]);
-                    }else{
-                        for(var key in arr[i]){
-                            if(key=='groups'){
-                              getnum1(arr[i][key]);
-                            }
-                          }  
-                      } 
-                  }
-                     
-                 }
-                 getnum1(_this.matchdata);
-                 console.log(listone);
-
-                for(var i=0;i<listone.length;i++){
-                  listArry.eq(0).find('.out_li').eq(i).html(newdom(i,listone)); 
-                }             
+                          
                 
                  //根据矩形坐标画线
                 var _xy=[];
@@ -367,14 +391,14 @@ import backendSidebar from '../components/backendSidebar.vue'
                         return false;
                     var context = canvas.getContext("2d");
                     context.strokeStyle = "rgb(247,162,58)";
-                    context.moveTo(_xy[j][0]+unitul_w+5,_xy[j][1]+unitul_h/2);
-                    context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]+unitul_h/2);
+                    context.moveTo(_xy[j][0]+unitul_w+5,_xy[j][1]+unitul_h/2-10);
+                    context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]+unitul_h/2-10);
                     if(j%2==0){
-                      context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]+unitul_h+margin_bt[i]/2);
-                      context.lineTo(_xy[j][0]+unitul_w+5+20*2, _xy[j][1]+unitul_h+margin_bt[i]/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]+unitul_h+margin_bt[i]/2-10);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20*2, _xy[j][1]+unitul_h+margin_bt[i]/2-10);
                     }else{
-                      context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]-margin_bt[i]/2);
-                      context.lineTo(_xy[j][0]+unitul_w+5+20*2, _xy[j][1]-margin_bt[i]/2);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20, _xy[j][1]-margin_bt[i]/2-10);
+                      context.lineTo(_xy[j][0]+unitul_w+5+20*2, _xy[j][1]-margin_bt[i]/2-10);
                     }
 
                     context.stroke(); 
@@ -382,6 +406,32 @@ import backendSidebar from '../components/backendSidebar.vue'
                     drawline("mycanvas"); 
                   }  
                 }
+             }
+
+             //获取幂次方turn1的数据
+             if(_this.personnum){
+                 var listone = []; 
+                function getnum1(arr){
+                  for(var i=0;i<arr.length;i++){
+                    if(arr[i].turn == 1){
+                      listone.push(arr[i]);
+                    }else{
+                        for(var key in arr[i]){
+                            if(key=='groups' && arr[i].groups){
+                              getnum1(arr[i][key]);
+                            }
+                          }  
+                      } 
+                  }
+                     
+                 }
+                 getnum1(_this.matchdata);
+                 console.log(listone);
+
+                for(var i=0;i<listone.length;i++){
+                  listArry.eq(0).find('.out_li').css('position','relative');
+                  listArry.eq(0).find('.out_li').eq(i).html(newdom(i,listone)); 
+                }  
              }
 
            //获取turn>1的数据
@@ -467,7 +517,7 @@ import backendSidebar from '../components/backendSidebar.vue'
                 }else{
                   $('.turn_btn').hide();
                   $('.against_title_tip').hide();
-                  $(".recta").attr('draggable',false);
+                  // $(".recta").attr('draggable',false);
                 }
 
                 if(_this.roundStatus<5){
@@ -606,24 +656,26 @@ import backendSidebar from '../components/backendSidebar.vue'
     },
     methods:{
       randomPic:function(){
-            var parm={};
-            parm.eventId=window.sessionStorage.getItem("eventid");
-            this.$http.get("event/round/groupSeat/random",parm).then(function(response){
-              if(response.data.code){
-                window.location.reload();
-                }else{
-                  layer.msg(response.data.msg,{offset:"0px"});
-                  }
-                },function(response) {
-                  console.log(response);
-              });
-          },
+        var parm={};
+        parm.eventId=window.sessionStorage.getItem("eventId");
+        this.$http.get("event/round/groupSeat/random",parm).then(function(response){
+          if(response.data.code){
+            window.location.reload();
+            }else{
+              layer.msg(response.data.msg,{offset:"0px"});
+              }
+            },function(response) {
+              console.log(response);
+          });
+      },
+      editTechpic: function(e){
+        e.preventDefault();
+        $('.m-mask').show();
+      },
+      closePop: function(e){
+          $('.m-mask').hide();
+      },
     },
-   components: {
-      backendHead,
-      backendSidebar
-           
-    }
   }
 </script>
 <style type="text/css">
@@ -649,5 +701,27 @@ import backendSidebar from '../components/backendSidebar.vue'
     color:#1e1f24;
     margin-right: 5px;
     vertical-align: -2px;
+  }
+  .m-pop table{
+    width: 100%;
+  }
+  .m-pop th{
+    background: #000;
+    color:#7892a9;
+    height: 40px;
+    text-align: center;
+  }
+  .m-pop td input{
+    margin:10px 0;
+  }
+  .m-pop td .button_group{
+    margin-top:11px;
+  }
+  .m-pop .techpic-btn{
+    float: left;
+    margin:0 25px;
+  }
+  .m-pop .close-techpic{
+    background: url(../../static/images/btn0.png) no-repeat;
   }
 </style>
