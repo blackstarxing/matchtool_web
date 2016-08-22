@@ -5,11 +5,6 @@
       <a href="" class="techpic-start" @click="startGame"><span class="icon-uniE62A"></span>开始比赛</a>
     </div>
     <div class="against_container">
-      <p class="against_title">
-       <a class="title_unit"></a>
-        <span class="against_title_text">对阵图</span>
-        <span class="against_title_tip">此对阵图为预览，可拖曳参赛选手来交换位置</span>
-      </p>
       <div class="tech_main_body">
            <div class="turn_num">
             <ul class="turn_num_list clearfix">
@@ -520,6 +515,28 @@
                   console.log(900);
                   $('.edit_div').hide();
                 }
+
+                var move=false,
+                    left_=0,
+                    top_=0;
+                var _movebody=$('.tech_main_body');
+                _movebody.mousedown(function(e){
+                  console.log(777);
+                    move=true;
+                    left_=e.pageX-parseInt(_movebody.css("left"));
+                    top_=e.pageY-parseInt(_movebody.css("top"));
+
+                }).mouseup(function(){
+                    move=false;
+                });
+                $(document).mousemove(function(e){
+                    if(move){
+                        var left_r=e.pageX-left_,
+                            top_r=e.pageY-top_;
+                            // console.log(e.pageX,left_,left_r)
+                            _movebody.css({"top":top_r,"left":left_r});
+                    }
+                });
             });
                
              //编辑查看悬浮框

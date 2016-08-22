@@ -27,7 +27,7 @@
 						<label for="" class="text_label">性别 : </label>
 						<div class="g-c-zbf perset_zbf">
 							<div class="f-fl g-c-ms">
-								<input type="radio" id="man" name="gender" class="regular-radio" checked value="0" v-model="userInfoData.sex"/>
+								<input type="radio" id="man" name="gender" class="regular-radio" value="0" v-model="userInfoData.sex"/>
 								<label for="man"></label>
 								<label for="man" class="u-c-per">		
 									<span class="f-fl">
@@ -102,31 +102,31 @@
 					<div class="cptInfo_content">
 						<div class="cpt_item form_item">
 							<label for="realName">真实姓名 ：</label>
-							<input type="text" id="realName" class="text_box">
+							<input type="text" id="realName" class="text_box" v-model="saveMatchInfo.realname">
 						</div>
 						<div class="cpt_item form_item">
 							<label for="validatePerId">有效身份证 ：</label>
-							<input type="text" id="validatePerId" class="text_box">
+							<input type="text" id="validatePerId" class="text_box" v-model="saveMatchInfo.idcard">
 						</div>
 						<div class="cpt_item form_item">
 							<label for="telephone">手机号 ：</label>
-							<input type="text" id="telephone" class="text_box" v-model="userInfoData.username">
+							<input type="text" id="telephone" class="text_box" v-model="saveMatchInfo.telephone">
 						</div>
 						<div class="cpt_item form_item">
 							<label for="qq">QQ ：</label>
-							<input type="text" id="qq" class="text_box">
+							<input type="text" id="qq" class="text_box" v-model="saveMatchInfo.qq">
 						</div>
-						<div class="cpt_item form_item">
+						<!-- <div class="cpt_item form_item">
 							<label for="weixin">微信号 ：</label>
 							<input type="text" id="weixin" class="text_box">
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div class="perset_organizersCfct" v-show="tabFlag == 2">
 					<p class="organizersCfct_title">输入组织者认证内测邀请码</p>
 					<div class="oCfct_item form_item">
 						<label for="privateInviteCode">内测邀请码 ：</label>
-						<input type="text" id="privateInviteCode" class="text_box">
+						<input type="text" id="privateInviteCode" class="text_box" v-model="betaCode">
 						<p class="errorInfo"><i></i><span>邀请码已被使用</span></p>
 					</div>
 					<!-- <div class="PICExplain"> -->
@@ -189,7 +189,16 @@
 					speech: "",
 					sysUserId: -1,
 					userId: -1
-				} 
+				},
+				saveMatchInfo: {
+					idcard: "",
+					qq: "",
+					realname: "",
+					sysUserId: -1,
+					telephone: "",
+					userId: -1
+				},
+				betaCode: ""
 			}
 		},
 		components: {
@@ -226,6 +235,7 @@
 			 // this.$set('userInfoData', data);
 			  this.userInfoData = response.data.object.userInfo
 			  this.saveUserInfo.sysUserId = response.data.object.sysUser.id
+			  this.saveMatchInfo.telephone = this.userInfoData.username
 
 			  this.$http.get('sysuser/querySysAreaInfo').then(function (response) {
 					//console.log(response)
@@ -251,8 +261,7 @@
 			  }
 			  
 			  // 如果已设置生日
-			  if (response.data.object.sysUser.birthdayStr != "") {
-			  	
+			  if (response.data.object.sysUser.birthdayStr != null) {
 			  	var str = response.data.object.sysUser.birthdayStr
 			  	var arr = str.split('-');
 			  	this.userBirthday.yearNum = arr[0]
@@ -263,14 +272,16 @@
 			  	else this.userBirthday.dayNum = arr[2]
 			  }
 
+				// 如果没有设置性别
 			  if (this.userInfoData.sex === null) {
 			  	this.userInfoData.sex = 0;
 			  }
+
+			  // 如果没有设置个人介绍
 				if (this.userInfoData.speech === null) {
 					this.userInfoData.speech = ''
 				}
 			})
-			
 			// 设置初始的年份和月份
 			// function setBirthdayData () {
 			// 	for (var i = 2016; i >= 1900; i--) {
@@ -401,17 +412,13 @@
 								if (d < 10) d = "0" + d
 								_this.saveUserInfo.birthdayStr = y + "-" + m + "-" + d
 							}
-							//console.log(_this.userInfoData.birthday)
-
 							// 城市编码
-							//console.log($('#provinces').val() + ' ' + $('#citys').val())
-							//console.log(_this.rootAreaId + ' ' + _this.secondAreaId)
 							if ($('#provinces').val() === "-1" || $('#citys').val() === "-2") {
 								_this.saveUserInfo.cityCode = ""
 							} else {
 								_this.saveUserInfo.cityCode = $('#citys').val()
 							}
-							//console.log(_this.userInfoData.cityCode)
+
 							// 头像
 
 							// 昵称
@@ -420,14 +427,18 @@
 							} else {
 								_this.saveUserInfo.nickname = _this.userInfoData.nickname
 							}
+							
 							// 性别
 							_this.saveUserInfo.sex = _this.userInfoData.sex
+							
 							// 个人介绍
 							_this.saveUserInfo.speech = _this.userInfoData.speech
+							
 							// 系统用户id(前面已设置)
+							
 							// 用户id
 							_this.saveUserInfo.userId = _this.userInfoData.id
-							// console.log(_this.saveUserInfo)
+							
 							var params = {}
 							params.jsonInfo = JSON.stringify(_this.saveUserInfo)
 							_this.$http.post(v.url, params).then(function (response) {
@@ -435,9 +446,20 @@
 								// alert("修改成功！")
 							})
 						} else if (v.name === '参赛资料') {
-							
+							var params = {}
+							params.jsonInfo = JSON.stringify(this.saveMatchInfo)
+							this.$http.post('sysuser/saveSysUserInfo', params).then(function (response) {
+								console.log("参赛资料：" + response)
+							})
 						} else {
 							alert(456)
+							var params = {}
+							var json = {}
+							json.code = this.betaCode
+							params.jsonInfo = JSON.stringify(json)
+							this.$http.post('identify/identifyByCode', params).then(function (response) {
+								console.log("内测邀请码：" + response)
+							})
 						}
 					}
 				})
@@ -447,9 +469,11 @@
 </script>
 <style type="text/css">
 	.perCenter_wrap {
-		width: 600px;
 		margin: 60px auto;
 		overflow: hidden;
+	}
+	.perSetting {
+		width: 600px;
 	}
 	.perCenter_title {
 		margin-top: 40px;
