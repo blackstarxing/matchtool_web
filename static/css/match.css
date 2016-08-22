@@ -1166,6 +1166,7 @@ label.u-c-kz-sz{
 	text-align: center;
 	height: 80px;
 	line-height: 80px;
+	cursor: pointer;
 }
 /*滑入侧边栏*/
 .m-slideInto,.backendSidebar{
@@ -1405,6 +1406,9 @@ label.u-c-kz-sz{
 	background: #14181d;
 	color:#fff;
 }
+.member-list .isfill{
+	background: url(../images/fill.png) 25px center no-repeat;
+}
 .moreInfo{
 	border-top: 1px solid #23282e;
 	height:110px;
@@ -1468,7 +1472,7 @@ label.u-c-kz-sz{
 .m-page .pagination span.current{color:#fdb91a;}
 
 /*弹出层*/
-.m-mask,.m-create{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;z-index:999999;padding-left: 100px;}
+.m-mask,.m-create,.m-userpic-mask{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;z-index:999999;padding-left: 100px;}
 .pic-select,.m-pop{width: 500px;margin:180px auto 0;background: #1b1e25;border:7px solid #292f3a;min-height: 100px;padding-bottom: 20px;}
 .m-pop{
 	min-width: 420px;
