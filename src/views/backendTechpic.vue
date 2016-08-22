@@ -1,9 +1,24 @@
 <template>
   <div class="g-bd g-w">
     <div class="techpic-option">
-      <a href="" class="techpic-edit" @click="editTechpic">编辑对阵图</a>
-      <a href="" class="techpic-start" @click="startGame"><span class="icon-uniE62A"></span>开始比赛</a>
-    </div>
+      <div href="" class="techpic-edit" @click="editTechpic">编辑对阵图</div>
+      <!-- <a href="" class="techpic-start" @click="startGame"><span class="icon-uniE62A"></span>开始比赛</a> -->
+      <div class="before_tech tech_right_staus not_checked" style="display:none">
+              <p class="start_text" @click="beginTech"></p>
+          </div>
+      <div class="begining_tech" style="display:none">
+              <div class="start_btn">
+                <div class="tech_range">
+                  <div class="tech_range_detail">
+                    </div>
+              <div class="tech_range_num"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ending_tech tech_right_staus" style="display:none">
+              <p class="start_text">结束比赛</p>
+          </div>
+        </div>
     <div class="against_container">
       <div class="tech_main_body">
            <div class="turn_num">
@@ -13,7 +28,7 @@
                 <div class="trunname_ed">
                   <div class="turn_num_text">{{turnnum.modelname}}</div>
                   <div class="turn_num_detail">
-                    <span class="turn_select_num" style="font-size:12px;">BO{{turnnum.modelbo}}</span>
+                    <span class="turn_select_num" style="font-size:12px;">BO<i class="turn_bo_num">{{turnnum.modelbo}}</i></span>
                     <span class="turn_input_settime" style="font-size:12px;margin:0 7px;">{{turnnum.modeltime?turnnum.modeltime.split(' ',1):"时间待定"}}</span>
                   </div>
                   </div>
@@ -28,9 +43,9 @@
             </div>
           </div>
       </div>
-    </div>
   </div>
-  <div class="m-mask">
+</div>
+  <div class="m-mask m_turn">
     <div class="m-pop">
       <div class="wrap f-cb">
         <table>
@@ -54,11 +69,72 @@
           </tbody>
         </table>
         <a href="javascript:void(0);" class="u-btn techpic-btn close-techpic" @click="closePop">放弃修改</a>
-        <a href="javascript:void(0);" class="u-btn techpic-btn" @click="saveTurn">保存修改</a>
+        <a href="javascript:void(0);" class="u-btn techpic-btn">保存修改</a>
       </div>      
     </div>
   </div>
-  
+  <div class="m-mask m_edit">
+    <div class="m-pop"style="margin: 5px auto 0;">
+      <div class="wrap">
+        <h3>编辑比分</h3>
+        <a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
+        <ul class="edit_detail_top clearfix">
+          <li class="edit_detail_left">
+            <div class="edit_ring">{{personNamea.substr(0,1)}}</div>
+            <p style="margin:10px 0;">{{personNamea}}</p>
+            <div class="made_winer"><span style="display:none">{{seatida}}</span></div>
+          </li>
+          <li class="edit_detail_mid">vs</li>
+          <li class="edit_detail_right">
+            <div class="edit_ring">{{personNameb.substr(0,1)}}</div>
+            <p style="margin:10px 0;">{{personNameb}}</p>
+            <div style="margin:0 auto;" class="made_winer"><span style="display:none">{{seatidb}}</span></div>
+          </li>
+        </ul>
+        <div class="turn_edit_line" style="text-align: center;"><img src="../../static/images/turnline.png"></div>
+        <ul class='edit_detail_bt'>
+          <li style="margin-bottom:20px;" v-for="scoreli in scorelis">
+            <input class="edit_detail_input" type="text" style="width:120px;" v-model="scoreli.seatleft">
+            <span class="edit_btn_mid">:</span>
+            <input class="edit_detail_input" type="text" style="width:120px;margin-right:5px;" v-model="scoreli.seatright">
+            <img src="../../static/images/delli.png" @click="deleScoreli(scoreli)" v-if="!scoreli.seatleft || !scoreli.seatright">
+          </li>
+        </ul>
+        <div class="add_edit_list" @click="addScorelist">＋添加一组</div>
+        <a href="javascript:void(0);" class="u-btn add-member" @click="submitScore">提交比分</a>
+      </div>      
+    </div>
+  </div>
+  <div class="m-mask m_check">
+    <div class="m-pop"style="margin: 5px auto 0;">
+      <div class="wrap">
+        <h3>查看比分</h3>
+        <a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
+        <ul class="edit_detail_top clearfix">
+          <li class="edit_detail_left edit_detail_li">
+            <div class="edit_ring check_ring">{{personNamea.substr(0,1)}}</div>
+            <p style="margin:10px 0;">{{personNamea}}</p>
+            <div class="alread_score"><span class="alread_score_dt"></span><span style="display:none">{{seatida}}</span></div>
+          </li>
+          <li class="edit_detail_mid">vs</li>
+          <li class="edit_detail_right edit_detail_li">
+            <div class="edit_ring check_ring">{{personNameb.substr(0,1)}}</div>
+            <p style="margin:10px 0;">{{personNameb}}</p>
+            <div style="margin:0 auto;" class="alread_score"><span class="alread_score_dt"></span><span style="display:none">{{seatidb}}</span></div>
+          </li>
+        </ul>
+        <div class="turn_edit_line" style="text-align: center;"><img src="../../static/images/turnline.png"></div>
+        <table class='edit_detail_table'>
+          <tbody>
+            <tr v-for="scoreli in scorelis">
+              <td>{{scoreli.seatleft}}</td>
+              <td>{{scoreli.seatright}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>      
+    </div>
+  </div>
 </template>
 
 <script>
@@ -71,12 +147,71 @@
         overhalf:"",
         turnnums:[],
         roundStatus:'',
+        personNamea:'',
+        personNameb:'',
+        scorelis:[],
+        groupid:{},
+        seatida:{},
+        seatidb:{},
       }
 
     },
     ready: function(){
       var _this=this;
+      var beginparm={};
+      var before_tech=$('.before_tech');
+      var start_text=$('.start_text');
+      var _eventid=window.sessionStorage.getItem("eventId");
+      var _roundid=window.sessionStorage.getItem("eventRoundId");
+      _this.nickName=window.sessionStorage.getItem("nickname");
+      beginparm.oetInfoId=_eventid;
+      beginparm.oetRoundId=_roundid;
+      var parmstr=JSON.stringify(beginparm);
+      var _parm={};
+      _parm.jsonInfo=parmstr;
+    _this.$http.get('event/getStatusByTime',_parm).then(function(response){
+      _this.roundStatus=response.data.object.roundStatus;
+      window.sessionStorage.setItem("roundStatus",_this.roundStatus);
+      if(response.data.object.roundStatus==1){
+        before_tech.show();
+        start_text.text("报名预热中");
+      }else if(response.data.object.roundStatus==2){
+        before_tech.show();
+        start_text.text("报名进行中...");
+      }else if(response.data.object.roundStatus==3){
+        before_tech.show();
+        start_text.text("签到进行中...");
+      }else if(response.data.object.roundStatus==4){
+        before_tech.show();
+        start_text.text("报名已结束");
+      }else if(response.data.object.roundStatus==5){
+        before_tech.show();
+        start_text.text("开始比赛");
+      }else if(response.data.object.roundStatus==6){
+        // if(_this.checked){
+        //   $("#show_app").attr('disabled','disabled');
+        // }
+        $('.begining_tech').show();
+        var _rate=response.data.object.rate;
+           $(".tech_range_detail").width(_rate*2);
+           $(".tech_range_num").text(_rate+"%");
+           if(_rate==100){
+            $('.begining_tech').hide();
+            $('.ending_tech').show();
+           }
+        
+      }else if(response.data.object.roundStatus==7){
+        //  if(_this.checked){
+        //   $("#show_app").attr('disabled','disabled');
+        // }
+        $('.end_tech').show();
+        _this.champion=response.data.object.firstName;
+        _this.second=response.data.object.secondName;
+      }
 
+      },function(response) {
+              console.log(22);
+          });
       $('.form_datetime').datetimepicker({
         format:"Y-m-d H:i",      
         yearStart:2000,     
@@ -209,15 +344,24 @@
 
                       if(onelist[i].seats[0].seatNumber){
                         if(onelist[i].groups){
+                          if(onelist[i].groups.length==2){
+                           var _topd=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
+                          _topdY.push(_topd);
+                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li class="recta" data-seatid='+onelist[i].groups[0].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><div class="group_num" style="top:90px">'+onelist[i].groups[1].groupNumber+'</div><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[1].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[1].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[1].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
+                        }else if(onelist[i].groups.length==1){
+                              
                               var _tops=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                               _topsY.push(_tops);
-                              listArry.eq(0).append('<li class="out_li single_line"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li data-seatid='+onelist[i].groups[0].seats[0].id+' class="recta" style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>'); 
-                        } 
+                              listArry.eq(0).append('<li class="out_li single_line"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li data-seatid='+onelist[i].groups[0].seats[0].id+' class="recta" style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></li>');
+                            
+                          }
+                        }
+                        
                             
                       }else{
                           var _topd=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                           _topdY.push(_topd);
-                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[0].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><div class="group_num" style="top:90px;">'+onelist[i].groups[1].groupNumber+'</div><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[1].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[1].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[1].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
+                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[0].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div><div class="out_li"><div class="group_num" style="top:90px">'+onelist[i].groups[1].groupNumber+'</div><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[1].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[1].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[1].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:3px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li><li class="float_edit_reset"><img style="margin-top:3px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div></div></div>');
                     }
                 }
                 // console.log(_topdY);
@@ -499,6 +643,7 @@
                   });
               }
             _this.$nextTick(function(){
+              console.log(_this.roundStatus);
               if(_this.roundStatus<6){
                   $('.edit_div').hide();
                   $('.recta_right').hide();
@@ -522,7 +667,6 @@
                     top_=0;
                 var _movebody=$('.tech_main_body');
                 _movebody.mousedown(function(e){
-                  console.log(777);
                     move=true;
                     left_=e.pageX-parseInt(_movebody.css("left"));
                     top_=e.pageY-parseInt(_movebody.css("top"));
@@ -555,8 +699,8 @@
                   var _parent=$this.closest(".out_li");
                   var personname_a=_parent.find('.recta_personname').eq(0).text();
                   var personname_b=_parent.find('.recta_personname').eq(1).text();
-                  _this.seatida=_parent.find('input').eq(0).val();
-                  _this.seatidb=_parent.find('input').eq(1).val();
+                  _this.seatida=_parent.find('.recta').eq(0).data('seatid');
+                  _this.seatidb=_parent.find('.recta').eq(1).data('seatid');
                  
                   _this.personNamea=personname_a;
                   _this.personNameb=personname_b;
@@ -577,7 +721,7 @@
                         }
                       }else{
                         var _index=$this.closest(".match_list").index();
-                        var _lis=$('.turn_num_li').eq(_index).find(".turn_select_number").text();
+                        var _lis=$('.turn_num_li').eq(_index).find(".turn_bo_num").text();
                         _this.scorelis.length=0;
                         for(var i=0;i<_lis;i++){
                           _this.scorelis.push({best:i+1,seatleft:'',seatright:''});
@@ -601,8 +745,8 @@
                   var _parent=$this.closest(".out_li");
                   var personname_a=_parent.find('.recta_personname').eq(0).text();
                   var personname_b=_parent.find('.recta_personname').eq(1).text();
-                  _this.seatida=_parent.find('input').eq(0).val();
-                  _this.seatidb=_parent.find('input').eq(1).val();
+                  _this.seatida=_parent.find('.recta').eq(0).data('seatid');
+                  _this.seatidb=_parent.find('.recta').eq(1).data('seatid');
                  
                   _this.personNamea=personname_a;
                   _this.personNameb=personname_b;
@@ -680,24 +824,32 @@
       },
       editTechpic: function(e){
         e.preventDefault();
-        $('.m-mask').show();
+        $('.m_turn').show();
       },
       closePop: function(e){
           $('.m-mask').hide();
       },
-      startGame: function(e){
-        e.preventDefault();
-        var parm={};
-        parm.jsonInfo=JSON.stringify({oetInfoId:window.sessionStorage.getItem("eventId"),oetRoundId:window.sessionStorage.getItem("eventRoundId")});
-        this.$http.get("event/start",parm).then(function(response){
+      beginTech:function(){
+          var _this=this;
+          var beginparm={};
+          beginparm.oetInfoId=window.sessionStorage.getItem("eventId");
+          beginparm.oetRoundId=window.sessionStorage.getItem("eventRoundId");
+          var parmstr=JSON.stringify(beginparm);
+          var parm={};
+          parm.jsonInfo=parmstr;
+        _this.$http.get('event/start',parm).then(function(response){
           if(response.data.code){
-            layer.msg(response.data.msg);
+            window.location.reload();
+            $('.before_tech').hide();
+            $('.begining_tech').show();
+            $(".tech_range_detail").width(0);
+            $(".tech_range_num").text("0%");
           }else{
-            layer.msg(response.data.msg);
+            layer.msg(response.data.msg,{offset:"0px"});
           }
         },function(response) {
-          console.log(response);
-        });
+              console.log(response);
+          });
       },
       //参与人数控制
       numberChange: function(e){
@@ -734,6 +886,45 @@
           $('.minus').attr('disabled',false);
         }
         $('.plus').attr('disabled',false);  
+      },
+      addScorelist:function(){
+        var _length=this.scorelis.length;
+        this.scorelis.push({best:_length+1,seatleft:'',seatright:''});
+      },
+      deleScoreli:function(scoreli){
+          this.scorelis.$remove(scoreli);
+      },
+      submitScore:function(){
+        var _this=this;
+        var scoreparm={};
+        var scorep=[];
+        for(var i=0;i<_this.scorelis.length;i++){
+          if(_this.scorelis[i].seatleft){
+            scorep.push(_this.scorelis[i]);
+          }
+        }
+        scoreparm.groupid=_this.groupid.groupId;
+        scoreparm.bs=scorep;
+
+      var parmstr=JSON.stringify(scoreparm);
+      var parm={};
+      parm.scores=parmstr;
+      console.log(parm);
+      if($('.made_winer').hasClass('winer_active')){
+        parm.seatId=$(".winer_active").find('span').text();
+      }
+
+    _this.$http.get('event/round/turn/saveScoreAndWin',parm).then(function(response){
+      console.log(response);
+        if(response.data.code){
+           $(".m_edit").hide();
+           window.location.reload();
+        }else{
+            layer.msg(response.data.msg,{offset:"0px"});
+          }
+      },function(response) {
+              console.log(22);
+          });
       },
     },
   }

@@ -705,7 +705,6 @@ import createPop from '../components/createPop.vue'
 				    top_=0;
 				var _movebody=$('.tech_main_body');
 				_movebody.mousedown(function(e){
-					console.log(777);
 				    move=true;
 				    left_=e.pageX-parseInt(_movebody.css("left"));
 				    top_=e.pageY-parseInt(_movebody.css("top"));
