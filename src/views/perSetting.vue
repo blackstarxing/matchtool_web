@@ -3,12 +3,12 @@
 	<side-bar></side-bar>
 	<slide-bar></slide-bar>
 	<create-pop></create-pop>
-	<div class="persetting">
-		<h2 class="perset_title">个人中心</h2>
+	<div class="perCenter_wrap perSetting">
+		<h2 class="perCenter_title">个人设置</h2>
 		<div class="perset_body">
 			<div class="perset_head">
 				<ul class="perset">
-					<li v-for="item in tabList" v-text="item.name" :class="{ perset_active: item.isCur }" @click="setCur($index)"></li>
+					<li v-for="item in tabList" v-text="item.name" :class="{ tab_active: item.isCur }" @click="setCur($index)"></li>
 					<!-- <li class="perset_active">基本资料</li>
 					<li>参赛资料</li>
 					<li>组织者认证</li> -->
@@ -27,7 +27,7 @@
 						<label for="" class="text_label">性别 : </label>
 						<div class="g-c-zbf perset_zbf">
 							<div class="f-fl g-c-ms">
-								<input type="radio" id="man" name="gender" class="regular-radio" checked value="0" v-model="userInfoData.sex"/>
+								<input type="radio" id="man" name="gender" class="regular-radio" value="0" v-model="userInfoData.sex"/>
 								<label for="man"></label>
 								<label for="man" class="u-c-per">		
 									<span class="f-fl">
@@ -102,32 +102,34 @@
 					<div class="cptInfo_content">
 						<div class="cpt_item form_item">
 							<label for="realName">真实姓名 ：</label>
-							<input type="text" id="realName" class="text_box">
+							<input type="text" id="realName" class="text_box" v-model="saveMatchInfo.realname"> 
 						</div>
 						<div class="cpt_item form_item">
 							<label for="validatePerId">有效身份证 ：</label>
-							<input type="text" id="validatePerId" class="text_box">
+							<input type="text" id="validatePerId" class="text_box" v-model="saveMatchInfo.idcard" @blur="validateIdCard(saveMatchInfo.idcard)">
+							<p id="idCardError" class="errorInfo" style="display: none;"><i></i><span>请输入正确的身份证号码</span></p>
 						</div>
 						<div class="cpt_item form_item">
 							<label for="telephone">手机号 ：</label>
-							<input type="text" id="telephone" class="text_box">
+							<input type="text" id="telephone" class="text_box" v-model="saveMatchInfo.telephone" @blur="validateTel(saveMatchInfo.telephone)">
+							<p id="telephoneError" class="errorInfo" style="display: none;"><i></i><span>请输入正确的手机号</span></p>
 						</div>
 						<div class="cpt_item form_item">
 							<label for="qq">QQ ：</label>
-							<input type="text" id="qq" class="text_box">
+							<input type="text" id="qq" class="text_box" v-model="saveMatchInfo.qq">
 						</div>
-						<div class="cpt_item form_item">
+						<!-- <div class="cpt_item form_item">
 							<label for="weixin">微信号 ：</label>
 							<input type="text" id="weixin" class="text_box">
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div class="perset_organizersCfct" v-show="tabFlag == 2">
 					<p class="organizersCfct_title">输入组织者认证内测邀请码</p>
 					<div class="oCfct_item form_item">
 						<label for="privateInviteCode">内测邀请码 ：</label>
-						<input type="text" id="privateInviteCode" class="text_box">
-						<p class="errorInfo"><i></i><span>邀请码已被使用</span></p>
+						<input type="text" id="privateInviteCode" class="text_box" v-model="betaCode">
+						<p id="codeError" class="errorInfo" style="display: none;"><i></i><span id="codeErrorText">邀请码已被使用</span></p>
 					</div>
 					<!-- <div class="PICExplain"> -->
 						<p class="organizersCfct_title">关于组织者内测邀请码</p>
@@ -138,7 +140,7 @@
 		</div>
 		<a href="javascript:;" class="saveBtn" v-text="btnText" @click="savePerSetting"></a>
 		</div>
-			<div class="m-mask m-userpic-mask" style="padding-left:100px;">
+			<div class="m-userpic-mask" style="padding-left:100px;">
 			<div class="pic-select">
 				<div class="wrap">
 					<a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
@@ -181,7 +183,7 @@
 					dayNum: "-1"
 				},
 				saveUserInfo: {
-					birthday: "",
+					birthdayStr: "",
 					cityCode: "",
 					icon: "",
 					nickname: "",
@@ -189,7 +191,16 @@
 					speech: "",
 					sysUserId: -1,
 					userId: -1
-				} 
+				},
+				saveMatchInfo: {
+					idcard: "",
+					qq: "",
+					realname: "",
+					sysUserId: -1,
+					telephone: "",
+					userId: -1
+				},
+				betaCode: ""
 			}
 		},
 		components: {
@@ -226,36 +237,53 @@
 			 // this.$set('userInfoData', data);
 			  this.userInfoData = response.data.object.userInfo
 			  this.saveUserInfo.sysUserId = response.data.object.sysUser.id
+			  this.saveMatchInfo.telephone = this.userInfoData.username
 
 			  this.$http.get('sysuser/querySysAreaInfo').then(function (response) {
 					//console.log(response)
 					this.rootArea = response.data.object.areaMap.sysRootArea
 				})
 			  // 如果已设置头像
-			 	 if (response.data.object.userInfo.icon != "") {
-			 	 	this.saveUserInfo.icon = response.data.object.userInfo.icon
+			 	if (response.data.object.userInfo.icon != "") {
+			 		this.saveUserInfo.icon = response.data.object.userInfo.icon
 			 	}
 
 			  // 如果已设置省份和城市
-			  this.rootAreaId = response.data.object.areaMap.pid.toString()
-			  console.log(this.rootAreaId)
-			  if (this.rootAreaId != "") {
-			  	this.secondAreaId = response.data.object.areaMap.areaCode
-			  	this.getSecondArea(this.rootAreaId)
-			  	
-			  	console.log(this.secondAreaId)
+			  if (response.data.object.areaMap) {
+			  	this.rootAreaId = response.data.object.areaMap.pid.toString()
+				  console.log(this.rootAreaId + 'aaaaaaaaa')
+				  if (this.rootAreaId != "") {
+				  	this.secondAreaId = response.data.object.areaMap.areaCode
+				  	this.getSecondArea(this.rootAreaId)
+				  	console.log(this.secondAreaId)
+				  }
+			  } else {
+			  	this.rootAreaId = "-1"
+			  	this.secondAreaId = "-2"
 			  }
+			  
 			  // 如果已设置生日
+			  if (response.data.object.sysUser.birthdayStr != null) {
+			  	var str = response.data.object.sysUser.birthdayStr
+			  	var arr = str.split('-');
+			  	this.userBirthday.yearNum = arr[0]
+			  	if (arr[1].length > 1) this.userBirthday.monthNum = arr[1].charAt(1) + ""
+			  	else this.userBirthday.monthNum = arr[1]
+			  	this.getDayList()
+			  	if (arr[2].length > 1) this.userBirthday.dayNum = arr[2].charAt(1) + ""
+			  	else this.userBirthday.dayNum = arr[2]
+			  }
 
-
+				// 如果没有设置性别
 			  if (this.userInfoData.sex === null) {
 			  	this.userInfoData.sex = 0;
 			  }
+
+			  // 如果没有设置个人介绍
 				if (this.userInfoData.speech === null) {
 					this.userInfoData.speech = ''
 				}
 			})
-			
 			// 设置初始的年份和月份
 			// function setBirthdayData () {
 			// 	for (var i = 2016; i >= 1900; i--) {
@@ -269,6 +297,20 @@
 			this.setBirthdayData()
 		},
 		methods: {
+			validateTel: (qq) => {
+				if(!/^1([0-9]){10}$/.test(qq) && qq != ""){
+	    		$('#telephoneError').show()
+  			} else {
+  				$('#telephoneError').hide()
+  			}
+			},
+			validateIdCard: (id) => {
+				if(!/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/.test(id) && id != ""){
+  				$('#idCardError').show()
+  			} else {
+  				$('#idCardError').hide()
+  			}
+			},
 			checkNickname: function () {
 				var json = { nickname: this.userInfoData.nickname, telephone: this.userInfoData.username }
 				this.$http.get('registerCheck', json).then(function (response) {
@@ -298,6 +340,13 @@
 			},
 			getSecondArea: function (rootId) {
 				// console.log(rootId)
+				//alert(123)
+				// 如果切换到了请选择省份option，则不查询城市，直接赋空数组并设置为请选择城市option
+				if (rootId === "-1") {
+					this.secondArea = []
+					this.secondAreaId = "-2"
+					return 
+				}
 				var params = {}
 				var json = {}
 				json.pid = rootId
@@ -350,8 +399,8 @@
 					this.userBirthday.monthNum = "1"
 				}
 				this.getDayList()
-				// 只第一次修改年份时天数变成1，其余修改年份，天数不变
-				if (!this.dayFlag) {
+				// 只第一次修改年份并且还没有设置生日（如果以设置生日，那么修改年份，天数不变）时天数变成1，其余修改年份，天数不变
+				if (!this.dayFlag && this.userBirthday.dayNum === "-1") {
 					this.userBirthday.dayNum = 1
 					this.dayFlag = !this.dayFlag
 				}
@@ -365,52 +414,77 @@
 					// console.log(v.isCur)
 					if (v.isCur === true) {
 						// console.log(v.url)
-						// console.log(typeof _this.userBirthday.yearNum)
-						// 生日
-						var y = _this.userBirthday.yearNum,
-								m = _this.userBirthday.monthNum,
-								d = _this.userBirthday.dayNum
-						if (y === "-1" || m === "-1" || d === "-1") {
-							_this.saveUserInfo.birthday = ''
-						} else {
-							if (y < 10) y = "0" + y
-							if (m < 10) m = "0" + m
-							if (d < 10) d = "0" + d
-							_this.saveUserInfo.birthday = y + "-" + m + "-" + d
-						}
-						//console.log(_this.userInfoData.birthday)
+						if (v.name === '基本资料') {
+							// console.log(typeof _this.userBirthday.yearNum)
+							// 生日
+							var y = _this.userBirthday.yearNum,
+									m = _this.userBirthday.monthNum,
+									d = _this.userBirthday.dayNum
+							if (y === "-1" || m === "-1" || d === "-1") {
+								_this.saveUserInfo.birthdayStr = ""
+							} else {
+								if (y < 10) y = "0" + y
+								if (m < 10) m = "0" + m
+								if (d < 10) d = "0" + d
+								_this.saveUserInfo.birthdayStr = y + "-" + m + "-" + d
+							}
+							// 城市编码
+							if ($('#provinces').val() === "-1" || $('#citys').val() === "-2") {
+								_this.saveUserInfo.cityCode = ""
+							} else {
+								_this.saveUserInfo.cityCode = $('#citys').val()
+							}
 
-						// 城市编码
-						//console.log($('#provinces').val() + ' ' + $('#citys').val())
-						//console.log(_this.rootAreaId + ' ' + _this.secondAreaId)
-						if ($('#provinces').val() === "-1" || $('#citys').val() === "-2") {
-							_this.saveUserInfo.cityCode = ""
-						} else {
-							_this.saveUserInfo.cityCode = $('#citys').val()
-						}
-						//console.log(_this.userInfoData.cityCode)
-						// 头像
+							// 头像
 
-						// 昵称
-						if (_this.userInfoData.nickname === '') {
+							// 昵称
+							if (_this.userInfoData.nickname === '') {
 
+							} else {
+								_this.saveUserInfo.nickname = _this.userInfoData.nickname
+							}
+							
+							// 性别
+							_this.saveUserInfo.sex = _this.userInfoData.sex
+							
+							// 个人介绍
+							_this.saveUserInfo.speech = _this.userInfoData.speech
+							
+							// 系统用户id(前面已设置)
+							
+							// 用户id
+							_this.saveUserInfo.userId = _this.userInfoData.id
+							
+							var params = {}
+							params.jsonInfo = JSON.stringify(_this.saveUserInfo)
+							_this.$http.post(v.url, params).then(function (response) {
+								console.log(response)
+								// alert("修改成功！")
+							})
+						} else if (v.name === '参赛资料') {
+							var params = {}
+							params.jsonInfo = JSON.stringify(_this.saveMatchInfo)
+							_this.$http.post('sysuser/saveSysUserInfo', params).then(function (response) {
+								console.log("参赛资料：" + response)
+							})
 						} else {
-							_this.saveUserInfo.nickname = _this.userInfoData.nickname
+							alert(456)
+							var params = {}
+							var json = {}
+							json.code = _this.betaCode
+							params.jsonInfo = JSON.stringify(json)
+							_this.$http.post('identify/identifyByCode', params).then(function (response) {
+								// console.log("内测邀请码：" + response)
+								var msg = response.data.msg
+								if (response.data.code === 0) {
+									$('#codeError').show();
+									$('#codeErrorText').html(msg)
+								} else {
+									$('#codeError').hide();
+									alert("成功！")
+								}
+							})
 						}
-						// 性别
-						_this.saveUserInfo.sex = _this.userInfoData.sex
-						// 个人介绍
-						_this.saveUserInfo.speech = _this.userInfoData.speech
-						// 系统用户id(前面已设置)
-						// 用户id
-						_this.saveUserInfo.userId = _this.userInfoData.id
-						// console.log(_this.saveUserInfo)
-						var params = {}
-						params.jsonInfo = JSON.stringify(_this.saveUserInfo)
-						_this.$http.post(v.url, params).then(function (response) {
-							console.log(response)
-							// alert("修改成功！")
-						})
 					}
 				})
 			}
@@ -418,12 +492,14 @@
 	}
 </script>
 <style type="text/css">
-	.persetting {
-		width: 600px;
+	.perCenter_wrap {
 		margin: 60px auto;
 		overflow: hidden;
 	}
-	.perset_title {
+	.perSetting {
+		width: 600px;
+	}
+	.perCenter_title {
 		margin-top: 40px;
 		margin-bottom: 15px; 
 		color: #fdb91a;
@@ -447,7 +523,7 @@
 		margin: 0 18px 0 24px;
 		cursor: pointer;	
 	}
-	.perset .perset_active {
+	.perCenter_wrap .tab_active {
 		border-bottom: 4px solid #fdb91a;
 		color: #fdb91a;
 	}
@@ -484,7 +560,7 @@
 	.form_item input {
 		text-indent: 12px;
 	}
-	.nickname_item .errorInfo {
+	.nickname_item .errorInfo, .cpt_item .errorInfo {
 		line-height: 1;
 		margin-top: 10px;
 		margin-bottom: 10px;
@@ -591,12 +667,12 @@
 	}
 	.cpt_item, .oCfct_item {
 		box-sizing: border-box;
-		height: 36px;
-		line-height: 36px;
+		/*height: 36px;
+		line-height: 36px;*/
 		margin-top: 20px;
 		font-size: 14px;
 	}
-	.cpt_item label , .oCfct_item label{
+	.cpt_item label , .oCfct_item label {
 		display: inline-block;
 		width: 94px;
 		font-size: 14px;
@@ -607,7 +683,9 @@
 		width: 260px;
 		height: 36px;
 	}
-
+	.cpt_item .errorInfo {
+		margin-left: 100px;
+	}
 	/* 组织者认证 */
 
 	.perset_organizersCfct  p {
@@ -623,7 +701,7 @@
 		font-size: 12px;
 		color: #fdb91a;
 	}
-	.oCfct_item .errorInfo i, .nickname_item .errorInfo i {
+	.oCfct_item .errorInfo i, .nickname_item .errorInfo i, .cpt_item .errorInfo i {
 		display: inline-block;
 		width: 12px;
 		height: 12px;

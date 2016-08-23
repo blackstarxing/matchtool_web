@@ -1,5 +1,5 @@
 <template>
-<div class="m-mask">
+<div class="m-create">
   <div class="createPop">
     <a href="" class="closeBtn" @click="closePop"></a>
     <h3>选择要创建的赛事类型</h3>
@@ -29,7 +29,7 @@
   	methods:{
   		closePop:function(e){
   			e.preventDefault();
-  			$('.m-mask').hide();
+  			$('.m-create').hide();
   		}
   	}
   }

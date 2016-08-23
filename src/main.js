@@ -13,12 +13,15 @@ import quickmatch from './views/createquickmatch.vue'
 import quickformat from './views/quickmatchformat.vue'
 import createLeaguematch from './views/createLeaguematch.vue'
 import backend from './views/backend.vue'
+import backendMsg from './views/backendMsg.vue'
 import backendTechpic from './views/backendTechpic.vue'
 import backendContestant from './views/backendContestant.vue'
 import reset from './views/reset.vue'
 import landRegister from './views/landRegister.vue'
 import matchDetails from './views/matchDetails.vue'
 import perSetting from './views/perSetting.vue'
+import myMatch from './views/myMatch.vue'
+import myMessage from './views/myMessage.vue'
 import myclan from './views/clan/myclan.vue'
 import clandetails from './views/clan/clandetails.vue'
 import createclan from './views/clan/createclan.vue'
@@ -59,15 +62,23 @@ router.map({
     },
     '/backend': {
         component: backend,
-    },
-    '/backendTechpic': {
-        component: backendTechpic,
-    },
-    '/backendContestant': {
-        component: backendContestant,
-    },
-    '/reset': {
-        component: reset,
+        subRoutes: {
+             '/': {
+            component: backendMsg
+          },
+          '/backendMsg': {
+            component: backendMsg
+          },
+          '/backendTechpic': {
+            component: backendTechpic
+          },
+          '/backendContestant': {
+            component: backendContestant
+          },
+          '/reset': {
+            component: reset
+          }
+        }
     },
     '/landRegister': {
         component: landRegister,
@@ -77,6 +88,12 @@ router.map({
     },
     '/perSetting': {
         component: perSetting
+    },
+    '/myMatch': {
+        component: myMatch
+    },
+    '/myMessage': {
+        component: myMessage
     },
     '/myclan': {
         component: myclan

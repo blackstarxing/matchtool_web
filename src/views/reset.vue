@@ -1,6 +1,4 @@
 <template>
-	<backend-head></backend-head>
-	<backend-sidebar></backend-sidebar>
 	<div class="g-bd">
 		<div class="g-z pt40">
 			<div class="reset-box f-cb">
@@ -28,7 +26,7 @@
 					<section class="deploy-set">
 						<div class="setbox public">
 							<div class="dis-sign" v-if="roundStatus>5"></div>
-							<input type="checkbox" v-bind:checked="status.privacy==1" @click="privacyset" v-model="privacy">
+							<input type="checkbox" v-bind:checked="status.privacy==2" v-model="privacy" @click="privacyset">
 							<label></label>
 						</div>
 					</section>
@@ -57,8 +55,7 @@
 	</div>
 </template>
 <script>
-import backendHead from '../components/backendHead.vue'
-import backendSidebar from '../components/backendSidebar.vue'
+
   export default {
     data () {
       return {
@@ -80,8 +77,6 @@ import backendSidebar from '../components/backendSidebar.vue'
    		eve.jsonInfo=JSON.stringify({oetInfoId:_this.oetInfoId});
    		_this.$http.get('event/getEventStatus',eve).then(function(response) {
    			_this.status=response.data.object;
-        	_this.isPublish=response.data.object.isPublish;
-        	_this.privacy=response.data.object.privacy;
 
         	
         },function(response) {
@@ -96,8 +91,6 @@ import backendSidebar from '../components/backendSidebar.vue'
 	   		eve.jsonInfo=JSON.stringify({oetInfoId:_this.oetInfoId});
 	   		_this.$http.get('event/getEventStatus',eve).then(function(response) {
 	   			_this.status=response.data.object;
-	        	_this.isPublish=response.data.object.isPublish;
-	        	_this.privacy=response.data.object.privacy;
 	        	
 	        },function(response) {
 	            console.log(response);
@@ -146,10 +139,10 @@ import backendSidebar from '../components/backendSidebar.vue'
 	    	var privacy=0;
 			if(_target.attr('checked')=="checked"){
 	    		_target.attr('checked',false);
-	    		privacy=0;
+	    		privacy=1;
 	    	}else{
 	    		_target.attr('checked',true);
-	    		privacy=1;
+	    		privacy=2;
 	    	}
 	    	var parm={};
    			parm.jsonInfo=JSON.stringify({eventId:_this.oetInfoId,privacy:privacy});
@@ -213,10 +206,6 @@ import backendSidebar from '../components/backendSidebar.vue'
 			});
   		}
   	},
-    components: {
-          backendHead,
-          backendSidebar
-         
-  }
+
   }
 </script>

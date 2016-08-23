@@ -121,6 +121,7 @@ import createPop from '../components/createPop.vue'
 				this.isReg=true;
 			},
 			inputFoucs: function (e) {
+				debugger;
 				var _current=$(e.currentTarget);
 				var _target=$(e.target);
 				_current.find('.input_text').removeClass("bottom_line");
@@ -315,7 +316,7 @@ import createPop from '../components/createPop.vue'
 		width: 488px;
 		background-color: #292f3b;
 		padding: 6px;
-		margin: 2.2rem auto;
+		margin: 1.5rem auto;
 	}
 	.landreg_head{
 		width: 100%;

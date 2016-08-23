@@ -2,7 +2,7 @@
 	<div class="m-sidebar">
 		<ul>
 			<li class="v-link-active" v-link="{ path: '/index'}"><span class="icon-uniE60C"></span></li>
-			<li><span class="icon-uniE607"></span></li>
+			<li v-link="{ path: '/matchlist'}"><span class="icon-uniE607"></span></li>
 			<li @click="showPop"><span class="icon-uniE60A"></span></li>
 		</ul>
 	</div>
@@ -21,7 +21,7 @@
   	methods:{
   		showPop:function(e){
   			e.preventDefault();
-  			$('.m-mask').show();
+  			$('.m-create').show();
   		}
   	}
   }
