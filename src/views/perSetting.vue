@@ -171,9 +171,9 @@
 				userInfoData: {},
 				rootArea: [],
 				SecondArea: [],
-				rootAreaId: "",
+				rootAreaId: "-1",
 				secondArea: [],
-				secondAreaId: "",
+				secondAreaId: "-2",
 				userBirthday: {
 					yearList: [],
 					monthList: [],
@@ -237,8 +237,15 @@
 			 // this.$set('userInfoData', data);
 			  this.userInfoData = response.data.object.userInfo
 			  this.saveUserInfo.sysUserId = response.data.object.sysUser.id
-			  this.saveMatchInfo.telephone = this.userInfoData.username
-
+			  // 设置参赛资料的字段
+			  this.saveMatchInfo.sysUserId = response.data.object.sysUser.id
+			  this.saveMatchInfo.userId = this.userInfoData.id
+			  // 如果没有设置手机号码就用默认的用户登录手机号码，否则就用设置后的手机号码
+			  if (this.userInfoData.telephone === "") {
+			  	this.saveMatchInfo.telephone = this.userInfoData.username
+			  } else {
+			  	this.saveMatchInfo.telephone = this.userInfoData.telephone
+			  } 
 			  this.$http.get('sysuser/querySysAreaInfo').then(function (response) {
 					//console.log(response)
 					this.rootArea = response.data.object.areaMap.sysRootArea
@@ -283,6 +290,17 @@
 				if (this.userInfoData.speech === null) {
 					this.userInfoData.speech = ''
 				}
+
+				// 如果参赛信息已设置真实姓名
+				// if (this.userInfoData.realname) {
+				this.saveMatchInfo.realname = this.userInfoData.realname
+				// }
+				// if (this.userInfoData.idcard) {
+				this.saveMatchInfo.idcard = this.userInfoData.idcard
+				// }
+				// if (this.userInfoData.qq) {
+				this.saveMatchInfo.qq = this.userInfoData.qq
+				// }
 			})
 			// 设置初始的年份和月份
 			// function setBirthdayData () {
@@ -297,15 +315,16 @@
 			this.setBirthdayData()
 		},
 		methods: {
-			validateTel: (qq) => {
-				if(!/^1([0-9]){10}$/.test(qq) && qq != ""){
+			validateTel: (telNum) => {
+				console.log(this)
+				if(!/^1([0-9]){10}$/.test(telNum) && telNum != "") {
 	    		$('#telephoneError').show()
   			} else {
   				$('#telephoneError').hide()
   			}
 			},
 			validateIdCard: (id) => {
-				if(!/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/.test(id) && id != ""){
+				if(!/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/.test(id) && id != "") {
   				$('#idCardError').show()
   			} else {
   				$('#idCardError').hide()
@@ -459,14 +478,15 @@
 							params.jsonInfo = JSON.stringify(_this.saveUserInfo)
 							_this.$http.post(v.url, params).then(function (response) {
 								console.log(response)
-								// alert("修改成功！")
+								alert("基本资料保存成功！")
 							})
 						} else if (v.name === '参赛资料') {
 							var params = {}
 							params.jsonInfo = JSON.stringify(_this.saveMatchInfo)
 							_this.$http.post('sysuser/saveSysUserInfo', params).then(function (response) {
 								console.log("参赛资料：" + response)
-							})
+								alert("参赛资料保存成功！")
+							}) 
 						} else {
 							alert(456)
 							var params = {}
@@ -481,7 +501,7 @@
 									$('#codeErrorText').html(msg)
 								} else {
 									$('#codeError').hide();
-									alert("成功！")
+									alert("恭喜您，验证成功！")
 								}
 							})
 						}
