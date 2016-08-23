@@ -99,10 +99,12 @@ import createPop from '../../components/createPop.vue'
 		ready:function(){
 			var _this = this;
 			var urlSearch = window.location.href;
-			_this.formdata.teamId = urlSearch.substring(urlSearch.indexOf("teamId=")+7, urlSearch.length)
+			_this.formdata.teamId = urlSearch.substring(urlSearch.indexOf("teamId=")+7, urlSearch.length);
+			window.sessionStorage.setItem("shareId",_this.formdata.teamId);
 		 	_this.$http.post('team/apply/info?teamId='+_this.formdata.teamId).then(function(response){
 		 		var code = response.data.code;
 		 		if(code==-1){
+		 			window.sessionStorage.setItem("isInvite",true);
 		 			_this.$route.router.go({path: '/landRegister'});
 		 		}else if(code==0){
 		 			layer.msg(response.data.msg,{offset:"0px"});
