@@ -99,7 +99,8 @@ import createPop from '../../components/createPop.vue'
 		ready:function(){
 			var _this = this;
 			var urlSearch = window.location.href;
-			_this.formdata.teamId = urlSearch.substring(urlSearch.indexOf("teamId=")+7, urlSearch.length)
+			_this.formdata.teamId = urlSearch.substring(urlSearch.indexOf("teamId=")+7, urlSearch.length);
+			window.sessionStorage.setItem("shareId",_this.formdata.teamId);
 		 	_this.$http.post('team/apply/info?teamId='+_this.formdata.teamId).then(function(response){
 		 		var code = response.data.code;
 		 		if(code==-1){
