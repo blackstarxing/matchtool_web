@@ -2544,11 +2544,11 @@ label.u-c-kz-sz{
 .edit_ring{
   width: 120px;
   height: 120px;
-  background-color: #181b1f;
+  background-color: #35383e;
   border-radius: 60px;
   text-align: center;
   line-height: 120px;
-  font-size: 20px;
+  font-size: 50px;
 }
 .edit_detail_top{
   margin: 10px 100px;
@@ -2560,7 +2560,10 @@ label.u-c-kz-sz{
 }
 .edit_detail_mid{
   width: 50px;
-  font-size: 20px;
+  font-size: 24px;
+  top:45px;
+  font-weight: bold;
+  color: #fdb91a;
 }
 .edit_detail_bt{
   margin: 10px 100px 10px;
@@ -2574,7 +2577,7 @@ label.u-c-kz-sz{
   text-align: center;
 }
 .add_edit_list{
-  color: #fe3507;
+  color: #42aa53;
   font-size: 12px;
   margin: 0 100px;
   cursor: pointer;
@@ -2582,17 +2585,17 @@ label.u-c-kz-sz{
 .add_winer{
   background-color: #f9a32a;
 }
-.edit_detail_table{
+.m-pop .edit_detail_table{
   width: 300px;
-  max-height: 200px;
+  max-height: 300px;
   margin: 10px auto;
   text-align: center;
-  background-color: #1c1d21;
   overflow-y:scroll;
 }
 .edit_detail_table td{
-  border: 1px solid #404244;
-  height: 40px;
+  border: 1px solid #343b45;
+  background-color: #14181d;
+  height: 35px;
 }
 .compare_active{
   color: #f9a32a;
@@ -2678,10 +2681,12 @@ label.u-c-kz-sz{
 	color: #fff;
 }
 .edit_detail_input{
-	background-color: #1c1e22;
-	border: 1px solid #333;
+	background-color: #14181d;
+	border: 1px solid #343b45;
 	color: #fff;
-	text-indent: 5px;
+	text-align: center;
+	height: 35px;
+	line-height: 35px;
 }
 .made_winer{
   height: 30px;

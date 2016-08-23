@@ -81,9 +81,9 @@
     </div>
   </div>
   <div class="m-mask m_edit">
-    <div class="m-pop"style="margin: 5px auto 0;">
+    <div class="m-pop"style="margin: 75px auto 0;">
       <div class="wrap">
-        <h3>编辑比分</h3>
+        <h3 style="text-align: center;">编辑比分</h3>
         <a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
         <ul class="edit_detail_top clearfix">
           <li class="edit_detail_left">
@@ -104,7 +104,7 @@
             <input class="edit_detail_input" type="text" style="width:120px;" v-model="scoreli.seatleft">
             <span class="edit_btn_mid">:</span>
             <input class="edit_detail_input" type="text" style="width:120px;margin-right:5px;" v-model="scoreli.seatright">
-            <img src="../../static/images/delli.png" @click="deleScoreli(scoreli)" v-if="!scoreli.seatleft || !scoreli.seatright">
+            <img src="../../static/images/delete.png" @click="deleScoreli(scoreli)" v-if="!scoreli.seatleft || !scoreli.seatright">
           </li>
         </ul>
         <div class="add_edit_list" @click="addScorelist">＋添加一组</div>
@@ -113,9 +113,9 @@
     </div>
   </div>
   <div class="m-mask m_check">
-    <div class="m-pop"style="margin: 5px auto 0;">
+    <div class="m-pop"style="margin: 75px auto 0;">
       <div class="wrap">
-        <h3>查看比分</h3>
+        <h3 style="text-align: center;">查看比分</h3>
         <a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
         <ul class="edit_detail_top clearfix">
           <li class="edit_detail_left edit_detail_li">
@@ -195,9 +195,6 @@
         before_tech.show();
         start_text.text("开始比赛");
       }else if(response.data.object.roundStatus==6){
-        // if(_this.checked){
-        //   $("#show_app").attr('disabled','disabled');
-        // }
         $('.begining_tech').show();
         var _rate=response.data.object.rate;
            $(".tech_range_detail").width(_rate*2);
@@ -208,9 +205,6 @@
            }
         
       }else if(response.data.object.roundStatus==7){
-        //  if(_this.checked){
-        //   $("#show_app").attr('disabled','disabled');
-        // }
         $('.end_tech').show();
         _this.champion=response.data.object.firstName;
         _this.second=response.data.object.secondName;
