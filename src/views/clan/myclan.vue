@@ -86,7 +86,7 @@ import createPop from '../../components/createPop.vue'
 		ready:function(){
 			var _this = this;
 			_this.$http.get('team/mine').then(function(response){
-				_this.myteams = response.data.object.teams;
+				_this.myteams = response.data.object.pager.list;
 			}, function(response){
 				console.log(22)
 			});
