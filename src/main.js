@@ -27,6 +27,7 @@ import clandetails from './views/clan/clandetails.vue'
 import createclan from './views/clan/createclan.vue'
 import claninvite from './views/clan/claninvite.vue'
 import passWord from './views/passWord.vue'
+import matchShare from './views/matchShare.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -109,6 +110,9 @@ router.map({
     },
     '/claninvite': {
         component: claninvite
+    },
+    '/matchShare': {
+        component: matchShare
     }
 })
 
