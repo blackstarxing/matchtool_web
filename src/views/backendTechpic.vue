@@ -2,12 +2,11 @@
   <div class="g-bd g-w">
     <div class="techpic-option">
       <div href="" class="techpic-edit" @click="editTechpic">编辑对阵图</div>
-      <!-- <a href="" class="techpic-start" @click="startGame"><span class="icon-uniE62A"></span>开始比赛</a> -->
       <div class="before_tech tech_right_staus not_checked" style="display:none">
               <p class="start_text" @click="beginTech"></p>
           </div>
       <div class="begining_tech" style="display:none">
-              <div class="start_btn">
+        <div class="start_btn">
                 <div class="tech_range">
                   <div class="tech_range_detail">
                     </div>
@@ -18,10 +17,10 @@
       <div class="ending_tech tech_right_staus" style="display:none">
               <p class="start_text">结束比赛</p>
           </div>
-        </div>
+    </div>
     <div class="against_container">
       <div class="tech_main_body">
-           <div class="turn_num">
+       <div class="turn_num">
             <ul class="turn_num_list clearfix">
               <li class="turn_num_li" v-for="turnnum of turnnums">
                 <div class="turn_turnid" style="display:none">{{turnnum.modelturnid}}</div>
@@ -880,34 +879,6 @@
               console.log(response);
             });
           } 
-      },
-      startGame: function(e){
-        var _this=this;
-        e.preventDefault();
-        var parm={};
-        parm.jsonInfo=JSON.stringify({oetInfoId:window.sessionStorage.getItem("eventId"),oetRoundId:window.sessionStorage.getItem("eventRoundId")});
-        var nowTime = new Date().getTime();
-        var clickTime = $(_this).attr("ctime");
-        if( clickTime != 'undefined' && (nowTime - clickTime < 60000)){
-            layer.msg("操作过于频繁，稍后再试");
-            return false;
-        }else{
-          $(_this).attr("ctime",nowTime);
-          _this.$http.get("event/start",parm).then(function(response){
-            if(response.data.code){
-              layer.msg('比赛已开始');
-              window.location.reload();
-              $('.before_tech').hide();
-              $('.begining_tech').show();
-              $(".tech_range_detail").width(0);
-              $(".tech_range_num").text("0%");
-            }else{
-              layer.msg(response.data.msg);
-            }
-          },function(response) {
-            console.log(response);
-          });
-        } 
       },
       saveTurn:function(e){
         e.preventDefault();

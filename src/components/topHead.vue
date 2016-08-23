@@ -12,9 +12,9 @@
           <ul>
               <li><a v-link="{ path: '/quickmatch'}"><span class="icon-uniE617"></span>创建赛事</a></li>
               <li><a v-link="{ path: '/myMatch'}"><span class="icon-uniE618"></span>我的赛事</a></li>
-              <li><a v-link="{ path: ''}"><span class="icon-uniE619"></span>个人设置</a></li>
-              <li><a href=""><span class="icon-uniE61A"></span>参赛信息设置</a></li>
-              <li><a href=""><span class="icon-uniE61D"></span>战队系统</a></li>
+              <li><a v-link="{ path: '/perSetting'}"><span class="icon-uniE619"></span>个人设置</a></li>
+              <li><a><span class="icon-uniE61A"></span>参赛信息设置</a></li>
+              <li><a v-link="{ path: '/myclan'}"><span class="icon-uniE61D"></span>战队系统</a></li>
               <!-- <li><a href=""><span class="icon-uniE61C"></span>反馈我们</a></li> -->
               <li><a href="" @click="logout"><span class="icon-uniE61B"></span>登出</a></li>
           </ul>
