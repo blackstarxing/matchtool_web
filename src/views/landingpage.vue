@@ -12,7 +12,7 @@
 			<div class="landing-content f-cb">
 				<div class="match" v-for="match in recommendlists" @click="linkDetail">
 					<div class="pic">
-						<img v-bind:src="'http://img.wangyuhudong.com'+match.poster" alt="" width="100%">
+						<img v-bind:src="'http://img.wangyuhudong.com'+match.poster" alt="" width="100%" height="150px;">
 						<div class="title"><i class="iconfont"></i><span class="f-col" v-text="match.createDate | formatDate"></span></div>
 					</div>
 					<div class="match-progress">
@@ -29,6 +29,35 @@
 					</div>			
 				</div>
 			</div>
+		</div>
+		<div class="landing-box">
+			<div class="landing-content f-cb">
+				<div class="m-organize">
+					<img src="../../static/images/organize1.png">
+					<h3>多元化赛制模板</h3>
+					<p>高效便捷</p>
+					<p>一键生成赛事</p>
+				</div>
+				<div class="m-organize">
+					<img src="../../static/images/organize2.png">
+					<h3>赛事进程管理</h3>
+					<p>透明比赛进程</p>
+					<p>记录每个场次每局比分</p>
+				</div>
+				<div class="m-organize">
+					<img src="../../static/images/organize3.png">
+					<h3>报名自动化管理</h3>
+					<p>选手自主报名</p>
+					<p>告别QQ群收集记录的繁琐</p>
+				</div>
+				<div class="m-organize">
+					<img src="../../static/images/organize4.png">
+					<h3>个性化赛事主页</h3>
+					<p>打造品牌</p>
+					<p>沉淀每一场赛事</p>
+				</div>
+			</div>
+			<a href="" class="u-btn u-landing-btn" v-link="{ path: '/landRegister'}">申请成为赛事组织者</a>
 		</div>
 		<div class="landing-box">
 			<div class="landing-content f-cb">
@@ -83,10 +112,11 @@ import createPop from '../components/createPop.vue'
 			var parm={};
 			parm.jsonInfo=JSON.stringify({pageNumber:1});
 	        _this.$http.get('event/getRecommendEventRoundList',parm).then(function(response) {
-	        	if(response.data.code == 1){
-	        		_this.recommendlists=response.data.object.pager.list.slice(0,3);
+	        	if(response.data.object.loginFlag){
+	        		_this.$route.router.go({path: '/index'});
 	        	}else{
-	        		_this.$route.router.go({path: '/landingpage'}); 
+	        		_this.recommendlists=response.data.object.map.eventmsTop.slice(0,3);
+	        		 
 	        	}
 	        },function(response) {
 	            console.log(response);
