@@ -298,9 +298,9 @@ import createPop from '../components/createPop.vue'
 
 			  			if(_isInvite){
 			  				window.sessionStorage.setItem("isInvite",false);
-			  				this.$route.router.go({path: '/claninvite'}); 
+			  				this.$route.router.go({path: "/claninvite"}); 
 			  			}else{
-			  				this.$route.router.go({path: '/index'}); 
+			  				this.$route.router.go({path: "/index"}); 
 			  			}
 						
 					}else{
