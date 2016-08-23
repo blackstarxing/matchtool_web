@@ -811,7 +811,7 @@
 
             })
              
-             $(".made_winer").on('click',function(){
+            $(".made_winer").on('click',function(){
               $(".made_winer").removeClass("winer_active");
               $(this).addClass("winer_active");
              })
@@ -903,7 +903,6 @@
             console.log(response);
         });
       },
-      
       //参与人数控制
       numberChange: function(e){
         e.stopPropagation();
@@ -965,27 +964,27 @@
         scoreparm.groupid=_this.groupid.groupId;
         scoreparm.bs=scorep;
 
-      var parmstr=JSON.stringify(scoreparm);
-      var parm={};
-      parm.scores=parmstr;
-      console.log(parm);
-      if($('.made_winer').hasClass('winer_active')){
-        parm.seatId=$(".winer_active").find('span').text();
-      }
+        var parmstr=JSON.stringify(scoreparm);
+        var parm={};
+        parm.scores=parmstr;
+        console.log(parm);
+        if($('.made_winer').hasClass('winer_active')){
+          parm.seatId=$(".winer_active").find('span').text();
+        }
 
-    _this.$http.get('event/round/turn/saveScoreAndWin',parm).then(function(response){
-      console.log(response);
-        if(response.data.code){
-           $(".m_edit").hide();
-           window.location.reload();
-        }else{
-            layer.msg(response.data.msg,{offset:"0px"});
+        _this.$http.get('event/round/turn/saveScoreAndWin',parm).then(function(response){
+          console.log(response);
+          if(response.data.code){
+             $(".m_edit").hide();
+             window.location.reload();
+          }else{
+              layer.msg(response.data.msg,{offset:"0px"});
           }
-      },function(response) {
-              console.log(22);
-          });
-      },
-    },
+        },function(response) {
+          console.log(22);
+        });
+      }
+    }
   }
 </script>
 <style type="text/css">
