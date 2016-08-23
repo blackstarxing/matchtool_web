@@ -103,6 +103,7 @@ import createPop from '../../components/createPop.vue'
 		 	_this.$http.post('team/apply/info?teamId='+_this.formdata.teamId).then(function(response){
 		 		var code = response.data.code;
 		 		if(code==-1){
+		 			window.sessionStorage.setItem("isInvite",true);
 		 			_this.$route.router.go({path: '/landRegister'});
 		 		}else if(code==0){
 		 			layer.msg(response.data.msg,{offset:"0px"});
