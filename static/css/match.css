@@ -363,7 +363,7 @@
 	margin-right: 2%;
 	float: left;
 }
-.flip-container:nth-child(3n+1){
+.flip-container:nth-child(3n){
 	margin-right: 0;
 }
 /* flip the pane when hovered */

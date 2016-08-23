@@ -242,6 +242,7 @@ import createPop from '../components/createPop.vue'
 				console.log("成功");
 				var code = response.data.code;
 				if(code==1){
+					window.sessionStorage.setItem("applyType",response.data.object.round.applyType);
 					_this.poster = response.data.object.event.poster;
 					if(_this.poster=='' || _this.poster==null){
 						_this.poster='/uploads/2016/08/16/5126a4fc3e854db098ae08b16d79b8d8.jpg';
