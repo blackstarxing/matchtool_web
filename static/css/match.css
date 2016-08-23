@@ -468,6 +468,7 @@
 	border-radius: 2px;
 	color:#1e1f24;
 	font-size: 18px;
+	border: 0;
 }
 .confirmBtn .nextBtn i{
 	display: inline-block;
@@ -1670,6 +1671,7 @@ label.u-c-kz-sz{
     background: #14181d;
     box-shadow: 0px 2px 8px -2px #000000;
     position: relative;
+    cursor: pointer;
 }
 .g-cl-zd li:nth-of-type(odd){
 	margin-right: 0.2rem;
@@ -2102,6 +2104,7 @@ label.u-c-kz-sz{
 }
 .g-cgl-bj{
 	margin-bottom: 0.5rem;
+	position: relative;
 }
 .g-cgl-bj label{
 	display: inline-block;
@@ -2137,18 +2140,6 @@ label.u-c-kz-sz{
     left: 0;
     margin: auto;
 }
-/*战队上传图片重置*/
-/*.m-cgl-pixbox #pic{width: 1.48rem;height: 0.3rem;font-size: 12px;}
-.m-cgl-pixbox .webuploader-container {position: relative;}
-.m-cgl-pixbox .webuploader-element-invisible {position: absolute !important;clip: rect(1px 1px 1px 1px);clip: rect(1px,1px,1px,1px);}
-.m-cgl-pixbox .webuploader-pick {position: relative;display: inline-block;cursor: pointer;color: #f2f6f9;text-align: center;overflow: hidden;width: 1.48rem;height: 0.3rem;line-height: 0.3rem;padding:0;background: #27282e;}
-.m-cgl-pixbox .webuploader-pick-disable {opacity: 0.6;pointer-events:none;}
-.m-cgl-pixbox .parentFileBox{margin-top: 0;}
-.m-cgl-pixbox .parentFileBox>.fileBoxUl>li{width: 0;height: 0;}
-.m-cgl-pixbox .parentFileBox>.fileBoxUl>li>.viewThumb{width:1.48rem;height:1.18rem;top: -1.54rem;left: 0;}
-.m-cgl-pixbox .parentFileBox>.diyButton{position:absolute; top: -80px;right: -160px;}
-.m-cgl-pixbox .parentFileBox>.fileBoxUl>li>.diyFileName{bottom: 0.4rem;left: 0; width: 1.48rem;}
-.m-cgl-pixbox .parentFileBox>.fileBoxUl>li>.diyBar{ width: 1.48rem; line-height: 0.9rem;top: -0.92rem;}*/
 .g-cgl-xztp{
 	width: 1.48rem;
 	height: 0.3rem;
@@ -2230,6 +2221,27 @@ label.u-c-kz-sz{
     right: 0.3rem;
     bottom: 0.1rem;
 }
+.f-cgl-bjtip{
+	position: absolute;
+    left: 0.8rem;
+    bottom: -0.2rem;
+}
+.f-cyq-tip{
+	position: absolute;
+    left: 0.80rem;
+    bottom: -0.16rem;
+}
+
+
+
+
+
+
+
+
+
+
+
 	/*－－－－－－－－－－－－－－－－－－－－－－－－------------对阵图－－－－－－－－－－－－－－－－－－－－－－－*/
 .tech_body{
   padding:0 70px;
@@ -2699,3 +2711,4 @@ label.u-c-kz-sz{
 .add_winer{
   background-color: #f9a32a;
 }
+

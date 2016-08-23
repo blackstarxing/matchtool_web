@@ -2,91 +2,78 @@
 	<top-head></top-head>
 	<side-bar></side-bar>
 	<slide-bar></slide-bar>
-	<create-pop></create-pop>
+<!-- 	<create-pop></create-pop> -->
 	<div class="g-w mt90 f-re">
 		<div class="g-cdt-m">
 			<div class="m-cdt-if clearfix">
 				<i>
-					<img src="../../../static/images/me.jpg">
+					<img v-bind:src="'http://img.wangyuhudong.com/'+team.icon">
 				</i>
 				<div class="m-cdt-jj">
-					<p class="m-cdt-name">江南一条龙</p>
-					<p class="m-cdt-yx">英雄联盟</p>
-					<p class="m-cdt-js">LGD，中国现存最老牌的DOTA战队，没有之一。LGD的前身FTD是纯粹的草根战队，先有队伍，后因为成绩出色，才有了赞助商的资金支持，并因此得名“LGD”（老干爹）。 LGD战队从建队至今，一直伴随着国内DOTA圈的起落，成长和前行，LGD的战力几乎一直处于国内DOTA界的上游——如今，2013年的DOTA圈，“你娃”（老牌DOTA战队NV，Nirvna）早已销声，“后母”（老牌DOTA战队EHOME）业已匿迹，但“干爹”依然坚守着阵地。作为圈内的知名战队，这里同样发生过变阵、挖角甚至解散，同样被赞美过、被质疑过，被很多人支持着、也被很多人误会着，但LGD如同一面象征着热血与梦想的旗帜，依然挺立飘扬着。</p>	
+					<p class="m-cdt-name">{{team.name}}</p>
+					<p class="m-cdt-yx">{{team.itemName}}</p>
+					<p class="m-cdt-js">{{team.brief}}</p>	
 				</div>
 			</div>
 			<ul class="m-cdt-tap clearfix">
-				<li>战队成员</li>
-				<li>参赛纪录</li>
-				<li>战队动态</li>
-				<li class="m-cdt-ontap">战队管理</li>
+				<li v-bind:class="{'m-cdt-ontap':tap1}" val="1" @click="tapswitch">战队成员</li>
+				<li v-bind:class="{'m-cdt-ontap':tap2}" val="2" @click="tapswitch">参赛纪录</li>
+				<li v-bind:class="{'m-cdt-ontap':tap3}" val="3" @click="tapswitch">战队动态</li>
+				<li v-bind:class="{'m-cdt-ontap':tap4}" val="4" @click="tapswitch">战队管理</li>
 			</ul>
-			<div style="display: none">
+			<div v-show="tap1">
 				<ul class="g-cdt-cyli clearfix">
-					<li>
+					<li v-for="memebr in memebrs">
 						<i class="m-cdt-cytx">
-							<img src="../../../static/images/me.jpg">
-							<span class="g-cdt-cap"></span>
+							<img v-bind:src="'http://img.wangyuhudong.com/'+memebr.icon">
+							<span class="g-cdt-cap" v-if="memebr.isMonitor==1"></span>
 						</i>
-						<p class="m-cdt-cymz">未来老公</p>
-					</li>
-					<li>
-						<i class="m-cdt-cytx">
-							<img src="../../../static/images/me.jpg">
-						</i>
-						<p class="m-cdt-cymz">未来老公</p>
-					</li>
-					<li>
-						<i class="m-cdt-cytx">
-							<img src="../../../static/images/me.jpg">
-						</i>
-						<p class="m-cdt-cymz">未来老公</p>
-					</li>
-					<li>
-						<i class="m-cdt-cytx">
-							<img src="../../../static/images/me.jpg">
-						</i>
-						<p class="m-cdt-cymz">未来老公</p>
-					</li>
-					<li>
-						<i class="m-cdt-cytx">
-							<img src="../../../static/images/me.jpg">
-						</i>
-						<p class="m-cdt-cymz">未来老公</p>
-					</li>
-					<li>
-						<i class="m-cdt-cytx">
-							<img src="../../../static/images/me.jpg">
-						</i>
-						<p class="m-cdt-cymz">未来老公</p>
+						<p class="m-cdt-cymz">{{memebr.nickname}}</p>
 					</li>
 				</ul>
 			</div>
-			<div style="display: none;">
+			<div v-show="tap2">
 				<ul class="clearfix g-cjl-m">
-					<li>
+					<li v-for="hty in history" index={{$index}}>
 						<i class="g-cjl-pot">
-							<img src="../../../static/images/jlimg.png">
+							<img v-bind:src="'http://img.wangyuhudong.com/'+hty.poster">
 						</i>
 						<div class="f-fl">
-							<p class="m-cjl-ssn">萌新挑战趣味赛之最强随机套牌大乱斗</p>
-							<p class="m-cjl-zbf">主办方：网娱大师官方赛事组</p>
-							<p class="m-cjl-zbf">采用赛制：单阶段 单败淘汰制</p>
+							<p class="m-cjl-ssn">{{hty.name}}</p>
+							<p class="m-cjl-zbf">主办方：{{hty.sponsor}}</p>
+							<p class="m-cjl-zbf">采用赛制：{{hty.regime}}</p>
 							<p class="m-cjl-zbf">
 								参与人数：
 								<span class="g-cjl-rsw">
 									<span class="g-cjl-rsn"></span>
 								</span>
-								<span class="col42a">80</span>/100
+								<span class="col42a">{{hty.applyCount}}</span>/{{hty.maxNum}}
+								<i class="u-cjl-tip" v-if="hty.status=='未开赛'">
+									<span v-if="hty.seatNumber==''">
+										战队处于候补区
+										<i class="u-cjl-tipws">
+											<i class="u-cjl-tipns"></i>
+										</i>
+									</span>
+									<span v-if="hty.seatNumber!=''">
+										战队处于第{{hty.seatNumber}}位选手
+										<i class="u-cjl-tipws">
+											<i class="u-cjl-tipns"></i>
+										</i>
+									</span>
+								</i>
 							</p>
-							<p>报名方式：不允许报名</p>
+							<p>报名方式：{{hty.applyType}}</p>
 						</div>
 						<div class="m-cjl-time">
-							<p class="mb20 f-tr">2012.8.10 12:30 创建</p>
-							<div class="f-tr"><button type="button" class="m-cjl-btn m-cjl-wfb" disabled>未发布</button></div>
+							<p class="mb20 f-tr">{{hty.createDate}} 创建</p>
+							<div class="f-tr" v-if="hty.status=='未开赛'"><button type="button" class="m-cjl-btn m-cjl-wfb" disabled>{{hty.status}}</button></div>
+							<div class="f-tr" v-if="hty.status=='进行中'"><button type="button" class="m-cjl-btn m-cjl-jxz" disabled>{{hty.status}}</button></div>
+							<div class="f-tr" v-if="hty.status=='已完结'"><button type="button" class="m-cjl-btn m-cjl-wfb" disabled>{{hty.status}}</button></div>
+							<p class="m-cjl-kssj" v-if="hty.status=='未开赛'"><span class="col42a">1</span>天<span class="col42a">12</span>小时<span class="col42a">32</span>分后可开赛</p>
 						</div>
 					</li>
-					<li>
+					<!-- <li>
 						<i class="g-cjl-pot">
 							<img src="../../../static/images/jlimg.png">
 						</i>
@@ -97,7 +84,7 @@
 							<p class="m-cjl-zbf">
 								参与人数：
 								<span class="g-cjl-rsw">
-									<span class="g-cjl-rsn"></span>
+									<span class="g-cjl-rsn" style="width:100%;"></span>
 								</span>
 								<span class="col42a">80</span>/100
 							</p>
@@ -138,7 +125,7 @@
 							<div class="f-tr"><button type="button" class="m-cjl-btn m-cjl-wfb" disabled>未开赛</button></div>
 							<p class="m-cjl-kssj"><span class="col42a">1</span>天<span class="col42a">12</span>小时<span class="col42a">32</span>分后可开赛</p>
 						</div>
-					</li>
+					</li> -->
 				</ul>
 				<div class="m-page ptb50">
 	            	<button id="prev" type="button"></button>
@@ -148,51 +135,18 @@
 	            	<button type="button" class="u-btn">跳转</button>
 	            </div>
 			</div>
-			<div style="display: none;">
+			<div v-show="tap3">
 				<ul class="g-cl-sq clearfix">
-					<li>
+					<li v-for="trend in trendslist">
 						<div class="clearfix g-cl-ltl">
 							<span class="g-cl-zdtx f-fl">
-								<img src="../../../static/images/me.jpg">
+								<img v-bind:src="'http://img.wangyuhudong.com/'+trend.userIcon">
 							</span>
 							<span class="g-cl-zdyq g-cdt-zdyq f-fl">
-								来自英雄联盟类型战队“东南亚舞王”的战队邀请
+								{{trend.info}}
 							</span>
 						</div>
-						<p class="m-cdt-time">2016.08.10 16:30</p>
-					</li>
-					<li>
-						<div class="clearfix g-cl-ltl">
-							<span class="g-cl-zdtx f-fl">
-								<img src="../../../static/images/me.jpg">
-							</span>
-							<span class="g-cl-zdyq g-cdt-zdyq f-fl">
-								来自QQ炫舞类型战队“南非舞王”的战队邀请
-							</span>
-						</div>
-						<p class="m-cdt-time">2016.08.10 16:30</p>
-					</li>
-					<li>
-						<div class="clearfix g-cl-ltl">
-							<span class="g-cl-zdtx f-fl">
-								<img src="../../../static/images/me.jpg">
-							</span>
-							<span class="g-cl-zdyq g-cdt-zdyq f-fl">
-								来自DOTA2类型战队“西伯利亚灵车”的战队邀请
-							</span>
-						</div>
-						<p class="m-cdt-time">2016.08.10 16:30</p>
-					</li>
-					<li>
-						<div class="clearfix g-cl-ltl">
-							<span class="g-cl-zdtx g-cdt-zdyq f-fl">
-								<img src="../../../static/images/me.jpg">
-							</span>
-							<span class="g-cl-zdyq g-cdt-zdyq f-fl">
-								无敌小丸子申请加入您的“江南一条龙”的战队
-							</span>
-						</div>
-						<p class="m-cdt-time">2016.08.10 16:30</p>
+						<p class="m-cdt-time">{{trend.createDate}}</p>
 					</li>
 				</ul>
 				<div class="m-page ptb50">
@@ -203,37 +157,44 @@
 	            	<button type="button" class="u-btn">跳转</button>
 	            </div>
 			</div>
-			<div>
+			<div v-show="tap4">
 				<div class="g-cgl-m clearfix">
 					<ul class="g-cgl-ul">
-						<li>队员管理</li>
-						<li class="g-cgl-ontap">战队信息</li>
+						<li v-bind:class="{'g-cgl-ontap':tap5}" val="1" @click="tapsgl">队员管理</li>
+						<li v-bind:class="{'g-cgl-ontap':tap6}" val="2" @click="tapsgl">战队信息</li>
 					</ul>
-					<div class="g-cgl-r" style="display: none;">
+					<div class="g-cgl-r" v-show="tap5">
 						<div class="m-cgl-fz">
 							<p>复制邀请链接发送给朋友，邀请他们加入</p>
 							<div class="u-cgl-fz">
-								<input type="text" class="u-c-ipt" value="http://www.baidu.com" disabled style="width: 100%;" />
+								<input type="text" class="u-c-ipt" value="http://localhost:8080/#/claninvite?teamId={{formdata.id}}" disabled style="width: 100%;" />
 								<button type="button" class="u-cgl-fzbtn">复制</button>
 							</div>
 						</div>
 						<ul class="g-cgl-dyul">
-							<li class="g-cgl-lt clearfix">
+							<li class="g-cgl-lt clearfix" v-for="memebr in memebrs">
 								<div class="g-cgl-ltl">
 									<i class="g-cgl-tx">
-										<img src="../../../static/images/me.jpg">
+										<img v-bind:src="'http://img.wangyuhudong.com/'+memebr.icon">
 									</i>
-									<span class="g-cgl-name">未来老公</span>
-									<span class="g-cgl-cpt">
+									<span class="g-cgl-name">{{memebr.nickname}}</span>
+									<span class="g-cgl-cpt" v-if="memebr.isMonitor==1">
 										<i class="g-cdt-cap g-cgl-capimg"></i>队长
 									</span>
 								</div>
-								<div class="f-fr f-re">
-									<button type="button" class="u-cgl-btn u-cgl-yjbtn">移交队长</button>
-									<button type="button" class="u-cgl-btn u-cgl-scbtn">删除</button>
+								<div class="f-fr f-re" v-if="memebr.isMonitor==0">
+									<button type="button" class="u-cgl-btn u-cgl-yjbtn" userid="{{memebr.userId}}" @click="turnCaptain">移交队长</button>
+									<button type="button" class="u-cgl-btn u-cgl-scbtn" v-if="memebr.underway==0">删除</button>
+									<button type="button" class="u-cgl-btn u-cgl-zscbtn" v-if="memebr.underway==1" disabled>删除</button>
+									<span class="u-cgl-tip" v-if="memebr.underway==1">
+										该选手正在代表战队出战
+										<i class="u-cjl-tipws">
+											<i class="u-cjl-tipns"></i>
+										</i>
+									</span>
 								</div>
 							</li>
-							<li class="g-cgl-lt clearfix">
+							<!-- <li class="g-cgl-lt clearfix">
 								<div class="g-cgl-ltl">
 									<i class="g-cgl-tx">
 										<img src="../../../static/images/me.jpg">
@@ -250,8 +211,8 @@
 										</i>
 									</span>
 								</div>
-							</li>
-							<li class="g-cgl-lt clearfix">
+							</li> -->
+							<!-- <li class="g-cgl-lt clearfix">
 								<div class="g-cgl-ltl">
 									<i class="g-cgl-tx">
 										<img src="../../../static/images/me.jpg">
@@ -274,41 +235,62 @@
 									<button type="button" class="u-cgl-btn u-cgl-yjbtn">移交队长</button>
 									<button type="button" class="u-cgl-btn u-cgl-scbtn">删除</button>
 								</div>
-							</li>
+							</li> -->
 						</ul>
 					</div>
-					<div class="g-cgl-r">
+					<div class="g-cgl-r f-cgl-bj" v-show="tap6">
 						<div class="g-cgl-bj">
 							<label for="">战队名称：</label>
-							<input type="text" class="u-c-ipt" style="width: 61.85%;" />
+							<input type="text" name="name" placeholder="请输入战队名称" class="u-c-ipt" style="width: 61.85%;" value="{{formdata.name}}" oninput="onInput.call(this)" v-model="formdata.name" required/>
+							<span class="colfdb f-tip f-cgl-bjtip"></span>
 						</div>
 						<div class="g-cgl-bj">
 							<label for="">战队名称：</label>
-							<select class="u-c-slt" name="itemId" id="gameList" v-model="formdata.itemId">
-								<option value="" selected>选择一个竞技项目</option>
-								<option value="">英雄联盟</option>
-								<option value="">炉石传说</option>
-								<option value="">篮球之家</option>
+							<select class="u-c-slt" id="gameList" name="belonggame" v-model="formdata.itemId" required>
+								<option value="">选择一个竞技项目</option>
 							</select>
+							<span class="colfdb f-tip f-cgl-bjtip"></span>
 						</div>
 						<div class="g-cgl-bj">
 							<label for="" class="f-fl">上传战队图标：</label>
-							<div class="g-cgl-sctb">
+							<div class="g-cgl-sctb" style="margin-left: 0">
 								<div class="g-cgl-icon">
-									<i class="icon-uniE62B"></i>
+									<img v-bind:src="'http://img.wangyuhudong.com/'+formdata.icon" class="m-cgl-yytp" v-if="formdata.icon!=''">
+									<i class="icon-uniE62B" v-if="formdata.icon==''"></i>
 								</div>
-								<div class="picBox m-cgl-pixbox">
+								<button class="g-cgl-xztp" type="button" @click="selectPic" id="szbtn">
+									设置头像
+								</button>
+								<!-- <div class="picBox m-cgl-pixbox">
 									<div id="pic"></div>
-								</div>
+								</div> -->
 							</div>
+							<span class="colfdb f-tip f-cgl-bjtip"></span>
 						</div>
 						<div class="g-cgl-bj">
 							<label for="" class="f-fl">战队简介：</label>
-							<textarea type="text" class="u-c-ipt u-c-ttr"></textarea>
+							<div class="f-re">
+								<textarea type="text" class="u-c-ipt u-c-ttr" placeholder="战队简介" maxlength="500" v-model="formdata.brief">{{formdata.brief}}</textarea>
+								<span class="u-c-syzs" style="right: 2.2rem;">500字</span>
+							</div>
+							<span class="colfdb f-tip f-cgl-bjtip"></span>
+						</div>
+						<div class="confirmBtn mb120">
+							<a href="" class="nextBtn" @click="editClan"><i></i>保存</a>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+	<div class="m-mask" style="padding-left:100px;">
+		<div class="pic-select">
+			<div class="wrap">
+				<a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
+				<div class="picBox">
+					<div id="pic"></div>
+				</div>	
+			</div>			
 		</div>
 	</div>
 </template>
@@ -320,7 +302,24 @@ import createPop from '../../components/createPop.vue'
 	export default {
 		data () {
 			return{
-
+				tap1:true,
+				tap2:false,
+				tap3:false,
+				tap4:false,
+				tap5:true,
+				tap6:false,
+				memebrs:'',
+				history:'',
+				team:'',
+				trendslist:'',
+				formdata:{
+					icon:'',
+					itemId:'',
+					name:'',
+					brief:'',
+					auth:'',
+					id:''
+				}
 			}
 		},
 		components:{
@@ -330,27 +329,294 @@ import createPop from '../../components/createPop.vue'
 	        createPop
 		},
 		ready:function(){
+			var _this = this;
+			var teamId = window.sessionStorage.getItem("teamId");
+			_this.formdata.id = window.sessionStorage.getItem("teamId");
+			_this.$http.get('team/detail?teamId='+teamId).then(function(response){
+				var code = response.data.code;
+				if(code==-1){
+					layer.msg('请先登录',{offset:"0px"});
+				}
+				else if(code==0){
+					layer.msg(response.data.msg,{offset:"0px"});
+				}else if(code==1){
+					_this.team = response.data.object.team;
+					_this.formdata.icon = response.data.object.team.icon;
+					_this.formdata.itemId = response.data.object.team.itemId;
+					_this.formdata.name = response.data.object.team.name;
+					_this.formdata.brief = response.data.object.team.brief;
+				}
+			}, function(response){
+				console.log(22)
+			})
+			_this.$http.get('team/members?teamId='+teamId).then(function(response){
+				var code = response.data.code;
+				if(code==-1){
+					layer.msg('请先登录',{offset:"0px"});
+				}
+				else if(code==0){
+					layer.msg(response.data.msg,{offset:"0px"});
+				}else if(code==1){
+					_this.memebrs = response.data.object.memebrs;
+				}
+			}, function(response){
+				console.log(22)
+			})
+			_this.$http.post('team/history?teamId='+teamId).then(function(response){
+				var code = response.data.code;
+				if(code==-1){
+					layer.msg('请先登录',{offset:"0px"});
+				}
+				else if(code==0){
+					layer.msg(response.data.msg,{offset:"0px"});
+				}else if(code==1){
+					_this.history = response.data.object.history;
+					for(var i=0;i<_this.history.length;i++){
+						var applyType = _this.history[i].applyType;
+						if(applyType==1){
+							_this.history[i].applyType = '个人报名';
+						}else if(applyType==2){
+							_this.history[i].applyType = '战队报名';
+						}
+						var regime = _this.history[i].regime;
+						if(regime==1){
+							_this.history[i].regime = '单败淘汰制';
+						}else if(regime==2){
+							_this.history[i].regime = '双败淘汰制';
+						}else if(regime==3){
+							_this.history[i].regime = '小组内单循环制';
+						}else if(regime==4){
+							_this.history[i].regime = '积分循环制';
+						}
+						var status = _this.history[i].status;
+						if(status==1){
+							_this.history[i].status = '未开赛';
+						}else if(status==2){
+							_this.history[i].status = '进行中';
+						}else if(status==3){
+							_this.history[i].status = '已完结';
+						}
+						var maxNum = _this.history[i].maxNum,
+							applyCount = _this.history[i].maxNum;
+						var pre =  applyCount/maxNum;
+						if(pre>1){
+							pre=1;
+						}
+						pre = pre * 100% + '%';
+						$('[index]').eq(i).find('.g-cjl-rsn').css("width",pre)
+					}
+
+				}
+			}, function(response){
+				console.log(22)
+			})
+			_this.$http.get('team/trends/list?teamId='+teamId).then(function(response){
+				var code = response.data.code;
+				if(code==-1){
+					layer.msg('请先登录',{offset:"0px"});
+				}
+				else if(code==0){
+					layer.msg(response.data.msg,{offset:"0px"});
+				}else if(code==1){
+					_this.trendslist = response.data.object.pager.list;
+				}
+			}, function(response){
+				console.log(22)
+			})
+			// 战队名称字符规则
+			function getLength(str) {
+			    return str.replace(/[^ -~]/g, 'AA').length;
+			}
+
+			function limitMaxLength(str, maxLength) {
+			    var result = [];
+			    for (var i = 0; i < maxLength; i++) {
+			        var char = str[i]
+			        if (/[^ -~]/.test(char))
+			            maxLength--;
+			        result.push(char);
+			    }
+			    return result.join('');
+			}
+
+			var maxLength = 14; //战队名称最大字符数
+
+			function onInput() {
+			    if (getLength(this.value) > maxLength)
+			        this.value = limitMaxLength(this.value, maxLength);
+			}
+
+			window.onInput = onInput;
+			//end
+			// 初始化当前用户的可选游戏项目
+			_this.$http.get('game/list').then(function(response){
+				var gameList=response.data.object.games;
+				var content='';
+  				for(var i=0;i<gameList.length;i++){
+  					if(gameList[i].applied==1){
+  						if(gameList[i].id == _this.team.itemId){
+  							content+='<option selected value="'+gameList[i].id+'" applied="'+gameList[i].applied+'">'+gameList[i].name+'</option>';
+  						}
+  						else{
+  							content+='<option value="'+gameList[i].id+'" applied="'+gameList[i].applied+'" disabled>'+gameList[i].name+'(已加入1支战队)</option>';
+  						}	
+  					}
+  					else if(gameList[i].applied==0){
+  						content+='<option value="'+gameList[i].id+'" applied="'+gameList[i].applied+'">'+gameList[i].name+'</option>';
+  					}
+  				}
+  				$('#gameList').append(content);	
+			}, function(response){
+				console.log(22);
+			});
+			//end
+			// 图片上传
 			$('#pic').diyUpload({
-	    		url:'http://match.wangyuhudong.com/api/file/upload',
+				url:'http://wy.oetapi.wangyuhudong.com/file/upload',
 				success:function( data ) {
-					console.info( data );	
+					console.info( data );
+					_this.formdata.icon=data.object.src;
+					$(".m-mask").hide();
 				},
 				error:function( err ) {
 					console.info( err );	
 				},
-				buttonText : '设置头像',	
+				buttonText : '设置头像',
 				chunked:true,
 				// 分片大小
 				chunkSize:512 * 1024,
 				//最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
 				fileNumLimit:1,
 				fileSizeLimit:500000 * 1024,
-				fileSingleSizeLimit:50000 * 1024,
-				accept: {}
-	    	});
+				fileSingleSizeLimit:50000 * 1024
+			});
 		},
 		methods:{
-			
+			selectPic: function(e){
+		        $('.m-mask').show();
+		    },
+		    closePop: function(e){
+		        $('.m-mask').hide();
+		    },
+			editClan:function(e){
+				var _this = this;
+		    	e.preventDefault();
+		    	function errorPlacement(mes,element){
+		    		var errorTips=element.parents(".g-cgl-bj").find('.f-tip');
+			    	if(mes!=""){
+			    		errorTips.css("display","inline-block").html(mes);	
+			    	}else{
+			    		errorTips.css("display","none");	
+			    	}
+		    	}
+		    	function formValidate(){
+		    		var valid=true,valid1=true;
+		    		$('.f-cgl-bj [required]').each(function(index, el) {
+		    			var $this=$(this);
+		    			var value=$this.val(),name=$this.attr('name');	
+			    		var message="";
+			    		if(name=="name"){
+			    			if(value==""){
+								valid=false;
+					    		message="战队名称不能为空!";
+							}
+							errorPlacement(message,$this);
+			    		}
+			    		else if(name=="belonggame"){
+			    			if(value==""){
+								valid=false;
+					    		message="必须选择一个游戏项目!";
+							}
+							errorPlacement(message,$this);
+			    		}
+		    		});
+		    		var tpmessage ='', $this2 = $('#szbtn');	
+		    		if(_this.formdata.icon ==''){
+		    			valid1=false;
+		    			tpmessage='战队图标不能为空！';
+		    		}
+		    		errorPlacement(tpmessage,$this2);
+		    		if(valid && valid1){
+		    			return true;
+		    		}
+		    	}
+		    	if(formValidate()){
+		    		var teamId = window.sessionStorage.getItem("teamId");
+		    		_this.$http.post('team/save',_this.formdata).then(function(response){
+		    			var code = response.data.code;
+		    			if(code==-1){
+		    				layer.msg('请先登录',{offset:"0px"});
+		    			}else if(code==0){
+		    				layer.msg('创建失败',{offset:"0px"});
+		    			}else if(code==1){
+		    				_this.$route.router.go({path: '/myclan'});
+		    				layer.msg('创建成功',{offset:"0px"});
+		    				console.log('修改成功');
+		    			}
+		    		}, function(response){
+		    			console.log(22);
+		    		})
+		    	}
+			},
+			turnCaptain:function(event){
+				var $this = $(event.target),_this = this;
+				var userId = $this.attr("userid");
+				var teamId = window.sessionStorage.getItem("teamId");
+				_this.$http.post('team/transferMonitor?teamId='+teamId+'&userId='+userId).then(function(response){
+					var code = response.data.code;
+	    			if(code==-1){
+	    				layer.msg('请先登录',{offset:"0px"});
+	    			}else if(code==0){
+	    				layer.msg(response.data.msg,{offset:"0px"});
+	    			}else if(code==1){
+	    				_this.$http.get('team/members?teamId='+teamId).then(function(response){
+	    					_this.memebrs = response.data.object.memebrs;
+	    				}, function(response){
+	    					console.log(22);
+	    				})
+	    				layer.msg('移交成功',{offset:"0px"});
+	    			}
+				}, function(response){
+					console.log(22)
+				})
+			},
+			tapsgl:function(event){
+				var _this = $(event.target);
+				var v = _this.attr("val");
+				if(v==2){
+					this.tap5 = false;
+					this.tap6 = true;
+				}else if(v==1){
+					this.tap5 = true;
+					this.tap6 = false;
+				}
+			},
+			tapswitch:function(event){
+				var _this = $(event.target);
+				var v = _this.attr("val");
+				if(v==2){
+					this.tap4 =false;
+					this.tap3 =false;
+					this.tap1 = false;
+					this.tap2 = true;
+				}
+				else if(v==3){
+					this.tap1 = false;
+					this.tap2 = false;
+					this.tap4 = false;
+					this.tap3 = true;
+				}else if(v==4){
+					this.tap1 = false;
+					this.tap2 = false;
+					this.tap3 = false;
+					this.tap4 = true;
+				}else if(v==1){
+					this.tap2 = false;
+					this.tap3 = false;
+					this.tap4 = false;
+					this.tap1 = true;
+				}
+			}
 		}
 	}
 </script>
