@@ -468,6 +468,7 @@
 	border-radius: 2px;
 	color:#1e1f24;
 	font-size: 18px;
+	border: 0;
 }
 .confirmBtn .nextBtn i{
 	display: inline-block;
@@ -1660,6 +1661,7 @@ label.u-c-kz-sz{
     background: #14181d;
     box-shadow: 0px 2px 8px -2px #000000;
     position: relative;
+    cursor: pointer;
 }
 .g-cl-zd li:nth-of-type(odd){
 	margin-right: 0.2rem;
@@ -2092,6 +2094,7 @@ label.u-c-kz-sz{
 }
 .g-cgl-bj{
 	margin-bottom: 0.5rem;
+	position: relative;
 }
 .g-cgl-bj label{
 	display: inline-block;
@@ -2220,7 +2223,16 @@ label.u-c-kz-sz{
     right: 0.3rem;
     bottom: 0.1rem;
 }
-
+.f-cgl-bjtip{
+	position: absolute;
+    left: 0.8rem;
+    bottom: -0.2rem;
+}
+.f-cyq-tip{
+	position: absolute;
+    left: 0.80rem;
+    bottom: -0.16rem;
+}
 
 
 
