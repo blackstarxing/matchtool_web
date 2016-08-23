@@ -12,7 +12,7 @@
 			<div class="landing-content f-cb">
 				<div class="match" v-for="match in recommendlists" @click="linkDetailTo">
 					<div class="pic">
-						<img v-bind:src="'http://img.wangyuhudong.com'+match.poster" alt="" width="100%">
+						<img v-bind:src="'http://img.wangyuhudong.com'+match.poster" alt="" width="100%" height="150px;">
 						<div class="title"><i class="iconfont"></i><span class="f-col" v-text="match.createDate | formatDate"></span></div>
 					</div>
 					<div class="match-progress">
@@ -86,20 +86,12 @@ import createPop from '../components/createPop.vue'
 			var parm={};
 			parm.jsonInfo=JSON.stringify({pageNumber:1});
 	        _this.$http.get('event/getAllEventRoundList',parm).then(function(response) {
-	        	if(response.data.code == 1){
-	        		_this.matchlists=response.data.object.pager.list.slice(0,6);
-	        	}else{
-	        		_this.$route.router.go({path: '/landingpage'}); 
-	        	}
+	        	_this.matchlists=response.data.object.pager.list.slice(0,6);
 	        },function(response) {
 	            console.log(response);
 	        });
 	        _this.$http.get('event/getRecommendEventRoundList',parm).then(function(response) {
-	        	if(response.data.code == 1){
-	        		_this.recommendlists=response.data.object.pager.list.slice(0,3);
-	        	}else{
-	        		_this.$route.router.go({path: '/landingpage'}); 
-	        	}
+	        	_this.recommendlists=response.data.object.map.eventmsBottom.slice(0,3);
 	        },function(response) {
 	            console.log(response);
 	        });

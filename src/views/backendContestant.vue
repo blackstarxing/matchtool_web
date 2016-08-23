@@ -49,7 +49,7 @@
 			                        <li class="column-1"><a href="javascript:void(0);" class="u-btn-deploy" @click="toggleInfo"></a></li>
 								</ul>
 								<div class="moreInfo">
-									<img v-bind:src="'http://img.wangyuhudong.com/'+icon" alt="">
+									<img v-bind:src="'http://img.wangyuhudong.com/'+member.icon==null?member.icon : 'http://img.wangyuhudong.com//uploads/2016/08/22/70d3f4f9f8624f24a2dfa7a4c5fd6c0b.png'" alt="">
 									<div class="m-info">
 										<div>
 											<label for="">游戏昵称</label>{{member.nickname}}
@@ -89,7 +89,7 @@
 			<div class="g-bt"></div>
 		</div>		
 	</div>
-	<div class="m-mask">
+	<div class="m-edit">
 		<div class="m-pop">
 			<div class="wrap">
 				<h3>添加参赛选手</h3>
@@ -101,6 +101,19 @@
 				</div>
 				<div class="member-id" style="display:none"></div>
 				<a href="javascript:void(0);" class="u-btn add-member" @click="setMember">添加</a>
+			</div>			
+		</div>
+	</div>
+	<div class="m-mask">
+		<div class="m-pop" style="padding-bottom:30px;">
+			<div class="wrap add-wrap">
+				<div class="m-lst">				
+					<label for="">选手名称：</label>
+					<input type="text" class="name u-c-ipt" name="name" placeholder="请输入参赛者名称">
+					<div class="colfdb f-tip"></div>
+				</div>
+				<div class="member-id" style="display:none"></div>
+				<a href="javascript:void(0);" class="u-btn u-pop-btn u-close-btn" @click="closePop">取消</a><a href="javascript:void(0);" class="u-btn add-member u-pop-btn" @click="addMember">添加</a>
 			</div>			
 		</div>
 	</div>
@@ -140,10 +153,12 @@
 		    	$('.idcard').val("");
     			$('.wrap h3').html("添加参赛选手");
     			$(".add-member").removeClass('edit-member').text("添加");
+    			$('.f-tip').html("");
 		        $('.m-mask').show();
 		    },
 		    closePop: function(e){
 		        $('.m-mask').hide();
+
 		    },
 		    // 打乱选手位置
 		    upsetseat:function(e){
@@ -153,7 +168,7 @@
 		    	_this.$http.get('event/round/groupSeat/random',parm).then(function(response) {
 		        	console.log(response.data);
 		        	if(response.data.code==1){
-		        		layer.msg('选手顺序已打乱',{offset:"0px"});
+		        		layer.msg('选手顺序已打乱');
 		        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 				        	console.log(response.data);
 				        	_this.memberlist=response.data.object.pager;
@@ -161,7 +176,7 @@
 				            console.log(response);
 				        });
 		        	}else{
-		        		layer.msg(response.data.msg,{offset:"0px"});
+		        		layer.msg(response.data.msg);
 		        	}
 		        },function(response) {
 		            console.log(response);
@@ -185,7 +200,7 @@
 		    	_this.$http.get('event/round/group/member/sign',parm).then(function(response) {
 		        	console.log(response.data.msg);
 		        	if(response.data.code==1){
-		        		layer.msg('签到状态已更改',{offset:"0px"});
+		        		layer.msg('签到状态已更改');
 		        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 				        	console.log(response.data);
 				        	_this.memberlist=response.data.object.pager;
@@ -193,7 +208,7 @@
 				            console.log(response);
 				        });
 		        	}else{
-		        		layer.msg(response.data.msg,{offset:"0px"});
+		        		layer.msg(response.data.msg);
 		        	}
 		        },function(response) {
 		            console.log(response);
@@ -210,6 +225,71 @@
 		    		_target.addClass('info-shown').parents('.member-list').find('.moreInfo').slideDown();
 		    	}
 		    },
+		    addMember:function(e){
+		    	e.preventDefault();
+		    	var _this=this;
+		    	function errorPlacement(mes,element){
+			    	var errorTips=element.parents(".m-lst").find('.f-tip');
+			    	if(mes!=""){
+			    		errorTips.show().html(mes);
+			    	}else{
+			    		errorTips.hide();
+			    	}			    				    	
+			    }
+			    function strlen(str){
+					var len = 0;
+					for (var i=0; i<str.length; i++) { 
+					    var c = str.charCodeAt(i); 
+					    //单字节加1 
+					    if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) { 
+					       len++; 
+					    } 
+					    else { 
+					      len+=2; 
+					    } 
+					} 
+				    return len;
+				}
+			    function formValidate(){
+			    	var valid=true;
+					var value=$('.add-wrap .name').val();	
+		    		var message="";
+	    			if(value==""){
+	    				valid=false;
+			    		message="选手名称不能为空";
+			    	}else if(strlen(value)>15){
+			    		valid=false;
+			    		message="选手名称过长";
+			    	}
+			    	errorPlacement(message,$('.add-wrap .name'));			    	   
+				    return valid;
+			    };
+		    	if(formValidate()){
+		    		var parmstr=JSON.stringify({roundId:_this.roundId,name:$('.add-wrap .name').val(),nickname:$('.add-wrap .name').val()});
+			    	var parm={};
+			    	parm.memberJson=parmstr;
+		    		_this.$http.get('event/round/group/member/add',parm).then(function(response) {
+			        	console.log(response.data);
+			        	if(response.data.code==1){
+			        		$('.m-mask').hide();
+			        		layer.msg('添加成功');
+			        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
+					        	console.log(response.data);
+					        	_this.memberlist=response.data.object.pager;
+					        },function(response) {
+					            console.log(response);
+					        });
+			        	}else{
+			        		$('.m-mask').hide();
+			        		layer.msg(response.data.msg);
+			        	}
+			        	console.log(parm);
+			        },function(response) {
+			            console.log(response.data.code);
+			        });
+		    	}
+		    	
+		    },
 		    // 编辑成员信息
 		    editMember:function(e){
 		    	$(".wrap .attention").hide();
@@ -222,6 +302,7 @@
 		    	$('.idcard').val(_target.parents(".memberInfo").find(".memberId").text());
 		    	$('.member-id').html(_target.attr("data-id"));
 		    	$('.m-mask').show();
+		    	$('.add-wrap  .name').val(_target.parents(".member-list").find(".memberName").text());
 		    },
 		    // 删除成员
 		    deleteMember:function(e){
@@ -230,13 +311,16 @@
 		    	var _target=$(e.currentTarget);
 		    	var parm={memberId:_target.attr("data-id")};
 		    	layer.confirm('你确定要删除该成员吗？', {
-				  	btn: ['确定','取消'], //按钮
-				  	move:false
+				  	btn: ['取消','确定'], //按钮
+				  	move:false,
+				  	closeBtn:0
 				}, function(){
-					_this.$http.get('event/round/group/member/del',parm).then(function(response) {
+					layer.closeAll();
+				}, function(){				  	
+				  	_this.$http.get('event/round/group/member/del',parm).then(function(response) {
 			        	console.log(response.data);
 			        	if(response.data.code==1){
-			        		layer.msg('已删除',{offset:"0px"});
+			        		layer.msg('已删除');
 			        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 					        	console.log(response.data);
 					        	_this.memberlist=response.data.object.pager;
@@ -244,13 +328,11 @@
 					            console.log(response);
 					        });
 			        	}else{
-			        		layer.msg(response.data.msg,{offset:"0px"});
+			        		layer.msg(response.data.msg);
 			        	}
 			        },function(response) {
 			            console.log(response);
 			        });
-				}, function(){
-				  	
 				});
 		    },
 		    // 保存成员信息
@@ -335,7 +417,7 @@
 				        	console.log(response.data);
 				        	if(response.data.code){
 				        		$('.m-mask').hide();
-				        		layer.msg('修改成功',{offset:"0px"});
+				        		layer.msg('修改成功');
 						    	_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 						        	console.log(response.data);
 						        	_this.memberlist=response.data.object.pager;
@@ -344,7 +426,7 @@
 						        });
 				        	}else{
 				        		$('.m-mask').hide();
-				        		layer.msg(response.data.msg,{offset:"0px"});
+				        		layer.msg(response.data.msg);
 				        	}
 				        	console.log(parm);
 				        },function(response) {
@@ -358,7 +440,7 @@
 				        	console.log(response.data);
 				        	if(response.data.code==1){
 				        		$('.m-mask').hide();
-				        		layer.msg('添加成功',{offset:"0px"});
+				        		layer.msg('添加成功');
 				        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 						        	console.log(response.data);
 						        	_this.memberlist=response.data.object.pager;
@@ -367,7 +449,7 @@
 						        });
 				        	}else{
 				        		$('.m-mask').hide();
-				        		layer.msg(response.data.msg,{offset:"0px"});
+				        		layer.msg(response.data.msg);
 				        	}
 				        	console.log(parm);
 				        },function(response) {
@@ -396,7 +478,7 @@
 		    		})
 	    		}
 	    		else{
-	    			layer.msg('没有上一页了',{offset:"0px"});
+	    			layer.msg('没有上一页了');
 	    		}
   			},
   			nextpage:function(e){
@@ -412,7 +494,7 @@
 		    		})
 	    		}
 	    		else{
-	    			layer.msg('没有下一页了',{offset:"0px"});
+	    			layer.msg('没有下一页了');
 	    		}
   			},
   			gopage:function(e){
