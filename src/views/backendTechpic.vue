@@ -2,12 +2,11 @@
   <div class="g-bd g-w">
     <div class="techpic-option">
       <div href="" class="techpic-edit" @click="editTechpic">编辑对阵图</div>
-      <!-- <a href="" class="techpic-start" @click="startGame"><span class="icon-uniE62A"></span>开始比赛</a> -->
       <div class="before_tech tech_right_staus not_checked" style="display:none">
               <p class="start_text" @click="beginTech"></p>
           </div>
       <div class="begining_tech" style="display:none">
-              <div class="start_btn">
+        <div class="start_btn">
                 <div class="tech_range">
                   <div class="tech_range_detail">
                     </div>
@@ -18,10 +17,10 @@
       <div class="ending_tech tech_right_staus" style="display:none">
               <p class="start_text">结束比赛</p>
           </div>
-        </div>
+    </div>
     <div class="against_container">
       <div class="tech_main_body">
-           <div class="turn_num">
+       <div class="turn_num">
             <ul class="turn_num_list clearfix">
               <li class="turn_num_li" v-for="turnnum of turnnums">
                 <div class="turn_turnid" style="display:none">{{turnnum.modelturnid}}</div>
@@ -44,7 +43,7 @@
           </div>
       </div>
   </div>
-
+</div>
   <div class="m-mask m_turn">
     <div class="m-pop" style="width:590px;">
       <div class="wrap f-cb">
@@ -67,7 +66,7 @@
               </td>
               <td>
                 <div class="g-c-timeipt">
-                  <input type="text" class="u-c-ipt set_begin" placeholder="请选择本轮进行时间" style="width:200px;">
+                  <input type="text" class="u-c-ipt set_begin" placeholder="请选择本轮进行时间" style="width:200px;" v-model="turn.modeltime">
                   <label for="applyEnd" class="add-on"></label>
                 </div>
               </td>
@@ -82,9 +81,9 @@
     </div>
   </div>
   <div class="m-mask m_edit">
-    <div class="m-pop"style="margin: 5px auto 0;">
+    <div class="m-pop"style="margin: 75px auto 0;">
       <div class="wrap">
-        <h3>编辑比分</h3>
+        <h3 style="text-align: center;">编辑比分</h3>
         <a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
         <ul class="edit_detail_top clearfix">
           <li class="edit_detail_left">
@@ -105,7 +104,7 @@
             <input class="edit_detail_input" type="text" style="width:120px;" v-model="scoreli.seatleft">
             <span class="edit_btn_mid">:</span>
             <input class="edit_detail_input" type="text" style="width:120px;margin-right:5px;" v-model="scoreli.seatright">
-            <img src="../../static/images/delli.png" @click="deleScoreli(scoreli)" v-if="!scoreli.seatleft || !scoreli.seatright">
+            <img src="../../static/images/delete.png" @click="deleScoreli(scoreli)" v-if="!scoreli.seatleft || !scoreli.seatright">
           </li>
         </ul>
         <div class="add_edit_list" @click="addScorelist">＋添加一组</div>
@@ -114,9 +113,9 @@
     </div>
   </div>
   <div class="m-mask m_check">
-    <div class="m-pop"style="margin: 5px auto 0;">
+    <div class="m-pop"style="margin: 75px auto 0;">
       <div class="wrap">
-        <h3>查看比分</h3>
+        <h3 style="text-align: center;">查看比分</h3>
         <a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
         <ul class="edit_detail_top clearfix">
           <li class="edit_detail_left edit_detail_li">
@@ -196,9 +195,6 @@
         before_tech.show();
         start_text.text("开始比赛");
       }else if(response.data.object.roundStatus==6){
-        // if(_this.checked){
-        //   $("#show_app").attr('disabled','disabled');
-        // }
         $('.begining_tech').show();
         var _rate=response.data.object.rate;
            $(".tech_range_detail").width(_rate*2);
@@ -209,9 +205,6 @@
            }
         
       }else if(response.data.object.roundStatus==7){
-        //  if(_this.checked){
-        //   $("#show_app").attr('disabled','disabled');
-        // }
         $('.end_tech').show();
         _this.champion=response.data.object.firstName;
         _this.second=response.data.object.secondName;
@@ -812,7 +805,7 @@
 
             })
              
-             $(".made_winer").on('click',function(){
+            $(".made_winer").on('click',function(){
               $(".made_winer").removeClass("winer_active");
               $(this).addClass("winer_active");
              })
@@ -853,27 +846,34 @@
         });
         $('.m-mask').hide();
       },
-      beginTech:function(){
+      beginTech:function(e){
           var _this=this;
-          var beginparm={};
-          beginparm.oetInfoId=window.sessionStorage.getItem("eventId");
-          beginparm.oetRoundId=window.sessionStorage.getItem("eventRoundId");
-          var parmstr=JSON.stringify(beginparm);
+          e.preventDefault();
           var parm={};
-          parm.jsonInfo=parmstr;
-        _this.$http.get('event/start',parm).then(function(response){
-          if(response.data.code){
-            window.location.reload();
-            $('.before_tech').hide();
-            $('.begining_tech').show();
-            $(".tech_range_detail").width(0);
-            $(".tech_range_num").text("0%");
+          parm.jsonInfo=JSON.stringify({oetInfoId:window.sessionStorage.getItem("eventId"),oetRoundId:window.sessionStorage.getItem("eventRoundId")});
+          var nowTime = new Date().getTime();
+          var clickTime = $(_this).attr("ctime");
+          if( clickTime != 'undefined' && (nowTime - clickTime < 60000)){
+              layer.msg("操作过于频繁，稍后再试");
+              return false;
           }else{
-            layer.msg(response.data.msg,{offset:"0px"});
-          }
-        },function(response) {
+            $(_this).attr("ctime",nowTime);
+            _this.$http.get("event/start",parm).then(function(response){
+              if(response.data.code){
+                layer.msg('比赛已开始');
+                window.location.reload();
+                $('.before_tech').hide();
+                $('.begining_tech').show();
+                $(".tech_range_detail").width(0);
+                $(".tech_range_num").text("0%");
+              }else{
+                layer.msg(response.data.msg);
+              }
+            },function(response) {
               console.log(response);
-          });
+
+            });
+          } 
       },
       saveTurn:function(e){
         e.preventDefault();
@@ -882,45 +882,21 @@
         var turnparm=[];
         var roundId=window.sessionStorage.getItem("eventRoundId");
         for(var i=0;i<turns.length;i++){
-          turnparm.push({id:turns.eq(i).find('.turnid').val(),name:turns.eq(i).find('.turnname').val(),matchType:turns.eq(i).find('.turnbo').val(),matchTime:turns.eq(i).find('.set_begin').val()});
+          turnparm.push({id:turns.eq(i).find('.turnid').text(),name:turns.eq(i).find('.turnname').val(),matchType:turns.eq(i).find('.turnbo').val(),matchTimeStr:turns.eq(i).find('.set_begin').val()});
         }
         var parmstr=JSON.stringify(turnparm);
         var parm={};
-        parm.turnJson=parmstr;
-        _this.$http.get("event/round/turn/saveTurn",parm).then(function(response){
+        parm.jsonArray=parmstr;
+        _this.$http.get("event/turn/batchUpdate",parm).then(function(response){
           if(response.data.code){
-                _parent.find('.turn_set_detail').hide();
+                layer.msg(response.data.msg,{offset:"0px"});
+                window.location.reload();
                 }else{
                   layer.msg(response.data.msg,{offset:"0px"});
                 }
           },function(response) {
             console.log(response);
         });
-      },
-      startGame: function(e){
-        var _this=this;
-        e.preventDefault();
-        var parm={};
-        parm.jsonInfo=JSON.stringify({oetInfoId:window.sessionStorage.getItem("eventId"),oetRoundId:window.sessionStorage.getItem("eventRoundId")});
-        var nowTime = new Date().getTime();
-        var clickTime = $(_this).attr("ctime");
-        if( clickTime != 'undefined' && (nowTime - clickTime < 60000)){
-            layer.msg("操作过于频繁，稍后再试");
-            return false;
-        }else{
-          $(_this).attr("ctime",nowTime);
-          _this.$http.get("event/start",parm).then(function(response){
-            if(response.data.code){
-              layer.msg('比赛已开始');
-              window.location.reload();
-            }else{
-              layer.msg(response.data.msg);
-            }
-          },function(response) {
-            console.log(response);
-          });
-        }
-        
       },
       //参与人数控制
       numberChange: function(e){
@@ -983,27 +959,27 @@
         scoreparm.groupid=_this.groupid.groupId;
         scoreparm.bs=scorep;
 
-      var parmstr=JSON.stringify(scoreparm);
-      var parm={};
-      parm.scores=parmstr;
-      console.log(parm);
-      if($('.made_winer').hasClass('winer_active')){
-        parm.seatId=$(".winer_active").find('span').text();
-      }
+        var parmstr=JSON.stringify(scoreparm);
+        var parm={};
+        parm.scores=parmstr;
+        console.log(parm);
+        if($('.made_winer').hasClass('winer_active')){
+          parm.seatId=$(".winer_active").find('span').text();
+        }
 
-    _this.$http.get('event/round/turn/saveScoreAndWin',parm).then(function(response){
-      console.log(response);
-        if(response.data.code){
-           $(".m_edit").hide();
-           window.location.reload();
-        }else{
-            layer.msg(response.data.msg,{offset:"0px"});
+        _this.$http.get('event/round/turn/saveScoreAndWin',parm).then(function(response){
+          console.log(response);
+          if(response.data.code){
+             $(".m_edit").hide();
+             window.location.reload();
+          }else{
+              layer.msg(response.data.msg,{offset:"0px"});
           }
-      },function(response) {
-              console.log(22);
-          });
-      },
-    },
+        },function(response) {
+          console.log(22);
+        });
+      }
+    }
   }
 </script>
 <style type="text/css">

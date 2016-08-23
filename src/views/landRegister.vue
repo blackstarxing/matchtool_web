@@ -94,7 +94,7 @@ import createPop from '../components/createPop.vue'
 				allowReg: false,
 				isLand: true,
 				isReg: false,
-				isident: true
+				isident: true,
 			}
 		},
 		components:{
@@ -104,7 +104,6 @@ import createPop from '../components/createPop.vue'
 	        createPop
 		},
 		ready: function () {
-			
 
 		},
 		methods:{
@@ -121,7 +120,6 @@ import createPop from '../components/createPop.vue'
 				this.isReg=true;
 			},
 			inputFoucs: function (e) {
-				debugger;
 				var _current=$(e.currentTarget);
 				var _target=$(e.target);
 				_current.find('.input_text').removeClass("bottom_line");
@@ -296,7 +294,15 @@ import createPop from '../components/createPop.vue'
 			  			document.cookie="appUserId="+response.data.object.appUser.id;
 			  			window.sessionStorage.setItem("appusericon",response.data.object.appUser.icon);
 			  			window.sessionStorage.setItem("nickname",response.data.object.appUser.nickname);
-						this.$route.router.go({path: '/index'}); 
+			  			var _isInvite=window.sessionStorage.getItem("isInvite");
+
+			  			if(_isInvite){
+			  				window.sessionStorage.setItem("isInvite",false);
+			  				this.$route.router.go({path: "/claninvite"}); 
+			  			}else{
+			  				this.$route.router.go({path: "/index"}); 
+			  			}
+						
 					}else{
 						var _formpw=$('.form_pw');
 						var _text=response.data.msg;
