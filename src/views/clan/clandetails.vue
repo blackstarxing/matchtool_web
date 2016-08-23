@@ -19,7 +19,7 @@
 				<li v-bind:class="{'m-cdt-ontap':tap1}" val="1" @click="tapswitch">战队成员</li>
 				<li v-bind:class="{'m-cdt-ontap':tap2}" val="2" @click="tapswitch">参赛纪录</li>
 				<li v-bind:class="{'m-cdt-ontap':tap3}" val="3" @click="tapswitch">战队动态</li>
-				<li v-bind:class="{'m-cdt-ontap':tap4}" val="4" @click="tapswitch">战队管理</li>
+				<li v-bind:class="{'m-cdt-ontap':tap4}" v-if="isCaptain==1" val="4" @click="tapswitch">战队管理</li>
 			</ul>
 			<div v-show="tap1">
 				<ul class="g-cdt-cyli clearfix">
@@ -183,9 +183,9 @@
 									</span>
 								</div>
 								<div class="f-fr f-re" v-if="memebr.isMonitor==0">
-									<button type="button" class="u-cgl-btn u-cgl-yjbtn" userid="{{memebr.userId}}" @click="turnCaptain">移交队长</button>
-									<button type="button" class="u-cgl-btn u-cgl-scbtn" v-if="memebr.underway==0">删除</button>
-									<button type="button" class="u-cgl-btn u-cgl-zscbtn" v-if="memebr.underway==1" disabled>删除</button>
+									<button type="button" class="u-cgl-btn u-cgl-yjbtn" nickname="{{memebr.nickname}}" userid="{{memebr.userId}}" @click="turnCaptain">移交队长</button>
+									<button type="button" class="u-cgl-btn u-cgl-scbtn" nickname="{{memebr.nickname}}" userid="{{memebr.userId}}" v-if="memebr.underway==0" @click="deletemember">删除</button>
+									<button type="button" class="u-cgl-btn u-cgl-zscbtn" nickname="{{memebr.nickname}}" v-if="memebr.underway==1" disabled>删除</button>
 									<span class="u-cgl-tip" v-if="memebr.underway==1">
 										该选手正在代表战队出战
 										<i class="u-cjl-tipws">
@@ -319,7 +319,8 @@ import createPop from '../../components/createPop.vue'
 					brief:'',
 					auth:'',
 					id:''
-				}
+				},
+				isCaptain:''
 			}
 		},
 		components:{
@@ -345,6 +346,7 @@ import createPop from '../../components/createPop.vue'
 					_this.formdata.itemId = response.data.object.team.itemId;
 					_this.formdata.name = response.data.object.team.name;
 					_this.formdata.brief = response.data.object.team.brief;
+					_this.isCaptain = response.data.object.isMonitor;
 				}
 			}, function(response){
 				console.log(22)
@@ -501,83 +503,131 @@ import createPop from '../../components/createPop.vue'
 			editClan:function(e){
 				var _this = this;
 		    	e.preventDefault();
-		    	function errorPlacement(mes,element){
-		    		var errorTips=element.parents(".g-cgl-bj").find('.f-tip');
-			    	if(mes!=""){
-			    		errorTips.css("display","inline-block").html(mes);	
-			    	}else{
-			    		errorTips.css("display","none");	
+		    	layer.confirm('是否保存已修改的内容?',{
+		    		btn: ['保存','不保存'], //按钮
+				  	move:false,
+				  	closeBtn:0
+		    	},function(){
+		    		function errorPlacement(mes,element){
+			    		var errorTips=element.parents(".g-cgl-bj").find('.f-tip');
+				    	if(mes!=""){
+				    		errorTips.css("display","inline-block").html(mes);	
+				    	}else{
+				    		errorTips.css("display","none");	
+				    	}
 			    	}
-		    	}
-		    	function formValidate(){
-		    		var valid=true,valid1=true;
-		    		$('.f-cgl-bj [required]').each(function(index, el) {
-		    			var $this=$(this);
-		    			var value=$this.val(),name=$this.attr('name');	
-			    		var message="";
-			    		if(name=="name"){
-			    			if(value==""){
-								valid=false;
-					    		message="战队名称不能为空!";
-							}
-							errorPlacement(message,$this);
+			    	function formValidate(){
+		    			var valid=true,valid1=true;
+			    		$('.f-cgl-bj [required]').each(function(index, el) {
+			    			var $this=$(this);
+			    			var value=$this.val(),name=$this.attr('name');	
+				    		var message="";
+				    		if(name=="name"){
+				    			if(value==""){
+									valid=false;
+						    		message="战队名称不能为空!";
+								}
+								errorPlacement(message,$this);
+				    		}
+				    		else if(name=="belonggame"){
+				    			if(value==""){
+									valid=false;
+						    		message="必须选择一个游戏项目!";
+								}
+								errorPlacement(message,$this);
+				    		}
+			    		});
+			    		var tpmessage ='', $this2 = $('#szbtn');	
+			    		if(_this.formdata.icon ==''){
+			    			valid1=false;
+			    			tpmessage='战队图标不能为空！';
 			    		}
-			    		else if(name=="belonggame"){
-			    			if(value==""){
-								valid=false;
-					    		message="必须选择一个游戏项目!";
-							}
-							errorPlacement(message,$this);
+			    		errorPlacement(tpmessage,$this2);
+			    		if(valid && valid1){
+			    			return true;
 			    		}
-		    		});
-		    		var tpmessage ='', $this2 = $('#szbtn');	
-		    		if(_this.formdata.icon ==''){
-		    			valid1=false;
-		    			tpmessage='战队图标不能为空！';
-		    		}
-		    		errorPlacement(tpmessage,$this2);
-		    		if(valid && valid1){
-		    			return true;
-		    		}
-		    	}
-		    	if(formValidate()){
-		    		var teamId = window.sessionStorage.getItem("teamId");
-		    		_this.$http.post('team/save',_this.formdata).then(function(response){
-		    			var code = response.data.code;
+			    	}
+			    	if(formValidate()){
+			    		var teamId = window.sessionStorage.getItem("teamId");
+			    		_this.$http.post('team/save',_this.formdata).then(function(response){
+			    			var code = response.data.code;
+			    			if(code==-1){
+			    				layer.msg('请先登录',{offset:"0px"});
+			    			}else if(code==0){
+			    				layer.msg(response.data.msg,{offset:"0px"});
+			    			}else if(code==1){
+			    				_this.$route.router.go({path: '/myclan'});
+			    				layer.msg('修改成功',{offset:"0px"});
+			    				console.log('修改成功');
+			    			}
+			    		}, function(response){
+			    			console.log(22);
+			    		})
+			    	}
+		    	},function(){
+		    		layer.closeAll();
+		    	})
+			},
+			deletemember:function(event){
+				var $this = $(event.target),_this = this;
+				var nickname = $this.attr('nickname');
+				layer.confirm('将队员'+nickname+'移除战队',{
+					btn: ['移除','取消'], //按钮
+				  	move:false,
+				  	closeBtn:0
+				},function(){
+					var userId = $this.attr("userid");
+					var teamId = window.sessionStorage.getItem("teamId");
+					_this.$http.post('team/removeMember?teamId='+teamId+'&userId='+userId).then(function(response){
+						var code = response.data.code;
 		    			if(code==-1){
 		    				layer.msg('请先登录',{offset:"0px"});
 		    			}else if(code==0){
-		    				layer.msg('创建失败',{offset:"0px"});
+		    				layer.msg(response.data.msg,{offset:"0px"});
 		    			}else if(code==1){
-		    				_this.$route.router.go({path: '/myclan'});
-		    				layer.msg('创建成功',{offset:"0px"});
-		    				console.log('修改成功');
+		    				_this.$http.get('team/members?teamId='+teamId).then(function(response){
+		    					_this.memebrs = response.data.object.memebrs;
+		    				}, function(response){
+		    					console.log(22);
+		    				})
+		    				layer.msg('移除成功',{offset:"0px"});
 		    			}
-		    		}, function(response){
-		    			console.log(22);
-		    		})
-		    	}
+					}, function(response){
+						console.log(22)
+					})
+				},function(){
+					layer.closeAll();
+				})
 			},
 			turnCaptain:function(event){
 				var $this = $(event.target),_this = this;
-				var userId = $this.attr("userid");
-				var teamId = window.sessionStorage.getItem("teamId");
-				_this.$http.post('team/transferMonitor?teamId='+teamId+'&userId='+userId).then(function(response){
-					var code = response.data.code;
-	    			if(code==-1){
-	    				layer.msg('请先登录',{offset:"0px"});
-	    			}else if(code==0){
-	    				layer.msg(response.data.msg,{offset:"0px"});
-	    			}else if(code==1){
-	    				_this.$http.get('team/members?teamId='+teamId).then(function(response){
-	    					_this.memebrs = response.data.object.memebrs;
-	    				}, function(response){
-	    					console.log(22);
-	    				})
-	    				layer.msg('移交成功',{offset:"0px"});
-	    			}
-				}, function(response){
-					console.log(22)
+				var nickname = $this.attr('nickname');
+				layer.confirm('将队长移交至'+nickname,{
+					btn: ['移交','取消'], //按钮
+				  	move:false,
+				  	closeBtn:0
+				},function(){
+					var userId = $this.attr("userid");
+					var teamId = window.sessionStorage.getItem("teamId");
+					_this.$http.post('team/transferMonitor?teamId='+teamId+'&userId='+userId).then(function(response){
+						var code = response.data.code;
+		    			if(code==-1){
+		    				layer.msg('请先登录',{offset:"0px"});
+		    			}else if(code==0){
+		    				layer.msg(response.data.msg,{offset:"0px"});
+		    			}else if(code==1){
+		    				_this.$http.get('team/members?teamId='+teamId).then(function(response){
+		    					_this.memebrs = response.data.object.memebrs;
+		    				}, function(response){
+		    					console.log(22);
+		    				})
+		    				layer.msg('移交成功',{offset:"0px"});
+		    			}
+					}, function(response){
+						console.log(22)
+					})
+				},function(){
+					layer.closeAll();
 				})
 			},
 			tapsgl:function(event){
