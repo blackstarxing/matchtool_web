@@ -117,7 +117,7 @@ router.map({
 })
 
 router.redirect({
-  '*': '/index'
+  '*': '/landingpage'
 })
 
 router.start(matchtool, '#app')
