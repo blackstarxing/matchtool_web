@@ -874,7 +874,7 @@
         },function(response) {
               console.log(response);
           });
-
+      },
       saveTurn:function(e){
         e.preventDefault();
         var _this=this;

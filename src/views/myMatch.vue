@@ -8,7 +8,12 @@
 		<div class="perCenter_body">
 			<div class="perCenter_head">
 				<ul class="perCenter_head_tabList">
-					<li v-for="item in tabList" v-text="item.name" :class="{ tab_active: item.isCur }" @click="changeTab($index)">我组织的</li>
+					<template v-if="isCtfct">
+						<li v-for="item in tabList" v-text="item.name" :class="{ tab_active: item.isCur }" @click="changeTab($index)">我组织的</li>
+					</template>
+					<template v-else>
+						<li v-for="item in tabList" v-text="item.name" :class="{ tab_active: item.isCur }">我组织的</li>
+					</template>
 					<!-- <li>我参与的</li> -->
 				</ul>
 			</div>
@@ -16,6 +21,7 @@
 				<ul class="matchList">
 					<li class="matchList_item clearfix" v-for="item in eventShowList">
 						<img src="../../static/images/jlimg.png"" alt="">
+						<span class="privacyMacth_icon" v-if="item.privacy === 1"></span>
 						<div class="textInfo">
 							<h3 class="info_name" v-text="item.eventName"></h3>
 							<ul class="match_otherInfo">
@@ -26,16 +32,36 @@
 									<span>采用赛制：</span><span v-text="item.regime">网娱大师官方赛事组</span>
 								</li>
 								<li>
-									<span>参与人数：<span class="g-cjl-rsw"><span class="g-cjl-rsn" :style="{ width: (item.num / item.maxNum) + '%' }"></span></span>
+									<span>参与人数：<span class="g-cjl-rsw"><span class="g-cjl-rsn" :style="{ width: (item.num / item.maxNum) * 100 + '%' }"></span></span>
 									<span class="col42a">{{ item.num }}</span>/{{ item.maxNum }}
+									<template v-if="eventTypeFlag">
+										<i class="u-cjl-tip" v-if="item.num - item.maxNum > 0">
+											<span>
+												{{ item.num - item.maxNum }}{{ item.applyTypeText2 }}在候补区
+												<i class="u-cjl-tipws">
+												<i class="u-cjl-tipns"></i>
+												</i>
+											</span>
+										</i>
+									</template>
+									<template v-else>
+										<i class="u-cjl-tip">
+											<span>
+												{{ item.seatText }}
+												<i class="u-cjl-tipws">
+												<i class="u-cjl-tipns"></i>
+												</i>
+											</span>
+										</i>
+									</template>
 								</li>
 								<li>
-									<span>报名方式：</span><span>{{ item.applyType }}</span>
+									<span>报名方式：</span><span>{{ item.applyTypeText }}</span>
 								</li>
 							</ul>
 						</div>
 						<div class="timeInfo">
-							<p class="createtime" v-text=" item.createDate | formatDate ">2012.8.10 12:30 创建</p>
+							<p class="createtime" v-text=" item.createDate | formatDate " v-if="eventTypeFlag">2012.8.10 12:30 创建</p>
 							<div class="statusBox" v-text="item.statusText" :class=" { onGoing: item.isGoing } ">未发布</div>
 							<p class="m-cjl-kssj" v-if="item.matchBegin"><span class="col42a">{{ item._day }}</span>天<span class="col42a">{{ item._hour }}</span>小时<span class="col42a">{{ item._minute }}</span>分后可开赛</p>
 						</div>
@@ -55,13 +81,13 @@
 									<span>参与人数：<span class="g-cjl-rsw"><span class="g-cjl-rsn"></span></span>
 									<span class="col42a">80</span>/100
 									<i class="u-cjl-tip">
-									<span>
-										235名选手在候补区
-										<i class="u-cjl-tipws">
-											<i class="u-cjl-tipns"></i>
-										</i>
-									</span>
-								</i>
+										<span>
+											235名选手在候补区
+											<i class="u-cjl-tipws">
+												<i class="u-cjl-tipns"></i>
+											</i>
+										</span>
+									</i>
 								</li>
 								<li>
 									<span>报名方式：</span><span>6人战队报名</span>
@@ -127,10 +153,10 @@
 				</ul>
 				<div class="m-page ptb50">
         	<button id="prev" type="button"></button>
-        	<div class="pagination"><span class="current">1</span>/<span>2</span></div>
+        	<div class="pagination"><span class="current">{{ pageList.pageNumber }}</span>/<span>{{ pageList.pages }}</span></div>
         	<button id="next" type="button"></button>
         	<input type="text" id="pageipt" v-model="pageId">
-        	<button type="button" class="u-btn">跳转</button>
+        	<button type="button" class="u-btn" @click="getZZEventList(this.pageId)">跳转</button>
         </div>
 			</div>
 		</div>
@@ -147,8 +173,7 @@
 				ZZEventListFlag: false,
 				CYEventListFlag: false,
 				tabList: [
-					{ id: 0, name: '我组织的', isCur: true },
-					{ id: 1, name: '我参与的', isCur: false },
+					
 				],
 				responseFieldList: [
 					"activityBegin",
@@ -166,7 +191,7 @@
 					"eventName",
 					"statusText",
 					"teamMemeberNum",
-					"activityBegin"
+					"activityBegin"	
 				],
 				eventShowList: [
 
@@ -175,9 +200,18 @@
 
 				],
 				CYEventList: [
-					{ name: 'bbbbb' }
+
 				],
-				pageId: 1,
+				pageId: "",
+				// // 是否是认证用户
+				isCtfct: false,
+				pageList: {
+					firstPage: true,
+					lastPage: false,
+					pageNumber: 1,
+					pages: -1
+				},
+				eventTypeFlag: true       // 如果是组织赛事就是true，表示显示时间，参与赛事就是false，表示不显示时间
 			}
 		},
 		components: {
@@ -187,19 +221,28 @@
 	    createPop
 		},
 		ready: function () {
-			// 初始化时就查询我组织的赛事列表，仅查询一次，以后就不查询了
-			if (!this.ZZEventListFlag) {
-				this.ZZEventListFlag = true
-				this.ZZEventList = []
-				this.eventShowList = []
-				console.log(this.eventShowList.length + 'dasdasda')
-				this.getZZEventList()
-				
-				console.log(this.eventShowList.length + 'sdasd')
-				this.eventShowList = this.ZZEventList
+			// 获取是否是认证用户
+			this.$http.get('isIdentifyUser').then((response) => {
+				// console.log(response)
+				this.isCtfct = response.data.object.flag
+				// 是认证用户
+				if (this.isCtfct) {
+					this.tabList = [ { id: 0, name: '我组织的', isCur: true }, { id: 1, name: '我参与的', isCur: false } ]
+					this.eventTypeFlag = true
+					// 初始化时就查询我组织的赛事列表，仅查询一次，以后就不查询了
+					if (!this.ZZEventListFlag) {
+						// alert(456789)
+						this.ZZEventListFlag = true
+						this.getZZEventList(1)
+						// this.eventShowList = this.ZZEventList
+					}
+				} else {   // 不是认证用户
+					this.tabList = [ { id: 0, name: '我参与的', isCur: true } ]
+					this.eventTypeFlag = false
+					this.getCYEventList(1)
+				}
+			})
 
-				
-			}
 
 
 			
@@ -217,15 +260,31 @@
 			}
 		},
 		methods: {
-			getZZEventList: function () {
-				this.ZZEventList = []
+			getZZEventList: function (pageIdStr) {
+				console.log(this)
+				this.getEventList(pageIdStr, 'event/getEventRoundList', 0)    // 如果是得到组织的比赛，传0
+			},
+			getCYEventList: function (pageIdStr) {
+				this.getEventList(pageIdStr, ' event/getMyEventRoundList', 1) // 如果是得到组织的比赛，传1
+			},
+			getEventList: function (pageIdStr, url, eventListId) {
+				console.log(this)
+				var pageId = parseInt(pageIdStr)
+				// if (isNaN(pageId)) return
+				if (pageId > this.pageList.pageNumber) return 
 				var params = {}
 				var json = {}
-				json.pageNumber = this.pageId
+				json.pageNumber = pageId
 				params.jsonInfo = JSON.stringify(json)
-				console.log('当前页数： ' + this.pageId)
-				this.$http.get('event/getEventRoundList', params).then(function (response) {
+				console.log('当前页数： ' + this.pageList.pageNumber)
+				this.$http.get(url, params).then(function (response) {
 					// console.log(response)
+					var pager = response.data.object.pager
+					this.pageList.firstPage = pager.firstPage
+					this.pageList.lastPage = pager.lastPage
+					this.pageList.pageNumber = pager.pageNumber
+					this.pageList.pages = pager.pages
+					var eventList = []
 					var matchList = response.data.object.pager.list
 					for (var i = 0; i < matchList.length; i++) {
 						var obj = {}
@@ -250,7 +309,7 @@
 
 						if (obj.isPublish === null || obj.isPublish  === 0) {
 							obj.statusText = "未发布"
-						} else if (obj.isPublish  === 1){
+						} else if (obj.isPublish  === 1) {
 							if (obj.status === 1) {
 								obj.matchBegin = true
 								var matchBeginTimestamp = obj.activityBegin
@@ -271,40 +330,64 @@
 								obj.statusText = "已完结"
 							}
 						}
-
-						if (obj.applyType === 1) {
-							obj.applyType = "个人报名"
-						} else if (obj.applyType  === 2) {
-							if (obj.teamMemeberNum === null) obj.teamMemeberNum = 0
-							obj.applyType = obj.teamMemeberNum + "人战队报名"
+						// 不能报名
+						if (obj.allowApply === 0) {
+							obj.applyTypeText = "不允许报名"
+						} else {    // 能报名
+							if (obj.applyType === 1) {
+								obj.applyTypeText = "个人报名"
+								obj.applyTypeText2 = "选手"
+							} else if (obj.applyType  === 2) {
+								if (obj.teamMemeberNum === null) obj.teamMemeberNum = 0
+								obj.applyTypeText = obj.teamMemeberNum + "人战队报名"
+								obj.applyTypeText2 = "战队"
+							}
 						}
-							
-						this.ZZEventList.push(obj)
+						
+						if (!this.eventTypeFlag) {
+							if (matchList[i].seatNum === null) {
+								if (obj.applyType === 1) {
+									obj.seatText = "我处于候补区"
+								} else if (obj.applyType === 2) {
+									obj.seatText = "战队处于候补区"
+								}
+							} else {
+								if (obj.applyType === 1) {
+									obj.seatText = "我处于第" + matchList[i].seatNum + "位选手"
+								} else if (obj.applyType === 2) {
+									obj.seatText = "战队处于第" + matchList[i].seatNum + "位战队"
+								}
+							}
+						}
+						eventList.push(obj)
 					}
-					console.log(this.ZZEventList)
-					console.log(this.ZZEventList.length + 'bb')
-					console.log(this.eventShowList.length + 'aa')
+					// console.log(this.ZZEventList + 'bbbbbbbbbbb')
+					if (eventListId === 0) this.ZZEventList = eventList
+					else this.CYEventList = eventList
+					this.eventShowList = eventList
 				})
-			},
-			getCYEventList: function () {
-
 			},
 			changeTab: function (tabId) {
 				if (tabId === 0) {
+					console.log('aadsdas' + this.ZZEventList)
 					this.tabList[0].isCur = true
 					this.tabList[1].isCur = false
 					// 设置列表为我组织的赛事
-					//this.eventShowList = this.ZZEventList
+					this.eventTypeFlag = true
+					this.eventShowList = this.ZZEventList
+
+					console.log('bbbbbb' + this.eventShowList)
 				} else {
 					this.tabList[1].isCur = true
 					this.tabList[0].isCur = false
 					// 仅第一次切换tab进来查询我参与的赛事列表，以后就不查询了
 					if (!this.CYEventListFlag) {
 						this.CYEventListFlag = true
-						this.getCYEventList()
+						this.getCYEventList(1)
 					}
 					// 设置列表为我参与的赛事
-					//this.eventShowList = this.CYEventList
+					this.eventTypeFlag = false
+					this.eventShowList = this.CYEventList
 				}
 			}
 		}
@@ -335,6 +418,7 @@
 		cursor: pointer;
 	}
 	.matchList_item, .messageList_item {
+		position: relative;
 		width: 940px;
 		font-size: 12px;
 		color: #7a8387;
@@ -375,4 +459,18 @@
 		background: #fdb91a;
 		color: #1e1f24;
 	}
+	.privacyMacth_icon {
+		position: absolute;
+		top: 22px;
+		left: 156px;
+		width: 66px;
+		height: 20px;
+		background: url(../../static/images/privacyMacth_icon.png);
+	}
+
+
+
+
+
+
 </style>
