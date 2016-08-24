@@ -210,6 +210,17 @@
 	    createPop
 		},
 		ready: function () {
+			var param = window.location.href.split('?')[1]
+			if (param != undefined) {
+				var tabId = param.split('=')[1]
+				//alert(tabId)
+				if (tabId === "1") {
+					this.tabFlag = 1
+					this.tabList[0].isCur = false
+					this.tabList[1].isCur = true
+				}
+			}
+			
 			var _this = this
 			// 图片上传
 			$('#pic').diyUpload({

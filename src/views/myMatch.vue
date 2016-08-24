@@ -19,7 +19,7 @@
 			</div>
 			<div class="perCenter_content">
 				<ul class="matchList">
-					<li class="matchList_item clearfix" v-for="item in eventShowList">
+					<li class="matchList_item clearfix" v-for="item in eventShowList" data-id="{{ item.id }}" data-eventId="{{ item.eventId }}" @click="linkDetail">
 						<img src="../../static/images/jlimg.png"" alt="">
 						<span class="privacyMacth_icon" v-if="item.privacy === 1"></span>
 						<div class="textInfo">
@@ -191,7 +191,9 @@
 					"eventName",
 					"statusText",
 					"teamMemeberNum",
-					"activityBegin"	
+					"activityBegin",
+					"id",
+					"eventId"
 				],
 				eventShowList: [
 
@@ -260,6 +262,15 @@
 			}
 		},
 		methods: {
+			linkDetail: function(e){
+				// e.preventDefault();
+				var _target=$(e.currentTarget);
+				var _eventid=_target.attr("data-eventid");
+				var _roundid=_target.attr("data-id");
+				window.sessionStorage.setItem("eventId",_eventid);
+				window.sessionStorage.setItem("eventRoundId",_roundid);
+				this.$route.router.go({path: '/matchDetails'})
+			},
 			getZZEventList: function (pageIdStr) {
 				console.log(this)
 				this.getEventList(pageIdStr, 'event/getEventRoundList', 0)    // 如果是得到组织的比赛，传0
@@ -415,6 +426,9 @@
 		margin-left: 30px;
 		font-size: 14px;
 		color: #fff;
+		cursor: pointer;
+	}
+	.matchList_item {
 		cursor: pointer;
 	}
 	.matchList_item, .messageList_item {
