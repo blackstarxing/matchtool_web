@@ -220,6 +220,7 @@
 	border:1px solid transparent;
 	padding-bottom: 20px;
 	box-sizing: border-box;
+	cursor: pointer;
 }
 .match:nth-child(2){
 	margin:0 2%;
@@ -1125,6 +1126,11 @@ label.u-c-kz-sz{
 	width:32px;
 	height: 32px;
 }
+.avatar .icon-uniE60E{
+	display: inline-block;
+	-webkit-transition: 0.4s;
+	transition: 0.4s;
+}
 .nav-list{
 	position: absolute;
 	right:-20px;
@@ -1217,7 +1223,9 @@ label.u-c-kz-sz{
 .m-slideInto li.v-link-active [class^="icon-"],
 .m-sidebar li.v-link-active [class^="icon-"],
 .m-sidebar li.v-link-active,
-.m-slideInto li.v-link-active{
+.m-slideInto li.v-link-active,
+.m-slideInto li.slide-active,
+.m-slideInto li.slide-active [class^="icon-"]{
 	color:#fdb91a;
 }
 .m-slideInto li span.f-fr{

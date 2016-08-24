@@ -16,6 +16,7 @@ import backend from './views/backend.vue'
 import backendMsg from './views/backendMsg.vue'
 import backendTechpic from './views/backendTechpic.vue'
 import backendContestant from './views/backendContestant.vue'
+import backendTeam from './views/backendTeam.vue'
 import reset from './views/reset.vue'
 import landRegister from './views/landRegister.vue'
 import matchDetails from './views/matchDetails.vue'
@@ -75,6 +76,9 @@ router.map({
           },
           '/backendContestant': {
             component: backendContestant
+          },
+          '/backendTeam': {
+            component: backendTeam
           },
           '/reset': {
             component: reset

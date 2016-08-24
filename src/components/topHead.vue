@@ -4,16 +4,16 @@
 			<a href="" class="slidein" @click="slidein"></a>
 			<img src="../../static/images/logo.png" alt="">
 		</div>
-		<div class="header_right f-fr">
+		<div class="header_right f-fr" v-show="islogin">
       <a href="" class="notify"><span class="icon-uniE60D"></span></a>
       <div class="avatar">
         <img v-bind:src="'http://img.wangyuhudong.com/'+avatar"  alt="" v-if="avatar"><span class="icon-uniE60E"></span>
         <div class="nav-list">
           <ul>
-              <li><a @click="showPop"><span class="icon-uniE617"></span>创建赛事</a></li>
+              <!-- <li><a @click="showPop"><span class="icon-uniE617"></span>创建赛事</a></li> -->
               <li><a v-link="{ path: '/myMatch'}"><span class="icon-uniE618"></span>我的赛事</a></li>
-              <li><a v-link="{ path: '/perSetting'}"><span class="icon-uniE619"></span>个人设置</a></li>
-              <li><a><span class="icon-uniE61A"></span>参赛信息设置</a></li>
+              <li><a v-link="{ path: '/perSetting?tab=0'}"><span class="icon-uniE619"></span>个人设置</a></li>
+              <li><a v-link="{ path: '/perSetting?tab=1'}"><span class="icon-uniE61A"></span>参赛信息设置</a></li>
               <li><a v-link="{ path: '/myclan'}"><span class="icon-uniE61D"></span>战队系统</a></li>
               <!-- <li><a href=""><span class="icon-uniE61C"></span>反馈我们</a></li> -->
               <li><a href="" @click="logout"><span class="icon-uniE61B"></span>登出</a></li>
@@ -21,23 +21,44 @@
         </div>
       </div>
     </div>
+    <div class="header_right visitor f-fr" v-show="!islogin">
+      <a href="" v-link="{ path: '/landRegister'}">登录</a><span>•</span><a href="" v-link="{ path: '/landRegister'}">注册新用户</a>
+    </div>
 	</div>
 </template>
 <script>
   export default {
     data () {
       return {
-        avatar:""
+        avatar:"",
+        islogin:false
       }
   	},
   	ready:function(){
   		var _this=this;
+      _this.$http.get("isLogin").then(function(response){
+        if(response.data.object.loginFlag){
+          _this.islogin=true;
+        }else{
+          _this.islogin=false;
+        }
+      }, function(response){
+        console.log(response);
+      })
   		$('.avatar').hover(
         function(){
           $('.nav-list').show();
+          $('.icon-uniE60E').css({
+            'transform':'rotate(-180deg)',
+            '-webkit-transform':'rotate(-180deg)'
+          });
         },
         function(){
           $('.nav-list').hide();
+          $('.icon-uniE60E').css({
+            'transform':'rotate(0deg)',
+            '-webkit-transform':'rotate(0deg)'
+          });
         }
       );
       _this.avatar=window.sessionStorage.getItem("appusericon");
@@ -62,3 +83,18 @@
   	}
   }
 </script>
+<style type="text/css">
+  .visitor{
+    margin-right: 48px;
+    color:#fdb91a;
+  }
+  .visitor a{
+    display: inline-block;
+    margin: 0 10px;
+    line-height: 60px;
+    color:#b7c1c6;
+  }
+  .visitor a:hover{
+    color:#fdb91a;
+  }
+</style>

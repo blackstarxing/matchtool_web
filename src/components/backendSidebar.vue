@@ -18,10 +18,14 @@
   	},
   	ready:function(){
   		var _this=this;
-  		
+  		if(location.hash=='#/backend/backendTeam'){
+        $('.backendSidebar li').eq(3).addClass('slide-active');
+      }else{
+        $('.backendSidebar li').eq(3).removeClass('slide-active');
+      }
   	},
   	methods:{
-  		
+
   	}
   }
 </script>
