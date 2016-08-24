@@ -1,4 +1,5 @@
 <template>
+	<backend-sidebar></backend-sidebar>
 	<div class="backLast backend-nav">
 		<ul class="backend-tab f-cb" @click="tabTurn">
 			<li class="current">信息设置</li>
@@ -319,6 +320,7 @@
 	</div>
 </template>
 <script>
+import backendSidebar from '../components/backendSidebar.vue'
 export default {
 	data () {
   		return{
@@ -355,6 +357,9 @@ export default {
 			}
 		}
 	},
+	components:{
+    	backendSidebar
+	},
   	ready:function(){
   		var _this=this;
   		_this.formdata.eventId=window.sessionStorage.getItem("eventId");
@@ -384,6 +389,7 @@ export default {
         	_this.formdata.otherDescribe=_this.eventlist.otherDescribe;
         	_this.formdata.activityBegin=response.data.object.activityBegin;
         	_this.formdata.allowApply=_this.roundlist.allowApply;
+        	_this.formdata.applyType=_this.roundlist.applyType;
         	_this.formdata.applyBegin=response.data.object.applyBegin;
         	_this.formdata.applyEnd=response.data.object.applyEnd;
         	_this.formdata.brief=_this.eventlist.brief;
@@ -393,6 +399,9 @@ export default {
         	_this.formdata.needThird=_this.roundlist.needThird;
 
         	_this.isapply();
+        	if(_this.formdata.otherRequired){
+				$('#otherinfocherk').show();
+			}
         	$('#brief').editable({
 				inlineMode: false,
 				theme: 'dark', 

@@ -1,11 +1,10 @@
 <template>
 	<backend-head></backend-head>
-	<backend-sidebar></backend-sidebar>
+	
 	  <router-view></router-view> 
 </template>
 <script>
 import backendHead from '../components/backendHead.vue'
-import backendSidebar from '../components/backendSidebar.vue'
 export default {
 	data () {
   		return{
@@ -19,8 +18,7 @@ export default {
   		
   	},
   	components:{
-        backendHead,
-        backendSidebar
+        backendHead
   	}
 }
 </script>

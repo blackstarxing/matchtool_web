@@ -220,6 +220,7 @@
 	border:1px solid transparent;
 	padding-bottom: 20px;
 	box-sizing: border-box;
+	cursor: pointer;
 }
 .match:nth-child(2){
 	margin:0 2%;
@@ -900,7 +901,10 @@ label.u-c-kz-sz{
 	padding: 0.02rem;
 }
 .g-q-hp img{
-	width: 100%;
+	display: inline-block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
 }
 .g-q-jj{
 	margin-bottom: 0.27rem;
@@ -1063,6 +1067,11 @@ label.u-c-kz-sz{
 	width: 100%;
 	background: #171a21;
 }
+.u-q-cjzsz{
+	position: absolute;
+	right: -0.25rem;
+	top: 0.8rem;
+}
 
  /*头部*/
 .g-hd{
@@ -1116,6 +1125,11 @@ label.u-c-kz-sz{
 	border-radius: 50%;
 	width:32px;
 	height: 32px;
+}
+.avatar .icon-uniE60E{
+	display: inline-block;
+	-webkit-transition: 0.4s;
+	transition: 0.4s;
 }
 .nav-list{
 	position: absolute;
@@ -1209,7 +1223,9 @@ label.u-c-kz-sz{
 .m-slideInto li.v-link-active [class^="icon-"],
 .m-sidebar li.v-link-active [class^="icon-"],
 .m-sidebar li.v-link-active,
-.m-slideInto li.v-link-active{
+.m-slideInto li.v-link-active,
+.m-slideInto li.slide-active,
+.m-slideInto li.slide-active [class^="icon-"]{
 	color:#fdb91a;
 }
 .m-slideInto li span.f-fr{
@@ -2253,16 +2269,6 @@ label.u-c-kz-sz{
     bottom: -0.16rem;
 }
 
-
-
-
-
-
-
-
-
-
-
 	/*－－－－－－－－－－－－－－－－－－－－－－－－------------对阵图－－－－－－－－－－－－－－－－－－－－－－－*/
 .tech_body{
   padding:0 70px;
@@ -2375,7 +2381,7 @@ label.u-c-kz-sz{
   background: #171a21;
   position: relative;
   overflow: scroll;
-  cursor: move;
+  cursor: pointer;
   padding-top: 50px;
 }
 .turn_btn{
@@ -2474,7 +2480,7 @@ label.u-c-kz-sz{
 }
 .float_edit{
   position: absolute;
-  width: 180px;
+  width: 100px;
   height: 45px;
   top:-65px;
   left:200px;
@@ -2484,9 +2490,22 @@ label.u-c-kz-sz{
   z-index: 999;
   color: #fff;
 }
+.float_check{
+	position: absolute;
+	width: 50px;
+	height: 45px;
+	top:-65px;
+  	left:200px;
+  	background-color: #000;
+    opacity: 0.8;
+    display: none;
+    z-index: 999;
+    color: #fff;
+    text-align: center;
+}
 .float_edit li{
   float: left;
-  width: 33%;
+  width: 50%;
   text-align: center;
   cursor: pointer;
   position: relative;
@@ -2582,9 +2601,10 @@ label.u-c-kz-sz{
   text-align: center;
   line-height: 120px;
   font-size: 50px;
+  margin-top: 10px;
 }
 .edit_detail_top{
-  margin: 10px 100px;
+  margin: 0 100px;
 }
 .edit_detail_top li{
   float: left;
@@ -2592,11 +2612,23 @@ label.u-c-kz-sz{
   position: relative;
 }
 .edit_detail_mid{
+	width: 50px;
+	height: 200px;
+}
+.edit_detail_vs{
+  position: absolute;
   width: 50px;
   font-size: 24px;
-  top:45px;
+  top:70px;
+  left:0;
   font-weight: bold;
   color: #fdb91a;
+}
+.choose_winer_title{
+  position: absolute;
+  width: 60px;
+  top:160px;
+  left:0;
 }
 .edit_detail_bt{
   margin: 10px 100px 10px;
@@ -2722,14 +2754,85 @@ label.u-c-kz-sz{
 	line-height: 35px;
 }
 .made_winer{
-  height: 30px;
-  background: url(../../static/images/lose.png) no-repeat center;
+  height: 35px;
+  width: 35px;
+  line-height: 35px;
+  background-color: #36383f;
   cursor: pointer;
+  margin:45px auto 0;
+  border-radius: 3px;
 }
 .winer_active{
-  background: url(../../static/images/winer.png) no-repeat center !important;
+  background-color: #fdb91a !important;
 }
 .add_winer{
   background-color: #f9a32a;
 }
+
+/*赛事详情分享页*/
+.g-sh-m{
+	box-sizing: border-box;
+	width: 100%;
+	margin: 0 auto;
+	overflow: hidden;
+}
+.m-sh-pot img{
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+}
+.m-sh-fbsj{
+	position: absolute;
+	color: #7a8387;
+	right: 0.65rem;
+	bottom: 0.5rem;
+	font-size: 12px;
+}
+.m-sh-tit{
+	padding:0.5rem 0.6rem 0; 
+	color: #f2f6f9;
+	text-align: center;
+	font-size: 16px;
+	line-height: 1rem;
+}
+.m-sh-head{
+	display: block;
+	width: 2rem;
+	height: 2rem;
+	border-radius: 50%;
+	-webkit-border-radius:50%;
+	margin: 0.875rem auto 0;
+}
+.m-sh-name{
+	color: #d0d1d2;
+	font-size: 14px;
+	text-align: center;
+	line-height: 14px;
+	margin-top: 0.65rem;
+}
+.m-sh-jj{
+	font-size: 13px;
+	line-height: 21px;
+	color: #52595c;
+	padding: 0 0.6rem;
+    margin-top: 0.8rem;
+}
+@media screen and (max-width: 414px){
+	
+}
+@media screen and (min-width: 415px) and (max-width: 768px){
+	.m-sh-tit{
+		font-size: 32px;
+		padding: 0.675rem 0.6rem 0;
+	}
+}
+@media screen and (min-width: 769px) and (max-width: 1024px){
+	
+}
+
+
+
+
+
+
 
