@@ -1,5 +1,5 @@
 <template>
-	<visitor-head></visitor-head>
+	<top-head></top-head>
 	<side-bar></side-bar>
 	<slide-bar></slide-bar>
 	<create-pop></create-pop>
@@ -75,7 +75,7 @@
 </template>
 <script type="text/javascript">
 
-import visitorHead from '../components/visitorHead.vue'
+import topHead from '../components/topHead.vue'
 import sideBar from '../components/sideBar.vue'
 import slideBar from '../components/slideBar.vue'
 import createPop from '../components/createPop.vue'
@@ -98,7 +98,7 @@ import createPop from '../components/createPop.vue'
 			}
 		},
 		components:{
-			visitorHead,
+			topHead,
 	        sideBar,
 	        slideBar,
 	        createPop

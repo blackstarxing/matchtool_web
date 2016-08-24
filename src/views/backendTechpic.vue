@@ -1,4 +1,5 @@
 <template>
+<backend-sidebar></backend-sidebar>
   <div class="g-bd g-w">
     <div class="techpic-option">
       <div href="" class="techpic-edit" @click="editTechpic">编辑对阵图</div>
@@ -145,7 +146,7 @@
 </template>
 
 <script>
-
+import backendSidebar from '../components/backendSidebar.vue'
   export default {
     data () {
       return {
@@ -162,6 +163,9 @@
         seatidb:{},
       }
 
+    },
+    components:{
+      backendSidebar
     },
     ready: function(){
       var _this=this;
