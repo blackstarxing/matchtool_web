@@ -182,7 +182,7 @@
 		        		layer.msg('选手顺序已打乱');
 		        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 				        	console.log(response.data);
-				        	_this.memberlist=response.data.object.pager;
+				        	_this.teamlist=response.data.object.pager;
 				        },function(response) {
 				            console.log(response);
 				        });
@@ -214,7 +214,7 @@
 		        		layer.msg('签到状态已更改');
 		        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 				        	console.log(response.data);
-				        	_this.memberlist=response.data.object.pager;
+				        	_this.teamlist=response.data.object.pager;
 				        },function(response) {
 				            console.log(response);
 				        });
@@ -251,7 +251,7 @@
 			        		layer.msg('修改成功');
 					    	_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 					        	console.log(response.data);
-					        	_this.memberlist=response.data.object.pager;
+					        	_this.teamlist=response.data.object.pager;
 					        },function(response) {
 					            console.log(response);
 					        });
@@ -271,7 +271,7 @@
 			        		layer.msg('添加成功');
 			        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 					        	console.log(response.data);
-					        	_this.memberlist=response.data.object.pager;
+					        	_this.teamlist=response.data.object.pager;
 					        },function(response) {
 					            console.log(response);
 					        });
@@ -312,7 +312,7 @@
 			        		layer.msg('已删除');
 			        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 					        	console.log(response.data);
-					        	_this.memberlist=response.data.object.pager;
+					        	_this.teamlist=response.data.object.pager;
 					        },function(response) {
 					            console.log(response);
 					        });
@@ -359,11 +359,11 @@
 		    // 翻页
   			prevpage:function(e){
   				e.preventDefault();
-  				var currentpage = this.memberlist.pageNumber;
+  				var currentpage = this.teamlist.pageNumber;
 	    		if(currentpage>1){
 	    			currentpage--;
 	    			this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:currentpage}).then(function(response){
-	    				this.memberlist=response.data.object.pager;
+	    				this.teamlist=response.data.object.pager;
 		    		}, function(response){
 		    			console.log(response);
 		    		})
@@ -374,12 +374,12 @@
   			},
   			nextpage:function(e){
   				e.preventDefault();
-  				var currentpage = this.memberlist.pageNumber,
-  					maxpage = this.memberlist.pages;
+  				var currentpage = this.teamlist.pageNumber,
+  					maxpage = this.teamlist.pages;
 	    		if(currentpage<maxpage){
 	    			currentpage++;
 	    			this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:currentpage}).then(function(response){
-	    				this.memberlist=response.data.object.pager;
+	    				this.teamlist=response.data.object.pager;
 		    		}, function(response){
 		    			console.log(response);
 		    		})
@@ -392,13 +392,13 @@
   				e.preventDefault();
   				var pageNum=$('#pageto').val();
   				this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:pageNum}).then(function(response){
-	    				this.memberlist=response.data.object.pager;
+	    				this.teamlist=response.data.object.pager;
 		    		}, function(response){
 		    			console.log(response);
 		    		})
   			},
   			checkpage:function(e){
-  				var pages = this.memberlist.pages; 
+  				var pages = this.teamlist.pages; 
 		    	var num = $('#pageto').val();
 		    	if(num==0 && num!=""){
 		    		$('#pageto').val('1');
