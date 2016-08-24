@@ -604,6 +604,7 @@ export default {
     		_this.$http.post('event/saveBaseInfo',parm).then(function(response){
     			var code = response.data.code;
     			if(code==1){
+    				layer.msg('保存成功');
     				// window.sessionStorage.setItem("eventRoundId",response.data.object.eventRoundId);
     				// _this.$route.router.go({path: '/quickformat'});
     			}

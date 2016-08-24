@@ -167,6 +167,36 @@
 			</div>
 		</a>
 	</div>
+	<div class="m-mask m_check">
+    <div class="m-pop"style="margin: 75px auto 0;">
+      <div class="wrap">
+        <h3 style="text-align: center;">查看比分</h3>
+        <a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
+        <ul class="edit_detail_top clearfix">
+          <li class="edit_detail_left edit_detail_li">
+            <div class="edit_ring check_ring">{{personNamea.substr(0,1)}}</div>
+            <p style="margin:10px 0;">{{personNamea}}</p>
+            <div class="alread_score"><span class="alread_score_dt"></span><span style="display:none">{{seatida}}</span></div>
+          </li>
+          <li class="edit_detail_mid">vs</li>
+          <li class="edit_detail_right edit_detail_li">
+            <div class="edit_ring check_ring">{{personNameb.substr(0,1)}}</div>
+            <p style="margin:10px 0;">{{personNameb}}</p>
+            <div style="margin:0 auto;" class="alread_score"><span class="alread_score_dt"></span><span style="display:none">{{seatidb}}</span></div>
+          </li>
+        </ul>
+        <div class="turn_edit_line" style="text-align: center;"><img src="../../static/images/turnline.png"></div>
+        <table class='edit_detail_table'>
+          <tbody>
+            <tr v-for="scoreli in scorelis">
+              <td>{{scoreli.seatleft}}</td>
+              <td>{{scoreli.seatright}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>      
+    </div>
+  </div>
 </template>
 <script type="text/javascript">
 function add0(m){return m<10?'0'+m:m }
@@ -223,7 +253,13 @@ import createPop from '../components/createPop.vue'
     			publishTime:'',
     			brief:'',
     			prizeSetting:'',
-    			regimeRule:''
+    			regimeRule:'',
+    			personNamea:'',
+		        personNameb:'',
+		        scorelis:[],
+		        groupid:{},
+		        seatida:{},
+		        seatidb:{}
 			}
 		},
 		components:{
@@ -260,6 +296,7 @@ import createPop from '../components/createPop.vue'
 					_this.nickname = response.data.object.creater.nickname;
 					_this.isPublish = response.data.object.event.isPublish;
 					_this.appliable = response.data.object.appliable;
+					window.sessionStorage.setItem("applyType",response.data.object.round.applyType);
 					_this.poster = response.data.object.event.poster;
 					if(_this.poster=='' || _this.poster==null){
 						_this.poster='/uploads/2016/08/16/5126a4fc3e854db098ae08b16d79b8d8.jpg';
@@ -336,15 +373,19 @@ import createPop from '../components/createPop.vue'
 
             $(".turn_num_list").width(290*turn);
              _this.$nextTick(function () {
-                 $('.set_begin').datetimepicker({
-                          format:"Y-m-d H:i", 
-                          timepicker:false,     
-                          yearStart:2000,     
-                          yearEnd:2050, 
-                          minDate:new Date(),
-                          step:30
-                          });
-                    $.datetimepicker.setLocale('ch');
+                $('.set_begin').datetimepicker({
+                  format:"Y-m-d H:i",      
+                  yearStart:2000,     
+                  yearEnd:2050, 
+                  onShow:function(ct){
+                    this.setOptions({
+                           minDate: true,
+                           minTime: true
+                        })
+                  },
+                  step:10
+                });
+                $.datetimepicker.setLocale('ch');
               })
             
             
@@ -392,7 +433,6 @@ import createPop from '../components/createPop.vue'
                 var _height=unitul_all*Math.pow(2,turn-2);
                 var _width=(unitul_w+90)*turn;
                 _content.width(_width);
-                $('.techpic_move').height(_height);
                 var _techcon=$(".tech_container");
                 _techcon.height(_height+40);
                 _techcon.append('<canvas id="mycanvas" width='+_width+' height='+_height+'></canvas> ');
@@ -423,7 +463,7 @@ import createPop from '../components/createPop.vue'
                 var _topdY=[];
 
                 //生成非幂次方时第一列的矩形unit
-                 for(var i=0;i<onelist.length;i++){
+                for(var i=0;i<onelist.length;i++){
                     var _one_ul=listArry.eq(1).find(".unit_ul").eq(i);
                     var _one_list=_one_ul.find(".recta_num");
                     var _one_list_li=_one_ul.find(".recta");
@@ -433,12 +473,12 @@ import createPop from '../components/createPop.vue'
                           if(onelist[i].groups.length==2){
                            var _topd=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                           _topdY.push(_topd);
-                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li class="recta" data-seatid='+onelist[i].groups[0].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div></div><div class="out_li"><div class="group_num" style="top:90px">'+onelist[i].groups[1].groupNumber+'</div><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[1].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[1].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div></div></div>');
+                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li class="recta" data-seatid='+onelist[i].groups[0].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li></ul></div></div><div class="out_li"><div class="group_num" style="top:90px">'+onelist[i].groups[1].groupNumber+'</div><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[1].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[1].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[1].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li></ul></div></div></div>');
                         }else if(onelist[i].groups.length==1){
                               
                               var _tops=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                               _topsY.push(_tops);
-                              listArry.eq(0).append('<li class="out_li single_line"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li data-seatid='+onelist[i].groups[0].seats[0].id+' class="recta" style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div></li>');
+                              listArry.eq(0).append('<li class="out_li single_line"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li data-seatid='+onelist[i].groups[0].seats[0].id+' class="recta" style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li></ul></div></li>');
                             
                           }
                         }
@@ -447,7 +487,7 @@ import createPop from '../components/createPop.vue'
                       }else{
                           var _topd=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                           _topdY.push(_topd);
-                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[0].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div></div><div class="out_li"><div class="group_num" style="top:90px">'+onelist[i].groups[1].groupNumber+'</div><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[1].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[1].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div></div></div>');
+                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[0].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[0].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li></ul></div></div><div class="out_li"><div class="group_num" style="top:90px">'+onelist[i].groups[1].groupNumber+'</div><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[1].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[1].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'">'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" '+(onelist[i].groups[1].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li></ul></div></div></div>');
                     }
                 }
                 // console.log(_topdY);
@@ -647,7 +687,7 @@ import createPop from '../components/createPop.vue'
                  console.log(listone);
 
                 for(var i=0;i<listone.length;i++){
-                	listArry.eq(0).find('.out_li').css('position','relative');
+                  listArry.eq(0).find('.out_li').css('position','relative');
                   listArry.eq(0).find('.out_li').eq(i).html(newdom(i,listone)); 
                 }  
              }
@@ -686,74 +726,112 @@ import createPop from '../components/createPop.vue'
             }
 
             function newdom(i,list){
-                _html='<div class="group_num">'+list[i].groupNumber+'</div><ul class="unit_ul" data-groupid='+list[i].id+' style="width:200px;"><li class="recta" data-seatid='+list[i].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+list[i].seats[0].targetId+'><span class="recta_num">'+(list[i].seats[0].seatNumber?list[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(list[i].seats[0].target?list[i].seats[0].target.name:"")+'</span><span class="recta_right '+(list[i].seats[0].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+list[i].seats[1].id+'><input name="target_id" type="hidden" value='+list[i].seats[1].targetId+'><span class="recta_num">'+(list[i].seats[1].seatNumber?list[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(list[i].seats[1].target?list[i].seats[1].target.name:"")+'</span><span class="recta_right '+(list[i].seats[1].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatright:"")+'</span></li></ul><div class="add_options"></div>';
+                _html='<div class="group_num">'+list[i].groupNumber+'</div><ul class="unit_ul" data-groupid='+list[i].id+' style="width:200px;"><li class="recta" data-seatid='+list[i].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+list[i].seats[0].targetId+'><span class="recta_num">'+(list[i].seats[0].seatNumber?list[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(list[i].seats[0].target?list[i].seats[0].target.name:"")+'</span><span class="recta_right '+(list[i].seats[0].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+list[i].seats[1].id+'><input name="target_id" type="hidden" value='+list[i].seats[1].targetId+'><span class="recta_num">'+(list[i].seats[1].seatNumber?list[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(list[i].seats[1].target?list[i].seats[1].target.name:"")+'</span><span class="recta_right '+(list[i].seats[1].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div" '+(list[i].seats[1].target?"":"style='display: none'")+'><div class="edit_score" '+(list[i].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li></ul></div>';
 
                 return _html;
             }
 
             if(_this.matchdata.length == 2){
-            	listArry.eq(turn-1).find('.out_li').css('margin-bottom','60px');
-            	listArry.eq(turn-1).append('<li class="out_li"><ul class="unit_ul" data-groupid='+_this.matchdata[1].id+' style="width:200px;"><li class="recta" data-seatid='+_this.matchdata[1].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+_this.matchdata[1].seats[0].targetId+'><span class="recta_num">'+(_this.matchdata[1].seats[0].seatNumber?_this.matchdata[1].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(_this.matchdata[1].seats[0].target?_this.matchdata[1].seats[0].target.name:"")+'</span><span class="recta_right '+(_this.matchdata[1].seats[0].isWin?"add_winer":"")+'" '+(_this.matchdata[1].seats[1].target?"":"style='display: none'")+'>'+(_this.matchdata[1].scores?list[i].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+_this.matchdata[1].seats[1].id+'><input name="target_id" type="hidden" value='+_this.matchdata[1].seats[1].targetId+'><span class="recta_num">'+(_this.matchdata[1].seats[1].seatNumber?_this.matchdata[1].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(_this.matchdata[1].seats[1].target?_this.matchdata[1].seats[1].target.name:"")+'</span><span class="recta_right '+(_this.matchdata[1].seats[1].isWin?"add_winer":"")+'" '+(_this.matchdata[1].seats[1].target?"":"style='display: none'")+'>'+(_this.matchdata[1].scores?_this.matchdata[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div></li>')
+              listArry.eq(turn-1).find('.out_li').css('margin-bottom','60px');
+              listArry.eq(turn-1).append('<li class="out_li"><ul class="unit_ul" data-groupid='+_this.matchdata[1].id+' style="width:200px;"><li class="recta" data-seatid='+_this.matchdata[1].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+_this.matchdata[1].seats[0].targetId+'><span class="recta_num">'+(_this.matchdata[1].seats[0].seatNumber?_this.matchdata[1].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(_this.matchdata[1].seats[0].target?_this.matchdata[1].seats[0].target.name:"")+'</span><span class="recta_right '+(_this.matchdata[1].seats[0].isWin?"add_winer":"")+'" '+(_this.matchdata[1].seats[1].target?"":"style='display: none'")+'>'+(_this.matchdata[1].scores?list[i].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+_this.matchdata[1].seats[1].id+'><input name="target_id" type="hidden" value='+_this.matchdata[1].seats[1].targetId+'><span class="recta_num">'+(_this.matchdata[1].seats[1].seatNumber?_this.matchdata[1].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(_this.matchdata[1].seats[1].target?_this.matchdata[1].seats[1].target.name:"")+'</span><span class="recta_right '+(_this.matchdata[1].seats[1].isWin?"add_winer":"")+'" '+(_this.matchdata[1].seats[1].target?"":"style='display: none'")+'>'+(_this.matchdata[1].scores?_this.matchdata[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div" '+(_this.matchdata[1].target?"":"style='display: none'")+'><div class="edit_score" '+(_this.matchdata[1].scores?"style='opacity: 0;'":"")+'></div><ul class="float_edit"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li></ul></div></li>')
             }
 
-              window.allowDrop = function(e){
-                  e = window.event || e;
-                  e.preventDefault();
-                        
-                }
-              var srcdiv = null;
-              window.drag = function(e,divdom){
-                  srcdiv=divdom;  
-                  e.dataTransfer.setData("text/html",divdom.innerHTML); 
-                      
-              }
-              window.drop = function(e,divdom){
-                 e = window.event || e;
-                 e.preventDefault();
-                  var _seatid=$(divdom).parent('.recta').data("seatid");
-                  var _targetid=$(srcdiv).parent('.recta').find('input[name=target_id]').val();
-                  var parm={};
-                  parm.seatId=_seatid;
-                  parm.targetId=_targetid;
-                  var _getdata=e.dataTransfer.getData("text/html");
-                  _this.$http.get('event/round/groupSeat/change',parm).then(function(response){
-                    if(response.data.code){
-                        if(srcdiv != divdom){  
-                          srcdiv.innerHTML = divdom.innerHTML;  
-                          divdom.innerHTML=_getdata;  
-                      }
-                    }
-                    
-                  },function(response) {
-                    console.log(22);
-                  });
-              }
             _this.$nextTick(function(){
+              console.log(_this.roundStatus);
+              if(_this.roundStatus<6){
+                  // $('.edit_div').hide();
+                  // $('.recta_right').hide();
+                }else{
+                  $('.turn_btn').hide();
+                  $('.against_title_tip').hide();
+                  // $(".recta").attr('draggable',false);
+                }
+
                 if(_this.roundStatus<5){
                   $('.start_text').css('background-color','#999');
                 }
 
-                var move=false,
-				    left_=0,
-				    top_=0;
-				var _movebody=$('.tech_main_body');
-				_movebody.mousedown(function(e){
-				    move=true;
-				    left_=e.pageX-parseInt(_movebody.css("left"));
-				    top_=e.pageY-parseInt(_movebody.css("top"));
+                if(_this.roundStatus==7){
+                  $('.edit_div').hide();
+                }
 
-				}).mouseup(function(){
-				    move=false;
-				});
-				$(document).mousemove(function(e){
-				    if(move){
-				        var left_r=e.pageX-left_,
-				            top_r=e.pageY-top_;
-				            // console.log(e.pageX,left_,left_r)
-				            _movebody.css({"top":top_r,"left":left_r});
-				    }
-				});
+                var move=false,
+                    left_=0,
+                    top_=0;
+                var _movebody=$('.tech_main_body');
+                _movebody.mousedown(function(e){
+                    move=true;
+                    left_=e.pageX-parseInt(_movebody.css("left"));
+                    top_=e.pageY-parseInt(_movebody.css("top"));
+
+                }).mouseup(function(){
+                    move=false;
+                });
+                $(document).mousemove(function(e){
+                    if(move){
+                        var left_r=e.pageX-left_,
+                            top_r=e.pageY-top_;
+                            // console.log(e.pageX,left_,left_r)
+                            _movebody.css({"top":top_r,"left":left_r});
+                    }
+                });
             });
+               
+             //编辑查看悬浮框
+              $(".edit_score").mouseover(function(){
+                    $(this).next(".float_edit").show();
+                  });
+
+              $(".edit_div").mouseleave(function(){
+                    $(this).find(".float_edit").hide();
+                });
+
+              $(".float_edit_check").on("click",function(){
+                  $(".m_check").show();
+                   var $this=$(this);
+                   var _alscore=$('.alread_score_dt');
+                   _alscore.removeClass("compare_active");
+                   $('.add_guan').remove();
+                  var _parent=$this.closest(".out_li");
+                  var personname_a=_parent.find('.recta_personname').eq(0).text();
+                  var personname_b=_parent.find('.recta_personname').eq(1).text();
+                  _this.seatida=_parent.find('.recta').eq(0).data('seatid');
+                  _this.seatidb=_parent.find('.recta').eq(1).data('seatid');
+                 
+                  _this.personNamea=personname_a;
+                  _this.personNameb=personname_b;
+                  _this.groupid.groupId=_parent.find(".unit_ul").data("groupid");
+                 
+                   _this.$http.get('event/round/turn/getScores',_this.groupid).then(function(response){
+                      if(response.data.code){
+                       if(response.data.object.scores.length){
+                        _this.scorelis=response.data.object.scores;
+                        var _winer=response.data.object.winner;
+                        var _compare=response.data.object.compare;
+                        var _alscore=$('.alread_score_dt');
+                        if(_compare){
+                          var _comarr=_compare.split(":");
+                          _alscore.eq(0).text(_comarr[0]);
+                          _alscore.eq(1).text(_comarr[1]);
+                        }
+                        if(_winer){
+                          if(_winer==_this.seatida){
+                            _alscore.eq(0).addClass("compare_active");
+                            _alscore.eq(0).closest('.edit_detail_li').append('<img class="add_guan" src="../../static/images/guan.png">');
+                          }else{
+                            _alscore.eq(1).addClass("compare_active");
+                            _alscore.eq(1).closest('.edit_detail_li').append('<img class="add_guan" src="../../static/images/guan.png">');
+                          }
+                        }
+                      }
+                       }else{        
+                        layer.msg(response.data.msg,{offset:"0px"});
+                      }
+                      },function(response) {
+                              console.log(22);
+                          });
+                })
+             
           },function(response) {
               console.log(response);
           });
@@ -770,7 +848,10 @@ import createPop from '../components/createPop.vue'
 					this.tap1 = true;
 					this.tap2 = false;
 				}
-			}
+			},
+			closePop: function(e){
+		        $('.m-mask').hide();
+      		},
 		}
 	}
 </script>

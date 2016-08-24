@@ -295,10 +295,10 @@ import createPop from '../components/createPop.vue'
 			  			window.sessionStorage.setItem("appusericon",response.data.object.appUser.icon);
 			  			window.sessionStorage.setItem("nickname",response.data.object.appUser.nickname);
 			  			var _isInvite=window.sessionStorage.getItem("isInvite");
-
+			  			var _shardid=window.sessionStorage.getItem("shareId");
 			  			if(_isInvite){
 			  				window.sessionStorage.setItem("isInvite",false);
-			  				this.$route.router.go({path: '/claninvite'}); 
+			  				this.$route.router.go({path: '/claninvite?teamId='+_shardid+''}); 
 			  			}else{
 			  				this.$route.router.go({path: '/index'}); 
 			  			}
