@@ -24,19 +24,21 @@
 			<p class="g-q-name">{{name}}</p>
 			<div class="g-q-zbf">
 				<i class="g-q-hp f-fl">
-					<img src="../../static/images/head.png">
+					<img v-bind:src="'http://img.wangyuhudong.com/'+icon">
 				</i>
-				<span class="f-fl ml20">网娱官方赛事出品</span>
-				<span class="col7a8 f-fl ml20" v-show="isfabu">2016-7-29 13:03发布</span>
+				<span class="f-fl ml20">{{nickname}}</span>
+				<span class="col7a8 f-fl ml20" v-if="isPublish==1">{{publishTime}}发布</span>
 			</div>
-			<p class="g-q-jj col7a8">赛事还没有简介信息，<a href="#" v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
+			<p class="g-q-jj col7a8" v-if="brief==0 && isPublish==0">赛事还没有简介信息，<a href="#" v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
+			<p class="g-q-jj col7a8" v-if="brief==0 && isPublish==1">赛事还没有简介信息</p>
+			<p class="g-q-jj col7a8" v-if="brief!=0" v-html="brief"></p>
 			<p class="col7a8 g-q-dz" v-show="changemodedz">地址&nbsp<span class="colfdb">•</span>&nbsp{{addreass}}{{detailAddreass}}</p>
 			<ul class="g-q-tab clearfix">
 				<li v-bind:class="{'g-q-tabon':tap1}" val="1" @click="tapswitch">对阵图预览</li>
 				<li v-bind:class="{'g-q-tabon':tap2}" val="2" @click="tapswitch">赛事信息</li>
 			</ul>
 		</div>
-		<div class="g-q-gofb">当前赛事<a v-link="{ path: '/backend/backendMsg'}">尚未发布</a>，前往管理赛事页面，完善赛事信息并<a v-link="{ path: '/backend/backendMsg'}">发布</a>，让更多用户看到你的赛事。</div>
+		<div class="g-q-gofb" v-if="isPublish==0">当前赛事<a v-link="{ path: '/backend/backendMsg'}">尚未发布</a>，前往管理赛事页面，完善赛事信息并<a v-link="{ path: '/backend/backendMsg'}">发布</a>，让更多用户看到你的赛事。</div>
 		<div v-show="tap1">
 			<!-- 在这个div放置对阵图哦 -->
 			<div class="against_container">
@@ -131,14 +133,18 @@
 			</div>
 			<div class="g-q-jx">
 				<p class="g-q-jxp">赛事奖项</p>
-				<p class="g-q-jj col7a8" style="margin-bottom: 0;">还没有赛事奖项，<a v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
+				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="prizeSetting==0 && isPublish==0">还没有赛事奖项，<a v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
+				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="prizeSetting==0 && isPublish==1">有点抠！竟然没有奖励！</p>
+				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="prizeSetting!=0" v-html="prizeSetting"></p>
 			</div>
 			<div class="g-q-jx" style="margin-bottom:100px;">
 				<p class="g-q-jxp">赛事规则</p>
-				<p class="g-q-jj col7a8" style="margin-bottom: 0;">还没有赛事规则，<a v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
+				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="regimeRule==0 && isPublish==0">还没有赛事规则，<a v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
+				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="regimeRule==0 && isPublish==1">暂时还没有详细的赛事规则哦~</p>
+				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="regimeRule!=0" v-html="regimeRule"></p>
 			</div>
 		</div>
-		<div class="steps infosteps">
+		<div class="steps infosteps" v-if="isPublish==0">
 			<span class="line"></span>
 			<ul>
 				<li><i></i>填写基本信息</li>
@@ -147,16 +153,34 @@
 				<li><i></i>设置采用赛制</li>
 				<li class="current"><i></i>完善信息并发布</li>
 			</ul>
-			<a href="#">
-				<div class="g-q-sssz" v-link="{ path: '/backend/backendMsg'}">
+			<a v-link="{ path: '/backend/backendMsg'}">
+				<div class="g-q-sssz">
 					<img src="../../static/images/sssz.png">
 					赛事设置
 				</div>
 			</a>
 		</div>
+		<a v-link="{ path: '/backend/backendMsg'}" class="u-q-cjzsz" v-if="isCreater==1 && isPublish==1">
+			<div class="g-q-sssz">
+				<img src="../../static/images/sssz.png">
+				赛事设置
+			</div>
+		</a>
 	</div>
 </template>
 <script type="text/javascript">
+function add0(m){return m<10?'0'+m:m }
+function format(shijianchuo){
+	//shijianchuo是整数，否则要parseInt转换
+	var time = new Date(shijianchuo);
+	var y = time.getFullYear();
+	var m = time.getMonth()+1;
+	var d = time.getDate();
+	var h = time.getHours();
+	var mm = time.getMinutes();
+	var s = time.getSeconds();
+	return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm);
+}
 import topHead from '../components/topHead.vue'
 import sideBar from '../components/sideBar.vue'
 import slideBar from '../components/slideBar.vue'
@@ -184,7 +208,6 @@ import createPop from '../components/createPop.vue'
 				},
 				changemodedz:true,
 				isstart:false,
-				isfabu:false,
 				tap1:true,
 				tap2:false,
 				matchdata:'',
@@ -192,6 +215,15 @@ import createPop from '../components/createPop.vue'
     			overhalf:"",
     			turnnums:[],
     			roundStatus:'',
+    			appliable:'',//当前是否可报名
+    			isPublish:'',//是否发布
+    			isCreater:1,//当前用户是否为赛事创建者
+    			nickname:'',
+    			icon:'',
+    			publishTime:'',
+    			brief:'',
+    			prizeSetting:'',
+    			regimeRule:''
 			}
 		},
 		components:{
@@ -204,20 +236,36 @@ import createPop from '../components/createPop.vue'
 			var _this = this;
 			_this.formdata.oetRoundId = window.sessionStorage.getItem("eventRoundId");
 			_this.formdata.oetInfoId = window.sessionStorage.getItem("eventId");
-			var newsobj = _this.formdata;
-			var jsonInfo = JSON.stringify(newsobj);
-			var parm = new Object();
-			parm.jsonInfo = jsonInfo;
-			_this.$http.get('event/openOetInfo',parm).then(function(response){
+			var parm={};
+            parm.id=_this.formdata.oetInfoId;
+			_this.$http.get('event/info',parm).then(function(response){
 				console.log("成功");
 				var code = response.data.code;
 				if(code==1){
+					_this.brief= response.data.object.event.brief;
+					if(_this.brief=='' || _this.brief==null){
+						_this.brief = 0;
+					}
+					_this.prizeSetting = response.data.object.event.prizeSetting;
+					if(_this.prizeSetting=='' || _this.prizeSetting==null){
+						_this.prizeSetting = 0;
+					}
+					_this.regimeRule = response.data.object.event.regimeRule;
+					if(_this.regimeRule=='' || _this.regimeRule==null){
+						_this.regimeRule = 0;
+					}
+					_this.publishTime = format(response.data.object.round.publishTime);
+					_this.isCreater = response.data.object.isCreater;
+					_this.icon = response.data.object.creater.icon;
+					_this.nickname = response.data.object.creater.nickname;
+					_this.isPublish = response.data.object.event.isPublish;
+					_this.appliable = response.data.object.appliable;
 					_this.poster = response.data.object.event.poster;
 					if(_this.poster=='' || _this.poster==null){
 						_this.poster='/uploads/2016/08/16/5126a4fc3e854db098ae08b16d79b8d8.jpg';
 					}
 					_this.name = response.data.object.event.name;
-					_this.itemName = response.data.object.event.itemName;
+					_this.itemName = response.data.object.event.items.name;
 					_this.mode = response.data.object.event.mode;
 					_this.addreass = response.data.object.round.addreass;
 					_this.detailAddreass = response.data.object.round.detailAddreass;
@@ -246,35 +294,25 @@ import createPop from '../components/createPop.vue'
 						_this.regime = '小组积分制';
 					}
 					_this.maxNum = response.data.object.round.maxNum;
-					function add0(m){return m<10?'0'+m:m }
-					function format(shijianchuo){
-						//shijianchuo是整数，否则要parseInt转换
-						var time = new Date(shijianchuo);
-						var y = time.getFullYear();
-						var m = time.getMonth()+1;
-						var d = time.getDate();
-						var h = time.getHours();
-						var mm = time.getMinutes();
-						var s = time.getSeconds();
-						return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm);
-					}
 					_this.activityBegin = format(response.data.object.round.activityBegin);
 					_this.applyBegin = format(response.data.object.round.applyBegin);
 					_this.applyEnd = format(response.data.object.round.applyEnd);
-					_this.needSignMinu = '开赛前'+response.data.object.event.needSignMinu+'分钟';
+					_this.needSignMinu = '开赛前'+response.data.object.event.needSignMinute+'分钟';
 					_this.allowApply = response.data.object.round.allowApply;
 					if(_this.allowApply==0){
 						_this.needSignMinu = '不需要签到';
 						_this.applyBegin='';
 						_this.applyEnd='';
+					}else{
+						if(response.data.object.event.needSign == 0){
+							_this.needSignMinu = '不需要签到';
+						}
 					}
 				}
 			}, function(response){
 				console.log(22);
 			})
 
-       var parm={};
-       parm.id=_this.formdata.oetInfoId;
        _this.$http.get('event/info',parm).then(function(response){
         console.log(response);
             _this.personnum=response.data.object.iscountm?true:false;

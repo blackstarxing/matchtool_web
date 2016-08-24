@@ -900,7 +900,10 @@ label.u-c-kz-sz{
 	padding: 0.02rem;
 }
 .g-q-hp img{
-	width: 100%;
+	display: inline-block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
 }
 .g-q-jj{
 	margin-bottom: 0.27rem;
@@ -1062,6 +1065,11 @@ label.u-c-kz-sz{
 .g-c-plan{
 	width: 100%;
 	background: #171a21;
+}
+.u-q-cjzsz{
+	position: absolute;
+	right: -0.25rem;
+	top: 0.8rem;
 }
 
  /*头部*/
@@ -2732,4 +2740,71 @@ label.u-c-kz-sz{
 .add_winer{
   background-color: #f9a32a;
 }
+
+/*赛事详情分享页*/
+.g-sh-m{
+	box-sizing: border-box;
+	width: 100%;
+	margin: 0 auto;
+	overflow: hidden;
+}
+.m-sh-pot img{
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+}
+.m-sh-fbsj{
+	position: absolute;
+	color: #7a8387;
+	right: 0.65rem;
+	bottom: 0.5rem;
+	font-size: 12px;
+}
+.m-sh-tit{
+	padding:0.5rem 0.6rem 0; 
+	color: #f2f6f9;
+	text-align: center;
+	font-size: 16px;
+	line-height: 1rem;
+}
+.m-sh-head{
+	display: block;
+	width: 2rem;
+	height: 2rem;
+	border-radius: 50%;
+	-webkit-border-radius:50%;
+	margin: 0.875rem auto 0;
+}
+.m-sh-name{
+	color: #d0d1d2;
+	font-size: 14px;
+	text-align: center;
+	line-height: 14px;
+	margin-top: 0.65rem;
+}
+.m-sh-jj{
+	font-size: 13px;
+	line-height: 21px;
+	color: #52595c;
+	padding: 0 0.6rem;
+    margin-top: 0.8rem;
+}
+@media screen and (max-width: 414px){
+	
+}
+@media screen and (min-width: 415px) and (max-width: 768px){
+	.m-sh-tit{
+		font-size: 32px;
+		padding: 0.675rem 0.6rem 0;
+	}
+}
+@media screen and (min-width: 769px) and (max-width: 1024px){
+	
+}
+
+
+
+
+
+
 
