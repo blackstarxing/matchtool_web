@@ -5,7 +5,7 @@
 			<img src="../../static/images/logo.png" alt="">
 		</div>
 		<div class="header_right f-fr" v-show="islogin">
-      <a href="" class="notify"><span class="icon-uniE60D"></span></a>
+      <a href="" class="notify" v-link="{ path: '/myMessage'}"><span class="icon-uniE60D"></span></a>
       <div class="avatar">
         <img v-bind:src="'http://img.wangyuhudong.com/'+avatar"  alt="" v-if="avatar"><span class="icon-uniE60E"></span>
         <div class="nav-list">
