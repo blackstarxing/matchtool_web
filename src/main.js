@@ -92,16 +92,13 @@ router.map({
     '/matchDetails': {
         component: matchDetails
     },
-    // '/perSetting/:tabId': {
-    //     name: 'perSetting',
-    //     component: perSetting
-    // },
-    '/perSetting': {
+    '/perSetting/:userId': {
+        name: 'perSetting',
         component: perSetting
     },
-    '/perSettingtab': {
-        component: perSettingtab
-    },
+    // '/perSetting': {
+    //     component: perSetting
+    // },
     '/myMatch': {
         component: myMatch
     },

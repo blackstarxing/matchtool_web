@@ -12,8 +12,8 @@
           <ul>
               <!-- <li><a @click="showPop"><span class="icon-uniE617"></span>创建赛事</a></li> -->
               <li v-link="{ path: '/myMatch'}"><a><span class="icon-uniE618"></span>我的赛事</a></li>
-              <li v-link="{ path: '/perSetting?tab=0'}"><a><span class="icon-uniE619"></span>个人设置</a></li>
-              <li v-link="{ path: '/perSetting?tab=1'}"><a><span class="icon-uniE61A"></span>参赛信息设置</a></li>
+              <li v-link="{ name: 'perSetting', params: { userId: 0 }}"><a><span class="icon-uniE619"></span>个人设置</a></li>
+              <li v-link="{ name: 'perSetting', params: { userId: 1 }}"><a><span class="icon-uniE61A"></span>参赛信息设置</a></li>
               <li v-link="{ path: '/myclan'}"><a><span class="icon-uniE61D"></span>战队系统</a></li>
               <!-- <li><a href=""><span class="icon-uniE61C"></span>反馈我们</a></li> -->
               <li><a @click="logout"><span class="icon-uniE61B"></span>登出</a></li>

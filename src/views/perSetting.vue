@@ -157,6 +157,11 @@
 	import slideBar from '../components/slideBar.vue'
 	import createPop from '../components/createPop.vue'	
 	export default {
+		route: {
+			data () {
+				this.tabFlag = this.$route.params.userId
+			}
+		},
 		data () {
 			return {
 				nicknameErrorTexr: false,
@@ -211,7 +216,6 @@
 	    createPop
 		},
 		ready: function () {
-			alert(123)
 			var param = window.location.href
 			console.log(param.charAt(param.length-1))
 			// if (param[param.length - 1] != undefined) {
