@@ -45,12 +45,19 @@
 						</div>
 					</li> -->
 				</ul>
-				<div class="m-page ptb50">
+				<!-- <div class="m-page ptb50">
         	<button id="prev" type="button"></button>
         	<div class="pagination"><span class="current">1</span>/<span>2</span></div>
         	<button id="next" type="button"></button>
         	<input type="text" id="pageipt" v-model="pageId">
         	<button type="button" class="u-btn">跳转</button>
+        </div> -->
+        <div class="m-page ptb50">
+        	<button id="prev" type="button" @click="prevpage"></button>
+        	<div class="pagination"><span class="current">{{ pageList.pageNumber }}</span>/<span>{{ pageList.pages }}</span></div>
+        	<button id="next" type="button" @click="nextpage"></button>
+        	<input type="text" id="pageto" v-model="pageId" @keyup="checkpage">
+        	<button type="button" class="u-btn" @click="gopage">跳转</button>
         </div>
 			</div>
 		</div>
@@ -79,8 +86,15 @@
 				matchMsgList: [
 
 				],
-				pageId: 1,
-				iconSrc: "../../static/images/myMsg_icon1.png"
+				pageId: "",
+				iconSrc: "../../static/images/myMsg_icon1.png",
+				pageList: {
+					firstPage: true,
+					lastPage: false,	
+					pageNumber: 1,
+					pages: -1
+				},
+				msgTypeFlag: true
 			}
 		},
 		components: {
@@ -152,8 +166,9 @@
 				console.log('当前页数： ' + this.pageId)
 				this.$http.get('msg/getMsgList', params).then(function (response) {
 					// console.log(response)
-					var list = response.data.object.msgList
-
+					var list = response.data.object.msgList.list
+					this.pageList.pages = response.data.object.msgList.pages
+					this.pageList.pageNum = response.data.object.msgList.pageNum
 					if (typeId === 1) {
 						this.sysMsgList = list
 					} else if (typeId === 2) {
@@ -172,6 +187,7 @@
 				if (tabId === 0) {
 					this.tabList[0].isCur = true
 					this.tabList[1].isCur = false
+					this.msgTypeFlag = true
 					// 设置列表为我组织的赛事
 					// alert('ZZ')
 					this.msgShowList = this.sysMsgList
@@ -179,6 +195,7 @@
 				} else {
 					this.tabList[1].isCur = true
 					this.tabList[0].isCur = false
+					this.msgTypeFlag = false
 					// alert('CY')
 					// 仅第一次切换tab进来查询我参与的赛事列表，以后就不查询了
 					if (!this.matchMsgListFlag) {
@@ -189,6 +206,45 @@
 					this.msgShowList = this.matchMsgList
 					this.iconSrc = "../../static/images/myMsg_icon2.png"
 				}
+			},
+			// 翻页
+			prevpage:function(e){
+				// e.preventDefault();
+				var currentpage = this.pageList.pageNumber;
+    		if(currentpage>1){
+    			currentpage--;
+    			this.getMsgList(this.msgTypeFlag ? 1 : 2, parseInt(currentpage))
+    		}
+    		else{
+    			layer.msg('没有上一页了');
+    		}
+			},
+			nextpage:function(e){
+				// e.preventDefault();
+				var currentpage = this.pageList.pageNumber,
+					maxpage = this.pageList.pages;
+    		if(currentpage<maxpage){
+    			currentpage++;
+    		
+    			this.getMsgList(this.msgTypeFlag ? 1 : 2, parseInt(currentpage))
+    		}
+    		else{
+    			layer.msg('没有下一页了');
+    		}
+			},
+			gopage:function(e){
+				// e.preventDefault();
+  			this.getMsgList(this.msgTypeFlag ? 1 : 2, parseInt(this.pageId))
+			},
+			checkpage:function(e){
+				var pages = this.pageList.pages; 
+	    	var num = $('#pageto').val();
+	    	console.log(typeof num)
+	    	if(num==0 && num!=""){
+	    		$('#pageto').val('1');
+	    	}else if(num>pages){
+	    		$('#pageto').val(pages);
+	    	}
 			}
 		}
 	}
