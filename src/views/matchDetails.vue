@@ -276,84 +276,80 @@ import createPop from '../components/createPop.vue'
 			_this.formdata.oetInfoId = window.sessionStorage.getItem("eventId");
 			var parm={};
             parm.id=_this.formdata.oetInfoId;
-			_this.$http.get('event/info',parm).then(function(response){
-				console.log("成功");
-				var code = response.data.code;
-				if(code==1){
-					_this.brief= response.data.object.event.brief;
-					if(_this.brief=='' || _this.brief==null){
-						_this.brief = 0;
-					}
-					_this.prizeSetting = response.data.object.event.prizeSetting;
-					if(_this.prizeSetting=='' || _this.prizeSetting==null){
-						_this.prizeSetting = 0;
-					}
-					_this.regimeRule = response.data.object.event.regimeRule;
-					if(_this.regimeRule=='' || _this.regimeRule==null){
-						_this.regimeRule = 0;
-					}
-					_this.publishTime = format(response.data.object.round.publishTime);
-					_this.isCreater = response.data.object.isCreater;
-					_this.icon = response.data.object.creater.icon;
-					_this.nickname = response.data.object.creater.nickname;
-					_this.isPublish = response.data.object.event.isPublish;
-					_this.appliable = response.data.object.appliable;
-					window.sessionStorage.setItem("applyType",response.data.object.round.applyType);
-					_this.poster = response.data.object.event.poster;
-					if(_this.poster=='' || _this.poster==null){
-						_this.poster='/uploads/2016/08/16/5126a4fc3e854db098ae08b16d79b8d8.jpg';
-					}
-					_this.name = response.data.object.event.name;
-					_this.itemName = response.data.object.event.items.name;
-					_this.mode = response.data.object.event.mode;
-					_this.addreass = response.data.object.round.addreass;
-					_this.detailAddreass = response.data.object.round.detailAddreass;
-					if(_this.mode==1){
-						_this.mode='线上赛事';
-						_this.changemodedz = false;
-					}else if(_this.mode==2){
-						_this.mode='线下模式';
-					}else if(_this.mode==3){
-						_this.mode='线上与线下结合模式';
-					}
-					_this.type = response.data.object.round.type;
-					if(_this.type==1){
-						_this.type='单阶段';
-					}else if(_this.type==2){
-						_this.type='双阶段';
-					}
-					_this.regime = response.data.object.round.regime;
-					if(_this.regime==1){
-						_this.regime = '单败淘汰制';
-					}else if(_this.regime==2){
-						_this.regime = '双败淘汰制';
-					}else if(_this.regime==3){
-						_this.regime = '小组循环制';
-					}else if(_this.regime==4){
-						_this.regime = '小组积分制';
-					}
-					_this.maxNum = response.data.object.round.maxNum;
-					_this.activityBegin = format(response.data.object.round.activityBegin);
-					_this.applyBegin = format(response.data.object.round.applyBegin);
-					_this.applyEnd = format(response.data.object.round.applyEnd);
-					_this.needSignMinu = '开赛前'+response.data.object.event.needSignMinute+'分钟';
-					_this.allowApply = response.data.object.round.allowApply;
-					if(_this.allowApply==0){
-						_this.needSignMinu = '不需要签到';
-						_this.applyBegin='';
-						_this.applyEnd='';
-					}else{
-						if(response.data.object.event.needSign == 0){
-							_this.needSignMinu = '不需要签到';
-						}
-					}
-				}
-			}, function(response){
-				console.log(22);
-			})
-
+			
        _this.$http.get('event/info',parm).then(function(response){
         console.log(response);
+			var code = response.data.code;
+			if(code==1){
+				_this.brief= response.data.object.event.brief;
+				if(_this.brief=='' || _this.brief==null){
+					_this.brief = 0;
+				}
+				_this.prizeSetting = response.data.object.event.prizeSetting;
+				if(_this.prizeSetting=='' || _this.prizeSetting==null){
+					_this.prizeSetting = 0;
+				}
+				_this.regimeRule = response.data.object.event.regimeRule;
+				if(_this.regimeRule=='' || _this.regimeRule==null){
+					_this.regimeRule = 0;
+				}
+				_this.publishTime = format(response.data.object.round.publishTime);
+				_this.isCreater = response.data.object.isCreater;
+				_this.icon = response.data.object.creater.icon;
+				_this.nickname = response.data.object.creater.nickname;
+				_this.isPublish = response.data.object.event.isPublish;
+				_this.appliable = response.data.object.appliable;
+				window.sessionStorage.setItem("applyType",response.data.object.round.applyType);
+				_this.poster = response.data.object.event.poster;
+				if(_this.poster=='' || _this.poster==null){
+					_this.poster='/uploads/2016/08/16/5126a4fc3e854db098ae08b16d79b8d8.jpg';
+				}
+				_this.name = response.data.object.event.name;
+				_this.itemName = response.data.object.event.items.name;
+				_this.mode = response.data.object.event.mode;
+				_this.addreass = response.data.object.round.addreass;
+				_this.detailAddreass = response.data.object.round.detailAddreass;
+				if(_this.mode==1){
+					_this.mode='线上赛事';
+					_this.changemodedz = false;
+				}else if(_this.mode==2){
+					_this.mode='线下模式';
+				}else if(_this.mode==3){
+					_this.mode='线上与线下结合模式';
+				}
+				_this.type = response.data.object.round.type;
+				if(_this.type==1){
+					_this.type='单阶段';
+				}else if(_this.type==2){
+					_this.type='双阶段';
+				}
+				_this.regime = response.data.object.round.regime;
+				if(_this.regime==1){
+					_this.regime = '单败淘汰制';
+				}else if(_this.regime==2){
+					_this.regime = '双败淘汰制';
+				}else if(_this.regime==3){
+					_this.regime = '小组循环制';
+				}else if(_this.regime==4){
+					_this.regime = '小组积分制';
+				}
+				_this.maxNum = response.data.object.round.maxNum;
+				_this.activityBegin = format(response.data.object.round.activityBegin);
+				_this.applyBegin = format(response.data.object.round.applyBegin);
+				_this.applyEnd = format(response.data.object.round.applyEnd);
+				_this.needSignMinu = '开赛前'+response.data.object.event.needSignMinute+'分钟';
+				_this.allowApply = response.data.object.round.allowApply;
+				if(_this.allowApply==0){
+					_this.needSignMinu = '不需要签到';
+					_this.applyBegin='';
+					_this.applyEnd='';
+				}else{
+					if(response.data.object.event.needSign == 0){
+						_this.needSignMinu = '不需要签到';
+					}
+				}
+			}
+
             _this.personnum=response.data.object.iscountm?true:false;
             _this.overhalf=response.data.object.iscountj1?true:false;
              _this.matchdata=response.data.object.groups;

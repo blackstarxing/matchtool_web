@@ -212,7 +212,7 @@ import backendSidebar from '../components/backendSidebar.vue'
            }
         
       }else if(response.data.object.roundStatus==7){
-        $('.ending_tech').show();
+        // $('.ending_tech').show();
         
           }
 
@@ -1000,21 +1000,7 @@ import backendSidebar from '../components/backendSidebar.vue'
                 $recta.eq(2).append(_imgfour);
               }
             }
-            var beginparm={};
-            var _eventid=window.sessionStorage.getItem("eventId");
-            var _roundid=window.sessionStorage.getItem("eventRoundId");
-            beginparm.oetInfoId=_eventid;
-            beginparm.oetRoundId=_roundid;
-            var parmstr=JSON.stringify(beginparm);
-            var _parm={};
-            _parm.jsonInfo=parmstr;
-          // _this.$http.get('event/getStatusByTime',_parm).then(function(response){
-          //     _this.champion=response.data.object.firstName;
-          //     _this.second=response.data.object.secondName;
-
-          // },function(response) {
-          //           console.log(response);
-          //       });
+           
           }else{
             layer.msg(response.data.msg,{offset:"0px"});
           }
