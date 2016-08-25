@@ -280,10 +280,10 @@
 		    		var message="";
 	    			if(value==""){
 	    				valid=false;
-			    		message=_this.memberText+"名称不能为空";
+			    		message="选手名称不能为空";
 			    	}else if(strlen(value)>15){
 			    		valid=false;
-			    		message=_this.memberText+"名称过长";
+			    		message="选手名称过长";
 			    	}
 			    	errorPlacement(message,$('.add-wrap .name'));			    	   
 				    return valid;
@@ -512,16 +512,19 @@
 		    	window.location.href="http://match.wangyuhudong.com/api/event/round/group/member/export?roundId="+_this.roundId;
 		    },
 		    // 翻页
+		    pageTo:function(page){
+				this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:page}).then(function(response){
+    				this.memberlist=response.data.object.pager;
+	    		}, function(response){
+	    			console.log(response);
+	    		})
+			},
   			prevpage:function(e){
   				e.preventDefault();
   				var currentpage = this.memberlist.pageNumber;
 	    		if(currentpage>1){
 	    			currentpage--;
-	    			this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:currentpage}).then(function(response){
-	    				this.memberlist=response.data.object.pager;
-		    		}, function(response){
-		    			console.log(response);
-		    		})
+	    			this.pageTo(currentpage);
 	    		}
 	    		else{
 	    			layer.msg('没有上一页了');
@@ -533,11 +536,7 @@
   					maxpage = this.memberlist.pages;
 	    		if(currentpage<maxpage){
 	    			currentpage++;
-	    			this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:currentpage}).then(function(response){
-	    				this.memberlist=response.data.object.pager;
-		    		}, function(response){
-		    			console.log(response);
-		    		})
+	    			this.pageTo(currentpage);
 	    		}
 	    		else{
 	    			layer.msg('没有下一页了');
@@ -546,11 +545,7 @@
   			gopage:function(e){
   				e.preventDefault();
   				var pageNum=$('#pageto').val();
-  				this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:pageNum}).then(function(response){
-	    				this.memberlist=response.data.object.pager;
-		    		}, function(response){
-		    			console.log(response);
-		    		})
+  				this.pageTo(pageNum);
   			},
   			checkpage:function(e){
   				var pages = this.memberlist.pages; 

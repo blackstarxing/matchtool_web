@@ -8,13 +8,15 @@
 					<p>赛事发布后将无法修改一些基本信息。已发布的赛事可取消发布。</p>
 				</div>
 				<div class="reset-btn">
-					<section class="deploy-set">
+					<section class="deploy-set" v-if="status.isPublish==0">
 						<div class="setbox">
-							<div class="dis-sign" v-if="roundStatus>5"></div>
-							<input type="checkbox" v-bind:checked="status.isPublish==1" v-model="isPublish" @click="publishset">
+							<div class="dis-sign" v-if="roundStatus>5"></div>							
+							<!-- <input type="checkbox" checked="" v-model="isPublish" id="publish" @click="publishset" v-if="status.isPublish==1"> -->
+							<input type="checkbox" v-model="isPublish" @click="publishset">
 							<label></label>
 						</div>
 					</section>
+					<button class="u-btn" disabled="" @click="" v-else>已发布</button>
 				</div>
 			</div>
 			<div class="reset-box f-cb">
@@ -27,7 +29,8 @@
 					<section class="deploy-set">
 						<div class="setbox public">
 							<div class="dis-sign" v-if="roundStatus>5"></div>
-							<input type="checkbox" v-bind:checked="status.privacy==2" v-model="privacy" @click="privacyset">
+							<input type="checkbox" checked="" v-model="privacy" @click="privacyset" v-if="status.privacy==2">
+							<input type="checkbox" v-model="privacy" @click="privacyset" v-else>
 							<label></label>
 						</div>
 					</section>
@@ -112,7 +115,7 @@ import backendSidebar from '../components/backendSidebar.vue'
 			  	closeBtn:0
 			}, function(){
 				layer.closeAll();
-				_this.refresh();
+				_this.isPublish=!_this.isPublish;
 			}, function(){				
 				if(_target.attr('checked')=="checked"){
 		    		_target.attr('checked',false);
@@ -126,10 +129,10 @@ import backendSidebar from '../components/backendSidebar.vue'
 		    	_this.$http.get('event/setPublish',parm).then(function(response) {
 		        	console.log(response.data.msg);
 		        	if(response.data.code==1){
-		        		layer.msg('发布状态已更改',{offset:"0px"});
+		        		layer.msg('发布状态已更改');
 		        		_this.refresh();
 		        	}else{
-		        		layer.msg(response.data.msg,{offset:"0px"});
+		        		layer.msg(response.data.msg);
 		        	}
 		        },function(response) {
 		            console.log(response);
@@ -153,9 +156,9 @@ import backendSidebar from '../components/backendSidebar.vue'
 	    	_this.$http.get('event/setPrivacy',parm).then(function(response) {
 	        	console.log(response.data.msg);
 	        	if(response.data.code==1){
-	        		layer.msg('隐私状态已更改',{offset:"0px"});
+	        		layer.msg('隐私状态已更改');
 	        	}else{
-	        		layer.msg(response.data.msg,{offset:"0px"});
+	        		layer.msg(response.data.msg);
 	        	}
 	        },function(response) {
 	            console.log(response);
@@ -175,9 +178,9 @@ import backendSidebar from '../components/backendSidebar.vue'
 				_this.$http.get('event/reset',parm).then(function(response) {
 		        	console.log(response.data);
 		        	if(response.data.code==1){
-		        		layer.msg("重置成功",{offset:"0px"});
+		        		layer.msg("重置成功");
 		        	}else{
-		        		layer.msg(response.data.msg,{offset:"0px"});
+		        		layer.msg(response.data.msg);
 		        	}		        	
 		        },function(response) {
 		            console.log(response);
@@ -199,10 +202,10 @@ import backendSidebar from '../components/backendSidebar.vue'
 				_this.$http.get('event/delete',parm).then(function(response) {
 		        	console.log(response.data);
 		        	if(response.data.code==1){
-		        		layer.msg("删除成功",{offset:"0px"});
+		        		layer.msg("删除成功");
 		        		_this.$route.router.go({path: '/homepage'});
 		        	}else{
-		        		layer.msg(response.data.msg,{offset:"0px"});
+		        		layer.msg(response.data.msg);
 		        	}		        	
 		        },function(response) {
 		            console.log(response);
