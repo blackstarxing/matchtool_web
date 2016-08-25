@@ -34,7 +34,7 @@
 					</div>
 					<div class="f-c">
 						<p class="g-c-l mt40">比赛项目<span class="colfdb f-tip"></span></p>
-						<select class="u-c-slt" name="itemId" id="gameList" v-model="formdata.itemId"required>
+						<select class="u-c-slt" name="itemId" id="gameList" v-model="formdata.itemId" required>
 							<option value="" selected>选择一个竞技项目</option>
 						</select>
 					</div>
@@ -107,21 +107,42 @@
 					<div class="g-c-zbf">
 					    <div class="f-fl g-c-ms">
 							<input type="radio" id="single" name="baoming" class="regular-radio" checked="checked" v-model="formdata.applyType" value="1" disabled />
-							<label for="single"></label>
-							<label for="single" class="u-c-per">		
+							<label for="single" @click="hidezd"></label>
+							<label for="single" class="u-c-per" @click="hidezd">		
 								<span class="f-fl col8f">
 									个人报名
 								</span>
 							</label>
 						</div>
-						<div class="f-fl g-c-ms">
+						<div class="f-fl g-c-ms f-re">
 							<input type="radio" id="team" name="baoming" class="regular-radio" v-model="formdata.applyType" value="2" disabled />
-							<label for="team"></label>
-							<label for="team" class="u-c-per">		
+							<label for="team" @click="showzd"></label>
+							<label for="team" class="u-c-per" @click="showzd">		
 								<span class="f-fl col8f">
 									战队报名
 								</span>
 							</label>
+							<select class="u-c-slt u-c-slt-zdbm" v-model="formdata.teamMemeberNum">
+								<option value="2" selected>2</option>
+								<option value="3" >3</option>
+								<option value="4" >4</option>
+								<option value="5" >5</option>
+								<option value="6" >6</option>
+								<option value="7" >7</option>
+								<option value="8" >8</option>
+								<option value="9" >9</option>
+								<option value="10" >10</option>
+								<option value="11" >11</option>
+								<option value="12" >12</option>
+								<option value="13" >13</option>
+								<option value="14" >14</option>
+								<option value="15" >15</option>
+								<option value="16" >16</option>
+								<option value="17" >17</option>
+								<option value="18" >18</option>
+								<option value="19" >19</option>
+								<option value="20" >20</option>
+							</select>
 						</div>
 					</div>
 					<div class="f-c">
@@ -193,7 +214,7 @@
 					<div class="g-c-qd">
 						<input type="checkbox" id="signtime" class="regular-checkboxs" name="" v-model="formdata.needSign" v-bind:true-value="1" v-bind:false-value="0" disabled/>
 						<label for="signtime" @click="signtime"></label><span class="u-c-ck col8f">要求参赛者赛前签到 (仅签到一次)<span class="colfdb">&nbsp&nbsp•&nbsp&nbsp</span>比赛开始前</span>
-						<select class="u-c-slt u-c-tslt col8f" name="needSignMinu" v-model="formdata.needSignMinu" disabled>
+						<select class="u-c-slt u-c-tslt col8f" name="needSignMinu" v-model="formdata.needSignMinute" disabled>
 							<option v-bind:value="10" selected>10</option>
 							<option v-bind:value="15">15</option>
 							<option v-bind:value="20">20</option>
@@ -242,30 +263,31 @@ import createPop from '../components/createPop.vue'
 					itemId:"",
 					addreass:"",
 					detailAddreass:"",
-  				maxNum:"",
-  				mode:"",
-  				allowApply:0,
-  				applyType:"",
-  				nicknameRequired:0,
-  				nameRequired:0,
-  				idcardRequired:0,
-  				qqRequired:0,
-  				telephoneRequired:0,
-  				otherRequired:0,
-  				otherDescribe:"",
-  				activityBeginStr:"",
-  				applyBeginStr:"",
-  				applyEndStr:"",
-  				needSign:0,
-  				needSignMinu:""
-    		}
+	  				maxNum:"",
+	  				mode:"",
+	  				allowApply:0,
+	  				applyType:"",
+	  				nicknameRequired:0,
+	  				nameRequired:0,
+	  				idcardRequired:0,
+	  				qqRequired:0,
+	  				telephoneRequired:0,
+	  				otherRequired:0,
+	  				otherDescribe:"",
+	  				activityBeginStr:"",
+	  				applyBeginStr:"",
+	  				applyEndStr:"",
+	  				needSign:0,
+	  				needSignMinute:"",
+	  				teamMemeberNum:""
+    			}
 			}
 		},
 		components:{
 			topHead,
-      sideBar,
-      slideBar,
-      createPop
+		    sideBar,
+		    slideBar,
+		    createPop
 		},
 		ready:function(){
 			// 赛事名称字符规则
@@ -458,6 +480,7 @@ import createPop from '../components/createPop.vue'
 		    },
 		    //end
 		    isapply:function(e){
+		    	var a = this.formdata.applyType;
 		    	if($('#checkboxThreeInput').is(':checked')){
 		    		$('[name="baoming"]').attr('disabled',true);
 		    		$('[name="bminfo"]').attr('disabled',true)
@@ -467,6 +490,7 @@ import createPop from '../components/createPop.vue'
 		    		$('#applyEnd').attr('disabled',true);
 		    		$('#signtime').attr('disabled', true);
 		    		$('#signtime').parents('.g-c-qd').find('.u-c-ck').addClass('col8f');
+		    		$('.u-c-slt-zdbm').fadeOut("slow");
 		    	}
 		    	else{
 		    		$('[name="baoming"]').attr('disabled',false);
@@ -477,6 +501,15 @@ import createPop from '../components/createPop.vue'
 		    		$('#applyEnd').attr('disabled',false);
 		    		$('#signtime').attr('disabled', false);
 		    		$('#signtime').parents('.g-c-qd').find('.u-c-ck').removeClass('col8f');
+		    		$('#single').on('click', function(){
+		    			$('.u-c-slt-zdbm').fadeOut("slow");
+		    		})
+		    		$('#team').on('click', function(){
+		    			$('.u-c-slt-zdbm').fadeIn("slow");
+		    		})
+		    		if(a == 2){
+		    			$('.u-c-slt-zdbm').fadeIn("slow");
+		    		}
 		    	}
 		    },
 		    signtime:function(){
