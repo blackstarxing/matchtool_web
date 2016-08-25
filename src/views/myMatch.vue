@@ -19,8 +19,8 @@
 			</div>
 			<div class="perCenter_content">
 				<ul class="matchList">
-					<li class="matchList_item clearfix" v-for="item in eventShowList">
-						<img src="../../static/images/jlimg.png"" alt="">
+					<li class="matchList_item clearfix" v-for="item in eventShowList" data-id="{{ item.id }}" data-eventId="{{ item.eventId }}" @click="linkDetail">
+						<img :src="'http://img.wangyuhudong.com/'+item.poster" alt="赛事海报">
 						<span class="privacyMacth_icon" v-if="item.privacy === 1"></span>
 						<div class="textInfo">
 							<h3 class="info_name" v-text="item.eventName"></h3>
@@ -152,11 +152,11 @@
 					</li> -->
 				</ul>
 				<div class="m-page ptb50">
-        	<button id="prev" type="button"></button>
+        	<button id="prev" type="button" @click="prevpage"></button>
         	<div class="pagination"><span class="current">{{ pageList.pageNumber }}</span>/<span>{{ pageList.pages }}</span></div>
-        	<button id="next" type="button"></button>
-        	<input type="text" id="pageipt" v-model="pageId">
-        	<button type="button" class="u-btn" @click="getZZEventList(this.pageId)">跳转</button>
+        	<button id="next" type="button" @click="nextpage"></button>
+        	<input type="text" id="pageto" v-model="pageId" @keyup="checkpage">
+        	<button type="button" class="u-btn" @click="gopage">跳转</button>
         </div>
 			</div>
 		</div>
@@ -191,7 +191,10 @@
 					"eventName",
 					"statusText",
 					"teamMemeberNum",
-					"activityBegin"	
+					"activityBegin",
+					"id",
+					"eventId",
+					"poster"
 				],
 				eventShowList: [
 
@@ -242,10 +245,6 @@
 					this.getCYEventList(1)
 				}
 			})
-
-
-
-			
 		},
 		filters: {
 			formatDate: function(value) {
@@ -260,12 +259,21 @@
 			}
 		},
 		methods: {
+			linkDetail: function(e){
+				// e.preventDefault();
+				var _target=$(e.currentTarget);
+				var _eventid=_target.attr("data-eventid");
+				var _roundid=_target.attr("data-id");
+				window.sessionStorage.setItem("eventId",_eventid);
+				window.sessionStorage.setItem("eventRoundId",_roundid);
+				this.$route.router.go({path: '/matchDetails'})
+			},
 			getZZEventList: function (pageIdStr) {
 				console.log(this)
 				this.getEventList(pageIdStr, 'event/getEventRoundList', 0)    // 如果是得到组织的比赛，传0
 			},
 			getCYEventList: function (pageIdStr) {
-				this.getEventList(pageIdStr, ' event/getMyEventRoundList', 1) // 如果是得到组织的比赛，传1
+				this.getEventList(pageIdStr, ' event/getMyEventRoundList', 1) // 如果是得到参与的比赛，传1
 			},
 			getEventList: function (pageIdStr, url, eventListId) {
 				console.log(this)
@@ -389,6 +397,57 @@
 					this.eventTypeFlag = false
 					this.eventShowList = this.CYEventList
 				}
+			},
+			// 翻页
+			prevpage:function(e){
+				// e.preventDefault();
+				var currentpage = this.pageList.pageNumber;
+    		if(currentpage>1){
+    			currentpage--;
+    			if (this.eventTypeFlag) {
+    				this.getEventList(currentpage, 'event/getEventRoundList', 0)    // 如果是得到组织的比赛，传0
+    			} else {
+    				this.getEventList(currentpage, ' event/getMyEventRoundList', 1) // 如果是得到参与的比赛，传1
+    			}
+    			
+    		}
+    		else{
+    			layer.msg('没有上一页了');
+    		}
+			},
+			nextpage:function(e){
+				// e.preventDefault();
+				var currentpage = this.pageList.pageNumber,
+					maxpage = this.pageList.pages;
+    		if(currentpage<maxpage){
+    			currentpage++;
+    			if (this.eventTypeFlag) {
+    				this.getEventList(currentpage, 'event/getEventRoundList', 0)    // 如果是得到组织的比赛，传0
+    			} else {
+    				this.getEventList(currentpage, ' event/getMyEventRoundList', 1) // 如果是得到参与的比赛，传1
+    			}
+    		}
+    		else{
+    			layer.msg('没有下一页了');
+    		}
+			},
+			gopage:function(e){
+				// e.preventDefault();
+				if (this.eventTypeFlag) {
+  				this.getEventList(this.pageId, 'event/getEventRoundList', 0)    // 如果是得到组织的比赛，传0
+  			} else {
+  				this.getEventList(this.pageId, ' event/getMyEventRoundList', 1) // 如果是得到参与的比赛，传1
+  			}
+			},
+			checkpage:function(e){
+				var pages = this.pageList.pages; 
+	    	var num = $('#pageto').val();
+	    	console.log(typeof num)
+	    	if(num==0 && num!=""){
+	    		$('#pageto').val('1');
+	    	}else if(num>pages){
+	    		$('#pageto').val(pages);
+	    	}
 			}
 		}
 	}
@@ -415,6 +474,9 @@
 		margin-left: 30px;
 		font-size: 14px;
 		color: #fff;
+		cursor: pointer;
+	}
+	.matchList_item {
 		cursor: pointer;
 	}
 	.matchList_item, .messageList_item {
@@ -467,10 +529,4 @@
 		height: 20px;
 		background: url(../../static/images/privacyMacth_icon.png);
 	}
-
-
-
-
-
-
 </style>

@@ -1,4 +1,5 @@
 <template>
+	<backend-sidebar></backend-sidebar>
 	<div class="g-bd">
 		<div class="g-z pt40">
 			<div class="reset-box f-cb">
@@ -55,7 +56,7 @@
 	</div>
 </template>
 <script>
-
+import backendSidebar from '../components/backendSidebar.vue'
   export default {
     data () {
       return {
@@ -83,6 +84,9 @@
             console.log(response);
         });
   	},
+  	components:{
+    	backendSidebar
+	},
   	methods:{
   		// 刷新页面
   		refresh:function(e){
