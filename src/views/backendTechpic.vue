@@ -212,10 +212,9 @@ import backendSidebar from '../components/backendSidebar.vue'
            }
         
       }else if(response.data.object.roundStatus==7){
-        $('.end_tech').show();
-        _this.champion=response.data.object.firstName;
-        _this.second=response.data.object.secondName;
-      }
+        $('.ending_tech').show();
+        
+          }
 
       },function(response) {
               console.log(22);
@@ -672,7 +671,32 @@ import backendSidebar from '../components/backendSidebar.vue'
                 if(_this.roundStatus==7){
                   console.log(900);
                   $('.edit_div').hide();
+                  var $lastlist=listArry.eq(turn-1);
+                  var $recta=$lastlist.find('.recta');
+                  var _imgone='<img class="tech_end_pic" src="../../static/images/numberone.png">';
+                  var _imgtwo='<img class="tech_end_pic" src="../../static/images/numbertwo.png">';
+                  var _imgthree='<img class="tech_end_pic" src="../../static/images/numberthree.png">';
+                  var _imgfour='<img class="tech_end_pic" src="../../static/images/numberfour.png">';
+                  if($recta.eq(0).hasClass('add_winer')){
+                    $recta.eq(0).append(_imgone);
+                    $recta.eq(1).append(_imgtwo);
+                  }else{
+                    $recta.eq(1).append(_imgone);
+                    $recta.eq(0).append(_imgtwo);
+                  }
+                    
+                   if(this.matchdata.length==2){
+                    if($recta.eq(2).hasClass('add_winer')){
+                      $recta.eq(2).append(_imgthree);
+                      $recta.eq(3).append(_imgfour);
+                    }else{
+                      $recta.eq(3).append(_imgthree);
+                      $recta.eq(2).append(_imgfour);
+                    }
+                  }
                 }
+                 
+              
 
                 var move=false,
                     left_=0,
@@ -770,6 +794,7 @@ import backendSidebar from '../components/backendSidebar.vue'
               $(".made_winer").removeClass("winer_active");
               $(this).addClass("winer_active");
              })
+           
           },function(response) {
               console.log(response);
           });
@@ -941,12 +966,6 @@ import backendSidebar from '../components/backendSidebar.vue'
         });
       },
       endTech: function () {
-        var _matchist=$('.match_list');
-        var _length=_matchist.length();
-        var _lastlist=_matchist.eq(_length-1);
-         if(this.matchdata.legth==1){
-
-        }
         var _this=this;
           var endparm={};
           endparm.oetRoundId=window.sessionStorage.getItem("eventRoundId");
@@ -956,8 +975,31 @@ import backendSidebar from '../components/backendSidebar.vue'
         _this.$http.get('event/finish',parm).then(function(response){
           if(response.data.code){
             $('.edit_div').hide();
-            // $('.ending_tech').hide();
-            // $('.end_tech').show();
+            var $matchist=$('.match_list');
+            var _length=$matchist.length;
+            var $lastlist=$matchist.eq(_length-1);
+            var $recta=$lastlist.find('.recta');
+            var _imgone='<img class="tech_end_pic" src="../../static/images/numberone.png">';
+            var _imgtwo='<img class="tech_end_pic" src="../../static/images/numbertwo.png">';
+            var _imgthree='<img class="tech_end_pic" src="../../static/images/numberthree.png">';
+            var _imgfour='<img class="tech_end_pic" src="../../static/images/numberfour.png">';
+            if($recta.eq(0).hasClass('add_winer')){
+              $recta.eq(0).append(_imgone);
+              $recta.eq(1).append(_imgtwo);
+            }else{
+              $recta.eq(1).append(_imgone);
+              $recta.eq(0).append(_imgtwo);
+            }
+              
+             if(this.matchdata.length==2){
+              if($recta.eq(2).hasClass('add_winer')){
+                $recta.eq(2).append(_imgthree);
+                $recta.eq(3).append(_imgfour);
+              }else{
+                $recta.eq(3).append(_imgthree);
+                $recta.eq(2).append(_imgfour);
+              }
+            }
             var beginparm={};
             var _eventid=window.sessionStorage.getItem("eventId");
             var _roundid=window.sessionStorage.getItem("eventRoundId");
@@ -966,13 +1008,13 @@ import backendSidebar from '../components/backendSidebar.vue'
             var parmstr=JSON.stringify(beginparm);
             var _parm={};
             _parm.jsonInfo=parmstr;
-          _this.$http.get('event/getStatusByTime',_parm).then(function(response){
-              _this.champion=response.data.object.firstName;
-              _this.second=response.data.object.secondName;
+          // _this.$http.get('event/getStatusByTime',_parm).then(function(response){
+          //     _this.champion=response.data.object.firstName;
+          //     _this.second=response.data.object.secondName;
 
-          },function(response) {
-                    console.log(response);
-                });
+          // },function(response) {
+          //           console.log(response);
+          //       });
           }else{
             layer.msg(response.data.msg,{offset:"0px"});
           }

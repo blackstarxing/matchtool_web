@@ -2768,7 +2768,11 @@ label.u-c-kz-sz{
 .add_winer{
   background-color: #f9a32a;
 }
-
+.tech_end_pic{
+	position: absolute;
+	top:0;
+	right:-30px;
+}
 /*赛事详情分享页*/
 .g-sh-m{
 	box-sizing: border-box;
