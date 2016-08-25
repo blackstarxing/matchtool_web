@@ -6,7 +6,7 @@
 	<div class="g-w mt90 f-re">
 		<div class="g-q-hb" v-link="{ path: '/backend/backendMsg'}">
 			<!-- <img src="../../static/images/dfposter.jpg" alt=""> -->
-			<img v-bind:src="'http://img.wangyuhudong.com'+poster" alt="" v-if="poster">
+			<img v-bind:src="'http://img.wangyuhudong.com'+poster" alt="">
 			<div class="g-q-ptr">
 				<i class="iconfont iconfont-xj">&#xe60a</i>
 				<p>编辑、更改赛事海报</p>

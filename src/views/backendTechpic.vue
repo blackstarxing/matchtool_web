@@ -1,10 +1,12 @@
 <template>
 <backend-sidebar></backend-sidebar>
   <div class="g-bd g-w">
-    <div class="techpic-option">
+    <div class="techpic-option clearfix">
       <div href="" class="techpic-edit" @click="editTechpic">编辑对阵图</div>
       <div class="before_tech tech_right_staus not_checked" style="display:none">
-              <p class="start_text" @click="beginTech"></p>
+              <p @click="beginTech"><i class="s-q-start"></i>
+                <span class="start_text" ></span>
+              </p>
           </div>
       <div class="begining_tech" style="display:none">
         <div class="start_btn">
@@ -35,7 +37,7 @@
               </li>
             </ul>
           </div>
-          <div>
+          <div class="clearfix">
             <div class="turn_btn" @click="randomPic">随机排列对阵选手顺序</div>
             <div class="turn_move">可拖曳查看</div>
             </div>
