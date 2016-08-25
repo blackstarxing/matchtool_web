@@ -21,6 +21,7 @@ import reset from './views/reset.vue'
 import landRegister from './views/landRegister.vue'
 import matchDetails from './views/matchDetails.vue'
 import perSetting from './views/perSetting.vue'
+import perSettingtab from './views/perSetting.vue'
 import myMatch from './views/myMatch.vue'
 import myMessage from './views/myMessage.vue'
 import myclan from './views/clan/myclan.vue'
@@ -91,9 +92,13 @@ router.map({
     '/matchDetails': {
         component: matchDetails
     },
-    '/perSetting': {
+    '/perSetting/:userId': {
+        name: 'perSetting',
         component: perSetting
     },
+    // '/perSetting': {
+    //     component: perSetting
+    // },
     '/myMatch': {
         component: myMatch
     },

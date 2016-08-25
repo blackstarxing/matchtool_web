@@ -7,16 +7,16 @@
 		<div class="header_right f-fr" v-show="islogin">
       <a href="" class="notify" v-link="{ path: '/myMessage'}"><span class="icon-uniE60D"></span></a>
       <div class="avatar">
-        <img v-bind:src="'http://img.wangyuhudong.com/'+avatar"  alt="" v-if="avatar"><span class="icon-uniE60E"></span>
+        <img v-bind:src="'http://img.wangyuhudong.com/'+avatar"  alt="" v-show="avatar"><span class="icon-uniE60E"></span>
         <div class="nav-list">
           <ul>
               <!-- <li><a @click="showPop"><span class="icon-uniE617"></span>创建赛事</a></li> -->
-              <li><a v-link="{ path: '/myMatch'}"><span class="icon-uniE618"></span>我的赛事</a></li>
-              <li><a v-link="{ path: '/perSetting?tab=0'}"><span class="icon-uniE619"></span>个人设置</a></li>
-              <li><a v-link="{ path: '/perSetting?tab=1'}"><span class="icon-uniE61A"></span>参赛信息设置</a></li>
-              <li><a v-link="{ path: '/myclan'}"><span class="icon-uniE61D"></span>战队系统</a></li>
+              <li v-link="{ path: '/myMatch'}"><a><span class="icon-uniE618"></span>我的赛事</a></li>
+              <li v-link="{ name: 'perSetting', params: { userId: 0 }}"><a><span class="icon-uniE619"></span>个人设置</a></li>
+              <li v-link="{ name: 'perSetting', params: { userId: 1 }}"><a><span class="icon-uniE61A"></span>参赛信息设置</a></li>
+              <li v-link="{ path: '/myclan'}"><a><span class="icon-uniE61D"></span>战队系统</a></li>
               <!-- <li><a href=""><span class="icon-uniE61C"></span>反馈我们</a></li> -->
-              <li><a href="" @click="logout"><span class="icon-uniE61B"></span>登出</a></li>
+              <li><a @click="logout"><span class="icon-uniE61B"></span>登出</a></li>
           </ul>
         </div>
       </div>

@@ -2442,7 +2442,7 @@ label.u-c-kz-sz{
 .against_container{
   width: 1024px;
   height: 900px;
-  margin: 20px auto;
+  margin: 30px auto;
   background: #171a21;
   position: relative;
   overflow: scroll;
@@ -2450,15 +2450,27 @@ label.u-c-kz-sz{
   padding-top: 50px;
 }
 .turn_btn{
+  float: left;
   width: 220px;
   height: 35px;
   line-height: 30px;
-  background:url(../../static/images/luck.png) no-repeat 10px 7px #f9a32a;
-  color: #fff;
+  background:url(../../static/images/random.png) no-repeat 10px 7px;
+  color: #fdb91a;
   border-radius: 5px;
-  margin: 30px 70px;
+  margin: 10px 600px 30px 70px;
   text-align: center;
   cursor: pointer;
+  border: 2px solid #42454c;
+  border-radius: 3px;
+}
+.turn_move{
+	text-align: center;
+	width: 120px;
+	height: 30px;
+	line-height: 30px;
+	color: #42aa53;
+	float: left;
+	background:url(../../static/images/move.png) no-repeat 0 5px;
 }
 .tech_down_tip{
   width: 1200px;

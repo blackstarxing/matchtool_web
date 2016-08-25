@@ -21,7 +21,7 @@
 					</div>
 					<div class="form_pw form_list">
 						<label class="reg_label"><img src="../../static/images/password.png"></label>
-						<input class="input_text" type="password" placeholder="请输入密码" v-model="password" @blur="getpwd">
+						<input class="input_text" type="password" placeholder="请输入密码" v-model="landpassword" @blur="getlandpwd">
 						<span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">密码位数不对</i></span>
 					</div>
 				</div>
@@ -41,7 +41,7 @@
 				<div class="landreg_form">
 					<div class="form_account form_list">
 						<label class="reg_label"><img src="../../static/images/account.png"></label>
-						<input class="input_text" type="text" placeholder="手机号" v-model="phone" @blur="blurPhone">
+						<input class="input_text" type="text" placeholder="手机号" v-model="phone" @blur="blurPhone" @keyup="keyupPhone">
 						<span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">手机号码位数不对</i></span>
 					</div>
 					<div class="form_ident form_list">
@@ -87,6 +87,7 @@ import createPop from '../components/createPop.vue'
 				acceptchecked: true,
 				account: '',
 				password: '',
+				landpassword: '',
 				phone: '',
 				ident: '',
 				nickname: '',
@@ -94,7 +95,7 @@ import createPop from '../components/createPop.vue'
 				allowReg: false,
 				isLand: true,
 				isReg: false,
-				isident: true,
+				isident: false,
 			}
 		},
 		components:{
@@ -178,6 +179,13 @@ import createPop from '../components/createPop.vue'
 					_error.find('.error_tip').text('请填写正确的手机号');
 				}
 			},
+			keyupPhone: function () {
+				if(this.phone.length == 11){
+					this.isident = true;
+				}else{
+					this.isident = false;
+				}
+			},
 			getIdent: function (e) {
 				var _this=this;
 				var _current=$(e.currentTarget);
@@ -241,6 +249,17 @@ import createPop from '../components/createPop.vue'
 				          });
 				}
 			},
+			getlandpwd: function (e) {
+				var _current=$(e.currentTarget);
+				var _error=_current.next('.reg_error');
+				if(this.landpassword.length<6){
+					_error.show();
+					this.errorTip=false;
+				}else{
+					_error.hide();
+					this.errorTip=true;
+				}
+			},
 			getpwd: function (e) {
 				var _current=$(e.currentTarget);
 				var _error=_current.next('.reg_error');
@@ -283,8 +302,8 @@ import createPop from '../components/createPop.vue'
 			logIn: function () {
 				var parm={};
 				parm.username=this.account;
-				parm.password=this.password;
-				if(this.account && this.password && this.errorTip && this.autochecked){
+				parm.password=this.landpassword;
+				if(this.account && this.landpassword && this.errorTip && this.autochecked){
 					this.$http.post('login',parm).then(function(response){
 					console.log(response);
 					if(response.data.code){

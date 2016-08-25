@@ -6,20 +6,20 @@
 	<div class="g-w mt90 f-re">
 		<div class="g-q-hb" v-link="{ path: '/backend/backendMsg'}">
 			<!-- <img src="../../static/images/dfposter.jpg" alt=""> -->
-			<img v-bind:src="'http://img.wangyuhudong.com'+poster" alt="" v-if="poster">
+			<img v-bind:src="'http://img.wangyuhudong.com'+poster" alt="">
 			<div class="g-q-ptr">
 				<i class="iconfont iconfont-xj">&#xe60a</i>
 				<p>编辑、更改赛事海报</p>
 			</div>
 		</div>
 		<div class="g-q-info">
-			<div class="g-q-fbs" v-show="isstart">
+			<div class="g-q-fbs">
 				<button type="button" class="u-q-start">
 					<i class="s-q-start"></i>
 					开始赛事进程
 				</button>
 				<p class="g-q-remtime">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
-				<a href="#" class="u-q-enter">我也要参与</a>
+				<a href="#" class="u-q-enter" @click="joinMatch">我也要参与</a>
 			</div>
 			<p class="g-q-name">{{name}}</p>
 			<div class="g-q-zbf">
@@ -126,7 +126,7 @@
 						<img src="../../static/images/icon_qdsj.png" class="f-ab">
 						<div class="g-q-if-in">
 							<p class="g-q-if-p1">签到时间</p>
-							<p class="g-q-if-p2">{{needSignMinu}}</p>
+							<p class="g-q-if-p2">{{needSignMinute}}</p>
 						</div>
 					</div>
 				</div>
@@ -199,6 +199,134 @@
       </div>      
     </div>
   </div>
+  	<div class="m-bx-d">
+  		<span class="icon-uniE609 u-bx-off" @click="closed"></span>
+  		<div class="m-bx-w" v-if="queryRequired.nicknameRequired==1">
+  			<p class="g-bx-p">游戏昵称</p>
+  			<input type="text" class="u-c-ipt" name="nickname" placeholder="请输入游戏昵称" v-model="singlebm.nickname" style="width: 100%;" required>
+  			<span class="colfdb f-tip f-bx-tip"></span>
+  		</div>
+  		<div class="m-bx-w" v-if="queryRequired.idcardRequired==1">
+  			<p class="g-bx-p">身份证号</p>
+  			<input type="text" class="u-c-ipt" name="idcard" placeholder="请输入身份证号" style="width: 100%;" v-model="singlebm.idcard" required>
+  			<span class="colfdb f-tip f-bx-tip"></span>
+  		</div>	
+  		<div class="m-bx-w" v-if="queryRequired.nameRequired==1">
+  			<p class="g-bx-p">真实姓名</p>
+  			<input type="text" class="u-c-ipt" name="truename" placeholder="请输入真实姓名" style="width: 100%;" v-model="singlebm.realname" required>
+  			<span class="colfdb f-tip f-bx-tip"></span>
+  		</div>	
+  		<div class="m-bx-w" v-if="queryRequired.telephoneRequired==1">
+  			<p class="g-bx-p">手机号码</p>
+  			<input type="text" class="u-c-ipt" name="telephone" placeholder="请输入手机号码" style="width: 100%;" v-model="singlebm.telephone" required>
+  			<span class="colfdb f-tip f-bx-tip"></span>
+  		</div>
+  		<div class="m-bx-w" v-if="queryRequired.qqRequired==1">
+  			<p class="g-bx-p">QQ号码</p>
+  			<input type="text" class="u-c-ipt" name="qqnum" placeholder="请输入QQ号码" style="width: 100%;" v-model="singlebm.qq" required>
+  			<span class="colfdb f-tip f-bx-tip"></span>
+  		</div>
+  		<div class="m-bx-w" v-if="queryRequired.otherRequired==1" style="margin-bottom: 0.5rem;">
+  			<p class="g-bx-p">{{queryRequired.otherDescribe}}</p>
+  			<input type="text" class="u-c-ipt" name="otherinfo" placeholder="请输入其它信息" style="width: 100%;" required>
+  			<span class="colfdb f-tip f-bx-tip"></span>
+  		</div>
+  		<button type="button" class="u-q-start u-bx-btn" @click="referApply"><i></i>提交信息</button>		
+	</div>
+	<div class="m-zdbx-d f-re zdbmone">
+		<span class="icon-uniE609 u-bx-off" @click="closedzdone"></span>
+		<p class="g-zdbx-p1"><span class="col42a">当前报名战队：</span>未来老公</p>
+		<p class="g-zdbx-p2">选出出战选手 ( <span class="colfdb">1</span> / 5 )</p>
+		<ul class="m-zdbx-ul">
+			<li class="clearfix">
+				<div class="f-fl g-zdbx-lab">
+					<input type="checkbox" id="gamenickname" class="regular-checkboxs" />
+					<label for="gamenickname"></label>
+				</div>
+				<label class="f-fl u-zdbx-ltx" for="gamenickname">
+					<img src="../../static/images/me.jpg">
+				</label>
+				<label for="gamenickname" class="f-fl g-zdbx-dynm">未来老公</label>
+			</li>
+			<li class="clearfix">
+				<div class="f-fl g-zdbx-lab">
+					<input type="checkbox" id="" class="regular-checkboxs" />
+					<label for=""></label>
+				</div>
+				<label class="f-fl u-zdbx-ltx">
+					<img src="../../static/images/me.jpg">
+				</label>
+				<label for="" class="f-fl g-zdbx-dynm">未来老公</label>
+			</li>
+			<li class="clearfix">
+				<div class="f-fl g-zdbx-lab">
+					<input type="checkbox" id="" class="regular-checkboxs" />
+					<label for=""></label>
+				</div>
+				<label class="f-fl u-zdbx-ltx">
+					<img src="../../static/images/me.jpg">
+				</label>
+				<label for="" class="f-fl g-zdbx-dynm">未来老公</label>
+			</li>
+		</ul>
+		<button type="button" class="u-q-start u-zdbx-btn" @click="zdnext">下一步</button>		
+	</div>
+	<div class="m-zdbx-d f-re zdbmtwo">
+		<span class="icon-uniE609 u-bx-off" @click="closedzdtwo"></span>
+		<p class="g-zdbx-p1"><span class="col42a">当前报名战队：</span>未来老公</p>
+		<p class="g-zdbx-p2">完善选手信息</p>
+		<ul class="m-zdbx-ul">
+			<li>
+				<div class="clearfix">
+					<label class="f-fl u-zdbx-ltx">
+						<img src="../../static/images/me.jpg">
+					</label>
+					<label for="gamenickname" class="f-fl g-zdbx-dynm">未来老公</label>
+				</div>
+				<div class="clearfix g-zdbx-wd">
+					<label class="s-zdbx-lab">游戏昵称：</label>
+					<input type="text" class="u-c-ipt" placeholder="请输入游戏昵称" style="width: 180px;">
+				</div>
+				<div class="clearfix">
+					<label class="s-zdbx-lab">其它：</label>
+					<input type="text" class="u-c-ipt" placeholder="请输入其它" style="width: 180px;">
+				</div>
+			</li>
+			<li>
+				<div class="clearfix">
+					<label class="f-fl u-zdbx-ltx">
+						<img src="../../static/images/me.jpg">
+					</label>
+					<label for="gamenickname" class="f-fl g-zdbx-dynm">未来老公</label>
+				</div>
+				<div class="clearfix g-zdbx-wd">
+					<label class="s-zdbx-lab">游戏昵称：</label>
+					<input type="text" class="u-c-ipt" placeholder="请输入游戏昵称" style="width: 180px;">
+				</div>
+				<div class="clearfix">
+					<label class="s-zdbx-lab">其它：</label>
+					<input type="text" class="u-c-ipt" placeholder="请输入其它" style="width: 180px;">
+				</div>
+			</li>
+			<li>
+				<div class="clearfix">
+					<label class="f-fl u-zdbx-ltx">
+						<img src="../../static/images/me.jpg">
+					</label>
+					<label for="gamenickname" class="f-fl g-zdbx-dynm">未来老公</label>
+				</div>
+				<div class="clearfix g-zdbx-wd">
+					<label class="s-zdbx-lab">游戏昵称：</label>
+					<input type="text" class="u-c-ipt" placeholder="请输入游戏昵称" style="width: 180px;">
+				</div>
+				<div class="clearfix">
+					<label class="s-zdbx-lab">其它：</label>
+					<input type="text" class="u-c-ipt" placeholder="请输入其它" style="width: 180px;">
+				</div>
+			</li>
+		</ul>
+		<button type="button" class="u-q-start u-zdbx-btn">确认报名</button>
+	</div>
 </template>
 <script type="text/javascript">
 function add0(m){return m<10?'0'+m:m }
@@ -232,7 +360,7 @@ import createPop from '../components/createPop.vue'
 				activityBegin:'',
 				applyBegin:'',
 				applyEnd:'',
-				needSignMinu:'',
+				needSignMinute:'',
 				allowApply:'',
 				formdata:{
 					oetInfoId:'',
@@ -261,7 +389,25 @@ import createPop from '../components/createPop.vue'
 		        scorelis:[],
 		        groupid:{},
 		        seatida:{},
-		        seatidb:{}
+		        seatidb:{},
+		        queryRequired:{
+		        	idcardRequired:'',
+		        	nameRequired:'',
+		        	nicknameRequired:'',
+		        	otherRequired:'',
+		        	qqRequired:'',
+		        	telephoneRequired:'',
+		        	otherDescribe:''
+		        },
+		        singlebm:{
+		        	idcard:'',
+		        	qq:'',
+		        	realname:'',
+		        	telephone:'',
+		        	roundId:'',
+		        	other:'',
+		        	nickname:''
+		        }
 			}
 		},
 		components:{
@@ -273,87 +419,84 @@ import createPop from '../components/createPop.vue'
 		ready:function(){
 			var _this = this;
 			_this.formdata.oetRoundId = window.sessionStorage.getItem("eventRoundId");
+			_this.singlebm.roundId = window.sessionStorage.getItem("eventRoundId");
 			_this.formdata.oetInfoId = window.sessionStorage.getItem("eventId");
 			var parm={};
             parm.id=_this.formdata.oetInfoId;
-			_this.$http.get('event/info',parm).then(function(response){
-				console.log("成功");
-				var code = response.data.code;
-				if(code==1){
-					_this.brief= response.data.object.event.brief;
-					if(_this.brief=='' || _this.brief==null){
-						_this.brief = 0;
-					}
-					_this.prizeSetting = response.data.object.event.prizeSetting;
-					if(_this.prizeSetting=='' || _this.prizeSetting==null){
-						_this.prizeSetting = 0;
-					}
-					_this.regimeRule = response.data.object.event.regimeRule;
-					if(_this.regimeRule=='' || _this.regimeRule==null){
-						_this.regimeRule = 0;
-					}
-					_this.publishTime = format(response.data.object.round.publishTime);
-					_this.isCreater = response.data.object.isCreater;
-					_this.icon = response.data.object.creater.icon;
-					_this.nickname = response.data.object.creater.nickname;
-					_this.isPublish = response.data.object.event.isPublish;
-					_this.appliable = response.data.object.appliable;
-					window.sessionStorage.setItem("applyType",response.data.object.round.applyType);
-					_this.poster = response.data.object.event.poster;
-					if(_this.poster=='' || _this.poster==null){
-						_this.poster='/uploads/2016/08/16/5126a4fc3e854db098ae08b16d79b8d8.jpg';
-					}
-					_this.name = response.data.object.event.name;
-					_this.itemName = response.data.object.event.items.name;
-					_this.mode = response.data.object.event.mode;
-					_this.addreass = response.data.object.round.addreass;
-					_this.detailAddreass = response.data.object.round.detailAddreass;
-					if(_this.mode==1){
-						_this.mode='线上赛事';
-						_this.changemodedz = false;
-					}else if(_this.mode==2){
-						_this.mode='线下模式';
-					}else if(_this.mode==3){
-						_this.mode='线上与线下结合模式';
-					}
-					_this.type = response.data.object.round.type;
-					if(_this.type==1){
-						_this.type='单阶段';
-					}else if(_this.type==2){
-						_this.type='双阶段';
-					}
-					_this.regime = response.data.object.round.regime;
-					if(_this.regime==1){
-						_this.regime = '单败淘汰制';
-					}else if(_this.regime==2){
-						_this.regime = '双败淘汰制';
-					}else if(_this.regime==3){
-						_this.regime = '小组循环制';
-					}else if(_this.regime==4){
-						_this.regime = '小组积分制';
-					}
-					_this.maxNum = response.data.object.round.maxNum;
-					_this.activityBegin = format(response.data.object.round.activityBegin);
-					_this.applyBegin = format(response.data.object.round.applyBegin);
-					_this.applyEnd = format(response.data.object.round.applyEnd);
-					_this.needSignMinu = '开赛前'+response.data.object.event.needSignMinute+'分钟';
-					_this.allowApply = response.data.object.round.allowApply;
-					if(_this.allowApply==0){
+			
+       _this.$http.get('event/info',parm).then(function(response){
+        	console.log(response);
+			var code = response.data.code;
+			if(code==1){
+				_this.brief= response.data.object.event.brief;
+				if(_this.brief=='' || _this.brief==null){
+					_this.brief = 0;
+				}
+				_this.prizeSetting = response.data.object.event.prizeSetting;
+				if(_this.prizeSetting=='' || _this.prizeSetting==null){
+					_this.prizeSetting = 0;
+				}
+				_this.regimeRule = response.data.object.event.regimeRule;
+				if(_this.regimeRule=='' || _this.regimeRule==null){
+					_this.regimeRule = 0;
+				}
+				_this.publishTime = format(response.data.object.round.publishTime);
+				_this.isCreater = response.data.object.isCreater;
+				_this.icon = response.data.object.creater.icon;
+				_this.nickname = response.data.object.creater.nickname;
+				_this.isPublish = response.data.object.event.isPublish;
+				_this.appliable = response.data.object.appliable;
+				window.sessionStorage.setItem("applyType",response.data.object.round.applyType);
+				_this.poster = response.data.object.event.poster;
+				if(_this.poster=='' || _this.poster==null){
+					_this.poster='/uploads/2016/08/16/5126a4fc3e854db098ae08b16d79b8d8.jpg';
+				}
+				_this.name = response.data.object.event.name;
+				_this.itemName = response.data.object.event.items.name;
+				_this.mode = response.data.object.event.mode;
+				_this.addreass = response.data.object.round.addreass;
+				_this.detailAddreass = response.data.object.round.detailAddreass;
+				if(_this.mode==1){
+					_this.mode='线上赛事';
+					_this.changemodedz = false;
+				}else if(_this.mode==2){
+					_this.mode='线下模式';
+				}else if(_this.mode==3){
+					_this.mode='线上与线下结合模式';
+				}
+				_this.type = response.data.object.round.type;
+				if(_this.type==1){
+					_this.type='单阶段';
+				}else if(_this.type==2){
+					_this.type='双阶段';
+				}
+				_this.regime = response.data.object.round.regime;
+				if(_this.regime==1){
+					_this.regime = '单败淘汰制';
+				}else if(_this.regime==2){
+					_this.regime = '双败淘汰制';
+				}else if(_this.regime==3){
+					_this.regime = '小组循环制';
+				}else if(_this.regime==4){
+					_this.regime = '小组积分制';
+				}
+				_this.maxNum = response.data.object.round.maxNum;
+				_this.activityBegin = format(response.data.object.round.activityBegin);
+				_this.applyBegin = format(response.data.object.round.applyBegin);
+				_this.applyEnd = format(response.data.object.round.applyEnd);
+				_this.needSignMinu = '开赛前'+response.data.object.event.needSignMinute+'分钟';
+				_this.allowApply = response.data.object.round.allowApply;
+				if(_this.allowApply==0){
+					_this.needSignMinu = '不需要签到';
+					_this.applyBegin='';
+					_this.applyEnd='';
+				}else{
+					if(response.data.object.event.needSign == 0){
 						_this.needSignMinu = '不需要签到';
-						_this.applyBegin='';
-						_this.applyEnd='';
-					}else{
-						if(response.data.object.event.needSign == 0){
-							_this.needSignMinu = '不需要签到';
-						}
 					}
 				}
-			}, function(response){
-				console.log(22);
-			})
+			}
 
-       _this.$http.get('event/info',parm).then(function(response){
-        console.log(response);
             _this.personnum=response.data.object.iscountm?true:false;
             _this.overhalf=response.data.object.iscountj1?true:false;
              _this.matchdata=response.data.object.groups;
@@ -475,12 +618,12 @@ import createPop from '../components/createPop.vue'
                           if(onelist[i].groups.length==2){
                            var _topd=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                           _topdY.push(_topd);
-                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li class="recta" data-seatid='+onelist[i].groups[0].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" style="opacity: 0;"></div><ul class="float_check"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li></ul></div></div><div class="out_li"><div class="group_num" style="top:90px">'+onelist[i].groups[1].groupNumber+'</div><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[1].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'" '+(onelist[i].groups[1].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[1].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'" '+(onelist[i].groups[1].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" style="opacity: 0;"></div><ul class="float_check"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li></ul></div></div></div>');
+                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li class="recta" data-seatid='+onelist[i].groups[0].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" style="opacity: 0;"></div><ul class="float_check"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/detail.png"><p>查看</p></li></ul></div></div><div class="out_li"><div class="group_num" style="top:90px">'+onelist[i].groups[1].groupNumber+'</div><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[1].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'" '+(onelist[i].groups[1].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[1].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'" '+(onelist[i].groups[1].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" style="opacity: 0;"></div><ul class="float_check"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/detail.png"><p>查看</p></li></ul></div></div></div>');
                         }else if(onelist[i].groups.length==1){
                               
                               var _tops=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                               _topsY.push(_tops);
-                              listArry.eq(0).append('<li class="out_li single_line"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li data-seatid='+onelist[i].groups[0].seats[0].id+' class="recta" style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" style="opacity: 0;"></div><ul class="float_check"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li></ul></div></li>');
+                              listArry.eq(0).append('<li class="out_li single_line"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li data-seatid='+onelist[i].groups[0].seats[0].id+' class="recta" style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" style="opacity: 0;"></div><ul class="float_check"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/detail.png"><p>查看</p></li></ul></div></li>');
                             
                           }
                         }
@@ -489,7 +632,7 @@ import createPop from '../components/createPop.vue'
                       }else{
                           var _topd=listArry.eq(1).find(".unit_ul").eq(i).offset().top;
                           _topdY.push(_topd);
-                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[0].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" style="opacity: 0;"></div><ul class="float_check"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li></ul></div></div><div class="out_li"><div class="group_num" style="top:90px">'+onelist[i].groups[1].groupNumber+'</div><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[1].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'" '+(onelist[i].groups[1].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[1].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'" '+(onelist[i].groups[1].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" style="opacity: 0;"></div><ul class="float_check"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li></ul></div></div></div>');
+                          listArry.eq(0).append('<div class="double_line"><div class="out_li" style="margin-bottom:10px;"><div class="group_num">'+onelist[i].groups[0].groupNumber+'</div><ul class="unit_ul" data-groupid='+onelist[i].groups[0].id+' style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[0].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[0].target?onelist[i].groups[0].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[0].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[0].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[0].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[0].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[0].seats[1].target?onelist[i].groups[0].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[0].seats[1].isWin?"add_winer":"")+'" '+(onelist[i].groups[0].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[0].scores?onelist[i].groups[0].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" style="opacity: 0;"></div><ul class="float_check"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/detail.png"><p>查看</p></li></ul></div></div><div class="out_li"><div class="group_num" style="top:90px">'+onelist[i].groups[1].groupNumber+'</div><ul data-groupid='+onelist[i].groups[1].id+' class="unit_ul" style="width:200px;"><li class="recta" style="margin-bottom:1px;" data-seatid='+onelist[i].groups[1].seats[0].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[0].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[0].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[0].target?onelist[i].groups[1].seats[0].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[0].isWin?"add_winer":"")+'" '+(onelist[i].groups[1].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+onelist[i].groups[1].seats[1].id+'><input name="target_id" type="hidden" value='+onelist[i].groups[1].seats[1].targetId+'><span class="recta_num">'+onelist[i].groups[1].seats[1].seatNumber+'</span><span class="recta_personname">'+(onelist[i].groups[1].seats[1].target?onelist[i].groups[1].seats[1].target.name:"")+'</span><span class="recta_right '+(onelist[i].groups[1].seats[1].isWin?"add_winer":"")+'" '+(onelist[i].groups[1].scores?"":"style='opacity: 0;'")+'>'+(onelist[i].groups[1].scores?onelist[i].groups[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div"><div class="edit_score" style="opacity: 0;"></div><ul class="float_check"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/detail.png"><p>查看</p></li></ul></div></div></div>');
                     }
                 }
                 // console.log(_topdY);
@@ -726,14 +869,14 @@ import createPop from '../components/createPop.vue'
             }
 
             function newdom(i,list){
-                _html='<div class="group_num">'+list[i].groupNumber+'</div><ul class="unit_ul" data-groupid='+list[i].id+' style="width:200px;"><li class="recta" data-seatid='+list[i].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+list[i].seats[0].targetId+'><span class="recta_num">'+(list[i].seats[0].seatNumber?list[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(list[i].seats[0].target?list[i].seats[0].target.name:"")+'</span><span class="recta_right '+(list[i].seats[0].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+list[i].seats[1].id+'><input name="target_id" type="hidden" value='+list[i].seats[1].targetId+'><span class="recta_num">'+(list[i].seats[1].seatNumber?list[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(list[i].seats[1].target?list[i].seats[1].target.name:"")+'</span><span class="recta_right '+(list[i].seats[1].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div" '+(list[i].seats[1].target?"":"style='display: none'")+'><div class="edit_score" style="opacity: 0;"></div><ul class="float_check"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li></ul></div>';
+                _html='<div class="group_num">'+list[i].groupNumber+'</div><ul class="unit_ul" data-groupid='+list[i].id+' style="width:200px;"><li class="recta" data-seatid='+list[i].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+list[i].seats[0].targetId+'><span class="recta_num">'+(list[i].seats[0].seatNumber?list[i].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(list[i].seats[0].target?list[i].seats[0].target.name:"")+'</span><span class="recta_right '+(list[i].seats[0].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+list[i].seats[1].id+'><input name="target_id" type="hidden" value='+list[i].seats[1].targetId+'><span class="recta_num">'+(list[i].seats[1].seatNumber?list[i].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(list[i].seats[1].target?list[i].seats[1].target.name:"")+'</span><span class="recta_right '+(list[i].seats[1].isWin?"add_winer":"")+'" '+(list[i].seats[1].target?"":"style='display: none'")+'>'+(list[i].scores?list[i].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div" '+(list[i].seats[1].target?"":"style='display: none'")+'><div class="edit_score" style="opacity: 0;"></div><ul class="float_check"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/detail.png"><p>查看</p></li></ul></div>';
 
                 return _html;
             }
 
             if(_this.matchdata.length == 2){
               listArry.eq(turn-1).find('.out_li').css('margin-bottom','60px');
-              listArry.eq(turn-1).append('<li class="out_li"><ul class="unit_ul" data-groupid='+_this.matchdata[1].id+' style="width:200px;"><li class="recta" data-seatid='+_this.matchdata[1].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+_this.matchdata[1].seats[0].targetId+'><span class="recta_num">'+(_this.matchdata[1].seats[0].seatNumber?_this.matchdata[1].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(_this.matchdata[1].seats[0].target?_this.matchdata[1].seats[0].target.name:"")+'</span><span class="recta_right '+(_this.matchdata[1].seats[0].isWin?"add_winer":"")+'" '+(_this.matchdata[1].seats[1].target?"":"style='display: none'")+'>'+(_this.matchdata[1].scores?_this.matchdata[1].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+_this.matchdata[1].seats[1].id+'><input name="target_id" type="hidden" value='+_this.matchdata[1].seats[1].targetId+'><span class="recta_num">'+(_this.matchdata[1].seats[1].seatNumber?_this.matchdata[1].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(_this.matchdata[1].seats[1].target?_this.matchdata[1].seats[1].target.name:"")+'</span><span class="recta_right '+(_this.matchdata[1].seats[1].isWin?"add_winer":"")+'" '+(_this.matchdata[1].seats[1].target?"":"style='display: none'")+'>'+(_this.matchdata[1].scores?_this.matchdata[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div" '+(_this.matchdata[1].target?"":"style='display: none'")+'><div class="edit_score" style="opacity: 0;"></div><ul class="float_check"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/check.png"><p>查看</p></li></ul></div></li>')
+              listArry.eq(turn-1).append('<li class="out_li"><ul class="unit_ul" data-groupid='+_this.matchdata[1].id+' style="width:200px;"><li class="recta" data-seatid='+_this.matchdata[1].seats[0].id+' style="margin-bottom:1px;"><input name="target_id" type="hidden" value='+_this.matchdata[1].seats[0].targetId+'><span class="recta_num">'+(_this.matchdata[1].seats[0].seatNumber?_this.matchdata[1].seats[0].seatNumber:"")+'</span><span class="recta_personname">'+(_this.matchdata[1].seats[0].target?_this.matchdata[1].seats[0].target.name:"")+'</span><span class="recta_right '+(_this.matchdata[1].seats[0].isWin?"add_winer":"")+'" '+(_this.matchdata[1].seats[1].target?"":"style='display: none'")+'>'+(_this.matchdata[1].scores?_this.matchdata[1].scores.seatleft:"")+'</span></li><li class="recta" data-seatid='+_this.matchdata[1].seats[1].id+'><input name="target_id" type="hidden" value='+_this.matchdata[1].seats[1].targetId+'><span class="recta_num">'+(_this.matchdata[1].seats[1].seatNumber?_this.matchdata[1].seats[1].seatNumber:'')+'</span><span class="recta_personname">'+(_this.matchdata[1].seats[1].target?_this.matchdata[1].seats[1].target.name:"")+'</span><span class="recta_right '+(_this.matchdata[1].seats[1].isWin?"add_winer":"")+'" '+(_this.matchdata[1].seats[1].target?"":"style='display: none'")+'>'+(_this.matchdata[1].scores?_this.matchdata[1].scores.seatright:"")+'</span></li></ul><div class="add_options"></div><div class="edit_div" '+(_this.matchdata[1].target?"":"style='display: none'")+'><div class="edit_score" style="opacity: 0;"></div><ul class="float_check"><li class="float_edit_check"><img style="margin-top:3px;" src="../../static/images/detail.png"><p>查看</p></li></ul></div></li>')
             }
 
             _this.$nextTick(function(){
@@ -837,6 +980,142 @@ import createPop from '../components/createPop.vue'
           });
 		},
 		methods:{
+			referApply:function(e){
+				var _this = this;
+		    	e.preventDefault();
+		    	function errorPlacement(mes,element){
+		    		var errorTips=element.parents(".m-bx-w").find('.f-tip');
+			    	if(mes!=""){
+			    		errorTips.css("display","inline-block").html(mes);	
+			    	}else{
+			    		errorTips.css("display","none");	
+			    	}
+		    	}
+		    	function formValidate(){
+		    		var valid=true;
+		    		$('.m-bx-d [required]').each(function(index, el) {
+		    			var $this=$(this);
+		    			var value=$this.val(),name=$this.attr('name');	
+			    		var message="";
+			    		if(name=="nickname"){
+			    			if(value==""){
+								valid=false;
+					    		message="游戏昵称不能为空!";
+							}
+							errorPlacement(message,$this);
+			    		}else if(name=="idcard"){
+			    			if(value==""){
+								valid=false;
+					    		message="身份证号不能为空!";
+							}else if(!/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/.test(value)){
+			    				valid=false;
+					    		message="有效身份证格式不正确!";
+			    			}
+							errorPlacement(message,$this);
+			    		}else if(name=="truename"){
+			    			if(value==""){
+								valid=false;
+					    		message="真实姓名不能为空!";
+							}
+							errorPlacement(message,$this);
+			    		}else if(name=="telephone"){
+			    			if(value==""){
+								valid=false;
+					    		message="手机号码不能为空!";
+							}else if(!/^1\d{10}$/.test(value)){
+			    				valid=false;
+					    		message="手机号码不规范!";
+			    			}
+							errorPlacement(message,$this);
+			    		}else if(name=="qqnum"){
+			    			if(value==""){
+								valid=false;
+					    		message="QQ号码不能为空!";
+							}
+							errorPlacement(message,$this);
+			    		}else if(name=="otherinfo"){
+			    			if(value==""){
+								valid=false;
+					    		message="其他不能为空!";
+							}
+							errorPlacement(message,$this);
+			    		}
+		    		});
+		    		if(valid){
+		    			return true;
+		    		}
+		    	}
+		    	if(formValidate()){
+		    		var obj={};
+	   				obj.jsonInfo=JSON.stringify(_this.singlebm);
+		    		_this.$http.post('event/round/group/member/saveMemInfo',obj).then(function(response){
+		    			var code = response.data.code;
+		            	if(code==-1){
+		            		layer.msg('请先登录',{offset:"0px"});
+		            	}else if(code==0){
+		            		layer.msg(response.data.msg,{offset:"0px"});
+		            	}else if(code==1){
+		            		layer.msg(response.data.msg,{offset:"0px"});
+		            	}
+		    		}, function(response){
+		    			console.log(22)
+		    		})
+		    	}
+			},
+			closed:function(){
+				$('.m-bx-d').animate({right:"-3.2rem"},200);
+			},
+			closedzdone:function(){
+				$('.zdbmone').animate({right:"-3.2rem"},200);
+			},
+			closedzdtwo:function(){
+				$('.zdbmtwo').animate({right:"-3.2rem"},200);
+			},
+			zdnext:function(){
+				$('.zdbmone').animate({right:"-3.2rem"},200);
+				$('.zdbmtwo').animate({right:0},200);
+			},
+			joinMatch:function(event){
+				var _this = this;
+				event.preventDefault();
+				// var bmlx = window.sessionStorage.getItem("applyType");
+				// if(applyType==1){
+				// 	$('.m-bx-d').animate({right:"0px"},200);
+				// 	var eve={};
+		  //  			eve.jsonInfo=JSON.stringify({oetInfoId:_this.formdata.oetInfoId});
+				// 	_this.$http.get('event/queryRequired',eve).then(function(response){
+				// 		_this.queryRequired.idcardRequired = response.data.object.idcardRequired;
+				// 		_this.queryRequired.nameRequired = response.data.object.nameRequired;
+				// 		_this.queryRequired.nicknameRequired = response.data.object.nicknameRequired;
+				// 		_this.queryRequired.otherRequired = response.data.object.otherRequired;
+				// 		_this.queryRequired.qqRequired = response.data.object.qqRequired;
+				// 		_this.queryRequired.telephoneRequired = response.data.object.telephoneRequired;
+				// 		_this.queryRequired.otherDescribe = response.data.object.otherDescribe;
+		  //           }, function(response){
+		  //           	console.log(22);
+		  //           })
+		  //           var eve2={};
+		  //  			eve2.jsonInfo=JSON.stringify({roundId:_this.formdata.oetRoundId});
+		  //           _this.$http.get('event/round/group/member/getMemInfo',eve2).then(function(response){
+		  //           	var code = response.data.code;
+		  //           	if(code==-1){
+		  //           		layer.msg('请先登录',{offset:"0px"});
+		  //           	}else if(code==0){
+		  //           		layer.msg(response.data.msg,{offset:"0px"});
+		  //           	}else if(code==1){
+		  //           		_this.singlebm.idcard = response.data.object.idcard;
+		  //           		_this.singlebm.qq = response.data.object.qq;
+		  //           		_this.singlebm.realname = response.data.object.realname;
+		  //           		_this.singlebm.telephone = response.data.object.telephone;
+		  //           	}
+		  //           }, function(response){
+		  //           	console.log(22);
+		  //           })
+				// }else if(applyType==2){
+
+				// }
+				$('.zdbmone').animate({right:"0px"},200);
+			},
 			tapswitch:function(event){
 				var _this = $(event.target);
 				var v = _this.attr("val");

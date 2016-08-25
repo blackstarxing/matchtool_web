@@ -1,10 +1,12 @@
 <template>
 <backend-sidebar></backend-sidebar>
   <div class="g-bd g-w">
-    <div class="techpic-option">
+    <div class="techpic-option clearfix">
       <div href="" class="techpic-edit" @click="editTechpic">编辑对阵图</div>
       <div class="before_tech tech_right_staus not_checked" style="display:none">
-              <p class="start_text" @click="beginTech"></p>
+              <p @click="beginTech"><i class="s-q-start"></i>
+                <span class="start_text" ></span>
+              </p>
           </div>
       <div class="begining_tech" style="display:none">
         <div class="start_btn">
@@ -35,7 +37,10 @@
               </li>
             </ul>
           </div>
-          <div class="turn_btn" @click="randomPic">随机排列对阵选手顺序</div>
+          <div class="clearfix">
+            <div class="turn_btn" @click="randomPic">随机排列对阵选手顺序</div>
+            <div class="turn_move">可拖曳查看</div>
+            </div>
           <div class="tech_body">
               <div class="tech_container" style="margin-top:60px;">
               <div class="match_content clearfix">
@@ -212,7 +217,7 @@ import backendSidebar from '../components/backendSidebar.vue'
            }
         
       }else if(response.data.object.roundStatus==7){
-        $('.ending_tech').show();
+        // $('.ending_tech').show();
         
           }
 
@@ -975,46 +980,7 @@ import backendSidebar from '../components/backendSidebar.vue'
         _this.$http.get('event/finish',parm).then(function(response){
           if(response.data.code){
             $('.edit_div').hide();
-            var $matchist=$('.match_list');
-            var _length=$matchist.length;
-            var $lastlist=$matchist.eq(_length-1);
-            var $recta=$lastlist.find('.recta');
-            var _imgone='<img class="tech_end_pic" src="../../static/images/numberone.png">';
-            var _imgtwo='<img class="tech_end_pic" src="../../static/images/numbertwo.png">';
-            var _imgthree='<img class="tech_end_pic" src="../../static/images/numberthree.png">';
-            var _imgfour='<img class="tech_end_pic" src="../../static/images/numberfour.png">';
-            if($recta.eq(0).hasClass('add_winer')){
-              $recta.eq(0).append(_imgone);
-              $recta.eq(1).append(_imgtwo);
-            }else{
-              $recta.eq(1).append(_imgone);
-              $recta.eq(0).append(_imgtwo);
-            }
-              
-             if(this.matchdata.length==2){
-              if($recta.eq(2).hasClass('add_winer')){
-                $recta.eq(2).append(_imgthree);
-                $recta.eq(3).append(_imgfour);
-              }else{
-                $recta.eq(3).append(_imgthree);
-                $recta.eq(2).append(_imgfour);
-              }
-            }
-            var beginparm={};
-            var _eventid=window.sessionStorage.getItem("eventId");
-            var _roundid=window.sessionStorage.getItem("eventRoundId");
-            beginparm.oetInfoId=_eventid;
-            beginparm.oetRoundId=_roundid;
-            var parmstr=JSON.stringify(beginparm);
-            var _parm={};
-            _parm.jsonInfo=parmstr;
-          // _this.$http.get('event/getStatusByTime',_parm).then(function(response){
-          //     _this.champion=response.data.object.firstName;
-          //     _this.second=response.data.object.secondName;
-
-          // },function(response) {
-          //           console.log(response);
-          //       });
+            window.location.reload(); 
           }else{
             layer.msg(response.data.msg,{offset:"0px"});
           }

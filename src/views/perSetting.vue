@@ -157,6 +157,11 @@
 	import slideBar from '../components/slideBar.vue'
 	import createPop from '../components/createPop.vue'	
 	export default {
+		route: {
+			data () {
+				this.tabFlag = this.$route.params.userId
+			}
+		},
 		data () {
 			return {
 				nicknameErrorTexr: false,
@@ -200,7 +205,8 @@
 					telephone: "",
 					userId: -1
 				},
-				betaCode: ""
+				betaCode: "",
+				nowNickname: ""
 			}
 		},
 		components: {
@@ -210,6 +216,18 @@
 	    createPop
 		},
 		ready: function () {
+			var param = window.location.href
+			console.log(param.charAt(param.length-1))
+			// if (param[param.length - 1] != undefined) {
+			// 	var tabId = param.split('=')[1]
+				//alert(tabId)
+				if (param.charAt(param.length-1) === "1") {
+					this.tabFlag = 1
+					this.tabList[0].isCur = false
+					this.tabList[1].isCur = true
+				}
+
+			// }
 			var _this = this
 			// 图片上传
 			$('#pic').diyUpload({
@@ -236,6 +254,7 @@
 			this.$http.get('sysuser/querySysUserInfo').then(function (response) {
 			 // this.$set('userInfoData', data);
 			  this.userInfoData = response.data.object.userInfo
+			  this.nowNickname = this.userInfoData.nickname
 			  this.saveUserInfo.sysUserId = response.data.object.sysUser.id
 			  // 设置参赛资料的字段
 			  this.saveMatchInfo.sysUserId = response.data.object.sysUser.id
@@ -331,6 +350,7 @@
   			}
 			},
 			checkNickname: function () {
+				// if (this.userInfoData.nickname === this.nowNickname)  return 
 				var json = { nickname: this.userInfoData.nickname, telephone: this.userInfoData.username }
 				this.$http.get('registerCheck', json).then(function (response) {
 					// console.log(response)
@@ -457,11 +477,11 @@
 							// 头像
 
 							// 昵称
-							if (_this.userInfoData.nickname === '') {
+							// if (_this.userInfoData.nickname === '') {
 
-							} else {
-								_this.saveUserInfo.nickname = _this.userInfoData.nickname
-							}
+							// } else {
+							_this.saveUserInfo.nickname = _this.userInfoData.nickname
+							//}
 							
 							// 性别
 							_this.saveUserInfo.sex = _this.userInfoData.sex
