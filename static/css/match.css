@@ -2388,12 +2388,17 @@ label.u-c-kz-sz{
   width: 220px;
   height: 35px;
   line-height: 30px;
-  background:url(../../static/images/luck.png) no-repeat 10px 7px #f9a32a;
-  color: #fff;
+  background:url(../../static/images/random.png) no-repeat 10px 7px;
+  color: #fdb91a;
   border-radius: 5px;
   margin: 30px 70px;
   text-align: center;
   cursor: pointer;
+  border: 2px solid #42454c;
+  border-radius: 3px;
+}
+.turn_move{
+
 }
 .tech_down_tip{
   width: 1200px;

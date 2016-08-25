@@ -35,7 +35,10 @@
               </li>
             </ul>
           </div>
-          <div class="turn_btn" @click="randomPic">随机排列对阵选手顺序</div>
+          <div>
+            <div class="turn_btn" @click="randomPic">随机排列对阵选手顺序</div>
+            <div class="turn_move">可拖曳查看</div>
+            </div>
           <div class="tech_body">
               <div class="tech_container" style="margin-top:60px;">
               <div class="match_content clearfix">
@@ -975,32 +978,7 @@ import backendSidebar from '../components/backendSidebar.vue'
         _this.$http.get('event/finish',parm).then(function(response){
           if(response.data.code){
             $('.edit_div').hide();
-            var $matchist=$('.match_list');
-            var _length=$matchist.length;
-            var $lastlist=$matchist.eq(_length-1);
-            var $recta=$lastlist.find('.recta');
-            var _imgone='<img class="tech_end_pic" src="../../static/images/numberone.png">';
-            var _imgtwo='<img class="tech_end_pic" src="../../static/images/numbertwo.png">';
-            var _imgthree='<img class="tech_end_pic" src="../../static/images/numberthree.png">';
-            var _imgfour='<img class="tech_end_pic" src="../../static/images/numberfour.png">';
-            if($recta.eq(0).hasClass('add_winer')){
-              $recta.eq(0).append(_imgone);
-              $recta.eq(1).append(_imgtwo);
-            }else{
-              $recta.eq(1).append(_imgone);
-              $recta.eq(0).append(_imgtwo);
-            }
-              
-             if(this.matchdata.length==2){
-              if($recta.eq(2).hasClass('add_winer')){
-                $recta.eq(2).append(_imgthree);
-                $recta.eq(3).append(_imgfour);
-              }else{
-                $recta.eq(3).append(_imgthree);
-                $recta.eq(2).append(_imgfour);
-              }
-            }
-           
+            window.location.reload(); 
           }else{
             layer.msg(response.data.msg,{offset:"0px"});
           }
