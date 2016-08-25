@@ -13,13 +13,13 @@
 			</div>
 		</div>
 		<div class="g-q-info">
-			<div class="g-q-fbs" v-show="isstart">
+			<div class="g-q-fbs">
 				<button type="button" class="u-q-start">
 					<i class="s-q-start"></i>
 					开始赛事进程
 				</button>
 				<p class="g-q-remtime">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
-				<a href="#" class="u-q-enter">我也要参与</a>
+				<a href="#" class="u-q-enter" @click="joinMatch">我也要参与</a>
 			</div>
 			<p class="g-q-name">{{name}}</p>
 			<div class="g-q-zbf">
@@ -126,7 +126,7 @@
 						<img src="../../static/images/icon_qdsj.png" class="f-ab">
 						<div class="g-q-if-in">
 							<p class="g-q-if-p1">签到时间</p>
-							<p class="g-q-if-p2">{{needSignMinu}}</p>
+							<p class="g-q-if-p2">{{needSignMinute}}</p>
 						</div>
 					</div>
 				</div>
@@ -197,6 +197,134 @@
       </div>      
     </div>
   </div>
+  	<div class="m-bx-d">
+  		<span class="icon-uniE609 u-bx-off" @click="closed"></span>
+  		<div class="m-bx-w" v-if="queryRequired.nicknameRequired==1">
+  			<p class="g-bx-p">游戏昵称</p>
+  			<input type="text" class="u-c-ipt" name="nickname" placeholder="请输入游戏昵称" v-model="singlebm.nickname" style="width: 100%;" required>
+  			<span class="colfdb f-tip f-bx-tip"></span>
+  		</div>
+  		<div class="m-bx-w" v-if="queryRequired.idcardRequired==1">
+  			<p class="g-bx-p">身份证号</p>
+  			<input type="text" class="u-c-ipt" name="idcard" placeholder="请输入身份证号" style="width: 100%;" v-model="singlebm.idcard" required>
+  			<span class="colfdb f-tip f-bx-tip"></span>
+  		</div>	
+  		<div class="m-bx-w" v-if="queryRequired.nameRequired==1">
+  			<p class="g-bx-p">真实姓名</p>
+  			<input type="text" class="u-c-ipt" name="truename" placeholder="请输入真实姓名" style="width: 100%;" v-model="singlebm.realname" required>
+  			<span class="colfdb f-tip f-bx-tip"></span>
+  		</div>	
+  		<div class="m-bx-w" v-if="queryRequired.telephoneRequired==1">
+  			<p class="g-bx-p">手机号码</p>
+  			<input type="text" class="u-c-ipt" name="telephone" placeholder="请输入手机号码" style="width: 100%;" v-model="singlebm.telephone" required>
+  			<span class="colfdb f-tip f-bx-tip"></span>
+  		</div>
+  		<div class="m-bx-w" v-if="queryRequired.qqRequired==1">
+  			<p class="g-bx-p">QQ号码</p>
+  			<input type="text" class="u-c-ipt" name="qqnum" placeholder="请输入QQ号码" style="width: 100%;" v-model="singlebm.qq" required>
+  			<span class="colfdb f-tip f-bx-tip"></span>
+  		</div>
+  		<div class="m-bx-w" v-if="queryRequired.otherRequired==1" style="margin-bottom: 0.5rem;">
+  			<p class="g-bx-p">{{queryRequired.otherDescribe}}</p>
+  			<input type="text" class="u-c-ipt" name="otherinfo" placeholder="请输入其它信息" style="width: 100%;" required>
+  			<span class="colfdb f-tip f-bx-tip"></span>
+  		</div>
+  		<button type="button" class="u-q-start u-bx-btn" @click="referApply"><i></i>提交信息</button>		
+	</div>
+	<div class="m-zdbx-d f-re zdbmone">
+		<span class="icon-uniE609 u-bx-off" @click="closedzdone"></span>
+		<p class="g-zdbx-p1"><span class="col42a">当前报名战队：</span>未来老公</p>
+		<p class="g-zdbx-p2">选出出战选手 ( <span class="colfdb">1</span> / 5 )</p>
+		<ul class="m-zdbx-ul">
+			<li class="clearfix">
+				<div class="f-fl g-zdbx-lab">
+					<input type="checkbox" id="gamenickname" class="regular-checkboxs" />
+					<label for="gamenickname"></label>
+				</div>
+				<label class="f-fl u-zdbx-ltx" for="gamenickname">
+					<img src="../../static/images/me.jpg">
+				</label>
+				<label for="gamenickname" class="f-fl g-zdbx-dynm">未来老公</label>
+			</li>
+			<li class="clearfix">
+				<div class="f-fl g-zdbx-lab">
+					<input type="checkbox" id="" class="regular-checkboxs" />
+					<label for=""></label>
+				</div>
+				<label class="f-fl u-zdbx-ltx">
+					<img src="../../static/images/me.jpg">
+				</label>
+				<label for="" class="f-fl g-zdbx-dynm">未来老公</label>
+			</li>
+			<li class="clearfix">
+				<div class="f-fl g-zdbx-lab">
+					<input type="checkbox" id="" class="regular-checkboxs" />
+					<label for=""></label>
+				</div>
+				<label class="f-fl u-zdbx-ltx">
+					<img src="../../static/images/me.jpg">
+				</label>
+				<label for="" class="f-fl g-zdbx-dynm">未来老公</label>
+			</li>
+		</ul>
+		<button type="button" class="u-q-start u-zdbx-btn" @click="zdnext">下一步</button>		
+	</div>
+	<div class="m-zdbx-d f-re zdbmtwo">
+		<span class="icon-uniE609 u-bx-off" @click="closedzdtwo"></span>
+		<p class="g-zdbx-p1"><span class="col42a">当前报名战队：</span>未来老公</p>
+		<p class="g-zdbx-p2">完善选手信息</p>
+		<ul class="m-zdbx-ul">
+			<li>
+				<div class="clearfix">
+					<label class="f-fl u-zdbx-ltx">
+						<img src="../../static/images/me.jpg">
+					</label>
+					<label for="gamenickname" class="f-fl g-zdbx-dynm">未来老公</label>
+				</div>
+				<div class="clearfix g-zdbx-wd">
+					<label class="s-zdbx-lab">游戏昵称：</label>
+					<input type="text" class="u-c-ipt" placeholder="请输入游戏昵称" style="width: 180px;">
+				</div>
+				<div class="clearfix">
+					<label class="s-zdbx-lab">其它：</label>
+					<input type="text" class="u-c-ipt" placeholder="请输入其它" style="width: 180px;">
+				</div>
+			</li>
+			<li>
+				<div class="clearfix">
+					<label class="f-fl u-zdbx-ltx">
+						<img src="../../static/images/me.jpg">
+					</label>
+					<label for="gamenickname" class="f-fl g-zdbx-dynm">未来老公</label>
+				</div>
+				<div class="clearfix g-zdbx-wd">
+					<label class="s-zdbx-lab">游戏昵称：</label>
+					<input type="text" class="u-c-ipt" placeholder="请输入游戏昵称" style="width: 180px;">
+				</div>
+				<div class="clearfix">
+					<label class="s-zdbx-lab">其它：</label>
+					<input type="text" class="u-c-ipt" placeholder="请输入其它" style="width: 180px;">
+				</div>
+			</li>
+			<li>
+				<div class="clearfix">
+					<label class="f-fl u-zdbx-ltx">
+						<img src="../../static/images/me.jpg">
+					</label>
+					<label for="gamenickname" class="f-fl g-zdbx-dynm">未来老公</label>
+				</div>
+				<div class="clearfix g-zdbx-wd">
+					<label class="s-zdbx-lab">游戏昵称：</label>
+					<input type="text" class="u-c-ipt" placeholder="请输入游戏昵称" style="width: 180px;">
+				</div>
+				<div class="clearfix">
+					<label class="s-zdbx-lab">其它：</label>
+					<input type="text" class="u-c-ipt" placeholder="请输入其它" style="width: 180px;">
+				</div>
+			</li>
+		</ul>
+		<button type="button" class="u-q-start u-zdbx-btn">确认报名</button>
+	</div>
 </template>
 <script type="text/javascript">
 function add0(m){return m<10?'0'+m:m }
@@ -230,7 +358,7 @@ import createPop from '../components/createPop.vue'
 				activityBegin:'',
 				applyBegin:'',
 				applyEnd:'',
-				needSignMinu:'',
+				needSignMinute:'',
 				allowApply:'',
 				formdata:{
 					oetInfoId:'',
@@ -259,7 +387,25 @@ import createPop from '../components/createPop.vue'
 		        scorelis:[],
 		        groupid:{},
 		        seatida:{},
-		        seatidb:{}
+		        seatidb:{},
+		        queryRequired:{
+		        	idcardRequired:'',
+		        	nameRequired:'',
+		        	nicknameRequired:'',
+		        	otherRequired:'',
+		        	qqRequired:'',
+		        	telephoneRequired:'',
+		        	otherDescribe:''
+		        },
+		        singlebm:{
+		        	idcard:'',
+		        	qq:'',
+		        	realname:'',
+		        	telephone:'',
+		        	roundId:'',
+		        	other:'',
+		        	nickname:''
+		        }
 			}
 		},
 		components:{
@@ -271,6 +417,7 @@ import createPop from '../components/createPop.vue'
 		ready:function(){
 			var _this = this;
 			_this.formdata.oetRoundId = window.sessionStorage.getItem("eventRoundId");
+			_this.singlebm.roundId = window.sessionStorage.getItem("eventRoundId");
 			_this.formdata.oetInfoId = window.sessionStorage.getItem("eventId");
 			var parm={};
             parm.id=_this.formdata.oetInfoId;
@@ -334,15 +481,15 @@ import createPop from '../components/createPop.vue'
 					_this.activityBegin = format(response.data.object.round.activityBegin);
 					_this.applyBegin = format(response.data.object.round.applyBegin);
 					_this.applyEnd = format(response.data.object.round.applyEnd);
-					_this.needSignMinu = '开赛前'+response.data.object.event.needSignMinute+'分钟';
+					_this.needSignMinute = '开赛前'+response.data.object.event.needSignMinute+'分钟';
 					_this.allowApply = response.data.object.round.allowApply;
 					if(_this.allowApply==0){
-						_this.needSignMinu = '不需要签到';
+						_this.needSignMinute = '不需要签到';
 						_this.applyBegin='';
 						_this.applyEnd='';
 					}else{
 						if(response.data.object.event.needSign == 0){
-							_this.needSignMinu = '不需要签到';
+							_this.needSignMinute = '不需要签到';
 						}
 					}
 				}
@@ -837,6 +984,142 @@ import createPop from '../components/createPop.vue'
           });
 		},
 		methods:{
+			referApply:function(e){
+				var _this = this;
+		    	e.preventDefault();
+		    	function errorPlacement(mes,element){
+		    		var errorTips=element.parents(".m-bx-w").find('.f-tip');
+			    	if(mes!=""){
+			    		errorTips.css("display","inline-block").html(mes);	
+			    	}else{
+			    		errorTips.css("display","none");	
+			    	}
+		    	}
+		    	function formValidate(){
+		    		var valid=true;
+		    		$('.m-bx-d [required]').each(function(index, el) {
+		    			var $this=$(this);
+		    			var value=$this.val(),name=$this.attr('name');	
+			    		var message="";
+			    		if(name=="nickname"){
+			    			if(value==""){
+								valid=false;
+					    		message="游戏昵称不能为空!";
+							}
+							errorPlacement(message,$this);
+			    		}else if(name=="idcard"){
+			    			if(value==""){
+								valid=false;
+					    		message="身份证号不能为空!";
+							}else if(!/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/.test(value)){
+			    				valid=false;
+					    		message="有效身份证格式不正确!";
+			    			}
+							errorPlacement(message,$this);
+			    		}else if(name=="truename"){
+			    			if(value==""){
+								valid=false;
+					    		message="真实姓名不能为空!";
+							}
+							errorPlacement(message,$this);
+			    		}else if(name=="telephone"){
+			    			if(value==""){
+								valid=false;
+					    		message="手机号码不能为空!";
+							}else if(!/^1\d{10}$/.test(value)){
+			    				valid=false;
+					    		message="手机号码不规范!";
+			    			}
+							errorPlacement(message,$this);
+			    		}else if(name=="qqnum"){
+			    			if(value==""){
+								valid=false;
+					    		message="QQ号码不能为空!";
+							}
+							errorPlacement(message,$this);
+			    		}else if(name=="otherinfo"){
+			    			if(value==""){
+								valid=false;
+					    		message="其他不能为空!";
+							}
+							errorPlacement(message,$this);
+			    		}
+		    		});
+		    		if(valid){
+		    			return true;
+		    		}
+		    	}
+		    	if(formValidate()){
+		    		var obj={};
+	   				obj.jsonInfo=JSON.stringify(_this.singlebm);
+		    		_this.$http.post('event/round/group/member/saveMemInfo',obj).then(function(response){
+		    			var code = response.data.code;
+		            	if(code==-1){
+		            		layer.msg('请先登录',{offset:"0px"});
+		            	}else if(code==0){
+		            		layer.msg(response.data.msg,{offset:"0px"});
+		            	}else if(code==1){
+		            		layer.msg(response.data.msg,{offset:"0px"});
+		            	}
+		    		}, function(response){
+		    			console.log(22)
+		    		})
+		    	}
+			},
+			closed:function(){
+				$('.m-bx-d').animate({right:"-3.2rem"},200);
+			},
+			closedzdone:function(){
+				$('.zdbmone').animate({right:"-3.2rem"},200);
+			},
+			closedzdtwo:function(){
+				$('.zdbmtwo').animate({right:"-3.2rem"},200);
+			},
+			zdnext:function(){
+				$('.zdbmone').animate({right:"-3.2rem"},200);
+				$('.zdbmtwo').animate({right:0},200);
+			},
+			joinMatch:function(event){
+				var _this = this;
+				event.preventDefault();
+				// var bmlx = window.sessionStorage.getItem("applyType");
+				// if(applyType==1){
+				// 	$('.m-bx-d').animate({right:"0px"},200);
+				// 	var eve={};
+		  //  			eve.jsonInfo=JSON.stringify({oetInfoId:_this.formdata.oetInfoId});
+				// 	_this.$http.get('event/queryRequired',eve).then(function(response){
+				// 		_this.queryRequired.idcardRequired = response.data.object.idcardRequired;
+				// 		_this.queryRequired.nameRequired = response.data.object.nameRequired;
+				// 		_this.queryRequired.nicknameRequired = response.data.object.nicknameRequired;
+				// 		_this.queryRequired.otherRequired = response.data.object.otherRequired;
+				// 		_this.queryRequired.qqRequired = response.data.object.qqRequired;
+				// 		_this.queryRequired.telephoneRequired = response.data.object.telephoneRequired;
+				// 		_this.queryRequired.otherDescribe = response.data.object.otherDescribe;
+		  //           }, function(response){
+		  //           	console.log(22);
+		  //           })
+		  //           var eve2={};
+		  //  			eve2.jsonInfo=JSON.stringify({roundId:_this.formdata.oetRoundId});
+		  //           _this.$http.get('event/round/group/member/getMemInfo',eve2).then(function(response){
+		  //           	var code = response.data.code;
+		  //           	if(code==-1){
+		  //           		layer.msg('请先登录',{offset:"0px"});
+		  //           	}else if(code==0){
+		  //           		layer.msg(response.data.msg,{offset:"0px"});
+		  //           	}else if(code==1){
+		  //           		_this.singlebm.idcard = response.data.object.idcard;
+		  //           		_this.singlebm.qq = response.data.object.qq;
+		  //           		_this.singlebm.realname = response.data.object.realname;
+		  //           		_this.singlebm.telephone = response.data.object.telephone;
+		  //           	}
+		  //           }, function(response){
+		  //           	console.log(22);
+		  //           })
+				// }else if(applyType==2){
+
+				// }
+				$('.zdbmone').animate({right:"0px"},200);
+			},
 			tapswitch:function(event){
 				var _this = $(event.target);
 				var v = _this.attr("val");
