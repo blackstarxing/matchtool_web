@@ -2392,7 +2392,7 @@ label.u-c-kz-sz{
   background:url(../../static/images/random.png) no-repeat 10px 7px;
   color: #fdb91a;
   border-radius: 5px;
-  margin: 10px 600px 30px 70px;
+  margin: 10px 70px 30px;
   text-align: center;
   cursor: pointer;
   border: 2px solid #42454c;
@@ -2404,7 +2404,8 @@ label.u-c-kz-sz{
 	height: 30px;
 	line-height: 30px;
 	color: #42aa53;
-	float: left;
+	float: right;
+	margin-right: 50px;
 	background:url(../../static/images/move.png) no-repeat 0 5px;
 }
 .tech_down_tip{
@@ -2707,6 +2708,7 @@ label.u-c-kz-sz{
   height: 15px;
   text-align: center;
   color: #f9a32a;
+  background: url(../../static/images/checkbox.png) no-repeat 2px 3px;
 }
 #show_app{
   opacity: 0;

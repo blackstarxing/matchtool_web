@@ -812,7 +812,7 @@ import backendSidebar from '../components/backendSidebar.vue'
           if(response.data.code){
             window.location.reload();
             }else{
-              layer.msg(response.data.msg,{offset:"0px"});
+              layer.msg(response.data.msg);
               }
             },function(response) {
               console.log(response);
@@ -880,10 +880,10 @@ import backendSidebar from '../components/backendSidebar.vue'
         parm.jsonArray=parmstr;
         _this.$http.get("event/turn/batchUpdate",parm).then(function(response){
           if(response.data.code){
-                layer.msg(response.data.msg,{offset:"0px"});
+                layer.msg(response.data.msg);
                 window.location.reload();
                 }else{
-                  layer.msg(response.data.msg,{offset:"0px"});
+                  layer.msg(response.data.msg);
                 }
           },function(response) {
             console.log(response);
