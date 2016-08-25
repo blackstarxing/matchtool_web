@@ -149,7 +149,6 @@ import createPop from '../components/createPop.vue'
 			blurPhone: function (e) {
 				var _current=$(e.currentTarget);
 				var _error=_current.next('.reg_error');
-				this.isident=true;
 				if(/^\d+$/.test(this.phone)){
 					_error.hide();
 					//判断是否有错误提示
@@ -178,6 +177,13 @@ import createPop from '../components/createPop.vue'
 				}else{
 					_error.show();
 					_error.find('.error_tip').text('请填写正确的手机号');
+				}
+			},
+			keyupPhone: function () {
+				if(this.phone.length == 11){
+					this.isident = true;
+				}else{
+					this.isident = false;
 				}
 			},
 			getIdent: function (e) {
