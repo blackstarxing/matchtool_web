@@ -2409,10 +2409,9 @@ label.u-c-kz-sz{
 }
 .start_btn{
   width: 200px;
-  height: 40px;
+  height: 50px;
   position: relative;
   cursor: pointer;
-  margin-top: 15px;
 }
 .start_text{
   cursor: pointer;
@@ -2462,14 +2461,15 @@ label.u-c-kz-sz{
 .turn_btn{
   width: 220px;
   height: 35px;
-  line-height: 30px;
-  background:url(../../static/images/random.png) no-repeat 10px 7px #f9a32a;
+  line-height: 35px;
+  background:url(../../static/images/random.png) no-repeat 10px 7px;
   color: #fff;
   float: left;
   border-radius: 5px;
   margin: 30px 70px;
   text-align: center;
   cursor: pointer;
+  border: 2px solid #42454c;
 }
 .turn_move{
   float: right;
@@ -2508,12 +2508,12 @@ label.u-c-kz-sz{
   left: 467px;
 }
 .turn_num_list{
-    margin: 0 20px 20px 45px;
+    margin: 0 20px 20px;
     color: #fff;
 }
 .turn_num_li{
   float: left;
-  width: 265px;
+  width: 270px;
   height: 60px;
   text-align: center;
   margin-right: 2px;
@@ -2580,8 +2580,12 @@ label.u-c-kz-sz{
 .float_edit p{
 	margin-top: -5px;
 }
+.float_check p{
+	margin-top: -1px;
+}
 .float_check{
 	position: absolute;
+	font-size: 12px;
 	width: 50px;
 	height: 45px;
 	top:-65px;
@@ -2656,21 +2660,26 @@ label.u-c-kz-sz{
 }
 .tech_range{
   width: 200px;
-  height: 25px;
-  background-color: #838383;
+  height: 50px;
+  background-color: #36383f;
   border-radius: 3px;
+  position: relative;
 }
 .tech_range_detail{
   width:40px;
-  height: 25px;
+  height: 50px;
   border-radius: 3px;
-  background-color: #f9a32a;
+  background-color: #fdb91a;
   float: left;
 }
 .tech_range_num{
-  float: right;
-  font-size: 12px;
-  line-height: 25px;
+  position: absolute;
+  top:0;
+  left:0;
+  width: 200px;
+  line-height: 50px;
+  color: #42aa53;
+  text-align: center;
 }
 #set_begin{
   opacity: 0;
@@ -2783,8 +2792,7 @@ label.u-c-kz-sz{
   display: inline-block;
   width: 15px;
   height: 15px;
-  text-align: center;
-  color: #f9a32a;
+  background: url(../../static/images/checkbox.png) no-repeat 2px 3px;
 }
 #show_app{
   opacity: 0;
@@ -2879,6 +2887,9 @@ label.u-c-kz-sz{
 }
 .scores_detail_p{
 	line-height: 22px;
+}
+.scores_detail_list .scores_large{
+	color: #e8a200;
 }
 /*个人赛事报名*/
 .m-bx-d{
