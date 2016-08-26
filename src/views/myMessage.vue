@@ -166,6 +166,7 @@
 					// console.log($msgTextList.find('a'))
 					// $('.msgText:has(a)').eq(index).html(text[index])
 				})
+				
 			},
 			getMsgList: function (typeId, pageNum) {
 				var params = {}
