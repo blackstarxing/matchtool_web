@@ -1072,6 +1072,16 @@ label.u-c-kz-sz{
 	right: -0.25rem;
 	top: 0.8rem;
 }
+.u-c-slt-zdbm{
+	width: 80px;
+    background: url(../images/arrow.png) no-repeat 60px center #14181d;
+    position: absolute;
+    bottom: 0;
+    right: -100px;
+    display: none;
+}
+
+
 
  /*头部*/
 .g-hd{
@@ -2377,7 +2387,7 @@ label.u-c-kz-sz{
 .against_container{
   width: 1024px;
   height: 900px;
-  margin: 30px auto;
+  margin: 20px auto;
   background: #171a21;
   position: relative;
   overflow: scroll;
@@ -2385,28 +2395,15 @@ label.u-c-kz-sz{
   padding-top: 50px;
 }
 .turn_btn{
-  float: left;
   width: 220px;
   height: 35px;
   line-height: 30px;
-  background:url(../../static/images/random.png) no-repeat 10px 7px;
-  color: #fdb91a;
+  background:url(../../static/images/luck.png) no-repeat 10px 7px #f9a32a;
+  color: #fff;
   border-radius: 5px;
-  margin: 10px 70px 30px;
+  margin: 30px 70px;
   text-align: center;
   cursor: pointer;
-  border: 2px solid #42454c;
-  border-radius: 3px;
-}
-.turn_move{
-	text-align: center;
-	width: 120px;
-	height: 30px;
-	line-height: 30px;
-	color: #42aa53;
-	float: right;
-	margin-right: 50px;
-	background:url(../../static/images/move.png) no-repeat 0 5px;
 }
 .tech_down_tip{
   width: 1200px;
@@ -2708,7 +2705,6 @@ label.u-c-kz-sz{
   height: 15px;
   text-align: center;
   color: #f9a32a;
-  background: url(../../static/images/checkbox.png) no-repeat 2px 3px;
 }
 #show_app{
   opacity: 0;
@@ -2782,11 +2778,132 @@ label.u-c-kz-sz{
 .add_winer{
   background-color: #f9a32a;
 }
+
+/*个人赛事报名*/
+.m-bx-d{
+	position: fixed;
+	box-sizing: border-box;
+    right: -3.2rem;
+    top: 0.6rem;
+    width: 3.2rem;
+    height: 100%;
+    padding: 0.4rem 0.3rem;
+    background: #171a21;
+    overflow: scroll;
+}
+.m-bx-w{
+	margin-bottom: 0.3rem;
+	position: relative;
+}
+.g-bx-p{
+	color: #7a8387;
+	font-size: 12px;
+	line-height: 12px;
+	margin-bottom: 0.12rem;
+}
+.f-bx-tip{
+    position: absolute;
+    font-size: 12px;
+    line-height: 12px;
+    margin: 0;
+    bottom: -0.18rem;
+}
+.u-bx-btn i{
+	display: inline-block;
+    width: 20px;
+    height: 14px;
+    margin-right: 12px;
+    background: url(../images/checkmark.png) center center no-repeat;
+}
+.u-bx-off{
+	position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 18px;
+    color: #fdb91a;
+    cursor: pointer;
+}
+.u-bx-btn[disabled]{
+	background: #343b45;
+    color: #7a8387;
+    cursor: not-allowed;
+}
+/*战队赛事报名*/
+.m-zdbx-d{
+	position: fixed;
+	box-sizing: border-box;
+    right: -3.2rem;
+    top: 0.6rem;
+    width: 3.2rem;
+    height: 100%;
+    padding: 0.24rem 0.2rem;
+    background: #171a21;
+    overflow: scroll;
+}
+.g-zdbx-p1{
+	font-size: 12px;
+	line-height: 12px;
+	color: #fdb91a;
+	margin-bottom: 0.34rem;
+}
+.g-zdbx-p2{
+	color: #7a8387;
+	font-size: 12px;
+	line-height: 12px;
+	padding-bottom: 0.07rem;
+}
+.m-zdbx-ul li{
+	padding: 0.15rem 0;
+	border-bottom: 1px solid #323640;
+}
+.u-zdbx-ltx{
+	box-sizing: border-box;
+	height: 0.36rem;
+	width: 0.36rem;
+	padding: 0.02rem;
+	background: #666a74;
+	border-radius: 50%;
+	-webkit-border-radius:50%;
+}
+.u-zdbx-ltx img{
+	height: 100%;
+	width: 100%;
+	border-radius: 50%;
+	-webkit-border-radius:50%;
+}
+.g-zdbx-lab{
+	height: 0.36rem;
+    line-height: 0.43rem;
+}
+.g-zdbx-dynm{
+	height: 0.36rem;
+	line-height: 0.36rem;
+	color: #f2f6f9;
+	margin-left: 0.2rem;
+}
+.u-zdbx-btn{
+	display: block;
+	width: 88%;
+	margin: 0.8rem auto ;
+}
+.g-zdbx-wd{
+	margin: 0.1rem 0;
+}
+.s-zdbx-lab{
+	display: inline-block;
+    color: #7a8387;
+    width: 0.7rem;
+    text-align: right;
+}
+
+
+
 .tech_end_pic{
 	position: absolute;
 	top:0;
 	right:-30px;
 }
+
 /*赛事详情分享页*/
 .g-sh-m{
 	box-sizing: border-box;
