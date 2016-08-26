@@ -13,12 +13,19 @@
 			</div>
 		</div>
 		<div class="g-q-info">
-			<div class="g-q-fbs" v-if="isCreater==1">
-				<button type="button" class="u-q-start">
+			<div class="g-q-fbs"  v-if="isCreater==1 && isPublish ==1">
+				<button type="button" class="u-q-start" v-if="status==1" v-link="{ path: '/backend/backendTechpic'}">
 					<i class="s-q-start"></i>
 					开始赛事进程
 				</button>
-				<p class="g-q-remtime">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
+				<button type="button" class="u-q-start u-q-jinxz" v-if="status==2" v-link="{ path: '/backend/backendTechpic'}">
+					<div class="s-q-jds" style="width:30%;"></div>
+					<span class="u-q-start-jdt">30%</span>
+				</button>
+				<button type="button" class="u-q-start" v-if="status==3" disabled>
+					已结束
+				</button>
+				<p class="g-q-remtime" id="txt">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
 				<a href="#" class="u-q-enter" @click="joinMatch">我也要参与</a>
 			</div>
 			<p class="g-q-name">{{name}}</p>
@@ -294,6 +301,33 @@ function format(shijianchuo){
 	var s = time.getSeconds();
 	return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm);
 }
+function timer(txt,a,n) {
+	var leftTime = activityBegin - new Date().getTime();
+
+	var leftDay = Math.floor(leftTime / (1000 * 60 * 60 * 24));
+	leftTime = leftTime - leftDay * (1000 * 60 * 60 * 24);
+
+	var leftHour = Math.floor(leftTime / (1000 * 60 * 60));
+	leftTime = leftTime - leftHour * (1000 * 60 * 60);
+
+	var leftMinute = Math.floor(leftTime / (1000 * 60));
+	leftTime = leftTime - leftMinute * (1000 * 60)
+
+	console.log(leftTime)
+	var leftSecond = Math.round(leftTime / 1000);
+
+	var leftStr = '';
+	if(leftDay > 0) {
+		leftStr += leftDay + '天';
+	}
+	if(leftHour > 0) {
+		leftStr += leftHour + '小时';
+	}
+	if(leftMinute > 0) {
+		leftStr += leftMinute + '分';
+	}
+	document.getElementById('txt').innerHTML = txt + leftStr;
+}
 import topHead from '../components/topHead.vue'
 import sideBar from '../components/sideBar.vue'
 import slideBar from '../components/slideBar.vue'
@@ -301,6 +335,7 @@ import createPop from '../components/createPop.vue'
 	export default {
 		data () {
 			return{
+				state:'',
 				poster:'',
 				name:'',
 				itemName:'',
@@ -365,7 +400,8 @@ import createPop from '../components/createPop.vue'
 		        teamName:'',
 		        teamMemberNum:'',
 		        currentNum:0,
-		        cherkedMemArr:''
+		        cherkedMemArr:'',
+		        status:''//创建者赛事状态视角
 			}
 		},
 		components:{
@@ -386,6 +422,7 @@ import createPop from '../components/createPop.vue'
         	console.log(response);
 			var code = response.data.code;
 			if(code==1){
+				_this.status = response.data.object.round.status;
 				_this.brief= response.data.object.event.brief;
 				if(_this.brief=='' || _this.brief==null){
 					_this.brief = 0;
@@ -451,6 +488,20 @@ import createPop from '../components/createPop.vue'
 				}else{
 					if(response.data.object.event.needSign == 0){
 						_this.needSignMinu = '不需要签到';
+					}
+				}
+				if(_this.isCreater ==1 && _this.isPublish==1){
+					var nowTime = response.data.object.nowTime;
+					var ds = 60 * 60 * 24 * 1000;
+					_this.state = response.data.object.state;
+					if(_this.state==1){
+						if(t>0){
+							var txt = '距离报名开始还有';
+							timer(txt, _this.applyBegin,nowTime) 
+							var intervalNum = window.setInterval(function() {
+								timer(txt, _this.applyBegin,nowTime);
+							}, 60000);
+						}
 					}
 				}
 			}
