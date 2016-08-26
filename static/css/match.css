@@ -1477,9 +1477,9 @@ label.u-c-kz-sz{
 .g-list h3{margin: 0;font-size: 18px;line-height: 100px;}
 .g-list .search{display: inline-block;height: 36px;position: relative;}
 .g-list .search .u-search{width:100px; height:36px; background-color:#f9a32a;padding:0; font-size:14px; color:#ffffff;position: absolute;top:0;right: 0;}
-.m-operate .u-btn-add{width:200px;float: left;background: #fdb91a;font-weight: bolder;}
+.m-operate .u-btn-add{width:200px;float: left;background: url(../images/btn1.png);font-weight: bolder;}
 .m-operate .u-btn-add img{width:15px;height: 15px;margin-right: 10px;margin-top: -1px;}
-.m-operate .u-btn-upset{background:#42aa53;width:200px;float: left;margin-right: 20px;color:#fff;}
+.m-operate .u-btn-upset{background:url(../images/btn0.png);width:200px;float: left;margin-right: 20px;color:#fff;}
 .r-btn a{display:inline-block;color:#42aa53;margin:30px 10px 0;font-size: 12px;}
 .m-tb{margin-top: 20px;padding-bottom: 80px;}
 
@@ -1536,6 +1536,7 @@ label.u-c-kz-sz{
 	border-top: 1px solid #23282e;
 	height:110px;
 	display: none;
+	padding:10px;
 }
 .moreInfo img{
 	margin: 6px;
@@ -1590,6 +1591,7 @@ label.u-c-kz-sz{
 .m-page #next{background-image: url(../images/next.png);}
 .m-page .u-btn{width: 68px;height: 30px;line-height: 30px;margin-left: 20px;font-size: 14px;border:0;background: #fdb91a;color: #1e1f24;}
 .m-page input{width: 78px;height: 30px;vertical-align: middle;background: #15181e; border: 1px solid #353d48; color: #ffffff; text-indent: 12px;}
+.m-page input:focus{outline: none;border-color: #42ac59;}
 .m-page .pagination{display: inline-block;color:#b7c1c6;}
 .m-page .pagination span{margin:0 5px;}
 .m-page .pagination span.current{color:#fdb91a;}
@@ -1615,10 +1617,11 @@ label.u-c-kz-sz{
 .m-pop .u-btn{display:block;background:url(../images/btn1.png) no-repeat;width: 200px;margin:30px auto 0;}
 .m-pop .u-pop-btn{
 	display: inline-block;
-	margin: 30px 25px 0;
+	margin: 30px 20px 0;
 }
 .m-pop .add-wrap{
-	padding-top: 25px;
+	padding: 25px 10px 0;
+	box-sizing: border-box;
 }
 .m-pop .add-wrap .m-lst{
 	padding:0 20px;
