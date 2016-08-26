@@ -13,7 +13,7 @@
 			</div>
 		</div>
 		<div class="g-q-info">
-			<div class="g-q-fbs">
+			<div class="g-q-fbs" v-if="isCreater==1">
 				<button type="button" class="u-q-start">
 					<i class="s-q-start"></i>
 					开始赛事进程
@@ -29,7 +29,7 @@
 				<span class="f-fl ml20">{{nickname}}</span>
 				<span class="col7a8 f-fl ml20" v-if="isPublish==1">{{publishTime}}发布</span>
 			</div>
-			<p class="g-q-jj col7a8" v-if="brief==0 && isPublish==0">赛事还没有简介信息，<a href="#" v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
+			<p class="g-q-jj col7a8" v-if="brief==0 && isPublish==null">赛事还没有简介信息，<a href="#" v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
 			<p class="g-q-jj col7a8" v-if="brief==0 && isPublish==1">赛事还没有简介信息</p>
 			<p class="g-q-jj col7a8" v-if="brief!=0" v-html="brief"></p>
 			<p class="col7a8 g-q-dz" v-show="changemodedz">地址&nbsp<span class="colfdb">•</span>&nbsp{{addreass}}{{detailAddreass}}</p>
@@ -133,18 +133,18 @@
 			</div>
 			<div class="g-q-jx">
 				<p class="g-q-jxp">赛事奖项</p>
-				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="prizeSetting==0 && isPublish==0">还没有赛事奖项，<a v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
+				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="prizeSetting==0 && isPublish==null">还没有赛事奖项，<a v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
 				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="prizeSetting==0 && isPublish==1">有点抠！竟然没有奖励！</p>
 				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="prizeSetting!=0" v-html="prizeSetting"></p>
 			</div>
 			<div class="g-q-jx" style="margin-bottom:100px;">
 				<p class="g-q-jxp">赛事规则</p>
-				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="regimeRule==0 && isPublish==0">还没有赛事规则，<a v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
+				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="regimeRule==0 && isPublish==null">还没有赛事规则，<a v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
 				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="regimeRule==0 && isPublish==1">暂时还没有详细的赛事规则哦~</p>
 				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="regimeRule!=0" v-html="regimeRule"></p>
 			</div>
 		</div>
-		<div class="steps infosteps" v-if="isPublish==0">
+		<div class="steps infosteps" v-if="isPublish==null">
 			<span class="line"></span>
 			<ul>
 				<li><i></i>填写基本信息</li>
@@ -228,7 +228,7 @@
   		</div>
   		<div class="m-bx-w" v-if="queryRequired.otherRequired==1" style="margin-bottom: 0.5rem;">
   			<p class="g-bx-p">{{queryRequired.otherDescribe}}</p>
-  			<input type="text" class="u-c-ipt" name="otherinfo" placeholder="请输入其它信息" style="width: 100%;" required>
+  			<input type="text" class="u-c-ipt" name="otherinfo" placeholder="请输入{{queryRequired.otherDescribe}}" v-model="singlebm.other" style="width: 100%;" required>
   			<span class="colfdb f-tip f-bx-tip"></span>
   		</div>
   		<button type="button" class="u-q-start u-bx-btn" @click="referApply"><i></i>提交信息</button>		
@@ -330,7 +330,7 @@ import createPop from '../components/createPop.vue'
     			roundStatus:'',
     			appliable:'',//当前是否可报名
     			isPublish:'',//是否发布
-    			isCreater:1,//当前用户是否为赛事创建者
+    			isCreater:'',//当前用户是否为赛事创建者
     			nickname:'',
     			icon:'',
     			publishTime:'',
