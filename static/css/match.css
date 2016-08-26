@@ -1118,6 +1118,24 @@ label.u-c-kz-sz{
     border-radius: 0.02rem;
     -webkit-border-radius:0.02rem;
 }
+.u-q-jinxz{
+	background: #36383f;
+	color: #42aa53;
+	position: relative;
+}
+.s-q-jds{
+	height: 0.48rem;
+	background: #fdb91a;
+	border-radius: 0.02rem;
+	-webkit-border-radius:0.02rem;
+}
+.u-q-start-jdt{
+	position: absolute;
+    width: 30%;
+    top: 0;
+    left: 0;
+    margin: 0 35%;
+}
 .s-q-start{
 	display: inline-block;
 	width: 0.15rem;
