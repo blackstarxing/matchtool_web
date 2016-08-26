@@ -19,7 +19,7 @@
 						<div class="member-head">
 							<ul>
 								<li class="column-2">序号</li>
-								<li class="column-3">用户昵称</li>
+								<li class="column-3">战队名称</li>
 								<li class="column-2">已签到</li>
 								<li class="column-2">操作</li>
 								<li class="column-1">展开</li>
@@ -30,7 +30,7 @@
 						</div>
 						<div class="member-list" v-for="team in teamlist.list">
 							<ul>
-								<li v-bind:class="['column-2',team.isfill==1 ? 'isfill' : '']">{{$index+1}}</li>
+								<li v-bind:class="['column-2',team.isfill==1 ? 'isfill' : '']">{{team.seatNumber}}</li>
 								<li class="memberId" style="display:none;">{{team.memberId}}</li>
 		                        <li class="memberName column-3">{{team.teamName}}</li>
 		                        <li class="column-2">
@@ -91,21 +91,6 @@
 		<div class="g-bt"></div>
 	</div>		
 	</div>
-	<div class="m-edit">
-		<div class="m-pop">
-			<div class="wrap">
-				<h3>添加参赛选手</h3>
-				<a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
-				<div class="m-lst">				
-					<label for="">选手名称：</label>
-					<input type="text" class="name u-c-ipt" name="name" placeholder="请输入参赛者名称">
-					<div class="attention"></div>
-				</div>
-				<div class="member-id" style="display:none"></div>
-				<a href="javascript:void(0);" class="u-btn add-member" @click="setMember">添加</a>
-			</div>			
-		</div>
-	</div>
 	<div class="m-mask">
 		<div class="m-pop" style="padding-bottom:30px;">
 			<div class="wrap add-wrap">
@@ -164,6 +149,8 @@
   		methods: {
     		addplayer: function(e){
     			$(".add-member").removeClass('edit-member').text("添加");
+    			$('.add-wrap .name').val('');
+		    	$('.add-wrap .member-id').html('');
     			$('.f-tip').html("");
 		        $('.m-mask').show();
 		    },
@@ -240,50 +227,88 @@
 		    	e.preventDefault();
 		    	var _this=this;
 		    	var _target=$(e.currentTarget);
-		    	var parmstr=JSON.stringify({eventMemberId:$('.add-wrap .member-id').html(),teamName:$('.add-wrap .name').val()});
-		    	var parm={};
-		    	parm.memberJson=parmstr;
-	    		if(_target.hasClass('edit-member')){
-		    		_this.$http.get('event/round/group/member/editTeam',{eventMemberId:$('.add-wrap .member-id').html(),teamName:$('.add-wrap .name').val()}).then(function(response) {
-			        	console.log(response.data);
-			        	if(response.data.code){
-			        		$('.m-mask').hide();
-			        		layer.msg('修改成功');
-					    	_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
-					        	console.log(response.data);
-					        	_this.teamlist=response.data.object.pager;
-					        },function(response) {
-					            console.log(response);
-					        });
-			        	}else{
-			        		$('.m-mask').hide();
-			        		layer.msg(response.data.msg);
-			        	}
-			        	console.log(parm);
-			        },function(response) {
-			            console.log(response.data.msg);
-			        });			    		
-		    	}else{
-		    		_this.$http.get('event/round/group/member/addTeam',{roundId:_this.roundId,teamName:$('.add-wrap .name').val()}).then(function(response) {
-			        	console.log(response.data);
-			        	if(response.data.code==1){
-			        		$('.m-mask').hide();
-			        		layer.msg('添加成功');
-			        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
-					        	console.log(response.data);
-					        	_this.teamlist=response.data.object.pager;
-					        },function(response) {
-					            console.log(response);
-					        });
-			        	}else{
-			        		$('.m-mask').hide();
-			        		layer.msg(response.data.msg);
-			        	}                                                                                                           
-			        	console.log(parm);
-			        },function(response) {
-			            console.log(response.data.code);
-			        });
-		    	}		    	
+		    	function errorPlacement(mes,element){
+			    	var errorTips=element.parents(".m-lst").find('.f-tip');
+			    	if(mes!=""){
+			    		errorTips.show().html(mes);
+			    	}else{
+			    		errorTips.hide();
+			    	}			    				    	
+			    }
+			    function strlen(str){
+					var len = 0;
+					for (var i=0; i<str.length; i++) { 
+					    var c = str.charCodeAt(i); 
+					    //单字节加1 
+					    if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) { 
+					       len++; 
+					    } 
+					    else { 
+					      len+=2; 
+					    } 
+					} 
+				    return len;
+				}
+			    function formValidate(){
+			    	var valid=true;
+					var value=$('.add-wrap .name').val();	
+		    		var message="";
+	    			if(value==""){
+	    				valid=false;
+			    		message="战队名称不能为空";
+			    	}else if(strlen(value)>15){
+			    		valid=false;
+			    		message="战队名称过长";
+			    	}
+			    	errorPlacement(message,$('.add-wrap .name'));			    	   
+				    return valid;
+			    };
+			    if(formValidate()){
+			    	var parmstr=JSON.stringify({eventMemberId:$('.add-wrap .member-id').html(),teamName:$('.add-wrap .name').val()});
+			    	var parm={};
+			    	parm.memberJson=parmstr;
+		    		if(_target.hasClass('edit-member')){
+			    		_this.$http.get('event/round/group/member/editTeam',{eventMemberId:$('.add-wrap .member-id').html(),teamName:$('.add-wrap .name').val()}).then(function(response) {
+				        	console.log(response.data);
+				        	if(response.data.code){
+				        		$('.m-mask').hide();
+				        		layer.msg('修改成功');
+						    	_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
+						        	console.log(response.data);
+						        	_this.teamlist=response.data.object.pager;
+						        },function(response) {
+						            console.log(response);
+						        });
+				        	}else{
+				        		$('.m-mask').hide();
+				        		layer.msg(response.data.msg);
+				        	}
+				        	console.log(parm);
+				        },function(response) {
+				            console.log(response.data.msg);
+				        });			    		
+			    	}else{
+			    		_this.$http.get('event/round/group/member/addTeam',{roundId:_this.roundId,teamName:$('.add-wrap .name').val()}).then(function(response) {
+				        	console.log(response.data);
+				        	if(response.data.code==1){
+				        		$('.m-mask').hide();
+				        		layer.msg('添加成功');
+				        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
+						        	console.log(response.data);
+						        	_this.teamlist=response.data.object.pager;
+						        },function(response) {
+						            console.log(response);
+						        });
+				        	}else{
+				        		$('.m-mask').hide();
+				        		layer.msg(response.data.msg);
+				        	}                                                                                                           
+				        	console.log(parm);
+				        },function(response) {
+				            console.log(response.data.code);
+				        });
+			    	}		    	
+			    }	    	
 		    },
 		    // 编辑成员信息
 		    editMember:function(e){
@@ -324,31 +349,6 @@
 			        });
 				});
 		    },
-		    // 保存成员信息
-		    setMember:function(e){
-		    	function errorPlacement(mes,element){
-			    	var errorTips=element.parents(".m-lst").find('div.attention');
-			    	if(mes!=""){
-			    		errorTips.show().html(mes);
-			    	}else{
-			    		errorTips.hide();
-			    	}			    				    	
-			    }
-			    function strlen(str){
-					var len = 0;
-					for (var i=0; i<str.length; i++) { 
-					    var c = str.charCodeAt(i); 
-					    //单字节加1 
-					    if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) { 
-					       len++; 
-					    } 
-					    else { 
-					      len+=2; 
-					    } 
-					} 
-				    return len;
-				}
-		    },
 		    // 导出列表
 		    exportExcel:function(e){
 		    	e.preventDefault();
@@ -357,16 +357,19 @@
 		    	window.location.href="http://match.wangyuhudong.com/api/event/round/group/member/export?roundId="+_this.roundId;
 		    },
 		    // 翻页
+		    pageTo:function(page){
+				this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:page}).then(function(response){
+    				this.teamlist=response.data.object.pager;
+	    		}, function(response){
+	    			console.log(response);
+	    		})
+			},		    
   			prevpage:function(e){
   				e.preventDefault();
   				var currentpage = this.teamlist.pageNumber;
 	    		if(currentpage>1){
 	    			currentpage--;
-	    			this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:currentpage}).then(function(response){
-	    				this.teamlist=response.data.object.pager;
-		    		}, function(response){
-		    			console.log(response);
-		    		})
+	    			this.pageTo(currentpage);
 	    		}
 	    		else{
 	    			layer.msg('没有上一页了');
@@ -378,11 +381,7 @@
   					maxpage = this.teamlist.pages;
 	    		if(currentpage<maxpage){
 	    			currentpage++;
-	    			this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:currentpage}).then(function(response){
-	    				this.teamlist=response.data.object.pager;
-		    		}, function(response){
-		    			console.log(response);
-		    		})
+	    			this.pageTo(currentpage);
 	    		}
 	    		else{
 	    			layer.msg('没有下一页了');
@@ -391,11 +390,7 @@
   			gopage:function(e){
   				e.preventDefault();
   				var pageNum=$('#pageto').val();
-  				this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:pageNum}).then(function(response){
-	    				this.teamlist=response.data.object.pager;
-		    		}, function(response){
-		    			console.log(response);
-		    		})
+  				this.pageTo(pageNum);
   			},
   			checkpage:function(e){
   				var pages = this.teamlist.pages; 

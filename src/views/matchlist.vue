@@ -75,6 +75,15 @@ import createPop from '../components/createPop.vue'
 			}
 		},
 		methods:{
+			pageTo:function(page){
+				var parm={};
+				parm.jsonInfo=JSON.stringify({pageNumber:page});
+    			this.$http.post("event/getAllEventRoundList",parm).then(function(response){
+    				this.matchlists=response.data.object.pager;
+	    		}, function(response){
+	    			console.log(response);
+	    		})
+			},
 			linkDetail:function(e){
 				// e.preventDefault();
 				var _target=$(e.currentTarget);
@@ -90,11 +99,7 @@ import createPop from '../components/createPop.vue'
   				var currentpage = this.matchlists.pageNumber;
 	    		if(currentpage>1){
 	    			currentpage--;
-	    			this.$http.post("event/getAllEventRoundList",{pageNumber:currentpage}).then(function(response){
-	    				this.matchlists=response.data.object.pager;
-		    		}, function(response){
-		    			console.log(response);
-		    		})
+	    			this.pageTo(currentpage);
 	    		}
 	    		else{
 	    			layer.msg('没有上一页了');
@@ -106,11 +111,7 @@ import createPop from '../components/createPop.vue'
   					maxpage = this.matchlists.pages;
 	    		if(currentpage<maxpage){
 	    			currentpage++;
-	    			this.$http.post("event/getAllEventRoundList",{pageNumber:currentpage}).then(function(response){
-	    				this.matchlists=response.data.object.pager;
-		    		}, function(response){
-		    			console.log(response);
-		    		})
+	    			this.pageTo(currentpage);
 	    		}
 	    		else{
 	    			layer.msg('没有下一页了');
@@ -119,11 +120,7 @@ import createPop from '../components/createPop.vue'
   			gopage:function(e){
   				e.preventDefault();
   				var pageNum=$('#pageto').val();
-  				this.$http.post("event/getAllEventRoundList",{roundId:this.roundId,pageNumber:pageNum}).then(function(response){
-	    				this.matchlists=response.data.object.pager;
-		    		}, function(response){
-		    			console.log(response);
-		    		})
+  				this.pageTo(pageNum);
   			},
   			checkpage:function(e){
   				var pages = this.matchlists.pages; 

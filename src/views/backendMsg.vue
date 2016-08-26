@@ -17,7 +17,7 @@
 			</div> -->
 			<div class="setPoster g-q-hb">
 				<img v-bind:src="'http://img.wangyuhudong.com/'+formdata.poster" v-if="formdata.poster">
-				<div class="g-q-ptr" @click="selectPic">
+				<div class="g-q-ptr" v-bind:click="isPublish? selectPic : ''">
 					<span class="icon-uniE62B"></span>
 					<p>编辑、更改赛事海报</p>
 				</div>
@@ -88,15 +88,24 @@
 				</div>
 				<div class="f-c">
 					<p class="g-c-l mt40">赛事简介</p>
-					<div id="brief" class="m-editor"></div>
+					<div class="editor-box">
+						<div id="brief" class="m-editor"></div>
+						<div class="editor-mask"></div>
+					</div>					
 				</div>
 				<div class="f-c">
 					<p class="g-c-l mt40">赛事奖励</p>
-					<div id="prizeSetting" class="m-editor"></div>
+					<div class="editor-box">
+						<div id="prizeSetting" class="m-editor"></div>
+						<div class="editor-mask"></div>
+					</div>
 				</div>
 				<div class="f-c">
 					<p class="g-c-l mt40">赛事规则</p>
-					<div id="regimeRule" class="m-editor"></div>
+					<div class="editor-box">
+						<div id="regimeRule" class="m-editor"></div>
+						<div class="editor-mask"></div>
+					</div>
 				</div>
 			</div>
 			<a href="" class="saveModify" @click="saveInfo">保存修改</a>
@@ -117,7 +126,7 @@
 					<div class="g-c-l mt40 f-re">是否允许用户自主报名
 						<div class="checkboxThree f-ab">
 					  		<input type="checkbox" id="checkboxThreeInput" name="" class="f-dn" v-model="formdata.allowApply" v-bind:true-value="1" v-bind:false-value="0"/>
-						  	<label for="checkboxThreeInput" @click="isapply"></label>
+						  	<label for="checkboxThreeInput" v-bind:click="isPublish? isapply : ''"></label>
 					  	</div>
 					</div>
 					<p class="g-c-l mt40 f-re">
@@ -178,8 +187,8 @@
 							</div>
 							<div class="f-fl mr56">
 								<input type="checkbox" id="another" class="regular-checkboxs" name="bminfo" v-model="formdata.otherRequired" v-bind:true-value="1" v-bind:false-value="0" disabled />
-								<label for="another" @click="showotherinfo"></label>
-								<label for="another" class="u-c-ck col8f" @click="showotherinfo">其他</label>
+								<label for="another" v-bind:click="isPublish ? showotherinfo : ''"></label>
+								<label for="another" class="u-c-ck col8f" v-bind:click="isPublish ? showotherinfo : ''">其他</label>
 							</div>
 						</div>
 					</div>
@@ -265,7 +274,7 @@
 							<div class="f-fl g-c-sz" selected="1">
 								<p class="g-c-szt">单败淘汰制</p>
 								<div class="g-c-szm">
-									<img src="../../static/images/danbai.png" class="mt16">
+									<img src="../../static/images/danbai.png">
 								</div>
 								<div class="g-c-sz-cherk" style="display:block;">
 									<i class="g-sz-gimg"></i>
@@ -274,7 +283,7 @@
 							<div class="f-fr g-c-sz" selected="2">
 								<p class="g-c-szt">双败淘汰制</p>
 								<div class="g-c-szm">
-									<img src="../../static/images/shuanbai.png" class="mt5">
+									<img src="../../static/images/shuangbai.png">
 								</div>
 							</div>
 						</div>
@@ -292,13 +301,13 @@
 							<div class="f-fl g-c-sz" selected="3">
 								<p class="g-c-szt">小组循环制</p>
 								<div class="g-c-szm">
-									<img src="../../static/images/danbai.png" class="mt16">
+									<img src="../../static/images/xiaozu.png">
 								</div>
 							</div>
 							<div class="f-fr g-c-sz" selected="4">
 								<p class="g-c-szt">小组积分制</p>
 								<div class="g-c-szm">
-									<img src="../../static/images/shuanbai.png" class="mt5">
+									<img src="../../static/images/xunhuan.png">
 								</div>
 							</div>
 						</div>
@@ -327,6 +336,7 @@ export default {
 			username:"",
 			eventlist:"",
 			roundlist:"",
+
 			formdata:{
 				eventRoundId:"",
 				eventId:"",
@@ -370,6 +380,7 @@ export default {
         	console.log(response);
         	_this.eventlist=response.data.object.event;
         	_this.roundlist=response.data.object.round;
+        	_this.isPublish=_this.eventlist.isPublish;
 
         	_this.formdata.name=_this.eventlist.name;
         	_this.formdata.itemId=_this.eventlist.itemId;
@@ -399,6 +410,14 @@ export default {
         	_this.formdata.needThird=_this.roundlist.needThird;
 
         	_this.isapply();
+
+        	if(_this.isPublish){
+        		$('input').attr('readonly',true);
+        		$('button').attr('disabled',true);
+        		$('input').attr('disabled',true);
+        		$('select').attr('disabled',true);
+        		$('.editor-mask').show();
+        	}
         	if(_this.formdata.otherRequired){
 				$('#otherinfocherk').show();
 			}
@@ -773,7 +792,6 @@ export default {
 	    						_this.errorPlacement(messages,$thiss);
 	    					}
 	    					else{
-	    						valid=true;
 	    						var $thiss = $('#applyBegin'),messages="";
 	    						_this.errorPlacement(messages,$thiss);
 	    					}

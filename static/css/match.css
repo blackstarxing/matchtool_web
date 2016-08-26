@@ -4,14 +4,13 @@
  @charset "utf-8";
  /*主体模板公共*/
 
-
 @font-face {
   font-family: 'icomoon';
-  src:  url('../fonts/icomoon.eot?gc1sqw');
-  src:  url('../fonts/icomoon.eot?gc1sqw#iefix') format('embedded-opentype'),
-    url('../fonts/icomoon.ttf?gc1sqw') format('truetype'),
-    url('../fonts/icomoon.woff?gc1sqw') format('woff'),
-    url('../fonts/icomoon.svg?gc1sqw#icomoon') format('svg');
+  src:  url('../fonts/icomoon.eot?mk1jjc');
+  src:  url('../fonts/icomoon.eot?mk1jjc#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?mk1jjc') format('truetype'),
+    url('../fonts/icomoon.woff?mk1jjc') format('woff'),
+    url('../fonts/icomoon.svg?mk1jjc#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -172,6 +171,18 @@
 .icon-uniE62D:before {
   content: "\e62d";
 }
+.icon-uniE901:before {
+  content: "\e901";
+}
+.icon-uniE902:before {
+  content: "\e902";
+}
+.icon-uniE900:before {
+  content: "\e900";
+}
+.icon-uniE903:before {
+  content: "\e903";
+}
  .g-w{
  	width:1024px;
  	margin:140px auto 0;
@@ -203,6 +214,42 @@
 	background: url(../images/back.png) top center no-repeat;
 }
 /*首页*/
+.banner{
+	margin-top: 140px;
+	height: 460px;
+	position: relative;
+	overflow: hidden;
+}
+.banner li{
+	width: 100%;
+	height: 460px;
+	position: absolute;
+}
+.banner li a{
+	display: block;
+	height: 460px;
+	width: 100%;
+}
+.banner .up{
+	z-index: -1;
+}
+.banner .list{
+	position: absolute;
+	bottom: 25px;
+	right:47%;
+	z-index: 5;
+}
+.banner .list a{
+	width: 8px;
+	height: 8px;
+	display: inline-block;
+	border-radius: 4px;
+	background: #595a60;
+	margin-right: 9px;
+}
+.banner .list .on{
+	background: #fdba33;
+}
 .landing-box{
 	margin-bottom: 40px;
 }
@@ -251,6 +298,11 @@
 	font-size: 12px;
 	background: -webkit-linear-gradient(to bottom, #000 0%,rgba(0, 0, 0, 0.5) 60%,rgba(0, 0, 0, 0) 100%);
 	background: linear-gradient(to bottom, #000 0%,rgba(0, 0, 0, 0.5) 60%,rgba(0, 0, 0, 0) 100%);
+}
+.pic [class^="icon-"]{
+	font-size: 12px;
+	color:#fff;
+	margin-right: 5px;
 }
 .match-progress .match-name{
 	font-size: 18px;
@@ -1091,6 +1143,9 @@ label.u-c-kz-sz{
 .header_left,.header_right{
 	display: inline-block;
 }
+.header_left img{
+	cursor: pointer;
+}
 .backend-head img{
 	margin-top: 0;
 	float: left;
@@ -1368,6 +1423,16 @@ label.u-c-kz-sz{
 .webuploader-pick-hover {background: #e68700;}
 .webuploader-pick-disable {opacity: 0.6;pointer-events:none;}
 
+.saveinfo .editor-box{
+	position: relative;
+}
+.editor-mask{
+	position: absolute;
+	top:0;
+	width: 100%;
+	height: 100%;
+	display: none;
+}
 /*参赛选手*/
 .u-btn{display: inline-block;height: 48px;line-height: 48px;text-align: center;border-radius: 3px;color:#1e1f24;background: #F9A329;vertical-align: middle;font-size: 18px;}
 /*.u-btn:hover{color:#fff;}*/
@@ -1572,7 +1637,7 @@ label.u-c-kz-sz{
 	color:#7a8387;
 	cursor: not-allowed;
 }
-.setbox {position: relative;display: inline-block;width:60px;height: 20px;top:8px;}
+.setbox {position: relative;display: inline-block;width:80px;height: 20px;top:8px;}
 .setbox label {width: 80px;height: 30px;background: #ccc;position: relative;display: inline-block;border-radius: 3px;-webkit-transition: 0.4s;transition: 0.4s;}
 .setbox label:after {content: '';position: absolute;width: 10px;height: 30px;border-radius: 3px;left: 0;top: -5px;z-index: 2;background: #fff;box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);-webkit-transition: 0.4s;transition: 0.4s;}
 .setbox input {position: absolute;left: 0;top: 0;width: 100%;height: 30px;z-index: 5;opacity: 0;cursor: pointer;}
