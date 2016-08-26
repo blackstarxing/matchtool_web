@@ -29,7 +29,7 @@
 					<div class="remeber_pw">
 						<input type="checkbox" id="auto_land" v-model="autochecked">
 						<label class="remeber_label" for="auto_land">下次自动登录</label>
-						<label for="auto_land" class="float_checkbox"><span class="check_gou" v-show="autochecked">√</span></label>
+						<label for="auto_land" class="float_checkbox"><span class="check_gou" v-show="autochecked"></span></label>
 					</div>
 					<div class="forgot_pw"><a v-link="{ path: '/passWord'}">忘记密码？</a></div>
 				</div>
@@ -64,7 +64,7 @@
 				<div class="accept_rule">
 						<input type="checkbox" id="accept_input" checked v-model="acceptchecked">
 						<span>我接受<i>《开赛吧服务条款》</i></span>
-						<label for="accept_input" class="float_checkbox"><span class="check_gou" v-show="acceptchecked">√</span></label>
+						<label for="accept_input" class="float_checkbox"><span class="check_gou" v-show="acceptchecked"></span></label>
 					</div>
 				<div class="twolines"></div>
 				<div class="allow_reg" @click="regIn">注册</div>
@@ -449,13 +449,6 @@ import createPop from '../components/createPop.vue'
 	    position: absolute;
 	    top:0;
 	    left:0;
-	}
-	.check_gou{
-	   display: inline-block;
-	   width: 15px;
-	   height: 15px;
-	   text-align: center;
-	   color: #f9a32a;
 	}
 	#auto_land,#accept_input{
 	  opacity: 0;
