@@ -411,13 +411,16 @@ export default {
 
         	_this.isapply();
 
-        	if(_this.isPublish){
-        		$('input').attr('readonly',true);
-        		$('button').attr('disabled',true);
-        		$('input').attr('disabled',true);
-        		$('select').attr('disabled',true);
-        		$('.editor-mask').show();
-        	}
+        	_this.$nextTick(function(){
+        		if(_this.isPublish){
+	        		$('input').attr('readonly',true);
+	        		$('button').attr('disabled',true);
+	        		$('input').attr('disabled',true);
+	        		$('select').attr('disabled',true);
+	        		$('.editor-mask').show();
+	        	}
+        	})
+        	
         	if(_this.formdata.otherRequired){
 				$('#otherinfocherk').show();
 			}

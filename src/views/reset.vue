@@ -8,7 +8,7 @@
 					<p>赛事发布后将无法修改一些基本信息。已发布的赛事可取消发布。</p>
 				</div>
 				<div class="reset-btn">
-					<section class="deploy-set" v-if="status.isPublish==0">
+					<section class="deploy-set" v-if="!status.isPublish">
 						<div class="setbox">
 							<div class="dis-sign" v-if="roundStatus>5"></div>							
 							<!-- <input type="checkbox" checked="" v-model="isPublish" id="publish" @click="publishset" v-if="status.isPublish==1"> -->

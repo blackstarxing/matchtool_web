@@ -215,7 +215,7 @@
 }
 /*首页*/
 .banner{
-	margin-top: 140px;
+	margin-top: 90px;
 	height: 460px;
 	position: relative;
 	overflow: hidden;
@@ -236,7 +236,7 @@
 .banner .list{
 	position: absolute;
 	bottom: 25px;
-	right:47%;
+	left:50%;
 	z-index: 5;
 }
 .banner .list a{
@@ -249,6 +249,31 @@
 }
 .banner .list .on{
 	background: #fdba33;
+}
+.banner .banner_btn{
+	width: 50px;
+	height: 98px;
+	background: url(../images/banner_prev.png) center center no-repeat;
+	display: inline-block;
+	position: absolute;
+	top:179px;
+	border:none;
+	z-index: 99;
+	display: none;
+}
+.banner .banner_btn:hover{
+	background-color: rgba(0,0,0,0.6);
+}
+.banner:hover .banner_btn{
+	transition:0.4s;
+	display: block;
+}
+.banner .banner_prev{
+	left:15%;
+}
+.banner .banner_next{
+	background-image: url(../images/banner_next.png);
+	right:15%;
 }
 .landing-box{
 	margin-bottom: 40px;
@@ -1585,7 +1610,7 @@ label.u-c-kz-sz{
 .pic-select .u-btn-close,.m-pop .u-btn-close,.m-addzx .u-btn-close{position:absolute;top:205px;right:375px;display:block;width: 30px;height: 30px;background: url(../images/closeBtn.png) center center no-repeat;background-size: 100%;}
 .pic-select .u-btn-close,.m-pop .u-btn-close{top:-15px;right: -22px;}
 .m-pop .m-lst{margin-bottom: 0;color:#7a8387;font-size: 14px;padding:0 30px;}
-.m-pop .m-lst label,.m-addzx .m-lst label{margin-top: 8px;width:103px; font-weight: normal;}
+.m-pop .m-lst label,.m-addzx .m-lst label{margin-top: 8px;width:103px; font-weight: normal;display: inline-block;text-align: right;}
 .m-pop .m-lst input,.m-pop .m-lst select,.m-addzx .m-lst input,.m-addzx .m-lst select{width: 260px;margin:10px 0;}
 .m-pop .u-btn{display:block;background:url(../images/btn1.png) no-repeat;width: 200px;margin:30px auto 0;}
 .m-pop .u-pop-btn{
@@ -1596,7 +1621,7 @@ label.u-c-kz-sz{
 	padding-top: 25px;
 }
 .m-pop .add-wrap .m-lst{
-	padding:0 70px;
+	padding:0 20px;
 }
 .m-pop .u-close-btn{
 	background-image: url(../images/btn0.png);
@@ -1605,7 +1630,7 @@ label.u-c-kz-sz{
 .m-pop .f-tip{
 	display:inline-block;
 	line-height:12px;
-	margin-left: 80px;
+	margin-left: 110px;
 }
 /*发布管理*/
 .reset-box{

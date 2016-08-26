@@ -10,16 +10,21 @@
 				<h3>{{match.eventName}}</h3>
 				<div class="match-sponsor">
 					<img v-bind:src="'http://img.wangyuhudong.com/'+match.icon">{{match.nickname}}
-					<label v-if="match.status==1">报名中</label>
-					<label class="noapply" v-if="match.status==2">查看详情</label>
-					<label class="isover" v-if="match.status==3">已完结</label>
+					<label class="isover" v-if="match.state==1">预热中</label>
+					<label v-if="match.state==2">报名中</label>
+					<label class="noapply" v-if="match.state==3">已报名</label>
+					<label class="noapply" v-if="match.state==4">已报名</label>
+					<label class="noapply" v-if="match.state==5">即将开赛</label>
+					<label class="noapply" v-if="match.state==6">即将开赛</label>
+					<label v-if="match.state==7">进行中</label>
+					<label class="isover" v-if="match.state==8">已完结</label>
 				</div>
 				<div>
 					<span class="icon-uniE610"></span><span class="match-info">{{match.gameName}}</span><span class="icon-uniE615"></span><span class="match-info">单阶段</span><span class="icon-uniE613"></span><span class="match-info">单败淘汰制</span><span class="icon-uniE612"></span><span class="match-info">{{match.maxNum}}</span><span class="icon-uniE60F"></span><span v-text="match.createDate | formatDate"></span>
 				</div>
 				<span class="get_eventid">{{match.eventId}}</span><span class="get_roundid">{{match.id}}</span>
 			</div>
-			<div class="m-page" style="margin-top:250px;">
+			<div class="m-page" style="margin-top:100px;">
 	        	<a href="" id="prev" @click="prevpage"></a>
 	        	<div class="pagination"><span class="current">{{matchlists.pageNumber}}</span>/<span>{{matchlists.pages}}</span></div>
 	        	<a href="" id="next" @click="nextpage"></a>
