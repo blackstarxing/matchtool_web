@@ -13,7 +13,7 @@
 			</div>
 		</div>
 		<div class="g-q-info">
-			<div class="g-q-fbs"  v-if="isCreater==1 && isPublish ==1">
+			<div class="g-q-fbs" v-show ="isc">
 				<button type="button" class="u-q-start" v-if="status==1" v-link="{ path: '/backend/backendTechpic'}">
 					<i class="s-q-start"></i>
 					开始赛事进程
@@ -26,7 +26,7 @@
 					已结束
 				</button>
 				<p class="g-q-remtime" id="txt">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
-				<a href="#" class="u-q-enter" @click="joinMatch">我也要参与</a>
+				<a href="#" class="u-q-enter" v-if="state==2" @click="joinMatch">我也要参与</a>
 			</div>
 			<p class="g-q-name">{{name}}</p>
 			<div class="g-q-zbf">
@@ -301,8 +301,10 @@ function format(shijianchuo){
 	var s = time.getSeconds();
 	return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm);
 }
-function timer(txt,a,n) {
-	var leftTime = activityBegin - new Date().getTime();
+function timer(text,a,n) {
+	var currentTime = new Date().getTime();
+
+	var leftTime = a - (currentTime - n);
 
 	var leftDay = Math.floor(leftTime / (1000 * 60 * 60 * 24));
 	leftTime = leftTime - leftDay * (1000 * 60 * 60 * 24);
@@ -326,7 +328,10 @@ function timer(txt,a,n) {
 	if(leftMinute > 0) {
 		leftStr += leftMinute + '分';
 	}
-	document.getElementById('txt').innerHTML = txt + leftStr;
+	if(leftSecond > 0) {
+		leftStr += leftSecond + '秒';
+	}
+	document.getElementById('txt').innerHTML = text + leftStr;
 }
 import topHead from '../components/topHead.vue'
 import sideBar from '../components/sideBar.vue'
@@ -401,7 +406,8 @@ import createPop from '../components/createPop.vue'
 		        teamMemberNum:'',
 		        currentNum:0,
 		        cherkedMemArr:'',
-		        status:''//创建者赛事状态视角
+		        status:'',//创建者赛事状态视角
+		        isc:''
 			}
 		},
 		components:{
@@ -491,17 +497,29 @@ import createPop from '../components/createPop.vue'
 					}
 				}
 				if(_this.isCreater ==1 && _this.isPublish==1){
+					_this.isc = true;
 					var nowTime = response.data.object.nowTime;
-					var ds = 60 * 60 * 24 * 1000;
 					_this.state = response.data.object.state;
-					if(_this.state==1){
-						if(t>0){
-							var txt = '距离报名开始还有';
-							timer(txt, _this.applyBegin,nowTime) 
-							var intervalNum = window.setInterval(function() {
-								timer(txt, _this.applyBegin,nowTime);
-							}, 60000);
-						}
+
+					var subTime = new Date().getTime() - nowTime;
+					if(_this.state==1){	
+						var txt = '距离报名开始还有';
+						timer(txt, response.data.object.round.applyBegin ,subTime) 
+						var intervalNum = window.setInterval(function() {
+							timer(txt, response.data.object.round.applyBegin ,subTime);
+						}, 1000);
+					}else if(_this.state==2){
+						var txt = '距离报名结束还有';
+						timer(txt, response.data.object.round.applyEnd ,subTime) 
+						var intervalNum = window.setInterval(function() {
+							timer(txt, response.data.object.round.applyEnd,subTime);
+						}, 1000);
+					}else if(_this.state==5){
+						var txt = '距离比赛开始还有';
+						timer(txt, response.data.object.round.applyEnd ,subTime) 
+						var intervalNum = window.setInterval(function() {
+							timer(txt, response.data.object.round.applyEnd,subTime);
+						}, 1000);
 					}
 				}
 			}
