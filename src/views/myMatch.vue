@@ -151,7 +151,10 @@
 						</div>
 					</li> -->
 				</ul>
-				<div class="m-page ptb50">
+				<div class="member-empty" v-if="eventShowList.length === 0">
+					这里还没有内容哦~~
+				</div>
+				<div class="m-page ptb50" v-if="eventShowList.length != 0">
         	<button id="prev" type="button" @click="prevpage"></button>
         	<div class="pagination"><span class="current">{{ pageList.pageNumber }}</span>/<span>{{ pageList.pages }}</span></div>
         	<button id="next" type="button" @click="nextpage"></button>
@@ -475,6 +478,11 @@
 		font-size: 14px;
 		color: #fff;
 		cursor: pointer;
+	}
+	.perCenter_content {
+	}
+	.perCenter_content .member-empty {
+		padding-bottom: 100px;
 	}
 	.matchList_item {
 		cursor: pointer;
