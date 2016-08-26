@@ -2488,12 +2488,23 @@ label.u-c-kz-sz{
   width: 220px;
   height: 35px;
   line-height: 30px;
-  background:url(../../static/images/luck.png) no-repeat 10px 7px #f9a32a;
+  background:url(../../static/images/random.png) no-repeat 10px 7px #f9a32a;
   color: #fff;
+  float: left;
   border-radius: 5px;
   margin: 30px 70px;
   text-align: center;
   cursor: pointer;
+}
+.turn_move{
+  float: right;
+  margin-right: 50px;
+  width: 120px;
+  height: 30px;
+  line-height: 30px;
+  background:url(../../static/images/move.png) no-repeat 0 5px;
+  color: #42aa53;
+  text-align: center;
 }
 .tech_down_tip{
   width: 1200px;
@@ -2868,7 +2879,9 @@ label.u-c-kz-sz{
 .add_winer{
   background-color: #f9a32a;
 }
-
+.detail_scores{
+	display: none;
+}
 /*个人赛事报名*/
 .m-bx-d{
 	position: fixed;
@@ -2913,7 +2926,7 @@ label.u-c-kz-sz{
     color: #fdb91a;
     cursor: pointer;
 }
-.u-bx-btn[disabled]{
+.u-bx-btn[disabled],.u-zdbx-btn[disabled]{
 	background: #343b45;
     color: #7a8387;
     cursor: not-allowed;
@@ -2985,9 +2998,13 @@ label.u-c-kz-sz{
     width: 0.7rem;
     text-align: right;
 }
-
-
-
+.u-zdbx-tip{
+    position: absolute;
+    font-size: 12px;
+    line-height: 12px;
+    top: -0.20rem;
+    left: 0.40rem;
+}
 .tech_end_pic{
 	position: absolute;
 	top:0;
