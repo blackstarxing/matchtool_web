@@ -2888,7 +2888,7 @@ label.u-c-kz-sz{
     color: #fdb91a;
     cursor: pointer;
 }
-.u-bx-btn[disabled]{
+.u-bx-btn[disabled],.u-zdbx-btn[disabled]{
 	background: #343b45;
     color: #7a8387;
     cursor: not-allowed;
@@ -2960,7 +2960,13 @@ label.u-c-kz-sz{
     width: 0.7rem;
     text-align: right;
 }
-
+.u-zdbx-tip{
+    position: absolute;
+    font-size: 12px;
+    line-height: 12px;
+    top: -0.20rem;
+    left: 0.40rem;
+}
 
 
 .tech_end_pic{
