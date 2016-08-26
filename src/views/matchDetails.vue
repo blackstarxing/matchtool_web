@@ -277,6 +277,7 @@
 		<div class="f-re">
 			<button type="button" class="u-q-start u-zdbx-btn" @click="confirmation">确认报名</button>
 			<span class="colfdb f-tip u-zdbx-tip">请填写所有队员的报名信息！</span>
+			<button type="button" class="u-q-start u-zdbx-btn u-zdbx-syb" @click="goPrev">上一步</button>
 		</div>
 	</div>
 </template>
@@ -1036,6 +1037,10 @@ import createPop from '../components/createPop.vue'
 		    			console.log(22)
 		    		})
 		    	}
+			},
+			goPrev:function(){
+				$('.zdbmtwo').animate({right:"-3.2rem"},200);
+				$('.zdbmone').animate({right:0},200);
 			},
 			closed:function(){
 				$('.m-bx-d').animate({right:"-3.2rem"},200);
