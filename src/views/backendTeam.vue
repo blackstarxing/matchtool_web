@@ -57,13 +57,13 @@
 										<label for="">游戏昵称</label>{{member.nickname}}
 									</div>
 									<div>
-										<label for="">真实姓名</label>{{member.realname}}
+										<label for="">真实姓名</label>{{member.name}}
 									</div>
 									<div>
 										<label for="">身份证</label>{{member.idcard}}
 									</div>
 									<div>
-										<label for="">其他</label>{{member.other}}
+										<label for="">{{member.otherDescribe}}</label>{{member.other}}
 									</div>
 								</div>
 								<div class="m-info">

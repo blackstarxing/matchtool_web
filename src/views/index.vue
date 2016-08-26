@@ -10,6 +10,8 @@
 		<div class="list" id="list">
 			<a href="javascript:;" v-bind:class="[$index==0 ? 'on' : '']" v-for="banner in banner"></a>
 		</div>
+		<button class="banner_btn banner_prev"></button>
+		<button class="banner_btn banner_next"></button>
 	</div>
 	<div class="g-w" style="margin-top:20px;">
 		<!-- <div class="banner">
@@ -97,9 +99,37 @@ import createPop from '../components/createPop.vue'
 			_this.$http.get('banner/list').then(function(response) {
 	        	_this.banner=response.data.object.list;
 	        	_this.$nextTick(function(){
+	        		var left=$('.banner .list').width()/2;
+	        		$('.banner .list').css('margin-left',-left+'px');
 	        		var index = 0;
 					var maximg = _this.banner.length;
 
+					$('.banner_next').click(function(){
+						// alert(123);
+						if(MyTime){
+							clearInterval(MyTime);
+						}
+						index++;
+						if(index==maximg){index=0;}
+						MyTime = setTimeout(function(){
+						ShowjQueryFlash(index);
+						$('#banner').stop();
+						} , 400);
+					});
+					$('.banner_prev').click(function(){
+						// alert(123);
+						if(MyTime){
+							clearInterval(MyTime);
+						}
+						index--;
+						console.log(index);
+						if(index<0){index=maximg-1;}
+						MyTime = setTimeout(function(){
+							console.log(index);
+						ShowjQueryFlash(index);
+						$('#banner').stop();
+						} , 400);
+					});
 					//滑动导航改变内容	
 					$("#list a").hover(function(){
 						if(MyTime){

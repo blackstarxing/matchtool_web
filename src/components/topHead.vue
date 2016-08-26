@@ -2,12 +2,12 @@
 	<div class="g-hd">
 		<div class="header_left f-fl">
 			<a href="" class="slidein" @click="slidein"></a>
-			<img src="../../static/images/logo.png" alt="">
+			<img src="../../static/images/logo.png" alt="" v-link="{ path: '/index'}">
 		</div>
 		<div class="header_right f-fr" v-show="islogin">
       <a href="" class="notify" v-link="{ path: '/myMessage'}"><span class="icon-uniE60D"></span></a>
       <div class="avatar">
-        <img v-bind:src="'http://img.wangyuhudong.com/'+avatar"  alt="" v-show="avatar"><span class="icon-uniE60E"></span>
+        <img v-bind:src="'http://img.wangyuhudong.com/'+avatar"  alt="" v-show="avatar"><span class="icon-uniE60E" style="border-radius:50%;"></span>
         <div class="nav-list">
           <ul>
               <!-- <li><a @click="showPop"><span class="icon-uniE617"></span>创建赛事</a></li> -->
@@ -42,6 +42,7 @@
         }else{
           _this.islogin=false;
         }
+        _this.avatar=response.data.object.icon;
       }, function(response){
         console.log(response);
       })
@@ -61,7 +62,6 @@
           });
         }
       );
-      _this.avatar=window.sessionStorage.getItem("appusericon");
   	},
   	methods:{
       showPop:function(e){

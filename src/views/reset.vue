@@ -5,10 +5,10 @@
 			<div class="reset-box f-cb">
 				<div class="reset-words">
 					<h3>发布设置</h3>
-					<p>赛事发布后将无法修改一些基本信息。已发布的赛事可取消发布。</p>
+					<p>赛事发布后将无法修改赛事信息与赛制；发布后的赛事将不可撤回，但可以通过设置为私有状态让赛事不在列表中展现</p>
 				</div>
 				<div class="reset-btn">
-					<section class="deploy-set" v-if="status.isPublish==0">
+					<section class="deploy-set" v-if="!status.isPublish"> 
 						<div class="setbox">
 							<div class="dis-sign" v-if="roundStatus>5"></div>							
 							<!-- <input type="checkbox" checked="" v-model="isPublish" id="publish" @click="publishset" v-if="status.isPublish==1"> -->
