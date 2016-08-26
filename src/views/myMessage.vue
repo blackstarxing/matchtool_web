@@ -52,7 +52,10 @@
         	<input type="text" id="pageipt" v-model="pageId">
         	<button type="button" class="u-btn">跳转</button>
         </div> -->
-        <div class="m-page ptb50">
+        <div class="member-empty" v-if="msgShowList.length === 0">
+					这里还没有内容哦~~
+				</div>
+        <div class="m-page ptb50" v-if="msgShowList.length != 0">
         	<button id="prev" type="button" @click="prevpage"></button>
         	<div class="pagination"><span class="current">{{ pageList.pageNumber }}</span>/<span>{{ pageList.pages }}</span></div>
         	<button id="next" type="button" @click="nextpage"></button>
@@ -109,8 +112,12 @@
 			if (!this.sysMsgListFlag) {
 				this.sysMsgListFlag = true
 				this.getSysMsgList(1)
+				this.$nextTick(function () {
+					//alert(123)
+					this.msgTextInit()
+				})
 			}
-			this.msgTextInit()
+			
 		},
 		filters: {
 			formatDate: function(value) {
@@ -129,16 +136,20 @@
 				var $msgDivList = $('.messageInfo')
 				var $msgTextList = $('.msgText')
 				//var text = []
+				console.log($msgTextList)
 				$msgTextList.each(function (i, v) {
 					var tmpText = $(this).html()
-					// alert(text)
+					//alert(tmpText.length)
 					var nowText = tmpText.substring(0, 79)
 					var str = "<p class='expandMsgText'>" + nowText
 					if (tmpText.length > 79) {
 						//text.push($msgTextList.eq(i).html())
 						str = str + "&nbsp&nbsp&nbsp<a data-id="+i+"><span style='color: #42aa53; text-decoration: underline'>展开</span>&nbsp&nbsp<i style='display: inline-block; vertical-align: middle; width: 16px; height: 16px; background: url(../../static/images/gopage.png)'></i></a></p>"
-						$msgDivList.eq(i).append(str)
+						$msgDivList.eq(i).append(str) 
 						$msgTextList.eq(i).hide()
+						//alert($('.expandMsgText').length)
+						//alert($msgTextList.eq(i).html())
+						//alert(str)
 					}
 				})
 				var $aList = $('.expandMsgText a');
@@ -155,7 +166,7 @@
 					// console.log($msgTextList.find('a'))
 					// $('.msgText:has(a)').eq(index).html(text[index])
 				})
-
+				
 			},
 			getMsgList: function (typeId, pageNum) {
 				var params = {}
@@ -201,11 +212,16 @@
 					if (!this.matchMsgListFlag) {
 						this.matchMsgListFlag = true
 						this.getMatchMsgList(1)
+						this.$nextTick(function () {
+							this.msgTextInit()
+						})
 					}
+
 					// 设置列表为我参与的赛事
 					this.msgShowList = this.matchMsgList
 					this.iconSrc = "../../static/images/myMsg_icon2.png"
 				}
+
 			},
 			// 翻页
 			prevpage:function(e){
@@ -253,7 +269,7 @@
 	.messageList_item img {
 		float: left;
 		width: 80px;
-		height: 83px;
+		height: 80px;
 	}
 	.messageInfo {
 		width: 554px;

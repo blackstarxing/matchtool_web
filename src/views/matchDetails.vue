@@ -997,7 +997,7 @@ import createPop from '../components/createPop.vue'
             }
 
             _this.$nextTick(function(){
-              if(_this.roundStatus<6){
+              if(_this.roundStatus<7){
                   // $('.edit_div').hide();
                   // $('.recta_right').hide();
                 }else{
@@ -1006,12 +1006,35 @@ import createPop from '../components/createPop.vue'
                   // $(".recta").attr('draggable',false);
                 }
 
-                if(_this.roundStatus<5){
+                if(_this.roundStatus<6){
                   $('.start_text').css('background-color','#999');
                 }
 
-                if(_this.roundStatus==7){
+                if(_this.roundStatus==8){
                   $('.edit_div').hide();
+                  var $lastlist=listArry.eq(turn-1);
+                  var $recta=$lastlist.find('.recta');
+                  var _imgone='<img class="tech_end_pic" src="../../static/images/numberone.png">';
+                  var _imgtwo='<img class="tech_end_pic" src="../../static/images/numbertwo.png">';
+                  var _imgthree='<img class="tech_end_pic" src="../../static/images/numberthree.png">';
+                  var _imgfour='<img class="tech_end_pic" src="../../static/images/numberfour.png">';
+                  if($recta.eq(0).hasClass('add_winer')){
+                    $recta.eq(0).append(_imgone);
+                    $recta.eq(1).append(_imgtwo);
+                  }else{
+                    $recta.eq(1).append(_imgone);
+                    $recta.eq(0).append(_imgtwo);
+                  }
+                    
+                   if(this.matchdata.length==2){
+                    if($recta.eq(2).hasClass('add_winer')){
+                      $recta.eq(2).append(_imgthree);
+                      $recta.eq(3).append(_imgfour);
+                    }else{
+                      $recta.eq(3).append(_imgthree);
+                      $recta.eq(2).append(_imgfour);
+                    }
+                  }
                 }
 
                 var move=false,

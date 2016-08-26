@@ -160,6 +160,16 @@
 		route: {
 			data () {
 				this.tabFlag = this.$route.params.userId
+				//alert(typeof this.tabFlag)
+				if (this.tabFlag === "0") {
+					this.tabList[0].isCur = true
+					this.tabList[1].isCur = false
+					this.tabList[2].isCur = false
+				} else if (this.tabFlag === "1") {
+					this.tabList[0].isCur = false
+					this.tabList[1].isCur = true
+					this.tabList[2].isCur = false
+				}
 			}
 		},
 		data () {
@@ -216,16 +226,16 @@
 	    createPop
 		},
 		ready: function () {
-			var param = window.location.href
-			console.log(param.charAt(param.length-1))
-			// if (param[param.length - 1] != undefined) {
-			// 	var tabId = param.split('=')[1]
-				//alert(tabId)
-				if (param.charAt(param.length-1) === "1") {
-					this.tabFlag = 1
-					this.tabList[0].isCur = false
-					this.tabList[1].isCur = true
-				}
+			// var param = window.location.href
+			// console.log(param.charAt(param.length-1))
+			// // if (param[param.length - 1] != undefined) {
+			// // 	var tabId = param.split('=')[1]
+			// 	//alert(tabId)
+			// 	if (param.charAt(param.length-1) === "1") {
+			// 		this.tabFlag = 1
+			// 		this.tabList[0].isCur = false
+			// 		this.tabList[1].isCur = true
+			// 	}
 
 			// }
 			var _this = this
@@ -376,6 +386,15 @@
 				})
 				this.tabFlag = index
 				this.btnText = (this.tabFlag === 2 ? '认 证' : '保 存')
+				// var ch = ""
+				// if (this.tabFlag === 2) {
+				// 	ch = "2"
+				// } else  {
+				// 	ch = (this.$route.params.userId === 1) ? "0" : "1"
+				// }
+				var oldHref = window.location.href 
+				window.location.href = oldHref.slice(0, oldHref.length - 1) + this.tabFlag.toString()
+				// alert(window.location.href)
 			},
 			getSecondArea: function (rootId) {
 				// console.log(rootId)
