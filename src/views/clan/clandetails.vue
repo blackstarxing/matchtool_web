@@ -36,7 +36,7 @@
 				<ul class="clearfix g-cjl-m">
 					<li v-for="hty in history" index={{$index}}>
 						<i class="g-cjl-pot">
-							<img v-bind:src="'http://img.wangyuhudong.com/'+hty.poster">
+							<img v-bind:src="'http://img.wangyuhudong.com/'+hty.icon">
 						</i>
 						<div class="f-fl">
 							<p class="m-cjl-ssn">{{hty.name}}</p>
@@ -372,7 +372,7 @@ import createPop from '../../components/createPop.vue'
 				else if(code==0){
 					layer.msg(response.data.msg,{offset:"0px"});
 				}else if(code==1){
-					_this.history = response.data.object.history;
+					_this.history = response.data.object.pager.list;
 					for(var i=0;i<_this.history.length;i++){
 						var applyType = _this.history[i].applyType;
 						if(applyType==1){

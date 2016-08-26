@@ -240,7 +240,7 @@
 		<ul class="m-zdbx-ul">
 			<li class="clearfix" v-for="clanmember in clanmembers">
 				<div class="f-fl g-zdbx-lab">
-					<input type="checkbox" id="clanmem{{clanmember.userId}}" class="regular-checkboxs tm" @change="cherkchange"/>
+					<input type="checkbox" id="clanmem{{clanmember.userId}}" icon="{{clanmember.icon}}" username="{{clanmember.nickname}}" roundId="{{formdata.oetRoundId}}" teamId="{{clanmember.teamId}}" userId="{{clanmember.userId}}" class="regular-checkboxs tm" @change="cherkchange"/>
 					<label for="clanmem{{clanmember.userId}}"></label>
 				</div>
 				<label class="f-fl u-zdbx-ltx" for="clanmem{{clanmember.userId}}">
@@ -249,31 +249,35 @@
 				<label for="clanmem{{clanmember.userId}}" class="f-fl g-zdbx-dynm">{{clanmember.nickname}}</label>
 			</li>
 		</ul>
-		<button type="button" class="u-q-start u-zdbx-btn" @click="zdnext">下一步</button>		
+		<button type="button" id="masbaom" class="u-q-start u-zdbx-btn" v-if="queryRequired.nicknameRequired==0 && queryRequired.otherRequired==0" @click="nowApply" disabled>确认报名</button>	
+		<button type="button" id="xiayibu" class="u-q-start u-zdbx-btn" v-if="queryRequired.nicknameRequired==1 || queryRequired.otherRequired==1" @click="zdnext" disabled>下一步</button>	
 	</div>
 	<div class="m-zdbx-d f-re zdbmtwo">
 		<span class="icon-uniE609 u-bx-off" @click="closedzdtwo"></span>
 		<p class="g-zdbx-p1"><span class="col42a">当前报名战队：</span>{{teamName}}</p>
 		<p class="g-zdbx-p2">完善选手信息</p>
-		<ul class="m-zdbx-ul">
-			<li>
+		<ul class="m-zdbx-ul clanreq">
+			<li v-for="arr in cherkedMemArr">
 				<div class="clearfix">
 					<label class="f-fl u-zdbx-ltx">
-						<img src="../../static/images/me.jpg">
+						<img v-bind:src="'http://img.wangyuhudong.com/'+arr.icon">
 					</label>
-					<label for="gamenickname" class="f-fl g-zdbx-dynm">未来老公</label>
+					<label for="gamenickname" class="f-fl g-zdbx-dynm">{{arr.username}}</label>
 				</div>
-				<div class="clearfix g-zdbx-wd">
+				<div class="clearfix g-zdbx-wd" v-if="queryRequired.nicknameRequired==1">
 					<label class="s-zdbx-lab">游戏昵称：</label>
-					<input type="text" class="u-c-ipt" placeholder="请输入游戏昵称" style="width: 180px;">
+					<input type="text" class="u-c-ipt" placeholder="请输入游戏昵称" v-model="arr.nickname" style="width: 180px;" required>
 				</div>
-				<div class="clearfix">
-					<label class="s-zdbx-lab">其它：</label>
-					<input type="text" class="u-c-ipt" placeholder="请输入其它" style="width: 180px;">
+				<div class="clearfix" v-if="queryRequired.otherRequired==1">
+					<label class="s-zdbx-lab">{{queryRequired.otherDescribe}}：</label>
+					<input type="text" class="u-c-ipt" placeholder="请输入{{queryRequired.otherDescribe}}" v-model="arr.other" style="width: 180px;" required>
 				</div>
 			</li>
 		</ul>
-		<button type="button" class="u-q-start u-zdbx-btn">确认报名</button>
+		<div class="f-re">
+			<button type="button" class="u-q-start u-zdbx-btn" @click="confirmation">确认报名</button>
+			<span class="colfdb f-tip u-zdbx-tip">请填写所有队员的报名信息！</span>
+		</div>
 	</div>
 </template>
 <script type="text/javascript">
@@ -359,7 +363,8 @@ import createPop from '../components/createPop.vue'
 		        clanmembers:'',
 		        teamName:'',
 		        teamMemberNum:'',
-		        currentNum:0
+		        currentNum:0,
+		        cherkedMemArr:''
 			}
 		},
 		components:{
@@ -941,6 +946,13 @@ import createPop from '../components/createPop.vue'
 				}else{
 					$('.tm').attr('disabled',false);
 				}
+				if(_this.currentNum == _this.teamMemberNum){
+					$('#xiayibu').attr('disabled', false);
+					$('#masbaom').attr('disabled', false);
+				}else{
+					$('#xiayibu').attr('disabled', true);
+					$('#masbaom').attr('disabled', true);
+				}
 			},
 			referApply:function(e){
 				var _this = this;
@@ -1018,6 +1030,7 @@ import createPop from '../components/createPop.vue'
 		            		layer.msg(response.data.msg,{offset:"0px"});
 		            	}else if(code==1){
 		            		layer.msg(response.data.msg,{offset:"0px"});
+		            		$('.m-bx-d').animate({right:"-3.2rem"},200);
 		            	}
 		    		}, function(response){
 		    			console.log(22)
@@ -1034,14 +1047,99 @@ import createPop from '../components/createPop.vue'
 				$('.zdbmtwo').animate({right:"-3.2rem"},200);
 			},
 			zdnext:function(){
+				var _this = this;
 				var arr = [];
+				$('.tm:checked').each(function(){
+					var teamid = $(this).attr('teamid');
+					var userid = $(this).attr('userid');
+					var roundid = $(this).attr('roundid');
+					var username = $(this).attr('username');
+					var icon = $(this).attr('icon');
+					var obj = {};
+					obj.teamId = teamid;
+					obj.userId = userid;
+					obj.roundId = roundid;
+					obj.username = username;
+					obj.nickname = '';
+					obj.other ='';
+					obj.icon = icon;
+					arr.push(obj);
+				})
+				_this.cherkedMemArr = arr;
 				$('.zdbmone').animate({right:"-3.2rem"},200);
 				$('.zdbmtwo').animate({right:0},200);
+			},
+			nowApply:function(){
+				var _this = this;
+				var arr = [];
+				$('.tm:checked').each(function(){
+					var teamid = $(this).attr('teamid');
+					var userid = $(this).attr('userid');
+					var roundid = $(this).attr('roundid');
+					var username = $(this).attr('username');
+					var icon = $(this).attr('icon');
+					var obj = {};
+					obj.teamId = teamid;
+					obj.userId = userid;
+					obj.roundId = roundid;
+					obj.username = username;
+					obj.nickname = '';
+					obj.other ='';
+					obj.icon = icon;
+					arr.push(obj);
+				})
+				_this.cherkedMemArr = arr;
+				var arrobj = {};
+				arrobj.members = JSON.stringify(_this.cherkedMemArr);
+				_this.$http.post('event/round/group/member/addTeamMembers',arrobj).then(function(response){
+					var code = response.data.code;
+	            	if(code==-1){
+	            		layer.msg('请先登录',{offset:"0px"});
+	            	}else if(code==0){
+	            		layer.msg(response.data.msg,{offset:"0px"});
+	            	}else if(code==1){
+	            		layer.msg('报名成功',{offset:"0px"});
+	            		$('.zdbmone').animate({right:"-3.2rem"},200);
+	            	}
+				}, function(response){
+					console.log(22)
+				})
+			},
+			confirmation:function(){
+				var _this= this;
+				var valid = true;
+				$('.clanreq [required]').each(function(index, el) {
+					if($(this).val()==''){
+						valid = false;
+						return false;
+					}
+				});
+				if(valid){
+					var arrobj = {};
+					arrobj.members = JSON.stringify(_this.cherkedMemArr);
+					_this.$http.post('event/round/group/member/addTeamMembers',arrobj).then(function(response){
+						var code = response.data.code;
+		            	if(code==-1){
+		            		layer.msg('请先登录',{offset:"0px"});
+		            	}else if(code==0){
+		            		layer.msg(response.data.msg,{offset:"0px"});
+		            	}else if(code==1){
+		            		layer.msg('报名成功',{offset:"0px"});
+		            		$('.zdbmtwo').animate({right:"-3.2rem"},200);
+		            	}
+					}, function(response){
+						console.log(22)
+					})
+				}else{
+					$('.zdbmtwo .f-tip').show();
+				}
 			},
 			joinMatch:function(event){
 				var _this = this;
 				event.preventDefault();
 				var bmlx = window.sessionStorage.getItem("applyType");
+				$('#xiayibu').attr('disabled', true);
+				$('#masbaom').attr('disabled', true);
 				if(bmlx==1){
 					$('.m-bx-d').animate({right:"0px"},200);
 					var eve={};
