@@ -32,7 +32,7 @@
 							<ul>
 								<li v-bind:class="['column-2',member.isfill==1 ? 'isfill' : '']">{{$index+1}}</li>
 								<li class="memberId" style="display:none;">{{member.id}}</li>
-		                        <li class="memberName column-3">{{member.name}}</li>
+		                        <li class="memberName column-3">{{member.userId? member.usernickme : member.name}}</li>
 		                        <li class="column-2">
 		                        <section class="signed">
 									<div class="signbox">
@@ -45,33 +45,33 @@
 								</li>
 		                        <li class="column-2">
 		                        	<div class="option">
-		                        		<a href="javascript:void(0);" class="u-btn-write" data-id="{{member.id}}" @click="editMember"></a><a href="" class="u-btn-delete" data-id="{{member.id}}" @click="deleteMember"></a>
+		                        		<a href="javascript:void(0);" class="u-btn-write" data-id="{{member.id}}" data-userId="{{member.userId}}" @click="editMember"></a><a href="" class="u-btn-delete" data-id="{{member.id}}" @click="deleteMember"></a>
 		                        	</div>
 		                        </li>
 		                        <li class="column-1"><a href="javascript:void(0);" class="u-btn-deploy" @click="toggleInfo"></a></li>
 							</ul>
 							<div class="moreInfo">
-								<img v-bind:src="'http://img.wangyuhudong.com/'+member.icon==null?member.icon : 'http://img.wangyuhudong.com//uploads/2016/08/22/70d3f4f9f8624f24a2dfa7a4c5fd6c0b.png'" alt="">
+								<img v-bind:src="member.icon!=null?'http://img.wangyuhudong.com/'+member.icon : 'http://img.wangyuhudong.com//uploads/2016/08/22/70d3f4f9f8624f24a2dfa7a4c5fd6c0b.png'" alt="">
 								<div class="m-info">
 									<div>
-										<label for="">游戏昵称</label>{{member.nickname}}
+										<label for="">游戏昵称</label><span class="nickname">{{member.nickname}}</span>
 									</div>
 									<div>
-										<label for="">真实姓名</label>{{member.realname}}
+										<label for="">真实姓名</label><span class="realname">{{member.realname}}</span>
 									</div>
 									<div>
-										<label for="">身份证</label>{{member.idcard}}
+										<label for="">身份证</label><span class="idcard">{{member.idcard}}</span>
 									</div>
 									<div>
-										<label for="">其他</label>{{member.other}}
+										<label for="">{{member.otherDescribe}}</label><span class="other">{{member.other}}</span>
 									</div>
 								</div>
 								<div class="m-info">
 									<div>
-										<label for="">手机号</label>{{member.telephone}}
+										<label for="">手机号</label><span class="telephone">{{member.telephone}}</span>
 									</div>
 									<div>
-										<label for="">QQ号</label>{{member.qq}}
+										<label for="">QQ号</label><span class="qq">{{member.qq}}</span>
 									</div>
 								</div>
 							</div>
@@ -94,15 +94,40 @@
 	<div class="m-edit">
 		<div class="m-pop">
 			<div class="wrap">
-				<h3>添加参赛选手</h3>
+				<h3>修改选手信息</h3>
 				<a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
-				<div class="m-lst">				
-					<label for="">选手名称：</label>
-					<input type="text" class="name u-c-ipt" name="name" placeholder="请输入参赛者名称">
-					<div class="attention"></div>
+				<div class="m-lst" v-if="required.nicknameRequired">				
+					<label for="">游戏昵称：</label>
+					<input type="text" class="name u-c-ipt" name="name" placeholder="请输入游戏昵称" required="">
+					<div class="colfdb f-tip"></div>
+				</div>
+				<div class="m-lst" v-if="required.nameRequired">				
+					<label for="">真实姓名：</label>
+					<input type="text" class="realname u-c-ipt" name="realname" placeholder="请输入真实姓名" required="">
+					<div class="colfdb f-tip"></div>
+				</div>
+				<div class="m-lst" v-if="required.idcardRequired">				
+					<label for="">身份证：</label>
+					<input type="text" class="idcard u-c-ipt" name="idcard" placeholder="请输入身份证号" required="">
+					<div class="colfdb f-tip"></div>
+				</div>
+				<div class="m-lst" v-if="required.telephoneRequired">				
+					<label for="">手机号：</label>
+					<input type="text" class="tel u-c-ipt" name="tel" placeholder="请输入手机号" required="">
+					<div class="colfdb f-tip"></div>
+				</div>
+				<div class="m-lst" v-if="required.qqRequired">				
+					<label for="">QQ：</label>
+					<input type="text" class="qq u-c-ipt" name="qq" placeholder="请输入QQ号" required=""> 
+					<div class="colfdb f-tip"></div>
+				</div>
+				<div class="m-lst" v-if="required.otherRequired">				
+					<label for="">{{required.otherDescribe}}</label>
+					<input type="text" class="other u-c-ipt" name="other" placeholder="请输入{{required.otherDescribe}}" required="">
+					<div class="colfdb f-tip"></div>
 				</div>
 				<div class="member-id" style="display:none"></div>
-				<a href="javascript:void(0);" class="u-btn add-member" @click="setMember">添加</a>
+				<a href="javascript:void(0);" class="u-btn add-member" @click="setMember">保存</a>
 			</div>			
 		</div>
 	</div>
@@ -169,19 +194,24 @@
   		},
   		methods: {
     		addplayer: function(e){
-    			$(".wrap .attention").hide();
-    			$('.name').val("");
-		    	$('.tel').val("");
-		    	$('.qq').val("");
-		    	$('.idcard').val("");
-    			$('.wrap h3').html("添加参赛选手");
+    			$('.add-wrap .name').val("");
     			$(".add-member").removeClass('edit-member').text("添加");
     			$('.f-tip').html("");
 		        $('.m-mask').show();
 		    },
 		    closePop: function(e){
 		        $('.m-mask').hide();
-
+				$('.m-edit').hide();
+		    },
+		    // 刷新列表
+		    refreshlist:function(e){
+		    	var _this=this;
+		    	_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
+		        	console.log(response.data);
+		        	_this.memberlist=response.data.object.pager;
+		        },function(response) {
+		            console.log(response);
+		        });
 		    },
 		    // 打乱选手位置
 		    upsetseat:function(e){
@@ -192,12 +222,7 @@
 		        	console.log(response.data);
 		        	if(response.data.code==1){
 		        		layer.msg('选手顺序已打乱');
-		        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
-				        	console.log(response.data);
-				        	_this.memberlist=response.data.object.pager;
-				        },function(response) {
-				            console.log(response);
-				        });
+		        		_this.refreshlist();
 		        	}else{
 		        		layer.msg(response.data.msg);
 		        	}
@@ -224,20 +249,13 @@
 		        	console.log(response.data.msg);
 		        	if(response.data.code==1){
 		        		layer.msg('签到状态已更改');
-		        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
-				        	console.log(response.data);
-				        	_this.memberlist=response.data.object.pager;
-				        },function(response) {
-				            console.log(response);
-				        });
+		        		_this.refreshlist();
 		        	}else{
 		        		layer.msg(response.data.msg);
 		        	}
 		        },function(response) {
 		            console.log(response);
 		        });
-		     	console.log(parm);
-		    	console.log(sign);
 		    },
 		    toggleInfo:function(e){
 		    	var _this=this;
@@ -280,10 +298,10 @@
 		    		var message="";
 	    			if(value==""){
 	    				valid=false;
-			    		message=_this.memberText+"名称不能为空";
+			    		message="选手名称不能为空";
 			    	}else if(strlen(value)>15){
 			    		valid=false;
-			    		message=_this.memberText+"名称过长";
+			    		message="选手名称过长";
 			    	}
 			    	errorPlacement(message,$('.add-wrap .name'));			    	   
 				    return valid;
@@ -298,12 +316,7 @@
 				        	if(response.data.code){
 				        		$('.m-mask').hide();
 				        		layer.msg('修改成功');
-						    	_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
-						        	console.log(response.data);
-						        	_this.memberlist=response.data.object.pager;
-						        },function(response) {
-						            console.log(response);
-						        });
+						    	_this.refreshlist();
 				        	}else{
 				        		$('.m-mask').hide();
 				        		layer.msg(response.data.msg);
@@ -318,12 +331,7 @@
 				        	if(response.data.code==1){
 				        		$('.m-mask').hide();
 				        		layer.msg('添加成功');
-				        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
-						        	console.log(response.data);
-						        	_this.memberlist=response.data.object.pager;
-						        },function(response) {
-						            console.log(response);
-						        });
+				        		_this.refreshlist();
 				        	}else{
 				        		$('.m-mask').hide();
 				        		layer.msg(response.data.msg);
@@ -337,18 +345,24 @@
 		    },
 		    // 编辑成员信息
 		    editMember:function(e){
-		    	$(".wrap .attention").hide();
 		    	var _target=$(e.currentTarget);
-		    	$(".add-member").addClass('edit-member').text("修改");
-		    	$('.wrap h3').html("修改成员信息");
-		    	$('.name').val(_target.parents(".memberInfo").find(".memberName").text());
-		    	$('.tel').val(_target.parents(".memberInfo").find(".memberTel").text());
-		    	$('.qq').val(_target.parents(".memberInfo").find(".memberQQ").text());
-		    	$('.idcard').val(_target.parents(".memberInfo").find(".memberId").text());
-		    	$('.member-id').html(_target.attr("data-id"));
-		    	$('.m-mask').show();
-		    	$('.add-wrap .name').val(_target.parents(".member-list").find(".memberName").text());
-		    	$('.add-wrap .member-id').html(_target.parents(".member-list").find(".memberId").text());
+		    	if(_target.attr("data-userId")){
+		    		$('.m-edit .f-tip').hide();
+			    	$('.m-edit .name').val(_target.parents(".member-list").find(".moreInfo .nickname").text());
+			    	$('.m-edit .realname').val(_target.parents(".member-list").find(".moreInfo .realname").text());
+			    	$('.m-edit .tel').val(_target.parents(".member-list").find(".moreInfo .telephone").text());
+			    	$('.m-edit .qq').val(_target.parents(".member-list").find(".moreInfo .qq").text());
+			    	$('.m-edit .idcard').val(_target.parents(".member-list").find(".moreInfo .idcard").text());
+			    	$('.m-edit .other').val(_target.parents(".member-list").find(".moreInfo .other").text());
+			    	$('.member-id').html(_target.attr("data-id"));
+			    	$('.m-edit').show();
+		    	}else{
+					$(".add-member").addClass('edit-member').text("修改");
+			    	$('.m-mask').show();
+			    	$('.add-wrap .name').val(_target.parents(".member-list").find(".memberName").text());
+			    	$('.add-wrap .member-id').html(_target.parents(".member-list").find(".memberId").text());
+		    	}
+		    	
 		    },
 		    // 删除成员
 		    deleteMember:function(e){
@@ -367,12 +381,7 @@
 			        	console.log(response.data);
 			        	if(response.data.code==1){
 			        		layer.msg('已删除');
-			        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
-					        	console.log(response.data);
-					        	_this.memberlist=response.data.object.pager;
-					        },function(response) {
-					            console.log(response);
-					        });
+			        		_this.refreshlist();
 			        	}else{
 			        		layer.msg(response.data.msg);
 			        	}
@@ -384,7 +393,7 @@
 		    // 保存成员信息
 		    setMember:function(e){
 		    	function errorPlacement(mes,element){
-			    	var errorTips=element.parents(".m-lst").find('div.attention');
+			    	var errorTips=element.parents(".m-lst").find('.f-tip');
 			    	if(mes!=""){
 			    		errorTips.show().html(mes);
 			    	}else{
@@ -414,12 +423,18 @@
 			    		if(name=="name"){
 			    			if(value==""){
 			    				valid=false;
-					    		message="选手名称不能为空";
+					    		message="游戏昵称不能为空";
 					    	}else if(strlen(value)>15){
 					    		valid=false;
-					    		message="选手名称过长";
+					    		message="游戏昵称过长";
 					    	}
 					    	errorPlacement(message,$this);
+			    		}else if(name=="realname"){
+			    			if(value==""){
+			    				valid=false;
+					    		message="真实姓名不能为空";
+			    			}
+			    			errorPlacement(message,$this);
 			    		}else if(name=="tel"){
 			    			if(value==""){
 			    				valid=false;
@@ -447,6 +462,12 @@
 					    		message="请输入正确的身份证号码";
 			    			}
 			    			errorPlacement(message,$this);
+			    		}else if(name=="other"){
+			    			if(value==""){
+			    				valid=false;
+					    		message="内容不能为空";
+			    			}
+			    			errorPlacement(message,$this);
 			    		}
 				    	   
 				    });
@@ -454,55 +475,23 @@
 			    };
 		    	var _this=this;
 		    	var _target=$(e.currentTarget); 
-		    	if(formValidate()){
-		    		if(_target.hasClass('edit-member')){
-			    		var parmstr=JSON.stringify({roundId:_this.roundId,id:$('.member-id').html(),nickname:$('.name').val(),telephone:$('.tel').val(),qq:$('.qq').val(),idcard:$('.idcard').val()});
-				    	var parm={};
-				    	parm.memberJson=parmstr;
-				    	_this.$http.get('event/round/group/member/edit',parm).then(function(response) {
-				        	console.log(response.data);
-				        	if(response.data.code){
-				        		$('.m-mask').hide();
-				        		layer.msg('修改成功');
-						    	_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
-						        	console.log(response.data);
-						        	_this.memberlist=response.data.object.pager;
-						        },function(response) {
-						            console.log(response);
-						        });
-				        	}else{
-				        		$('.m-mask').hide();
-				        		layer.msg(response.data.msg);
-				        	}
-				        	console.log(parm);
-				        },function(response) {
-				            console.log(response.data.msg);
-				        });
-			    	}else{
-			    		var parmstr=JSON.stringify({roundId:_this.roundId,name:$('.name').val(),nickname:$('.name').val()});
-				    	var parm={};
-				    	parm.memberJson=parmstr;
-			    		_this.$http.get('event/round/group/member/add',parm).then(function(response) {
-				        	console.log(response.data);
-				        	if(response.data.code==1){
-				        		$('.m-mask').hide();
-				        		layer.msg('添加成功');
-				        		_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
-						        	console.log(response.data);
-						        	_this.memberlist=response.data.object.pager;
-						        },function(response) {
-						            console.log(response);
-						        });
-				        	}else{
-				        		$('.m-mask').hide();
-				        		layer.msg(response.data.msg);
-				        	}
-				        	console.log(parm);
-				        },function(response) {
-				            console.log(response.data.code);
-				        });
-			    	}
-		    	}
+	    		var parmstr=JSON.stringify({roundId:_this.roundId,id:$('.m-edit .member-id').html(),nickname:$('.m-edit .name').val(),name:$('.m-edit .realname').val(),telephone:$('.m-edit .tel').val(),qq:$('.m-edit .qq').val(),idcard:$('.m-edit .idcard').val(),other:$('.m-edit .other').val()});
+		    	var parm={};
+		    	parm.memberJson=parmstr;
+		    	_this.$http.get('event/round/group/member/edit',parm).then(function(response) {
+		        	console.log(response.data);
+		        	if(response.data.code){
+		        		$('.m-edit').hide();
+		        		layer.msg('修改成功');
+				    	_this.refreshlist();
+		        	}else{
+		        		$('.m-edit').hide();
+		        		layer.msg(response.data.msg);
+		        	}
+		        	console.log(parm);
+		        },function(response) {
+		            console.log(response.data.msg);
+		        });
 		    },
 		    // 导出列表
 		    exportExcel:function(e){
@@ -512,16 +501,19 @@
 		    	window.location.href="http://match.wangyuhudong.com/api/event/round/group/member/export?roundId="+_this.roundId;
 		    },
 		    // 翻页
+		    pageTo:function(page){
+				this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:page}).then(function(response){
+    				this.memberlist=response.data.object.pager;
+	    		}, function(response){
+	    			console.log(response);
+	    		})
+			},
   			prevpage:function(e){
   				e.preventDefault();
   				var currentpage = this.memberlist.pageNumber;
 	    		if(currentpage>1){
 	    			currentpage--;
-	    			this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:currentpage}).then(function(response){
-	    				this.memberlist=response.data.object.pager;
-		    		}, function(response){
-		    			console.log(response);
-		    		})
+	    			this.pageTo(currentpage);
 	    		}
 	    		else{
 	    			layer.msg('没有上一页了');
@@ -533,11 +525,7 @@
   					maxpage = this.memberlist.pages;
 	    		if(currentpage<maxpage){
 	    			currentpage++;
-	    			this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:currentpage}).then(function(response){
-	    				this.memberlist=response.data.object.pager;
-		    		}, function(response){
-		    			console.log(response);
-		    		})
+	    			this.pageTo(currentpage);
 	    		}
 	    		else{
 	    			layer.msg('没有下一页了');
@@ -546,11 +534,7 @@
   			gopage:function(e){
   				e.preventDefault();
   				var pageNum=$('#pageto').val();
-  				this.$http.post("event/round/group/member/list",{roundId:this.roundId,pageNumber:pageNum}).then(function(response){
-	    				this.memberlist=response.data.object.pager;
-		    		}, function(response){
-		    			console.log(response);
-		    		})
+  				this.pageTo(pageNum);
   			},
   			checkpage:function(e){
   				var pages = this.memberlist.pages; 

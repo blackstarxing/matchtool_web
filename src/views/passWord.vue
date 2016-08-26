@@ -151,6 +151,8 @@ import createPop from '../components/createPop.vue'
 					            1000)
 							}
 						}
+					}else{
+						layer.msg(response.data.msg);
 					}
 					
 			      },function(response) {

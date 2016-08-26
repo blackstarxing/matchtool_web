@@ -3,17 +3,27 @@
 	<side-bar></side-bar>
 	<slide-bar></slide-bar>
 	<create-pop></create-pop>
-	<div class="g-w" style="margin-top:90px;">
-		<div class="banner">
-			<img src="../../static/images/landing.jpg" alt="">
+	<div class="banner">
+		<ul id="banner">
+			<li v-for="banner in banner" v-bind:class="[$index!=0 ? 'up' : '']"><a href="#" v-bind:style="'background:url(http://img.wangyuhudong.com'+banner.icon+') center top no-repeat'"></a></li>
+		</ul>
+		<div class="list" id="list">
+			<a href="javascript:;" v-bind:class="[$index==0 ? 'on' : '']" v-for="banner in banner"></a>
 		</div>
+		<button class="banner_btn banner_prev"></button>
+		<button class="banner_btn banner_next"></button>
+	</div>
+	<div class="g-w" style="margin-top:20px;">
+		<!-- <div class="banner">
+			<img src="../../static/images/landing.jpg" alt="">
+		</div> -->
 		<div class="landing-box">
 			<h3>推荐赛事</h3>
 			<div class="landing-content f-cb">
 				<div class="match" v-for="match in recommendlists" @click="linkDetail">
 					<div class="pic">
 						<img v-bind:src="'http://img.wangyuhudong.com'+match.poster" alt="" width="100%" height="150px;">
-						<div class="title"><i class="iconfont"></i><span class="f-col" v-text="match.createDate | formatDate"></span></div>
+						<div class="title"><span class="icon-uniE60F"></span><span class="f-col" v-text="match.createDate | formatDate"></span></div>
 					</div>
 					<div class="match-progress">
 						<div class="match-name">
@@ -98,6 +108,7 @@ import createPop from '../components/createPop.vue'
 	export default {
 		data () {
 			return{
+				banner:"",
 				recommendlists:""
 			}
 		},
@@ -109,6 +120,85 @@ import createPop from '../components/createPop.vue'
 		},
 		ready:function(){
 			var _this=this;
+			_this.$http.get('banner/list').then(function(response) {
+	        	_this.banner=response.data.object.list;
+	        	_this.$nextTick(function(){
+	        		var left=$('.banner .list').width()/2;
+	        		$('.banner .list').css('margin-left',-left+'px');
+	        		var index = 0;
+					var maximg = _this.banner.length;
+
+					$('.banner_next').click(function(){
+						// alert(123);
+						if(MyTime){
+							clearInterval(MyTime);
+						}
+						index++;
+						if(index==maximg){index=0;}
+						MyTime = setTimeout(function(){
+						ShowjQueryFlash(index);
+						$('#banner').stop();
+						} , 400);
+					});
+					$('.banner_prev').click(function(){
+						// alert(123);
+						if(MyTime){
+							clearInterval(MyTime);
+						}
+						index--;
+						console.log(index);
+						if(index<0){index=maximg-1;}
+						MyTime = setTimeout(function(){
+							console.log(index);
+						ShowjQueryFlash(index);
+						$('#banner').stop();
+						} , 400);
+					});
+					//滑动导航改变内容	
+					$("#list a").hover(function(){
+						if(MyTime){
+							clearInterval(MyTime);
+						}
+						index  =  $("#list a").index(this);
+						MyTime = setTimeout(function(){
+						ShowjQueryFlash(index);
+						$('#banner').stop();
+						} , 400);
+
+					}, function(){
+						clearInterval(MyTime);
+						MyTime = setInterval(function(){
+						ShowjQueryFlash(index);
+						index++;
+						if(index==maximg){index=0;}
+						} , 3000);
+					});
+					//滑入 停止动画，滑出开始动画.
+					 $('#banner').hover(function(){
+						if(MyTime){
+						 	clearInterval(MyTime);
+						}
+					 },function(){
+						MyTime = setInterval(function(){
+						ShowjQueryFlash(index);
+						index++;
+						if(index==maximg){index=0;}
+					  } , 3000);
+					 });
+					//自动播放
+					var MyTime = setInterval(function(){
+						ShowjQueryFlash(index);
+						index++;
+						if(index==maximg){index=0;}
+					} , 3000);
+					function ShowjQueryFlash(i) {
+						$("#banner li").eq(i).animate({opacity: 1},1000).css({"z-index": "1"}).siblings().animate({opacity: 0},1000).css({"z-index": "0"});
+						$("#list a").eq(i).addClass("on").siblings().removeClass("on");
+					}
+	        	})
+	        },function(response) {
+	            console.log(response);
+	        });
 			var parm={};
 			parm.jsonInfo=JSON.stringify({pageNumber:1});
 	        _this.$http.get('event/getRecommendEventRoundList',parm).then(function(response) {
@@ -121,6 +211,18 @@ import createPop from '../components/createPop.vue'
 	        },function(response) {
 	            console.log(response);
 	        });
+		},
+		filters:{
+			formatDate:function(value){
+				var time = new Date(value);
+				var year=time.getFullYear();  
+				var month=time.getMonth()+1;     
+				var date=time.getDate();     
+				var hour=time.getHours();     
+				var minute=time.getMinutes();     
+				var second=time.getSeconds();     
+				return year+"-"+month+"-"+date+"   "+hour+":"+minute;
+			}
 		},
 		methods:{
 			linkDetail:function(e){

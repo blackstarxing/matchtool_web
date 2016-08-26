@@ -40,7 +40,7 @@
 							<div class="f-fl g-c-sz" @click="cherksz" selected="1">
 								<p class="g-c-szt">单败淘汰制</p>
 								<div class="g-c-szm">
-									<img src="../../static/images/danbai.png" class="mt16">
+									<img src="../../static/images/danbai.png">
 								</div>
 								<div class="g-c-sz-cherk">
 									<i class="g-sz-gimg"></i>
@@ -49,7 +49,7 @@
 							<div class="f-fr g-c-sz" selected="2">
 								<p class="g-c-szt">双败淘汰制</p>
 								<div class="g-c-szm">
-									<img src="../../static/images/shuanbai.png" class="mt5">
+									<img src="../../static/images/shuangbai.png">
 								</div>
 							</div>
 						</div>
@@ -67,13 +67,13 @@
 							<div class="f-fl g-c-sz" selected="3">
 								<p class="g-c-szt">小组循环制</p>
 								<div class="g-c-szm">
-									<img src="../../static/images/danbai.png" class="mt16">
+									<img src="../../static/images/xiaozu.png">
 								</div>
 							</div>
 							<div class="f-fr g-c-sz" selected="4">
 								<p class="g-c-szt">小组积分制</p>
 								<div class="g-c-szm">
-									<img src="../../static/images/shuanbai.png" class="mt5">
+									<img src="../../static/images/xunhuan.png">
 								</div>
 							</div>
 						</div>

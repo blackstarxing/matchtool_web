@@ -17,7 +17,7 @@
 			</div> -->
 			<div class="setPoster g-q-hb">
 				<img v-bind:src="'http://img.wangyuhudong.com/'+formdata.poster" v-if="formdata.poster">
-				<div class="g-q-ptr" @click="selectPic">
+				<div class="g-q-ptr" v-bind:click="isPublish? selectPic : ''">
 					<span class="icon-uniE62B"></span>
 					<p>编辑、更改赛事海报</p>
 				</div>
@@ -88,15 +88,24 @@
 				</div>
 				<div class="f-c">
 					<p class="g-c-l mt40">赛事简介</p>
-					<div id="brief" class="m-editor"></div>
+					<div class="editor-box">
+						<div id="brief" class="m-editor"></div>
+						<div class="editor-mask"></div>
+					</div>					
 				</div>
 				<div class="f-c">
 					<p class="g-c-l mt40">赛事奖励</p>
-					<div id="prizeSetting" class="m-editor"></div>
+					<div class="editor-box">
+						<div id="prizeSetting" class="m-editor"></div>
+						<div class="editor-mask"></div>
+					</div>
 				</div>
 				<div class="f-c">
 					<p class="g-c-l mt40">赛事规则</p>
-					<div id="regimeRule" class="m-editor"></div>
+					<div class="editor-box">
+						<div id="regimeRule" class="m-editor"></div>
+						<div class="editor-mask"></div>
+					</div>
 				</div>
 			</div>
 			<a href="" class="saveModify" @click="saveInfo">保存修改</a>
@@ -117,7 +126,7 @@
 					<div class="g-c-l mt40 f-re">是否允许用户自主报名
 						<div class="checkboxThree f-ab">
 					  		<input type="checkbox" id="checkboxThreeInput" name="" class="f-dn" v-model="formdata.allowApply" v-bind:true-value="1" v-bind:false-value="0"/>
-						  	<label for="checkboxThreeInput" @click="isapply"></label>
+						  	<label for="checkboxThreeInput" v-bind:click="isPublish? isapply : ''"></label>
 					  	</div>
 					</div>
 					<p class="g-c-l mt40 f-re">
@@ -133,7 +142,7 @@
 								</span>
 							</label>
 						</div>
-						<div class="f-fl g-c-ms">
+						<div class="f-fl g-c-ms f-re">
 							<input type="radio" id="team" name="baoming" class="regular-radio" v-model="formdata.applyType" value="2" disabled />
 							<label for="team"></label>
 							<label for="team" class="u-c-per">		
@@ -141,6 +150,27 @@
 									战队报名
 								</span>
 							</label>
+							<select class="u-c-slt u-c-slt-zdbm" v-model="formdata.teamMemeberNum">
+								<option value="2" selected>2</option>
+								<option value="3" >3</option>
+								<option value="4" >4</option>
+								<option value="5" >5</option>
+								<option value="6" >6</option>
+								<option value="7" >7</option>
+								<option value="8" >8</option>
+								<option value="9" >9</option>
+								<option value="10" >10</option>
+								<option value="11" >11</option>
+								<option value="12" >12</option>
+								<option value="13" >13</option>
+								<option value="14" >14</option>
+								<option value="15" >15</option>
+								<option value="16" >16</option>
+								<option value="17" >17</option>
+								<option value="18" >18</option>
+								<option value="19" >19</option>
+								<option value="20" >20</option>
+							</select>
 						</div>
 					</div>
 					<div class="f-c">
@@ -178,8 +208,8 @@
 							</div>
 							<div class="f-fl mr56">
 								<input type="checkbox" id="another" class="regular-checkboxs" name="bminfo" v-model="formdata.otherRequired" v-bind:true-value="1" v-bind:false-value="0" disabled />
-								<label for="another" @click="showotherinfo"></label>
-								<label for="another" class="u-c-ck col8f" @click="showotherinfo">其他</label>
+								<label for="another" v-bind:click="isPublish ? showotherinfo : ''"></label>
+								<label for="another" class="u-c-ck col8f" v-bind:click="isPublish ? showotherinfo : ''">其他</label>
 							</div>
 						</div>
 					</div>
@@ -265,7 +295,7 @@
 							<div class="f-fl g-c-sz" selected="1">
 								<p class="g-c-szt">单败淘汰制</p>
 								<div class="g-c-szm">
-									<img src="../../static/images/danbai.png" class="mt16">
+									<img src="../../static/images/danbai.png">
 								</div>
 								<div class="g-c-sz-cherk" style="display:block;">
 									<i class="g-sz-gimg"></i>
@@ -274,7 +304,7 @@
 							<div class="f-fr g-c-sz" selected="2">
 								<p class="g-c-szt">双败淘汰制</p>
 								<div class="g-c-szm">
-									<img src="../../static/images/shuanbai.png" class="mt5">
+									<img src="../../static/images/shuangbai.png">
 								</div>
 							</div>
 						</div>
@@ -292,13 +322,13 @@
 							<div class="f-fl g-c-sz" selected="3">
 								<p class="g-c-szt">小组循环制</p>
 								<div class="g-c-szm">
-									<img src="../../static/images/danbai.png" class="mt16">
+									<img src="../../static/images/xiaozu.png">
 								</div>
 							</div>
 							<div class="f-fr g-c-sz" selected="4">
 								<p class="g-c-szt">小组积分制</p>
 								<div class="g-c-szm">
-									<img src="../../static/images/shuanbai.png" class="mt5">
+									<img src="../../static/images/xunhuan.png">
 								</div>
 							</div>
 						</div>
@@ -327,6 +357,7 @@ export default {
 			username:"",
 			eventlist:"",
 			roundlist:"",
+
 			formdata:{
 				eventRoundId:"",
 				eventId:"",
@@ -340,6 +371,7 @@ export default {
 				mode:"",
 				allowApply:"",
 				applyType:"",
+				teamMemeberNum:"",
 				nicknameRequired:"",
 				nameRequired:"",
 				idcardRequired:"",
@@ -370,6 +402,7 @@ export default {
         	console.log(response);
         	_this.eventlist=response.data.object.event;
         	_this.roundlist=response.data.object.round;
+        	_this.isPublish=_this.eventlist.isPublish;
 
         	_this.formdata.name=_this.eventlist.name;
         	_this.formdata.itemId=_this.eventlist.itemId;
@@ -378,6 +411,7 @@ export default {
         	_this.formdata.poster=_this.eventlist.poster;
         	_this.formdata.maxNum=_this.roundlist.maxNum;
         	_this.formdata.mode=_this.eventlist.mode;
+        	_this.formdata.teamMemeberNum=_this.roundlist.teamMemeberNum;
         	_this.formdata.addreass=_this.roundlist.addreass;
         	_this.formdata.detailAddreass=_this.roundlist.detailAddreass;
         	_this.formdata.nicknameRequired=_this.eventlist.nicknameRequired;
@@ -399,9 +433,29 @@ export default {
         	_this.formdata.needThird=_this.roundlist.needThird;
 
         	_this.isapply();
+
+        	_this.$nextTick(function(){
+        		if(_this.isPublish){
+	        		$('input').attr('readonly',true);
+	        		$('button').attr('disabled',true);
+	        		$('input').attr('disabled',true);
+	        		$('select').attr('disabled',true);
+	        		$('.editor-mask').show();
+	        	}
+        	})
+        	
         	if(_this.formdata.otherRequired){
 				$('#otherinfocherk').show();
 			}
+			if(_this.formdata.applyType==2){
+				$('.u-c-slt-zdbm').show();
+			}
+			$('#single').on('click', function(){
+    			$('.u-c-slt-zdbm').fadeOut("slow");
+    		})
+    		$('#team').on('click', function(){
+    			$('.u-c-slt-zdbm').fadeIn("slow");
+    		})
         	$('#brief').editable({
 				inlineMode: false,
 				theme: 'dark', 
@@ -773,7 +827,6 @@ export default {
 	    						_this.errorPlacement(messages,$thiss);
 	    					}
 	    					else{
-	    						valid=true;
 	    						var $thiss = $('#applyBegin'),messages="";
 	    						_this.errorPlacement(messages,$thiss);
 	    					}
