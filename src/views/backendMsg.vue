@@ -142,7 +142,7 @@
 								</span>
 							</label>
 						</div>
-						<div class="f-fl g-c-ms">
+						<div class="f-fl g-c-ms f-re">
 							<input type="radio" id="team" name="baoming" class="regular-radio" v-model="formdata.applyType" value="2" disabled />
 							<label for="team"></label>
 							<label for="team" class="u-c-per">		
@@ -150,6 +150,27 @@
 									战队报名
 								</span>
 							</label>
+							<select class="u-c-slt u-c-slt-zdbm" v-model="formdata.teamMemeberNum">
+								<option value="2" selected>2</option>
+								<option value="3" >3</option>
+								<option value="4" >4</option>
+								<option value="5" >5</option>
+								<option value="6" >6</option>
+								<option value="7" >7</option>
+								<option value="8" >8</option>
+								<option value="9" >9</option>
+								<option value="10" >10</option>
+								<option value="11" >11</option>
+								<option value="12" >12</option>
+								<option value="13" >13</option>
+								<option value="14" >14</option>
+								<option value="15" >15</option>
+								<option value="16" >16</option>
+								<option value="17" >17</option>
+								<option value="18" >18</option>
+								<option value="19" >19</option>
+								<option value="20" >20</option>
+							</select>
 						</div>
 					</div>
 					<div class="f-c">
@@ -350,6 +371,7 @@ export default {
 				mode:"",
 				allowApply:"",
 				applyType:"",
+				teamMemeberNum:"",
 				nicknameRequired:"",
 				nameRequired:"",
 				idcardRequired:"",
@@ -389,6 +411,7 @@ export default {
         	_this.formdata.poster=_this.eventlist.poster;
         	_this.formdata.maxNum=_this.roundlist.maxNum;
         	_this.formdata.mode=_this.eventlist.mode;
+        	_this.formdata.teamMemeberNum=_this.roundlist.teamMemeberNum;
         	_this.formdata.addreass=_this.roundlist.addreass;
         	_this.formdata.detailAddreass=_this.roundlist.detailAddreass;
         	_this.formdata.nicknameRequired=_this.eventlist.nicknameRequired;
@@ -424,6 +447,15 @@ export default {
         	if(_this.formdata.otherRequired){
 				$('#otherinfocherk').show();
 			}
+			if(_this.formdata.applyType==2){
+				$('.u-c-slt-zdbm').show();
+			}
+			$('#single').on('click', function(){
+    			$('.u-c-slt-zdbm').fadeOut("slow");
+    		})
+    		$('#team').on('click', function(){
+    			$('.u-c-slt-zdbm').fadeIn("slow");
+    		})
         	$('#brief').editable({
 				inlineMode: false,
 				theme: 'dark', 

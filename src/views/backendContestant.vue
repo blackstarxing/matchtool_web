@@ -63,7 +63,7 @@
 										<label for="">身份证</label><span class="idcard">{{member.idcard}}</span>
 									</div>
 									<div>
-										<label for="">其他</label><span class="other">{{member.other}}</span>
+										<label for="">{{member.otherDescribe}}</label><span class="other">{{member.other}}</span>
 									</div>
 								</div>
 								<div class="m-info">
@@ -122,8 +122,8 @@
 					<div class="colfdb f-tip"></div>
 				</div>
 				<div class="m-lst" v-if="required.otherRequired">				
-					<label for="">其他：</label>
-					<input type="text" class="other u-c-ipt" name="other" placeholder="请输入其他信息" required="">
+					<label for="">{{required.otherDescribe}}</label>
+					<input type="text" class="other u-c-ipt" name="other" placeholder="请输入{{required.otherDescribe}}" required="">
 					<div class="colfdb f-tip"></div>
 				</div>
 				<div class="member-id" style="display:none"></div>
@@ -465,7 +465,7 @@
 			    		}else if(name=="other"){
 			    			if(value==""){
 			    				valid=false;
-					    		message="其他信息不能为空";
+					    		message="内容不能为空";
 			    			}
 			    			errorPlacement(message,$this);
 			    		}

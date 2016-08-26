@@ -10,7 +10,7 @@
 				<h3>{{match.eventName}}</h3>
 				<div class="match-sponsor">
 					<img v-bind:src="'http://img.wangyuhudong.com/'+match.icon">{{match.nickname}}
-					<label class="isover" v-if="match.state==1">预热中</label>
+					<label class="noapply" v-if="match.state==1">查看详情</label>
 					<label v-if="match.state==2">报名中</label>
 					<label class="noapply" v-if="match.state==3">已报名</label>
 					<label class="noapply" v-if="match.state==4">已报名</label>
