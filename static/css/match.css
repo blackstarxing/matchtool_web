@@ -2574,7 +2574,11 @@ label.u-c-kz-sz{
   opacity: 0.8;
   display: none;
   z-index: 999;
+  font-size: 12px;
   color: #fff;
+}
+.float_edit p{
+	margin-top: -5px;
 }
 .float_check{
 	position: absolute;
@@ -2856,6 +2860,25 @@ label.u-c-kz-sz{
 }
 .detail_scores{
 	display: none;
+}
+.scores_detail_list{
+	position: absolute;
+    height: 45px;
+    color: #fff;
+    top:-65px;
+    left:200px;
+    background-color: #000;
+    opacity: 0.8;
+    z-index: 999;
+	display: none;
+}
+.scores_detail_list li{
+	float: left;
+	width: 25px;
+	text-align: center;	
+}
+.scores_detail_p{
+	line-height: 22px;
 }
 /*个人赛事报名*/
 .m-bx-d{
