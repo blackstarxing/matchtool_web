@@ -958,7 +958,7 @@ export default {
                 parm.jsonArray = parmstr;
                 if(wrong){
                   layer.confirm('设置的时间顺序由前后颠倒，可能会对参赛选手和观众产生误导，是否继续？', {
-                      btn: ['取消','确定'], //按钮
+                      btn: ['再改改','继续'], //按钮
                       move:false,
                       closeBtn:0
                   }, function(){
