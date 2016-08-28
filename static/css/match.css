@@ -3076,7 +3076,7 @@ label.u-c-kz-sz{
 /*赛事详情分享页*/
 .g-sh-m{
 	box-sizing: border-box;
-	width: 100%;
+	width: 16rem;
 	margin: 0 auto;
 	overflow: hidden;
 }
@@ -3096,7 +3096,7 @@ label.u-c-kz-sz{
 	padding:0.5rem 0.6rem 0; 
 	color: #f2f6f9;
 	text-align: center;
-	font-size: 16px;
+	font-size: 0.8rem;
 	line-height: 1rem;
 }
 .m-sh-head{
@@ -3120,18 +3120,6 @@ label.u-c-kz-sz{
 	color: #52595c;
 	padding: 0 0.6rem;
     margin-top: 0.8rem;
-}
-@media screen and (max-width: 414px){
-	
-}
-@media screen and (min-width: 415px) and (max-width: 768px){
-	.m-sh-tit{
-		font-size: 32px;
-		padding: 0.675rem 0.6rem 0;
-	}
-}
-@media screen and (min-width: 769px) and (max-width: 1024px){
-	
 }
 
 
