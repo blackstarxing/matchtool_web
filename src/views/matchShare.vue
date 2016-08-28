@@ -7,8 +7,8 @@
         <p class="m-sh-tit">做好准备，《守望先锋》世界杯即将到来</p>
         <img v-bind:src="icon" class="m-sh-head">
         <p class="m-sh-name match_sponsor">网娱官方赛事</p>
-        <p class="m-sh-jj match_intro">{{ text }}</p>
-        <span id="introExpandSpan" class="expandBtn">展开<i></i></span>
+        <p class="m-sh-jj match_intro">{{ brief.briefsmall }}</p>
+        <span id="introExpandSpan" class="expandBtn" v-show="briefmore" @click="briefMore">展开<i class="icon-uniE60E" style="color: #42aa53;"></i></span>
         <div class="matchShare_content">
             <div class="matchshare_head">
                 <ul class="matchshare_tab">
@@ -17,7 +17,7 @@
                 </ul>
             </div>
             <div class="atchshare_tab_container">
-                <div v-show="tap1">
+                <div class="sharepic_tab" v-show="sharepic">
                     <!-- 在这个div放置对阵图哦 -->
                     <div class="against_container">
                         <div class="tech_main_body">
@@ -81,18 +81,17 @@
                     </ul>
                     <div class="match_rules">
                         <h2 class="match_rules_title">赛事规则</h2>
-                        <p class="match_rules_content">本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器</p>
-                        <div id="rules_expandBtn" class="expandBtn">展开<i></i></div>
+                        <p class="match_rules_content">{{ rule.rulesmall }}</p>
+                        <div id="rules_expandBtn" class="expandBtn" v-show="rulemore" @click="ruleMore">展开<i class="icon-uniE60E" style="color: #42aa53;"></i></div>
                     </div>
                     <div class="match_awards">
                         <h2 class="match_awards_title">赛事奖项</h2>
-                        <p class="match_awards_content">本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器</p>
-                        <div id="awards_expandBtn" class="expandBtn">展开<i></i></div>
+                        <p class="match_awards_content">{{ prize.prizesmall }}</p>
+                        <div id="awards_expandBtn" class="expandBtn" v-show="pricemore" @click="priceMore">展开<i class="icon-uniE60E" style="color: #42aa53;"></i></div>
                     </div>
                 </div>
             </div>
-            <div class="bottomBox">
-                <p class="openTime">距离开赛还有<span class="col42a">01</span>天 <span class="colfdb"> • </span><span class="col42a">03</span> : <span class="col42a">09</span></p>
+            <div class="bottomBox" @click="joinTech">
                 <a href="javascript:;" class="joinMatch">报名参赛</a>
             </div>
         </div>
@@ -117,10 +116,11 @@ function format(shijianchuo) {
 export default {
     data() {
             return {
-                text: "",
-                tabFlag: 0,
-                isPic: false,
-                isDetail: true,
+            	brief: {textbrief:'',briefsmall: ""},
+            	rule: {textrule:'',rulesmall: ""},
+            	prize: {textprize:'',prizesmall: ""},
+                isPic: true,
+                isDetail: false,
                 matchlist: {
                     name: '',
                     model: '',
@@ -133,31 +133,93 @@ export default {
                     pasttime: '',
                     publish: ''
                 },
-                icon: ''
+                icon: '',
+                sharepic: true,
+                matchdata: '',
+                personnum: "",
+                overhalf: "",
+                turnnums: [],
+                roundStatus: '',
+                personNamea: '',
+                personNameb: '',
+                scorelis: [],
+                groupid: {},
+                seatida: {},
+                seatidb: {},
+                briefmore:false,
+                rulemore:false,
+                pricemore:false
 
             }
         },
         ready: function() {
-
-            this.text = "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
             var _this = this;
             var parm = {};
             parm.id = window.sessionStorage.getItem("eventId");
 
             _this.$http.get('event/info', parm).then(function(response) {
+            	_this.roundStatus = response.data.object.state;
                 console.log(response);
                 if (response.data.code) {
                     _this.matchlist.name = response.data.object.event.name;
-                    _this.matchlist.model = response.data.object.event.mode;
+                    var _mode=response.data.object.event.mode;
+                    if(_mode==1){
+                    	_this.matchlist.model = "线上赛事";
+                    }else if(_mode==2){
+                    	_this.matchlist.model = "线下赛事";
+                    }else if(_mode==3){
+                    	_this.matchlist.model = "线上海选+线下决赛";
+                    }
                     _this.matchlist.presonnem = response.data.object.round.maxNum;
                     _this.matchlist.matchtime = format(response.data.object.round.activityBegin);
-                    _this.matchlist.state = response.data.object.round.type;
+                    var _type=response.data.object.round.type;
+                    if(_type==1){
+                    	_this.matchlist.state="单阶段比赛";
+                    }else if(_type==2){
+                    	_this.matchlist.state="双阶段比赛";
+                    }
                     _this.matchlist.signtimebeg = format(response.data.object.round.applyBegin);
                     _this.matchlist.signtimeend = format(response.data.object.round.applyEnd);
-                    _this.matchlist.format = response.data.object.round.regime;
+                    var _regime=response.data.object.round.regime;
+                    if(_regime==1){
+                    	_this.matchlist.format="单败淘汰制";
+                    }else if(_regime==2){
+                    	_this.matchlist.format="双败淘汰制";
+                    }else if(_regime==3){
+                    	_this.matchlist.format="小组内单循环制";
+                    }else if(_regime==4){
+                    	_this.matchlist.format="积分循环制";
+                    }
+                   
                     _this.matchlist.pasttime = response.data.object.round.signBeginTime ? (esponse.data.object.round.signBeginTime) : '不需要签到';
-                    _this.matchlist.publish = format(response.data.object.round.publishTime);
+                    _this.matchlist.publish = format(response.data.object.event.publishTime);
                     _this.matchlist.icon = 'http://img.wangyuhudong.com/' + response.data.object.creater.icon;
+                    _this.brief.textbrief=response.data.object.event.brief;
+                    // _this.brief.textbrief= "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
+                    if(_this.brief.textbrief && _this.brief.textbrief.length>55){
+	            		_this.brief.briefsmall =_this.brief.textbrief.substr(0,54)+'......';
+	            		_this.briefmore=true;
+	            	}else{
+	            		_this.brief.briefsmall=_this.brief.textbrief;
+	            	}
+
+	            	_this.rule.textrule=response.data.object.event.regimeRule;
+                    // _this.rule.textrule= "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
+                    if(_this.rule.textrule && _this.rule.textrule.length>55){
+	            		_this.rule.rulesmall=_this.rule.textrule.substr(0,54)+'......';
+	            		_this.rulemore=true;
+	            	}else{
+	            		_this.rule.rulesmall=_this.rule.textrule;
+	            	}
+
+	            	_this.prize.textprize =response.data.object.event.regimeRule;
+                    // _this.prize.textprize = "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
+                    if(_this.prize.textprize && _this.prize.textprize.length>55){
+	            		_this.prize.prizesmall=_this.prize.textprize.substr(0,54)+'......';
+	            		_this.pricemore=true;
+	            	}else{
+	            		_this.prize.prizesmall=_this.prize.textprize;
+	            	}
                 }
 
                 _this.personnum = response.data.object.iscountm ? true : false;
@@ -701,9 +763,32 @@ export default {
         methods: {
             changePic: function() {
                 this.isPic = true;
-                this.isLand = true;
-                this.isReg = false;
+                this.sharepic = true;
+                this.isDetail = false;
+            },
+            changeDetail: function () {
+            	this.isPic = false;
+                this.sharepic = false;
+                this.isDetail = true;
+            },
+            briefMore: function () {
+            	this.brief.briefsmall=this.brief.textbrief;
+            	this.briefmore=false;
+            },
+            ruleMore: function () {
+            	this.rule.rulesmall=this.rule.textrule;
+            	this.rulemore=false;
+            },
+            priceMore: function () {
+            	this.prize.prizesmall=this.prize.textprize;
+            	this.pricemore=false;
+            },
+            joinTech: function () {
+            	this.$route.router.go({
+                            path: '/matchDetails'
+                        });
             }
+
         }
 }
 // window.onload = function() {
@@ -747,7 +832,7 @@ export default {
 
 .match_intro {
     font-size: 0.7rem;
-    line-height: 0.7rem;
+    line-height: 1rem;
     overflow: hidden;
 }
 
@@ -766,13 +851,16 @@ export default {
 
 .info_name {
     color: #7a8387;
-    margin-right: 1.1rem;
+    margin-right: 1rem;
     vertical-align: top;
+    display: inline-block;
+    width:3rem;
 }
 
 .info_text {
-    width: 7.65rem;
+    width: 9rem;
     color: #d0d1d2;
+    display: inline-block;
 }
 
 .match_rules,
@@ -811,6 +899,7 @@ export default {
     width: 100%;
     height: 2.5rem;
     background-color: #36383f;
+    text-align: center;
 }
 
 .openTime {
@@ -824,7 +913,6 @@ export default {
 .joinMatch {
     display: inline-block;
     height: 1.8rem;
-    float: right;
     width: 4.5rem;
     margin-top: 0.4rem;
     margin-right: 0.8rem;
@@ -840,7 +928,7 @@ export default {
     width: 100%;
     height: 2rem;
     text-align: center;
-    font-size: 16px;
+    font-size: 0.8rem;
     color: #fff;
     line-height: 2rem;
 }
@@ -866,15 +954,17 @@ export default {
     vertical-align: top;
     width: 2.5rem;
 }
-
 .list_right {
     display: inline-block;
     border-bottom: 1px solid #42454c;
     width: 13rem;
 }
-
 .info_icon {
     width: 0.7rem;
     height: 0.7rem;
+}
+.sharepic_tab{
+	width: 100%;
+	overflow-x: scroll;
 }
 </style>

@@ -463,6 +463,7 @@ import createPop from '../components/createPop.vue'
 			
        _this.$http.get('event/info',parm).then(function(response){
         	console.log(response);
+        	_this.roundStatus = response.data.object.state;
 			var code = response.data.code;
 			if(code==1){
 				_this.status = response.data.object.round.status;
