@@ -74,6 +74,13 @@ import backendSidebar from '../components/backendSidebar.vue'
   	},
   	ready:function(){
   		var _this=this;
+  		_this.$http.get("isLogin").then(function(response){
+	        if(!response.data.object.loginFlag){
+	        	_this.$route.router.go({name: 'landRegister', params: { tabId: 0 }});
+	        }
+	    }, function(response){
+	       	console.log(response);
+	    })
   		_this.eventname=window.sessionStorage.getItem("eventname");
   		_this.oetInfoId=window.sessionStorage.getItem("eventId");
   		_this.oetRoundId=window.sessionStorage.getItem("eventRoundId");

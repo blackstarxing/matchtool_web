@@ -125,6 +125,13 @@
   		},
    		ready: function () {     		
      		var _this=this;    		
+     		_this.$http.get("isLogin").then(function(response){
+		        if(!response.data.object.loginFlag){
+		        	_this.$route.router.go({name: 'landRegister', params: { tabId: 0 }});
+		        }
+		    }, function(response){
+		       	console.log(response);
+		    })
      		_this.applyType = window.sessionStorage.getItem("applyType");
      		_this.eventname=window.sessionStorage.getItem("eventname");
      		_this.eventId=window.sessionStorage.getItem("eventId");

@@ -67,7 +67,7 @@
 					<p>沉淀每一场赛事</p>
 				</div>
 			</div>
-			<a href="" class="u-btn u-landing-btn" v-link="{ path: '/landRegister'}">申请成为赛事组织者</a>
+			<a href="" class="u-btn u-landing-btn" v-link="{ name: 'landRegister', params: { tabId: 1 }}">申请成为赛事组织者</a>
 		</div>
 		<div class="landing-box">
 			<div class="landing-content f-cb">
@@ -96,7 +96,7 @@
 					<p>打造属于你的电竞档案</p>
 				</div>
 			</div>
-			<a href="" class="u-btn u-landing-btn u-enter-btn" v-link="{ path: '/landRegister'}">立即加入</a>
+			<a href="" class="u-btn u-landing-btn u-enter-btn" v-link="{ name: 'landRegister', params: { tabId: 1 }}">立即加入</a>
 		</div>
 	</div>
 </template>
