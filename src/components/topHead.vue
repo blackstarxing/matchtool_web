@@ -75,7 +75,7 @@
       logout:function(e){
         e.preventDefault();
         this.$http.post("logout").then(function(response){
-          this.$route.router.go({path: '/landRegister'})     
+          this.$route.router.go({path: '/index'});     
         }, function(response){
           console.log(response);
         })
