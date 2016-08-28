@@ -165,10 +165,12 @@ import createPop from '../components/createPop.vue'
 	.m-matchlist h3{
 		font-size: 18px;
 		color:#f2f6f9;
+		font-weight: normal;
 	}
 	.m-matchlist [class^="icon-"]{
 		font-size: 18px;
 		margin-right: 12px;
+		color:#7a8387;
 	}
 	.match-sponsor{
 		font-size: 12px;
@@ -189,14 +191,14 @@ import createPop from '../components/createPop.vue'
 		height: 30px;
 		line-height: 30px;
 		text-align: center;
-		background: #fdba33;
+		background: #fdb91a;
 		color:#1e1f24;
 		font-size: 14px;
 		border-radius: 3px;
 	}
 	.match-sponsor label.noapply{
 		background:#42ac59;
-		color:#fff;
+		color:#f2f6f9;
 	}
 	.match-sponsor label.isover{
 		background:#343b44;
