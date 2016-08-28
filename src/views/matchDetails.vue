@@ -20,9 +20,13 @@
 					<i class="s-q-start"></i>
 					开始赛事进程
 				</button>
-				<button type="button" class="u-q-start u-q-jinxz" v-if="status==2" v-link="{ path: '/backend/backendTechpic'}">
-					<div class="s-q-jds" style="width:30%;"></div>
-					<span class="u-q-start-jdt">30%</span>
+				<button type="button" class="u-q-start u-q-jinxz" v-if="status==2 && rate!=100" v-link="{ path: '/backend/backendTechpic'}">
+					<div class="s-q-jds" style="width:{{rate}}%;"></div>
+					<span class="u-q-start-jdt">{{rate}}%</span>
+				</button>
+				<button type="button" class="u-q-start u-q-jinxz" v-if="status==2 && rate==100" v-link="{ path: '/backend/backendTechpic'}">
+					<i class="s-q-start"></i>
+					结束赛事
 				</button>
 				<button type="button" class="u-q-start" v-if="status==3" disabled>
 					已结束
@@ -60,9 +64,9 @@
 					<i class="s-q-start"></i>
 					赛事准备开启
 				</button>
-				<button type="button" class="u-q-start" v-if="state==7" disabled>
-					<i class="s-q-start"></i>
-					开赛中
+				<button type="button" class="u-q-start u-q-jinxz" v-if="state==7" disabled>
+					<div class="s-q-jds" style="width:{{rate}}%;"></div>
+					<span class="u-q-start-jdt">{{rate}}%</span>
 				</button>
 				<button type="button" class="u-q-start" v-if="state==8" disabled>
 					<i class="s-q-start"></i>
@@ -461,7 +465,8 @@ import createPop from '../components/createPop.vue'
 		        cherkedMemArr:'',
 		        status:'',//创建者赛事状态视角
 		        isc:false,
-		        isc2:false
+		        isc2:false,
+		        rate:''//进度条
 			}
 		},
 		components:{
@@ -484,6 +489,9 @@ import createPop from '../components/createPop.vue'
 			var code = response.data.code;
 			if(code==1){
 				_this.status = response.data.object.round.status;
+				if(status==2){
+				 	_this.rate = response.data.object.rate;
+				}
 				_this.brief= response.data.object.event.brief;
 				if(_this.brief=='' || _this.brief==null){
 					_this.brief = 0;
