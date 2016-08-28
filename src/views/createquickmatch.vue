@@ -718,7 +718,11 @@ import createPop from '../components/createPop.vue'
 	  				parm.jsonInfo = jsonInfo;
 		    		_this.$http.post('event/saveBaseInfo',parm).then(function(response){
 		    			var code = response.data.code;
-		    			if(code==1){
+		    			if(code==-1){
+		    				layer.msg('请先登录',{offset:"0px"});
+		    			}else if(code==0){
+		    				layer.msg(response.data.msg,{offset:"0px"});
+		    			}else if(code==1){
 		    				window.sessionStorage.setItem("eventRoundId",response.data.object.eventRoundId);
 		    				_this.$route.router.go({path: '/quickformat'});
 		    			}
