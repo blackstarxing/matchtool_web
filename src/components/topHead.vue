@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="header_right visitor f-fr" v-show="!islogin">
-      <a href="" v-link="{ path: '/landRegister'}">登录</a><span>•</span><a href="" v-link="{ path: '/landRegister'}">注册新用户</a>
+      <a href="" v-link="{ path: '/landRegister'}">登录</a><span>•</span><a href="sideBar.vue" v-link="{ path: '/landRegister'}">注册新用户</a>
     </div>
 	</div>
 </template>
