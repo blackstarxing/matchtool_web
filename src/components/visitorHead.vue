@@ -5,7 +5,7 @@
 			<img src="../../static/images/logo.png" alt="">
 		</div>
 		<div class="header_right visitor f-fr">
-      <a href="" v-link="{ path: '/landRegister'}">登录</a><span>•</span><a href="" v-link="{ path: '/landRegister'}">注册新用户</a>
+      <a v-link="{ name: 'landRegister', params: { tabId: 0 }}">登录</a><span>•</span><a v-link="{ name: 'landRegister', params: { tabId: 1 }}">注册新用户</a>
     </div>
 	</div>
 </template>

@@ -42,7 +42,7 @@
 					<div class="pw_ident_get">
 						<input type="text" class="pw_input" placeholder="输入获得的验证码" v-model="pwIdent">
 					<span class="get_pwident" @click="getPWident">获取验证码</span>
-					<span class="count_down">60</span>
+					<!-- <span class="count_down">60</span> -->
 					</div>
 				</div>
 				<div class="next_btn" @click="nextReset">下一步</div>
@@ -131,7 +131,6 @@ import createPop from '../components/createPop.vue'
 				parm.telephone=this.pwPhone;
 				this.$http.post('sendVerifyCode',parm).then(function(response){
 					var _pwident=$(".get_pwident");
-					var _countdown=$(".count_down");
 					var _time=60;
 					if(response.data.code){
 						_pwident.addClass('ident_count');
@@ -140,11 +139,10 @@ import createPop from '../components/createPop.vue'
 						function countdown(){
 							if(_time==0){
 							 _pwident.removeClass('ident_count');
-							 _countdown.text(60);
-							 _countdown.hide();
+							 _pwident.text('获取验证码');
 							}else{
 								_time--;
-								_countdown.text(_time);
+								_pwident.text(_time);
 								setTimeout(function() {  
 					                countdown();
 					            },  

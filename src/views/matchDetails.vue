@@ -998,12 +998,12 @@ import createPop from '../components/createPop.vue'
 
             _this.$nextTick(function(){
               if(_this.roundStatus<7){
-                  // $('.edit_div').hide();
-                  // $('.recta_right').hide();
+                  $('.edit_div').hide();
+                  $('.recta_right').hide();
                 }else{
                   $('.turn_btn').hide();
                   $('.against_title_tip').hide();
-                  // $(".recta").attr('draggable',false);
+                  $(".recta").attr('draggable',false);
                 }
 
                 if(_this.roundStatus<6){

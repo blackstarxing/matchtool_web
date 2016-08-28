@@ -2,7 +2,7 @@
 	<div class="g-hd">
 		<div class="header_left backend-head f-fl">
 			<img src="../../static/images/logo.png" alt="" v-link="{ path: '/index'}">
-			<span class="game-title">浙江省网娱大师-WYG真英雄城市争霸赛</span>
+			<span class="game-title"></span>
 		</div>
 		<div class="header_right f-fr">
 			<a href="" class="notify"><span class="icon-uniE60D"></span></a>

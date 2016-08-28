@@ -37,7 +37,7 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource);
 Vue.use(VueRouter);
 
-Vue.http.options.root = '/oet';
+Vue.http.options.root = '/api';
 
 Vue.http.options.emulateJSON = true;
 var router = new VueRouter({
@@ -86,7 +86,8 @@ router.map({
           }
         }
     },
-    '/landRegister': {
+    '/landRegister/:tabId': {
+        name: 'landRegister',
         component: landRegister,
     },
     '/matchDetails': {
@@ -96,9 +97,6 @@ router.map({
         name: 'perSetting',
         component: perSetting
     },
-    // '/perSetting': {
-    //     component: perSetting
-    // },
     '/myMatch': {
         component: myMatch
     },
