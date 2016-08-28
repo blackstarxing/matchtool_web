@@ -25,7 +25,7 @@
 								<li class="column-1">展开</li>
 							</ul>
 						</div>
-						<div class="member-empty" v-if="memberlist.list.length==0">
+						<div class="member-empty" v-if="memberlist.list?(memberlist.list.length==0):false">
 							这里还没有内容哦~~								
 						</div>
 						<div class="member-list" v-for="member in memberlist.list">

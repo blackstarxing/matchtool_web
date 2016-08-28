@@ -7,7 +7,7 @@
 		<div class="header_right f-fr" v-show="islogin">
       <a href="" class="notify" v-link="{ path: '/myMessage'}"><span class="icon-uniE60D"></span></a>
       <div class="avatar">
-        <img v-bind:src="'http://img.wangyuhudong.com/'+avatar"  alt="" v-show="avatar"><span class="icon-uniE60E" style="border-radius:50%;"></span>
+        <img v-bind:src="avatar" v-show="avatar"><span class="icon-uniE60E" style="border-radius:50%;"></span>
         <div class="nav-list">
           <ul>
               <!-- <li><a @click="showPop"><span class="icon-uniE617"></span>创建赛事</a></li> -->
@@ -42,7 +42,7 @@
         }else{
           _this.islogin=false;
         }
-        _this.avatar=response.data.object.icon;
+        _this.avatar='http://img.wangyuhudong.com/'+response.data.object.icon;
       }, function(response){
         console.log(response);
       })

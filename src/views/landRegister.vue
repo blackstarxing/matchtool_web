@@ -208,21 +208,33 @@ export default {
             var _current = $(e.currentTarget);
             var _error = _current.next('.reg_error');
             var parm = {};
-            if (/^\d+$/.test(_this.phone) && _this.phone.length == '11') {
-                parm.telephone = _this.phone;
-                _error.hide();
-                _this.isident = false;
-                setTimeout(function() {
-                    _this.isident = true;
-                }, 60000);
-            } else {
-                return;
-            }
-            parm.type = 1;
+            parm.telephone = _this.phone;
+ 			parm.type = 1;
             this.$http.post('sendVerifyCode', parm).then(function(response) {
                 if (response.data.code) {
-                    _error.hide();
-                    this.errorTip = true;
+                	var _ident=$(".get_indent");
+                	var _time=60;
+                	if(response.data.code){
+						_this.isident = false;
+						countdown();
+
+						function countdown(){
+							if(_time==0){
+							 _this.isident = true;
+							 _ident.text('获取验证码');
+							}else{
+								_time--;
+								_ident.text(_time);
+								setTimeout(function() {  
+					                countdown();
+					            },  
+					            1000)
+							}
+						}
+				}else{
+					layer.msg(response.data.msg);
+				}
+                    
                 } else {
                     _error.show();
                     _error.find('.error_tip').text(response.data.msg);
@@ -231,6 +243,8 @@ export default {
             }, function(response) {
                 console.log(response);
             });
+            
+           
         },
         blurId: function(e) {
             var _current = $(e.currentTarget);
