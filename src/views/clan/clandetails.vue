@@ -69,11 +69,11 @@
 							<p>报名方式：{{hty.applyType}}</p>
 						</div>
 						<div class="m-cjl-time">
-							<p class="mb20 f-tr">{{hty.createDate}} 创建</p>
+							<p class="mb20 f-tr">{{hty.createDate | formatDate}} 创建</p>
 							<div class="f-tr" v-if="hty.status=='未开赛'"><button type="button" class="m-cjl-btn m-cjl-wfb" disabled>{{hty.status}}</button></div>
 							<div class="f-tr" v-if="hty.status=='进行中'"><button type="button" class="m-cjl-btn m-cjl-jxz" disabled>{{hty.status}}</button></div>
 							<div class="f-tr" v-if="hty.status=='已完结'"><button type="button" class="m-cjl-btn m-cjl-wfb" disabled>{{hty.status}}</button></div>
-							<p class="m-cjl-kssj" v-if="hty.status=='未开赛'"><span class="col42a">1</span>天<span class="col42a">12</span>小时<span class="col42a">32</span>分后可开赛</p>
+							<p class="m-cjl-kssj" v-if="hty.status=='未开赛'"><span class="col42a">{{hty._day}}</span>天<span class="col42a">{{hty._hour}}</span>小时<span class="col42a">{{hty._minute}}</span>分后开赛</p>
 						</div>
 					</li>
 				</ul>
@@ -351,6 +351,12 @@ import createPop from '../../components/createPop.vue'
 								var status = _this.history.list[i].status;
 								if(status==1){
 									_this.history.list[i].status = '未开赛';
+									var nowDate = new Date().getTime();
+									var t = _this.history.list[i].activityBegin - nowDate;
+									var d=24*60*60*1000, h=60*60*1000, m=60*1000;
+									_this.history.list[i]._day=parseInt(t/d);
+							        _this.history.list[i]._hour=parseInt(t%d/h);
+							       	_this.history.list[i]._minute=parseInt(t%d%h/m);
 								}else if(status==2){
 									_this.history.list[i].status = '进行中';
 								}else if(status==3){
