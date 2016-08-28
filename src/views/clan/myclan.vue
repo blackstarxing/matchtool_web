@@ -16,8 +16,11 @@
 				<li v-bind:class="{'g-cl-ontaps':tap2}" val="2" @click="tapswitch">战队申请</li>
 			</ul>
 			<div v-show="tap2">
+				<div class="list-empty">
+					这里还没有内容哦~~
+				</div>
 				<ul class="g-cl-sq clearfix">
-					<li v-for="applie in applies">
+					<li v-for="applie in applies.list">
 						<div class="clearfix g-cl-ltl">
 							<span class="g-cl-zdtx f-fl">
 								<img v-bind:src="'http://img.wangyuhudong.com/'+applie.userIcon">
@@ -32,12 +35,12 @@
 						</div>
 					</li>
 				</ul>
-				<div class="m-page ptb50">
-	            	<button id="prev" type="button"></button>
-	            	<div class="pagination"><span class="current">1</span>/<span>2</span></div>
-	            	<button id="next" type="button"></button>
-	            	<input type="text" value="" id="pageipt">
-	            	<button type="button" class="u-btn">跳转</button>
+				<div class="m-page ptb50" id="pagetap">
+	            	<button id="prev" type="button" @click="prevpage"></button>
+	            	<div class="pagination"><span class="current">{{applies.pageNumber}}</span>/<span>{{applies.pages}}</span></div>
+	            	<button id="next" type="button" @click="nextpage"></button>
+	            	<input type="text" value="" id="pageto" @keyup="checkpage">
+	            	<button type="button" class="u-btn" @click="gopage">跳转</button>
 	            </div>
 			</div>
 			<div v-show="tap1">
@@ -98,18 +101,66 @@ import createPop from '../../components/createPop.vue'
 				else if(code==0){
 					layer.msg(response.data.msg,{offset:"0px"});
 				}else if(code==1){
-					_this.complete = response.data.object.complete;
+					_this.complete = response.data.object.activityComplete;
 				}
 			}, function(response){
 				console.log(22);
 			})
 			_this.$http.post('team/apply/myTeamApplies').then(function(response){
-				_this.applies = response.data.object.applies;
+				_this.applies = response.data.object.pager;
+				if(_this.applies.list==null||_this.applies.list==''){
+					$('#pagetap').hide();
+					$('.list-empty').show();
+				}
 			}, function(response){
 				console.log(22);
 			})
 		},
 		methods:{
+			gopage:function(e){
+				e.preventDefault();
+  				var pageNum=$('#pageto').val();
+  				this.pageTo(pageNum);
+			},
+			checkpage:function(e){
+				var pages = this.applies.pages; 
+		    	var num = $('#pageto').val();
+		    	if(num==0 && num!=""){
+		    		$('#pageto').val('1');
+		    	}else if(num>pages){
+		    		$('#pageto').val(pages);
+		    	}
+			},
+			pageTo:function(page){
+				_this.$http.post('team/apply/myTeamApplies?page='+page).then(function(response){
+					_this.applies = response.data.object.pager;
+				}, function(response){
+					console.log(22);
+				})
+			},
+			nextpage:function(e){
+				e.preventDefault();
+  				var currentpage = this.applies.pageNumber,
+  					maxpage = this.applies.pages;
+	    		if(currentpage<maxpage){
+	    			currentpage++;
+	    			this.pageTo(currentpage);
+	    		}
+	    		else{
+	    			layer.msg('没有下一页了');
+	    		}
+			},
+			prevpage:function(e){
+				e.preventDefault();
+  				var currentpage = this.applies.pageNumber;
+	    		if(currentpage>1){
+	    			currentpage--;
+	    			this.pageTo(currentpage);
+	    		}
+	    		else{
+	    			layer.msg('没有上一页了');
+	    		}
+			},
 			accept:function(e){
 				var _this = this;
 				var $this = $(e.target),applyId = $this.attr('applyId');
@@ -123,7 +174,11 @@ import createPop from '../../components/createPop.vue'
 						layer.msg(response.data.msg,{offset:"0px"});
 					}else if(code==1){
 						_this.$http.post('team/apply/myTeamApplies').then(function(response){
-							_this.applies = response.data.object.applies;
+							_this.applies = response.data.object.pager;
+							if(_this.applies.list==null||_this.applies.list==''){
+								$('#pagetap').hide();
+								$('.list-empty').show();
+							}
 						}, function(response){
 							console.log(22);
 						})
@@ -145,7 +200,11 @@ import createPop from '../../components/createPop.vue'
 						layer.msg(response.data.msg,{offset:"0px"});
 					}else if(code==1){
 						_this.$http.post('team/apply/myTeamApplies').then(function(response){
-							_this.applies = response.data.object.applies;
+							_this.applies = response.data.object.pager;
+							if(_this.applies.list==null||_this.applies.list==''){
+								$('#pagetap').hide();
+								$('.list-empty').show();
+							}
 						}, function(response){
 							console.log(22);
 						})
@@ -174,7 +233,7 @@ import createPop from '../../components/createPop.vue'
 					},function(){
 						layer.closeAll();
 					},function(){
-						_this.$route.router.go({path: '/perSetting'});
+						_this.$route.router.go({path: '/perSetting/1'});
 					})
 				}
 			},

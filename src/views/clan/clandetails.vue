@@ -32,9 +32,12 @@
 					</li>
 				</ul>
 			</div>
-			<div v-show="tap2">
+			<div v-show="tap2" class="f-re">
+				<div class="list-empty">
+					这里还没有内容哦~~
+				</div>
 				<ul class="clearfix g-cjl-m">
-					<li v-for="hty in history" index={{$index}}>
+					<li v-for="hty in history.list" index={{$index}}>
 						<i class="g-cjl-pot">
 							<img v-bind:src="'http://img.wangyuhudong.com/'+hty.icon">
 						</i>
@@ -66,78 +69,28 @@
 							<p>报名方式：{{hty.applyType}}</p>
 						</div>
 						<div class="m-cjl-time">
-							<p class="mb20 f-tr">{{hty.createDate}} 创建</p>
+							<p class="mb20 f-tr">{{hty.createDate | formatDate}} 创建</p>
 							<div class="f-tr" v-if="hty.status=='未开赛'"><button type="button" class="m-cjl-btn m-cjl-wfb" disabled>{{hty.status}}</button></div>
 							<div class="f-tr" v-if="hty.status=='进行中'"><button type="button" class="m-cjl-btn m-cjl-jxz" disabled>{{hty.status}}</button></div>
 							<div class="f-tr" v-if="hty.status=='已完结'"><button type="button" class="m-cjl-btn m-cjl-wfb" disabled>{{hty.status}}</button></div>
-							<p class="m-cjl-kssj" v-if="hty.status=='未开赛'"><span class="col42a">1</span>天<span class="col42a">12</span>小时<span class="col42a">32</span>分后可开赛</p>
+							<p class="m-cjl-kssj" v-if="hty.status=='未开赛'"><span class="col42a">{{hty._day}}</span>天<span class="col42a">{{hty._hour}}</span>小时<span class="col42a">{{hty._minute}}</span>分后开赛</p>
 						</div>
 					</li>
-					<!-- <li>
-						<i class="g-cjl-pot">
-							<img src="../../../static/images/jlimg.png">
-						</i>
-						<div class="f-fl">
-							<p class="m-cjl-ssn">萌新挑战趣味赛之最强随机套牌大乱斗</p>
-							<p class="m-cjl-zbf">主办方：网娱大师官方赛事组</p>
-							<p class="m-cjl-zbf">采用赛制：单阶段 单败淘汰制</p>
-							<p class="m-cjl-zbf">
-								参与人数：
-								<span class="g-cjl-rsw">
-									<span class="g-cjl-rsn" style="width:100%;"></span>
-								</span>
-								<span class="col42a">80</span>/100
-							</p>
-							<p>报名方式：不允许报名</p>
-						</div>
-						<div class="m-cjl-time">
-							<p class="mb20 f-tr">2012.8.10 12:30 创建</p>
-							<div class="f-tr"><button type="button" class="m-cjl-btn m-cjl-jxz" disabled>进行中</button></div>
-						</div>
-					</li>
-					<li>
-						<i class="g-cjl-pot">
-							<img src="../../../static/images/jlimg.png">
-						</i>
-						<div class="f-fl">
-							<p class="m-cjl-ssn">萌新挑战趣味赛之最强随机套牌大乱斗</p>
-							<p class="m-cjl-zbf">主办方：网娱大师官方赛事组</p>
-							<p class="m-cjl-zbf">采用赛制：单阶段 单败淘汰制</p>
-							<p class="m-cjl-zbf">
-								参与人数：
-								<span class="g-cjl-rsw">
-									<span class="g-cjl-rsn"></span>
-								</span>
-								<span class="col42a">80</span>/100
-								<i class="u-cjl-tip">
-									<span>
-										战队处于第34位选手
-										<i class="u-cjl-tipws">
-											<i class="u-cjl-tipns"></i>
-										</i>
-									</span>
-								</i>
-							</p>
-							<p>报名方式：不允许报名</p>
-						</div>
-						<div class="m-cjl-time">
-							<p class="mb20 f-tr">2012.8.10 12:30 创建</p>
-							<div class="f-tr"><button type="button" class="m-cjl-btn m-cjl-wfb" disabled>未开赛</button></div>
-							<p class="m-cjl-kssj"><span class="col42a">1</span>天<span class="col42a">12</span>小时<span class="col42a">32</span>分后可开赛</p>
-						</div>
-					</li> -->
 				</ul>
-				<div class="m-page ptb50">
-	            	<button id="prev" type="button"></button>
-	            	<div class="pagination"><span class="current">1</span>/<span>2</span></div>
-	            	<button id="next" type="button"></button>
-	            	<input type="text" value="" id="pageipt">
-	            	<button type="button" class="u-btn">跳转</button>
+				<div class="m-page ptb50" id="pagetap2">
+	            	<button id="prev" type="button" @click="prevpagejl"></button>
+	            	<div class="pagination"><span class="current">{{history.pageNumber}}</span>/<span>{{history.pages}}</span></div>
+	            	<button id="next" type="button" @click="nextpagejl"></button>
+	            	<input type="text" value="" id="pagetojl" @keyup="checkpagejl">
+	            	<button type="button" class="u-btn" @click="gopagejl">跳转</button>
 	            </div>
 			</div>
 			<div v-show="tap3">
+				<div class="list-zddt-empty">
+					这里还没有内容哦~~
+				</div>
 				<ul class="g-cl-sq clearfix">
-					<li v-for="trend in trendslist">
+					<li v-for="trend in trendslist.list">
 						<div class="clearfix g-cl-ltl">
 							<span class="g-cl-zdtx f-fl">
 								<img v-bind:src="'http://img.wangyuhudong.com/'+trend.userIcon">
@@ -146,15 +99,15 @@
 								{{trend.info}}
 							</span>
 						</div>
-						<p class="m-cdt-time">{{trend.createDate}}</p>
+						<p class="m-cdt-time" v-text="trend.createDate | formatDate"></p>
 					</li>
 				</ul>
-				<div class="m-page ptb50">
-	            	<button id="prev" type="button"></button>
-	            	<div class="pagination"><span class="current">1</span>/<span>2</span></div>
-	            	<button id="next" type="button"></button>
-	            	<input type="text" value="" id="pageipt">
-	            	<button type="button" class="u-btn">跳转</button>
+				<div class="m-page ptb50" id="pagetap3">
+	            	<button id="prev" type="button" @click="prevpage"></button>
+	            	<div class="pagination"><span class="current">{{trendslist.pageNumber}}</span>/<span>{{trendslist.pages}}</span></div>
+	            	<button id="next" type="button" @click="nextpage"></button>
+	            	<input type="text" value="" id="pageto" @keyup="checkpage">
+	            	<button type="button" class="u-btn" @click="gopage">跳转</button>
 	            </div>
 			</div>
 			<div v-show="tap4">
@@ -167,7 +120,7 @@
 						<div class="m-cgl-fz">
 							<p>复制邀请链接发送给朋友，邀请他们加入</p>
 							<div class="u-cgl-fz">
-								<input type="text" class="u-c-ipt" value="http://localhost:8080/#/claninvite?teamId={{formdata.id}}" disabled style="width: 100%;" />
+								<input type="text" class="u-c-ipt" value="http://wy.kaisaiba.wangyuhudong.com/#/claninvite?teamId={{formdata.id}}" disabled style="width: 100%;" />
 								<button type="button" class="u-cgl-fzbtn">复制</button>
 							</div>
 						</div>
@@ -365,53 +318,65 @@ import createPop from '../../components/createPop.vue'
 				console.log(22)
 			})
 			_this.$http.post('team/history?teamId='+teamId).then(function(response){
-				var code = response.data.code;
-				if(code==-1){
-					layer.msg('请先登录',{offset:"0px"});
-				}
-				else if(code==0){
-					layer.msg(response.data.msg,{offset:"0px"});
-				}else if(code==1){
-					_this.history = response.data.object.pager.list;
-					for(var i=0;i<_this.history.length;i++){
-						var applyType = _this.history[i].applyType;
-						if(applyType==1){
-							_this.history[i].applyType = '个人报名';
-						}else if(applyType==2){
-							_this.history[i].applyType = '战队报名';
-						}
-						var regime = _this.history[i].regime;
-						if(regime==1){
-							_this.history[i].regime = '单败淘汰制';
-						}else if(regime==2){
-							_this.history[i].regime = '双败淘汰制';
-						}else if(regime==3){
-							_this.history[i].regime = '小组内单循环制';
-						}else if(regime==4){
-							_this.history[i].regime = '积分循环制';
-						}
-						var status = _this.history[i].status;
-						if(status==1){
-							_this.history[i].status = '未开赛';
-						}else if(status==2){
-							_this.history[i].status = '进行中';
-						}else if(status==3){
-							_this.history[i].status = '已完结';
-						}
-						var maxNum = _this.history[i].maxNum,
-							applyCount = _this.history[i].maxNum;
-						var pre =  applyCount/maxNum;
-						if(pre>1){
-							pre=1;
-						}
-						pre = pre * 100% + '%';
-						$('[index]').eq(i).find('.g-cjl-rsn').css("width",pre)
+					var code = response.data.code;
+					if(code==-1){
+						layer.msg('请先登录',{offset:"0px"});
 					}
+					else if(code==0){
+						layer.msg(response.data.msg,{offset:"0px"});
+					}else if(code==1){
+						_this.history = response.data.object.pager;
+						if(response.data.object.pager.list==null || response.data.object.pager.list==''){
+							$('.list-empty').show();
+							$('#pagetap2').hide();
+						}
+						else{
+							for(var i=0;i<_this.history.list.length;i++){
+								var applyType = _this.history.list[i].applyType;
+								if(applyType==1){
+									_this.history.list[i].applyType = '个人报名';
+								}else if(applyType==2){
+									_this.history.list[i].applyType = '战队报名';
+								}
+								var regime = _this.history.list[i].regime;
+								if(regime==1){
+									_this.history.list[i].regime = '单败淘汰制';
+								}else if(regime==2){
+									_this.history.list[i].regime = '双败淘汰制';
+								}else if(regime==3){
+									_this.history.list[i].regime = '小组内单循环制';
+								}else if(regime==4){
+									_this.history.list[i].regime = '积分循环制';
+								}
+								var status = _this.history.list[i].status;
+								if(status==1){
+									_this.history.list[i].status = '未开赛';
+									var nowDate = new Date().getTime();
+									var t = _this.history.list[i].activityBegin - nowDate;
+									var d=24*60*60*1000, h=60*60*1000, m=60*1000;
+									_this.history.list[i]._day=parseInt(t/d);
+							        _this.history.list[i]._hour=parseInt(t%d/h);
+							       	_this.history.list[i]._minute=parseInt(t%d%h/m);
+								}else if(status==2){
+									_this.history.list[i].status = '进行中';
+								}else if(status==3){
+									_this.history.list[i].status = '已完结';
+								}
+								var maxNum = _this.history.list[i].maxNum,
+									applyCount = _this.history.list[i].maxNum;
+								var pre =  applyCount/maxNum;
+								if(pre>1){
+									pre=1;
+								}
+								pre = pre * 100% + '%';
+								$('[index]').eq(i).find('.g-cjl-rsn').css("width",pre)
+							}
+						}
 
-				}
-			}, function(response){
-				console.log(22)
-			})
+					}
+				}, function(response){
+					console.log(22)
+				})
 			_this.$http.get('team/trends/list?teamId='+teamId).then(function(response){
 				var code = response.data.code;
 				if(code==-1){
@@ -420,7 +385,11 @@ import createPop from '../../components/createPop.vue'
 				else if(code==0){
 					layer.msg(response.data.msg,{offset:"0px"});
 				}else if(code==1){
-					_this.trendslist = response.data.object.pager.list;
+					_this.trendslist = response.data.object.pager;
+					if(_this.trendslist.list==null || _this.trendslist.list==''){
+						$('.list-zddt-empty').show();
+						$('#pagetap3').hide();
+					}
 				}
 			}, function(response){
 				console.log(22)
@@ -493,7 +462,167 @@ import createPop from '../../components/createPop.vue'
 				fileSingleSizeLimit:50000 * 1024
 			});
 		},
+		filters:{
+			formatDate:function(value){
+				var time = new Date(value);
+				var year=time.getFullYear();  
+				var month=time.getMonth()+1;     
+				var date=time.getDate();     
+				var hour=time.getHours();     
+				var minute=time.getMinutes();     
+				var second=time.getSeconds();
+				if(minute<10){
+					return year+"-"+month+"-"+date+"   "+hour+":"+"0"+minute;
+				}
+				else{
+					return year+"-"+month+"-"+date+"   "+hour+":"+minute;
+				}    
+			}
+		},
 		methods:{
+			gopagejl:function(e){
+				e.preventDefault();
+  				var pageNum=$('#pagetojl').val();
+  				this.pageTojl(pageNum);
+			},
+			checkpagejl:function(){
+				var pages = this.history.pages; 
+		    	var num = $('#pagetojl').val();
+		    	if(num==0 && num!=""){
+		    		$('#pagetojl').val('1');
+		    	}else if(num>pages){
+		    		$('#pagetojl').val(pages);
+		    	}
+			},
+			nextpagejl:function(e){
+				e.preventDefault();
+  				var currentpage = this.history.pageNumber,
+  					maxpage = this.history.pages;
+	    		if(currentpage<maxpage){
+	    			currentpage++;
+	    			this.pageTojl(currentpage);
+	    		}
+	    		else{
+	    			layer.msg('没有下一页了');
+	    		}
+			},
+			pageTojl:function(page){
+				var _this = this;
+				var teamId = window.sessionStorage.getItem("teamId");
+				_this.$http.post('team/history?teamId='+teamId+'&page='+page).then(function(response){
+					var code = response.data.code;
+					if(code==-1){
+						layer.msg('请先登录',{offset:"0px"});
+					}
+					else if(code==0){
+						layer.msg(response.data.msg,{offset:"0px"});
+					}else if(code==1){
+						_this.history = response.data.object.pager;
+						for(var i=0;i<_this.history.list.length;i++){
+							var applyType = _this.history.list[i].applyType;
+							if(applyType==1){
+								_this.history.list[i].applyType = '个人报名';
+							}else if(applyType==2){
+								_this.history.list[i].applyType = '战队报名';
+							}
+							var regime = _this.history.list[i].regime;
+							if(regime==1){
+								_this.history.list[i].regime = '单败淘汰制';
+							}else if(regime==2){
+								_this.history.list[i].regime = '双败淘汰制';
+							}else if(regime==3){
+								_this.history.list[i].regime = '小组内单循环制';
+							}else if(regime==4){
+								_this.history.list[i].regime = '积分循环制';
+							}
+							var status = _this.history.list[i].status;
+							if(status==1){
+								_this.history.list[i].status = '未开赛';
+							}else if(status==2){
+								_this.history.list[i].status = '进行中';
+							}else if(status==3){
+								_this.history.list[i].status = '已完结';
+							}
+							var maxNum = _this.history.list[i].maxNum,
+								applyCount = _this.history.list[i].maxNum;
+							var pre =  applyCount/maxNum;
+							if(pre>1){
+								pre=1;
+							}
+							pre = pre * 100% + '%';
+							$('[index]').eq(i).find('.g-cjl-rsn').css("width",pre)
+						}
+
+					}
+				}, function(response){
+					console.log(22)
+				})
+			},
+			prevpagejl:function(e){
+				e.preventDefault();
+  				var currentpage = this.history.pageNumber;
+	    		if(currentpage>1){
+	    			currentpage--;
+	    			this.pageTojl(currentpage);
+	    		}
+	    		else{
+	    			layer.msg('没有上一页了');
+	    		}
+			},
+			gopage:function(e){
+				e.preventDefault();
+  				var pageNum=$('#pageto').val();
+  				this.pageTo(pageNum);
+			},
+			checkpage:function(e){
+				var pages = this.trendslist.pages; 
+		    	var num = $('#pageto').val();
+		    	if(num==0 && num!=""){
+		    		$('#pageto').val('1');
+		    	}else if(num>pages){
+		    		$('#pageto').val(pages);
+		    	}
+			},
+			pageTo:function(page){
+				var _this = this;
+				var teamId = window.sessionStorage.getItem("teamId");
+				_this.$http.get('team/trends/list?teamId='+teamId+'&page='+page).then(function(response){
+					var code = response.data.code;
+					if(code==-1){
+						layer.msg('请先登录',{offset:"0px"});
+					}
+					else if(code==0){
+						layer.msg(response.data.msg,{offset:"0px"});
+					}else if(code==1){
+						_this.trendslist = response.data.object.pager;
+					}
+				}, function(response){
+					console.log(22)
+				})
+			},
+  			prevpage:function(e){
+  				e.preventDefault();
+  				var currentpage = this.trendslist.pageNumber;
+	    		if(currentpage>1){
+	    			currentpage--;
+	    			this.pageTo(currentpage);
+	    		}
+	    		else{
+	    			layer.msg('没有上一页了');
+	    		}
+  			},
+  			nextpage:function(e){
+  				e.preventDefault();
+  				var currentpage = this.trendslist.pageNumber,
+  					maxpage = this.trendslist.pages;
+	    		if(currentpage<maxpage){
+	    			currentpage++;
+	    			this.pageTo(currentpage);
+	    		}
+	    		else{
+	    			layer.msg('没有下一页了');
+	    		}
+  			},
 			selectPic: function(e){
 		        $('.m-mask').show();
 		    },

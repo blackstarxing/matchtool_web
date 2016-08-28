@@ -2,7 +2,7 @@
     <div class="g-sh-m">
         <div class="m-sh-pot f-re">
             <img src="../../static/images/sh_pot.jpg">
-            <span class="m-sh-fbsj">2016.08.08 13:30 发布</span>
+            <span class="m-sh-fbsj">{{matchlist.publish}} 发布</span>
         </div>
         <p class="m-sh-tit">做好准备，《守望先锋》世界杯即将到来</p>
         <img src="" class="m-sh-head">
@@ -20,40 +20,40 @@
                 <ul class="info_list">
                     <li class="list_item">
                         <div class="list_left"><span class="icon-uniE610 info_icon"></span></div>
-                        <div class="list_right"><span class="info_name">比赛项目</span><span class="info_text">王者荣耀</span></div>
+                        <div class="list_right"><span class="info_name">比赛项目</span><span class="info_text">{{matchlist.name}}</span></div>
                         
                     </li>
                     <li class="list_item">
                         <div class="list_left"><span class="icon-uniE611 info_icon"></span></div>
-                        <div class="list_right"><span class="info_name">赛事模式</span><span class="info_text"></span></div>
+                        <div class="list_right"><span class="info_name">赛事模式</span><span class="info_text">{{matchlist.model}}</span></div>
                     </li>
                     <li class="list_item">
                         <div class="list_left"><span class="icon-uniE612 info_icon"></span></div>
-                        <div class="list_right"><span class="info_name">参与人数</span><span class="info_text">参与人数</span></div>
+                        <div class="list_right"><span class="info_name">参与人数</span><span class="info_text">{{matchlist.presonnem}}</span></div>
                         
                     </li>
                     <li class="list_item">
                         <div class="list_left"><span class="icon-uniE60F info_icon"></span></div>
-                        <div class="list_right"><span class="info_name">比赛时间</span><span class="info_text">比赛时间</span></div>
+                        <div class="list_right"><span class="info_name">比赛时间</span><span class="info_text">{{matchlist.matchtime}}</span></div>
                         
                     </li>
                     <li class="list_item">
                         <div class="list_left"><span class="icon-uniE615 info_icon"></span></div>
-                        <div class="list_right"><span class="info_name">双阶段</span><span class="info_text">双阶段</span></div>
+                        <div class="list_right"><span class="info_name">双阶段</span><span class="info_text">{{matchlist.state}}</span></div>
                         
                     </li>
-                    <li class="list_item">
+                    <li class="list_item" style="height:4.5rem;line-height:2.25rem;">
                         <div class="list_left"><span class="icon-uniE616 info_icon"></span></div>
-                        <div class="list_right"><span class="info_name">报名时间</span><span class="info_text">报名时间</span></div>
+                        <div class="list_right"><span class="info_name">报名时间</span><span class="info_text">{{matchlist.signtimebeg}}-</br>{{matchlist.signtimeend}}</span></div>
                     </li>
                     <li class="list_item">
                         <div class="list_left"><span class="icon-uniE613 info_icon"></span></div>
-                        <div class="list_right"><span class="info_name">赛制</span><span class="info_text">赛制</span></div>
+                        <div class="list_right"><span class="info_name">赛制</span><span class="info_text">{{matchlist.format}}</span></div>
                         
                     </li>
                     <li class="list_item">
                         <div class="list_left"><span class="icon-uniE614 info_icon"></span></div>
-                        <div class="list_right"><span class="info_name">签到时间</span><span class="info_text">签到时间</span></div>
+                        <div class="list_right"><span class="info_name">签到时间</span><span class="info_text">{{matchlist.pasttime}}</span></div>
                         
                     </li>
                 </ul>
@@ -76,25 +76,53 @@
     </div>
 </template>
 <script type="text/javascript">
+function add0(m){return m<10?'0'+m:m }
+function format(shijianchuo){
+	//shijianchuo是整数，否则要parseInt转换
+	var time = new Date(shijianchuo);
+	var y = time.getFullYear();
+	var m = time.getMonth()+1;
+	var d = time.getDate();
+	var h = time.getHours();
+	var mm = time.getMinutes();
+	var s = time.getSeconds();
+	return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm);
+}
 export default {
     data() {
             return {
                 text: "",
                 tabFlag: 0,
                 isPic: false,
-                isDetail: true
+                isDetail: true,
+                matchlist: {name:'',model:'',presonnem:'',matchtime:'',state:'',signtimebeg:'',signtimeend:'',format:'',pasttime:'',publish:''},
 
             }
         },
         ready: function() {
-            //alert(123)
+           
             this.text = "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
-                //alert($('.match_intro').eq(0).height())
-                //this.$nextTick(function () {
-                //alert(456)
-
-
-            //})
+            var _this = this;
+			var parm = {};
+            parm.id = window.sessionStorage.getItem("eventId");
+			
+       _this.$http.get('event/info',parm).then(function(response){
+       	console.log(response);
+       	if(response.data.code){
+			_this.matchlist.name=response.data.object.event.name;
+			_this.matchlist.model=response.data.object.event.mode;
+			_this.matchlist.presonnem=response.data.object.round.maxNum;
+			_this.matchlist.matchtime=format(response.data.object.round.activityBegin);
+			_this.matchlist.state=response.data.object.round.type;
+			_this.matchlist.signtimebeg=format(response.data.object.round.applyBegin);
+			_this.matchlist.signtimeend=format(response.data.object.round.applyEnd);
+			_this.matchlist.format=response.data.object.round.regime;
+			_this.matchlist.pasttime=response.data.object.round.signBeginTime?(esponse.data.object.round.signBeginTime):'不需要签到';
+			_this.matchlist.publish=format(response.data.object.round.publishTime);
+       	}
+       	}, function(response){
+						console.log(22);
+					})
         },
         methods: {
             init: function() {

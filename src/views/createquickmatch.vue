@@ -421,11 +421,16 @@ import createPop from '../components/createPop.vue'
 	        $.datetimepicker.setLocale('ch');
 	        //end
 	        
-	        _this.$http.get('event/league/queryActivityItem').then(function(response){
-	        	var gameList=response.data.object.itemsList;
+	        _this.$http.get('game/list').then(function(response){
+	        	var gameList=response.data.object.games;
 	        	var content='';
   				for(var i=0;i<gameList.length;i++){
-  					content+='<option value="'+gameList[i].id+'">'+gameList[i].name+'</option>';
+  					if(gameList[i].applied==1){
+  						content+='<option value="'+gameList[i].id+'" applied="'+gameList[i].applied+'" disabled>'+gameList[i].name+'(已加入1支战队)</option>';
+  					}
+  					else if(gameList[i].applied==0){
+  						content+='<option value="'+gameList[i].id+'" applied="'+gameList[i].applied+'">'+gameList[i].name+'</option>';
+  					}
   				}
   				$('#gameList').append(content);
 	        }, function(response){
@@ -718,7 +723,11 @@ import createPop from '../components/createPop.vue'
 	  				parm.jsonInfo = jsonInfo;
 		    		_this.$http.post('event/saveBaseInfo',parm).then(function(response){
 		    			var code = response.data.code;
-		    			if(code==1){
+		    			if(code==-1){
+		    				layer.msg('请先登录',{offset:"0px"});
+		    			}else if(code==0){
+		    				layer.msg(response.data.msg,{offset:"0px"});
+		    			}else if(code==1){
 		    				window.sessionStorage.setItem("eventRoundId",response.data.object.eventRoundId);
 		    				_this.$route.router.go({path: '/quickformat'});
 		    			}

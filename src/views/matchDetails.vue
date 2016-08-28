@@ -1393,7 +1393,7 @@ import createPop from '../components/createPop.vue'
 		            		if(appliable==-1){
 		            			layer.msg('请先登录',{offset:"0px"});
 		            		}else if(appliable==-2){
-		            			layer.confirm('该赛事需要以王者荣耀战队形式报名参与，你当前还未处于王者荣耀类型战队中，你可以创建或加入王者荣耀战队来参与赛事',{
+		            			layer.confirm('该赛事需要以'+_this.itemName+'战队形式报名参与，你当前还未处于'+_this.itemName+'类型战队中，你可以创建或加入王者荣耀战队来参与赛事',{
 		            				btn:['知道了','去创建'],
 									move:false,
 							  		closeBtn:0
@@ -1404,7 +1404,7 @@ import createPop from '../components/createPop.vue'
 		            			})
 		            		}else if(appliable==-3){
 		            			var appliableStr = response.data.object.appliableStr;
-		            			layer.alert('知道了该赛事需要以王者荣耀战队形式报名参与，你当前处于['+appliableStr+']战队中，你可以联系队长申请报名参赛', {
+		            			layer.alert('该赛事需要以'+_this.itemName+'战队形式报名参与，你当前处于['+appliableStr+']战队中，你可以联系队长申请报名参赛', {
 								  icon: 1,
 								  skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
 								});  
