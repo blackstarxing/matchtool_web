@@ -48,7 +48,7 @@
 		                        		<a href="javascript:void(0);" class="u-btn-write" data-id="{{member.id}}" data-userId="{{member.userId}}" @click="editMember"></a><a href="" class="u-btn-delete" data-id="{{member.id}}" @click="deleteMember"></a>
 		                        	</div>
 		                        </li>
-		                        <li class="column-1"><a href="javascript:void(0);" class="u-btn-deploy" @click="toggleInfo"></a></li>
+		                        <li class="column-1"><a href="javascript:void(0);" class="u-btn-deploy" @click="toggleInfo" v-if="member.userId"></a></li>
 							</ul>
 							<div class="moreInfo">
 								<img v-bind:src="member.icon!=null?'http://img.wangyuhudong.com/'+member.icon : 'http://img.wangyuhudong.com//uploads/2016/08/22/70d3f4f9f8624f24a2dfa7a4c5fd6c0b.png'" alt="">
