@@ -5,7 +5,7 @@
             <span class="m-sh-fbsj">{{matchlist.publish}} 发布</span>
         </div>
         <p class="m-sh-tit">做好准备，《守望先锋》世界杯即将到来</p>
-        <img src="" class="m-sh-head">
+        <img  v-bind:src="icon" class="m-sh-head">
         <p class="m-sh-name match_sponsor">网娱官方赛事</p>
         <p class="m-sh-jj match_intro">{{ text }}</p>
         <span id="introExpandSpan" class="expandBtn">展开<i></i></span>
@@ -95,7 +95,7 @@ export default {
                 tabFlag: 0,
                 isPic: false,
                 isDetail: true,
-                matchlist: {name:'',model:'',presonnem:'',matchtime:'',state:'',signtimebeg:'',signtimeend:'',format:'',pasttime:'',publish:''},
+                matchlist: {name:'',model:'',presonnem:'',matchtime:'',state:'',signtimebeg:'',signtimeend:'',format:'',pasttime:'',publish:'',icon:''},
 
             }
         },
@@ -119,6 +119,7 @@ export default {
 			_this.matchlist.format=response.data.object.round.regime;
 			_this.matchlist.pasttime=response.data.object.round.signBeginTime?(esponse.data.object.round.signBeginTime):'不需要签到';
 			_this.matchlist.publish=format(response.data.object.round.publishTime);
+			_this.matchlist.icon='http://img.wangyuhudong.com/'+response.data.object.creater.icon;
        	}
        	}, function(response){
 						console.log(22);
