@@ -30,7 +30,7 @@
 						</div>
 						<div class="member-list" v-for="team in teamlist.list">
 							<ul>
-								<li v-bind:class="['column-2',team.isfill==1 ? 'isfill' : '']">{{team.seatNumber}}</li>
+								<li v-bind:class="['column-2',team.isfill==1 ? 'isfill' : '']">{{team.number}}</li>
 								<li class="memberId" style="display:none;">{{team.memberId}}</li>
 		                        <li class="memberName column-3">{{team.teamName}}</li>
 		                        <li class="column-2">
@@ -48,7 +48,7 @@
 		                        		<a href="javascript:void(0);" class="u-btn-write" data-id="{{team.id}}" @click="editMember"></a><a href="" class="u-btn-delete" data-id="{{team.memberId}}" @click="deleteMember"></a>
 		                        	</div>
 		                        </li>
-		                        <li class="column-1"><a href="javascript:void(0);" class="u-btn-deploy" @click="toggleInfo"></a></li>
+		                        <li class="column-1"><a href="javascript:void(0);" class="u-btn-deploy" @click="toggleInfo" v-if="team.members[0].userId"></a></li>
 							</ul>
 							<div class="moreInfo" v-for="member in team.members">
 								<img v-bind:src="'http://img.wangyuhudong.com/'+member.icon==null?member.icon : 'http://img.wangyuhudong.com//uploads/2016/08/22/70d3f4f9f8624f24a2dfa7a4c5fd6c0b.png'" alt="">

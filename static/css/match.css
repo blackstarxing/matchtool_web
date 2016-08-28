@@ -326,7 +326,7 @@
 }
 .pic [class^="icon-"]{
 	font-size: 12px;
-	color:#fff;
+	color:#f2f6f9;
 	margin-right: 5px;
 }
 .match-progress .match-name{
@@ -716,7 +716,7 @@ input::-webkit-input-placeholder,textarea::-webkit-input-placeholder{
 	border: 0;
 	width: 34px;
 	height: 17px;
-	color:#fff;
+	color:#f2f6f9;
 	font-size: 14px;
 }
 .button_group .plus{
@@ -1401,7 +1401,7 @@ label.u-c-kz-sz{
 	background-size: 100%;
 }
 .createBox .leagueEnter{
-	color:#fff;
+	color:#f2f6f9;
 	background: #42aa53;
 }
 .createBox .or{
@@ -1488,16 +1488,16 @@ label.u-c-kz-sz{
 }
 /*参赛选手*/
 .u-btn{display: inline-block;height: 48px;line-height: 48px;text-align: center;border-radius: 3px;color:#1e1f24;background: #F9A329;vertical-align: middle;font-size: 18px;}
-/*.u-btn:hover{color:#fff;}*/
+/*.u-btn:hover{color:#f2f6f9;}*/
 .g-list{background:#171a21;margin-top: 30px;padding:0 25px;}
 .g-list .member-content{min-height: 500px;}
 .g-list .member-empty, .perCenter_content .member-empty{padding-top: 250px;background: url(../images/empty.png) center 100px no-repeat;text-align: center;color:#4e5560;}
 .g-list h3{margin: 0;font-size: 18px;line-height: 100px;}
 .g-list .search{display: inline-block;height: 36px;position: relative;}
-.g-list .search .u-search{width:100px; height:36px; background-color:#f9a32a;padding:0; font-size:14px; color:#ffffff;position: absolute;top:0;right: 0;}
+.g-list .search .u-search{width:100px; height:36px; background-color:#f9a32a;padding:0; font-size:14px; color:#f2f6f9fff;position: absolute;top:0;right: 0;}
 .m-operate .u-btn-add{width:200px;float: left;background: url(../images/btn1.png);font-weight: bolder;}
 .m-operate .u-btn-add img{width:15px;height: 15px;margin-right: 10px;margin-top: -1px;}
-.m-operate .u-btn-upset{background:url(../images/btn0.png);width:200px;float: left;margin-right: 20px;color:#fff;}
+.m-operate .u-btn-upset{background:url(../images/btn0.png);width:200px;float: left;margin-right: 20px;color:#f2f6f9;}
 .r-btn a{display:inline-block;color:#42aa53;margin:30px 10px 0;font-size: 12px;}
 .m-tb{margin-top: 20px;padding-bottom: 80px;}
 
@@ -1531,7 +1531,7 @@ label.u-c-kz-sz{
 	text-align: center;
 	color:#A3A3A3;
 	background: #000;
-	color:#fff;
+	color:#f2f6f9;
 }
 .member-list{
 	margin-top: 15px;
@@ -1545,7 +1545,7 @@ label.u-c-kz-sz{
 	text-align: center;
 	color:#A3A3A3;
 	background: #14181d;
-	color:#fff;
+	color:#f2f6f9;
 }
 .member-list .isfill{
 	background: url(../images/fill.png) 25px center no-repeat;
@@ -1646,7 +1646,7 @@ label.u-c-kz-sz{
 }
 .m-pop .u-close-btn{
 	background-image: url(../images/btn0.png);
-	color:#fff;
+	color:#f2f6f9;
 }
 .m-pop .f-tip{
 	display:inline-block;
@@ -3088,7 +3088,7 @@ label.u-c-kz-sz{
 /*赛事详情分享页*/
 .g-sh-m{
 	box-sizing: border-box;
-	width: 100%;
+	width: 16rem;
 	margin: 0 auto;
 	overflow: hidden;
 }
@@ -3108,7 +3108,7 @@ label.u-c-kz-sz{
 	padding:0.5rem 0.6rem 0; 
 	color: #f2f6f9;
 	text-align: center;
-	font-size: 16px;
+	font-size: 0.8rem;
 	line-height: 1rem;
 }
 .m-sh-head{
@@ -3132,18 +3132,6 @@ label.u-c-kz-sz{
 	color: #52595c;
 	padding: 0 0.6rem;
     margin-top: 0.8rem;
-}
-@media screen and (max-width: 414px){
-	
-}
-@media screen and (min-width: 415px) and (max-width: 768px){
-	.m-sh-tit{
-		font-size: 32px;
-		padding: 0.675rem 0.6rem 0;
-	}
-}
-@media screen and (min-width: 769px) and (max-width: 1024px){
-	
 }
 
 

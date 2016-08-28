@@ -297,7 +297,7 @@
 						</div>
 					</div>
 					<div class="f-c">
-						<p class="g-c-l mt40">采用赛制<span class="colfdb f-tip"></span><span class="f-fr"><span class="icon-uniE625" style="font-size:28px;"></span>查看赛制帮助</span></p>
+						<p class="g-c-l mt40">采用赛制<span class="colfdb f-tip"></span><!-- <span class="f-fr"><span class="icon-uniE625" style="font-size:28px;"></span>查看赛制帮助</span> --></p>
 						<div class="clearfix mb12">
 							<div class="f-fl g-c-sz" selected="1">
 								<p class="g-c-szt">单败淘汰制</p>
@@ -529,10 +529,10 @@ export default {
         },function(response) {
             console.log(response);
         });
-        var parm={};
-   		parm.jsonInfo=JSON.stringify({itemsId:""});
-		_this.$http.get('event/league/queryActivityItem',parm).then(function (response) {
-			var gameList=response.data.object.itemsList;
+     //    var parm={};
+   		// parm.jsonInfo=JSON.stringify({itemsId:""});
+		_this.$http.get('game/list').then(function (response) {
+			var gameList=response.data.object.games;
 			var content='';
 			
 			for(var i=0;i<gameList.length;i++){
@@ -778,7 +778,6 @@ export default {
 				var form={
 					eventRoundId:_this.formdata.eventRoundId,
 					eventId:_this.formdata.eventId,
-					maxNum:_this.formdata.maxNum,
 					name:_this.formdata.name,
 					poster:_this.formdata.poster,
 					itemId:_this.formdata.itemId,
@@ -891,6 +890,7 @@ export default {
 	    		var form={
 					eventRoundId:_this.formdata.eventRoundId,
 					eventId:_this.formdata.eventId,
+					maxNum:_this.formdata.maxNum,
 					allowApply:_this.formdata.allowApply,
 					applyType:_this.formdata.applyType,
 					nicknameRequired:_this.formdata.nicknameRequired,
@@ -923,7 +923,18 @@ export default {
 				eventId:_this.formdata.eventId,
 				needThird:_this.formdata.needThird
 			}
-			_this.saveModify(form);
+			var parm={};
+	   		parm.jsonInfo=JSON.stringify(form);
+    		_this.$http.post('event/saveRegime',parm).then(function(response){
+    			var code = response.data.code;
+    			if(code==1){
+    				layer.msg('保存成功');
+    				window.location.reload();
+    			}
+    			console.log("成功");
+    		}, function(response){
+    			console.log(22);
+    		})
   		}
   	},
 
