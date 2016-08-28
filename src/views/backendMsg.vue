@@ -17,7 +17,11 @@
 			</div> -->
 			<div class="setPoster g-q-hb">
 				<img v-bind:src="'http://img.wangyuhudong.com/'+formdata.poster" v-if="formdata.poster">
-				<div class="g-q-ptr" v-bind:click="isPublish? selectPic : ''">
+				<div class="g-q-ptr" @click="selectPic" v-if="!isPublish">
+					<span class="icon-uniE62B"></span>
+					<p>编辑、更改赛事海报</p>
+				</div>
+				<div class="g-q-ptr" v-else>
 					<span class="icon-uniE62B"></span>
 					<p>编辑、更改赛事海报</p>
 				</div>
@@ -126,7 +130,8 @@
 					<div class="g-c-l mt40 f-re">是否允许用户自主报名
 						<div class="checkboxThree f-ab">
 					  		<input type="checkbox" id="checkboxThreeInput" name="" class="f-dn" v-model="formdata.allowApply" v-bind:true-value="1" v-bind:false-value="0"/>
-						  	<label for="checkboxThreeInput" v-bind:click="isPublish? isapply : ''"></label>
+						  	<label for="checkboxThreeInput" @click="isapply" v-if="!isPublish"></label>
+						  	<label for="checkboxThreeInput" v-else></label>
 					  	</div>
 					</div>
 					<p class="g-c-l mt40 f-re">
@@ -208,8 +213,10 @@
 							</div>
 							<div class="f-fl mr56">
 								<input type="checkbox" id="another" class="regular-checkboxs" name="bminfo" v-model="formdata.otherRequired" v-bind:true-value="1" v-bind:false-value="0" disabled />
-								<label for="another" v-bind:click="isPublish ? showotherinfo : ''"></label>
-								<label for="another" class="u-c-ck col8f" v-bind:click="isPublish ? showotherinfo : ''">其他</label>
+								<label for="another" @click="showotherinfo" v-if="!isPublish"></label>
+								<label for="another" v-else></label>
+								<label for="another" class="u-c-ck col8f" @click="showotherinfo" v-if="!isPublish">其他</label>
+								<label for="another" class="u-c-ck col8f" v-else>其他</label>
 							</div>
 						</div>
 					</div>
@@ -357,6 +364,7 @@ export default {
 			username:"",
 			eventlist:"",
 			roundlist:"",
+			isPublish:"",
 
 			formdata:{
 				eventRoundId:"",
@@ -432,7 +440,30 @@ export default {
         	_this.formdata.needSign=_this.eventlist.needSign;
         	_this.formdata.needThird=_this.roundlist.needThird;
 
-        	_this.isapply();
+        	$('.game-title').html(_this.formdata.name);
+
+        	if(_this.formdata.allowApply){
+        		$('[name="baoming"]').attr('disabled',false);
+	    		$('[name="bminfo"]').attr('disabled',false)
+	    		$('[name="baoming"]').siblings('.u-c-per').find('span').removeClass('col8f');
+	    		$('[name="bminfo"]').siblings('.u-c-ck').removeClass('col8f');
+	    		$('#activityBegin').attr('disabled',false);
+	    		$('#applyBegin').attr('disabled',false);
+	    		$('#applyEnd').attr('disabled',false);
+	    		$('#signtime').attr('disabled', false);
+	    		$('#signtime').parents('.g-c-qd').find('.u-c-ck').removeClass('col8f');
+	    	}
+	    	else{
+	    		$('[name="baoming"]').attr('disabled',true);
+	    		$('[name="bminfo"]').attr('disabled',true)
+	    		$('[name="baoming"]').siblings('.u-c-per').find('span').addClass('col8f');
+				$('[name="bminfo"]').siblings('.u-c-ck').addClass('col8f');
+				$('#activityBegin').attr('disabled',true);
+				$('#applyBegin').attr('disabled',true);
+	    		$('#applyEnd').attr('disabled',true);
+	    		$('#signtime').attr('disabled', true);
+	    		$('#signtime').parents('.g-c-qd').find('.u-c-ck').addClass('col8f');
+	    	}
 
         	_this.$nextTick(function(){
         		if(_this.isPublish){
@@ -668,6 +699,7 @@ export default {
     			var code = response.data.code;
     			if(code==1){
     				layer.msg('保存成功');
+    				window.location.reload();
     				// window.sessionStorage.setItem("eventRoundId",response.data.object.eventRoundId);
     				// _this.$route.router.go({path: '/quickformat'});
     			}
