@@ -21,7 +21,8 @@
 					<div class="form_item nickname_item">
 						<label for="" class="text_label">昵称 : </label>
 						<input id="" type="text" class="nickname text_box" v-model="userInfoData.nickname" @blur="checkNickname">
-						<p id="nicknameErrorText" class="errorInfo" style="display: none;"><i></i><span>昵称已被使用</span></p>
+						<p id="nicknameError" class="errorInfo" style="display: none;"><i></i><span id="nicknameErrorText">昵称已被使用</span></p>
+						<!-- <p id="nicknameLenError" class="errorInfo" style="display: none;"><i></i><span>昵称长度太长</span></p> -->
 					</div>	
 					<div class="form_item gender_item">
 						<label for="" class="text_label">性别 : </label>
@@ -102,7 +103,8 @@
 					<div class="cptInfo_content">
 						<div class="cpt_item form_item">
 							<label for="realName">真实姓名 ：</label>
-							<input type="text" id="realName" class="text_box" v-model="saveMatchInfo.realname"> 
+							<input type="text" id="realName" class="text_box" v-model="saveMatchInfo.realname" @blur="validateRealname(saveMatchInfo.realname)"> 
+							<p id="realnameError" class="errorInfo" style="display: none;"><i></i><span id="realnameErrorText">请输入正确的真实姓名</span></p>
 						</div>
 						<div class="cpt_item form_item">
 							<label for="validatePerId">有效身份证 ：</label>
@@ -116,7 +118,8 @@
 						</div>
 						<div class="cpt_item form_item">
 							<label for="qq">QQ ：</label>
-							<input type="text" id="qq" class="text_box" v-model="saveMatchInfo.qq">
+							<input type="text" id="qq" class="text_box" v-model="saveMatchInfo.qq" @blur="validateQQ(saveMatchInfo.qq)">
+							<p id="qqError" class="errorInfo" style="display: none;"><i></i><span>请输入正确的QQ号</span></p>
 						</div>
 						<!-- <div class="cpt_item form_item">
 							<label for="weixin">微信号 ：</label>
@@ -142,7 +145,7 @@
 			</div>
 		</div>
 		<a v-show="tabFlag != 2" href="javascript:;" class="saveBtn" v-text="btnText" @click="savePerSetting"></a>
-		<a v-if="!isCfct" href="javascript:;" class="saveBtn" @click="savePerSetting">认 证</a>
+		<!-- <a v-show="isThird" href="javascript:;" class="saveBtn" @click="savePerSetting">认 证</a> -->
 		</div>
 			<div class="m-userpic-mask" style="padding-left:100px;">
 			<div class="pic-select">
@@ -221,14 +224,23 @@
 				},
 				betaCode: "",
 				nowNickname: "",
-				isCfct: false
+				isCfct: false,
+				vRealname: true,
+				vIdCard: true,
+				vTel: true,
+				vQQ: true,
+				vSaveUserInfo: true,
+				isThird: false
 			}
 		},
-		computed: {
-			isThird: function () {
-				return (this.tabFlag === 2)
-			}
-		},
+		// computed: {
+		// 	isThird: {
+		// 		cache: false,
+		// 		get: function () {
+		// 			return this.tabFlag === 2 && !this.isCfct
+		// 		}
+		// 	}
+		// },
 		components: {
 			topHead,
 	    sideBar,
@@ -304,11 +316,11 @@
 			  this.saveMatchInfo.sysUserId = response.data.object.sysUser.id
 			  this.saveMatchInfo.userId = this.userInfoData.id
 			  // 如果没有设置手机号码就用默认的用户登录手机号码，否则就用设置后的手机号码
-			  if (this.userInfoData.telephone === "") {
-			  	this.saveMatchInfo.telephone = this.userInfoData.username
-			  } else {
-			  	this.saveMatchInfo.telephone = this.userInfoData.telephone
-			  } 
+			  //if (this.userInfoData.telephone === "") {
+			  //	this.saveMatchInfo.telephone = this.userInfoData.username
+			  //} else {
+			  this.saveMatchInfo.telephone = this.userInfoData.telephone
+			  //} 
 			  this.$http.get('sysuser/querySysAreaInfo').then(function (response) {
 					//console.log(response)
 					this.rootArea = response.data.object.areaMap.sysRootArea
@@ -378,32 +390,78 @@
 			this.setBirthdayData()
 		},
 		methods: {
-			validateTel: (telNum) => {
-				console.log(this)
-				if(!/^1([0-9]){10}$/.test(telNum) && telNum != "") {
-	    		$('#telephoneError').show()
-  			} else {
-  				$('#telephoneError').hide()
-  			}
+			validateRealname: function (realname) {
+				if ((realname.trim() === "" && realname.length != 0) || realname.length > 10) {
+					$('#realnameError').show()
+					this.vRealname = false
+				} else {
+					$('#realnameError').hide()
+					this.vRealname = true
+				}
+				// else if (realname.length > 10) {
+				// 	$('#realnameErrorText').html("真实姓名长度太长")
+				// 	$('#realnameError').show()
+				// 	return false
+				// }
+
 			},
-			validateIdCard: (id) => {
+			validateIdCard: function (id) {
 				if(!/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/.test(id) && id != "") {
   				$('#idCardError').show()
+  				this.vIdCard = false
   			} else {
   				$('#idCardError').hide()
+  				this.vIdCard = true
   			}
 			},
+			validateTel: function (telNum) {
+				if(!/^1([0-9]){10}$/.test(telNum) && telNum != "") {
+	    		$('#telephoneError').show()
+	    		this.vTel = false
+  			} else {
+  				$('#telephoneError').hide()
+  				this.vTel = true
+  			}
+			},
+			validateQQ: function (qq) {
+				if (!/^[1-9]\d{4,9}$/.test(qq) && qq != "") {
+					$('#qqError').show()
+					this.vQQ = false
+				} else {
+					$('#qqError').hide()
+					this.vQQ = true
+				}
+			},
 			checkNickname: function () {
-				// if (this.userInfoData.nickname === this.nowNickname)  return 
+				if (this.userInfoData.nickname.length > 8) {
+					$('#nicknameError').show()
+					$('#nicknameErrorText').html("昵称长度太长")
+					this.vSaveUserInfo = false
+					return
+				} else {
+					$('#nicknameError').hide()
+					this.vSaveUserInfo = true
+				}
+				if (this.userInfoData.nickname === this.nowNickname) {
+				 	$('#nicknameError').hide()
+				 	this.vSaveUserInfo = true
+				 	return
+				}
+				
 				var json = { nickname: this.userInfoData.nickname, telephone: this.userInfoData.username }
 				this.$http.get('registerCheck', json).then(function (response) {
 					// console.log(response)
 					var data = response.data.object
 					if (data.nicknameValid === 0) {
-						$('#nicknameErrorText').show()
+						$('#nicknameError').show()
+						$('#nicknameErrorText').html("昵称已被使用")
+						this.vSaveUserInfo = false
+						//return false
 						//this.nicknameErrorTexr = true
 					} else {
-						$('#nicknameErrorText').hide()
+						this.vSaveUserInfo = true
+						$('#nicknameError').hide()
+						//return true
 						//this.nicknameErrorTexr = false
 					}
 				})
@@ -549,21 +607,42 @@
 							// 用户id
 							_this.saveUserInfo.userId = _this.userInfoData.id
 							
+							//if (!_this.checkNickname()) return 
+							//if (!$('#nicknameError').is(':hidden')) return 
+							// 如果有昵称填写错误，则返回，不发送保存请求，可能会有延迟，如果检测昵称是否存在的请求有延迟，还没有赋值为false的话，可能还会发送保存请求
+							if (!_this.vSaveUserInfo) return
 							var params = {}
 							params.jsonInfo = JSON.stringify(_this.saveUserInfo)
 							_this.$http.post(v.url, params).then(function (response) {
 								console.log(response)
-								alert("基本资料保存成功！")
+								// alert("基本资料保存成功！")
+								layer.msg("基本资料保存成功！")
+								setTimeout(function () {
+									window.location.reload()
+								}, 3000)
 							})
 						} else if (v.name === '参赛资料') {
+							if (!_this.vRealname || !_this.vIdCard || !_this.vTel || !_this.vQQ) {
+								return 
+							}
 							var params = {}
 							params.jsonInfo = JSON.stringify(_this.saveMatchInfo)
 							_this.$http.post('sysuser/saveSysUserInfo', params).then(function (response) {
 								console.log("参赛资料：" + response)
-								alert("参赛资料保存成功！")
+								//alert("参赛资料保存成功！")
+								layer.msg("参赛资料保存成功！")
+								setTimeout(function () {
+									window.location.reload()
+								}, 3000)
+							
 							}) 
 						} else {	
 							// alert(456)
+							if (_this.betaCode.trim() === "" || _thi.betaCode.length === 0) {
+								$('#codeError').show()
+								$('#codeErrorText').html("不能为空或存在空格")
+								return 
+							}
 							if (_this.betaCode.length > 20) {
 								$('#codeError').show()
 								$('#codeErrorText').html("长度太长了，请输入正确的内测邀请码")
@@ -582,8 +661,11 @@
 								} else {
 									$('#codeError').hide();
 									//alert("恭喜您，验证成功！")
+									layer.msg("恭喜您，认证成功！")
 									// this.isCfct = true
-									window.location.reload();
+									setTimeout(function () {
+										window.location.reload()
+									}, 3000)
 								}
 							})
 						}
