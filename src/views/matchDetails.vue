@@ -4,13 +4,15 @@
 	<slide-bar></slide-bar>
 	<create-pop></create-pop>
 	<div class="g-w mt90 f-re">
-		<div class="g-q-hb" v-link="{ path: '/backend/backendMsg'}">
-			<!-- <img src="../../static/images/dfposter.jpg" alt=""> -->
-			<img v-bind:src="'http://img.wangyuhudong.com'+poster" alt="">
+		<div class="setPoster g-q-hb" v-link="{ path: '/backend/backendMsg'}" v-if="isPublish==null">
+			<img v-bind:src="'http://img.wangyuhudong.com/'+formdata.poster" v-if="poster!=null">
 			<div class="g-q-ptr">
-				<i class="iconfont iconfont-xj">&#xe60a</i>
+				<span class="icon-uniE62B"></span>
 				<p>编辑、更改赛事海报</p>
 			</div>
+		</div>
+		<div class="setPoster g-q-hb" v-if="isPublish==1">
+			<img v-bind:src="'http://img.wangyuhudong.com'+poster" v-if="poster!=null">
 		</div>
 		<div class="g-q-info">
 			<div class="g-q-fbs" v-show ="isc">
@@ -80,7 +82,7 @@
 				<li v-bind:class="{'g-q-tabon':tap2}" val="2" @click="tapswitch">赛事信息</li>
 			</ul>
 		</div>
-		<div class="g-q-gofb" v-if="isPublish==0">当前赛事<a v-link="{ path: '/backend/backendMsg'}">尚未发布</a>，前往管理赛事页面，完善赛事信息并<a v-link="{ path: '/backend/backendMsg'}">发布</a>，让更多用户看到你的赛事。</div>
+		<div class="g-q-gofb" v-if="isPublish==null">当前赛事<a v-link="{ path: '/backend/backendMsg'}">尚未发布</a>，前往管理赛事页面，完善赛事信息并<a v-link="{ path: '/backend/backendMsg'}">发布</a>，让更多用户看到你的赛事。</div>
 		<div v-show="tap1">
 			<!-- 在这个div放置对阵图哦 -->
 			<div class="against_container">
@@ -161,7 +163,7 @@
 						<img src="../../static/images/icon_bmsj.png" class="f-ab">
 						<div class="g-q-if-in">
 							<p class="g-q-if-p1">报名时间</p>
-							<p class="g-q-if-p2">{{applyBegin}} - {{applyEnd}}</p>
+							<p class="g-q-if-p2 bxsjnull">{{applyBegin}} - {{applyEnd}}</p>
 						</div>
 					</div>
 					<div style="width: 150px; margin-left: 40px;" class="g-q-if f-fl">
@@ -250,22 +252,22 @@
   		</div>
   		<div class="m-bx-w" v-if="queryRequired.idcardRequired==1">
   			<p class="g-bx-p">身份证号</p>
-  			<input type="text" class="u-c-ipt" name="idcard" placeholder="请输入身份证号" style="width: 100%;" v-model="singlebm.idcard" required>
+  			<input type="text" class="u-c-ipt" name="idcard" maxlength="18" placeholder="请输入身份证号" style="width: 100%;" v-model="singlebm.idcard" required>
   			<span class="colfdb f-tip f-bx-tip"></span>
   		</div>	
   		<div class="m-bx-w" v-if="queryRequired.nameRequired==1">
   			<p class="g-bx-p">真实姓名</p>
-  			<input type="text" class="u-c-ipt" name="truename" placeholder="请输入真实姓名" style="width: 100%;" v-model="singlebm.realname" required>
+  			<input type="text" class="u-c-ipt" name="truename" maxlength="6" placeholder="请输入真实姓名" style="width: 100%;" v-model="singlebm.realname" required>
   			<span class="colfdb f-tip f-bx-tip"></span>
   		</div>	
   		<div class="m-bx-w" v-if="queryRequired.telephoneRequired==1">
   			<p class="g-bx-p">手机号码</p>
-  			<input type="text" class="u-c-ipt" name="telephone" placeholder="请输入手机号码" style="width: 100%;" v-model="singlebm.telephone" required>
+  			<input type="text" class="u-c-ipt" name="telephone" maxlength="11" placeholder="请输入手机号码" style="width: 100%;" v-model="singlebm.telephone" required>
   			<span class="colfdb f-tip f-bx-tip"></span>
   		</div>
   		<div class="m-bx-w" v-if="queryRequired.qqRequired==1">
   			<p class="g-bx-p">QQ号码</p>
-  			<input type="text" class="u-c-ipt" name="qqnum" placeholder="请输入QQ号码" style="width: 100%;" v-model="singlebm.qq" required>
+  			<input type="text" class="u-c-ipt" name="qqnum" maxlength="15" placeholder="请输入QQ号码" style="width: 100%;" v-model="singlebm.qq" required>
   			<span class="colfdb f-tip f-bx-tip"></span>
   		</div>
   		<div class="m-bx-w" v-if="queryRequired.otherRequired==1" style="margin-bottom: 0.5rem;">
@@ -463,6 +465,7 @@ import createPop from '../components/createPop.vue'
 			
        _this.$http.get('event/info',parm).then(function(response){
         	console.log(response);
+        	_this.roundStatus = response.data.object.state;
 			var code = response.data.code;
 			if(code==1){
 				_this.status = response.data.object.round.status;
@@ -486,9 +489,6 @@ import createPop from '../components/createPop.vue'
 				_this.appliable = response.data.object.appliable;
 				window.sessionStorage.setItem("applyType",response.data.object.round.applyType);
 				_this.poster = response.data.object.event.poster;
-				if(_this.poster=='' || _this.poster==null){
-					_this.poster='/uploads/2016/08/16/5126a4fc3e854db098ae08b16d79b8d8.jpg';
-				}
 				_this.name = response.data.object.event.name;
 				_this.itemName = response.data.object.event.items.name;
 				_this.mode = response.data.object.event.mode;
@@ -522,15 +522,16 @@ import createPop from '../components/createPop.vue'
 				_this.activityBegin = format(response.data.object.round.activityBegin);
 				_this.applyBegin = format(response.data.object.round.applyBegin);
 				_this.applyEnd = format(response.data.object.round.applyEnd);
-				_this.needSignMinu = '开赛前'+response.data.object.event.needSignMinute+'分钟';
+				_this.needSignMinute = '开赛前'+response.data.object.event.needSignMinute+'分钟';
 				_this.allowApply = response.data.object.round.allowApply;
 				if(_this.allowApply==0){
-					_this.needSignMinu = '不需要签到';
+					_this.needSignMinute = '不需要签到';
 					_this.applyBegin='';
 					_this.applyEnd='';
+					$('.bxsjnull').text('不可报名');
 				}else{
-					if(response.data.object.event.needSign == 0){
-						_this.needSignMinu = '不需要签到';
+					if(response.data.object.round.needSign == null || response.data.object.round.needSign==''){
+						_this.needSignMinute = '不需要签到';
 					}
 				}
 				if(_this.isCreater ==1 && _this.isPublish==1){
@@ -1232,8 +1233,9 @@ import createPop from '../components/createPop.vue'
 		            	}else if(code==0){
 		            		layer.msg(response.data.msg,{offset:"0px"});
 		            	}else if(code==1){
-		            		layer.msg(response.data.msg,{offset:"0px"});
+		            		layer.msg('报名成功',{offset:"0px"});
 		            		$('.m-bx-d').animate({right:"-3.2rem"},200);
+		            		window.location.reload();
 		            	}
 		    		}, function(response){
 		    			console.log(22)
@@ -1246,6 +1248,7 @@ import createPop from '../components/createPop.vue'
 			},
 			closed:function(){
 				$('.m-bx-d').animate({right:"-3.2rem"},200);
+				$('.m-bx-d .f-tip').hide();
 			},
 			closedzdone:function(){
 				$('.zdbmone').animate({right:"-3.2rem"},200);
@@ -1307,6 +1310,7 @@ import createPop from '../components/createPop.vue'
 	            	}else if(code==1){
 	            		layer.msg('报名成功',{offset:"0px"});
 	            		$('.zdbmone').animate({right:"-3.2rem"},200);
+	            		window.location.reload();
 	            	}
 				}, function(response){
 					console.log(22)
@@ -1333,6 +1337,7 @@ import createPop from '../components/createPop.vue'
 		            	}else if(code==1){
 		            		layer.msg('报名成功',{offset:"0px"});
 		            		$('.zdbmtwo').animate({right:"-3.2rem"},200);
+		            		window.location.reload();
 		            	}
 					}, function(response){
 						console.log(22)
