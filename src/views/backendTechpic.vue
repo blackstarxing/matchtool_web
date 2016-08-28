@@ -181,6 +181,13 @@ export default {
         },
         ready: function() {
             var _this = this;
+            _this.$http.get("isLogin").then(function(response){
+              if(!response.data.object.loginFlag){
+                _this.$route.router.go({name: 'landRegister', params: { tabId: 0 }});
+              }
+            }, function(response){
+              console.log(response);
+            })
             var beginparm = {};
             var before_tech = $('.before_tech');
             var start_text = $('.start_text');
@@ -964,7 +971,7 @@ export default {
                   }, function(){
                     layer.closeAll();
                   }, function(){        
-                    _this.$http.get("event/turn/batchUpdate", parm).then(function(response) {
+                    _this.$http.post("event/turn/batchUpdate", parm).then(function(response) {
                       if (response.data.code) {
                           layer.msg("设置成功");
                           window.location.reload();
@@ -977,7 +984,7 @@ export default {
                   });
                   
                 }else{
-                  _this.$http.get("event/turn/batchUpdate", parm).then(function(response) {
+                  _this.$http.post("event/turn/batchUpdate", parm).then(function(response) {
                     if (response.data.code) {
                         layer.msg("设置成功");
                         window.location.reload();
