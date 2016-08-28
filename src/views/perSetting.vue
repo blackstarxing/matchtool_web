@@ -125,20 +125,24 @@
 					</div>
 				</div>
 				<div class="perset_organizersCfct" v-show="tabFlag == 2">
-					<p class="organizersCfct_title">输入组织者认证内测邀请码</p>
-					<div class="oCfct_item form_item">
-						<label for="privateInviteCode">内测邀请码 ：</label>
-						<input type="text" id="privateInviteCode" class="text_box" v-model="betaCode">
-						<p id="codeError" class="errorInfo" style="display: none;"><i></i><span id="codeErrorText">邀请码已被使用</span></p>
-					</div>
-					<!-- <div class="PICExplain"> -->
-						<p class="organizersCfct_title">关于组织者内测邀请码</p>
-						<p class="PICExplain_text">组织者内测邀请码是开赛吧提供给专业的赛事组织或民间赛事举办达人在开赛吧平台创建维护赛事的授权。认证的组织者可通过开赛吧提供的赛事举办工具自定义个性赛事，并帮助完成报名信息收集、对阵分组匹配等相关赛事组织筹办工作。</p>
+					<template v-if="!isCfct">
+						<p class="organizersCfct_title">输入组织者认证内测邀请码</p>
+						<div class="oCfct_item form_item">
+							<label for="privateInviteCode">内测邀请码 ：</label>
+							<input type="text" id="privateInviteCode" class="text_box" v-model="betaCode">
+							<p id="codeError" class="errorInfo" style="display: none;"><i></i><span id="codeErrorText">邀请码已被使用</span></p>
+						</div>
+					</template>
+					<p v-else class="col42a" style="margin-bottom: 40px;">你已经是赛事组织者了！</p>
+						<!-- <div class="PICExplain"> -->
+					<p class="organizersCfct_title">关于组织者内测邀请码</p>
+					<p class="PICExplain_text">组织者内测邀请码是开赛吧提供给专业的赛事组织或民间赛事举办达人在开赛吧平台创建维护赛事的授权。认证的组织者可通过开赛吧提供的赛事举办工具自定义个性赛事，并帮助完成报名信息收集、对阵分组匹配等相关赛事组织筹办工作。</p>
 					<!-- </div> -->
 				</div>
 			</div>
 		</div>
-		<a href="javascript:;" class="saveBtn" v-text="btnText" @click="savePerSetting"></a>
+		<a v-show="tabFlag != 2" href="javascript:;" class="saveBtn" v-text="btnText" @click="savePerSetting"></a>
+		<a v-if="!isCfct" href="javascript:;" class="saveBtn" @click="savePerSetting">认 证</a>
 		</div>
 			<div class="m-userpic-mask" style="padding-left:100px;">
 			<div class="pic-select">
@@ -160,6 +164,16 @@
 		route: {
 			data () {
 				this.tabFlag = this.$route.params.userId
+				//alert(typeof this.tabFlag)
+				if (this.tabFlag === "0") {
+					this.tabList[0].isCur = true
+					this.tabList[1].isCur = false
+					this.tabList[2].isCur = false
+				} else if (this.tabFlag === "1") {
+					this.tabList[0].isCur = false
+					this.tabList[1].isCur = true
+					this.tabList[2].isCur = false
+				}
 			}
 		},
 		data () {
@@ -206,7 +220,13 @@
 					userId: -1
 				},
 				betaCode: "",
-				nowNickname: ""
+				nowNickname: "",
+				isCfct: false
+			}
+		},
+		computed: {
+			isThird: function () {
+				return (this.tabFlag === 2)
 			}
 		},
 		components: {
@@ -216,16 +236,40 @@
 	    createPop
 		},
 		ready: function () {
+			console.log(this.isThird)
 			var param = window.location.href
-			console.log(param.charAt(param.length-1))
-			// if (param[param.length - 1] != undefined) {
-			// 	var tabId = param.split('=')[1]
-				//alert(tabId)
-				if (param.charAt(param.length-1) === "1") {
-					this.tabFlag = 1
-					this.tabList[0].isCur = false
-					this.tabList[1].isCur = true
-				}
+			var lastChar = param.charAt(param.length-1)
+			if (lastChar === "0") {
+				this.tabFlag = 0
+				this.tabList[0].isCur = true
+				this.tabList[1].isCur = false
+				this.tabList[2].isCur = false
+			} else if (lastChar === "1") {
+				this.tabFlag = 1
+				this.tabList[0].isCur = false
+				this.tabList[1].isCur = true
+				this.tabList[2].isCur = false
+			} else if (lastChar === "2") {
+				this.tabFlag = 2
+				this.tabList[0].isCur = false
+				this.tabList[1].isCur = false
+				this.tabList[2].isCur = true
+			}
+
+			this.$http.get('isIdentifyUser').then(function (response) {
+				var flag = response.data.object.flag
+				if (flag) this.isCfct = true
+			})
+
+			// console.log(param.charAt(param.length-1))
+			// // if (param[param.length - 1] != undefined) {
+			// // 	var tabId = param.split('=')[1]
+			// 	//alert(tabId)
+			// 	if (param.charAt(param.length-1) === "1") {
+			// 		this.tabFlag = 1
+			// 		this.tabList[0].isCur = false
+			// 		this.tabList[1].isCur = true
+			// 	}
 
 			// }
 			var _this = this
@@ -376,6 +420,17 @@
 				})
 				this.tabFlag = index
 				this.btnText = (this.tabFlag === 2 ? '认 证' : '保 存')
+				
+				// var ch = ""
+				// if (this.tabFlag === 2) {
+				// 	ch = "2"
+				// } else  {
+				// 	ch = (this.$route.params.userId === 1) ? "0" : "1"
+				// }
+				var oldHref = window.location.href 
+				window.location.href = oldHref.slice(0, oldHref.length - 1) + this.tabFlag.toString()
+				console.log(this.isThird)
+				// alert(window.location.href)
 			},
 			getSecondArea: function (rootId) {
 				// console.log(rootId)
@@ -507,8 +562,13 @@
 								console.log("参赛资料：" + response)
 								alert("参赛资料保存成功！")
 							}) 
-						} else {
-							alert(456)
+						} else {	
+							// alert(456)
+							if (_this.betaCode.length > 20) {
+								$('#codeError').show()
+								$('#codeErrorText').html("长度太长了，请输入正确的内测邀请码")
+								return 
+							}
 							var params = {}
 							var json = {}
 							json.code = _this.betaCode
@@ -521,7 +581,9 @@
 									$('#codeErrorText').html(msg)
 								} else {
 									$('#codeError').hide();
-									alert("恭喜您，验证成功！")
+									//alert("恭喜您，验证成功！")
+									// this.isCfct = true
+									window.location.reload();
 								}
 							})
 						}

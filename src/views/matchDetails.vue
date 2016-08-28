@@ -28,6 +28,41 @@
 				<p class="g-q-remtime" id="txt">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
 				<a href="#" class="u-q-enter" v-if="state==2" @click="joinMatch">我也要参与</a>
 			</div>
+			<div class="g-q-fbs" v-show="isc2">
+				<button type="button" class="u-q-start" v-if="state==1" disabled>
+					<i class="s-q-start"></i>
+					即将开始
+				</button>
+				<button type="button" class="u-q-start" v-if="state==2" @click="joinMatch">
+					<i class="s-q-start"></i>
+					报名参赛
+				</button>
+				<button type="button" class="u-q-start" v-if="state==3" disabled>
+					<i class="s-q-start"></i>
+					已报名
+				</button>
+				<button type="button" class="u-q-start" v-if="state==4" @click="qiandao">
+					<i class="s-q-start"></i>
+					签到中
+				</button>
+				<button type="button" class="u-q-start" v-if="state==5" disabled>
+					<i class="s-q-start"></i>
+					即将开始
+				</button>
+				<button type="button" class="u-q-start" v-if="state==6" disabled>
+					<i class="s-q-start"></i>
+					赛事准备开启
+				</button>
+				<button type="button" class="u-q-start" v-if="state==7" disabled>
+					<i class="s-q-start"></i>
+					开赛中
+				</button>
+				<button type="button" class="u-q-start" v-if="state==8" disabled>
+					<i class="s-q-start"></i>
+					已结束
+				</button>
+				<p class="g-q-remtime" id="txts">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
+			</div>
 			<p class="g-q-name">{{name}}</p>
 			<div class="g-q-zbf">
 				<i class="g-q-hp f-fl">
@@ -332,6 +367,7 @@ function timer(text,a,n) {
 		leftStr += leftSecond + '秒';
 	}
 	document.getElementById('txt').innerHTML = text + leftStr;
+	document.getElementById('txts').innerHTML = text + leftStr;
 }
 import topHead from '../components/topHead.vue'
 import sideBar from '../components/sideBar.vue'
@@ -407,7 +443,8 @@ import createPop from '../components/createPop.vue'
 		        currentNum:0,
 		        cherkedMemArr:'',
 		        status:'',//创建者赛事状态视角
-		        isc:''
+		        isc:false,
+		        isc2:false
 			}
 		},
 		components:{
@@ -521,6 +558,59 @@ import createPop from '../components/createPop.vue'
 							timer(txt, response.data.object.round.applyEnd,subTime);
 						}, 1000);
 					}
+				}else if(_this.isCreater ==0 && _this.isPublish==1){
+						_this.isc2 = true;
+						var nowTime = response.data.object.nowTime;
+						_this.state = response.data.object.state;
+						var subTime = new Date().getTime() - nowTime;
+						if(_this.state==1){
+							var txt = '距离报名开始还有';
+							timer(txt, response.data.object.round.applyBegin ,subTime) 
+							var intervalNum = window.setInterval(function() {
+								timer(txt, response.data.object.round.applyBegin ,subTime);
+							}, 1000);
+						}
+						else if(_this.state==2 && response.data.object.applied==0){
+							var txt = '距离报名结束还有';
+							timer(txt, response.data.object.round.applyBegin ,subTime) 
+							var intervalNum = window.setInterval(function() {
+								timer(txt, response.data.object.round.applyBegin ,subTime);
+							}, 1000);
+						}else if(_this.state==2 && response.data.object.applied==1){
+							if(response.data.object.event.needSign==1){
+								var txt = '距离签到开始还有';
+								timer(txt, response.data.object.signBeginTime ,subTime) 
+								var intervalNum = window.setInterval(function() {
+									timer(txt, response.data.object.round.activityBegin ,subTime);
+								}, 1000);
+							}else if(response.data.object.event.needSign==0){
+								var txt = '距离赛事开始还有';
+								timer(txt, response.data.object.round.activityBegin ,subTime) 
+								var intervalNum = window.setInterval(function() {
+									timer(txt, response.data.object.round.activityBegin ,subTime);
+								}, 1000);
+							}
+						}else if(_this.state==3){
+							var txt = '距离签到开始还有';
+							timer(txt, response.data.object.signBeginTime ,subTime) 
+							var intervalNum = window.setInterval(function() {
+								timer(txt, response.data.object.round.activityBegin ,subTime);
+							}, 1000);
+						}else if(_this.state==4 || _this.state==5){
+							var txt = '距离赛事开始还有';
+							timer(txt, response.data.object.round.activityBegin ,subTime) 
+							var intervalNum = window.setInterval(function() {
+								timer(txt, response.data.object.round.activityBegin ,subTime);
+							}, 1000);
+						}else if(_this.state==6){
+							$('#txts').html('等待赛事组织者开赛');
+						}else if(_this.state==7){
+							$('#txts').html('赛事进行中');
+						}else if(_this.state==8){
+							$('#txts').html('赛事已结束');
+						}
+
+
 				}
 			}
 
@@ -908,12 +998,12 @@ import createPop from '../components/createPop.vue'
 
             _this.$nextTick(function(){
               if(_this.roundStatus<7){
-                  // $('.edit_div').hide();
-                  // $('.recta_right').hide();
+                  $('.edit_div').hide();
+                  $('.recta_right').hide();
                 }else{
                   $('.turn_btn').hide();
                   $('.against_title_tip').hide();
-                  // $(".recta").attr('draggable',false);
+                  $(".recta").attr('draggable',false);
                 }
 
                 if(_this.roundStatus<6){
@@ -1047,6 +1137,9 @@ import createPop from '../components/createPop.vue'
           });
 		},
 		methods:{
+			qiandao:function(){
+				alert("别急，我还没做")
+			},
 			cherkchange:function(){
 				var _this = this;
 				var checkedNum = $('.tm:checked').length;
