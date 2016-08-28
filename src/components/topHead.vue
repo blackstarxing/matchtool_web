@@ -7,7 +7,7 @@
 		<div class="header_right f-fr" v-show="islogin">
       <a href="" class="notify" v-link="{ path: '/myMessage'}"><span class="icon-uniE60D"></span></a>
       <div class="avatar">
-        <img v-bind:src="'http://img.wangyuhudong.com/'+avatar"  alt="" v-show="avatar"><span class="icon-uniE60E" style="border-radius:50%;"></span>
+        <img v-bind:src="avatar" v-show="avatar"><span class="icon-uniE60E" style="border-radius:50%;"></span>
         <div class="nav-list">
           <ul>
               <!-- <li><a @click="showPop"><span class="icon-uniE617"></span>创建赛事</a></li> -->
@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="header_right visitor f-fr" v-show="!islogin">
-      <a href="" v-link="{ path: '/landRegister'}">登录</a><span>•</span><a href="sideBar.vue" v-link="{ path: '/landRegister'}">注册新用户</a>
+      <a v-link="{ name: 'landRegister', params: { tabId: 0 }}">登录</a><span>•</span><a v-link="{ name: 'landRegister', params: { tabId: 1 }}">注册新用户</a>
     </div>
 	</div>
 </template>
@@ -42,7 +42,7 @@
         }else{
           _this.islogin=false;
         }
-        _this.avatar=response.data.object.icon;
+        _this.avatar='http://img.wangyuhudong.com/'+response.data.object.icon;
       }, function(response){
         console.log(response);
       })
