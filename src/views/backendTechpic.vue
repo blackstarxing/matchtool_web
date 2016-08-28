@@ -31,7 +31,8 @@
                                 <div class="turn_num_text">{{turnnum.modelname}}</div>
                                 <div class="turn_num_detail">
                                     <span class="turn_select_num" style="font-size:12px;">BO<i class="turn_bo_num">{{turnnum.modelbo}}</i></span>
-                                    <span class="turn_input_settime" style="font-size:12px;margin:0 7px;">{{turnnum.modeltime?turnnum.modeltime.split(' ',1):"时间待定"}}</span>
+                                    <span class="turn_input_settime" style="font-size:12px;margin:0 7px;" v-if="$index==0">{{turnnum.modeltime?turnnum.modeltime:activityBeginStr}}</span>
+                                    <span class="turn_input_settime" style="font-size:12px;margin:0 7px;" v-else>{{turnnum.modeltime?turnnum.modeltime:"时间待定"}}</span>
                                 </div>
                             </div>
                         </li>
@@ -74,7 +75,8 @@
                             </td>
                             <td>
                                 <div class="g-c-timeipt">
-                                    <input type="text" class="u-c-ipt set_begin" placeholder="请选择本轮进行时间" style="width:200px;" v-model="turn.modeltime">
+                                  <input type="text" class="u-c-ipt set_begin" placeholder="请选择本轮进行时间" style="width:200px;" v-model="activityBeginStr" v-if="!turn.modeltime && $index==0">
+                                    <input type="text" class="u-c-ipt set_begin" placeholder="请选择本轮进行时间" style="width:200px;" v-model="turn.modeltime" v-else>
                                     <label for="applyEnd" class="add-on"></label>
                                 </div>
                             </td>
@@ -170,6 +172,7 @@ export default {
                 groupid: {},
                 seatida: {},
                 seatidb: {},
+                activityBeginStr:""
             }
 
         },
@@ -249,6 +252,7 @@ export default {
                 _this.personnum = response.data.object.iscountm ? true : false;
                 _this.overhalf = response.data.object.iscountj1 ? true : false;
                 _this.matchdata = response.data.object.groups;
+                _this.activityBeginStr=response.data.object.round.activityBeginStr;
 
                 var turn = _this.matchdata[0].turn;
                 var turnid = response.data.object.turns;
@@ -279,13 +283,25 @@ export default {
                         yearEnd: 2050,
                         onShow: function(ct) {
                             this.setOptions({
-                                minDate: true,
+                                minDate: _this.activityBeginStr,
                                 minTime: true
                             })
                         },
                         step: 10
                     });
                     $.datetimepicker.setLocale('ch');
+                    var timer = $('.set_begin');
+                    timer.blur(function(){
+                      for(var i=0;i<timer.length;i++){
+                        if(i>0){
+                          if(timer.eq(i-1).val()==""){
+                            timer.eq(i).attr('disabled',true);
+                          }else{
+                            timer.eq(i).attr('disabled',false);
+                          }
+                        }
+                      }
+                    })
                 })
 
 
@@ -922,6 +938,7 @@ export default {
                 var turns = $('.turn-info');
                 var turnparm = [];
                 var roundId = window.sessionStorage.getItem("eventRoundId");
+                var wrong=false;
                 for (var i = 0; i < turns.length; i++) {
                     turnparm.push({
                         id: turns.eq(i).find('.turnid').text(),
@@ -929,20 +946,49 @@ export default {
                         matchType: turns.eq(i).find('.turnbo').val(),
                         matchTimeStr: turns.eq(i).find('.set_begin').val()
                     });
+                    if(i>0){
+                      if(turns.eq(i).find('.set_begin').val()!="" && turns.eq(i).find('.set_begin').val()<turns.eq(i-1).find('.set_begin').val()){
+                        wrong=true;
+                      }
+                    }
+                    
                 }
                 var parmstr = JSON.stringify(turnparm);
                 var parm = {};
                 parm.jsonArray = parmstr;
-                _this.$http.get("event/turn/batchUpdate", parm).then(function(response) {
+                if(wrong){
+                  layer.confirm('设置的时间顺序由前后颠倒，可能会对参赛选手和观众产生误导，是否继续？', {
+                      btn: ['取消','确定'], //按钮
+                      move:false,
+                      closeBtn:0
+                  }, function(){
+                    layer.closeAll();
+                  }, function(){        
+                    _this.$http.get("event/turn/batchUpdate", parm).then(function(response) {
+                      if (response.data.code) {
+                          layer.msg("设置成功");
+                          window.location.reload();
+                      } else {
+                          layer.msg(response.data.msg);
+                      }
+                    }, function(response) {
+                        console.log(response);
+                    });
+                  });
+                  
+                }else{
+                  _this.$http.get("event/turn/batchUpdate", parm).then(function(response) {
                     if (response.data.code) {
-                        layer.msg(response.data.msg);
+                        layer.msg("设置成功");
                         window.location.reload();
                     } else {
                         layer.msg(response.data.msg);
                     }
-                }, function(response) {
-                    console.log(response);
-                });
+                  }, function(response) {
+                      console.log(response);
+                  });
+                }
+                
             },
             //参与人数控制
             numberChange: function(e) {
