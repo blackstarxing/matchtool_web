@@ -50,7 +50,7 @@
 						</div>
 						<div class="g-cyq-req f-re">
 							<label for="" class="">QQ号码：</label>
-							<input type="text" name="qq" class="u-c-ipt" placeholder="请输入QQ号码" maxlength="20" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" value="{{formdata.qq}}" v-model="formdata.qq" style="width:260px;" required>
+							<input type="text" name="qq" class="u-c-ipt" placeholder="请输入QQ号码" maxlength="15" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" value="{{formdata.qq}}" v-model="formdata.qq" style="width:260px;" required>
 							<span class="colfdb f-tip f-cyq-tip">23123213</span>
 						</div>
 					</div>

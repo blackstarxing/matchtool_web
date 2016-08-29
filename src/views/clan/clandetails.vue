@@ -4,6 +4,14 @@
 	<slide-bar></slide-bar>
 <!-- 	<create-pop></create-pop> -->
 	<div class="g-w mt90 f-re">
+		<div class="clearfix g-cl-bd">
+			<button type="button" class="u-cl-bd" style="float: left;" v-if="isCaptain==1" @click="dissolveClan">
+				解散战队
+			</button>
+			<button type="button" class="u-cl-bd" style="float: left;" v-if="isCaptain==0" @click="dissolveClan">
+				退出战队
+			</button>
+		</div>
 		<div class="g-cdt-m">
 			<div class="m-cdt-if clearfix">
 				<i>
@@ -492,6 +500,56 @@ import createPop from '../../components/createPop.vue'
 			}
 		},
 		methods:{
+			dissolveClan:function(){
+				var _this =this;
+				if(_this.isCaptain==1){
+					layer.confirm('确认解散战队？',{
+			    		btn: ['取消','解散'], 
+					  	move:false,
+					  	closeBtn:0
+			    	},function(){
+			    		layer.closeAll();
+			    	},function(){
+			    		_this.$http.post('team/exit?teamId='+_this.formdata.id).then(function(response){
+							var code = response.data.code;
+							if(code==-1){
+								layer.msg('请先登录',{offset:"0px"});
+							}
+							else if(code==0){
+								layer.msg(response.data.msg,{offset:"0px"});
+							}else if(code==1){
+								layer.msg('解散成功',{offset:"0px"});
+								_this.$route.router.go({path: '/myclan'});
+							}
+						}, function(response){
+							console.log(22)
+						})
+			    	})
+				}else if(_this.isCaptain==0){
+					layer.confirm('确认退出战队？',{
+			    		btn: ['取消','退出'], 
+					  	move:false,
+					  	closeBtn:0
+			    	},function(){
+			    		layer.closeAll();
+			    	},function(){
+			    		_this.$http.post('team/exit?teamId='+_this.formdata.id).then(function(response){
+							var code = response.data.code;
+							if(code==-1){
+								layer.msg('请先登录',{offset:"0px"});
+							}
+							else if(code==0){
+								layer.msg(response.data.msg,{offset:"0px"});
+							}else if(code==1){
+								layer.msg('退出成功',{offset:"0px"});
+								_this.$route.router.go({path: '/myclan'});
+							}
+						}, function(response){
+							console.log(22)
+						})
+			    	})
+				}
+			},
 			gopagejl:function(e){
 				e.preventDefault();
   				var pageNum=$('#pagetojl').val();
