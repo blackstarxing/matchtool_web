@@ -9,6 +9,7 @@
         <p class="match_sponsor">网娱官方赛事</p>
         <p class="match_intro">{{ brief.briefsmall }}</p>
         <span id="introExpandSpan" class="expandBtn" v-show="briefmore" @click="briefMore">展开<i class="icon-uniE60E" style="color: #42aa53;"></i></span>
+        <span id="introExpandSpan" class="expandBtn" v-show="brieflittle" @click="briefLittle">收起<i class="icon-uniE60E" style="color: #42aa53;"></i></span>
         <div class="matchShare_content">
             <div class="matchshare_head">
                 <ul class="matchshare_tab">
@@ -83,11 +84,13 @@
                         <h2 class="match_rules_title">赛事规则</h2>
                         <p class="match_rules_content">{{ rule.rulesmall }}</p>
                         <div id="rules_expandBtn" class="expandBtn" v-show="rulemore" @click="ruleMore">展开<i class="icon-uniE60E" style="color: #42aa53;"></i></div>
+                        <div id="rules_expandBtn" class="expandBtn" v-show="rulelittle" @click="ruleLittle">收起<i class="icon-uniE60E" style="color: #42aa53;"></i></div>
                     </div>
                     <div class="match_awards">
                         <h2 class="match_awards_title">赛事奖项</h2>
                         <p class="match_awards_content">{{ prize.prizesmall }}</p>
                         <div id="awards_expandBtn" class="expandBtn" v-show="pricemore" @click="priceMore">展开<i class="icon-uniE60E" style="color: #42aa53;"></i></div>
+                        <div id="awards_expandBtn" class="expandBtn" v-show="pricelittle" @click="priceLittle">收起<i class="icon-uniE60E" style="color: #42aa53;"></i></div>
                     </div>
                 </div>
             </div>
@@ -148,15 +151,18 @@ export default {
                 seatidb: {},
                 briefmore:false,
                 rulemore:false,
-                pricemore:false
+                pricemore:false,
+                brieflittle: false,
+                rulelittle: false,
+                pricelittle: false
 
             }
         },
         ready: function() {
             var _this = this;
             var parm = {};
-            // parm.id = _this.$route.query.eventId;
-            parm.id = window.sessionStorage.getItem("eventId");
+            parm.id = _this.$route.query.eventId;
+            // parm.id = window.sessionStorage.getItem("eventId");
 
             _this.$http.get('event/info', parm).then(function(response) {
             	_this.roundStatus = response.data.object.state;
@@ -194,8 +200,7 @@ export default {
                    
                     _this.matchlist.pasttime = response.data.object.round.signBeginTime ? (esponse.data.object.round.signBeginTime) : '不需要签到';
                     _this.matchlist.publish = format(response.data.object.event.publishTime);
-                    _this.matchlist.icon = 'http://img.wangyuhudong.com/' + response.data.object.creater.icon;
-                    console.log(_this.matchlist.icon);
+                    _this.icon = 'http://img.wangyuhudong.com/' + response.data.object.creater.icon;
                     _this.brief.textbrief=response.data.object.event.brief;
                     // _this.brief.textbrief= "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
                     if(_this.brief.textbrief && _this.brief.textbrief.length>60){
@@ -319,7 +324,6 @@ export default {
                     _content.width(_width);
                     var _techcon = $(".tech_container");
                     _techcon.height(_height + 40);
-                    $('.against_container').height(_height + 40);
                     _techcon.append('<canvas id="mycanvas" width=' + _width + ' height=' + _height + '></canvas> ');
 
                     //获取turn2的数据
@@ -507,7 +511,6 @@ export default {
                     var _height = unitul_all * Math.pow(2, turn - 1);
                     var _width = (unitul_w + 90) * turn;
                     _content.width(_width);
-                    // $(".tech_body").width(_width);
                     $(".tech_container").append('<canvas id="mycanvas" width=' + _width + ' height=' + _height + '></canvas> ');
 
                     //按照索引处理每列矩形unit间距
@@ -783,21 +786,38 @@ export default {
             briefMore: function () {
             	this.brief.briefsmall=this.brief.textbrief;
             	this.briefmore=false;
+                this.brieflittle=true;
             },
             ruleMore: function () {
             	this.rule.rulesmall=this.rule.textrule;
             	this.rulemore=false;
+                this.rulelittle=true;
             },
             priceMore: function () {
             	this.prize.prizesmall=this.prize.textprize;
             	this.pricemore=false;
+                this.pricelittle=true;
             },
             joinTech: function () {
             	this.$route.router.go({
                             path: '/index'
                         });
-            }
-
+            },
+            briefLittle: function () {
+                this.brief.briefsmall =this.brief.textbrief.substr(0,59)+'......';
+                this.briefmore=true;
+                this.brieflittle=false;
+            },
+            ruleLittle: function () {
+                this.rule.rulesmall=this.rule.textrule.substr(0,99)+'......';
+                this.rulemore=true;
+                this.rulelittle=false;
+            },
+            priceLittle: function () {
+                this.prize.prizesmall=this.prize.textprize.substr(0,99)+'......';
+                this.pricemore=true;
+                this.pricelittle=false;
+            },
         }
 }
 // window.onload = function() {
