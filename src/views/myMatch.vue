@@ -262,7 +262,8 @@
 				var year=time.getFullYear();  
 				var month=time.getMonth()+1;     
 				var date=time.getDate();     
-				var hour=time.getHours();     
+				var hour=time.getHours();   
+				if (hour < 10 ) hour = "0" + hour
 				var minute=time.getMinutes();     
 				var second=time.getSeconds();     
 				return year+"."+month+"."+date+"   "+hour+":"+minute+" "+timeTypeStr;
