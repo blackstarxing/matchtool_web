@@ -1,7 +1,7 @@
 <template>
     <div class="g-sh-m">
         <div class="m-sh-pot f-re">
-            <img src="../../static/images/sh_pot.jpg">
+            <img  v-bind:src="poster">
             <span class="m-sh-fbsj">{{matchlist.publish}} 发布</span>
         </div>
         <p class="m-sh-tit">做好准备，《守望先锋》世界杯即将到来</p>
@@ -95,7 +95,7 @@
                 </div>
             </div>
             <div class="bottomBox" @click="joinTech">
-                <a href="javascript:;" class="joinMatch">报名参赛</a>
+                <a class="joinMatch">报名参赛</a>
             </div>
         </div>
     </div>
@@ -119,9 +119,9 @@ function format(shijianchuo) {
 export default {
     data() {
             return {
-            	brief: {textbrief:'',briefsmall: ""},
-            	rule: {textrule:'',rulesmall: ""},
-            	prize: {textprize:'',prizesmall: ""},
+                brief: {textbrief:'',briefsmall: ""},
+                rule: {textrule:'',rulesmall: ""},
+                prize: {textprize:'',prizesmall: ""},
                 isPic: true,
                 isDetail: false,
                 matchlist: {
@@ -154,85 +154,89 @@ export default {
                 pricemore:false,
                 brieflittle: false,
                 rulelittle: false,
-                pricelittle: false
+                pricelittle: false,
+                poster:''
 
             }
         },
         ready: function() {
             var _this = this;
             var parm = {};
-            parm.id = _this.$route.query.eventId;
+            parm.id = _this.$route.params.eventId;
+
             // parm.id = window.sessionStorage.getItem("eventId");
 
             _this.$http.get('event/info', parm).then(function(response) {
-            	_this.roundStatus = response.data.object.state;
+                _this.roundStatus = response.data.object.state;
                 console.log(response);
                 if (response.data.code) {
                     _this.matchlist.name = response.data.object.event.name;
                     var _mode=response.data.object.event.mode;
                     if(_mode==1){
-                    	_this.matchlist.model = "线上赛事";
+                        _this.matchlist.model = "线上赛事";
                     }else if(_mode==2){
-                    	_this.matchlist.model = "线下赛事";
+                        _this.matchlist.model = "线下赛事";
                     }else if(_mode==3){
-                    	_this.matchlist.model = "线上海选+线下决赛";
+                        _this.matchlist.model = "线上海选+线下决赛";
                     }
                     _this.matchlist.presonnem = response.data.object.round.maxNum;
                     _this.matchlist.matchtime = format(response.data.object.round.activityBegin);
                     var _type=response.data.object.round.type;
                     if(_type==1){
-                    	_this.matchlist.state="单阶段比赛";
+                        _this.matchlist.state="单阶段比赛";
                     }else if(_type==2){
-                    	_this.matchlist.state="双阶段比赛";
+                        _this.matchlist.state="双阶段比赛";
                     }
                     _this.matchlist.signtimebeg = format(response.data.object.round.applyBegin);
                     _this.matchlist.signtimeend = format(response.data.object.round.applyEnd);
                     var _regime=response.data.object.round.regime;
                     if(_regime==1){
-                    	_this.matchlist.format="单败淘汰制";
+                        _this.matchlist.format="单败淘汰制";
                     }else if(_regime==2){
-                    	_this.matchlist.format="双败淘汰制";
+                        _this.matchlist.format="双败淘汰制";
                     }else if(_regime==3){
-                    	_this.matchlist.format="小组内单循环制";
+                        _this.matchlist.format="小组内单循环制";
                     }else if(_regime==4){
-                    	_this.matchlist.format="积分循环制";
+                        _this.matchlist.format="积分循环制";
                     }
                    
                     _this.matchlist.pasttime = response.data.object.round.signBeginTime ? (esponse.data.object.round.signBeginTime) : '不需要签到';
                     _this.matchlist.publish = format(response.data.object.event.publishTime);
                     _this.icon = 'http://img.wangyuhudong.com/' + response.data.object.creater.icon;
+                    _this.poster= 'http://img.wangyuhudong.com/' + response.data.object.event.poster;
+                    console.log(_this.poster);
                     _this.brief.textbrief=response.data.object.event.brief;
                     // _this.brief.textbrief= "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
                     if(_this.brief.textbrief && _this.brief.textbrief.length>60){
-	            		_this.brief.briefsmall =_this.brief.textbrief.substr(0,59)+'......';
-	            		_this.briefmore=true;
-	            	}else if(_this.brief.textbrief){
-	            		_this.brief.briefsmall=_this.brief.textbrief;
-	            	}else{
-	            		_this.brief.briefsmall="还没有简介哦～"
-	            	}
+                        _this.brief.briefsmall =_this.brief.textbrief.substr(0,59)+'......';
+                        _this.briefmore=true;
+                    }else if(_this.brief.textbrief){
+                        _this.brief.briefsmall=_this.brief.textbrief;
+                    }else{
+                        _this.brief.briefsmall="还没有简介哦～"
+                    }
 
-	            	_this.rule.textrule=response.data.object.event.regimeRule;
+                    _this.rule.textrule=response.data.object.event.regimeRule;
                     // _this.rule.textrule= "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
                     if(_this.rule.textrule && _this.rule.textrule.length>100){
-	            		_this.rule.rulesmall=_this.rule.textrule.substr(0,99)+'......';
-	            		_this.rulemore=true;
-	            	}else if(_this.rule.textrule){
-	            		_this.rule.rulesmall=_this.rule.textrule;
-	            	}else{
-	            		_this.rule.rulesmall="还没有规则哦～"
-	            	}
+                        _this.rule.rulesmall=_this.rule.textrule.substr(0,99)+'......';
+                        _this.rulemore=true;
+                    }else if(_this.rule.textrule){
+                        _this.rule.rulesmall=_this.rule.textrule;
+                    }else{
+                        _this.rule.rulesmall="还没有规则哦～"
+                    }
 
-	            	_this.prize.textprize =response.data.object.event.regimeRule;
+                    _this.prize.textprize =response.data.object.event.regimeRule;
                     // _this.prize.textprize = "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
                     if(_this.prize.textprize && _this.prize.textprize.length>100){
-	            		_this.prize.prizesmall=_this.prize.textprize.substr(0,99)+'......';
-	            		_this.pricemore=true;
-	            	}else if(_this.prize.textprize){
-	            		_this.prize.prizesmall=_this.prize.textprize;
-	            	}else{
-	            		_this.prize.prizesmall="有点扣，居然没有奖励～"
-	            	}
+                        _this.prize.prizesmall=_this.prize.textprize.substr(0,99)+'......';
+                        _this.pricemore=true;
+                    }else if(_this.prize.textprize){
+                        _this.prize.prizesmall=_this.prize.textprize;
+                    }else{
+                        _this.prize.prizesmall="有点扣，居然没有奖励～"
+                    }
                 }
 
                 _this.personnum = response.data.object.iscountm ? true : false;
@@ -645,26 +649,26 @@ export default {
                     if (_this.roundStatus == 8) {
                         $('.edit_div').hide();
                         var $lastlist = listArry.eq(turn - 1);
-                        var $recta = $lastlist.find('.recta');
+                        var $rectar = $lastlist.find('.recta_right');
                         var _imgone = '<img class="tech_end_pic" src="../../static/images/numberone.png">';
                         var _imgtwo = '<img class="tech_end_pic" src="../../static/images/numbertwo.png">';
                         var _imgthree = '<img class="tech_end_pic" src="../../static/images/numberthree.png">';
                         var _imgfour = '<img class="tech_end_pic" src="../../static/images/numberfour.png">';
-                        if ($recta.eq(0).hasClass('add_winer')) {
-                            $recta.eq(0).append(_imgone);
-                            $recta.eq(1).append(_imgtwo);
+                        if ($rectar.eq(0).hasClass('add_winer')) {
+                            $rectar.eq(0).append(_imgone);
+                            $rectar.eq(1).append(_imgtwo);
                         } else {
-                            $recta.eq(1).append(_imgone);
-                            $recta.eq(0).append(_imgtwo);
+                            $rectar.eq(1).append(_imgone);
+                            $rectar.eq(0).append(_imgtwo);
                         }
 
                         if (this.matchdata.length == 2) {
-                            if ($recta.eq(2).hasClass('add_winer')) {
-                                $recta.eq(2).append(_imgthree);
-                                $recta.eq(3).append(_imgfour);
+                            if ($rectar.eq(2).hasClass('add_winer')) {
+                                $rectar.eq(2).append(_imgthree);
+                                $rectar.eq(3).append(_imgfour);
                             } else {
-                                $recta.eq(3).append(_imgthree);
-                                $recta.eq(2).append(_imgfour);
+                                $rectar.eq(3).append(_imgthree);
+                                $rectar.eq(2).append(_imgfour);
                             }
                         }
                     }
@@ -779,27 +783,27 @@ export default {
                 this.isDetail = false;
             },
             changeDetail: function () {
-            	this.isPic = false;
+                this.isPic = false;
                 this.sharepic = false;
                 this.isDetail = true;
             },
             briefMore: function () {
-            	this.brief.briefsmall=this.brief.textbrief;
-            	this.briefmore=false;
+                this.brief.briefsmall=this.brief.textbrief;
+                this.briefmore=false;
                 this.brieflittle=true;
             },
             ruleMore: function () {
-            	this.rule.rulesmall=this.rule.textrule;
-            	this.rulemore=false;
+                this.rule.rulesmall=this.rule.textrule;
+                this.rulemore=false;
                 this.rulelittle=true;
             },
             priceMore: function () {
-            	this.prize.prizesmall=this.prize.textprize;
-            	this.pricemore=false;
+                this.prize.prizesmall=this.prize.textprize;
+                this.pricemore=false;
                 this.pricelittle=true;
             },
             joinTech: function () {
-            	this.$route.router.go({
+                this.$route.router.go({
                             path: '/index'
                         });
             },
@@ -820,218 +824,4 @@ export default {
             },
         }
 }
-// window.onload = function() {
-//     //alert($('.match_intro').eq(0).height())
-//     //this.init()	
-//     //alert(789)
-//     //alert($('.match_intro').eq(0).height())
-//     var _this = this;
-//     var potW = $(window).width(),
-//         potH = potW * 0.453;
-//     $('.m-sh-pot').css("height", potH);
-//     var jjH = $('.match_intro').eq(0)
-//         // alert(jjH.height())
-//     if (jjH.height() > 96) {
-//         //alert(123)	
-//         jjH.height(96)
-//         $('#introExpandSpan').show()
-//     } else {
-//         $('#introExpandSpan').hide()
-//     }
-//     $('#introExpandSpan').click(function() {
-//         if ($('#introExpandSpan').text() === '展开') {
-//             jjH.height('auto')
-//             $('#introExpandSpan').text('收起')
-//         } else {
-//             jjH.height('96')
-//             $('#introExpandSpan').text('展开')
-//         }
-//     })
-// }
 </script>
-<style>
-.g-sh-m{
-	box-sizing: border-box;
-	width: 16rem;
-	margin: 0 auto;
-	overflow: hidden;
-	padding-bottom: 3.5rem;
-}
-.m-sh-pot img{
-	display: inline-block;
-	width: 100%;
-	height: 100%;
-}
-.m-sh-fbsj{
-	position: absolute;
-	color: #7a8387;
-	right: 0.65rem;
-	bottom: 0.5rem;
-	font-size: 12px;
-}
-.m-sh-tit{
-	padding:0.5rem 0.6rem 0; 
-	color: #f2f6f9;
-	text-align: center;
-	font-size: 0.8rem;
-	line-height: 1rem;
-}
-.m-sh-head{
-	display: block;
-	width: 2rem;
-	height: 2rem;
-	border-radius: 50%;
-	-webkit-border-radius:50%;
-	margin: 0.875rem auto 0;
-}
-.match_sponsor {
-    font-size: 0.7rem;
-    line-height: 0.7rem;
-    color: #d0d1d2;
-	text-align: center;
-	margin: 0.65rem 0;
-}
-
-.match_intro {
-    font-size: 0.7rem;
-    line-height: 1rem;
-    overflow: hidden;
-    min-height: 3rem;
-	color: #52595c;
-	padding: 0 0.6rem;
-}
-
-#introExpandSpan {
-    padding: 0 .6rem;
-    font-size: 0.7rem;
-    color: #42aa53;
-}
-
-.list_item {
-    position: relative;
-    line-height: 2.25rem;
-    font-size: 0.7rem;
-    height: 2.25rem;
-}
-
-.info_name {
-    color: #7a8387;
-    margin-right: 1rem;
-    vertical-align: top;
-    display: inline-block;
-    width:3rem;
-}
-
-.info_text {
-    width: 9rem;
-    color: #d0d1d2;
-    display: inline-block;
-}
-
-.match_rules,
-.match_awards {
-    background-color: #14181d;
-    margin: 0.8rem;
-    border: 1px solid #23282e;
-}
-
-.match_rules_title,
-.match_awards_title {
-    padding: 0.5rem;
-    font-size: 0.8rem;
-    color: #f2f6f9;
-    border-bottom: 1px solid #23282e;
-}
-
-.match_rules_content,
-.match_awards_content {
-    padding: 0.5rem;
-    font-size: 0.7rem;
-    color: #52595c;
-    min-height: 100px;
-}
-
-#rules_expandBtn,
-#awards_expandBtn {
-    line-height: 2rem;
-    text-align: center;
-    border-top: 1px solid #23282e;
-    color: #42aa53;
-}
-
-.bottomBox {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 2.5rem;
-    background-color: #36383f;
-    text-align: center;
-}
-
-.openTime {
-    display: inline-block;
-    line-height: 2.5rem;
-    font-size: 0.6rem;
-    color: #7a8387;
-    margin-left: 0.8rem;
-}
-
-.joinMatch {
-    display: inline-block;
-    height: 1.8rem;
-    width: 4.5rem;
-    margin-top: 0.4rem;
-    margin-right: 0.8rem;
-    font-size: 0.8rem;
-    color: #1e1f24;
-    background-color: #fdb91a;
-    border-radius: 3px;
-    text-align: center;
-    line-height: 1.8rem;
-}
-
-.matchshare_tab {
-    width: 100%;
-    height: 2rem;
-    text-align: center;
-    font-size: 0.8rem;
-    color: #fff;
-    line-height: 2rem;
-}
-
-.matchshare_tab li {
-    float: left;
-    width: 4rem;
-    margin: 0 2rem;
-}
-
-.share_active {
-    border-bottom: 5px solid #fdb91a;
-}
-
-.info_list {
-    width: 16rem;
-}
-
-.list_left {
-    display: inline-block;
-    text-align: center;
-    color: #7a8387;
-    vertical-align: top;
-    width: 2.5rem;
-}
-.list_right {
-    display: inline-block;
-    border-bottom: 1px solid #42454c;
-    width: 13rem;
-}
-.info_icon {
-    width: 0.7rem;
-    height: 0.7rem;
-}
-.sharepic_tab{
-	width: 100%;
-	overflow-x: scroll;
-}
-
-</style>
