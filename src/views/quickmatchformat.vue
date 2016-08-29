@@ -5,7 +5,7 @@
 	<create-pop></create-pop>
 	<div class="backLast">
 		<div class="g-z">
-			<a href=""></a>赛制设置
+			<a v-link="{ path: '/quickmatch'}"></a>赛制设置
 		</div>
 	</div>
 	<div class="g-w">
