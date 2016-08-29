@@ -20,7 +20,7 @@
 					<label class="isover" v-if="match.state==8">已完结</label>
 				</div>
 				<div>
-					<span class="icon-uniE610"></span><span class="match-info">{{match.gameName}}</span><span class="icon-uniE615"></span><span class="match-info">单阶段</span><span class="icon-uniE613"></span><span class="match-info">单败淘汰制</span><span class="icon-uniE612"></span><span class="match-info">{{match.maxNum}}</span><span class="icon-uniE60F"></span><span v-text="match.createDate | formatDate"></span>
+					<span class="icon-uniE610"></span><span class="match-info">{{match.gameName}}</span><span class="icon-uniE615"></span><span class="match-info">单阶段</span><span class="icon-uniE613"></span><span class="match-info">单败淘汰制</span><span class="icon-uniE612"></span><span class="match-info">{{match.maxNum}}</span><span class="icon-uniE60F"></span><span v-text="match.activityBegin | formatDate"></span>
 				</div>
 				<span class="get_eventid">{{match.eventId}}</span><span class="get_roundid">{{match.id}}</span>
 			</div>
