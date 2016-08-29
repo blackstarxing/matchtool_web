@@ -114,12 +114,6 @@ function format(shijianchuo) {
     return y + '-' + add0(m) + '-' + add0(d) + ' ' + add0(h) + ':' + add0(mm);
 }
 export default {
-	route: {
-        data() {
-            console.log(this.$route);
-           
-        }
-    },
     data() {
             return {
             	brief: {textbrief:'',briefsmall: ""},
@@ -163,7 +157,7 @@ export default {
         ready: function() {
             var _this = this;
             var parm = {};
-            parm.id = window.sessionStorage.getItem("eventId");
+            parm.id = this.$route.query.eventId;
 
             _this.$http.get('event/info', parm).then(function(response) {
             	_this.roundStatus = response.data.object.state;
