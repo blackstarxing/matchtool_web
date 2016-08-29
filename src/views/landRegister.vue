@@ -319,10 +319,10 @@ export default {
                 this.$http.post('register', parm).then(function(response) {
                     console.log(response);
                     if (response.data.code) {
-                        document.cookie = "oetevent.login.sessionid=" + response.data.object["oetevent.login.sessionid"];
-                        document.cookie = "oetevent.login.token=" + response.data.object["oetevent.login.token"];
-                        document.cookie = "oetUserId=" + response.data.object.oetUser.id;
-                        document.cookie = "appUserId=" + response.data.object.appUser.id;
+                        // document.cookie = "oetevent.login.sessionid=" + response.data.object["oetevent.login.sessionid"];
+                        // document.cookie = "oetevent.login.token=" + response.data.object["oetevent.login.token"];
+                        // document.cookie = "oetUserId=" + response.data.object.oetUser.id;
+                        // document.cookie = "appUserId=" + response.data.object.appUser.id;
                         window.sessionStorage.setItem("appusericon", response.data.object.appUser.icon);
                         window.sessionStorage.setItem("nickname", response.data.object.appUser.nickname);
                         this.$route.router.go({
@@ -346,10 +346,10 @@ export default {
                 this.$http.post('login', parm).then(function(response) {
                     console.log(response);
                     if (response.data.code) {
-                        document.cookie = "oetevent.login.sessionid=" + response.data.object["oetevent.login.sessionid"];
-                        document.cookie = "oetevent.login.token=" + response.data.object["oetevent.login.token"];
-                        document.cookie = "oetUserId=" + response.data.object.oetUser.id;
-                        document.cookie = "appUserId=" + response.data.object.appUser.id;
+                        // document.cookie = "oetevent.login.sessionid=" + response.data.object["oetevent.login.sessionid"];
+                        // document.cookie = "oetevent.login.token=" + response.data.object["oetevent.login.token"];
+                        // document.cookie = "oetUserId=" + response.data.object.oetUser.id;
+                        // document.cookie = "appUserId=" + response.data.object.appUser.id;
                         window.sessionStorage.setItem("appusericon", response.data.object.appUser.icon);
                         window.sessionStorage.setItem("nickname", response.data.object.appUser.nickname);
                         var _isInvite = window.sessionStorage.getItem("isInvite");
