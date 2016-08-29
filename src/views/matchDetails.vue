@@ -489,7 +489,8 @@ import createPop from '../components/createPop.vue'
 					render: "canvas",//设置渲染方式  
 					width: 100,//设置宽度  
 					height: 100,//设置高度 
-					text: "http://wy.kaisaiba.wangyuhudong.com/#/matchShare?eventId="+_this.formdata.oetInfoId
+					// text: "http://wy.kaisaiba.wangyuhudong.com/#/matchshare/36"
+					text: "http://wy.kaisaiba.wangyuhudong.com/#/matchshare/"+_this.formdata.oetInfoId
 				});
 			})
 			var parm={};
@@ -1034,26 +1035,26 @@ import createPop from '../components/createPop.vue'
                 if(_this.roundStatus==8){
                   $('.edit_div').hide();
                   var $lastlist=listArry.eq(turn-1);
-                  var $recta=$lastlist.find('.recta');
+                  var $rectar=$lastlist.find('.recta_right');
                   var _imgone='<img class="tech_end_pic" src="../../static/images/numberone.png">';
                   var _imgtwo='<img class="tech_end_pic" src="../../static/images/numbertwo.png">';
                   var _imgthree='<img class="tech_end_pic" src="../../static/images/numberthree.png">';
                   var _imgfour='<img class="tech_end_pic" src="../../static/images/numberfour.png">';
-                  if($recta.eq(0).hasClass('add_winer')){
-                    $recta.eq(0).append(_imgone);
-                    $recta.eq(1).append(_imgtwo);
+                  if($rectar.eq(0).hasClass('add_winer')){
+                    $rectar.eq(0).append(_imgone);
+                    $rectar.eq(1).append(_imgtwo);
                   }else{
-                    $recta.eq(1).append(_imgone);
-                    $recta.eq(0).append(_imgtwo);
+                    $rectar.eq(1).append(_imgone);
+                    $rectar.eq(0).append(_imgtwo);
                   }
                     
                    if(this.matchdata.length==2){
-                    if($recta.eq(2).hasClass('add_winer')){
-                      $recta.eq(2).append(_imgthree);
-                      $recta.eq(3).append(_imgfour);
+                    if($rectar.eq(2).hasClass('add_winer')){
+                      $rectar.eq(2).append(_imgthree);
+                      $rectar.eq(3).append(_imgfour);
                     }else{
-                      $recta.eq(3).append(_imgthree);
-                      $recta.eq(2).append(_imgfour);
+                      $rectar.eq(3).append(_imgthree);
+                      $rectar.eq(2).append(_imgfour);
                     }
                   }
                 }
