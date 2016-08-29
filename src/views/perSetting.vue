@@ -318,11 +318,9 @@
 			  // 如果已设置省份和城市
 			  if (response.data.object.areaMap) {
 			  	this.rootAreaId = response.data.object.areaMap.pid.toString()
-				  console.log(this.rootAreaId + 'aaaaaaaaa')
 				  if (this.rootAreaId != "") {
 				  	this.secondAreaId = response.data.object.areaMap.areaCode
 				  	this.getSecondArea(this.rootAreaId)
-				  	console.log(this.secondAreaId)
 				  }
 			  } else {
 			  	this.rootAreaId = "-1"
@@ -591,9 +589,17 @@
 							var params = {}
 							params.jsonInfo = JSON.stringify(_this.saveUserInfo)
 							_this.$http.post(v.url, params).then(function (response) {
-								console.log(response)
+								//console.log(response)
+								if (response.data.code === -1) {
+									layer.msg("请先登录！")	
+									return 
+								} else if (response.data.code === 0) {
+									layer.msg("基本资料保存失败！")	
+									return 
+								} else if (response.data.code === 1) {
+									layer.msg("基本资料保存成功！")
+								}
 								// alert("基本资料保存成功！")
-								layer.msg("基本资料保存成功！")
 								setTimeout(function () {
 									window.location.reload()
 								}, 3000)
