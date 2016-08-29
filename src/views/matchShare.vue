@@ -196,11 +196,19 @@ export default {
                     _this.matchlist.icon = 'http://img.wangyuhudong.com/' + response.data.object.creater.icon;
                     _this.brief.textbrief=response.data.object.event.brief;
                     _this.brief.textbrief= "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
-                    if(_this.brief.textbrief && _this.brief.textbrief.length>55){
-	            		_this.brief.briefsmall =_this.brief.textbrief.substr(0,54)+'......';
+                    
+                    var $match_intro=$('.match_intro');
+                    if(_this.brief.textbrief && $match_intro.height()>60){
+                    	 _this.brief.briefsmall =_this.brief.textbrief;
+                    	console.log($('.match_intro').height());
+                    	$('.match_intro').height(60);
+                    	console.log($('.match_intro').height());
+	            		// _this.brief.briefsmall =_this.brief.textbrief.substr(0,54)+'......';
 	            		_this.briefmore=true;
-	            	}else{
+	            	}else if(_this.brief.textbrief){
 	            		_this.brief.briefsmall=_this.brief.textbrief;
+	            	}else{
+	            		_this.brief.briefsmall="还没有简介哦～"
 	            	}
 
 	            	_this.rule.textrule=response.data.object.event.regimeRule;
@@ -208,8 +216,10 @@ export default {
                     if(_this.rule.textrule && _this.rule.textrule.length>55){
 	            		_this.rule.rulesmall=_this.rule.textrule.substr(0,54)+'......';
 	            		_this.rulemore=true;
-	            	}else{
+	            	}else if(_this.rule.textrule){
 	            		_this.rule.rulesmall=_this.rule.textrule;
+	            	}else{
+	            		_this.rule.rulesmall="还没有规则哦～"
 	            	}
 
 	            	_this.prize.textprize =response.data.object.event.regimeRule;
@@ -217,8 +227,10 @@ export default {
                     if(_this.prize.textprize && _this.prize.textprize.length>55){
 	            		_this.prize.prizesmall=_this.prize.textprize.substr(0,54)+'......';
 	            		_this.pricemore=true;
-	            	}else{
+	            	}else if(_this.prize.textprize){
 	            		_this.prize.prizesmall=_this.prize.textprize;
+	            	}else{
+	            		_this.prize.prizesmall="有点扣，居然没有奖励～"
 	            	}
                 }
 
@@ -834,6 +846,7 @@ export default {
     font-size: 0.7rem;
     line-height: 1rem;
     overflow: hidden;
+    min-height: 3rem;
 }
 
 #introExpandSpan {
@@ -883,6 +896,7 @@ export default {
     padding: 0.5rem;
     font-size: 0.7rem;
     color: #52595c;
+    min-height: 100px;
 }
 
 #rules_expandBtn,
