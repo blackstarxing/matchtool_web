@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="header_right visitor f-fr" v-show="!islogin">
+    <div class="header_right visitor f-fr" v-else>
       <a v-link="{ name: 'landRegister', params: { tabId: 0 }}">登录</a><span>•</span><a v-link="{ name: 'landRegister', params: { tabId: 1 }}">注册新用户</a>
     </div>
 	</div>
@@ -75,7 +75,11 @@
       logout:function(e){
         e.preventDefault();
         this.$http.post("logout").then(function(response){
-          this.$route.router.go({path: '/index'});     
+          if(location.hash=="#/index"){
+            window.location.reload();
+          }else{
+            this.$route.router.go({path: '/index'}); 
+          }              
         }, function(response){
           console.log(response);
         })
