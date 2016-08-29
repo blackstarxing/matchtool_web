@@ -358,6 +358,7 @@ export default {
                     _content.width(_width);
                     var _techcon = $(".tech_container");
                     _techcon.height(_height + 40);
+                    $('.against_container').height(_height + 50);
                     _techcon.append('<canvas id="mycanvas" width=' + _width + ' height=' + _height + '></canvas> ');
 
                     //获取turn2的数据
