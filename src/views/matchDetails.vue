@@ -31,7 +31,7 @@
 				<button type="button" class="u-q-start" v-if="status==3" disabled>
 					已结束
 				</button>
-				<p class="g-q-remtime" id="txt" v-if="state==1 || state==2 || state==3 || state==4 || state==5">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
+				<p class="g-q-remtime" id="txt" v-show="isc3">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
 				<a href="#" class="u-q-enter" v-if="state==2" @click="joinMatch">我也要参与</a>
 				<a href="#" class="u-q-enter" v-if="state==4" @click="qiandao">去签到</a>
 			</div>
@@ -72,7 +72,7 @@
 					<i class="s-q-start"></i>
 					已结束
 				</button>
-				<p class="g-q-remtime" id="txts" v-if="state==1 || state==2 || state==3 || state==4 || state==5 || state==6">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
+				<p class="g-q-remtime" id="txts" v-show="isc3">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
 			</div>
 			<p class="g-q-name">{{name}}</p>
 			<div class="g-q-zbf f-re">
@@ -352,6 +352,7 @@ function format(shijianchuo){
 	return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm);
 }
 function timer(text,a,n,c) {
+
 	var currentTime = new Date().getTime();
 
 	var leftTime = a - (currentTime - n);
@@ -469,7 +470,8 @@ import createPop from '../components/createPop.vue'
 		        status:'',//创建者赛事状态视角
 		        isc:false,
 		        isc2:false,
-		        rate:''//进度条
+		        rate:'',//进度条
+		        isc3:false
 			}
 		},
 		components:{
@@ -489,7 +491,8 @@ import createPop from '../components/createPop.vue'
 					render: "canvas",//设置渲染方式  
 					width: 100,//设置宽度  
 					height: 100,//设置高度 
-					text: "http://wy.kaisaiba.wangyuhudong.com/#/matchShare?eventId="+_this.formdata.oetInfoId
+					// text: "http://wy.kaisaiba.wangyuhudong.com/#/matchshare/36"
+					text: "http://wy.kaisaiba.wangyuhudong.com/#/matchshare/"+_this.formdata.oetInfoId
 				});
 			})
 			var parm={};
@@ -501,7 +504,7 @@ import createPop from '../components/createPop.vue'
 			var code = response.data.code;
 			if(code==1){
 				_this.status = response.data.object.round.status;
-				if(status==2){
+				if(_this.status==2){
 				 	_this.rate = response.data.object.rate;
 				}
 				_this.brief= response.data.object.event.brief;
@@ -575,6 +578,7 @@ import createPop from '../components/createPop.vue'
 					_this.state = response.data.object.state;
 					var subTime = new Date().getTime() - nowTime;
 					if(_this.state==1){
+						_this.isc3 = true;
 						var txt = '距离报名开始还有';
 						timer(txt, response.data.object.round.applyBegin ,subTime, _this.isCreater) 
 						var intervalNum = window.setInterval(function() {
@@ -582,18 +586,21 @@ import createPop from '../components/createPop.vue'
 						}, 1000);
 					}
 					else if(_this.state==2){
+						_this.isc3 = true;
 						var txt = '距离报名结束还有';
 						timer(txt, response.data.object.round.applyEnd ,subTime, _this.isCreater) 
 						var intervalNum = window.setInterval(function() {
 							timer(txt, response.data.object.round.applyEnd ,subTime,_this.isCreater);
 						}, 1000);
 					}else if(_this.state==3){
+						_this.isc3 = true;
 						var txt = '距离签到开始还有';
 						timer(txt, response.data.object.signBeginTime ,subTime,_this.isCreater) 
 						var intervalNum = window.setInterval(function() {
 							timer(txt, response.data.object.round.signBeginTime ,subTime, _this.isCreater);
 						}, 1000);
 					}else if(_this.state==4 || _this.state==5){
+						_this.isc3 = true;
 						var txt = '距离赛事开始还有';
 						timer(txt, response.data.object.round.activityBegin ,subTime,_this.isCreater) 
 						var intervalNum = window.setInterval(function() {
@@ -606,6 +613,7 @@ import createPop from '../components/createPop.vue'
 						_this.state = response.data.object.state;
 						var subTime = new Date().getTime() - nowTime;
 						if(_this.state==1){
+							_this.isc3 = true;
 							var txt = '距离报名开始还有';
 							timer(txt, response.data.object.round.applyBegin ,subTime, _this.isCreater) 
 							var intervalNum = window.setInterval(function() {
@@ -613,24 +621,28 @@ import createPop from '../components/createPop.vue'
 							}, 1000);
 						}
 						else if(_this.state==2){
+							_this.isc3 = true;
 							var txt = '距离报名结束还有';
 							timer(txt, response.data.object.round.applyEnd ,subTime, _this.isCreater) 
 							var intervalNum = window.setInterval(function() {
 								timer(txt, response.data.object.round.applyEnd ,subTime,_this.isCreater);
 							}, 1000);
 						}else if(_this.state==3){
+							_this.isc3 = true;
 							var txt = '距离签到开始还有';
 							timer(txt, response.data.object.signBeginTime ,subTime,_this.isCreater) 
 							var intervalNum = window.setInterval(function() {
 								timer(txt, response.data.object.round.signBeginTime ,subTime, _this.isCreater);
 							}, 1000);
 						}else if(_this.state==4 || _this.state==5){
+							_this.isc3 = true;
 							var txt = '距离赛事开始还有';
 							timer(txt, response.data.object.round.activityBegin ,subTime,_this.isCreater) 
 							var intervalNum = window.setInterval(function() {
 								timer(txt, response.data.object.round.activityBegin ,subTime,_this.isCreater);
 							}, 1000);
 						}else if(_this.state==6){
+							_this.isc3 = true;
 							$('#txts').html('等待赛事组织者开赛');
 						}
 				}
@@ -1034,26 +1046,26 @@ import createPop from '../components/createPop.vue'
                 if(_this.roundStatus==8){
                   $('.edit_div').hide();
                   var $lastlist=listArry.eq(turn-1);
-                  var $recta=$lastlist.find('.recta');
+                  var $rectar=$lastlist.find('.recta_right');
                   var _imgone='<img class="tech_end_pic" src="../../static/images/numberone.png">';
                   var _imgtwo='<img class="tech_end_pic" src="../../static/images/numbertwo.png">';
                   var _imgthree='<img class="tech_end_pic" src="../../static/images/numberthree.png">';
                   var _imgfour='<img class="tech_end_pic" src="../../static/images/numberfour.png">';
-                  if($recta.eq(0).hasClass('add_winer')){
-                    $recta.eq(0).append(_imgone);
-                    $recta.eq(1).append(_imgtwo);
+                  if($rectar.eq(0).hasClass('add_winer')){
+                    $rectar.eq(0).append(_imgone);
+                    $rectar.eq(1).append(_imgtwo);
                   }else{
-                    $recta.eq(1).append(_imgone);
-                    $recta.eq(0).append(_imgtwo);
+                    $rectar.eq(1).append(_imgone);
+                    $rectar.eq(0).append(_imgtwo);
                   }
                     
                    if(this.matchdata.length==2){
-                    if($recta.eq(2).hasClass('add_winer')){
-                      $recta.eq(2).append(_imgthree);
-                      $recta.eq(3).append(_imgfour);
+                    if($rectar.eq(2).hasClass('add_winer')){
+                      $rectar.eq(2).append(_imgthree);
+                      $rectar.eq(3).append(_imgfour);
                     }else{
-                      $recta.eq(3).append(_imgthree);
-                      $recta.eq(2).append(_imgfour);
+                      $rectar.eq(3).append(_imgthree);
+                      $rectar.eq(2).append(_imgfour);
                     }
                   }
                 }

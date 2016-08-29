@@ -29,7 +29,8 @@ import clandetails from './views/clan/clandetails.vue'
 import createclan from './views/clan/createclan.vue'
 import claninvite from './views/clan/claninvite.vue'
 import passWord from './views/passWord.vue'
-import matchShare from './views/matchShare.vue'
+// import matchshare from './views/landingpage.vue'
+import matchshare from './views/matchshare.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -37,7 +38,7 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource);
 Vue.use(VueRouter);
 
-Vue.http.options.root = '/oet';
+Vue.http.options.root = '/api';
 
 Vue.http.options.emulateJSON = true;
 var router = new VueRouter({
@@ -118,8 +119,12 @@ router.map({
     '/claninvite': {
         component: claninvite
     },
-    '/matchShare': {
-        component: matchShare
+    //  '/matchshare': {
+    //     component: matchshare
+    // }
+    '/matchshare/:eventId': {
+        name: 'matchshare',
+        component: matchshare
     }
 })
 
