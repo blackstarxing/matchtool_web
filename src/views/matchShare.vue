@@ -4,9 +4,9 @@
             <img  v-bind:src="poster">
             <span class="m-sh-fbsj">{{matchlist.publish}} 发布</span>
         </div>
-        <p class="m-sh-tit">做好准备，《守望先锋》世界杯即将到来</p>
+        <p class="m-sh-tit">{{matchname}}</p>
         <img v-bind:src="icon" class="m-sh-head">
-        <p class="match_sponsor">网娱官方赛事</p>
+        <p class="match_sponsor">{{creator}}</p>
         <p class="match_intro">{{ brief.briefsmall }}</p>
         <span id="introExpandSpan" class="expandBtn" v-show="briefmore" @click="briefMore">展开<i class="icon-uniE60E" style="color: #42aa53;"></i></span>
         <span id="introExpandSpan" class="expandBtn" v-show="brieflittle" @click="briefLittle">收起<i class="icon-uniE60E" style="color: #42aa53;"></i></span>
@@ -155,7 +155,9 @@ export default {
                 brieflittle: false,
                 rulelittle: false,
                 pricelittle: false,
-                poster:''
+                poster:'',
+                matchname:'',
+                creator: ''
 
             }
         },
@@ -170,7 +172,9 @@ export default {
                 _this.roundStatus = response.data.object.state;
                 console.log(response);
                 if (response.data.code) {
-                    _this.matchlist.name = response.data.object.event.name;
+                    _this.matchname= response.data.object.event.name;
+                    _this.creator =  response.data.object.creater.nickname;
+                    _this.matchlist.name = response.data.object.event.items.name;
                     var _mode=response.data.object.event.mode;
                     if(_mode==1){
                         _this.matchlist.model = "线上赛事";

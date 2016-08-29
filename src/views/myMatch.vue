@@ -61,10 +61,10 @@
 							</ul>
 						</div>
 						<div class="timeInfo">
-							<p class="createtime" v-text=" item.createDate | formatDate " v-if="eventTypeFlag">2012.8.10 12:30 创建</p>
+							<p class="createtime" v-text="item.createDate | formatDate item.timeTypeStr" v-if="eventTypeFlag">2012.8.10 12:30 创建</p>
 							<div class="statusBox" v-text="item.statusText" :class=" { onGoing: item.isGoing } ">未发布</div>
 							<p id="countdownTime" class="m-cjl-kssj" v-if="item.matchBegin">
-								<span class='col42a' v-if="isWaiting">等待组织者开赛</span>
+								<span class='col42a' v-if="item.isWaiting">等待组织者开赛</span>
 								<template v-else>
 									<span class="col42a">{{ item._day }}</span>天<span class="col42a">{{ item._hour }}</span>小时<span class="col42a">{{ item._minute }}</span>分后可开赛
 								</template>
@@ -223,7 +223,8 @@
 					pages: -1
 				},
 				eventTypeFlag: true,       // 如果是组织赛事就是true，表示显示时间，参与赛事就是false，表示不显示时间
-				isWaiting: true        // true：显示等待组织者开赛，false：显示可开赛倒计时时间
+				//isWaiting: true          // true：显示等待组织者开赛，false：显示可开赛倒计时时间
+				//timeTypeStr: "创建"               
 			}
 		},
 		components: {
@@ -256,15 +257,16 @@
 			})
 		},
 		filters: {
-			formatDate: function(value) {
+			formatDate: function(value, timeTypeStr) {
 				var time = new Date(value);
 				var year=time.getFullYear();  
 				var month=time.getMonth()+1;     
 				var date=time.getDate();     
-				var hour=time.getHours();     
+				var hour=time.getHours();   
+				if (hour < 10 ) hour = "0" + hour
 				var minute=time.getMinutes();     
 				var second=time.getSeconds();     
-				return year+"."+month+"."+date+"   "+hour+":"+minute+" 创建";
+				return year+"."+month+"."+date+"   "+hour+":"+minute+" "+timeTypeStr;
 			}
 		},
 		methods: {
@@ -323,18 +325,22 @@
 							}
 						})
 
+						obj.timeTypeStr = "创建"         // 传入显示时间的字符串： 如果是创建时间就是”创建“，如果是发布时间就是”发布“，默认让每个显示时间后加“创建
+
 						if (obj.isPublish === null || obj.isPublish  === 0) {
 							obj.statusText = "未发布"
 						} else if (obj.isPublish  === 1) {
+							obj.timeTypeStr = "发布"      // 传入显示时间的字符串： 如果是已发布，则让显示时间后加“发布”
+							obj.createDate = obj.publishTime      // 如果已发布就将显示的时间设置为发布时间，而不是创建时间了
 							if (obj.status === 1) {
 								obj.matchBegin = true
 								var matchBeginTimestamp = obj.activityBegin
 								var nowTimestamp = new Date().getTime()
 								var time = matchBeginTimestamp - nowTimestamp
 								if (time < 0) {       //  如果已到开赛时间，但组织者还未点击开赛
-									this.isWaiting = true
+									obj.isWaiting = true     // 这里要给每一个赛事对象加一个，不然组织赛事和参与赛事就会混用，然后导致错误，obj.isWaiting: true：显示等待组织者开赛，false：显示可开赛倒计时时间
 								} else {
-									this.isWaiting = false
+									obj.isWaiting = false    
 									var d=24*60*60*1000,
 					       	 		h=60*60*1000,
 					        		m=60*1000
@@ -390,14 +396,11 @@
 			},
 			changeTab: function (tabId) {
 				if (tabId === 0) {
-					console.log('aadsdas' + this.ZZEventList)
 					this.tabList[0].isCur = true
 					this.tabList[1].isCur = false
 					// 设置列表为我组织的赛事
 					this.eventTypeFlag = true
 					this.eventShowList = this.ZZEventList
-
-					console.log('bbbbbb' + this.eventShowList)
 				} else {
 					this.tabList[1].isCur = true
 					this.tabList[0].isCur = false
