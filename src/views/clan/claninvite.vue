@@ -30,27 +30,29 @@
 						<span class="g-cyq-sp2 g-cyq-zdjj">{{brief}}</span>
 					</div>
 				</div>
-				<div class="g-cyq-m2" v-show="isshow">
+				<div class="g-cyq-m2">
 					<p class="g-cyq-sm clearfix"><span class="colfdb f-fl">•&nbsp&nbsp&nbsp</span><span class="f-fl" style="width: 4.85rem;" id="fasong">战队系统是提供给资深的电竞用户建立参赛团体的平台，需要你完善个人参赛资料，以便赛事方审核效验。</span></p>
-					<div class="g-cyq-req mb20 mt20 f-re">
-						<label for="" class="">真实姓名：</label>
-						<input type="text" name="name" class="u-c-ipt" placeholder="请输入真实姓名" value="{{formdata.realname}}" v-model="formdata.realname" style="width:260px;" required>
-						<span class="colfdb f-tip f-cyq-tip">23123213</span>
-					</div>
-					<div class="g-cyq-req mb20 f-re">
-						<label for="" class="">有效身份证：</label>
-						<input type="text" name="idcard" class="u-c-ipt" placeholder="请输入有效身份证" value="{{formdata.idcard}}" v-model="formdata.idcard" style="width:260px;" required>
-						<span class="colfdb f-tip f-cyq-tip">23123213</span>
-					</div>
-					<div class="g-cyq-req mb20 f-re">
-						<label for="" class="">手机号码：</label>
-						<input type="text" name="telephone" class="u-c-ipt" placeholder="请输入手机号码" value="{{formdata.telephone}}" v-model="formdata.telephone" style="width:260px;" required>
-						<span class="colfdb f-tip f-cyq-tip">23123213</span>
-					</div>
-					<div class="g-cyq-req f-re">
-						<label for="" class="">QQ号码：</label>
-						<input type="text" name="qq" class="u-c-ipt" placeholder="请输入QQ号码" value="{{formdata.qq}}" v-model="formdata.qq" style="width:260px;" required>
-						<span class="colfdb f-tip f-cyq-tip">23123213</span>
+					<div v-show="isshow">
+						<div class="g-cyq-req mb20 mt20 f-re">
+							<label for="" class="">真实姓名：</label>
+							<input type="text" name="name" class="u-c-ipt" placeholder="请输入真实姓名" maxlength="8" value="{{formdata.realname}}" v-model="formdata.realname" style="width:260px;" required>
+							<span class="colfdb f-tip f-cyq-tip">23123213</span>
+						</div>
+						<div class="g-cyq-req mb20 f-re">
+							<label for="" class="">有效身份证：</label>
+							<input type="text" name="idcard" class="u-c-ipt" placeholder="请输入有效身份证" maxlength="18" value="{{formdata.idcard}}" v-model="formdata.idcard" style="width:260px;" required>
+							<span class="colfdb f-tip f-cyq-tip">23123213</span>
+						</div>
+						<div class="g-cyq-req mb20 f-re">
+							<label for="" class="">手机号码：</label>
+							<input type="text" name="telephone" class="u-c-ipt" placeholder="请输入手机号码" maxlength="11" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" value="{{formdata.telephone}}" v-model="formdata.telephone" style="width:260px;" required>
+							<span class="colfdb f-tip f-cyq-tip">23123213</span>
+						</div>
+						<div class="g-cyq-req f-re">
+							<label for="" class="">QQ号码：</label>
+							<input type="text" name="qq" class="u-c-ipt" placeholder="请输入QQ号码" maxlength="20" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" value="{{formdata.qq}}" v-model="formdata.qq" style="width:260px;" required>
+							<span class="colfdb f-tip f-cyq-tip">23123213</span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -198,7 +200,7 @@ import createPop from '../../components/createPop.vue'
 		    			}else if(code==0){
 		    				layer.msg(response.data.msg,{offset:"0px"});
 		    			}else if(code==1){
-		    				$('#fasong').text('申请信息已经发送，请耐心等待验证通过!')
+		    				$('#fasong').text('申请信息已经发送，请耐心等待验证通过!');
 		    				_this.isshow = false;
 		    				_this.isbtnshow = true;
 		    			}

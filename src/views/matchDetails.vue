@@ -583,15 +583,15 @@ import createPop from '../components/createPop.vue'
 					}
 					else if(_this.state==2){
 						var txt = '距离报名结束还有';
-						timer(txt, response.data.object.round.applyBegin ,subTime, _this.isCreater) 
+						timer(txt, response.data.object.round.applyEnd ,subTime, _this.isCreater) 
 						var intervalNum = window.setInterval(function() {
-							timer(txt, response.data.object.round.applyBegin ,subTime,_this.isCreater);
+							timer(txt, response.data.object.round.applyEnd ,subTime,_this.isCreater);
 						}, 1000);
 					}else if(_this.state==3){
 						var txt = '距离签到开始还有';
 						timer(txt, response.data.object.signBeginTime ,subTime,_this.isCreater) 
 						var intervalNum = window.setInterval(function() {
-							timer(txt, response.data.object.round.activityBegin ,subTime, _this.isCreater);
+							timer(txt, response.data.object.round.signBeginTime ,subTime, _this.isCreater);
 						}, 1000);
 					}else if(_this.state==4 || _this.state==5){
 						var txt = '距离赛事开始还有';
@@ -616,15 +616,15 @@ import createPop from '../components/createPop.vue'
 						}
 						else if(_this.state==2){
 							var txt = '距离报名结束还有';
-							timer(txt, response.data.object.round.applyBegin ,subTime, _this.isCreater) 
+							timer(txt, response.data.object.round.applyEnd ,subTime, _this.isCreater) 
 							var intervalNum = window.setInterval(function() {
-								timer(txt, response.data.object.round.applyBegin ,subTime,_this.isCreater);
+								timer(txt, response.data.object.round.applyEnd ,subTime,_this.isCreater);
 							}, 1000);
 						}else if(_this.state==3){
 							var txt = '距离签到开始还有';
 							timer(txt, response.data.object.signBeginTime ,subTime,_this.isCreater) 
 							var intervalNum = window.setInterval(function() {
-								timer(txt, response.data.object.round.activityBegin ,subTime, _this.isCreater);
+								timer(txt, response.data.object.round.signBeginTime ,subTime, _this.isCreater);
 							}, 1000);
 						}else if(_this.state==4 || _this.state==5){
 							var txt = '距离赛事开始还有';
