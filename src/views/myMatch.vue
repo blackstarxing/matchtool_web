@@ -440,6 +440,7 @@
 			},
 			gopage:function(e){
 				// e.preventDefault();
+				if (this.pageId === "") return 
 				if (this.eventTypeFlag) {
   				this.getEventList(this.pageId, 'event/getEventRoundList', 0)    // 如果是得到组织的比赛，传0
   			} else {
@@ -536,7 +537,7 @@
 	.privacyMacth_icon {
 		position: absolute;
 		top: 22px;
-		left: 156px;
+		left: 158px;
 		width: 66px;
 		height: 20px;
 		background: url(../../static/images/privacyMacth_icon.png);
