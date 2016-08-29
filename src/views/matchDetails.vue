@@ -81,7 +81,7 @@
 				</i>
 				<span class="f-fl ml20">{{nickname}}</span>
 				<span class="col7a8 f-fl ml20" v-if="isPublish==1">{{publishTime}}发布</span>
-				<span v-if="isPublish==1" class="f-re" style="margin-left: 8px;" id="qrcodehov">
+				<span v-if="isPublish==1" class="f-re qrcodehov" style="margin-left: 8px;">
 					微信分享
 				</span>
 				<div id="qrcode"></div>
@@ -1514,6 +1514,10 @@ import createPop from '../components/createPop.vue'
 	    position: absolute;
 		left: 350px;
 		top: -30px;
+		display: none;
+	}
+	.qrcodehov:hover + #qrcode{
+		display: block;
 	}
 </style>
 
