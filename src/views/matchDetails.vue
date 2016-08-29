@@ -367,7 +367,6 @@ function timer(text,a,n,c) {
 	var leftMinute = Math.floor(leftTime / (1000 * 60));
 	leftTime = leftTime - leftMinute * (1000 * 60)
 
-	console.log(leftTime)
 	var leftSecond = Math.round(leftTime / 1000);
 
 	var leftStr = '';
@@ -720,7 +719,6 @@ import createPop from '../components/createPop.vue'
                 _content.width(_width);
                 var _techcon=$(".tech_container");
                 _techcon.height(_height+40);
-                $('.against_container').height(_height + 40);
                 _techcon.append('<canvas id="mycanvas" width='+_width+' height='+_height+'></canvas> ');
 
                 //获取turn2的数据
@@ -903,7 +901,6 @@ import createPop from '../components/createPop.vue'
                   var _height=unitul_all*Math.pow(2,turn-1);
                   var _width=(unitul_w+90)*turn;
                   _content.width(_width);
-                  // $(".tech_body").width(_width);
                   $(".tech_container").append('<canvas id="mycanvas" width='+_width+' height='+_height+'></canvas> ');
 
                  //按照索引处理每列矩形unit间距

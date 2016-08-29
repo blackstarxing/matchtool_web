@@ -358,7 +358,6 @@ export default {
                     _content.width(_width);
                     var _techcon = $(".tech_container");
                     _techcon.height(_height + 40);
-                    $('.against_container').height(_height + 50);
                     _techcon.append('<canvas id="mycanvas" width=' + _width + ' height=' + _height + '></canvas> ');
 
                     //获取turn2的数据
@@ -546,7 +545,6 @@ export default {
                     var _height = unitul_all * Math.pow(2, turn - 1);
                     var _width = (unitul_w + 90) * turn;
                     _content.width(_width);
-                    // $(".tech_body").width(_width);
                     $(".tech_container").append('<canvas id="mycanvas" width=' + _width + ' height=' + _height + '></canvas> ');
 
                     //按照索引处理每列矩形unit间距

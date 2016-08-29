@@ -43,12 +43,12 @@
 		<div class="landing-box">
 			<h3>全部赛事</h3>			
 			<div class="landing-content f-cb">
-				<div class="m-advertise">
+				<!-- <div class="m-advertise">
 					<img src="../../static/images/ad.jpg">
 					<div class="ad-title">
 						《英雄联盟》秋季超级联赛资格赛报名开启
 					</div>
-				</div>
+				</div> -->
 				<div>
 					<div class="flip-container" v-for="match in matchlists">
 						<div class="flipper">
@@ -178,13 +178,9 @@ import createPop from '../components/createPop.vue'
 
 			var parm={};
 			parm.jsonInfo=JSON.stringify({pageNumber:1});
-	        _this.$http.get('event/getAllEventRoundList',parm).then(function(response) {
-	        	_this.matchlists=response.data.object.pager.list.slice(0,6);
-	        },function(response) {
-	            console.log(response);
-	        });
 	        _this.$http.get('event/getRecommendEventRoundList',parm).then(function(response) {
-	        	_this.recommendlists=response.data.object.map.eventmsBottom.slice(0,3);
+	        	_this.recommendlists=response.data.object.map.eventmsTop.slice(0,3);
+	        	_this.matchlists=response.data.object.map.eventmsBottom.slice(0,9);
 	        },function(response) {
 	            console.log(response);
 	        });
@@ -198,7 +194,13 @@ import createPop from '../components/createPop.vue'
 				var date=time.getDate();     
 				var hour=time.getHours();     
 				var minute=time.getMinutes();     
-				var second=time.getSeconds();     
+				var second=time.getSeconds(); 
+				if(hour==0){
+					hour='00';
+				}   
+				if(minute==0){
+					minute='00';
+				}   
 				return year+"-"+month+"-"+date+"   "+hour+":"+minute;
 			}
 		},

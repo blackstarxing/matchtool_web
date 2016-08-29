@@ -63,7 +63,12 @@
 						<div class="timeInfo">
 							<p class="createtime" v-text=" item.createDate | formatDate " v-if="eventTypeFlag">2012.8.10 12:30 创建</p>
 							<div class="statusBox" v-text="item.statusText" :class=" { onGoing: item.isGoing } ">未发布</div>
-							<p id="countdownTime" class="m-cjl-kssj" v-if="item.matchBegin"><span class="col42a">{{ item._day }}</span>天<span class="col42a">{{ item._hour }}</span>小时<span class="col42a">{{ item._minute }}</span>分后可开赛</p>
+							<p id="countdownTime" class="m-cjl-kssj" v-if="item.matchBegin">
+								<span class='col42a' v-if="isWaiting">等待组织者开赛</span>
+								<template v-else>
+									<span class="col42a">{{ item._day }}</span>天<span class="col42a">{{ item._hour }}</span>小时<span class="col42a">{{ item._minute }}</span>分后可开赛
+								</template>
+							</p>
 						</div>
 					</li>
 					<!-- <li class="matchList_item clearfix">
@@ -217,7 +222,8 @@
 					pageNumber: 1,
 					pages: -1
 				},
-				eventTypeFlag: true       // 如果是组织赛事就是true，表示显示时间，参与赛事就是false，表示不显示时间
+				eventTypeFlag: true,       // 如果是组织赛事就是true，表示显示时间，参与赛事就是false，表示不显示时间
+				isWaiting: true        // true：显示等待组织者开赛，false：显示可开赛倒计时时间
 			}
 		},
 		components: {
@@ -272,17 +278,16 @@
 				this.$route.router.go({path: '/matchDetails'})
 			},
 			getZZEventList: function (pageIdStr) {
-				console.log(this)
 				this.getEventList(pageIdStr, 'event/getEventRoundList', 0)    // 如果是得到组织的比赛，传0
 			},
 			getCYEventList: function (pageIdStr) {
 				this.getEventList(pageIdStr, ' event/getMyEventRoundList', 1) // 如果是得到参与的比赛，传1
 			},
 			getEventList: function (pageIdStr, url, eventListId) {
-				console.log(this)
+				//console.log(this)
 				var pageId = parseInt(pageIdStr)
 				// if (isNaN(pageId)) return
-				if (pageId > this.pageList.pageNumber) return 
+				//if (pageId > this.pageList.pageNumber) return
 				var params = {}
 				var json = {}
 				json.pageNumber = pageId
@@ -327,8 +332,9 @@
 								var nowTimestamp = new Date().getTime()
 								var time = matchBeginTimestamp - nowTimestamp
 								if (time < 0) {       //  如果已到开赛时间，但组织者还未点击开赛
-									$('#countdownTime').html("<span class='col42a'>等待组织者开赛</span>")
+									this.isWaiting = true
 								} else {
+									this.isWaiting = false
 									var d=24*60*60*1000,
 					       	 		h=60*60*1000,
 					        		m=60*1000
@@ -425,8 +431,9 @@
 			nextpage:function(e){
 				// e.preventDefault();
 				var currentpage = this.pageList.pageNumber,
-					maxpage = this.pageList.pages;
+						maxpage = this.pageList.pages;
     		if(currentpage<maxpage){
+    			//alert(123)
     			currentpage++;
     			if (this.eventTypeFlag) {
     				this.getEventList(currentpage, 'event/getEventRoundList', 0)    // 如果是得到组织的比赛，传0

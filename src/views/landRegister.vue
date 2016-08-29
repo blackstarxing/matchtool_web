@@ -6,8 +6,8 @@
     <div class="landregister">
         <div class="landreg_head">
             <ul class="landreg_tab">
-                <li class="reg_active" @click="changeLand" v-bind:class="{ 'reg_active': isLand }">登录</li>
-                <li @click="changeReg" v-bind:class="{ 'reg_active': isReg}">注册</li>
+                <li class="reg_active" @click="changeLand" v-bind:class="{ 'reg_active': isLand }">登&nbsp;录</li>
+                <li @click="changeReg" v-bind:class="{ 'reg_active': isReg}">注&nbsp;册</li>
             </ul>
         </div>
         <div class="landreg_content" @click="inputFoucs">
@@ -354,7 +354,7 @@ export default {
                         window.sessionStorage.setItem("nickname", response.data.object.appUser.nickname);
                         var _isInvite = window.sessionStorage.getItem("isInvite");
                         var _shardid = window.sessionStorage.getItem("shareId");
-                        if (_isInvite) {
+                        if (_isInvite=="true") {
                             window.sessionStorage.setItem("isInvite", false);
                             this.$route.router.go({
                                 path: '/claninvite?teamId=' + _shardid + ''
@@ -403,8 +403,8 @@ export default {
     float: left;
     height: 50px;
     text-align: center;
-    font-size: 20px;
-    color: #fff;
+    font-size: 18px;
+    color: #f2f6f9;
     width: 90px;
     margin: 0 77px;
     cursor: pointer;
@@ -412,7 +412,7 @@ export default {
 
 .landreg_tab .reg_active {
     color: #fdb91a;
-    border-bottom: 5px solid #fdb91a;
+    border-bottom: 4px solid #fdb91a;
 }
 
 .landreg_content {
@@ -452,6 +452,10 @@ export default {
     display: inline-block;
     width: 50px;
     text-align: center;
+}
+
+.reg_label img {
+    vertical-align: top;
 }
 
 .password_st {

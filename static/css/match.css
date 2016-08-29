@@ -1206,6 +1206,7 @@ label.u-c-kz-sz{
 }
 .header_left img{
 	cursor: pointer;
+	margin-top: 9px;
 }
 .backend-head img{
 	margin-top: 0;
@@ -1277,7 +1278,7 @@ label.u-c-kz-sz{
 	margin-right: 15px;
 }
 .backend-head img{
-	margin:0 84px 0 30px;
+	margin:9px 87px 0 60px;
 }
 /*固定侧边栏*/
 .m-sidebar{
