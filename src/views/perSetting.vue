@@ -20,7 +20,7 @@
 					<div class="basicInfo_form">
 					<div class="form_item nickname_item">
 						<label for="" class="text_label">昵称 : </label>
-						<input id="" type="text" class="nickname text_box" v-model="userInfoData.nickname" @blur="checkNickname">
+						<input id="" type="text" class="nickname text_box" maxlength="8" v-model="userInfoData.nickname" @blur="checkNickname(userInfoData.nickname)">
 						<p id="nicknameError" class="errorInfo" style="display: none;"><i></i><span id="nicknameErrorText">昵称已被使用</span></p>
 						<!-- <p id="nicknameLenError" class="errorInfo" style="display: none;"><i></i><span>昵称长度太长</span></p> -->
 					</div>	
@@ -103,23 +103,23 @@
 					<div class="cptInfo_content">
 						<div class="cpt_item form_item">
 							<label for="realName">真实姓名 ：</label>
-							<input type="text" id="realName" class="text_box" v-model="saveMatchInfo.realname" @blur="validateRealname(saveMatchInfo.realname)" @keyup="validateLen(saveMatchInfo.realname)"> 
+							<input type="text" id="realName" class="text_box" maxlength="10" v-model="saveMatchInfo.realname" @blur="validateRealname(saveMatchInfo.realname)"> 
 							<p id="realnameError" class="errorInfo" style="display: none;"><i></i><span id="realnameErrorText">请输入正确的真实姓名</span></p>
 						</div>
 						<div class="cpt_item form_item">
 							<label for="validatePerId">有效身份证 ：</label>
-							<input type="text" id="validatePerId" class="text_box" v-model="saveMatchInfo.idcard" @blur="validateIdCard(saveMatchInfo.idcard)">
+							<input type="text" id="validatePerId" class="text_box" maxlength="18" v-model="saveMatchInfo.idcard" @blur="validateIdCard(saveMatchInfo.idcard)">
 							<p id="idCardError" class="errorInfo" style="display: none;"><i></i><span>请输入正确的身份证号码</span></p>
 						</div>
 						<div class="cpt_item form_item">
 							<label for="telephone">手机号 ：</label>
-							<input type="text" id="telephone" class="text_box" v-model="saveMatchInfo.telephone" @blur="validateTel(saveMatchInfo.telephone)">
+							<input type="text" id="telephone" class="text_box" maxlength="11" v-model="saveMatchInfo.telephone" @blur="validateTel(saveMatchInfo.telephone)" >
 							<p id="telephoneError" class="errorInfo" style="display: none;"><i></i><span>请输入正确的手机号</span></p>
 						</div>
 						<div class="cpt_item form_item">
 							<label for="qq">QQ ：</label>
-							<input type="text" id="qq" class="text_box" v-model="saveMatchInfo.qq" @blur="validateQQ(saveMatchInfo.qq)">
-							<p id="qqError" class="errorInfo" style="display: none;"><i></i><span>请输入正确的QQ号</span></p>
+							<input type="text" id="qq" class="text_box" maxlength="20" v-model="saveMatchInfo.qq" @blur="validateQQ(saveMatchInfo.qq)">
+							<p id="qqError" class="errorInfo" style="display: none;"><i></i><span>请输入5-10位数字的QQ号</span></p>
 						</div>
 						<!-- <div class="cpt_item form_item">
 							<label for="weixin">微信号 ：</label>
@@ -248,8 +248,6 @@
 	    createPop
 		},
 		ready: function () {
-			//console.log(typeof this.tabFlag + 'a' + this.tabFlag)
-
 			var param = window.location.href
 			var lastChar = param.charAt(param.length-1)
 			if (lastChar === "0") {
@@ -268,27 +266,10 @@
 				this.tabList[1].isCur = false	
 				this.tabList[2].isCur = true
 			}
-
-			//console.log(typeof this.tabFlag)
-			//console.log(this.tabFlag)
 			this.$http.get('isIdentifyUser').then(function (response) {
 				var flag = response.data.object.flag
 				if (flag) this.isCfct = true
 			})
-			//console.log(this.isCfct)
-			//this.isThird = (!this.isCfct && this.tabFlag === 2)
-
-			// console.log(param.charAt(param.length-1))
-			// // if (param[param.length - 1] != undefined) {
-			// // 	var tabId = param.split('=')[1]
-			// 	//alert(tabId)
-			// 	if (param.charAt(param.length-1) === "1") {
-			// 		this.tabFlag = 1
-			// 		this.tabList[0].isCur = false
-			// 		this.tabList[1].isCur = true
-			// 	}
-
-			// }
 			var _this = this
 			// 图片上传
 			$('#pic').diyUpload({
@@ -382,30 +363,22 @@
 				this.saveMatchInfo.qq = this.userInfoData.qq
 				// }
 			})
-			// 设置初始的年份和月份
-			// function setBirthdayData () {
-			// 	for (var i = 2016; i >= 1900; i--) {
-			// 		_this.userBirthday.yearList.push(i);
-			// 	}
-			// 	for (var i = 1; i < 13; i++) {
-			// 		_this.userBirthday.monthList.push(i);
-			// 	}
-			// }
-			// setBirthdayData()
 			this.setBirthdayData()
 		},
 		methods: {
-			validateLen: function (realname) {
+			validateLen: function (keyStr, maxLen) {
 				//alert(123)
-				if (realname.length > 10) {
+				if (this.saveMatchInfo[keyStr].length > maxLen) {
 					//var str = $('#realnameErrorText').html()
 					//alert(realname)
-					this.saveMatchInfo.realname = realname.substr(0, 10)
+					this.saveMatchInfo[keyStr] = this.saveMatchInfo[keyStr].substr(0, maxLen)
 				}
 			},
 			validateRealname: function (realname) {
 				if ((realname.trim() === "" && realname.length != 0)) {
+				//if (!/^([\u4e00-\u9fa5]+|([a-zA-Z]+\s?)+)$/g.test(realname) && realname.length != 0) {
 					$('#realnameErrorText').html("请输入正确的真实姓名")
+					//$('#realnameErrorText').html("请输入0-10个字符，且全为中文或全为英文")
 					$('#realnameError').show()
 					this.vRealname = false
 				} else {
@@ -439,6 +412,7 @@
   			}
 			},
 			validateQQ: function (qq) {
+				//if (qq.length > )
 				if (!/^[1-9]\d{4,9}$/.test(qq) && qq != "") {
 					$('#qqError').show()
 					this.vQQ = false
@@ -447,16 +421,27 @@
 					this.vQQ = true
 				}
 			},
-			checkNickname: function () {
-				if (this.userInfoData.nickname.length > 8) {
-					$('#nicknameError').show()
-					$('#nicknameErrorText').html("昵称长度不能超过8位")
+			checkNickname: function (nickname) {
+				// if (this.userInfoData.nickname.length > 8) {
+				// 	$('#nicknameError').show()
+				// 	$('#nicknameErrorText').html("昵称长度不能超过8位")
+				// 	this.vSaveUserInfo = false
+				// 	return
+				// } else {
+				// 	$('#nicknameError').hide()
+				// 	this.vSaveUserInfo = true
+				// }
+				if (/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/.test(nickname)) {
+          $('#nicknameError').show()
+					$('#nicknameErrorText').html("昵称有非法字符")
 					this.vSaveUserInfo = false
-					return
-				} else {
-					$('#nicknameError').hide()
-					this.vSaveUserInfo = true
-				}
+					return 
+        } else if (!nickname) {
+          $('#nicknameError').show()
+					$('#nicknameErrorText').html("请输入昵称")
+          this.vSaveUserInfo = false
+          return 
+         }
 				if (this.userInfoData.nickname === this.nowNickname) {
 				 	$('#nicknameError').hide()
 				 	this.vSaveUserInfo = true
@@ -496,22 +481,13 @@
 
 				//console.log(typeof this.tabFlag + ' tabFlag')
 				this.btnText = (this.tabFlag === 2 ? '认 证' : '保 存')
-				
-				// this.isThird = (!this.isCfct && this.tabFlag === 2)
-				// var ch = ""
-				// if (this.tabFlag === 2) {
-				// 	ch = "2"
-				// } else  {
-				// 	ch = (this.$route.params.userId === 1) ? "0" : "1"
-				// }
+	
 				var oldHref = window.location.href 
 				window.location.href = oldHref.slice(0, oldHref.length - 1) + this.tabFlag.toString()
 				console.log(this.isThird)
 				// alert(window.location.href)
 			},
 			getSecondArea: function (rootId) {
-				// console.log(rootId)
-				//alert(123)
 				// 如果切换到了请选择省份option，则不查询城市，直接赋空数组并设置为请选择城市option
 				if (rootId === "-1") {
 					this.secondArea = []
@@ -582,11 +558,8 @@
 			savePerSetting: function () {
 				var _this = this
 				this.tabList.forEach(function (v, i) {
-					// console.log(v.isCur)
 					if (v.isCur === true) {
-						// console.log(v.url)
 						if (v.name === '基本资料') {
-							// console.log(typeof _this.userBirthday.yearNum)
 							// 生日
 							var y = _this.userBirthday.yearNum,
 									m = _this.userBirthday.monthNum,
@@ -610,7 +583,6 @@
 
 							// 昵称
 							// if (_this.userInfoData.nickname === '') {
-
 							// } else {
 							_this.saveUserInfo.nickname = _this.userInfoData.nickname
 							//}
@@ -889,6 +861,7 @@
 	.cpt_item .errorInfo {
 		margin-left: 100px;
 	}
+
 	/* 组织者认证 */
 
 	.perset_organizersCfct  p {
