@@ -23,7 +23,7 @@
 				<div class="match" v-for="match in recommendlists" @click="linkDetail">
 					<div class="pic">
 						<img v-bind:src="'http://img.wangyuhudong.com'+match.poster" alt="" width="100%" height="150px;">
-						<div class="title"><span class="icon-uniE60F"></span><span class="f-col" v-text="match.createDate | formatDate"></span></div>
+						<div class="title"><span class="icon-uniE60F"></span><span class="f-col" v-text="match.activityBegin | formatDate"></span></div>
 					</div>
 					<div class="match-progress">
 						<div class="match-name">

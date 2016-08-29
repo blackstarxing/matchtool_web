@@ -122,27 +122,30 @@
 									战队报名
 								</span>
 							</label>
-							<select class="u-c-slt u-c-slt-zdbm" v-model="formdata.teamMemeberNum">
-								<option value="2" selected>2</option>
-								<option value="3" >3</option>
-								<option value="4" >4</option>
-								<option value="5" >5</option>
-								<option value="6" >6</option>
-								<option value="7" >7</option>
-								<option value="8" >8</option>
-								<option value="9" >9</option>
-								<option value="10" >10</option>
-								<option value="11" >11</option>
-								<option value="12" >12</option>
-								<option value="13" >13</option>
-								<option value="14" >14</option>
-								<option value="15" >15</option>
-								<option value="16" >16</option>
-								<option value="17" >17</option>
-								<option value="18" >18</option>
-								<option value="19" >19</option>
-								<option value="20" >20</option>
-							</select>
+							<div class="g-c-d-zdbm">
+								<label>选择战队参赛人数</label>
+								<select class="u-c-slt u-c-slt-zdbm" v-model="formdata.teamMemeberNum">
+									<option value="2" selected>2</option>
+									<option value="3" >3</option>
+									<option value="4" >4</option>
+									<option value="5" >5</option>
+									<option value="6" >6</option>
+									<option value="7" >7</option>
+									<option value="8" >8</option>
+									<option value="9" >9</option>
+									<option value="10" >10</option>
+									<option value="11" >11</option>
+									<option value="12" >12</option>
+									<option value="13" >13</option>
+									<option value="14" >14</option>
+									<option value="15" >15</option>
+									<option value="16" >16</option>
+									<option value="17" >17</option>
+									<option value="18" >18</option>
+									<option value="19" >19</option>
+									<option value="20" >20</option>
+								</select>
+							</div>
 						</div>
 					</div>
 					<div class="f-c">
@@ -495,7 +498,7 @@ import createPop from '../components/createPop.vue'
 		    		$('#applyEnd').attr('disabled',true);
 		    		$('#signtime').attr('disabled', true);
 		    		$('#signtime').parents('.g-c-qd').find('.u-c-ck').addClass('col8f');
-		    		$('.u-c-slt-zdbm').fadeOut("slow");
+		    		$('.g-c-d-zdbm').fadeOut("slow");
 		    	}
 		    	else{
 		    		$('[name="baoming"]').attr('disabled',false);
@@ -507,13 +510,13 @@ import createPop from '../components/createPop.vue'
 		    		$('#signtime').attr('disabled', false);
 		    		$('#signtime').parents('.g-c-qd').find('.u-c-ck').removeClass('col8f');
 		    		$('#single').on('click', function(){
-		    			$('.u-c-slt-zdbm').fadeOut("slow");
+		    			$('.g-c-d-zdbm').fadeOut("slow");
 		    		})
 		    		$('#team').on('click', function(){
-		    			$('.u-c-slt-zdbm').fadeIn("slow");
+		    			$('.g-c-d-zdbm').fadeIn("slow");
 		    		})
 		    		if(a == 2){
-		    			$('.u-c-slt-zdbm').fadeIn("slow");
+		    			$('.g-c-d-zdbm').fadeIn("slow");
 		    		}
 		    	}
 		    },
@@ -699,6 +702,8 @@ import createPop from '../components/createPop.vue'
 		    		}
 		    		if(valid && valid2 && valid3){
 		    			return true;
+		    		}else{
+		    			$('html,body').animate({ scrollTop: 0 }, 500);
 		    		}
 		    	}
 		    	if(formValidate()){

@@ -354,7 +354,7 @@ export default {
                         window.sessionStorage.setItem("nickname", response.data.object.appUser.nickname);
                         var _isInvite = window.sessionStorage.getItem("isInvite");
                         var _shardid = window.sessionStorage.getItem("shareId");
-                        if (_isInvite) {
+                        if (_isInvite=="true") {
                             window.sessionStorage.setItem("isInvite", false);
                             this.$route.router.go({
                                 path: '/claninvite?teamId=' + _shardid + ''

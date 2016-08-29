@@ -1167,13 +1167,21 @@ label.u-c-kz-sz{
 	right: -0.25rem;
 	top: 0.8rem;
 }
+.g-c-d-zdbm{
+	width: 1rem;
+	position: absolute;
+	display: none;
+	top: -0.38rem;
+    left: 1.1rem;
+}
+.g-c-d-zdbm label{
+	color: #7a8387;
+    font-size: 12px;
+    line-height: 12px;
+}
 .u-c-slt-zdbm{
 	width: 80px;
     background: url(../images/arrow.png) no-repeat 60px center #14181d;
-    position: absolute;
-    bottom: 0;
-    right: -100px;
-    display: none;
 }
 
 
@@ -2514,7 +2522,6 @@ label.u-c-kz-sz{
   position: relative;
   overflow: scroll;
   cursor: pointer;
-  padding-top: 50px;
 }
 .turn_btn{
   width: 220px;
@@ -3085,6 +3092,7 @@ label.u-c-kz-sz{
 	top:0;
 	right:-30px;
 }
+
 /*赛事详情分享页*/
 .g-sh-m{
 	box-sizing: border-box;
@@ -3131,7 +3139,10 @@ label.u-c-kz-sz{
 	line-height: 21px;
 	color: #52595c;
 	padding: 0 0.6rem;
+    margin-top: 0.8rem;
 }
+
+
 
 
 
