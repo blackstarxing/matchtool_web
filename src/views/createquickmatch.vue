@@ -707,21 +707,6 @@ import createPop from '../components/createPop.vue'
 		    		}
 		    	}
 		    	if(formValidate()){
-		    		// var sjc = Date.parse(_this.formdata.activityBegin);
-		    		// if(sjc == null){
-		    		// 	sjc = '';
-		    		// }
-		    		// var kssjc = Date.parse(_this.formdata.applyBegin);
-		    		// if(kssjc == null){
-		    		// 	kssjc = '';
-		    		// }
-		    		// var jssjc = Date.parse(_this.formdata.applyEnd);
-		    		// if(jssjc == null){
-		    		// 	jssjc = '';
-		    		// }
-		    		// _this.formdata.activityBegin = sjc;
-		    		// _this.formdata.applyBegin = kssjc;
-		    		// _this.formdata.applyEnd = jssjc;
 		    		var newsobj = _this.formdata;
 		    		var jsonInfo = JSON.stringify(newsobj);
 	  				var parm = new Object();
