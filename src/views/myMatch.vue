@@ -63,7 +63,7 @@
 						<div class="timeInfo">
 							<p class="createtime" v-text=" item.createDate | formatDate " v-if="eventTypeFlag">2012.8.10 12:30 创建</p>
 							<div class="statusBox" v-text="item.statusText" :class=" { onGoing: item.isGoing } ">未发布</div>
-							<p class="m-cjl-kssj" v-if="item.matchBegin"><span class="col42a">{{ item._day }}</span>天<span class="col42a">{{ item._hour }}</span>小时<span class="col42a">{{ item._minute }}</span>分后可开赛</p>
+							<p id="countdownTime" class="m-cjl-kssj" v-if="item.matchBegin"><span class="col42a">{{ item._day }}</span>天<span class="col42a">{{ item._hour }}</span>小时<span class="col42a">{{ item._minute }}</span>分后可开赛</p>
 						</div>
 					</li>
 					<!-- <li class="matchList_item clearfix">
@@ -326,12 +326,16 @@
 								var matchBeginTimestamp = obj.activityBegin
 								var nowTimestamp = new Date().getTime()
 								var time = matchBeginTimestamp - nowTimestamp
-								var d=24*60*60*1000,
-				       	 		h=60*60*1000,
-				        		m=60*1000
-				        obj._day=parseInt(time/d),
-				        obj._hour=parseInt(time%d/h),
-				       	obj._minute=parseInt(time%d%h/m),
+								if (time < 0) {       //  如果已到开赛时间，但组织者还未点击开赛
+									$('#countdownTime').html("<span class='col42a'>等待组织者开赛</span>")
+								} else {
+									var d=24*60*60*1000,
+					       	 		h=60*60*1000,
+					        		m=60*1000
+					        obj._day=parseInt(time/d),
+					        obj._hour=parseInt(time%d/h),
+					       	obj._minute=parseInt(time%d%h/m)
+				       }
 								obj.statusText = "未开赛"
 							} else if (obj.status === 2) {
 								obj.statusText = "进行中"
