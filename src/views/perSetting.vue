@@ -45,7 +45,7 @@
 									</span>
 								</label>
 							</div>
-							<div class="f-fl">
+							<!-- <div class="f-fl">
 								<input type="radio" id="secret" name="gender" class="regular-radio" value="2" v-model="userInfoData.sex"/>
 								<label for="secret"></label>
 								<label for="secret" class="u-c-per">		
@@ -53,7 +53,7 @@
 										保密
 									</span>
 								</label>
-							</div>
+							</div> -->
 						</div>
 					</div>
 					<div class="form_item region">
@@ -103,7 +103,7 @@
 					<div class="cptInfo_content">
 						<div class="cpt_item form_item">
 							<label for="realName">真实姓名 ：</label>
-							<input type="text" id="realName" class="text_box" v-model="saveMatchInfo.realname" @blur="validateRealname(saveMatchInfo.realname)"> 
+							<input type="text" id="realName" class="text_box" v-model="saveMatchInfo.realname" @blur="validateRealname(saveMatchInfo.realname)" @keyup="validateLen(saveMatchInfo.realname)"> 
 							<p id="realnameError" class="errorInfo" style="display: none;"><i></i><span id="realnameErrorText">请输入正确的真实姓名</span></p>
 						</div>
 						<div class="cpt_item form_item">
@@ -145,7 +145,7 @@
 			</div>
 		</div>
 		<a v-show="tabFlag != 2" href="javascript:;" class="saveBtn" v-text="btnText" @click="savePerSetting"></a>
-		<!-- <a v-show="isThird" href="javascript:;" class="saveBtn" @click="savePerSetting">认 证</a> -->
+		<a v-show="tabFlag == 2 && !isCfct" href="javascript:;" class="saveBtn" @click="savePerSetting">认 证</a>
 		</div>
 			<div class="m-userpic-mask" style="padding-left:100px;">
 			<div class="pic-select">
@@ -188,7 +188,7 @@
 					{ id: 0, name: '基本资料', isCur: true, url: 'sysuser/saveSysUserInfo' },
 					{ id: 1, name: '参赛资料', isCur: false, url: 'sysuser/saveSysUserInfo' },
 					{ id: 2, name: '组织者认证', isCur: false, url: 'identify/identifyByCode' }
-				],
+				], 
 				btnText: '保 存',
 				userInfoData: {},
 				rootArea: [],
@@ -229,8 +229,8 @@
 				vIdCard: true,
 				vTel: true,
 				vQQ: true,
-				vSaveUserInfo: true,
-				isThird: false
+				vSaveUserInfo: true
+				//isThird: false
 			}
 		},
 		// computed: {
@@ -248,7 +248,8 @@
 	    createPop
 		},
 		ready: function () {
-			console.log(this.isThird)
+			//console.log(typeof this.tabFlag + 'a' + this.tabFlag)
+
 			var param = window.location.href
 			var lastChar = param.charAt(param.length-1)
 			if (lastChar === "0") {
@@ -264,14 +265,18 @@
 			} else if (lastChar === "2") {
 				this.tabFlag = 2
 				this.tabList[0].isCur = false
-				this.tabList[1].isCur = false
+				this.tabList[1].isCur = false	
 				this.tabList[2].isCur = true
 			}
 
+			//console.log(typeof this.tabFlag)
+			//console.log(this.tabFlag)
 			this.$http.get('isIdentifyUser').then(function (response) {
 				var flag = response.data.object.flag
 				if (flag) this.isCfct = true
 			})
+			//console.log(this.isCfct)
+			//this.isThird = (!this.isCfct && this.tabFlag === 2)
 
 			// console.log(param.charAt(param.length-1))
 			// // if (param[param.length - 1] != undefined) {
@@ -390,20 +395,30 @@
 			this.setBirthdayData()
 		},
 		methods: {
+			validateLen: function (realname) {
+				//alert(123)
+				if (realname.length > 10) {
+					//var str = $('#realnameErrorText').html()
+					//alert(realname)
+					this.saveMatchInfo.realname = realname.substr(0, 10)
+				}
+			},
 			validateRealname: function (realname) {
-				if ((realname.trim() === "" && realname.length != 0) || realname.length > 10) {
+				if ((realname.trim() === "" && realname.length != 0)) {
+					$('#realnameErrorText').html("请输入正确的真实姓名")
 					$('#realnameError').show()
 					this.vRealname = false
 				} else {
 					$('#realnameError').hide()
 					this.vRealname = true
 				}
-				// else if (realname.length > 10) {
-				// 	$('#realnameErrorText').html("真实姓名长度太长")
-				// 	$('#realnameError').show()
-				// 	return false
-				// }
-
+				//else if (realname.length > 10) {
+					//var str = $('#realnameErrorText').html()
+					//alert(realname)
+					//this.saveMatchInfo.realname = realname.substr(0, 11)
+					//$('#realnameError').show()
+					//this.vRealname = false
+				//} 
 			},
 			validateIdCard: function (id) {
 				if(!/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/.test(id) && id != "") {
@@ -435,7 +450,7 @@
 			checkNickname: function () {
 				if (this.userInfoData.nickname.length > 8) {
 					$('#nicknameError').show()
-					$('#nicknameErrorText').html("昵称长度太长")
+					$('#nicknameErrorText').html("昵称长度不能超过8位")
 					this.vSaveUserInfo = false
 					return
 				} else {
@@ -473,12 +488,16 @@
 	        $('.m-userpic-mask').hide();
 	    },
 			setCur: function (index) {
+				//console.log(typeof index + ' index')
 				this.tabList.map(function (v, i) {
 					i == index ? v.isCur = true : v.isCur = false
 				})
 				this.tabFlag = index
+
+				//console.log(typeof this.tabFlag + ' tabFlag')
 				this.btnText = (this.tabFlag === 2 ? '认 证' : '保 存')
 				
+				// this.isThird = (!this.isCfct && this.tabFlag === 2)
 				// var ch = ""
 				// if (this.tabFlag === 2) {
 				// 	ch = "2"
@@ -900,7 +919,6 @@
 		color: #7a8387;
 		letter-spacing: 1px;
 	}
-
 	.saveBtn {
 		display: block;
 		width: 200px;
