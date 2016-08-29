@@ -367,7 +367,6 @@ function timer(text,a,n,c) {
 	var leftMinute = Math.floor(leftTime / (1000 * 60));
 	leftTime = leftTime - leftMinute * (1000 * 60)
 
-	console.log(leftTime)
 	var leftSecond = Math.round(leftTime / 1000);
 
 	var leftStr = '';
@@ -584,15 +583,15 @@ import createPop from '../components/createPop.vue'
 					}
 					else if(_this.state==2){
 						var txt = '距离报名结束还有';
-						timer(txt, response.data.object.round.applyBegin ,subTime, _this.isCreater) 
+						timer(txt, response.data.object.round.applyEnd ,subTime, _this.isCreater) 
 						var intervalNum = window.setInterval(function() {
-							timer(txt, response.data.object.round.applyBegin ,subTime,_this.isCreater);
+							timer(txt, response.data.object.round.applyEnd ,subTime,_this.isCreater);
 						}, 1000);
 					}else if(_this.state==3){
 						var txt = '距离签到开始还有';
 						timer(txt, response.data.object.signBeginTime ,subTime,_this.isCreater) 
 						var intervalNum = window.setInterval(function() {
-							timer(txt, response.data.object.round.activityBegin ,subTime, _this.isCreater);
+							timer(txt, response.data.object.round.signBeginTime ,subTime, _this.isCreater);
 						}, 1000);
 					}else if(_this.state==4 || _this.state==5){
 						var txt = '距离赛事开始还有';
@@ -617,15 +616,15 @@ import createPop from '../components/createPop.vue'
 						}
 						else if(_this.state==2){
 							var txt = '距离报名结束还有';
-							timer(txt, response.data.object.round.applyBegin ,subTime, _this.isCreater) 
+							timer(txt, response.data.object.round.applyEnd ,subTime, _this.isCreater) 
 							var intervalNum = window.setInterval(function() {
-								timer(txt, response.data.object.round.applyBegin ,subTime,_this.isCreater);
+								timer(txt, response.data.object.round.applyEnd ,subTime,_this.isCreater);
 							}, 1000);
 						}else if(_this.state==3){
 							var txt = '距离签到开始还有';
 							timer(txt, response.data.object.signBeginTime ,subTime,_this.isCreater) 
 							var intervalNum = window.setInterval(function() {
-								timer(txt, response.data.object.round.activityBegin ,subTime, _this.isCreater);
+								timer(txt, response.data.object.round.signBeginTime ,subTime, _this.isCreater);
 							}, 1000);
 						}else if(_this.state==4 || _this.state==5){
 							var txt = '距离赛事开始还有';
@@ -728,7 +727,6 @@ import createPop from '../components/createPop.vue'
                 _content.width(_width);
                 var _techcon=$(".tech_container");
                 _techcon.height(_height+40);
-                $('.against_container').height(_height + 40);
                 _techcon.append('<canvas id="mycanvas" width='+_width+' height='+_height+'></canvas> ');
 
                 //获取turn2的数据
@@ -911,7 +909,6 @@ import createPop from '../components/createPop.vue'
                   var _height=unitul_all*Math.pow(2,turn-1);
                   var _width=(unitul_w+90)*turn;
                   _content.width(_width);
-                  // $(".tech_body").width(_width);
                   $(".tech_container").append('<canvas id="mycanvas" width='+_width+' height='+_height+'></canvas> ');
 
                  //按照索引处理每列矩形unit间距

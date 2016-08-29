@@ -120,8 +120,8 @@
 						<div class="m-cgl-fz">
 							<p>复制邀请链接发送给朋友，邀请他们加入</p>
 							<div class="u-cgl-fz">
-								<input type="text" class="u-c-ipt" value="http://wy.kaisaiba.wangyuhudong.com/#/claninvite?teamId={{formdata.id}}" disabled style="width: 100%;" />
-								<button type="button" class="u-cgl-fzbtn">复制</button>
+								<input type="text" id="fe_text" class="u-c-ipt" value="http://wy.kaisaiba.wangyuhudong.com/#/claninvite?teamId={{formdata.id}}" disabled style="width: 100%;" />
+								<button type="button" class="u-cgl-fzbtn" id="d_clip_button" data-clipboard-target="fe_text">复制</button>
 							</div>
 						</div>
 						<ul class="g-cgl-dyul">
@@ -440,6 +440,18 @@ import createPop from '../../components/createPop.vue'
 			}, function(response){
 				console.log(22);
 			});
+
+			//end
+			//复制黏贴
+			// 定义一个新的复制对象
+			var clip = new ZeroClipboard( document.getElementById("d_clip_button"), {
+			  moviePath: "../../../static/js/ZeroClipboard.swf"
+			} );
+
+			// 复制内容到剪贴板成功后的操作
+			clip.on( 'complete', function(client, args) {
+			   alert("复制成功");
+			} );
 			//end
 			// 图片上传
 			$('#pic').diyUpload({

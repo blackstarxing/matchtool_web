@@ -181,7 +181,6 @@
 		},
 		data () {
 			return {
-				nicknameErrorTexr: false,
 				dayFlag: false,
 				tabFlag: 0,
 				tabList: [
@@ -263,7 +262,7 @@
 			} else if (lastChar === "2") {
 				this.tabFlag = 2
 				this.tabList[0].isCur = false
-				this.tabList[1].isCur = false	
+				this.tabList[1].isCur = false
 				this.tabList[2].isCur = true
 			}
 			this.$http.get('isIdentifyUser').then(function (response) {
@@ -412,7 +411,6 @@
   			}
 			},
 			validateQQ: function (qq) {
-				//if (qq.length > )
 				if (!/^[1-9]\d{4,9}$/.test(qq) && qq != "") {
 					$('#qqError').show()
 					this.vQQ = false
@@ -450,19 +448,14 @@
 				
 				var json = { nickname: this.userInfoData.nickname, telephone: this.userInfoData.username }
 				this.$http.get('registerCheck', json).then(function (response) {
-					// console.log(response)
 					var data = response.data.object
 					if (data.nicknameValid === 0) {
 						$('#nicknameError').show()
 						$('#nicknameErrorText').html("昵称已被使用")
 						this.vSaveUserInfo = false
-						//return false
-						//this.nicknameErrorTexr = true
 					} else {
 						this.vSaveUserInfo = true
 						$('#nicknameError').hide()
-						//return true
-						//this.nicknameErrorTexr = false
 					}
 				})
 			},
@@ -473,19 +466,13 @@
 	        $('.m-userpic-mask').hide();
 	    },
 			setCur: function (index) {
-				//console.log(typeof index + ' index')
 				this.tabList.map(function (v, i) {
 					i == index ? v.isCur = true : v.isCur = false
 				})
 				this.tabFlag = index
-
-				//console.log(typeof this.tabFlag + ' tabFlag')
 				this.btnText = (this.tabFlag === 2 ? '认 证' : '保 存')
-	
 				var oldHref = window.location.href 
 				window.location.href = oldHref.slice(0, oldHref.length - 1) + this.tabFlag.toString()
-				console.log(this.isThird)
-				// alert(window.location.href)
 			},
 			getSecondArea: function (rootId) {
 				// 如果切换到了请选择省份option，则不查询城市，直接赋空数组并设置为请选择城市option
@@ -540,8 +527,7 @@
 				}
 				this.userBirthday.dayList = dayListTmp
 			},
-			setYearNextDo: function () {	
-				// this.getDayList()
+			setYearNextDo: function () {
 				if (this.userBirthday.monthNum === "-1") {
 					this.userBirthday.monthNum = "1"
 				}
@@ -618,18 +604,16 @@
 							}
 							var params = {}
 							params.jsonInfo = JSON.stringify(_this.saveMatchInfo)
-							_this.$http.post('sysuser/saveSysUserInfo', params).then(function (response) {
-								console.log("参赛资料：" + response)
+							_this.$http.post(v.url, params).then(function (response) {
+								console.log(response)
 								//alert("参赛资料保存成功！")
 								layer.msg("参赛资料保存成功！")
 								setTimeout(function () {
 									window.location.reload()
 								}, 3000)
-							
 							}) 
-						} else {	
-							// alert(456)
-							if (_this.betaCode.trim() === "" || _thi.betaCode.length === 0) {
+						} else {
+							if (_this.betaCode.trim() === "" || _this.betaCode.length === 0) {
 								$('#codeError').show()
 								$('#codeErrorText').html("不能为空或存在空格")
 								return 
@@ -643,8 +627,7 @@
 							var json = {}
 							json.code = _this.betaCode
 							params.jsonInfo = JSON.stringify(json)
-							_this.$http.post('identify/identifyByCode', params).then(function (response) {
-								// console.log("内测邀请码：" + response)
+							_this.$http.post(v.url, params).then(function (response) {
 								var msg = response.data.msg
 								if (response.data.code === 0) {
 									$('#codeError').show();
@@ -653,7 +636,6 @@
 									$('#codeError').hide();
 									//alert("恭喜您，验证成功！")
 									layer.msg("恭喜您，认证成功！")
-									// this.isCfct = true
 									setTimeout(function () {
 										window.location.reload()
 									}, 3000)
