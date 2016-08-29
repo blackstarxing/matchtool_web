@@ -4,7 +4,7 @@
 	<slide-bar></slide-bar>
 	<create-pop></create-pop>
 	<div class="g-w mt90 f-re">
-		<div class="setPoster g-q-hb" v-link="{ path: '/backend/backendMsg'}" v-if="isPublish==null">
+		<div class="setPoster g-q-hb" v-link="{ path: '/backend/backendMsg'}" v-if="isPublish==null || isPublish==0">
 			<img v-bind:src="'http://img.wangyuhudong.com/'+formdata.poster" v-if="poster!=null">
 			<div class="g-q-ptr">
 				<span class="icon-uniE62B"></span>
@@ -31,7 +31,7 @@
 				<button type="button" class="u-q-start" v-if="status==3" disabled>
 					已结束
 				</button>
-				<p class="g-q-remtime" id="txt">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
+				<p class="g-q-remtime" id="txt" v-if="state==1 || state==2 || state==3 || state==4 || state==5">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
 				<a href="#" class="u-q-enter" v-if="state==2" @click="joinMatch">我也要参与</a>
 				<a href="#" class="u-q-enter" v-if="state==4" @click="qiandao">去签到</a>
 			</div>
@@ -72,7 +72,7 @@
 					<i class="s-q-start"></i>
 					已结束
 				</button>
-				<p class="g-q-remtime" id="txts">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
+				<p class="g-q-remtime" id="txts" v-if="state==1 || state==2 || state==3 || state==4 || state==5 || state==6">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
 			</div>
 			<p class="g-q-name">{{name}}</p>
 			<div class="g-q-zbf f-re">
@@ -86,7 +86,7 @@
 				</span>
 				<div id="qrcode"></div>
 			</div>
-			<p class="g-q-jj col7a8" v-if="brief==0 && isPublish==null">赛事还没有简介信息，<a href="#" v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
+			<p class="g-q-jj col7a8" v-if="brief==0 && (isPublish==null || isPublish==0)">赛事还没有简介信息，<a href="#" v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
 			<p class="g-q-jj col7a8" v-if="brief==0 && isPublish==1">赛事还没有简介信息</p>
 			<p class="g-q-jj col7a8" v-if="brief!=0" v-html="brief"></p>
 			<p class="col7a8 g-q-dz" v-show="changemodedz">地址&nbsp<span class="colfdb">•</span>&nbsp{{addreass}}{{detailAddreass}}</p>
@@ -95,7 +95,7 @@
 				<li v-bind:class="{'g-q-tabon':tap2}" val="2" @click="tapswitch">赛事信息</li>
 			</ul>
 		</div>
-		<div class="g-q-gofb" v-if="isPublish==null">当前赛事<a v-link="{ path: '/backend/backendMsg'}">尚未发布</a>，前往管理赛事页面，完善赛事信息并<a v-link="{ path: '/backend/backendMsg'}">发布</a>，让更多用户看到你的赛事。</div>
+		<div class="g-q-gofb" v-if="isPublish==null || isPublish==0">当前赛事<a v-link="{ path: '/backend/backendMsg'}">尚未发布</a>，前往管理赛事页面，完善赛事信息并<a v-link="{ path: '/backend/backendMsg'}">发布</a>，让更多用户看到你的赛事。</div>
 		<div v-show="tap1">
 			<!-- 在这个div放置对阵图哦 -->
 			<div class="against_container">
@@ -190,18 +190,18 @@
 			</div>
 			<div class="g-q-jx">
 				<p class="g-q-jxp">赛事奖项</p>
-				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="prizeSetting==0 && isPublish==null">还没有赛事奖项，<a v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
+				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="prizeSetting==0 && (isPublish==null || isPublish==0)">还没有赛事奖项，<a v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
 				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="prizeSetting==0 && isPublish==1">有点抠！竟然没有奖励！</p>
 				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="prizeSetting!=0" v-html="prizeSetting"></p>
 			</div>
 			<div class="g-q-jx" style="margin-bottom:100px;">
 				<p class="g-q-jxp">赛事规则</p>
-				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="regimeRule==0 && isPublish==null">还没有赛事规则，<a v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
+				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="regimeRule==0 && (isPublish==null || isPublish==0)">还没有赛事规则，<a v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
 				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="regimeRule==0 && isPublish==1">暂时还没有详细的赛事规则哦~</p>
 				<p class="g-q-jj col7a8" style="margin-bottom: 0;" v-if="regimeRule!=0" v-html="regimeRule"></p>
 			</div>
 		</div>
-		<div class="steps infosteps" v-if="isPublish==null">
+		<div class="steps infosteps" v-if="isPublish==null || isPublish==0">
 			<span class="line"></span>
 			<ul>
 				<li><i></i>填写基本信息</li>
@@ -599,8 +599,6 @@ import createPop from '../components/createPop.vue'
 						var intervalNum = window.setInterval(function() {
 							timer(txt, response.data.object.round.activityBegin ,subTime,_this.isCreater);
 						}, 1000);
-					}else if(_this.state==6){
-						$('#txt').html('等待赛事组织者开赛');
 					}
 				}else if(_this.isCreater ==0 && _this.isPublish==1){
 						_this.isc2 = true;
@@ -634,13 +632,7 @@ import createPop from '../components/createPop.vue'
 							}, 1000);
 						}else if(_this.state==6){
 							$('#txts').html('等待赛事组织者开赛');
-						}else if(_this.state==7){
-							$('#txts').html('赛事进行中');
-						}else if(_this.state==8){
-							$('#txts').html('赛事已结束');
 						}
-
-
 				}
 			}
 

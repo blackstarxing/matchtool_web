@@ -2,7 +2,7 @@
 	<div class="m-slideInto m-index">
 		<div class="top-logo clearfix">
 			<a href="" class="slideout" @click="slideout"><span class="icon-uniE609"></span></a>
-			<img src="../../static/images/logo.png" alt="">
+			<img src="../../static/images/logo.png" alt="" style="margin-top:9px;">
 		</div>
 		<ul>
 			<li class="v-link-active" v-link="{ path: '/index'}"><span class="icon-uniE60C"></span>首页</li>

@@ -75,7 +75,13 @@ import createPop from '../components/createPop.vue'
 				var date=time.getDate();     
 				var hour=time.getHours();     
 				var minute=time.getMinutes();     
-				var second=time.getSeconds();     
+				var second=time.getSeconds(); 
+				if(hour==0){
+					hour='00';
+				}   
+				if(minute==0){
+					minute='00';
+				}
 				return year+"-"+month+"-"+date+"   "+hour+":"+minute;
 			}
 		},
