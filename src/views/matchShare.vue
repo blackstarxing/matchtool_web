@@ -81,7 +81,7 @@
                     </ul>
                     <div class="match_rules">
                         <h2 class="match_rules_title">赛事规则</h2>
-                        <p class="match_rules_content" v-bind:class="{ 'context_more': isrules }">{{ rule.textrule }}</p>
+                        <p class="m-sh-jj match_intro" v-bind:class="{ 'context_more': isrules }">{{ rule.textrule }}</p>
                         <div id="rules_expandBtn" class="expandBtn" v-show="rulemore" @click="ruleMore">展开<i class="icon-uniE60E" style="color: #42aa53;"></i></div>
                     </div>
                     <div class="match_awards">
@@ -214,10 +214,10 @@ export default {
 	            	}
 
 	            	_this.rule.textrule=response.data.object.event.regimeRule;
-                    _this.rule.textrule= "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
+                    // _this.rule.textrule= "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
 
                     var $match_rules=$('.match_rules_content');
-                    console.log($match_rules.height());
+                    console.log($('.match_rules_content').height());
                     if(_this.rule.textrule && $match_rules.height()>100){
 
 	            		_this.isrules=true;
@@ -901,6 +901,7 @@ export default {
     font-size: 0.7rem;
     color: #52595c;
     min-height: 5rem;
+    overflow: hidden;
 }
 
 #rules_expandBtn,
