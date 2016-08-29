@@ -195,7 +195,7 @@ export default {
                     _this.matchlist.publish = format(response.data.object.event.publishTime);
                     _this.matchlist.icon = 'http://img.wangyuhudong.com/' + response.data.object.creater.icon;
                     _this.brief.textbrief=response.data.object.event.brief;
-                    // _this.brief.textbrief= "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
+                    _this.brief.textbrief= "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
                     if(_this.brief.textbrief && _this.brief.textbrief.length>55){
 	            		_this.brief.briefsmall =_this.brief.textbrief.substr(0,54)+'......';
 	            		_this.briefmore=true;
