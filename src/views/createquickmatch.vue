@@ -427,13 +427,8 @@ import createPop from '../components/createPop.vue'
 	        _this.$http.get('game/list').then(function(response){
 	        	var gameList=response.data.object.games;
 	        	var content='';
-  				for(var i=0;i<gameList.length;i++){
-  					if(gameList[i].applied==1){
-  						content+='<option value="'+gameList[i].id+'" applied="'+gameList[i].applied+'" disabled>'+gameList[i].name+'(已加入1支战队)</option>';
-  					}
-  					else if(gameList[i].applied==0){
-  						content+='<option value="'+gameList[i].id+'" applied="'+gameList[i].applied+'">'+gameList[i].name+'</option>';
-  					}
+  				for(var i=0;i<gameList.length;i++){			
+  					content+='<option value="'+gameList[i].id+'">'+gameList[i].name+'</option>';
   				}
   				$('#gameList').append(content);
 	        }, function(response){
