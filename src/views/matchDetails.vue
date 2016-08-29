@@ -75,12 +75,16 @@
 				<p class="g-q-remtime" id="txts">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
 			</div>
 			<p class="g-q-name">{{name}}</p>
-			<div class="g-q-zbf">
+			<div class="g-q-zbf f-re">
 				<i class="g-q-hp f-fl">
 					<img v-bind:src="'http://img.wangyuhudong.com/'+icon">
 				</i>
 				<span class="f-fl ml20">{{nickname}}</span>
 				<span class="col7a8 f-fl ml20" v-if="isPublish==1">{{publishTime}}发布</span>
+				<span v-if="isPublish==1" class="f-re" style="margin-left: 8px;" id="qrcodehov">
+					微信分享
+				</span>
+				<div id="qrcode"></div>
 			</div>
 			<p class="g-q-jj col7a8" v-if="brief==0 && isPublish==null">赛事还没有简介信息，<a href="#" v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
 			<p class="g-q-jj col7a8" v-if="brief==0 && isPublish==1">赛事还没有简介信息</p>
@@ -480,6 +484,15 @@ import createPop from '../components/createPop.vue'
 			_this.formdata.oetRoundId = window.sessionStorage.getItem("eventRoundId");
 			_this.singlebm.roundId = window.sessionStorage.getItem("eventRoundId");
 			_this.formdata.oetInfoId = window.sessionStorage.getItem("eventId");
+			//二维码生成
+			jQuery(function(){
+				jQuery('#qrcode').qrcode({
+					render: "canvas",//设置渲染方式  
+					width: 100,//设置宽度  
+					height: 100,//设置高度 
+					text: "http://wy.kaisaiba.wangyuhudong.com/#/matchShare?eventId="+_this.formdata.oetInfoId
+				});
+			})
 			var parm={};
             parm.id=_this.formdata.oetInfoId;
 			
@@ -1496,4 +1509,11 @@ import createPop from '../components/createPop.vue'
 		}
 	}
 </script>
+<style type="text/css">
+	#qrcode{
+	    position: absolute;
+		left: 350px;
+		top: -30px;
+	}
+</style>
 
