@@ -553,7 +553,7 @@ import createPop from '../components/createPop.vue'
 					_this.applyEnd='';
 					$('.bxsjnull').text('不可报名');
 				}else{
-					if(response.data.object.round.needSign == null || response.data.object.round.needSign==''){
+					if(response.data.object.event.needSign == null || response.data.object.event.needSign==''){
 						_this.needSignMinute = '不需要签到';
 					}
 				}
