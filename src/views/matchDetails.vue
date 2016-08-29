@@ -20,15 +20,20 @@
 					<i class="s-q-start"></i>
 					开始赛事进程
 				</button>
-				<button type="button" class="u-q-start u-q-jinxz" v-if="status==2" v-link="{ path: '/backend/backendTechpic'}">
-					<div class="s-q-jds" style="width:30%;"></div>
-					<span class="u-q-start-jdt">30%</span>
+				<button type="button" class="u-q-start u-q-jinxz" v-if="status==2 && rate!=100" v-link="{ path: '/backend/backendTechpic'}">
+					<div class="s-q-jds" style="width:{{rate}}%;"></div>
+					<span class="u-q-start-jdt">{{rate}}%</span>
+				</button>
+				<button type="button" class="u-q-start u-q-jinxz" v-if="status==2 && rate==100" v-link="{ path: '/backend/backendTechpic'}">
+					<i class="s-q-start"></i>
+					结束赛事
 				</button>
 				<button type="button" class="u-q-start" v-if="status==3" disabled>
 					已结束
 				</button>
 				<p class="g-q-remtime" id="txt">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
 				<a href="#" class="u-q-enter" v-if="state==2" @click="joinMatch">我也要参与</a>
+				<a href="#" class="u-q-enter" v-if="state==4" @click="qiandao">去签到</a>
 			</div>
 			<div class="g-q-fbs" v-show="isc2">
 				<button type="button" class="u-q-start" v-if="state==1" disabled>
@@ -43,9 +48,13 @@
 					<i class="s-q-start"></i>
 					已报名
 				</button>
-				<button type="button" class="u-q-start" v-if="state==4" @click="qiandao">
+				<button type="button" class="u-q-start" v-if="state==4 && signed==0" @click="qiandao">
 					<i class="s-q-start"></i>
-					签到中
+					签到
+				</button>
+				<button type="button" class="u-q-start" v-if="state==4 && signed==1" disabled>
+					<i class="s-q-start"></i>
+					已签到
 				</button>
 				<button type="button" class="u-q-start" v-if="state==5" disabled>
 					<i class="s-q-start"></i>
@@ -55,9 +64,9 @@
 					<i class="s-q-start"></i>
 					赛事准备开启
 				</button>
-				<button type="button" class="u-q-start" v-if="state==7" disabled>
-					<i class="s-q-start"></i>
-					开赛中
+				<button type="button" class="u-q-start u-q-jinxz" v-if="state==7" disabled>
+					<div class="s-q-jds" style="width:{{rate}}%;"></div>
+					<span class="u-q-start-jdt">{{rate}}%</span>
 				</button>
 				<button type="button" class="u-q-start" v-if="state==8" disabled>
 					<i class="s-q-start"></i>
@@ -66,12 +75,16 @@
 				<p class="g-q-remtime" id="txts">距离开赛还有<span class="col42a">01</span>天&nbsp<span class="colfdb">•</span>&nbsp<span class="col42a">03:09</span></p>
 			</div>
 			<p class="g-q-name">{{name}}</p>
-			<div class="g-q-zbf">
+			<div class="g-q-zbf f-re">
 				<i class="g-q-hp f-fl">
 					<img v-bind:src="'http://img.wangyuhudong.com/'+icon">
 				</i>
 				<span class="f-fl ml20">{{nickname}}</span>
 				<span class="col7a8 f-fl ml20" v-if="isPublish==1">{{publishTime}}发布</span>
+				<span v-if="isPublish==1" class="f-re qrcodehov" style="margin-left: 8px;">
+					微信分享
+				</span>
+				<div id="qrcode"></div>
 			</div>
 			<p class="g-q-jj col7a8" v-if="brief==0 && isPublish==null">赛事还没有简介信息，<a href="#" v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
 			<p class="g-q-jj col7a8" v-if="brief==0 && isPublish==1">赛事还没有简介信息</p>
@@ -338,10 +351,12 @@ function format(shijianchuo){
 	var s = time.getSeconds();
 	return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm);
 }
-function timer(text,a,n) {
+function timer(text,a,n,c) {
 	var currentTime = new Date().getTime();
 
 	var leftTime = a - (currentTime - n);
+
+	var leftMillis = leftTime;
 
 	var leftDay = Math.floor(leftTime / (1000 * 60 * 60 * 24));
 	leftTime = leftTime - leftDay * (1000 * 60 * 60 * 24);
@@ -368,8 +383,16 @@ function timer(text,a,n) {
 	if(leftSecond > 0) {
 		leftStr += leftSecond + '秒';
 	}
-	document.getElementById('txt').innerHTML = text + leftStr;
-	document.getElementById('txts').innerHTML = text + leftStr;
+	if(c==0){
+		document.getElementById('txts').innerHTML = text + leftStr;
+	}
+	else if(c==1){
+		document.getElementById('txt').innerHTML = text + leftStr;
+	}
+
+	if(leftMillis <= 0) {
+		window.location.reload();
+	}
 }
 import topHead from '../components/topHead.vue'
 import sideBar from '../components/sideBar.vue'
@@ -446,7 +469,8 @@ import createPop from '../components/createPop.vue'
 		        cherkedMemArr:'',
 		        status:'',//创建者赛事状态视角
 		        isc:false,
-		        isc2:false
+		        isc2:false,
+		        rate:''//进度条
 			}
 		},
 		components:{
@@ -460,6 +484,15 @@ import createPop from '../components/createPop.vue'
 			_this.formdata.oetRoundId = window.sessionStorage.getItem("eventRoundId");
 			_this.singlebm.roundId = window.sessionStorage.getItem("eventRoundId");
 			_this.formdata.oetInfoId = window.sessionStorage.getItem("eventId");
+			//二维码生成
+			jQuery(function(){
+				jQuery('#qrcode').qrcode({
+					render: "canvas",//设置渲染方式  
+					width: 100,//设置宽度  
+					height: 100,//设置高度 
+					text: "http://wy.kaisaiba.wangyuhudong.com/#/matchShare?eventId="+_this.formdata.oetInfoId
+				});
+			})
 			var parm={};
             parm.id=_this.formdata.oetInfoId;
 			
@@ -469,6 +502,9 @@ import createPop from '../components/createPop.vue'
 			var code = response.data.code;
 			if(code==1){
 				_this.status = response.data.object.round.status;
+				if(status==2){
+				 	_this.rate = response.data.object.rate;
+				}
 				_this.brief= response.data.object.event.brief;
 				if(_this.brief=='' || _this.brief==null){
 					_this.brief = 0;
@@ -530,7 +566,7 @@ import createPop from '../components/createPop.vue'
 					_this.applyEnd='';
 					$('.bxsjnull').text('不可报名');
 				}else{
-					if(response.data.object.round.needSign == null || response.data.object.round.needSign==''){
+					if(response.data.object.event.needSign == null || response.data.object.event.needSign==''){
 						_this.needSignMinute = '不需要签到';
 					}
 				}
@@ -538,26 +574,34 @@ import createPop from '../components/createPop.vue'
 					_this.isc = true;
 					var nowTime = response.data.object.nowTime;
 					_this.state = response.data.object.state;
-
 					var subTime = new Date().getTime() - nowTime;
-					if(_this.state==1){	
+					if(_this.state==1){
 						var txt = '距离报名开始还有';
-						timer(txt, response.data.object.round.applyBegin ,subTime) 
+						timer(txt, response.data.object.round.applyBegin ,subTime, _this.isCreater) 
 						var intervalNum = window.setInterval(function() {
-							timer(txt, response.data.object.round.applyBegin ,subTime);
+							timer(txt, response.data.object.round.applyBegin ,subTime,_this.isCreater);
 						}, 1000);
-					}else if(_this.state==2){
+					}
+					else if(_this.state==2){
 						var txt = '距离报名结束还有';
-						timer(txt, response.data.object.round.applyEnd ,subTime) 
+						timer(txt, response.data.object.round.applyBegin ,subTime, _this.isCreater) 
 						var intervalNum = window.setInterval(function() {
-							timer(txt, response.data.object.round.applyEnd,subTime);
+							timer(txt, response.data.object.round.applyBegin ,subTime,_this.isCreater);
 						}, 1000);
-					}else if(_this.state==5){
-						var txt = '距离比赛开始还有';
-						timer(txt, response.data.object.round.applyEnd ,subTime) 
+					}else if(_this.state==3){
+						var txt = '距离签到开始还有';
+						timer(txt, response.data.object.signBeginTime ,subTime,_this.isCreater) 
 						var intervalNum = window.setInterval(function() {
-							timer(txt, response.data.object.round.applyEnd,subTime);
+							timer(txt, response.data.object.round.activityBegin ,subTime, _this.isCreater);
 						}, 1000);
+					}else if(_this.state==4 || _this.state==5){
+						var txt = '距离赛事开始还有';
+						timer(txt, response.data.object.round.activityBegin ,subTime,_this.isCreater) 
+						var intervalNum = window.setInterval(function() {
+							timer(txt, response.data.object.round.activityBegin ,subTime,_this.isCreater);
+						}, 1000);
+					}else if(_this.state==6){
+						$('#txt').html('等待赛事组织者开赛');
 					}
 				}else if(_this.isCreater ==0 && _this.isPublish==1){
 						_this.isc2 = true;
@@ -566,42 +610,28 @@ import createPop from '../components/createPop.vue'
 						var subTime = new Date().getTime() - nowTime;
 						if(_this.state==1){
 							var txt = '距离报名开始还有';
-							timer(txt, response.data.object.round.applyBegin ,subTime) 
+							timer(txt, response.data.object.round.applyBegin ,subTime, _this.isCreater) 
 							var intervalNum = window.setInterval(function() {
-								timer(txt, response.data.object.round.applyBegin ,subTime);
+								timer(txt, response.data.object.round.applyBegin ,subTime,_this.isCreater);
 							}, 1000);
 						}
-						else if(_this.state==2 && response.data.object.applied==0){
+						else if(_this.state==2){
 							var txt = '距离报名结束还有';
-							timer(txt, response.data.object.round.applyBegin ,subTime) 
+							timer(txt, response.data.object.round.applyBegin ,subTime, _this.isCreater) 
 							var intervalNum = window.setInterval(function() {
-								timer(txt, response.data.object.round.applyBegin ,subTime);
+								timer(txt, response.data.object.round.applyBegin ,subTime,_this.isCreater);
 							}, 1000);
-						}else if(_this.state==2 && response.data.object.applied==1){
-							if(response.data.object.event.needSign==1){
-								var txt = '距离签到开始还有';
-								timer(txt, response.data.object.signBeginTime ,subTime) 
-								var intervalNum = window.setInterval(function() {
-									timer(txt, response.data.object.round.activityBegin ,subTime);
-								}, 1000);
-							}else if(response.data.object.event.needSign==0){
-								var txt = '距离赛事开始还有';
-								timer(txt, response.data.object.round.activityBegin ,subTime) 
-								var intervalNum = window.setInterval(function() {
-									timer(txt, response.data.object.round.activityBegin ,subTime);
-								}, 1000);
-							}
 						}else if(_this.state==3){
 							var txt = '距离签到开始还有';
-							timer(txt, response.data.object.signBeginTime ,subTime) 
+							timer(txt, response.data.object.signBeginTime ,subTime,_this.isCreater) 
 							var intervalNum = window.setInterval(function() {
-								timer(txt, response.data.object.round.activityBegin ,subTime);
+								timer(txt, response.data.object.round.activityBegin ,subTime, _this.isCreater);
 							}, 1000);
 						}else if(_this.state==4 || _this.state==5){
 							var txt = '距离赛事开始还有';
-							timer(txt, response.data.object.round.activityBegin ,subTime) 
+							timer(txt, response.data.object.round.activityBegin ,subTime,_this.isCreater) 
 							var intervalNum = window.setInterval(function() {
-								timer(txt, response.data.object.round.activityBegin ,subTime);
+								timer(txt, response.data.object.round.activityBegin ,subTime,_this.isCreater);
 							}, 1000);
 						}else if(_this.state==6){
 							$('#txts').html('等待赛事组织者开赛');
@@ -1138,8 +1168,31 @@ import createPop from '../components/createPop.vue'
           });
 		},
 		methods:{
-			qiandao:function(){
-				alert("别急，我还没做")
+			qiandao:function(event){
+				var _this = this;
+				event.preventDefault();
+				layer.confirm('是否签到？',{
+					btn: ['签到','取消'], //按钮
+				  	move:false,
+				  	closeBtn:0
+				},function(){
+					_this.$http.post('event/sign?roundId='+_this.formdata.oetRoundId+'&sign=1').then(function(response){
+						var code = response.data.code;
+						if(code==-1){
+							layer.msg('请先登录',{offset:"0px"});
+						}
+						else if(code==0){
+							layer.msg(response.data.msg,{offset:"0px"});
+						}else if(code==1){
+							layer.msg('签到成功',{offset:"0px"});
+							window.location.reload();
+						}
+					}, function(response){
+						console.log(22)
+					})
+				},function(){
+					layer.closeAll();
+				})
 			},
 			cherkchange:function(){
 				var _this = this;
@@ -1398,7 +1451,7 @@ import createPop from '../components/createPop.vue'
 		            		if(appliable==-1){
 		            			layer.msg('请先登录',{offset:"0px"});
 		            		}else if(appliable==-2){
-		            			layer.confirm('该赛事需要以'+_this.itemName+'战队形式报名参与，你当前还未处于'+_this.itemName+'类型战队中，你可以创建或加入王者荣耀战队来参与赛事',{
+		            			layer.confirm('该赛事需要以'+_this.itemName+'战队形式报名参与，你当前还未处于'+_this.itemName+'类型战队中，你可以创建或加入'+_this.itemName+'战队来参与赛事',{
 		            				btn:['知道了','去创建'],
 									move:false,
 							  		closeBtn:0
@@ -1456,4 +1509,15 @@ import createPop from '../components/createPop.vue'
 		}
 	}
 </script>
+<style type="text/css">
+	#qrcode{
+	    position: absolute;
+		left: 350px;
+		top: -30px;
+		display: none;
+	}
+	.qrcodehov:hover + #qrcode{
+		display: block;
+	}
+</style>
 

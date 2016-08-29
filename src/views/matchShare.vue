@@ -7,7 +7,7 @@
         <p class="m-sh-tit">做好准备，《守望先锋》世界杯即将到来</p>
         <img v-bind:src="icon" class="m-sh-head">
         <p class="m-sh-name match_sponsor">网娱官方赛事</p>
-        <p class="m-sh-jj match_intro">{{ brief.briefsmall }}</p>
+        <p class="m-sh-jj match_intro" v-bind:class="{ 'context_more': isbrief }">{{ brief.textbrief }}</p>
         <span id="introExpandSpan" class="expandBtn" v-show="briefmore" @click="briefMore">展开<i class="icon-uniE60E" style="color: #42aa53;"></i></span>
         <div class="matchShare_content">
             <div class="matchshare_head">
@@ -81,7 +81,7 @@
                     </ul>
                     <div class="match_rules">
                         <h2 class="match_rules_title">赛事规则</h2>
-                        <p class="match_rules_content">{{ rule.rulesmall }}</p>
+                        <p class="m-sh-jj match_intro" v-bind:class="{ 'context_more': isrules }">{{ rule.textrule }}</p>
                         <div id="rules_expandBtn" class="expandBtn" v-show="rulemore" @click="ruleMore">展开<i class="icon-uniE60E" style="color: #42aa53;"></i></div>
                     </div>
                     <div class="match_awards">
@@ -148,14 +148,16 @@ export default {
                 seatidb: {},
                 briefmore:false,
                 rulemore:false,
-                pricemore:false
+                pricemore:false,
+                isbrief: false,
+                isrules: false
 
             }
         },
         ready: function() {
             var _this = this;
             var parm = {};
-            parm.id = window.sessionStorage.getItem("eventId");
+            parm.id = this.$route.query.eventId;
 
             _this.$http.get('event/info', parm).then(function(response) {
             	_this.roundStatus = response.data.object.state;
@@ -195,21 +197,27 @@ export default {
                     _this.matchlist.publish = format(response.data.object.event.publishTime);
                     _this.matchlist.icon = 'http://img.wangyuhudong.com/' + response.data.object.creater.icon;
                     _this.brief.textbrief=response.data.object.event.brief;
-                    // _this.brief.textbrief= "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
-                    if(_this.brief.textbrief && _this.brief.textbrief.length>55){
-	            		_this.brief.briefsmall =_this.brief.textbrief.substr(0,54)+'......';
+                    _this.brief.textbrief= "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
+                    
+                    var $match_intro=$('.match_intro');
+                    if(_this.brief.textbrief && $match_intro.height()>60){
+                    	_this.isbrief=true;
 	            		_this.briefmore=true;
-	            	}else{
-	            		_this.brief.briefsmall=_this.brief.textbrief;
+	            	}else if(!_this.brief.textbrief){
+	            		_this.brief.textbrief="还没有简介哦～"
 	            	}
 
 	            	_this.rule.textrule=response.data.object.event.regimeRule;
                     // _this.rule.textrule= "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
-                    if(_this.rule.textrule && _this.rule.textrule.length>55){
-	            		_this.rule.rulesmall=_this.rule.textrule.substr(0,54)+'......';
+
+                    var $match_rules=$('.match_rules_content');
+                    console.log($('.match_rules_content').height());
+                    if(_this.rule.textrule && $match_rules.height()>100){
+
+	            		_this.isrules=true;
 	            		_this.rulemore=true;
-	            	}else{
-	            		_this.rule.rulesmall=_this.rule.textrule;
+	            	}else if(!_this.rule.textrule){
+	            		_this.rule.textrule="还没有规则哦～";
 	            	}
 
 	            	_this.prize.textprize =response.data.object.event.regimeRule;
@@ -217,8 +225,10 @@ export default {
                     if(_this.prize.textprize && _this.prize.textprize.length>55){
 	            		_this.prize.prizesmall=_this.prize.textprize.substr(0,54)+'......';
 	            		_this.pricemore=true;
-	            	}else{
+	            	}else if(_this.prize.textprize){
 	            		_this.prize.prizesmall=_this.prize.textprize;
+	            	}else{
+	            		_this.prize.prizesmall="有点扣，居然没有奖励～"
 	            	}
                 }
 
@@ -772,7 +782,7 @@ export default {
                 this.isDetail = true;
             },
             briefMore: function () {
-            	this.brief.briefsmall=this.brief.textbrief;
+            	this.isbrief=false;
             	this.briefmore=false;
             },
             ruleMore: function () {
@@ -834,6 +844,7 @@ export default {
     font-size: 0.7rem;
     line-height: 1rem;
     overflow: hidden;
+    min-height: 3rem;
 }
 
 #introExpandSpan {
@@ -883,6 +894,8 @@ export default {
     padding: 0.5rem;
     font-size: 0.7rem;
     color: #52595c;
+    min-height: 5rem;
+    overflow: hidden;
 }
 
 #rules_expandBtn,
@@ -967,4 +980,8 @@ export default {
 	width: 100%;
 	overflow-x: scroll;
 }
+.context_more{
+	max-height: 3rem;
+}
+
 </style>

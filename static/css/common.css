@@ -1,8 +1,7 @@
 /* reset */
 @media only screen { html { font-size: 100px; } }
-@media only screen and (max-width: 1024px){ html { font-size: 80px; } }
-/*@media only screen and (max-width: 959px){ html { font-size: 64px; } }
-@media only screen and (max-width: 768px) { html { font-size: 37px; } }*/
+@media only screen and (max-width: 1024px){ html { font-size: 64px; } }
+@media only screen and (max-width: 768px) { html { font-size: 48px; } }
 @media only screen and (max-width: 414px) { html { font-size: 25px; } }
 @media only screen and (max-width: 320px) { html { font-size: 20px; } }
 
