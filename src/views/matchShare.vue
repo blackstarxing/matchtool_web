@@ -1,7 +1,7 @@
 <template>
     <div class="g-sh-m">
         <div class="m-sh-pot f-re">
-            <img src="">
+            <img  v-bind:src="poster">
             <span class="m-sh-fbsj">{{matchlist.publish}} 发布</span>
         </div>
         <p class="m-sh-tit">做好准备，《守望先锋》世界杯即将到来</p>
@@ -154,15 +154,15 @@ export default {
                 pricemore:false,
                 brieflittle: false,
                 rulelittle: false,
-                pricelittle: false
+                pricelittle: false,
+                poster:''
 
             }
         },
         ready: function() {
             var _this = this;
             var parm = {};
-            parm.id = 36;
-            // parm.id = _this.$route.params.eventId;
+            parm.id = _this.$route.params.eventId;
 
             // parm.id = window.sessionStorage.getItem("eventId");
 
@@ -203,6 +203,8 @@ export default {
                     _this.matchlist.pasttime = response.data.object.round.signBeginTime ? (esponse.data.object.round.signBeginTime) : '不需要签到';
                     _this.matchlist.publish = format(response.data.object.event.publishTime);
                     _this.icon = 'http://img.wangyuhudong.com/' + response.data.object.creater.icon;
+                    _this.poster= 'http://img.wangyuhudong.com/' + response.data.object.event.poster;
+                    console.log(_this.poster);
                     _this.brief.textbrief=response.data.object.event.brief;
                     // _this.brief.textbrief= "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
                     if(_this.brief.textbrief && _this.brief.textbrief.length>60){
