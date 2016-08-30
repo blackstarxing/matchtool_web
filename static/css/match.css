@@ -2522,7 +2522,7 @@ label.u-c-kz-sz{
   background: #171a21;
   position: relative;
   overflow: scroll;
-  cursor: pointer;
+  cursor: move;
 }
 .turn_btn{
   width: 220px;
