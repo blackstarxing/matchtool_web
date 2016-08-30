@@ -73,7 +73,7 @@
 					<div class="m-c-xx">
 						<div class="f-c">
 							<p class="g-c-l mt40">比赛地点<span class="colfdb f-tip"></span></p>
-							<input type="text" class="u-c-ipt" title="比赛地点" placeholder="请输入比赛地点" style="width:480px;" v-model="formdata.addreass" req>
+							<input type="text" class="u-c-ipt" title="比赛地点" name="matchaddress" placeholder="请输入比赛地点" style="width:480px;" v-model="formdata.addreass" req>
 						</div>
 						<div class="f-c">
 							<p class="g-c-l mt40">具体地址<span class="colfdb f-tip"></span></p>
@@ -534,6 +534,21 @@ import createPop from '../components/createPop.vue'
 		    slideup:function(){
 		    	$('.m-c-xx').slideUp();
 		    },
+			// 字符串长度
+		    strlens:function(str){
+		    	var len = 0;
+		        for (var i = 0; i < str.length; i++) {
+		            var c = str.charCodeAt(i);
+		            //单字节加1 
+		            if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+		                len++;
+		            }
+		            else {
+		                len += 2;
+		            }
+		        }
+		        return len;
+		    },
 		    goToSetformat:function(e){
 		    	var _this = this;
 		    	e.preventDefault();
@@ -549,13 +564,17 @@ import createPop from '../components/createPop.vue'
 		    		var nowDate = new Date(); 
 		    		var valid=true,valid2 = true,valid3 = true;
 		    		if(_this.formdata.mode==2 || _this.formdata.mode==3){
-		    			$('.m-c-xx [req]').each(function(){
+		    			$('.m-c-xx [req]').each(function(){		
 		    				var $this=$(this);
 							var value=$this.val(),name=$this.attr('title');	
 				    		var message="";
+				    		var vl = _this.strlens(value);
 				    		if(value==null||value==''){
 								message=name+'不能为空！';
 								valid=false;
+							}else if((vl<10 && value!="") || vl>120){
+								valid = false;
+								message="比赛地址必须在5 ~ 60个汉字之间!";
 							}
 							errorPlacement(message,$this);
 		    			})

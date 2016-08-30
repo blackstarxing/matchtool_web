@@ -597,7 +597,7 @@ import createPop from '../components/createPop.vue'
 						var txt = '距离签到开始还有';
 						timer(txt, response.data.object.signBeginTime ,subTime,_this.isCreater) 
 						var intervalNum = window.setInterval(function() {
-							timer(txt, response.data.object.round.signBeginTime ,subTime, _this.isCreater);
+							timer(txt, response.data.object.signBeginTime ,subTime, _this.isCreater);
 						}, 1000);
 					}else if(_this.state==4 || _this.state==5){
 						_this.isc3 = true;
