@@ -1010,6 +1010,7 @@ label.u-c-kz-sz{
  /*头部*/
 .g-hd{
 	position: fixed;
+	top:0;
 	width: 100%;
 	height: 60px;
 	background: #27282e;
