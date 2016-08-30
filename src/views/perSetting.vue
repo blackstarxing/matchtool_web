@@ -23,14 +23,14 @@
 						<input id="" type="text" class="nickname text_box" maxlength="8" v-model="userInfoData.nickname" @blur="checkNickname(userInfoData.nickname)">
 						<p id="nicknameError" class="errorInfo" style="display: none;"><i></i><span id="nicknameErrorText">昵称已被使用</span></p>
 						<!-- <p id="nicknameLenError" class="errorInfo" style="display: none;"><i></i><span>昵称长度太长</span></p> -->
-					</div>	
+					</div>  
 					<div class="form_item gender_item">
 						<label for="" class="text_label">性别 : </label>
 						<div class="g-c-zbf perset_zbf">
 							<div class="f-fl g-c-ms">
 								<input type="radio" id="man" name="gender" class="regular-radio" value="0" v-model="userInfoData.sex"/>
 								<label for="man"></label>
-								<label for="man" class="u-c-per">		
+								<label for="man" class="u-c-per">   
 									<span class="f-fl">
 										男
 									</span>
@@ -39,7 +39,7 @@
 							<div class="f-fl g-c-ms">
 								<input type="radio" id="woman" name="gender" class="regular-radio" value="1" v-model="userInfoData.sex"/>
 								<label for="woman"></label>
-								<label for="woman" class="u-c-per">		
+								<label for="woman" class="u-c-per">   
 									<span class="f-fl">
 										女
 									</span>
@@ -48,7 +48,7 @@
 							<!-- <div class="f-fl">
 								<input type="radio" id="secret" name="gender" class="regular-radio" value="2" v-model="userInfoData.sex"/>
 								<label for="secret"></label>
-								<label for="secret" class="u-c-per">		
+								<label for="secret" class="u-c-per">    
 									<span class="f-fl">
 										保密
 									</span>
@@ -73,17 +73,17 @@
 							<option value="-1">请选择</option>
 							<option value="{{ item }}" v-for="item in userBirthday.yearList" v-text="item"></option>
 						</select>
-						<span>年</span>
+						<span class="col7a8">年</span>
 						<select class="u-c-slt perset_slt" name="month" id="" v-model="userBirthday.monthNum" @change="setMonthNextDo" required>
 							<option value="-1">请选择</option>
 							<option value="{{ item }}" v-for="item in userBirthday.monthList" v-text="item"></option>
 						</select>
-						<span>月</span>
+						<span class="col7a8">月</span>
 						<select class="u-c-slt perset_slt" name="day" id="" v-model="userBirthday.dayNum" required>
 							<option value="-1">请选择</option>
 							<option value="{{ item }}" v-for="item in userBirthday.dayList" v-text="item"></option>
 						</select>
-						<span class="mr-0">日</span>
+						<span class="mr-0 col7a8">日</span>
 					</div>
 					<div class="form_item introduction">
 						<label for="" class="text_label">个人介绍 : </label>
@@ -136,7 +136,7 @@
 							<p id="codeError" class="errorInfo" style="display: none;"><i></i><span id="codeErrorText">邀请码已被使用</span></p>
 						</div>
 					</template>
-					<p v-else class="col42a" style="margin-bottom: 40px;">你已经是赛事组织者了！</p>
+					<p v-else class="col42a" style="margin-top: 20px; margin-bottom: 120px;">你已经是赛事组织者了！</p>
 						<!-- <div class="PICExplain"> -->
 					<p class="organizersCfct_title">关于组织者内测邀请码</p>
 					<p class="PICExplain_text">组织者内测邀请码是开赛吧提供给专业的赛事组织或民间赛事举办达人在开赛吧平台创建维护赛事的授权。认证的组织者可通过开赛吧提供的赛事举办工具自定义个性赛事，并帮助完成报名信息收集、对阵分组匹配等相关赛事组织筹办工作。</p>
@@ -153,16 +153,19 @@
 					<a href="javascript:void(0);" class="u-btn-close" @click="closePop"></a>
 					<div class="picBox">
 						<div id="pic"></div>
-					</div>	
-				</div>			
+					</div>  
+				</div>      
 			</div>
+		</div>
+		<div class="footer">
+			浙江网竞网络科技有限公司  |   浙ICP备14028335号-2   |   Copyright©2014 kaisaiba.com All Rights Reserved.
 		</div>
 </template>
 <script type="text/javascript">
 	import topHead from '../components/topHead.vue'
 	import sideBar from '../components/sideBar.vue'
 	import slideBar from '../components/slideBar.vue'
-	import createPop from '../components/createPop.vue'	
+	import createPop from '../components/createPop.vue' 
 	export default {
 		route: {
 			data () {
@@ -233,18 +236,18 @@
 			}
 		},
 		// computed: {
-		// 	isThird: {
-		// 		cache: false,
-		// 		get: function () {
-		// 			return this.tabFlag === 2 && !this.isCfct
-		// 		}
-		// 	}
+		//  isThird: {
+		//    cache: false,
+		//    get: function () {
+		//      return this.tabFlag === 2 && !this.isCfct
+		//    }
+		//  }
 		// },
 		components: {
 			topHead,
-	    sideBar,
-	    slideBar,
-	    createPop
+			sideBar,
+			slideBar,
+			createPop
 		},
 		ready: function () {
 			var param = window.location.href
@@ -279,7 +282,7 @@
 					$(".m-userpic-mask").hide();
 				},
 				error:function( err ) {
-					console.info( err );	
+					console.info( err );  
 				},
 				buttonText : '选择图片',
 				chunked:true,
@@ -294,57 +297,57 @@
 			// var _this = this
 			this.$http.get('sysuser/querySysUserInfo').then(function (response) {
 			 // this.$set('userInfoData', data);
-			  this.userInfoData = response.data.object.userInfo
-			  this.nowNickname = this.userInfoData.nickname
-			  this.saveUserInfo.sysUserId = response.data.object.sysUser.id
-			  // 设置参赛资料的字段
-			  this.saveMatchInfo.sysUserId = response.data.object.sysUser.id
-			  this.saveMatchInfo.userId = this.userInfoData.id
-			  // 如果没有设置手机号码就用默认的用户登录手机号码，否则就用设置后的手机号码
-			  //if (this.userInfoData.telephone === "") {
-			  //	this.saveMatchInfo.telephone = this.userInfoData.username
-			  //} else {
-			  this.saveMatchInfo.telephone = this.userInfoData.telephone
-			  //} 
-			  this.$http.get('sysuser/querySysAreaInfo').then(function (response) {
+				this.userInfoData = response.data.object.userInfo
+				this.nowNickname = this.userInfoData.nickname
+				this.saveUserInfo.sysUserId = response.data.object.sysUser.id
+				// 设置参赛资料的字段
+				this.saveMatchInfo.sysUserId = response.data.object.sysUser.id
+				this.saveMatchInfo.userId = this.userInfoData.id
+				// 如果没有设置手机号码就用默认的用户登录手机号码，否则就用设置后的手机号码
+				//if (this.userInfoData.telephone === "") {
+				//  this.saveMatchInfo.telephone = this.userInfoData.username
+				//} else {
+				this.saveMatchInfo.telephone = this.userInfoData.telephone
+				//} 
+				this.$http.get('sysuser/querySysAreaInfo').then(function (response) {
 					//console.log(response)
 					this.rootArea = response.data.object.areaMap.sysRootArea
 				})
-			  // 如果已设置头像
-			 	if (response.data.object.userInfo.icon != "") {
-			 		this.saveUserInfo.icon = response.data.object.userInfo.icon
-			 	}
+				// 如果已设置头像
+				if (response.data.object.userInfo.icon != "") {
+					this.saveUserInfo.icon = response.data.object.userInfo.icon
+				}
 
-			  // 如果已设置省份和城市
-			  if (response.data.object.areaMap) {
-			  	this.rootAreaId = response.data.object.areaMap.pid.toString()
-				  if (this.rootAreaId != "") {
-				  	this.secondAreaId = response.data.object.areaMap.areaCode
-				  	this.getSecondArea(this.rootAreaId)
-				  }
-			  } else {
-			  	this.rootAreaId = "-1"
-			  	this.secondAreaId = "-2"
-			  }
-			  
-			  // 如果已设置生日
-			  if (response.data.object.sysUser.birthdayStr != null) {
-			  	var str = response.data.object.sysUser.birthdayStr
-			  	var arr = str.split('-');
-			  	this.userBirthday.yearNum = arr[0]
-			  	if (arr[1].length > 1) this.userBirthday.monthNum = arr[1].charAt(1) + ""
-			  	else this.userBirthday.monthNum = arr[1]
-			  	this.getDayList()
-			  	if (arr[2].length > 1) this.userBirthday.dayNum = arr[2].charAt(1) + ""
-			  	else this.userBirthday.dayNum = arr[2]
-			  }
+				// 如果已设置省份和城市
+				if (response.data.object.areaMap) {
+					this.rootAreaId = response.data.object.areaMap.pid.toString()
+					if (this.rootAreaId != "") {
+						this.secondAreaId = response.data.object.areaMap.areaCode
+						this.getSecondArea(this.rootAreaId)
+					}
+				} else {
+					this.rootAreaId = "-1"
+					this.secondAreaId = "-2"
+				}
+				
+				// 如果已设置生日
+				if (response.data.object.sysUser.birthdayStr != null) {
+					var str = response.data.object.sysUser.birthdayStr
+					var arr = str.split('-');
+					this.userBirthday.yearNum = arr[0]
+					if (arr[1].length > 1) this.userBirthday.monthNum = arr[1].charAt(1) + ""
+					else this.userBirthday.monthNum = arr[1]
+					this.getDayList()
+					if (arr[2].length > 1) this.userBirthday.dayNum = arr[2].charAt(1) + ""
+					else this.userBirthday.dayNum = arr[2]
+				}
 
 				// 如果没有设置性别
-			  if (this.userInfoData.sex === null) {
-			  	this.userInfoData.sex = 0;
-			  }
+				if (this.userInfoData.sex === null) {
+					this.userInfoData.sex = 0;
+				}
 
-			  // 如果没有设置个人介绍
+				// 如果没有设置个人介绍
 				if (this.userInfoData.speech === null) {
 					this.userInfoData.speech = ''
 				}
@@ -392,21 +395,21 @@
 			},
 			validateIdCard: function (id) {
 				if(!/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/.test(id) && id != "") {
-  				$('#idCardError').show()
-  				this.vIdCard = false
-  			} else {
-  				$('#idCardError').hide()
-  				this.vIdCard = true
-  			}
+					$('#idCardError').show()
+					this.vIdCard = false
+				} else {
+					$('#idCardError').hide()
+					this.vIdCard = true
+				}
 			},
 			validateTel: function (telNum) {
 				if(!/^1([0-9]){10}$/.test(telNum) && telNum != "") {
-	    		$('#telephoneError').show()
-	    		this.vTel = false
-  			} else {
-  				$('#telephoneError').hide()
-  				this.vTel = true
-  			}
+					$('#telephoneError').show()
+					this.vTel = false
+				} else {
+					$('#telephoneError').hide()
+					this.vTel = true
+				}
 			},
 			validateQQ: function (qq) {
 				if (!/^[1-9]\d{4,9}$/.test(qq) && qq != "") {
@@ -419,29 +422,29 @@
 			},
 			checkNickname: function (nickname) {
 				// if (this.userInfoData.nickname.length > 8) {
-				// 	$('#nicknameError').show()
-				// 	$('#nicknameErrorText').html("昵称长度不能超过8位")
-				// 	this.vSaveUserInfo = false
-				// 	return
+				//  $('#nicknameError').show()
+				//  $('#nicknameErrorText').html("昵称长度不能超过8位")
+				//  this.vSaveUserInfo = false
+				//  return
 				// } else {
-				// 	$('#nicknameError').hide()
-				// 	this.vSaveUserInfo = true
+				//  $('#nicknameError').hide()
+				//  this.vSaveUserInfo = true
 				// }
 				if (/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/.test(nickname)) {
-          $('#nicknameError').show()
+					$('#nicknameError').show()
 					$('#nicknameErrorText').html("昵称有非法字符")
 					this.vSaveUserInfo = false
 					return 
-        } else if (!nickname) {
-          $('#nicknameError').show()
+				} else if (!nickname) {
+					$('#nicknameError').show()
 					$('#nicknameErrorText').html("请输入昵称")
-          this.vSaveUserInfo = false
-          return 
-         }
+					this.vSaveUserInfo = false
+					return 
+				 }
 				if (this.userInfoData.nickname === this.nowNickname) {
-				 	$('#nicknameError').hide()
-				 	this.vSaveUserInfo = true
-				 	return
+					$('#nicknameError').hide()
+					this.vSaveUserInfo = true
+					return
 				}
 				
 				var json = { nickname: this.userInfoData.nickname, telephone: this.userInfoData.username }
@@ -458,11 +461,11 @@
 				})
 			},
 			setUserPic: function(e){
-	        $('.m-userpic-mask').show();
-	    },
-	    closePop: function(e){
-	        $('.m-userpic-mask').hide();
-	    },
+					$('.m-userpic-mask').show();
+			},
+			closePop: function(e){
+					$('.m-userpic-mask').hide();
+			},
 			setCur: function (index) {
 				this.tabList.map(function (v, i) {
 					i == index ? v.isCur = true : v.isCur = false
@@ -519,7 +522,7 @@
 						dayListTmp.push(29)
 					}
 				} else if (month === 1 || month === 3 || month === 5 || month === 7 || month === 8 || month === 10 || month === 12) {
-					dayListTmp.push(29, 30, 31)	
+					dayListTmp.push(29, 30, 31) 
 				} else {
 					dayListTmp.push(29, 30)
 				}
@@ -591,10 +594,10 @@
 							_this.$http.post(v.url, params).then(function (response) {
 								//console.log(response)
 								if (response.data.code === -1) {
-									layer.msg("请先登录！")	
+									layer.msg("请先登录！")  
 									return 
 								} else if (response.data.code === 0) {
-									layer.msg("基本资料保存失败！")	
+									layer.msg("基本资料保存失败！")  
 									return 
 								} else if (response.data.code === 1) {
 									layer.msg("基本资料保存成功！")
@@ -684,13 +687,14 @@
 		color: #fff;
 		text-align: center;
 		margin: 0 18px 0 24px;
-		cursor: pointer;	
+		cursor: pointer;  
 	}
 	.perCenter_wrap .tab_active {
 		border-bottom: 4px solid #fdb91a;
 		color: #fdb91a;
 	}
 	.perset_content {
+		height: 422px;
 		padding: 30px 34px;
 	}
 	.basicInfo_form {
@@ -717,7 +721,7 @@
 	.form_item .text_label {
 		font-weight: bold;
 		color: #7a8387;
-		vertical-align: top;	
+		vertical-align: top;  
 		margin-right: 10px;
 	}
 	.form_item input {
@@ -766,7 +770,6 @@
 	.birthday span {
 		margin: 0 8px;
 		font-size: 14px;
-		color: #f2f6f9;
 	}
 	span.mr-0 {
 		margin-right: 0;
@@ -816,7 +819,7 @@
 		color: #7a8387;
 		text-align: center;
 		font-size: 12px;
-		line-height: 30px;		
+		line-height: 30px;    
 		background: #000;
 		filter: alpha(opacity=30); 
 		background-color: rgba(0, 0, 0, .3);
@@ -873,8 +876,8 @@
 		vertical-align: top;
 		background: url(../../static/images/tip.png);
 	}
-	.PICExplain_text {
-		width: 440px;
+	.perset_organizersCfct .PICExplain_text {
+		line-height: 20px;
 		margin-top: 18px;
 		font-size: 12px;
 		color: #7a8387;

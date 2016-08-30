@@ -14,7 +14,7 @@
 			</div>
 			<div class="perCenter_content">
 				<ul class="messageList">
-					<li class="messageList_item clearfix" v-for="item in msgShowList">
+					<li class="messageList_item clearfix" v-for="item in msgShowList" :class="{ pointerCursor: item.urlType != null }" @click="linkDetail">
 						<img :src="iconSrc" alt="">
 						<div class="textInfo messageInfo">
 							<h3 class="info_name" v-text="item.title">开赛吧管理员</h3>
@@ -65,6 +65,9 @@
 			</div>
 		</div>
 	</div>
+	<div class="footer">
+		浙江网竞网络科技有限公司  |   浙ICP备14028335号-2   |   Copyright©2014 kaisaiba.com All Rights Reserved.
+	</div>
 </template>
 <script type="text/javascript">
 	import topHead from '../components/topHead.vue'
@@ -112,10 +115,7 @@
 			if (!this.sysMsgListFlag) {
 				this.sysMsgListFlag = true
 				this.getSysMsgList(1)
-				this.$nextTick(function () {
-					//alert(123)
-					this.msgTextInit()
-				})
+				this.msgTextInit()
 			}
 			
 		},
@@ -132,6 +132,36 @@
 			}
 		},
 		methods: {
+			linkDetail: function (e) {
+				var index = $('.messageList_item').index(e.currentTarget)
+				var urlType = this.msgShowList[index].urlType
+				if (urlType === null) {     // 为null，则点击不跳转
+					e.preventDefault()
+				} else if (urlType === 4) { // 为4，跳转到个人中心参赛资料设置页面
+					this.$route.router.go({ name: 'perSetting', params: { userId: 1 } })
+				} else if (urlType === 1 || urlType === 2) { // 为1，跳转到赛事详情页面  为2，也跳转到赛事详情页对阵图标签
+					var _eventid, _roundid
+					var urlParam = this.msgShowList[index].urlParam
+					var paramsArr = urlParam.split('&')
+					paramsArr.forEach(function (v, i) {
+						var key = v.split('=')[0], value = v.split('=')[1]
+						if (key === 'eventId') {
+							_eventid = value
+						} else if (key === 'roundId') {
+							_roundid = value
+						}
+					})
+					window.sessionStorage.setItem("eventId",_eventid);
+					window.sessionStorage.setItem("eventRoundId",_roundid);
+					this.$route.router.go({path: '/matchDetails'})
+				} else if (urlType === 3) { // 为3，跳转到我的赛事页面
+					this.$route.router.go({ path: '/myMatch' })
+				}
+				//else if (urlType === 2) { 
+					// this.$route.router.go({path: '/matchDetails'})
+				//} 
+				
+			},
 			msgTextInit: function () {
 				var $msgDivList = $('.messageInfo')
 				var $msgTextList = $('.msgText')
@@ -166,7 +196,7 @@
 					// console.log($msgTextList.find('a'))
 					// $('.msgText:has(a)').eq(index).html(text[index])
 				})
-				
+
 			},
 			getMsgList: function (typeId, pageNum) {
 				var params = {}
@@ -174,18 +204,19 @@
 				json.page = pageNum
 				json.type = typeId
 				params.jsonInfo = JSON.stringify(json)
-				console.log('当前页数： ' + this.pageId)
 				this.$http.get('msg/getMsgList', params).then(function (response) {
 					// console.log(response)
 					var list = response.data.object.msgList.list
 					this.pageList.pages = response.data.object.msgList.pages
-					this.pageList.pageNum = response.data.object.msgList.pageNum
+					this.pageList.pageNumber = response.data.object.msgList.pageNumber
 					if (typeId === 1) {
 						this.sysMsgList = list
 					} else if (typeId === 2) {
 						this.matchMsgList = list
 					}
 					this.msgShowList = list
+				}, function (response) {
+					console.log(response)
 				})
 			},
 			getSysMsgList: function (pageNum) {
@@ -212,9 +243,9 @@
 					if (!this.matchMsgListFlag) {
 						this.matchMsgListFlag = true
 						this.getMatchMsgList(1)
-						this.$nextTick(function () {
-							this.msgTextInit()
-						})
+						// this.$nextTick(function () {
+						// 	this.msgTextInit()
+						// })
 					}
 
 					// 设置列表为我参与的赛事
@@ -238,7 +269,7 @@
 			nextpage:function(e){
 				// e.preventDefault();
 				var currentpage = this.pageList.pageNumber,
-					maxpage = this.pageList.pages;
+					  maxpage = this.pageList.pages;
     		if(currentpage<maxpage){
     			currentpage++;
     		
@@ -278,5 +309,8 @@
 	}
 	.messageInfo h3 {
 		margin: 6px 0 20px 0;
+	}
+	.pointerCursor {
+		cursor: pointer;
 	}
 </style>
