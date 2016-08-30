@@ -1,6 +1,6 @@
 <template>
 	<top-head></top-head>
-	<side-bar></side-bar>
+	<!-- <side-bar></side-bar> -->
 	<slide-bar></slide-bar>
 	<create-pop></create-pop>
 	<div class="backLast">
@@ -248,6 +248,9 @@
 				<li><i></i>完善信息并发布</li>
 			</ul>
 		</div>
+	</div>
+	<div class="footer">
+		浙江网竞网络科技有限公司  |   浙ICP备14028335号-2   |   Copyright©2014 kaisaiba.com All Rights Reserved.
 	</div>
 </template>
 <script type="text/javascript">
@@ -727,7 +730,8 @@ import createPop from '../components/createPop.vue'
 		    		if(valid && valid2 && valid3){
 		    			return true;
 		    		}else{
-		    			$('html,body').animate({ scrollTop: 0 }, 500);
+		    			var top=$('.f-tip').eq(0).offset().top-150;
+			    		$("body").scrollTop(top);
 		    		}
 		    	}
 		    	if(formValidate()){

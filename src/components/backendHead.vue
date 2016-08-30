@@ -7,7 +7,7 @@
 		<div class="header_right f-fr">
 			<a href="" class="notify"><span class="icon-uniE60D"></span></a>
 			<div class="avatar">
-				<img v-bind:src="'http://img.wangyuhudong.com/'+avatar"  alt=""><span class="icon-uniE60E"></span>
+				<img v-bind:src="avatar"  alt=""><span class="icon-uniE60E"></span>
 				<div class="nav-list">
 			        <ul>
 			            <!-- <li><a v-link="{ path: '/quickmatch'}"><span class="icon-uniE617"></span>创建赛事</a></li> -->
@@ -32,6 +32,11 @@
   	},
   	ready:function(){
   		var _this=this;
+  		_this.$http.get("isLogin").then(function(response){
+	        _this.avatar='http://img.wangyuhudong.com/'+response.data.object.icon;
+	    }, function(response){
+	        console.log(response);
+	    })
   		$('.avatar').hover(
 	        function(){
 	          $('.nav-list').show();
@@ -40,7 +45,6 @@
 	          $('.nav-list').hide();
 	        }	        
 	    );
-	    _this.avatar=window.sessionStorage.getItem("appusericon");
   	},
   	methods:{
       logout:function(e){

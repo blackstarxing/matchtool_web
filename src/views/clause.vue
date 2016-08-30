@@ -1,0 +1,101 @@
+<template>
+	<div class="g-hd">
+		<div class="header_left f-fl">
+			<img src="../../static/images/logo.png" class="u-cs-lg" alt="" v-link="{ path: '/index'}">
+		</div>
+		<div class="g-cs-fh">
+			<a v-link="{ path: '/index'}"></a>返回首页
+		</div>
+	</div>
+	<div class="g-w mt90 f-re">
+		<div class="g-cs-m">
+			<p class="f-tc">
+				<span class="g-cs-t">开赛吧服务协议</span>
+			</p>
+			<p class="g-cs-p1">首先感谢您选择开赛吧! </p>
+			<p class="lh24 f269">请务必认真阅读和理解本《用户服务协议》（以下简称《协议》）中规定的所有权利和限制。除非您接受本《协议》条款，否则您无权注册、登录或使用本协议所涉及的相关服务。您一旦注册、登录、使用或以任何方式使用本《协议》所涉及的相关服务的行为将视为对本《协议》的接受，即表示您同意接受本《协议》各项条款的约束。如果您不同意本《协议》中的条款，请不要注册、登录或使用本《协议》相关服务。 本《协议》是您（或称为“用户”）与上海熊猫互娱文化有限公司（下称“熊猫TV”）之间的法律协议。</p>
+			<p class="f269 g-cs-p2">第一条.服务内容</p>
+			<p class="g-cs-p2">1.1 熊猫TV为熊猫TV网站（网址：www.panda.tv，以下简称“熊猫TV网站”）的所有者及经营者，完全按照其发布的服务条款和操作规则提供基于互联网以及移动互联网的相关服务（以下简称“网络服务”）。熊猫TV网站网络服务的具体内容由熊猫TV根据实际情况提供，包括但不限于熊猫TV、熊猫TV移动版等主播服务、游戏服务等。</p>
+			<p class="g-cs-p2">1.2您一旦注册成功成为用户，您将得到一个密码和账号，您需要对自己在账户中的所有活动和事件负全责。如果由于您的过错导致您的账号和密码脱离您的控制，则由此导致的针对您、熊猫TV或任何第三方造成的损害，您将承担全部责任。</p>
+			<p class="g-cs-p2">1.3 用户应输入账号和密码登录熊猫TV账户。</p>
+			<p class="g-cs-p2">1.4 用户理解并接受，熊猫TV仅提供相关的网络服务，除此之外与相关网络服务有关的设备（如个人电脑、手机、及其他与接入互联网或移动互联网有关的装置）及所需的费用（如为接入互联网而支付的电话费及上网费、为使用移动网而支付的手机费）均应由用户自行负担。</p>
+			<p class="f269 g-cs-p2">第二条.用户使用规则</p>
+			<p class="g-cs-p2">2.1 用户在申请使用熊猫TV网站网络服务时，必须向熊猫TV提供准确的个人资料，如个人资料有任何变动，必须及时更新。因用户提供个人资料不准确、不真实而引发的一切后果由用户承担。</p>
+			<p class="g-cs-p2">2.2 用户不应将其账号、密码转让、出借或以任何脱离用户控制的形式交由他人使用。如用户发现其账号遭他人非法使用，应立即通知熊猫TV。因黑客行为或用户的保管疏忽导致账号、密码遭他人非法使用，熊猫TV不承担任何责任。</p>
+			<p class="g-cs-p2">2.3 用户应当为自身注册账户下的一切行为负责，因用户行为而导致的用户自身或其他任何第三方的任何损失或损害，熊猫TV不承担责任。</p>
+			<p class="g-cs-p2">2.4 用户理解并接受熊猫TV网站提供的服务中可能包括广告，同意在使用网络服务的过程中显示熊猫TV和第三方供应商、合作伙伴提供的广告。</p>
+			<p class="f269 g-cs-p2">2.5 用户在使用熊猫TV网络服务过程中，必须遵循以下原则：</p>
+			<p class="g-cs-p2">2.5.1 遵守中国有关的法律和法规；</p>
+			<p class="g-cs-p2">2.5.2 遵守所有与网络服务有关的网络协议、规定和程序；</p>
+		</div>
+	</div>
+	<div class="footer">
+		浙江网竞网络科技有限公司  |   浙ICP备14028335号-2   |   Copyright©2014 kaisaiba.com All Rights Reserved.
+	</div>
+</template>
+<script type="text/javascript">
+	export default {
+		data (){
+			return{
+
+			}
+		},
+		ready:function(){
+
+		},
+		methods:{
+
+		}
+	}
+</script>
+<style type="text/css">
+	.u-cs-lg{
+		margin-left: 0.5rem;
+	}
+	.g-cs-fh{
+		    float: right;
+		    color: #b7c1c6;
+		    font-size: 18px;
+		    height: 0.18rem;
+		    line-height: 18px;
+		    margin: 0.21rem 0.5rem 0 0;
+		    margin-right: 0.5rem;
+		    margin-top: 0.21rem;
+	}
+	.g-cs-fh a{
+		float: left;
+	    display: inline-block;
+	    margin-right: 10px;
+	    height: 40px;
+	    width: 20px;
+	    background: url(../../static/images/back.png) top center no-repeat;
+	}
+	.g-cs-m{
+		padding: 0.4rem;
+		background: #171a21;
+		color: #7a8387;
+	}
+	.g-cs-t{
+		display: inline-block;
+		box-sizing: border-box;
+		height: 0.46rem;
+		line-height: 0.46rem;
+		color: #f9b61b;
+		border-bottom: 1px solid #f9b61b;
+		border-top: 1px solid #f9b61b;
+		font-size: 24px;
+	}
+	.lh24{
+		line-height: 24px;
+	}
+	.g-cs-p1{
+	    margin-top: 0.3rem;
+		margin-bottom: 0.12rem;
+	}
+	.f269{
+		color: #f2f6f9;
+	}
+	.g-cs-p2{
+		margin: 0.12rem 0;
+	}
+</style>

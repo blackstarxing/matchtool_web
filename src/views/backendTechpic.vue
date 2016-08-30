@@ -621,11 +621,15 @@ export default {
                 }
 
                 //获取turn>1的数据
-                var listtwo = [];
-                var listthree = [];
-                var listfour = [];
-                var listfive = [];
-                var list = [listtwo, listthree, listfour, listfive];
+                 var listtwo=[];
+                 var listthree=[];
+                 var listfour=[];
+                 var listfive=[];
+                 var listsix=[];
+                 var listseven=[];
+                 var listeight=[];
+                 var listnight=[];
+                 var list = [listtwo,listthree,listfour,listfive,listsix,listseven,listeight,listnight];
                 var _html;
 
                 function getnumall(arr, level) {
@@ -654,7 +658,7 @@ export default {
                 }
 
                 function newdom(i, list) {
-                    _html = '<div class="group_num">' + list[i].groupNumber + '</div><ul class="unit_ul" data-groupid=' + list[i].id + ' style="width:200px;"><li class="recta" data-seatid=' + list[i].seats[0].id + ' style="margin-bottom:1px;"><input name="target_id" type="hidden" value=' + list[i].seats[0].targetId + '><span class="recta_num">' + (list[i].seats[0].seatNumber ? list[i].seats[0].seatNumber : "") + '</span><span class="recta_personname">' + (list[i].seats[0].name ? list[i].seats[0].name : "") + '</span><span class="recta_right ' + (list[i].seats[0].isWin ? "add_winer" : "") + '" ' + (list[i].seats[1].target ? "" : "style='display: none'") + '>' + (list[i].scores ? list[i].scores.seatleft : "") + '</span></li><li class="recta" data-seatid=' + list[i].seats[1].id + '><input name="target_id" type="hidden" value=' + list[i].seats[1].targetId + '><span class="recta_num">' + (list[i].seats[1].seatNumber ? list[i].seats[1].seatNumber : '') + '</span><span class="recta_personname">' + (list[i].seats[1].name ? list[i].seats[1].name : "") + '</span><span class="recta_right ' + (list[i].seats[1].isWin ? "add_winer" : "") + '" ' + (list[i].seats[1].target ? "" : "style='display: none'") + '>' + (list[i].scores ? list[i].scores.seatright : "") + '</span></li></ul><div class="add_options"></div><div class="edit_div" ' + (list[i].seats[1].target ? "" : "style='display: none'") + '><div class="detail_scores">' + JSON.stringify(list[i].detailedScores) + '</div><div class="edit_score" ' + (list[i].scores ? "style='opacity: 0;'" : "") + '></div><ul class="scores_detail_list clearfix"></ul><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:5px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_reset"><img style="margin-top:5px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>';
+                    _html = '<div class="group_num">' + list[i].groupNumber + '</div><ul class="unit_ul" data-groupid=' + list[i].id + ' style="width:200px;"><li class="recta" data-seatid=' + list[i].seats[0].id + ' style="margin-bottom:1px;"><input name="target_id" type="hidden" value=' + list[i].seats[0].targetId + '><span class="recta_num">' + (list[i].seats[0].seatNumber ? list[i].seats[0].seatNumber : "") + '</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">' + (list[i].seats[0].name ? list[i].seats[0].name : "") + '</span><span class="recta_right ' + (list[i].seats[0].isWin ? "add_winer" : "") + '" ' + (list[i].seats[1].target ? "" : "style='display: none'") + '>' + (list[i].scores ? list[i].scores.seatleft : "") + '</span></li><li class="recta" data-seatid=' + list[i].seats[1].id + '><input name="target_id" type="hidden" value=' + list[i].seats[1].targetId + '><span class="recta_num">' + (list[i].seats[1].seatNumber ? list[i].seats[1].seatNumber : '') + '</span><span class="recta_personname" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">' + (list[i].seats[1].name ? list[i].seats[1].name : "") + '</span><span class="recta_right ' + (list[i].seats[1].isWin ? "add_winer" : "") + '" ' + (list[i].seats[1].target ? "" : "style='display: none'") + '>' + (list[i].scores ? list[i].scores.seatright : "") + '</span></li></ul><div class="add_options"></div><div class="edit_div" ' + (list[i].seats[1].target ? "" : "style='display: none'") + '><div class="detail_scores">' + JSON.stringify(list[i].detailedScores) + '</div><div class="edit_score" ' + (list[i].scores ? "style='opacity: 0;'" : "") + '></div><ul class="scores_detail_list clearfix"></ul><ul class="float_edit"><li class="float_edit_edit"><img style="margin-top:5px;" src="../../static/images/edit.png"><p>编辑</p></li><li class="float_edit_reset"><img style="margin-top:5px;" src="../../static/images/retech.png"><p>重赛</p></li></ul></div>';
 
                     return _html;
                 }
@@ -769,7 +773,7 @@ export default {
                     $this.parent().find(".float_edit").show();
                     var scores_arry = JSON.parse($this.prev('.detail_scores').text());
                     var $scores_ul = $this.next('.scores_detail_list');
-                    var _length = scores_arry.length;
+                    var _length = scores_arry?scores_arry.length:0;
                     var $float_edit = $scores_ul.next('.float_edit');
                     var _left = 200 + (25 * _length);
 

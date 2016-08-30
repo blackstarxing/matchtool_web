@@ -30,7 +30,7 @@
 						</div>
 						<div class="member-list" v-for="member in memberlist.list">
 							<ul>
-								<li v-bind:class="['column-2',member.isfill==1 ? 'isfill' : '']">{{$index+1}}</li>
+								<li v-bind:class="['column-2',member.isfill==1 ? 'isfill' : '']">{{member.rownum}}</li>
 								<li class="memberId" style="display:none;">{{member.id}}</li>
 		                        <li class="memberName column-3">{{member.userId? member.usernickme : member.name}}</li>
 		                        <li class="column-2">

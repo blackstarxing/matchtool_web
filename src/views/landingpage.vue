@@ -99,6 +99,9 @@
 			<a href="" class="u-btn u-landing-btn u-enter-btn" v-link="{ name: 'landRegister', params: { tabId: 1 }}">立即加入</a>
 		</div>
 	</div>
+	<div class="footer">
+		浙江网竞网络科技有限公司  |   浙ICP备14028335号-2   |   Copyright©2014 kaisaiba.com All Rights Reserved.
+	</div>
 </template>
 <script type="text/javascript">
 import topHead from '../components/topHead.vue'

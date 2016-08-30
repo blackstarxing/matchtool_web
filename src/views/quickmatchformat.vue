@@ -1,6 +1,6 @@
 <template>
 	<top-head></top-head>
-	<side-bar></side-bar>
+	<!-- <side-bar></side-bar> -->
 	<slide-bar></slide-bar>
 	<create-pop></create-pop>
 	<div class="backLast">
@@ -95,6 +95,9 @@
 			</ul>
 		</div>
 	</div>
+	<div class="footer">
+		浙江网竞网络科技有限公司  |   浙ICP备14028335号-2   |   Copyright©2014 kaisaiba.com All Rights Reserved.
+	</div>
 </template>
 <script type="text/javascript">
 import topHead from '../components/topHead.vue'
@@ -178,6 +181,7 @@ import createPop from '../components/createPop.vue'
 		    			if(code==1){
 		    				window.sessionStorage.setItem("eventRoundId",response.data.object.eventRoundId);
 		    				window.sessionStorage.setItem("eventId",response.data.object.eventId);
+		    				$('.nextBtn').attr('disabled',true);
 		    				_this.$route.router.go({path: '/matchDetails'});
 		    			}
 		    			console.log("成功");

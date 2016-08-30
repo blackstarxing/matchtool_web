@@ -1,4 +1,4 @@
-// require('../static/css/main.css');
+// require('../static/css/match.css');
 // require('../static/css/dark.min.css'); 
 // require('../static/css/diyUpload.css'); 
 // require('../static/css/froala_page.min.css');
@@ -30,6 +30,7 @@ import createclan from './views/clan/createclan.vue'
 import claninvite from './views/clan/claninvite.vue'
 import passWord from './views/passWord.vue'
 import matchshare from './views/matchshare.vue'
+import clause from './views/clause.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -121,11 +122,14 @@ router.map({
     '/matchshare/:eventId': {
         name: 'matchshare',
         component: matchshare
+    },
+    '/clause': {
+        component: clause
     }
 })
 
 router.redirect({
-  '*': '/landingpage'
+  '*': '/index'
 })
 
 router.start(matchtool, '#app')
