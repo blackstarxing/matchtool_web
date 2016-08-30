@@ -103,12 +103,17 @@ export default {
             phone: '',
             ident: '',
             nickname: '',
-            errorTip: true,
+            accoutTip: true,
+            pwlandTip: '',
             allowReg: false,
             isLand: true,
             isReg: false,
             isident: false,
-            tabId: ''
+            tabId: '',
+            phoneTip: '',
+            pwregTip: '',
+            nkTip: '',
+            idTip: ''
         }
     },
     components: {
@@ -148,32 +153,33 @@ export default {
         blurAccount: function(e) {
             var _current = $(e.currentTarget);
             var _error = _current.next('.reg_error');
-            if (/^\d+$/.test(this.account)) {
+            if (this.account && /^\d+$/.test(this.account)) {
                 _error.hide();
                 //判断是否有错误提示
-                this.errorTip = true;
+                this.accoutTip = true;
                 if (this.account.length != 11) {
                     _error.show();
                     //判断是否有错误提示
-                    this.errorTip = false;
+                    this.accoutTip = false;
                     _error.find('.error_tip').text('手机号码位数不对');
                 }
             } else {
                 _error.show();
+                this.accoutTip = false;
                 _error.find('.error_tip').text('请填写正确的手机号');
             }
         },
         blurPhone: function(e) {
             var _current = $(e.currentTarget);
             var _error = _current.next('.reg_error');
-            if (/^\d+$/.test(this.phone)) {
+            if (this.phone && /^\d+$/.test(this.phone)) {
                 _error.hide();
                 //判断是否有错误提示
                 this.errorTip = true;
                 if (this.phone.length != 11) {
                     _error.show();
                     //判断是否有错误提示
-                    this.errorTip = false;
+                    this.phoneTip = false;
                     _error.find('.error_tip').text('手机号码位数不对');
                 } else {
                     var parm = {}
@@ -193,6 +199,7 @@ export default {
                 }
             } else {
                 _error.show();
+                this.errorTip = false;
                 _error.find('.error_tip').text('请填写正确的手机号');
             }
         },
@@ -249,12 +256,12 @@ export default {
         blurId: function(e) {
             var _current = $(e.currentTarget);
             var _error = _current.next('.reg_error');
-            if (this.ident.length == 6) {
+            if (this.ident && this.ident.length == 6) {
                 _error.hide();
-                this.errorTip = true;
+                this.idTip = true;
             } else {
                 _error.show();
-                this.errorTip = false;
+                this.idTip = false;
             }
         },
         getNickname: function(e) {
@@ -262,24 +269,24 @@ export default {
             var _error = _current.next('.reg_error');
             if (/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/.test(this.nickname)) {
                 _error.show();
-                this.errorTip = false;
+                this.nkTip = false;
             } else if (!this.nickname) {
                 _error.show();
                 _error.find('.error_tip').text('请输入昵称');
-                this.errorTip = false;
+                this.nkTip = false;
             } else {
                 _error.hide();
-                this.errorTip = true;
+                this.nkTip = true;
                 var parm = {}
                 parm.nickname = this.nickname;
                 this.$http.post('registerCheck', parm).then(function(response) {
                     if (response.data.object.nicknameValid) {
                         _error.hide();
-                        this.errorTip = true;
+                        this.nkTip = true;
                     } else {
                         _error.show();
                         _error.find('.error_tip').text('昵称已被注册');
-                        this.errorTip = false;
+                        this.nkTip = false;
                     }
                 }, function(response) {
                     console.log(response);
@@ -289,23 +296,23 @@ export default {
         getlandpwd: function(e) {
             var _current = $(e.currentTarget);
             var _error = _current.next('.reg_error');
-            if (this.landpassword.length < 6) {
+            if (this.landpassword && this.landpassword.length < 6) {
                 _error.show();
-                this.errorTip = false;
+                this.pwlandTip = false;
             } else {
                 _error.hide();
-                this.errorTip = true;
+                this.pwlandTip = true;
             }
         },
         getpwd: function(e) {
             var _current = $(e.currentTarget);
             var _error = _current.next('.reg_error');
-            if (this.password.length < 6) {
+            if (this.password && this.password.length < 6) {
                 _error.show();
-                this.errorTip = false;
+                this.pwregTip = false;
             } else {
                 _error.hide();
-                this.errorTip = true;
+                this.pwregTip = true;
             }
         },
         regIn: function() {
@@ -315,7 +322,7 @@ export default {
             parm.telephone = this.phone;
             parm.verifyCode = this.ident;
 
-            if (this.nickname && this.password && this.phone && this.ident && this.acceptchecked && this.errorTip) {
+            if (this.nkTip && this.pwregTip && this.phoneTip && this.idTip && this.acceptchecked && this.errorTip) {
                 this.$http.post('register', parm).then(function(response) {
                     console.log(response);
                     if (response.data.code) {
@@ -342,7 +349,7 @@ export default {
             var parm = {};
             parm.username = this.account;
             parm.password = this.landpassword;
-            if (this.account && this.landpassword && this.errorTip && this.autochecked) {
+            if (this.accoutTip &&this.pwlandTip && this.autochecked) {
                 this.$http.post('login', parm).then(function(response) {
                     console.log(response);
                     if (response.data.code) {
