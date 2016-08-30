@@ -1,6 +1,6 @@
 <template>
 	<top-head></top-head>
-	<side-bar></side-bar>
+	<!-- <side-bar></side-bar> -->
 	<slide-bar></slide-bar>
 	<create-pop></create-pop>
 	<div class="backLast">
@@ -434,7 +434,17 @@ import createPop from '../components/createPop.vue'
 	        }, function(response){
 	        	console.log(22);
 	        })
-
+	        var gl = 0;
+	        $(document).scroll(function(){
+	        	gl = $(document).scrollTop();
+	        	if(gl>=492 && gl<=773){
+	        		$('.steps li').eq(1).addClass('current').siblings().removeClass('current');
+	        	}else if(gl>773){
+	        		$('.steps li').eq(2).addClass('current').siblings().removeClass('current');
+	        	}else if(gl<492){
+	        		$('.steps li').eq(0).addClass('current').siblings().removeClass('current');
+	        	}
+	        })
 		},
 		methods:{
 			showotherinfo:function(){
