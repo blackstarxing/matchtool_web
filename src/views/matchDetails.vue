@@ -1095,7 +1095,6 @@ import createPop from '../components/createPop.vue'
                     if(move){
                         var left_r=e.pageX-left_,
                             top_r=e.pageY-top_;
-                            // console.log(e.pageX,left_,left_r)
                             _movebody.css({"top":top_r,"left":left_r});
                             var $group_num=$('.group_num');
                             if(num%2==0){
@@ -1103,8 +1102,6 @@ import createPop from '../components/createPop.vue'
                             }else{
                             	$group_num.css('left','-24.1px');
                             }
-                            
-
                     }
                 });
             });
