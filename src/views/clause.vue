@@ -29,6 +29,9 @@
 			<p class="g-cs-p2">2.5.2 遵守所有与网络服务有关的网络协议、规定和程序；</p>
 		</div>
 	</div>
+	<div class="footer">
+		浙江网竞网络科技有限公司  |   浙ICP备14028335号-2   |   Copyright©2014 kaisaiba.com All Rights Reserved.
+	</div>
 </template>
 <script type="text/javascript">
 	export default {
