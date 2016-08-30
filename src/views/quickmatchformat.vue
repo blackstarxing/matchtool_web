@@ -178,6 +178,7 @@ import createPop from '../components/createPop.vue'
 		    			if(code==1){
 		    				window.sessionStorage.setItem("eventRoundId",response.data.object.eventRoundId);
 		    				window.sessionStorage.setItem("eventId",response.data.object.eventId);
+		    				$('.nextBtn').attr('disabled',true);
 		    				_this.$route.router.go({path: '/matchDetails'});
 		    			}
 		    			console.log("成功");
