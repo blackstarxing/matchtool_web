@@ -621,11 +621,15 @@ export default {
                 }
 
                 //获取turn>1的数据
-                var listtwo = [];
-                var listthree = [];
-                var listfour = [];
-                var listfive = [];
-                var list = [listtwo, listthree, listfour, listfive];
+                 var listtwo=[];
+                 var listthree=[];
+                 var listfour=[];
+                 var listfive=[];
+                 var listsix=[];
+                 var listseven=[];
+                 var listeight=[];
+                 var listnight=[];
+                 var list = [listtwo,listthree,listfour,listfive,listsix,listseven,listeight,listnight];
                 var _html;
 
                 function getnumall(arr, level) {
