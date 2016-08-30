@@ -36,9 +36,9 @@
 				<a href="#" class="u-q-enter" v-if="state==4" @click="qiandao">去签到</a>
 			</div>
 			<div class="g-q-fbs" v-show="isc2">
-				<button type="button" class="u-q-start" v-if="state==1" disabled>
+				<button type="button" class="u-q-start" style="background-color:#343b45;" v-if="state==1" disabled>
 					<i class="s-q-start"></i>
-					即将开始
+					报名参赛
 				</button>
 				<button type="button" class="u-q-start" v-if="state==2" @click="joinMatch">
 					<i class="s-q-start"></i>
@@ -48,13 +48,9 @@
 					<i class="s-q-start"></i>
 					已报名
 				</button>
-				<button type="button" class="u-q-start" v-if="state==4 && signed==0" @click="qiandao">
+				<button type="button" class="u-q-start" v-if="state==4" @click="qiandao">
 					<i class="s-q-start"></i>
 					签到
-				</button>
-				<button type="button" class="u-q-start" v-if="state==4 && signed==1" disabled>
-					<i class="s-q-start"></i>
-					已签到
 				</button>
 				<button type="button" class="u-q-start" v-if="state==5" disabled>
 					<i class="s-q-start"></i>
@@ -389,7 +385,7 @@ function timer(text,a,n,c) {
 	else if(c==1){
 		document.getElementById('txt').innerHTML = text + leftStr;
 	}
-
+	
 	if(leftMillis <= 0) {
 		window.location.reload();
 	}
@@ -632,7 +628,7 @@ import createPop from '../components/createPop.vue'
 							var txt = '距离签到开始还有';
 							timer(txt, response.data.object.signBeginTime ,subTime,_this.isCreater) 
 							var intervalNum = window.setInterval(function() {
-								timer(txt, response.data.object.round.signBeginTime ,subTime, _this.isCreater);
+								timer(txt, response.data.object.signBeginTime ,subTime, _this.isCreater);
 							}, 1000);
 						}else if(_this.state==4 || _this.state==5){
 							_this.isc3 = true;
