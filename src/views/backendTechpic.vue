@@ -773,7 +773,7 @@ export default {
                     $this.parent().find(".float_edit").show();
                     var scores_arry = JSON.parse($this.prev('.detail_scores').text());
                     var $scores_ul = $this.next('.scores_detail_list');
-                    var _length = scores_arry.length;
+                    var _length = scores_arry?scores_arry.length:0;
                     var $float_edit = $scores_ul.next('.float_edit');
                     var _left = 200 + (25 * _length);
 
