@@ -1,4 +1,4 @@
-// require('../static/css/main.css');
+// require('../static/css/match.css');
 // require('../static/css/dark.min.css'); 
 // require('../static/css/diyUpload.css'); 
 // require('../static/css/froala_page.min.css');
@@ -129,7 +129,7 @@ router.map({
 })
 
 router.redirect({
-  '*': '/landingpage'
+  '*': '/index'
 })
 
 router.start(matchtool, '#app')

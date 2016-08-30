@@ -7,7 +7,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './static'),
     publicPath: '/static/',
-    filename: 'build.js'
+    filename: 'build.[hash].js'
   },
   module: {
     loaders: [
@@ -45,11 +45,11 @@ module.exports = {
     plugins: ['transform-runtime'],
     comments: false
   },
-  // plugins: [
-  //     new ExtractTextPlugin('./index.css', {
-  //           allChunks: true
-  //       }),
-  // ],
+  plugins: [
+      new ExtractTextPlugin('./index.css', {
+            allChunks: true
+        }),
+  ],
 }
 
 if (process.env.NODE_ENV === 'production') {
@@ -59,7 +59,7 @@ if (process.env.NODE_ENV === 'production') {
         NODE_ENV: '"production"'
       }
     }),
-    // new ExtractTextPlugin('./index.css', {
+    // new ExtractTextPlugin('./index.[hash].css', {
     //         allChunks: true
     //     }),
     // new webpack.optimize.UglifyJsPlugin({
@@ -67,7 +67,7 @@ if (process.env.NODE_ENV === 'production') {
     //     warnings: false
     //   }
     // }),
-    new webpack.optimize.OccurenceOrderPlugin()
+    // new webpack.optimize.OccurenceOrderPlugin()
   ]
 } else {
   module.exports.devServer={
