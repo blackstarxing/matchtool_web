@@ -74,6 +74,9 @@
 			<a href="" class="u-btn u-landing-btn" v-link="{ path: '/matchlist'}">查看全部赛事</a>
 		</div>
 	</div>
+	<div class="footer">
+		浙江网竞网络科技有限公司  |   浙ICP备14028335号-2   |   Copyright©2014 kaisaiba.com All Rights Reserved.
+	</div>
 </template>
 <script type="text/javascript">
 import topHead from '../components/topHead.vue'

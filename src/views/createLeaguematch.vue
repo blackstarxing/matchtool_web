@@ -82,6 +82,9 @@
 			</ul>
 		</div>
 	</div>
+	<div class="footer">
+		浙江网竞网络科技有限公司  |   浙ICP备14028335号-2   |   Copyright©2014 kaisaiba.com All Rights Reserved.
+	</div>
 </template>
 <script>
 import topHead from '../components/topHead.vue'

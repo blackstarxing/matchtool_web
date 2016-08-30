@@ -48,6 +48,16 @@ input:focus,select:focus,textarea:focus{outline: none;border-color: #42ac59;}
 .f-ab{position: absolute;}
 .f-tr{text-align: right;}
 .f-tc{text-align: center;}
+
+.footer{
+	text-align: center;
+	border-top: 1px solid #616d78;
+	line-height: 92px;
+	color:#7a8387;
+	font-size: 12px;
+	margin-top: 80px;
+}
+
 @font-face {
   font-family: 'icomoon';
   src:  url('../fonts/icomoon.eot?mk1jjc');
