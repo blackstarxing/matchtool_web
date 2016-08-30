@@ -1080,9 +1080,9 @@ import createPop from '../components/createPop.vue'
                 var move=false,
                     left_=0,
                     top_=0;
+                var num=0;
                 var _movebody=$('.tech_main_body');
                 _movebody.mousedown(function(e){
-                	console.log(777);
                     move=true;
                     left_=e.pageX-parseInt(_movebody.css("left"));
                     top_=e.pageY-parseInt(_movebody.css("top"));
@@ -1091,11 +1091,20 @@ import createPop from '../components/createPop.vue'
                     move=false;
                 });
                 $(document).mousemove(function(e){
+                	num++;
                     if(move){
                         var left_r=e.pageX-left_,
                             top_r=e.pageY-top_;
                             // console.log(e.pageX,left_,left_r)
                             _movebody.css({"top":top_r,"left":left_r});
+                            var $group_num=$('.group_num');
+                            if(num%2==0){
+                            	$group_num.css('left','-23.9px');
+                            }else{
+                            	$group_num.css('left','-24.1px');
+                            }
+                            
+
                     }
                 });
             });

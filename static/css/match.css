@@ -114,6 +114,10 @@
 	padding-bottom: 20px;
 	box-sizing: border-box;
 	cursor: pointer;
+	background: #171a21;
+	-webkit-box-shadow: 0 3px 3px 0 rgba(0,0,0,0.4);  
+	-moz-box-shadow: 0 3px 3px 0 rgba(0,0,0,0.4);  
+	box-shadow: 0 3px 3px 0 rgba(0,0,0,0.4);
 }
 .match:nth-child(2){
 	margin:0 2%;
@@ -138,7 +142,7 @@
 	width: 100%;
 	box-sizing: border-box;
 	padding:0 9px;
-	line-height: 1.5;
+	line-height: 2.5;
 	text-align: right;
 	color:#e4e4e4;
 	font-size: 12px;
@@ -1192,6 +1196,9 @@ label.u-c-kz-sz{
 	box-sizing: border-box;
 	color:#7a8387;
 	z-index: 9999;
+	-webkit-box-shadow: 0 3px 3px 0 rgba(0,0,0,0.4);  
+	-moz-box-shadow: 0 3px 3px 0 rgba(0,0,0,0.4);  
+	box-shadow: 0 3px 3px 0 rgba(0,0,0,0.4);
 }
 .createPop h3{
 	color:#fdb91a;
@@ -1199,6 +1206,7 @@ label.u-c-kz-sz{
 .createBox{
 	width:280px;
 	margin:40px auto 0;
+	color:#7a8387;
 	font-size: 12px;
 	text-align: center;
 }
@@ -1213,11 +1221,13 @@ label.u-c-kz-sz{
 	border-radius: 2px;
 	color:#1e1f24;
 	background: #fdb91a;
+	background: url(../images/create_btn03.png);
 	text-align:center;
 	margin-bottom: 10px;
 }
 .createBox .createBtn[disabled]{
 	background: #343b45;
+	background: url(../images/create_btn01.png);
 	color:#7a8387;
 	cursor: not-allowed;
 }
@@ -1303,8 +1313,8 @@ label.u-c-kz-sz{
 #pic{width: 200px;height: 36px;margin:0 auto;}
 .webuploader-container {position: relative;}
 .webuploader-element-invisible {position: absolute !important;clip: rect(1px 1px 1px 1px);clip: rect(1px,1px,1px,1px);}
-.webuploader-pick {position: relative;display: inline-block;cursor: pointer;color: #fff;text-align: center;border-radius: 3px;overflow: hidden;width: 200px;height: 48px;line-height: 48px;padding:0;background: url(../images/btn1.png) no-repeat;}
-.webuploader-pick-hover {background: #e68700;}
+.webuploader-pick {position: relative;display: inline-block;cursor: pointer;font-size:18px;color: #1e1f24;text-align: center;border-radius: 3px;overflow: hidden;width: 200px;height: 48px;line-height: 48px;padding:0;background: url(../images/btn1.png) no-repeat;}
+.webuploader-pick-hover {background: #e7a200;}
 .webuploader-pick-disable {opacity: 0.6;pointer-events:none;}
 
 .saveinfo .editor-box{
@@ -2351,7 +2361,7 @@ label.u-c-kz-sz{
   height: 35px;
   line-height: 35px;
   background:url(../../static/images/random.png) no-repeat 10px 7px;
-  color: #fff;
+  color: #fdb91a;
   float: left;
   border-radius: 5px;
   margin: 30px 70px;
@@ -2707,6 +2717,7 @@ label.u-c-kz-sz{
 	width: 200px;
 	height: 50px;
 	background-color: #42aa53;
+	/*background: url(../images/btn0.png) no-repeat;*/
 	color: #fff;
 	font-size: 16px;
 	line-height: 50px;

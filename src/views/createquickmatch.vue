@@ -730,7 +730,8 @@ import createPop from '../components/createPop.vue'
 		    		if(valid && valid2 && valid3){
 		    			return true;
 		    		}else{
-		    			$('html,body').animate({ scrollTop: 0 }, 500);
+		    			var top=$('.f-tip').eq(0).offset().top-150;
+			    		$("body").scrollTop(top);
 		    		}
 		    	}
 		    	if(formValidate()){
