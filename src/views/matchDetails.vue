@@ -1101,7 +1101,6 @@ import createPop from '../components/createPop.vue'
                
              //编辑查看悬浮框
               $(".edit_score").mouseover(function(){
-              	console.log(11);
                     var $this=$(this);
                     $this.parent().find(".float_check").show();
                     var scores_arry=JSON.parse($this.prev('.detail_scores').text());
