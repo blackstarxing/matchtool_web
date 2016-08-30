@@ -169,6 +169,9 @@
 			</div>
 		</div>
 	</div>
+	<div class="footer">
+		浙江网竞网络科技有限公司  |   浙ICP备14028335号-2   |   Copyright©2014 kaisaiba.com All Rights Reserved.
+	</div>
 </template>
 <script type="text/javascript">
 	import topHead from '../components/topHead.vue'
@@ -236,7 +239,6 @@
 		ready: function () {
 			// 获取是否是认证用户
 			this.$http.get('isIdentifyUser').then((response) => {
-				// console.log(response)
 				this.isCtfct = response.data.object.flag
 				// 是认证用户
 				if (this.isCtfct) {
@@ -244,10 +246,8 @@
 					this.eventTypeFlag = true
 					// 初始化时就查询我组织的赛事列表，仅查询一次，以后就不查询了
 					if (!this.ZZEventListFlag) {
-						// alert(456789)
 						this.ZZEventListFlag = true
 						this.getZZEventList(1)
-						// this.eventShowList = this.ZZEventList
 					}
 				} else {   // 不是认证用户
 					this.tabList = [ { id: 0, name: '我参与的', isCur: true } ]
@@ -293,7 +293,6 @@
 				var json = {}
 				json.pageNumber = pageId
 				params.jsonInfo = JSON.stringify(json)
-				console.log('当前页数： ' + this.pageList.pageNumber)
 				this.$http.get(url, params).then(function (response) {
 					var pager = response.data.object.pager
 					this.pageList.firstPage = pager.firstPage
