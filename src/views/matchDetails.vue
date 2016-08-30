@@ -77,10 +77,14 @@
 				</i>
 				<span class="f-fl ml20">{{nickname}}</span>
 				<span class="col7a8 f-fl ml20" v-if="isPublish==1">{{publishTime}}发布</span>
-				<span v-if="isPublish==1" class="f-re qrcodehov" style="margin-left: 20px;">
-					
+				<span v-if="isPublish==1" class="f-re qrcodehov" style="margin-left: 20px;"></span>
+				<span class="u-cgl-tip" style="position: absolute; width:80px; height: 80px; left: 333px;">
+					<i class="u-cjl-tipws">
+						<i class="u-cjl-tipns"></i>
+					</i>
+					<div id="qrcode"></div>
 				</span>
-				<div id="qrcode"></div>
+				
 			</div>
 			<p class="g-q-jj col7a8" v-if="brief==0 && (isPublish==null || isPublish==0)">赛事还没有简介信息，<a href="#" v-link="{ path: '/backend/backendMsg'}">去完善</a><i v-link="{ path: '/backend/backendMsg'}"></i></p>
 			<p class="g-q-jj col7a8" v-if="brief==0 && isPublish==1">赛事还没有简介信息</p>
@@ -485,8 +489,8 @@ import createPop from '../components/createPop.vue'
 			jQuery(function(){
 				jQuery('#qrcode').qrcode({
 					render: "canvas",//设置渲染方式  
-					width: 100,//设置宽度  
-					height: 100,//设置高度 
+					width: 70,//设置宽度  
+					height: 70,//设置高度 
 					// text: "http://wy.kaisaiba.wangyuhudong.com/#/matchshare/36"
 					text: "http://wy.kaisaiba.wangyuhudong.com/#/matchshare/"+_this.formdata.oetInfoId
 				});
@@ -1508,11 +1512,13 @@ import createPop from '../components/createPop.vue'
 	}
 </script>
 <style type="text/css">
+    .u-cgl-tip{
+    	display: none;
+    }
 	#qrcode{
 	    position: absolute;
-		left: 3.5rem;
-		top: -0.3rem;
-		display: none;
+		top: 5px;
+    	left: 5px;
 	}
 	.qrcodehov{
 		float: left;
@@ -1521,7 +1527,7 @@ import createPop from '../components/createPop.vue'
 		background: url(../../static/images/wxicon.png) no-repeat center center;
 	    margin-top: 0.13rem;
 	}
-	.qrcodehov:hover + #qrcode{
+	.qrcodehov:hover + .u-cgl-tip{
 		display: block;
 	}
 </style>

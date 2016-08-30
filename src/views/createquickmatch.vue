@@ -1,6 +1,6 @@
 <template>
 	<top-head></top-head>
-	<side-bar></side-bar>
+	<!-- <side-bar></side-bar> -->
 	<slide-bar></slide-bar>
 	<create-pop></create-pop>
 	<div class="backLast">
