@@ -32,8 +32,8 @@
 									<span>采用赛制：</span><span v-text="item.regime">网娱大师官方赛事组</span>
 								</li>
 								<li>
-									<span>参与人数：<span class="g-cjl-rsw"><span class="g-cjl-rsn" :style="{ width: (item.num / item.maxNum) * 100 + '%' }"></span></span>
-									<span class="col42a">{{ item.num }}</span>/{{ item.maxNum }}
+									<span>参与人数：<span class="g-cjl-rsw"><span class="g-cjl-rsn" :style="{ width: ((item.num > item.maxNum ? item.maxNum : item.num) / item.maxNum) * 100 + '%' }"></span></span>
+									<span class="col42a">{{ item.num > item.maxNum ? item.maxNum : item.num  }}</span>/{{ item.maxNum }}
 									<template v-if="eventTypeFlag">
 										<i class="u-cjl-tip" v-if="item.num - item.maxNum > 0">
 											<span>
@@ -264,7 +264,8 @@
 				var date=time.getDate();     
 				var hour=time.getHours();   
 				if (hour < 10 ) hour = "0" + hour
-				var minute=time.getMinutes();     
+				var minute=time.getMinutes();
+				if (minute < 10 ) minute = "0" + minute     
 				var second=time.getSeconds();     
 				return year+"."+month+"."+date+"   "+hour+":"+minute+" "+timeTypeStr;
 			}
@@ -286,9 +287,7 @@
 				this.getEventList(pageIdStr, ' event/getMyEventRoundList', 1) // 如果是得到参与的比赛，传1
 			},
 			getEventList: function (pageIdStr, url, eventListId) {
-				//console.log(this)
 				var pageId = parseInt(pageIdStr)
-				// if (isNaN(pageId)) return
 				//if (pageId > this.pageList.pageNumber) return
 				var params = {}
 				var json = {}
@@ -296,7 +295,6 @@
 				params.jsonInfo = JSON.stringify(json)
 				console.log('当前页数： ' + this.pageList.pageNumber)
 				this.$http.get(url, params).then(function (response) {
-					// console.log(response)
 					var pager = response.data.object.pager
 					this.pageList.firstPage = pager.firstPage
 					this.pageList.lastPage = pager.lastPage
@@ -324,7 +322,6 @@
 								obj[v] = matchList[i][v]
 							}
 						})
-
 						obj.timeTypeStr = "创建"         // 传入显示时间的字符串： 如果是创建时间就是”创建“，如果是发布时间就是”发布“，默认让每个显示时间后加“创建
 
 						if (obj.isPublish === null || obj.isPublish  === 0) {
@@ -363,14 +360,14 @@
 						} else {    // 能报名
 							if (obj.applyType === 1) {
 								obj.applyTypeText = "个人报名"
-								obj.applyTypeText2 = "选手"
+								obj.applyTypeText2 = "名选手"
 							} else if (obj.applyType  === 2) {
 								if (obj.teamMemeberNum === null) obj.teamMemeberNum = 0
 								obj.applyTypeText = obj.teamMemeberNum + "人战队报名"
-								obj.applyTypeText2 = "战队"
+								obj.applyTypeText2 = "支战队"
 							}
 						}
-						
+
 						if (!this.eventTypeFlag) {
 							if (matchList[i].seatNum === null) {
 								if (obj.applyType === 1) {
@@ -388,7 +385,6 @@
 						}
 						eventList.push(obj)
 					}
-					// console.log(this.ZZEventList + 'bbbbbbbbbbb')
 					if (eventListId === 0) this.ZZEventList = eventList
 					else this.CYEventList = eventList
 					this.eventShowList = eventList
@@ -439,9 +435,9 @@
     			//alert(123)
     			currentpage++;
     			if (this.eventTypeFlag) {
-    				this.getEventList(currentpage, 'event/getEventRoundList', 0)    // 如果是得到组织的比赛，传0
+    				this.getEventList(currentpage, 'event/getEventRoundList', 0)   
     			} else {
-    				this.getEventList(currentpage, ' event/getMyEventRoundList', 1) // 如果是得到参与的比赛，传1
+    				this.getEventList(currentpage, ' event/getMyEventRoundList', 1) 
     			}
     		}
     		else{
@@ -452,9 +448,9 @@
 				// e.preventDefault();
 				if (this.pageId === "") return 
 				if (this.eventTypeFlag) {
-  				this.getEventList(this.pageId, 'event/getEventRoundList', 0)    // 如果是得到组织的比赛，传0
+  				this.getEventList(this.pageId, 'event/getEventRoundList', 0)    
   			} else {
-  				this.getEventList(this.pageId, ' event/getMyEventRoundList', 1) // 如果是得到参与的比赛，传1
+  				this.getEventList(this.pageId, ' event/getMyEventRoundList', 1) 
   			}
 			},
 			checkpage:function(e){
