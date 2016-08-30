@@ -1094,7 +1094,7 @@ import createPop from '../components/createPop.vue'
                         var left_r=e.pageX-left_,
                             top_r=e.pageY-top_;
                             _movebody.css({"top":top_r,"left":left_r});
-                            $(".group_num").css('left','-24px');
+                            $('.group_num').css('left','-23px');
                     }
                 });
             });
