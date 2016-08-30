@@ -355,7 +355,7 @@ function format(shijianchuo){
 	return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm);
 }
 function timer(text,a,n,c) {
-
+	
 	var currentTime = new Date().getTime();
 
 	var leftTime = a - (currentTime - n);
@@ -1415,91 +1415,100 @@ import createPop from '../components/createPop.vue'
 				var bmlx = window.sessionStorage.getItem("applyType");
 				$('#xiayibu').attr('disabled', true);
 				$('#masbaom').attr('disabled', true);
-				if(bmlx==1){
-					$('.m-bx-d').animate({right:"0px"},200);
-					var eve={};
-		   			eve.jsonInfo=JSON.stringify({oetInfoId:_this.formdata.oetInfoId});
-					_this.$http.get('event/queryRequired',eve).then(function(response){
-						_this.queryRequired.idcardRequired = response.data.object.idcardRequired;
-						_this.queryRequired.nameRequired = response.data.object.nameRequired;
-						_this.queryRequired.nicknameRequired = response.data.object.nicknameRequired;
-						_this.queryRequired.otherRequired = response.data.object.otherRequired;
-						_this.queryRequired.qqRequired = response.data.object.qqRequired;
-						_this.queryRequired.telephoneRequired = response.data.object.telephoneRequired;
-						_this.queryRequired.otherDescribe = response.data.object.otherDescribe;
-		            }, function(response){
-		            	console.log(22);
-		            })
-		            var eve2={};
-		   			eve2.jsonInfo=JSON.stringify({roundId:_this.formdata.oetRoundId});
-		            _this.$http.get('event/round/group/member/getMemInfo',eve2).then(function(response){
-		            	var code = response.data.code;
-		            	if(code==-1){
-		            		layer.msg('请先登录',{offset:"0px"});
-		            	}else if(code==0){
-		            		layer.msg(response.data.msg,{offset:"0px"});
-		            	}else if(code==1){
-		            		_this.singlebm.idcard = response.data.object.idcard;
-		            		_this.singlebm.qq = response.data.object.qq;
-		            		_this.singlebm.realname = response.data.object.realname;
-		            		_this.singlebm.telephone = response.data.object.telephone;
-		            	}
-		            }, function(response){
-		            	console.log(22);
-		            })
-				}else if(bmlx==2){
-					_this.$http.get('event/getEventTeamApplyInfo?roundId='+_this.formdata.oetRoundId).then(function(response){
-						var code = response.data.code;
-						_this.teamName = response.data.object.teamName;
-						_this.teamMemberNum = response.data.object.teamMemberNum;
-						if(code==-1){
-							layer.msg('请先登录',{offset:"0px"});
-						}else if(code==0){
-		            		layer.msg(response.data.msg,{offset:"0px"});
-		            	}else if(code==1){
-		            		var appliable = response.data.object.appliable;
-		            		if(appliable==-1){
-		            			layer.msg('请先登录',{offset:"0px"});
-		            		}else if(appliable==-2){
-		            			layer.confirm('该赛事需要以'+_this.itemName+'战队形式报名参与，你当前还未处于'+_this.itemName+'类型战队中，你可以创建或加入'+_this.itemName+'战队来参与赛事',{
-		            				btn:['知道了','去创建'],
-									move:false,
-							  		closeBtn:0
-		            			},function(){
-		            				layer.closeAll();
-		            			},function(){
-		            				_this.$route.router.go({path: '/createclan'});
-		            			})
-		            		}else if(appliable==-3){
-		            			var appliableStr = response.data.object.appliableStr;
-		            			layer.alert('该赛事需要以'+_this.itemName+'战队形式报名参与，你当前处于['+appliableStr+']战队中，你可以联系队长申请报名参赛', {
-								  icon: 1,
-								  skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
-								});  
-		            		}else if(appliable==-4){
-		            			layer.msg('您已经报名过这项赛事',{offset:"0px"});
-		            		}else if(appliable==1){
-		            			var eve={};
-					   			eve.jsonInfo=JSON.stringify({oetInfoId:_this.formdata.oetInfoId});
-								_this.$http.get('event/queryRequired',eve).then(function(response){
-									_this.queryRequired.idcardRequired = response.data.object.idcardRequired;
-									_this.queryRequired.nameRequired = response.data.object.nameRequired;
-									_this.queryRequired.nicknameRequired = response.data.object.nicknameRequired;
-									_this.queryRequired.otherRequired = response.data.object.otherRequired;
-									_this.queryRequired.qqRequired = response.data.object.qqRequired;
-									_this.queryRequired.telephoneRequired = response.data.object.telephoneRequired;
-									_this.queryRequired.otherDescribe = response.data.object.otherDescribe;
-					            }, function(response){
-					            	console.log(22);
-					            })
-		            			_this.clanmembers = response.data.object.members;
-		            			$('.zdbmone').animate({right:0},200);
-		            		}
-		            	}
-					}, function(response){
-						console.log(22);
-					})
-				}
+				_this.$http.get('isLogin').then(function(response){
+					var cd = response.data.object.loginFlag;
+					if(cd){
+						if(bmlx==1){
+							$('.m-bx-d').animate({right:"0px"},200);
+							var eve={};
+				   			eve.jsonInfo=JSON.stringify({oetInfoId:_this.formdata.oetInfoId});
+							_this.$http.get('event/queryRequired',eve).then(function(response){
+								_this.queryRequired.idcardRequired = response.data.object.idcardRequired;
+								_this.queryRequired.nameRequired = response.data.object.nameRequired;
+								_this.queryRequired.nicknameRequired = response.data.object.nicknameRequired;
+								_this.queryRequired.otherRequired = response.data.object.otherRequired;
+								_this.queryRequired.qqRequired = response.data.object.qqRequired;
+								_this.queryRequired.telephoneRequired = response.data.object.telephoneRequired;
+								_this.queryRequired.otherDescribe = response.data.object.otherDescribe;
+				            }, function(response){
+				            	console.log(22);
+				            })
+				            var eve2={};
+				   			eve2.jsonInfo=JSON.stringify({roundId:_this.formdata.oetRoundId});
+				            _this.$http.get('event/round/group/member/getMemInfo',eve2).then(function(response){
+				            	var code = response.data.code;
+				            	if(code==-1){
+				            		layer.msg('请先登录',{offset:"0px"});
+				            	}else if(code==0){
+				            		layer.msg(response.data.msg,{offset:"0px"});
+				            	}else if(code==1){
+				            		_this.singlebm.idcard = response.data.object.idcard;
+				            		_this.singlebm.qq = response.data.object.qq;
+				            		_this.singlebm.realname = response.data.object.realname;
+				            		_this.singlebm.telephone = response.data.object.telephone;
+				            	}
+				            }, function(response){
+				            	console.log(22);
+				            })
+						}else if(bmlx==2){
+							_this.$http.get('event/getEventTeamApplyInfo?roundId='+_this.formdata.oetRoundId).then(function(response){
+								var code = response.data.code;
+								_this.teamName = response.data.object.teamName;
+								_this.teamMemberNum = response.data.object.teamMemberNum;
+								if(code==-1){
+									layer.msg('请先登录',{offset:"0px"});
+								}else if(code==0){
+				            		layer.msg(response.data.msg,{offset:"0px"});
+				            	}else if(code==1){
+				            		var appliable = response.data.object.appliable;
+				            		if(appliable==-1){
+				            			layer.msg('请先登录',{offset:"0px"});
+				            		}else if(appliable==-2){
+				            			layer.confirm('该赛事需要以'+_this.itemName+'战队形式报名参与，你当前还未处于'+_this.itemName+'类型战队中，你可以创建或加入'+_this.itemName+'战队来参与赛事',{
+				            				btn:['知道了','去创建'],
+											move:false,
+									  		closeBtn:0
+				            			},function(){
+				            				layer.closeAll();
+				            			},function(){
+				            				_this.$route.router.go({path: '/myclan'});
+				            			})
+				            		}else if(appliable==-3){
+				            			var appliableStr = response.data.object.appliableStr;
+				            			layer.alert('该赛事需要以'+_this.itemName+'战队形式报名参与，你当前处于['+appliableStr+']战队中，你可以联系队长申请报名参赛', {
+										  icon: 1,
+										  skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+										});  
+				            		}else if(appliable==-4){
+				            			layer.msg('您已经报名过这项赛事',{offset:"0px"});
+				            		}else if(appliable==1){
+				            			var eve={};
+							   			eve.jsonInfo=JSON.stringify({oetInfoId:_this.formdata.oetInfoId});
+										_this.$http.get('event/queryRequired',eve).then(function(response){
+											_this.queryRequired.idcardRequired = response.data.object.idcardRequired;
+											_this.queryRequired.nameRequired = response.data.object.nameRequired;
+											_this.queryRequired.nicknameRequired = response.data.object.nicknameRequired;
+											_this.queryRequired.otherRequired = response.data.object.otherRequired;
+											_this.queryRequired.qqRequired = response.data.object.qqRequired;
+											_this.queryRequired.telephoneRequired = response.data.object.telephoneRequired;
+											_this.queryRequired.otherDescribe = response.data.object.otherDescribe;
+							            }, function(response){
+							            	console.log(22);
+							            })
+				            			_this.clanmembers = response.data.object.members;
+				            			$('.zdbmone').animate({right:0},200);
+				            		}
+				            	}
+							}, function(response){
+								console.log(22);
+							})
+						}
+					}else{
+						layer.msg('请先登录',{offset:"0px"});
+					}
+				}, function(response){
+					console.log(22);
+				})
 			},
 			tapswitch:function(event){
 				var _this = $(event.target);
