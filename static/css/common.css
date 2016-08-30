@@ -47,3 +47,4 @@ input:focus,select:focus,textarea:focus{outline: none;border-color: #42ac59;}
 .f-re{position: relative;}
 .f-ab{position: absolute;}
 .f-tr{text-align: right;}
+.f-tc{text-align: center;}
