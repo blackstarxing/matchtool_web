@@ -990,7 +990,11 @@ import createPop from '../components/createPop.vue'
              var listthree=[];
              var listfour=[];
              var listfive=[];
-             var list = [listtwo,listthree,listfour,listfive];
+             var listsix=[];
+             var listseven=[];
+             var listeight=[];
+             var listnight=[];
+             var list = [listtwo,listthree,listfour,listfive,listsix,listseven,listeight,listnight];
              var _html;
 
              function getnumall(arr,level){
@@ -1075,6 +1079,7 @@ import createPop from '../components/createPop.vue'
                     top_=0;
                 var _movebody=$('.tech_main_body');
                 _movebody.mousedown(function(e){
+                	console.log(777);
                     move=true;
                     left_=e.pageX-parseInt(_movebody.css("left"));
                     top_=e.pageY-parseInt(_movebody.css("top"));

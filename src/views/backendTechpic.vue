@@ -210,10 +210,10 @@ export default {
                     start_text.text("报名进行中...");
                 } else if (response.data.object.roundStatus == 3) {
                     before_tech.show();
-                    start_text.text("签到进行中...");
+                    start_text.text("等待签到...");
                 } else if (response.data.object.roundStatus == 4) {
                     before_tech.show();
-                    start_text.text("报名已结束");
+                    start_text.text("签到进行中...");
                 } else if (response.data.object.roundStatus == 5) {
                     before_tech.show();
                     start_text.text("即将开始");

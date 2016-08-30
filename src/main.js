@@ -118,9 +118,6 @@ router.map({
     '/claninvite': {
         component: claninvite
     },
-    //  '/matchshare': {
-    //     component: matchshare
-    // }
     '/matchshare/:eventId': {
         name: 'matchshare',
         component: matchshare
