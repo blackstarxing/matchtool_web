@@ -25,7 +25,7 @@
 			</div>
 			<ul class="m-cdt-tap clearfix">
 				<li v-bind:class="{'m-cdt-ontap':tap1}" val="1" @click="tapswitch">战队成员</li>
-				<li v-bind:class="{'m-cdt-ontap':tap2}" val="2" @click="tapswitch">参赛纪录</li>
+				<li v-bind:class="{'m-cdt-ontap':tap2}" val="2" @click="tapswitch">参赛记录</li>
 				<li v-bind:class="{'m-cdt-ontap':tap3}" val="3" @click="tapswitch">战队动态</li>
 				<li v-bind:class="{'m-cdt-ontap':tap4}" v-if="isCaptain==1" val="4" @click="tapswitch">战队管理</li>
 			</ul>
@@ -47,7 +47,7 @@
 				<ul class="clearfix g-cjl-m">
 					<li v-for="hty in history.list" index={{$index}}>
 						<i class="g-cjl-pot">
-							<img v-bind:src="'http://img.wangyuhudong.com/'+hty.icon">
+							<img v-bind:src="'http://img.wangyuhudong.com/'+hty.poster">
 						</i>
 						<div class="f-fl">
 							<p class="m-cjl-ssn">{{hty.name}}</p>
@@ -56,7 +56,7 @@
 							<p class="m-cjl-zbf">
 								参与人数：
 								<span class="g-cjl-rsw">
-									<span class="g-cjl-rsn"></span>
+									<span class="g-cjl-rsn" v-bind:style="{width:hty.percent}"></span>
 								</span>
 								<span class="col42a">{{hty.applyCount}}</span>/{{hty.maxNum}}
 								<i class="u-cjl-tip" v-if="hty.status=='未开赛'">
@@ -81,7 +81,8 @@
 							<div class="f-tr" v-if="hty.status=='未开赛'"><button type="button" class="m-cjl-btn m-cjl-wfb" disabled>{{hty.status}}</button></div>
 							<div class="f-tr" v-if="hty.status=='进行中'"><button type="button" class="m-cjl-btn m-cjl-jxz" disabled>{{hty.status}}</button></div>
 							<div class="f-tr" v-if="hty.status=='已完结'"><button type="button" class="m-cjl-btn m-cjl-wfb" disabled>{{hty.status}}</button></div>
-							<p class="m-cjl-kssj" v-if="hty.status=='未开赛'"><span class="col42a">{{hty._day}}</span>天<span class="col42a">{{hty._hour}}</span>小时<span class="col42a">{{hty._minute}}</span>分后开赛</p>
+							<p class="m-cjl-kssj" v-if="hty.status=='未开赛' && hty.ddks==0"><span class="col42a">{{hty._day}}</span>天<span class="col42a">{{hty._hour}}</span>小时<span class="col42a">{{hty._minute}}</span>分后开赛</p>
+							<p class="m-cjl-kssj" v-if="hty.status=='未开赛' && hty.ddks==1"><span class="col42a">等待组织者开赛</span></p>
 						</div>
 					</li>
 				</ul>
@@ -156,48 +157,7 @@
 									</span>
 								</div>
 							</li>
-							<!-- <li class="g-cgl-lt clearfix">
-								<div class="g-cgl-ltl">
-									<i class="g-cgl-tx">
-										<img src="../../../static/images/me.jpg">
-									</i>
-									<span class="g-cgl-name">未来老公</span>
-								</div>
-								<div class="f-fr f-re">
-									<button type="button" class="u-cgl-btn u-cgl-yjbtn">移交队长</button>
-									<button type="button" class="u-cgl-btn u-cgl-zscbtn">删除</button>
-									<span class="u-cgl-tip">
-										该选手正在代表战队出战
-										<i class="u-cjl-tipws">
-											<i class="u-cjl-tipns"></i>
-										</i>
-									</span>
-								</div>
-							</li> -->
-							<!-- <li class="g-cgl-lt clearfix">
-								<div class="g-cgl-ltl">
-									<i class="g-cgl-tx">
-										<img src="../../../static/images/me.jpg">
-									</i>
-									<span class="g-cgl-name">未来老公</span>
-								</div>
-								<div class="f-fr f-re">
-									<button type="button" class="u-cgl-btn u-cgl-yjbtn">移交队长</button>
-									<button type="button" class="u-cgl-btn u-cgl-scbtn">删除</button>
-								</div>
-							</li>
-							<li class="g-cgl-lt clearfix">
-								<div class="g-cgl-ltl">
-									<i class="g-cgl-tx">
-										<img src="../../../static/images/me.jpg">
-									</i>
-									<span class="g-cgl-name">未来老公</span>
-								</div>
-								<div class="f-fr f-re">
-									<button type="button" class="u-cgl-btn u-cgl-yjbtn">移交队长</button>
-									<button type="button" class="u-cgl-btn u-cgl-scbtn">删除</button>
-								</div>
-							</li> -->
+							
 						</ul>
 					</div>
 					<div class="g-cgl-r f-cgl-bj" v-show="tap6">
@@ -366,19 +326,24 @@ import createPop from '../../components/createPop.vue'
 									_this.history.list[i]._day=parseInt(t/d);
 							        _this.history.list[i]._hour=parseInt(t%d/h);
 							       	_this.history.list[i]._minute=parseInt(t%d%h/m);
+							       	if(t<0){
+							       		_this.history.list[i].ddks = 1;
+							       	}else{
+							       		_this.history.list[i].ddks = 0;
+							       	}
 								}else if(status==2){
 									_this.history.list[i].status = '进行中';
 								}else if(status==3){
 									_this.history.list[i].status = '已完结';
 								}
 								var maxNum = _this.history.list[i].maxNum,
-									applyCount = _this.history.list[i].maxNum;
+									applyCount = _this.history.list[i].applyCount;
 								var pre =  applyCount/maxNum;
 								if(pre>1){
 									pre=1;
 								}
-								pre = pre * 100% + '%';
-								$('[index]').eq(i).find('.g-cjl-rsn').css("width",pre)
+								pre = pre * 100 + '%';
+								_this.history.list[i].percent = pre;
 							}
 						}
 
