@@ -126,7 +126,7 @@ export default {
         createPop
     },
     ready: function() {
-        console.log(222);
+        
     },
     methods: {
         changeLand: function() {
