@@ -3,10 +3,12 @@
     <div class="g-bd g-w">
         <div class="techpic-option clearfix">
             <div href="" class="techpic-edit" @click="editTechpic">编辑对阵图</div>
-            <div class="before_tech tech_right_staus not_checked" style="display:none">
-                <p @click="beginTech"><i class="s-q-start"></i>
-                    <span class="start_text"></span>
-                </p>
+            <div class="wait_tech tech_right_staus" style="display:none">
+                等待开始
+            </div>
+            <div class="before_tech tech_right_staus not_checked" style="display:none" @click="beginTech">
+                <i class="s-q-start"></i>
+                <span class="start_text">开始比赛</span>
             </div>
             <div class="begining_tech" style="display:none">
                 <div class="start_btn">
@@ -189,6 +191,7 @@ export default {
               console.log(response);
             })
             var beginparm = {};
+            var wait_tech=$('.wait_tech');
             var before_tech = $('.before_tech');
             var start_text = $('.start_text');
             var _eventid = window.sessionStorage.getItem("eventId");
@@ -202,22 +205,9 @@ export default {
             _this.$http.get('event/getStatusByTime', _parm).then(function(response) {
                 _this.roundStatus = response.data.object.roundStatus;
                 window.sessionStorage.setItem("roundStatus", _this.roundStatus);
-                if (response.data.object.roundStatus == 1) {
-                    before_tech.show();
-                    start_text.text("报名预热中");
-                } else if (response.data.object.roundStatus == 2) {
-                    before_tech.show();
-                    start_text.text("报名进行中...");
-                } else if (response.data.object.roundStatus == 3) {
-                    before_tech.show();
-                    start_text.text("等待签到...");
-                } else if (response.data.object.roundStatus == 4) {
-                    before_tech.show();
-                    start_text.text("签到进行中...");
-                } else if (response.data.object.roundStatus == 5) {
-                    before_tech.show();
-                    start_text.text("即将开始");
-                } else if (response.data.object.roundStatus == 6) {
+                if (response.data.object.roundStatus < 6) {
+                    wait_tech.show();
+                }else if (response.data.object.roundStatus == 6) {
                     before_tech.show();
                     start_text.text("开始比赛");
                 } else if (response.data.object.roundStatus == 7) {
@@ -746,6 +736,7 @@ export default {
                     var move = false,
                         left_ = 0,
                         top_ = 0;
+                    var num=0;
                     var _movebody = $('.tech_main_body');
                     _movebody.mousedown(function(e) {
                         move = true;
@@ -756,13 +747,17 @@ export default {
                         move = false;
                     });
                     $(document).mousemove(function(e) {
-                        if (move) {
-                            var left_r = e.pageX - left_,
-                                top_r = e.pageY - top_;
-                            _movebody.css({
-                                "top": top_r,
-                                "left": left_r
-                            });
+                        num++;
+                        if(move){
+                            var left_r=e.pageX-left_,
+                                top_r=e.pageY-top_;
+                                _movebody.css({"top":top_r,"left":left_r});
+                                var $group_num=$('.group_num');
+                                if(num%2==0){
+                                    $group_num.css('left','-23.9px');
+                                }else{
+                                    $group_num.css('left','-24.1px');
+                                }
                         }
                     });
                 });
@@ -1183,5 +1178,8 @@ export default {
 .turn-btns {
     width: 460px;
     margin: 30px auto 0;
+}
+.wait_tech{
+    background-color: #666;
 }
 </style>

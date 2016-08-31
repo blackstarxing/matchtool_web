@@ -3,7 +3,7 @@
 	<side-bar></side-bar>
 	<slide-bar></slide-bar>
 	<create-pop></create-pop>
-	<div class="perCenter_wrap myMatch">
+	<div class="perCenter_wrap myMatch" style="flex:1;">
 		<h2 class="perCenter_title">我的赛事</h2>
 		<div class="perCenter_body">
 			<div class="perCenter_head">
