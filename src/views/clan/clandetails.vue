@@ -25,7 +25,7 @@
 			</div>
 			<ul class="m-cdt-tap clearfix">
 				<li v-bind:class="{'m-cdt-ontap':tap1}" val="1" @click="tapswitch">战队成员</li>
-				<li v-bind:class="{'m-cdt-ontap':tap2}" val="2" @click="tapswitch">参赛纪录</li>
+				<li v-bind:class="{'m-cdt-ontap':tap2}" val="2" @click="tapswitch">参赛记录</li>
 				<li v-bind:class="{'m-cdt-ontap':tap3}" val="3" @click="tapswitch">战队动态</li>
 				<li v-bind:class="{'m-cdt-ontap':tap4}" v-if="isCaptain==1" val="4" @click="tapswitch">战队管理</li>
 			</ul>
