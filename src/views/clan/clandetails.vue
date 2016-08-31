@@ -81,7 +81,8 @@
 							<div class="f-tr" v-if="hty.status=='未开赛'"><button type="button" class="m-cjl-btn m-cjl-wfb" disabled>{{hty.status}}</button></div>
 							<div class="f-tr" v-if="hty.status=='进行中'"><button type="button" class="m-cjl-btn m-cjl-jxz" disabled>{{hty.status}}</button></div>
 							<div class="f-tr" v-if="hty.status=='已完结'"><button type="button" class="m-cjl-btn m-cjl-wfb" disabled>{{hty.status}}</button></div>
-							<p class="m-cjl-kssj" v-if="hty.status=='未开赛'"><span class="col42a">{{hty._day}}</span>天<span class="col42a">{{hty._hour}}</span>小时<span class="col42a">{{hty._minute}}</span>分后开赛</p>
+							<p class="m-cjl-kssj" v-if="hty.status=='未开赛' && hty.ddks==0"><span class="col42a">{{hty._day}}</span>天<span class="col42a">{{hty._hour}}</span>小时<span class="col42a">{{hty._minute}}</span>分后开赛</p>
+							<p class="m-cjl-kssj" v-if="hty.status=='未开赛' && hty.ddks==1"><span class="col42a">等待组织者开赛</span></p>
 						</div>
 					</li>
 				</ul>
@@ -366,6 +367,11 @@ import createPop from '../../components/createPop.vue'
 									_this.history.list[i]._day=parseInt(t/d);
 							        _this.history.list[i]._hour=parseInt(t%d/h);
 							       	_this.history.list[i]._minute=parseInt(t%d%h/m);
+							       	if(t<0){
+							       		_this.history.list[i].ddks = 1;
+							       	}else{
+							       		_this.history.list[i].ddks = 0;
+							       	}
 								}else if(status==2){
 									_this.history.list[i].status = '进行中';
 								}else if(status==3){
@@ -378,7 +384,7 @@ import createPop from '../../components/createPop.vue'
 									pre=1;
 								}
 								pre = pre * 100% + '%';
-								$('[index]').eq(i).find('.g-cjl-rsn').css("width",pre)
+								$('[index]').eq(i).find('.g-cjl-rsn').css("width",pre);
 							}
 						}
 
