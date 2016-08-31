@@ -4,9 +4,9 @@
 			<a href="" class="slidein" @click="slidein"></a>
 			<img src="../../static/images/logo.png" alt="" v-link="{ path: '/index'}">
 		</div>
-		<div class="header_right f-fr" v-show="islogin">
+		<div class="header_right f-fr" v-if="islogin">
       <a href="" class="notify" v-link="{ path: '/myMessage'}"><span class="icon-uniE60D"></span></a>
-      <div class="avatar">
+      <div class="avatar" @mouseover="avatarOver" @mouseleave="mouseLeave">
         <img v-bind:src="avatar" v-show="avatar"><span class="icon-uniE60E" style="border-radius:50%;"></span>
         <div class="nav-list">
           <ul>
@@ -46,22 +46,6 @@
       }, function(response){
         console.log(response);
       })
-  		$('.avatar').hover(
-        function(){
-          $('.nav-list').show();
-          $('.icon-uniE60E').css({
-            'transform':'rotate(-180deg)',
-            '-webkit-transform':'rotate(-180deg)'
-          });
-        },
-        function(){
-          $('.nav-list').hide();
-          $('.icon-uniE60E').css({
-            'transform':'rotate(0deg)',
-            '-webkit-transform':'rotate(0deg)'
-          });
-        }
-      );
   	},
   	methods:{
       showPop:function(e){
@@ -83,6 +67,20 @@
         }, function(response){
           console.log(response);
         })
+      },
+      avatarOver: function () {
+        $('.nav-list').show();
+          $('.icon-uniE60E').css({
+            'transform':'rotate(-180deg)',
+            '-webkit-transform':'rotate(-180deg)'
+          });
+      },
+      mouseLeave: function () {
+        $('.nav-list').hide();
+          $('.icon-uniE60E').css({
+            'transform':'rotate(0deg)',
+            '-webkit-transform':'rotate(0deg)'
+          });
       }
   	}
   }

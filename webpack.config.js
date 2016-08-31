@@ -7,7 +7,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './static'),
     publicPath: '/static/',
-    filename: 'build.[hash].js'
+    filename: 'build.js'
   },
   module: {
     loaders: [
@@ -59,15 +59,15 @@ if (process.env.NODE_ENV === 'production') {
         NODE_ENV: '"production"'
       }
     }),
-    // new ExtractTextPlugin('./index.[hash].css', {
-    //         allChunks: true
-    //     }),
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false
-    //   }
-    // }),
-    // new webpack.optimize.OccurenceOrderPlugin()
+    new ExtractTextPlugin('./index.[hash].css', {
+            allChunks: true
+        }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    }),
+    new webpack.optimize.OccurenceOrderPlugin()
   ]
 } else {
   module.exports.devServer={

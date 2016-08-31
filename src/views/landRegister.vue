@@ -178,7 +178,7 @@ export default {
             if (this.phone && /^\d+$/.test(this.phone)) {
                 _error.hide();
                 //判断是否有错误提示
-                this.errorTip = true;
+                this.phoneTip = true;
                 if (this.phone.length != 11) {
                     _error.show();
                     //判断是否有错误提示
@@ -190,11 +190,11 @@ export default {
                     this.$http.post('registerCheck', parm).then(function(response) {
                         if (response.data.object.telephoneValid) {
                             _error.hide();
-                            this.errorTip = true;
+                            this.phoneTip = true;
                         } else {
                             _error.show();
                             _error.find('.error_tip').text('手机号已被注册');
-                            this.errorTip = false;
+                            this.phoneTip = false;
                         }
                     }, function(response) {
                         console.log(response);
@@ -202,7 +202,7 @@ export default {
                 }
             } else {
                 _error.show();
-                this.errorTip = false;
+                this.phoneTip = false;
                 _error.find('.error_tip').text('请填写正确的手机号');
             }
         },
