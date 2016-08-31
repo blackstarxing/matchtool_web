@@ -13,8 +13,40 @@
 				</ul>
 			</div>
 			<div class="perCenter_content">
-				<ul class="messageList">
-					<li class="messageList_item clearfix" v-for="item in msgShowList" :class="{ pointerCursor: item.urlType != null }" @click="linkDetail">
+				<ul class="sysMsgList" v-show="sysMsgFlag">
+					<li class="messageList_item clearfix" v-for="item in sysMsgList" :class="{ pointerCursor: item.urlType != null }" @click="linkDetail">
+						<img :src="iconSrc" alt="">
+						<div class="textInfo messageInfo">
+							<h3 class="info_name" v-text="item.title">开赛吧管理员</h3>
+							<p class="msgText" v-text="item.info">欢迎加入开赛吧，这里是一个专业赛事管理互动平台。在这里你可以了解到海量大小型赛事，便捷的报名轻松参与赛事！欢迎加入开赛吧，这里是一个专业赛事管理互动平台。在这里你可以了解到海量大小型赛事，便捷的报名轻松参与赛事！</p>
+						</div>
+						<div class="timeInfo">
+							<p class="createtime" v-text="item.createDate | formatDate">2012.8.10 12:30</p>
+						</div>
+					</li>
+					<!-- <li class="messageList_item clearfix">
+						<img src="../../static/images/myMsg_icon1.png" alt="">
+						<div class="textInfo messageInfo">
+							<h3 class="info_name">开赛吧管理员</h3>
+							<p class="msgText">欢迎加入开赛吧，这里是一个专业赛事管理互动平台。在这里你可以了解到海量大小型赛事，便捷的报名轻松参与赛事！同时你也可以申请成为一名专业的赛事组织，建立属于自己赛事赛事赛事赛事赛事赛事赛事赛事</p>
+						</div>
+						<div class="timeInfo">
+							<p class="createtime">2012.8.10 12:30</p>
+						</div>
+					</li>
+					<li class="messageList_item clearfix">
+						<img src="../../static/images/myMsg_icon1.png" alt="">
+						<div class="textInfo messageInfo">
+							<h3 class="info_name">开赛吧管理员</h3>
+							<p class="msgText">adasdasdasd大师大师大师大师大师大师大师大师大师的，adasdasdasd大师大师大师大师大师大师大师大师大师的</p>
+						</div>
+						<div class="timeInfo">
+							<p class="createtime">2012.8.10 12:30</p>
+						</div>
+					</li> -->
+				</ul>
+				<ul class="matchMsgList" v-show="matchMsgFlag">
+					<li class="messageList_item clearfix" v-for="item in matchMsgList" :class="{ pointerCursor: item.urlType != null }" @click="linkDetail">
 						<img :src="iconSrc" alt="">
 						<div class="textInfo messageInfo">
 							<h3 class="info_name" v-text="item.title">开赛吧管理员</h3>
@@ -52,10 +84,10 @@
         	<input type="text" id="pageipt" v-model="pageId">
         	<button type="button" class="u-btn">跳转</button>
         </div> -->
-        <div class="member-empty" v-if="msgShowList.length === 0">
+        <div class="member-empty" v-if="(sysMsgFlag === true && sysMsgList.length === 0) || (matchMsgFlag === true && matchMsgList.length === 0)">
 					这里还没有内容哦~~
 				</div>
-        <div class="m-page ptb50" v-if="msgShowList.length != 0">
+        <div class="m-page ptb50" v-if="(sysMsgFlag === true && sysMsgList.length != 0) || (matchMsgFlag === true && matchMsgList.length != 0)">
         	<button id="prev" type="button" @click="prevpage"></button>
         	<div class="pagination"><span class="current">{{ pageList.pageNumber }}</span>/<span>{{ pageList.pages }}</span></div>
         	<button id="next" type="button" @click="nextpage"></button>
@@ -100,7 +132,9 @@
 					pageNumber: 1,
 					pages: -1
 				},
-				msgTypeFlag: true
+				msgTypeFlag: true,
+				sysMsgFlag: true,
+				matchMsgFlag: false
 			}
 		},
 		components: {
@@ -111,12 +145,15 @@
 		},
 		ready: function () {
 
-			// 初始化时就查询我组织的赛事列表，仅查询一次，以后就不查询了
-			if (!this.sysMsgListFlag) {
-				this.sysMsgListFlag = true
+			// // 初始化时就查询我组织的赛事列表，仅查询一次，以后就不查询了
+			// if (!this.sysMsgListFlag) {
+			// 	this.sysMsgListFlag = true
 				this.getSysMsgList(1)
-				this.msgTextInit()
-			}
+				this.getMatchMsgList(1)
+				// this.$nextTick( function () {
+				// 	this.msgTextInit()	
+				// }) 
+			// }
 			
 		},
 		filters: {
@@ -134,14 +171,16 @@
 		methods: {
 			linkDetail: function (e) {
 				var index = $('.messageList_item').index(e.currentTarget)
-				var urlType = this.msgShowList[index].urlType
+				var showList = []
+				if (this.sysMsgFlag) showList = this.sysMsgList 
+				var urlType = showList[index].urlType
 				if (urlType === null) {     // 为null，则点击不跳转
 					e.preventDefault()
 				} else if (urlType === 4) { // 为4，跳转到个人中心参赛资料设置页面
 					this.$route.router.go({ name: 'perSetting', params: { userId: 1 } })
 				} else if (urlType === 1 || urlType === 2) { // 为1，跳转到赛事详情页面  为2，也跳转到赛事详情页对阵图标签
 					var _eventid, _roundid
-					var urlParam = this.msgShowList[index].urlParam
+					var urlParam = showList[index].urlParam
 					var paramsArr = urlParam.split('&')
 					paramsArr.forEach(function (v, i) {
 						var key = v.split('=')[0], value = v.split('=')[1]
@@ -165,11 +204,10 @@
 			msgTextInit: function () {
 				var $msgDivList = $('.messageInfo')
 				var $msgTextList = $('.msgText')
-				//var text = []
-				console.log($msgTextList)
+				var _this = this
+				//console.log(this.sysMsgExpandFlag[0])
 				$msgTextList.each(function (i, v) {
 					var tmpText = $(this).html()
-					//alert(tmpText.length)
 					var nowText = tmpText.substring(0, 79)
 					var str = "<p class='expandMsgText'>" + nowText
 					if (tmpText.length > 79) {
@@ -186,8 +224,6 @@
 				$aList.click(function (e) {
 					var index = $(this).attr('data-id')
 					var i = $('.expandMsgText a').index(e.currentTarget)
-					//alert($(this).attr('data-id'))
-					//alert(i)
 					$msgTextList.eq(index).show()
 					$('.expandMsgText').eq(i).hide()
 					// $aList = $('.msgText a')
@@ -214,7 +250,11 @@
 					} else if (typeId === 2) {
 						this.matchMsgList = list
 					}
-					this.msgShowList = list
+					//this.msgShowList = list
+					// this.$nextTick(function () {
+					// 	this.msgTextInit()	
+					// })
+					
 				}, function (response) {
 					console.log(response)
 				})
@@ -232,24 +272,35 @@
 					this.msgTypeFlag = true
 					// 设置列表为我组织的赛事
 					// alert('ZZ')
-					this.msgShowList = this.sysMsgList
+					//this.msgShowList = this.sysMsgList
+					this.sysMsgFlag = true
+					this.matchMsgFlag = false
 					this.iconSrc = "../../static/images/myMsg_icon1.png"
+					// this.$nextTick(function () {
+					// 		this.msgTextInit()	
+					// })
 				} else {
 					this.tabList[1].isCur = true
 					this.tabList[0].isCur = false
 					this.msgTypeFlag = false
+
+					this.sysMsgFlag = false
+					this.matchMsgFlag = true	
 					// alert('CY')
 					// 仅第一次切换tab进来查询我参与的赛事列表，以后就不查询了
-					if (!this.matchMsgListFlag) {
-						this.matchMsgListFlag = true
-						this.getMatchMsgList(1)
-						// this.$nextTick(function () {
-						// 	this.msgTextInit()
-						// })
-					}
+					// if (!this.matchMsgListFlag) {
+					// 	this.matchMsgListFlag = true
+					// 	this.getMatchMsgList(1)
+					// 	// this.$nextTick(function () {
+					// 	// 	this.msgTextInit()
+					// 	// })
+					// 	this.$nextTick(function () {
+					// 		this.msgTextInit()	
+					// 	})
+					// }
 
 					// 设置列表为我参与的赛事
-					this.msgShowList = this.matchMsgList
+					//this.msgShowList = this.matchMsgList
 					this.iconSrc = "../../static/images/myMsg_icon2.png"
 				}
 
@@ -309,6 +360,9 @@
 	}
 	.messageInfo h3 {
 		margin: 6px 0 20px 0;
+	}
+	.messageInfo .msgText {
+		word-wrap: break-word;
 	}
 	.pointerCursor {
 		cursor: pointer;
