@@ -1882,8 +1882,7 @@ label.u-c-kz-sz{
 }
 .g-cjl-rsn{
 	display: inline-block;
-	width: 50%;/*动态展示*/
-	height: 0.06rem;
+	height: 100%;
 	background: #fdb91a;
 	border-radius: 0.03rem;
 	-webkit-border-radius: 0.03rem;

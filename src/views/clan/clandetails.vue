@@ -56,7 +56,7 @@
 							<p class="m-cjl-zbf">
 								参与人数：
 								<span class="g-cjl-rsw">
-									<span class="g-cjl-rsn"></span>
+									<span class="g-cjl-rsn" style="width:{{hty.percent}};"></span>
 								</span>
 								<span class="col42a">{{hty.applyCount}}</span>/{{hty.maxNum}}
 								<i class="u-cjl-tip" v-if="hty.status=='未开赛'">
@@ -157,48 +157,7 @@
 									</span>
 								</div>
 							</li>
-							<!-- <li class="g-cgl-lt clearfix">
-								<div class="g-cgl-ltl">
-									<i class="g-cgl-tx">
-										<img src="../../../static/images/me.jpg">
-									</i>
-									<span class="g-cgl-name">未来老公</span>
-								</div>
-								<div class="f-fr f-re">
-									<button type="button" class="u-cgl-btn u-cgl-yjbtn">移交队长</button>
-									<button type="button" class="u-cgl-btn u-cgl-zscbtn">删除</button>
-									<span class="u-cgl-tip">
-										该选手正在代表战队出战
-										<i class="u-cjl-tipws">
-											<i class="u-cjl-tipns"></i>
-										</i>
-									</span>
-								</div>
-							</li> -->
-							<!-- <li class="g-cgl-lt clearfix">
-								<div class="g-cgl-ltl">
-									<i class="g-cgl-tx">
-										<img src="../../../static/images/me.jpg">
-									</i>
-									<span class="g-cgl-name">未来老公</span>
-								</div>
-								<div class="f-fr f-re">
-									<button type="button" class="u-cgl-btn u-cgl-yjbtn">移交队长</button>
-									<button type="button" class="u-cgl-btn u-cgl-scbtn">删除</button>
-								</div>
-							</li>
-							<li class="g-cgl-lt clearfix">
-								<div class="g-cgl-ltl">
-									<i class="g-cgl-tx">
-										<img src="../../../static/images/me.jpg">
-									</i>
-									<span class="g-cgl-name">未来老公</span>
-								</div>
-								<div class="f-fr f-re">
-									<button type="button" class="u-cgl-btn u-cgl-yjbtn">移交队长</button>
-									<button type="button" class="u-cgl-btn u-cgl-scbtn">删除</button>
-								</div>
-							</li> -->
+							
 						</ul>
 					</div>
 					<div class="g-cgl-r f-cgl-bj" v-show="tap6">
@@ -378,13 +337,13 @@ import createPop from '../../components/createPop.vue'
 									_this.history.list[i].status = '已完结';
 								}
 								var maxNum = _this.history.list[i].maxNum,
-									applyCount = _this.history.list[i].maxNum;
+									applyCount = _this.history.list[i].applyCount;
 								var pre =  applyCount/maxNum;
 								if(pre>1){
 									pre=1;
 								}
-								pre = pre * 100% + '%';
-								$('[index]').eq(i).find('.g-cjl-rsn').css("width",pre);
+								pre = pre * 100 + '%';
+								_this.history.list[i].percent = pre;
 							}
 						}
 
