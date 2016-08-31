@@ -4,15 +4,15 @@
 	<slide-bar></slide-bar>
 	<create-pop></create-pop>
 	<div class="g-w mt90 f-re">
-		<div class="setPoster g-q-hb" v-link="{ path: '/backend/backendMsg'}" v-if="isPublish==null || isPublish==0">
-			<img v-bind:src="'http://img.wangyuhudong.com/'+formdata.poster" v-if="poster!=null">
+		<div class="setPoster g-q-hb" v-link="{ path: '/backend/backendMsg'}" v-if="isPublish">
+			<img v-bind:src="'http://img.wangyuhudong.com/'+formdata.poster" v-if="poster">
 			<div class="g-q-ptr">
 				<span class="icon-uniE62B"></span>
 				<p>编辑、更改赛事海报</p>
 			</div>
 		</div>
 		<div class="setPoster g-q-hb" v-if="isPublish==1">
-			<img v-bind:src="'http://img.wangyuhudong.com'+poster" v-if="poster!=null">
+			<img v-bind:src="'http://img.wangyuhudong.com'+poster" v-if="poster">
 		</div>
 		<div class="g-q-info">
 			<div class="g-q-fbs" v-show ="isc">
