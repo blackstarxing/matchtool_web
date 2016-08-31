@@ -5,7 +5,7 @@
 	<create-pop></create-pop>
 	<div class="g-w mt90 f-re">
 		<div class="setPoster g-q-hb" v-link="{ path: '/backend/backendMsg'}" v-if="isPublish==null || isPublish==0">
-			<img v-bind:src="'http://img.wangyuhudong.com/'+formdata.poster" v-if="poster!=null">
+			<img v-bind:src="'http://img.wangyuhudong.com/'+formdata.poster" v-if="poster">
 			<div class="g-q-ptr">
 				<span class="icon-uniE62B"></span>
 				<p>编辑、更改赛事海报</p>
@@ -73,7 +73,7 @@
 			<p class="g-q-name">{{name}}</p>
 			<div class="g-q-zbf f-re">
 				<i class="g-q-hp f-fl">
-					<img v-bind:src="'http://img.wangyuhudong.com/'+icon">
+					<img v-bind:src="'http://img.wangyuhudong.com/'+icon" v-if="icon">
 				</i>
 				<span class="f-fl ml20">{{nickname}}</span>
 				<span class="col7a8 f-fl ml20" v-if="isPublish==1">{{publishTime}}发布</span>
