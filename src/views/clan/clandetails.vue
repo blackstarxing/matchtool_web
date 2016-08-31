@@ -60,7 +60,7 @@
 								</span>
 								<span class="col42a">{{hty.applyCount}}</span>/{{hty.maxNum}}
 								<i class="u-cjl-tip" v-if="hty.status=='未开赛'">
-									<span v-if="hty.seatNumber==''">
+									<span v-if="hty.seatNumber==null">
 										战队处于候补区
 										<i class="u-cjl-tipws">
 											<i class="u-cjl-tipns"></i>
