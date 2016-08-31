@@ -47,7 +47,7 @@
 				<ul class="clearfix g-cjl-m">
 					<li v-for="hty in history.list" index={{$index}}>
 						<i class="g-cjl-pot">
-							<img v-bind:src="'http://img.wangyuhudong.com/'+hty.icon">
+							<img v-bind:src="'http://img.wangyuhudong.com/'+hty.poster">
 						</i>
 						<div class="f-fl">
 							<p class="m-cjl-ssn">{{hty.name}}</p>
@@ -56,7 +56,7 @@
 							<p class="m-cjl-zbf">
 								参与人数：
 								<span class="g-cjl-rsw">
-									<span class="g-cjl-rsn" style="width:{{hty.percent}};"></span>
+									<span class="g-cjl-rsn" v-bind:style="{width:hty.percent}"></span>
 								</span>
 								<span class="col42a">{{hty.applyCount}}</span>/{{hty.maxNum}}
 								<i class="u-cjl-tip" v-if="hty.status=='未开赛'">
