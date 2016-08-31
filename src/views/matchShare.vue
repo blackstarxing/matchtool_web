@@ -1,13 +1,13 @@
 <template>
     <div class="g-sh-m">
         <div class="m-sh-pot f-re">
-            <img  v-bind:src="poster">
+            <img v-bind:src="poster">
             <span class="m-sh-fbsj">{{matchlist.publish}} 发布</span>
         </div>
         <p class="m-sh-tit">{{matchname}}</p>
         <img v-bind:src="icon" class="m-sh-head">
         <p class="match_sponsor">{{creator}}</p>
-        <p class="match_intro">{{ brief.briefsmall }}</p>
+        <p class="match_intro" v-html="brief.briefsmall"></p>
         <span id="introExpandSpan" class="expandBtn" v-show="briefmore" @click="briefMore">展开<i class="icon-uniE60E" style="color: #42aa53;"></i></span>
         <span id="introExpandSpan" class="expandBtn" v-show="brieflittle" @click="briefLittle">收起<i class="icon-uniE60E" style="color: #42aa53;"></i></span>
         <div class="matchShare_content">
@@ -82,21 +82,21 @@
                     </ul>
                     <div class="match_rules">
                         <h2 class="match_rules_title">赛事规则</h2>
-                        <p class="match_rules_content">{{ rule.rulesmall }}</p>
+                        <p class="match_rules_content" v-html="rule.rulesmall"></p>
                         <div id="rules_expandBtn" class="expandBtn" v-show="rulemore" @click="ruleMore">展开<i class="icon-uniE60E" style="color: #42aa53;"></i></div>
                         <div id="rules_expandBtn" class="expandBtn" v-show="rulelittle" @click="ruleLittle">收起<i class="icon-uniE60E" style="color: #42aa53;"></i></div>
                     </div>
                     <div class="match_awards">
                         <h2 class="match_awards_title">赛事奖项</h2>
-                        <p class="match_awards_content">{{ prize.prizesmall }}</p>
+                        <p class="match_awards_content" v-html="prize.prizesmall"></p>
                         <div id="awards_expandBtn" class="expandBtn" v-show="pricemore" @click="priceMore">展开<i class="icon-uniE60E" style="color: #42aa53;"></i></div>
                         <div id="awards_expandBtn" class="expandBtn" v-show="pricelittle" @click="priceLittle">收起<i class="icon-uniE60E" style="color: #42aa53;"></i></div>
                     </div>
                 </div>
             </div>
-            <div class="bottomBox" @click="joinTech">
+            <!-- <div class="bottomBox" @click="joinTech">
                 <a class="joinMatch">报名参赛</a>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -119,9 +119,18 @@ function format(shijianchuo) {
 export default {
     data() {
             return {
-                brief: {textbrief:'',briefsmall: ""},
-                rule: {textrule:'',rulesmall: ""},
-                prize: {textprize:'',prizesmall: ""},
+                brief: {
+                    textbrief: '',
+                    briefsmall: ""
+                },
+                rule: {
+                    textrule: '',
+                    rulesmall: ""
+                },
+                prize: {
+                    textprize: '',
+                    prizesmall: ""
+                },
                 isPic: true,
                 isDetail: false,
                 matchlist: {
@@ -149,14 +158,14 @@ export default {
                 groupid: {},
                 seatida: {},
                 seatidb: {},
-                briefmore:false,
-                rulemore:false,
-                pricemore:false,
+                briefmore: false,
+                rulemore: false,
+                pricemore: false,
                 brieflittle: false,
                 rulelittle: false,
                 pricelittle: false,
-                poster:'',
-                matchname:'',
+                poster: '',
+                matchname: '',
                 creator: ''
 
             }
@@ -172,74 +181,74 @@ export default {
                 _this.roundStatus = response.data.object.state;
                 console.log(response);
                 if (response.data.code) {
-                    _this.matchname= response.data.object.event.name;
-                    _this.creator =  response.data.object.creater.nickname;
+                    _this.matchname = response.data.object.event.name;
+                    _this.creator = response.data.object.creater.nickname;
                     _this.matchlist.name = response.data.object.event.items.name;
-                    var _mode=response.data.object.event.mode;
-                    if(_mode==1){
+                    var _mode = response.data.object.event.mode;
+                    if (_mode == 1) {
                         _this.matchlist.model = "线上赛事";
-                    }else if(_mode==2){
+                    } else if (_mode == 2) {
                         _this.matchlist.model = "线下赛事";
-                    }else if(_mode==3){
+                    } else if (_mode == 3) {
                         _this.matchlist.model = "线上海选+线下决赛";
                     }
                     _this.matchlist.presonnem = response.data.object.round.maxNum;
                     _this.matchlist.matchtime = format(response.data.object.round.activityBegin);
-                    var _type=response.data.object.round.type;
-                    if(_type==1){
-                        _this.matchlist.state="单阶段比赛";
-                    }else if(_type==2){
-                        _this.matchlist.state="双阶段比赛";
+                    var _type = response.data.object.round.type;
+                    if (_type == 1) {
+                        _this.matchlist.state = "单阶段比赛";
+                    } else if (_type == 2) {
+                        _this.matchlist.state = "双阶段比赛";
                     }
                     _this.matchlist.signtimebeg = format(response.data.object.round.applyBegin);
                     _this.matchlist.signtimeend = format(response.data.object.round.applyEnd);
-                    var _regime=response.data.object.round.regime;
-                    if(_regime==1){
-                        _this.matchlist.format="单败淘汰制";
-                    }else if(_regime==2){
-                        _this.matchlist.format="双败淘汰制";
-                    }else if(_regime==3){
-                        _this.matchlist.format="小组内单循环制";
-                    }else if(_regime==4){
-                        _this.matchlist.format="积分循环制";
+                    var _regime = response.data.object.round.regime;
+                    if (_regime == 1) {
+                        _this.matchlist.format = "单败淘汰制";
+                    } else if (_regime == 2) {
+                        _this.matchlist.format = "双败淘汰制";
+                    } else if (_regime == 3) {
+                        _this.matchlist.format = "小组内单循环制";
+                    } else if (_regime == 4) {
+                        _this.matchlist.format = "积分循环制";
                     }
-                   
+
                     _this.matchlist.pasttime = response.data.object.round.signBeginTime ? (esponse.data.object.round.signBeginTime) : '不需要签到';
                     _this.matchlist.publish = format(response.data.object.event.publishTime);
                     _this.icon = 'http://img.wangyuhudong.com/' + response.data.object.creater.icon;
-                    _this.poster= 'http://img.wangyuhudong.com/' + response.data.object.event.poster;
+                    _this.poster = 'http://img.wangyuhudong.com/' + response.data.object.event.poster;
                     console.log(_this.poster);
-                    _this.brief.textbrief=response.data.object.event.brief;
+                    _this.brief.textbrief = response.data.object.event.brief;
                     // _this.brief.textbrief= "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
-                    if(_this.brief.textbrief && _this.brief.textbrief.length>60){
-                        _this.brief.briefsmall =_this.brief.textbrief.substr(0,59)+'......';
-                        _this.briefmore=true;
-                    }else if(_this.brief.textbrief){
-                        _this.brief.briefsmall=_this.brief.textbrief;
-                    }else{
-                        _this.brief.briefsmall="还没有简介哦～"
+                    if (_this.brief.textbrief && _this.brief.textbrief.length > 60) {
+                        _this.brief.briefsmall = _this.brief.textbrief.substr(0, 59) + '......';
+                        _this.briefmore = true;
+                    } else if (_this.brief.textbrief) {
+                        _this.brief.briefsmall = _this.brief.textbrief;
+                    } else {
+                        _this.brief.briefsmall = "还没有简介哦～"
                     }
 
-                    _this.rule.textrule=response.data.object.event.regimeRule;
+                    _this.rule.textrule = response.data.object.event.regimeRule;
                     // _this.rule.textrule= "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
-                    if(_this.rule.textrule && _this.rule.textrule.length>100){
-                        _this.rule.rulesmall=_this.rule.textrule.substr(0,99)+'......';
-                        _this.rulemore=true;
-                    }else if(_this.rule.textrule){
-                        _this.rule.rulesmall=_this.rule.textrule;
-                    }else{
-                        _this.rule.rulesmall="还没有规则哦～"
+                    if (_this.rule.textrule && _this.rule.textrule.length > 100) {
+                        _this.rule.rulesmall = _this.rule.textrule.substr(0, 99) + '......';
+                        _this.rulemore = true;
+                    } else if (_this.rule.textrule) {
+                        _this.rule.rulesmall = _this.rule.textrule;
+                    } else {
+                        _this.rule.rulesmall = "还没有规则哦～"
                     }
 
-                    _this.prize.textprize =response.data.object.event.regimeRule;
+                    _this.prize.textprize = response.data.object.event.regimeRule;
                     // _this.prize.textprize = "本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，本联赛将在VPGAME赛事平台上进行，提供两种模式进行对抗：1）匹配模式，每个玩家以个人匹配的方式，随机形成一场游戏，并由机器人自动开设房间；2）擂台模式，"
-                    if(_this.prize.textprize && _this.prize.textprize.length>100){
-                        _this.prize.prizesmall=_this.prize.textprize.substr(0,99)+'......';
-                        _this.pricemore=true;
-                    }else if(_this.prize.textprize){
-                        _this.prize.prizesmall=_this.prize.textprize;
-                    }else{
-                        _this.prize.prizesmall="有点扣，居然没有奖励～"
+                    if (_this.prize.textprize && _this.prize.textprize.length > 100) {
+                        _this.prize.prizesmall = _this.prize.textprize.substr(0, 99) + '......';
+                        _this.pricemore = true;
+                    } else if (_this.prize.textprize) {
+                        _this.prize.prizesmall = _this.prize.textprize;
+                    } else {
+                        _this.prize.prizesmall = "有点扣，居然没有奖励～"
                     }
                 }
 
@@ -593,16 +602,16 @@ export default {
                 }
 
                 //获取turn>1的数据
-                 var listtwo=[];
-                 var listthree=[];
-                 var listfour=[];
-                 var listfive=[];
-                 var listsix=[];
-                 var listseven=[];
-                 var listeight=[];
-                 var listnight=[];
-                 var list = [listtwo,listthree,listfour,listfive,listsix,listseven,listeight,listnight];
-                 var _html;
+                var listtwo = [];
+                var listthree = [];
+                var listfour = [];
+                var listfive = [];
+                var listsix = [];
+                var listseven = [];
+                var listeight = [];
+                var listnight = [];
+                var list = [listtwo, listthree, listfour, listfive, listsix, listseven, listeight, listnight];
+                var _html;
 
                 function getnumall(arr, level) {
                     for (var i = 0; i < arr.length; i++) {
@@ -684,6 +693,7 @@ export default {
                     var move = false,
                         left_ = 0,
                         top_ = 0;
+                    var num = 0;
                     var _movebody = $('.tech_main_body');
                     _movebody.mousedown(function(e) {
                         move = true;
@@ -694,14 +704,20 @@ export default {
                         move = false;
                     });
                     $(document).mousemove(function(e) {
+                        num++;
                         if (move) {
                             var left_r = e.pageX - left_,
                                 top_r = e.pageY - top_;
-                            // console.log(e.pageX,left_,left_r)
                             _movebody.css({
                                 "top": top_r,
                                 "left": left_r
                             });
+                            var $group_num = $('.group_num');
+                            if (num % 2 == 0) {
+                                $group_num.css('left', '-23.9px');
+                            } else {
+                                $group_num.css('left', '-24.1px');
+                            }
                         }
                     });
                 });
@@ -790,45 +806,45 @@ export default {
                 this.sharepic = true;
                 this.isDetail = false;
             },
-            changeDetail: function () {
+            changeDetail: function() {
                 this.isPic = false;
                 this.sharepic = false;
                 this.isDetail = true;
             },
-            briefMore: function () {
-                this.brief.briefsmall=this.brief.textbrief;
-                this.briefmore=false;
-                this.brieflittle=true;
+            briefMore: function() {
+                this.brief.briefsmall = this.brief.textbrief;
+                this.briefmore = false;
+                this.brieflittle = true;
             },
-            ruleMore: function () {
-                this.rule.rulesmall=this.rule.textrule;
-                this.rulemore=false;
-                this.rulelittle=true;
+            ruleMore: function() {
+                this.rule.rulesmall = this.rule.textrule;
+                this.rulemore = false;
+                this.rulelittle = true;
             },
-            priceMore: function () {
-                this.prize.prizesmall=this.prize.textprize;
-                this.pricemore=false;
-                this.pricelittle=true;
+            priceMore: function() {
+                this.prize.prizesmall = this.prize.textprize;
+                this.pricemore = false;
+                this.pricelittle = true;
             },
-            joinTech: function () {
+            joinTech: function() {
                 this.$route.router.go({
-                            path: '/index'
-                        });
+                    path: '/index'
+                });
             },
-            briefLittle: function () {
-                this.brief.briefsmall =this.brief.textbrief.substr(0,59)+'......';
-                this.briefmore=true;
-                this.brieflittle=false;
+            briefLittle: function() {
+                this.brief.briefsmall = this.brief.textbrief.substr(0, 59) + '......';
+                this.briefmore = true;
+                this.brieflittle = false;
             },
-            ruleLittle: function () {
-                this.rule.rulesmall=this.rule.textrule.substr(0,99)+'......';
-                this.rulemore=true;
-                this.rulelittle=false;
+            ruleLittle: function() {
+                this.rule.rulesmall = this.rule.textrule.substr(0, 99) + '......';
+                this.rulemore = true;
+                this.rulelittle = false;
             },
-            priceLittle: function () {
-                this.prize.prizesmall=this.prize.textprize.substr(0,99)+'......';
-                this.pricemore=true;
-                this.pricelittle=false;
+            priceLittle: function() {
+                this.prize.prizesmall = this.prize.textprize.substr(0, 99) + '......';
+                this.pricemore = true;
+                this.pricelittle = false;
             },
         }
 }

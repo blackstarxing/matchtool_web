@@ -375,16 +375,16 @@ function timer(text,a,n,c) {
 
 	var leftStr = '';
 	if(leftDay > 0) {
-		leftStr += leftDay + '天';
+		leftStr += '<span class="col42a">'+leftDay+'</span>' + '天';
 	}
 	if(leftHour > 0) {
-		leftStr += leftHour + '小时';
+		leftStr += '<span class="col42a">'+leftHour+'</span>' + '小时';
 	}
 	if(leftMinute > 0) {
-		leftStr += leftMinute + '分';
+		leftStr += '<span class="col42a">'+leftMinute+'</span>' + '分';
 	}
 	if(leftSecond > 0) {
-		leftStr += leftSecond + '秒';
+		leftStr += '<span class="col42a">'+leftSecond+'</span>' + '秒';
 	}
 	if(c==0){
 		document.getElementById('txts').innerHTML = text + leftStr;
