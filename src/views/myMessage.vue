@@ -296,21 +296,3 @@
 		}
 	}
 </script>
-<style>
-	.messageList_item img {
-		float: left;
-		width: 80px;
-		height: 80px;
-	}
-	.messageInfo {
-		width: 554px;
-		margin-left: 18px;
-		letter-spacing: 1px;
-	}
-	.messageInfo h3 {
-		margin: 6px 0 20px 0;
-	}
-	.pointerCursor {
-		cursor: pointer;
-	}
-</style>
