@@ -7,7 +7,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './static'),
     publicPath: '/static/',
-    filename: 'build.js'
+    filename: 'build.[hash].js'
   },
   module: {
     loaders: [
@@ -78,7 +78,6 @@ if (process.env.NODE_ENV === 'production') {
     proxy: {
       '/oet/*': {
           target: 'http://172.16.2.63:8088',
-          // target: 'wy.kaisaiba.wangyuhudong.com',
           secure: false
       }
     }
