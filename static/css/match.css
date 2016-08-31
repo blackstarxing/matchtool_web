@@ -3523,6 +3523,9 @@ label.u-c-kz-sz{
 	.messageInfo h3 {
 		margin: 6px 0 20px 0;
 	}
+	.sysMsgText, .matchMsgText {
+		word-wrap: break-word;
+	}
 	.pointerCursor {
 		cursor: pointer;
 	}
@@ -3844,6 +3847,7 @@ label.u-c-kz-sz{
 		position: absolute;
 		width: 100%;
 		height: 100%;
+		z-index: 100;
 	}
 	.pic_mask {
 		position: relative;
@@ -3869,8 +3873,9 @@ label.u-c-kz-sz{
 		font-size: 12px;
 		line-height: 30px;    
 		background: #000;
-		filter: alpha(opacity=30); 
-		background-color: rgba(0, 0, 0, .3);
+		filter: alpha(opacity=70); 
+		background-color: rgba(0, 0, 0, .7);
+		z-index: 100;
 	}
 
 	/* 参赛信息 */

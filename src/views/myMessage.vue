@@ -3,7 +3,7 @@
 	<side-bar></side-bar>
 	<slide-bar></slide-bar>
 	<create-pop></create-pop>
-	<div class="perCenter_wrap myMessage" style="flex:1;">
+	<div class="perCenter_wrap myMessage">
 		<h2 class="perCenter_title">我的消息</h2>
 		<div class="perCenter_body">
 			<div class="perCenter_head">
@@ -14,11 +14,11 @@
 			</div>
 			<div class="perCenter_content">
 				<ul class="sysMsgList" v-show="sysMsgFlag">
-					<li class="messageList_item clearfix" v-for="item in sysMsgList" :class="{ pointerCursor: item.urlType != null }" @click="linkDetail">
+					<li class="messageList_item sysMsg_item clearfix" v-for="item in sysMsgList" :class="{ pointerCursor: item.urlType != null }" @click="linkDetail">
 						<img :src="iconSrc" alt="">
-						<div class="textInfo messageInfo">
+						<div class="textInfo sysMsgInfo messageInfo">
 							<h3 class="info_name" v-text="item.title">开赛吧管理员</h3>
-							<p class="msgText" v-text="item.info">欢迎加入开赛吧，这里是一个专业赛事管理互动平台。在这里你可以了解到海量大小型赛事，便捷的报名轻松参与赛事！欢迎加入开赛吧，这里是一个专业赛事管理互动平台。在这里你可以了解到海量大小型赛事，便捷的报名轻松参与赛事！</p>
+							<p class="sysMsgText" v-text="item.info">欢迎加入开赛吧，这里是一个专业赛事管理互动平台。在这里你可以了解到海量大小型赛事，便捷的报名轻松参与赛事！欢迎加入开赛吧，这里是一个专业赛事管理互动平台。在这里你可以了解到海量大小型赛事，便捷的报名轻松参与赛事！</p>
 						</div>
 						<div class="timeInfo">
 							<p class="createtime" v-text="item.createDate | formatDate">2012.8.10 12:30</p>
@@ -46,11 +46,11 @@
 					</li> -->
 				</ul>
 				<ul class="matchMsgList" v-show="matchMsgFlag">
-					<li class="messageList_item clearfix" v-for="item in matchMsgList" :class="{ pointerCursor: item.urlType != null }" @click="linkDetail">
+					<li class="messageList_item matchMsg_item clearfix" v-for="item in matchMsgList" :class="{ pointerCursor: item.urlType != null }" @click="linkDetail">
 						<img :src="iconSrc" alt="">
-						<div class="textInfo messageInfo">
+						<div class="textInfo matchMsgInfo messageInfo">
 							<h3 class="info_name" v-text="item.title">开赛吧管理员</h3>
-							<p class="msgText" v-text="item.info">欢迎加入开赛吧，这里是一个专业赛事管理互动平台。在这里你可以了解到海量大小型赛事，便捷的报名轻松参与赛事！欢迎加入开赛吧，这里是一个专业赛事管理互动平台。在这里你可以了解到海量大小型赛事，便捷的报名轻松参与赛事！</p>
+							<p class="matchMsgText" v-text="item.info">欢迎加入开赛吧，这里是一个专业赛事管理互动平台。在这里你可以了解到海量大小型赛事，便捷的报名轻松参与赛事！欢迎加入开赛吧，这里是一个专业赛事管理互动平台。在这里你可以了解到海量大小型赛事，便捷的报名轻松参与赛事！</p>
 						</div>
 						<div class="timeInfo">
 							<p class="createtime" v-text="item.createDate | formatDate">2012.8.10 12:30</p>
@@ -170,9 +170,14 @@
 		},
 		methods: {
 			linkDetail: function (e) {
-				var index = $('.messageList_item').index(e.currentTarget)
-				var showList = []
-				if (this.sysMsgFlag) showList = this.sysMsgList 
+				var index, showList = []
+				if (this.sysMsgFlag) {
+					showList = this.sysMsgList
+					index = $('.sysMsg_item').index(e.currentTarget)
+				} else {
+					showList = this.matchMsgList
+					index = $('.matchMsg_item').index(e.currentTarget)
+				}
 				var urlType = showList[index].urlType
 				if (urlType === null) {     // 为null，则点击不跳转
 					e.preventDefault()
@@ -201,38 +206,27 @@
 				//} 
 				
 			},
-			msgTextInit: function () {
-				var $msgDivList = $('.messageInfo')
-				var $msgTextList = $('.msgText')
-				var _this = this
-				//console.log(this.sysMsgExpandFlag[0])
+			msgTextInit: function (info) {
+				var $msgDivList = $('.'+info)
+				var $msgTextList = $('.'+info.split('Info')[0] + 'Text')
 				$msgTextList.each(function (i, v) {
 					var tmpText = $(this).html()
 					var nowText = tmpText.substring(0, 79)
-					var str = "<p class='expandMsgText'>" + nowText
+					var str = "<p class=expand"+info+" style='word-wrap: break-word;'>" + nowText
 					if (tmpText.length > 79) {
-						//text.push($msgTextList.eq(i).html())
 						str = str + "&nbsp&nbsp&nbsp<a data-id="+i+"><span style='color: #42aa53; text-decoration: underline'>展开</span>&nbsp&nbsp<i style='display: inline-block; vertical-align: middle; width: 16px; height: 16px; background: url(../../static/images/gopage.png)'></i></a></p>"
 						$msgDivList.eq(i).append(str) 
 						$msgTextList.eq(i).hide()
-						//alert($('.expandMsgText').length)
-						//alert($msgTextList.eq(i).html())
-						//alert(str)
 					}
 				})
-				var $aList = $('.expandMsgText a');
+				var $aList = $('.expand'+info+' a');
 				$aList.click(function (e) {
+					e.stopPropagation()
 					var index = $(this).attr('data-id')
-					var i = $('.expandMsgText a').index(e.currentTarget)
+					var i = $('.expand'+info+' a').index(e.currentTarget)
 					$msgTextList.eq(index).show()
-					$('.expandMsgText').eq(i).hide()
-					// $aList = $('.msgText a')
-					// console.log($aList.index(e.currentTarget))
-					// var index = $aList.index(e.currentTarget)
-					// console.log($msgTextList.find('a'))
-					// $('.msgText:has(a)').eq(index).html(text[index])
+					$('.expand'+info).eq(i).hide()
 				})
-
 			},
 			getMsgList: function (typeId, pageNum) {
 				var params = {}
@@ -241,20 +235,20 @@
 				json.type = typeId
 				params.jsonInfo = JSON.stringify(json)
 				this.$http.get('msg/getMsgList', params).then(function (response) {
-					// console.log(response)
 					var list = response.data.object.msgList.list
 					this.pageList.pages = response.data.object.msgList.pages
 					this.pageList.pageNumber = response.data.object.msgList.pageNumber
 					if (typeId === 1) {
 						this.sysMsgList = list
+						this.$nextTick(function () {
+							this.msgTextInit("sysMsgInfo")	
+						})
 					} else if (typeId === 2) {
 						this.matchMsgList = list
+						this.$nextTick(function () {
+							this.msgTextInit("matchMsgInfo")	
+						})
 					}
-					//this.msgShowList = list
-					// this.$nextTick(function () {
-					// 	this.msgTextInit()	
-					// })
-					
 				}, function (response) {
 					console.log(response)
 				})
@@ -270,8 +264,6 @@
 					this.tabList[0].isCur = true
 					this.tabList[1].isCur = false
 					this.msgTypeFlag = true
-					// 设置列表为我组织的赛事
-					// alert('ZZ')
 					//this.msgShowList = this.sysMsgList
 					this.sysMsgFlag = true
 					this.matchMsgFlag = false
@@ -285,9 +277,7 @@
 					this.msgTypeFlag = false
 
 					this.sysMsgFlag = false
-					this.matchMsgFlag = true	
-					// alert('CY')
-					// 仅第一次切换tab进来查询我参与的赛事列表，以后就不查询了
+					this.matchMsgFlag = true
 					// if (!this.matchMsgListFlag) {
 					// 	this.matchMsgListFlag = true
 					// 	this.getMatchMsgList(1)
@@ -299,7 +289,6 @@
 					// 	})
 					// }
 
-					// 设置列表为我参与的赛事
 					//this.msgShowList = this.matchMsgList
 					this.iconSrc = "../../static/images/myMsg_icon2.png"
 				}
@@ -347,4 +336,3 @@
 		}
 	}
 </script>
-

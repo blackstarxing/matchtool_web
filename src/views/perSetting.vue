@@ -3,7 +3,7 @@
 	<side-bar></side-bar>
 	<slide-bar></slide-bar>
 	<create-pop></create-pop>
-	<div class="perCenter_wrap perSetting" style="flex:1;">
+	<div class="perCenter_wrap perSetting">
 		<h2 class="perCenter_title">个人设置</h2>
 		<div class="perset_body">
 			<div class="perset_head">
