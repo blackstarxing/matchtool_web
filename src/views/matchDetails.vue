@@ -1533,24 +1533,4 @@ import createPop from '../components/createPop.vue'
 		}
 	}
 </script>
-<style type="text/css">
-    .u-cgl-tip{
-    	display: none;
-    }
-	#qrcode{
-	    position: absolute;
-		top: 5px;
-    	left: 5px;
-	}
-	.qrcodehov{
-		float: left;
-		width: 0.16rem;
-		height: 0.12rem;
-		background: url(../../static/images/wxicon.png) no-repeat center center;
-	    margin-top: 0.13rem;
-	}
-	.qrcodehov:hover + .u-cgl-tip{
-		display: block;
-	}
-</style>
 
