@@ -24,7 +24,7 @@
 							<label for="personal"></label>
 							<label for="personal" class="u-c-per">
 								<span class="u-c-headimg">
-									<img src="{{headicon}}">
+									<img :src="headicon">
 								</span>
 								<span class="f-fl">
 									{{nickname}}
