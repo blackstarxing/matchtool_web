@@ -132,6 +132,7 @@ import createPop from '../components/createPop.vue'
 					var maximg = _this.banner.length;
 
 					$('.banner_next').click(function(){
+						$('#banner').stop(true);
 						// alert(123);
 						if(MyTime){
 							clearInterval(MyTime);
@@ -144,6 +145,7 @@ import createPop from '../components/createPop.vue'
 						} , 400);
 					});
 					$('.banner_prev').click(function(){
+						$('#banner').stop(true);
 						// alert(123);
 						if(MyTime){
 							clearInterval(MyTime);
@@ -159,6 +161,7 @@ import createPop from '../components/createPop.vue'
 					});
 					//滑动导航改变内容	
 					$("#list a").hover(function(){
+						$('#banner').stop(true);
 						if(MyTime){
 							clearInterval(MyTime);
 						}
@@ -174,7 +177,7 @@ import createPop from '../components/createPop.vue'
 						ShowjQueryFlash(index);
 						index++;
 						if(index==maximg){index=0;}
-						} , 3000);
+						} , 4000);
 					});
 					//滑入 停止动画，滑出开始动画.
 					 $('#banner').hover(function(){
@@ -186,14 +189,14 @@ import createPop from '../components/createPop.vue'
 						ShowjQueryFlash(index);
 						index++;
 						if(index==maximg){index=0;}
-					  } , 3000);
+					  } , 4000);
 					 });
 					//自动播放
 					var MyTime = setInterval(function(){
 						ShowjQueryFlash(index);
 						index++;
 						if(index==maximg){index=0;}
-					} , 3000);
+					} , 4000);
 					function ShowjQueryFlash(i) {
 						$("#banner li").eq(i).animate({opacity: 1},1000).css({"z-index": "1"}).siblings().animate({opacity: 0},1000).css({"z-index": "0"});
 						$("#list a").eq(i).addClass("on").siblings().removeClass("on");

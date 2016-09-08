@@ -5,7 +5,7 @@
 			<span class="game-title"></span>
 		</div>
 		<div class="header_right f-fr">
-			<a href="" class="notify"><span class="icon-uniE60D"></span></a>
+			<a href="" class="notify" v-link="{ path: '/myMessage'}"><span class="icon-uniE60D"></span></a>
 			<div class="avatar">
 				<img v-bind:src="avatar"  alt=""><span class="icon-uniE60E"></span>
 				<div class="nav-list">
