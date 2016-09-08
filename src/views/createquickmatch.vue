@@ -250,7 +250,7 @@
 		</div>
 	</div>
 	<div class="footer">
-		浙江网竞网络科技有限公司  |   浙ICP备14028335号-2   |   Copyright©2014 kaisaiba.com All Rights Reserved.
+		浙江网竞网络科技有限公司  |   浙ICP备14028335号-2   |   Copyright©2016 kaisaiba.com All Rights Reserved.
 	</div>
 </template>
 <script type="text/javascript">

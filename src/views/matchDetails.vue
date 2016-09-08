@@ -21,7 +21,7 @@
 					开始赛事进程
 				</button>
 				<button type="button" class="u-q-start u-q-jinxz" v-if="status==2 && rate!=100" v-link="{ path: '/backend/backendTechpic'}">
-					<div class="s-q-jds" style="width:{{rate}}%;"></div>
+					<div class="s-q-jds" :style="{width:rate+'%'}"></div>
 					<span class="u-q-start-jdt">{{rate}}%</span>
 				</button>
 				<button type="button" class="u-q-start u-q-jinxz" v-if="status==2 && rate==100" v-link="{ path: '/backend/backendTechpic'}">
@@ -338,7 +338,7 @@
 		</div>
 	</div>
 	<div class="footer">
-		浙江网竞网络科技有限公司  |   浙ICP备14028335号-2   |   Copyright©2014 kaisaiba.com All Rights Reserved.
+		浙江网竞网络科技有限公司  |   浙ICP备14028335号-2   |   Copyright©2016 kaisaiba.com All Rights Reserved.
 	</div>
 </template>
 <script type="text/javascript">
