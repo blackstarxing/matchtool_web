@@ -34,7 +34,7 @@
                     <div class="forgot_pw"><a v-link="{ path: '/passWord'}">忘记密码？</a></div>
                 </div>
                 <div class="twolines"></div>
-                <div class="allow_login" @click="logIn">登录</div>
+                <div class="allow_login" @click="logIn">登&nbsp;录</div>
             </div>
             <div class="landreg_list reg_list" v-else>
                 <p class="landreg_tip"><span>•</span>加入开赛吧开启全新办赛、参赛体验!</p>
@@ -63,11 +63,11 @@
                 </div>
                 <div class="accept_rule">
                     <input type="checkbox" id="accept_input" checked v-model="acceptchecked">
-                    <span>我接受<i>《开赛吧服务条款》</i></span>
+                    <span class="accept_span">我接受<i>《开赛吧服务条款》</i></span>
                     <label for="accept_input" class="float_checkbox"><span class="check_gou" v-show="acceptchecked"></span></label>
                 </div>
                 <div class="twolines"></div>
-                <div class="allow_reg" @click="regIn">注册</div>
+                <div class="allow_reg" @click="regIn">注&nbsp;册</div>
             </div>
         </div>
     </div>
