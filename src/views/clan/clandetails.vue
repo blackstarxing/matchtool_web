@@ -60,7 +60,7 @@
 								</span>
 								<span class="col42a">{{hty.applyCount}}</span>/{{hty.maxNum}}
 								<i class="u-cjl-tip" v-if="hty.status=='未开赛'">
-									<span v-if="hty.seatNumber==''">
+									<span v-if="hty.seatNumber==null">
 										战队处于候补区
 										<i class="u-cjl-tipws">
 											<i class="u-cjl-tipns"></i>
@@ -129,7 +129,7 @@
 						<div class="m-cgl-fz">
 							<p>复制邀请链接发送给朋友，邀请他们加入</p>
 							<div class="u-cgl-fz">
-							<input type="text" id="fe_text" class="u-c-ipt" value="http://www.kaisaiba.com/#/claninvite?teamId={{formdata.id}}" disabled style="width: 100%;" />
+							<input type="text" id="fe_text" class="u-c-ipt" value="http://wy.kaisaiba.wangyuhudong.com/#/claninvite?teamId={{formdata.id}}" disabled style="width: 100%;" />
 								<!-- <input type="text" id="fe_text" class="u-c-ipt" value="http://wy.kaisaiba.wangyuhudong.com/#/claninvite?teamId={{formdata.id}}" disabled style="width: 100%;" /> -->
 								<button type="button" class="u-cgl-fzbtn" id="d_clip_button" data-clipboard-target="fe_text">复制</button>
 							</div>

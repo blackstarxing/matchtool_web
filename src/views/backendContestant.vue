@@ -36,7 +36,7 @@
 		                        <li class="column-2">
 		                        <section class="signed">
 									<div class="signbox">
-										<div class="dis-sign" v-if="roundStatus>5"></div>
+										<div class="dis-sign" v-show="roundStatus>4 || !needSign"></div>
 										<input type="checkbox" checked="" @click="signStatus" v-if="member.signed==1">
 										<input type="checkbox" @click="signStatus" v-else>
 										<label></label>
@@ -154,7 +154,7 @@
       			eventname:"",
       			eventId:"",
       			roundId:"",
-      			needsign:"",
+      			needSign:"",
       			roundStatus:"",
       			applyType:"",
       			required:""
@@ -176,7 +176,7 @@
      		_this.eventname=window.sessionStorage.getItem("eventname");
      		_this.eventId=window.sessionStorage.getItem("eventId");
      		_this.roundId=window.sessionStorage.getItem("eventRoundId");
-     		_this.needsign=window.sessionStorage.getItem("needsign");
+     		_this.needSign=window.sessionStorage.getItem("needSign");
      		_this.roundStatus=window.sessionStorage.getItem("roundStatus");
  			_this.$http.post('event/round/group/member/list',{roundId:_this.roundId}).then(function(response) {
 	        	console.log(response);

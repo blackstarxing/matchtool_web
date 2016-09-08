@@ -21,7 +21,7 @@
 					开始赛事进程
 				</button>
 				<button type="button" class="u-q-start u-q-jinxz" v-if="status==2 && rate!=100" v-link="{ path: '/backend/backendTechpic'}">
-					<div class="s-q-jds" style="width:{{rate}}%;"></div>
+					<div class="s-q-jds" :style="{width:rate+'%'}"></div>
 					<span class="u-q-start-jdt">{{rate}}%</span>
 				</button>
 				<button type="button" class="u-q-start u-q-jinxz" v-if="status==2 && rate==100" v-link="{ path: '/backend/backendTechpic'}">
@@ -338,7 +338,7 @@
 		</div>
 	</div>
 	<div class="footer">
-		浙江网竞网络科技有限公司  |   浙ICP备14028335号-2   |   Copyright©2014 kaisaiba.com All Rights Reserved.
+		浙江网竞网络科技有限公司  |   浙ICP备14028335号-2   |   Copyright©2016 kaisaiba.com All Rights Reserved.
 	</div>
 </template>
 <script type="text/javascript">
@@ -504,6 +504,7 @@ import createPop from '../components/createPop.vue'
        _this.$http.get('event/info',parm).then(function(response){
         	console.log(response);
         	_this.roundStatus = response.data.object.state;
+        	window.sessionStorage.setItem("roundStatus",_this.roundStatus);
 			var code = response.data.code;
 			if(code==1){
 				_this.status = response.data.object.round.status;
@@ -535,6 +536,7 @@ import createPop from '../components/createPop.vue'
 				_this.mode = response.data.object.event.mode;
 				_this.addreass = response.data.object.round.addreass;
 				_this.detailAddreass = response.data.object.round.detailAddreass;
+				window.sessionStorage.setItem("needSign",response.data.object.event.needSign);
 				if(_this.mode==1){
 					_this.mode='线上赛事';
 					_this.changemodedz = false;
