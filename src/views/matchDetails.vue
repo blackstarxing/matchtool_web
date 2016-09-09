@@ -387,10 +387,17 @@ function timer(text,a,n,c) {
 		leftStr += '<span class="col42a">'+leftSecond+'</span>' + '秒';
 	}
 	if(c==0){
-		document.getElementById('txts').innerHTML = text + leftStr;
+		var textDom = document.getElementById('txts');
+		if(textDom){
+			textDom.innerHTML = text + leftStr;
+		}
+		
 	}
 	else if(c==1){
-		document.getElementById('txt').innerHTML = text + leftStr;
+		var textDom = document.getElementById('txt');
+		if(textDom){
+			textDom.innerHTML = text + leftStr;
+		}
 	}
 	
 	if(leftMillis <= 0) {
@@ -487,7 +494,12 @@ import createPop from '../components/createPop.vue'
 			var _this = this;
 			_this.formdata.oetRoundId = window.sessionStorage.getItem("eventRoundId");
 			_this.singlebm.roundId = window.sessionStorage.getItem("eventRoundId");
-			_this.formdata.oetInfoId = window.sessionStorage.getItem("eventId");
+			// _this.formdata.oetInfoId = window.sessionStorage.getItem("eventId");
+			if(_this.$route.query.eventId){
+				_this.formdata.oetInfoId = _this.$route.query.eventId;
+			}else{
+				_this.formdata.oetInfoId = window.sessionStorage.getItem("eventId");
+			}
 			//二维码生成
 			jQuery(function(){
 				jQuery('#qrcode').qrcode({
@@ -529,6 +541,9 @@ import createPop from '../components/createPop.vue'
 				_this.icon = response.data.object.creater.icon;
 				_this.nickname = response.data.object.creater.nickname;
 				_this.isPublish = response.data.object.event.isPublish;
+				if(_this.isCreater==0 && _this.isPublish==0){
+					_this.$route.router.go({path: '/index'});
+				}
 				_this.appliable = response.data.object.appliable;
 				window.sessionStorage.setItem("applyType",response.data.object.round.applyType);
 				_this.poster = response.data.object.event.poster;

@@ -199,7 +199,7 @@
 					})
 					window.sessionStorage.setItem("eventId",_eventid);
 					window.sessionStorage.setItem("eventRoundId",_roundid);
-					this.$route.router.go({path: '/matchDetails'})
+					this.$route.router.go({path: '/matchDetails?eventId='+_eventid})
 				} else if (urlType === 3) { // 为3，跳转到我的赛事页面
 					this.$route.router.go({ path: '/myMatch' })
 				}
