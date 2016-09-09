@@ -139,6 +139,7 @@
 					<p v-else class="col42a" style="margin-top: 20px; margin-bottom: 120px;">你已经是赛事组织者了！</p>
 						<!-- <div class="PICExplain"> -->
 					<p class="organizersCfct_title">关于组织者内测邀请码</p>
+					<p class="PICExplain_text">申请获得邀请码请加入QQ群：<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=9df07e35647cb40ea10e0bb9e24a58712e7245c88dadf4aa5c5914776d971544"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="开赛吧赛事举办者交流" title="开赛吧赛事举办者交流" style="vertical-align: bottom;"></a></p>
 					<p class="PICExplain_text">组织者内测邀请码是开赛吧提供给专业的赛事组织或民间赛事举办达人在开赛吧平台创建维护赛事的授权。认证的组织者可通过开赛吧提供的赛事举办工具自定义个性赛事，并帮助完成报名信息收集、对阵分组匹配等相关赛事组织筹办工作。</p>
 					<!-- </div> -->
 				</div>
