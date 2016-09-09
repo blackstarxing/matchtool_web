@@ -387,10 +387,17 @@ function timer(text,a,n,c) {
 		leftStr += '<span class="col42a">'+leftSecond+'</span>' + '秒';
 	}
 	if(c==0){
-		document.getElementById('txts').innerHTML = text + leftStr;
+		var textDom = document.getElementById('txts');
+		if(textDom){
+			textDom.innerHTML = text + leftStr;
+		}
+		
 	}
 	else if(c==1){
-		document.getElementById('txt').innerHTML = text + leftStr;
+		var textDom = document.getElementById('txt');
+		if(textDom){
+			textDom.innerHTML = text + leftStr;
+		}
 	}
 	
 	if(leftMillis <= 0) {
