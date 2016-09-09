@@ -224,7 +224,6 @@ export default {
                 if (response.data.code) {
                 	var _ident=$(".get_indent");
                 	var _time=60;
-                	if(response.data.code){
 						_this.isident = false;
 						countdown();
 
@@ -241,14 +240,9 @@ export default {
 					            1000)
 							}
 						}
-				}else{
-					layer.msg(response.data.msg);
-				}
                     
                 } else {
-                    _error.show();
-                    _error.find('.error_tip').text(response.data.msg);
-                    this.errorTip = false;
+                    layer.msg(response.data.msg);
                 }
             }, function(response) {
                 console.log(response);
@@ -325,7 +319,7 @@ export default {
             parm.telephone = this.phone;
             parm.verifyCode = this.ident;
 
-            if (this.nkTip && this.pwregTip && this.phoneTip && this.idTip && this.acceptchecked && this.errorTip) {
+            if (this.nkTip && this.pwregTip && this.phoneTip && this.idTip && this.acceptchecked) {
                 this.$http.post('register', parm).then(function(response) {
                     console.log(response);
                     if (response.data.code) {
@@ -352,7 +346,7 @@ export default {
             var parm = {};
             parm.username = this.account;
             parm.password = this.landpassword;
-            if (this.accoutTip &&this.pwlandTip && this.autochecked) {
+            if (this.accoutTip && this.pwlandTip) {
                 this.$http.post('login', parm).then(function(response) {
                     console.log(response);
                     if (response.data.code) {
