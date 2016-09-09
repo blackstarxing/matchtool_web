@@ -130,31 +130,38 @@ import createPop from '../components/createPop.vue'
 	        		$('.banner .list').css('margin-left',-left+'px');
 	        		var index = 0;
 					var maximg = _this.banner.length;
+					var auto = false;
 
 					$('.banner_next').click(function(){
-						$('#banner').stop(true);
 						// alert(123);
+						$('#banner').stop(true);
 						if(MyTime){
 							clearInterval(MyTime);
 						}
-						index++;
-						if(index==maximg){index=0;}
+						if(!auto){
+							index++;
+						}
+						auto=false;
+						if(index==maximg){index=0;}						
 						MyTime = setTimeout(function(){
 						ShowjQueryFlash(index);
 						$('#banner').stop();
 						} , 400);
 					});
 					$('.banner_prev').click(function(){
-						$('#banner').stop(true);
 						// alert(123);
+						$('#banner').stop(true);
 						if(MyTime){
 							clearInterval(MyTime);
 						}
-						index--;
-						console.log(index);
+						if(!auto){
+							index--;
+						}else{
+							index=index-2;
+						}
+						auto=false;						
 						if(index<0){index=maximg-1;}
-						MyTime = setTimeout(function(){
-							console.log(index);
+						MyTime = setTimeout(function(){							
 						ShowjQueryFlash(index);
 						$('#banner').stop();
 						} , 400);
@@ -174,6 +181,7 @@ import createPop from '../components/createPop.vue'
 					}, function(){
 						clearInterval(MyTime);
 						MyTime = setInterval(function(){
+						auto=true;
 						ShowjQueryFlash(index);
 						index++;
 						if(index==maximg){index=0;}
@@ -186,6 +194,7 @@ import createPop from '../components/createPop.vue'
 						}
 					 },function(){
 						MyTime = setInterval(function(){
+						auto=true;
 						ShowjQueryFlash(index);
 						index++;
 						if(index==maximg){index=0;}
@@ -193,6 +202,7 @@ import createPop from '../components/createPop.vue'
 					 });
 					//自动播放
 					var MyTime = setInterval(function(){
+						auto=true;						
 						ShowjQueryFlash(index);
 						index++;
 						if(index==maximg){index=0;}
