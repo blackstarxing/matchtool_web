@@ -495,7 +495,8 @@ import createPop from '../components/createPop.vue'
 					width: 70,//设置宽度  
 					height: 70,//设置高度 
 					// text: "http://wy.kaisaiba.wangyuhudong.com/#/matchshare/36"
-					text: "http://wy.kaisaiba.wangyuhudong.com/#/matchshare/"+_this.formdata.oetInfoId
+					// text: "http://wy.kaisaiba.wangyuhudong.com/#/matchshare/"+_this.formdata.oetInfoId
+					text: "http://www.kaisaiba.com/#/matchshare/"+_this.formdata.oetInfoId
 				});
 			})
 			var parm={};
