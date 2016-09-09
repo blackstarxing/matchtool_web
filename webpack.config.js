@@ -35,9 +35,9 @@ module.exports = {
           name: '[name].[ext]?[hash]'
         }
       },
-      { test: /\.css$/, 
-        loader: ExtractTextPlugin.extract("style-loader","css-loader") 
-      },
+      // { test: /\.css$/, 
+      //   loader: ExtractTextPlugin.extract("style-loader","css-loader") 
+      // },
     ]
   },
   babel: {
@@ -45,11 +45,6 @@ module.exports = {
     plugins: ['transform-runtime'],
     comments: false
   },
-  plugins: [
-      new ExtractTextPlugin('./index.css', {
-            allChunks: true
-        }),
-  ],
 }
 
 if (process.env.NODE_ENV === 'production') {
