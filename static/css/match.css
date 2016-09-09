@@ -3358,6 +3358,9 @@ label.u-c-kz-sz{
     background-color: #fdb91a;
     color: #000;
 }
+.accept_span i{
+	cursor: pointer;
+}
 /*------------------------------------------赛事详情－－－－－－－－－－－－－－－－－－－－*/
  .u-cgl-tip{
     	display: none;

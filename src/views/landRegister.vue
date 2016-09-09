@@ -63,7 +63,7 @@
                 </div>
                 <div class="accept_rule">
                     <input type="checkbox" id="accept_input" checked v-model="acceptchecked">
-                    <span class="accept_span">我接受<i>《开赛吧服务条款》</i></span>
+                    <span class="accept_span">我接受<i v-link="{ path: '/clause'}">《开赛吧服务条款》</i></span>
                     <label for="accept_input" class="float_checkbox"><span class="check_gou" v-show="acceptchecked"></span></label>
                 </div>
                 <div class="twolines"></div>
