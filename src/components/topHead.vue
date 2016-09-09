@@ -63,6 +63,9 @@
             window.location.reload();
           }else{
             this.$route.router.go({path: '/index'}); 
+            if (!!window.ActiveXObject || "ActiveXObject" in window){
+              window.location.reload();
+            } 
           }              
         }, function(response){
           console.log(response);

@@ -59,9 +59,9 @@ if (process.env.NODE_ENV === 'production') {
         NODE_ENV: '"production"'
       }
     }),
-    new ExtractTextPlugin('./index.[hash].css', {
-            allChunks: true
-        }),
+    // new ExtractTextPlugin('./index.[hash].css', {
+    //         allChunks: true
+    //     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
@@ -78,6 +78,7 @@ if (process.env.NODE_ENV === 'production') {
     proxy: {
       '/oet/*': {
           target: 'http://172.16.2.63:8088',
+          // target: 'http://173.37.246.148:8088',
           secure: false
       }
     }
