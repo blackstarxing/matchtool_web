@@ -34,7 +34,7 @@
 						      <span class="orange" id="bar" v-bind:style="'width: '+match.num/match.maxNum*100+'%;'"><span></span></span>
 						    </div>
 						    <div>by {{match.nickname ? match.nickname : '网娱大师赛事组'}}<span class="f-col f-fr"><strong>{{match.num}}</strong>/{{match.maxNum}}</span></div>
-						    <span class="get_eventid">{{match.eventId}}</span><span class="get_roundid">{{match.id}}</span>
+						    <span class="get_eventid">{{match.eventId}}</span><span class="get_roundid">{{match.id}}</span><span class="get_isPublish">{{match.isPublish}}</span>
 						</div>
 					</div>			
 				</div>
@@ -256,9 +256,10 @@ import createPop from '../components/createPop.vue'
 				var _target=$(e.currentTarget);
   				var _eventid=_target.find(".get_eventid").text();
   				var _roundid=_target.find(".get_roundid").text();
+  				var _isPublish=_target.find(".get_isPublish").text();
   				window.sessionStorage.setItem("eventId",_eventid);
   				window.sessionStorage.setItem("eventRoundId",_roundid);
-  				this.$route.router.go({path: '/matchDetails'})
+  				this.$route.router.go({path: '/matchDetails?eventId='+_eventid+'&isPublish='+_isPublish})
 			}
 		},
 		events:{

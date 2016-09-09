@@ -352,7 +352,7 @@
 	font-size: 24px;
 	color:#fdba33;
 }
-.get_eventid,.get_roundid{
+.get_eventid,.get_roundid,.get_isPublish{
 	display: none;
 }
 /*生成主页按钮*/
