@@ -163,7 +163,9 @@
 				var month=time.getMonth()+1;     
 				var date=time.getDate();     
 				var hour=time.getHours();     
-				var minute=time.getMinutes();     
+				if (hour < 10 ) hour = "0" + hour
+				var minute=time.getMinutes();
+				if (minute < 10 ) minute = "0" + minute     
 				var second=time.getSeconds();     
 				return year+"."+month+"."+date+"   "+hour+":"+minute;
 			}
@@ -321,12 +323,12 @@
 			},
 			gopage:function(e){
 				// e.preventDefault();
+				if (this.pageId === "") return
   			this.getMsgList(this.msgTypeFlag ? 1 : 2, parseInt(this.pageId))
 			},
 			checkpage:function(e){
 				var pages = this.pageList.pages; 
 	    	var num = $('#pageto').val();
-	    	console.log(typeof num)
 	    	if(num==0 && num!=""){
 	    		$('#pageto').val('1');
 	    	}else if(num>pages){

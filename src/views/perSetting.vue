@@ -592,7 +592,6 @@
 							var params = {}
 							params.jsonInfo = JSON.stringify(_this.saveUserInfo)
 							_this.$http.post(v.url, params).then(function (response) {
-								//console.log(response)
 								if (response.data.code === -1) {
 									layer.msg("请先登录！")  
 									return 
@@ -614,7 +613,6 @@
 							var params = {}
 							params.jsonInfo = JSON.stringify(_this.saveMatchInfo)
 							_this.$http.post(v.url, params).then(function (response) {
-								console.log(response)
 								//alert("参赛资料保存成功！")
 								layer.msg("参赛资料保存成功！")
 								setTimeout(function () {
