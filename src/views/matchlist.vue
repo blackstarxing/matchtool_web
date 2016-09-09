@@ -22,7 +22,7 @@
 				<div>
 					<span class="icon-uniE610"></span><span class="match-info">{{match.gameName}}</span><span class="icon-uniE615"></span><span class="match-info">单阶段</span><span class="icon-uniE613"></span><span class="match-info">单败淘汰制</span><span class="icon-uniE612"></span><span class="match-info">{{match.maxNum}}</span><span class="icon-uniE60F"></span><span v-text="match.activityBegin | formatDate"></span>
 				</div>
-				<span class="get_eventid">{{match.eventId}}</span><span class="get_roundid">{{match.id}}</span>
+				<span class="get_eventid">{{match.eventId}}</span><span class="get_roundid">{{match.id}}</span><span class="get_isPublish">{{match.isPublish}}</span>
 			</div>
 			<div class="m-page" style="margin-top:100px;">
 	        	<a href="" id="prev" @click="prevpage"></a>
@@ -103,9 +103,10 @@ import createPop from '../components/createPop.vue'
 				var _target=$(e.currentTarget);
   				var _eventid=_target.find(".get_eventid").text();
   				var _roundid=_target.find(".get_roundid").text();
+  				var _isPublish=_target.find(".get_isPublish").text();
   				window.sessionStorage.setItem("eventId",_eventid);
   				window.sessionStorage.setItem("eventRoundId",_roundid);
-  				this.$route.router.go({path: '/matchDetails'})
+  				this.$route.router.go({path: '/matchDetails?eventId='+_eventid+'&isPublish='+_isPublish});
 			},
 			 // 翻页
   			prevpage:function(e){
