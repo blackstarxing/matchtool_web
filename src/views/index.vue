@@ -59,12 +59,12 @@
 									<span>{{match.eventName}}</span>
 								</div>
 							</div>
-							<div class="back">
+							<div class="back" @click="linkDetail">
 								<!-- 背面内容 -->
 								<h4>{{match.nickname ? match.nickname : '网娱大师赛事组'}}</h4>
 								<div class="flip-time"><span class="icon-uniE60F"></span><span v-text="match.activityBegin | formatDate"></span></div>
 								<div class="flip-num"><span class="icon-uniE619"></span><strong>{{match.num}}</strong>/ {{match.maxNum}}人</div>
-								<a href="" class="flip-btn" @click="linkDetail"><span class="icon-uniE603"></span></a>
+								<a href="" class="flip-btn"><span class="icon-uniE603"></span></a>
 								<span class="get_eventid">{{match.eventId}}</span><span class="get_roundid">{{match.id}}</span>
 							</div>
 						</div>
@@ -224,8 +224,8 @@ import createPop from '../components/createPop.vue'
 			linkDetail:function(e){
 				e.preventDefault();
 				var _target=$(e.currentTarget);
-  				var _eventid=_target.parent().find(".get_eventid").text();
-  				var _roundid=_target.parent().find(".get_roundid").text();
+  				var _eventid=_target.find(".get_eventid").text();
+  				var _roundid=_target.find(".get_roundid").text();
   				window.sessionStorage.setItem("eventId",_eventid);
   				window.sessionStorage.setItem("eventRoundId",_roundid);
   				this.$route.router.go({path: '/matchDetails'})
