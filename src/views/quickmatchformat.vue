@@ -172,6 +172,11 @@ import createPop from '../components/createPop.vue'
 					_this.formdata.needThird = 0;
 				}
 				if(formValidate()){
+					var $btn = $('.nextBtn');
+					if($btn.data('clicked')) {
+						return;
+					}
+
 					var newsobj = _this.formdata;
 		    		var jsonInfo = JSON.stringify(newsobj);
 	  				var parm = new Object();
@@ -181,13 +186,13 @@ import createPop from '../components/createPop.vue'
 		    			if(code==1){
 		    				window.sessionStorage.setItem("eventRoundId",response.data.object.eventRoundId);
 		    				window.sessionStorage.setItem("eventId",response.data.object.eventId);
-		    				$('.nextBtn').attr('disabled',true);
 		    				_this.$route.router.go({path: '/matchDetails'});
 		    			}
 		    			console.log("成功");
 					}, function(response){
 						console.log(22);
-					})
+					});
+					$btn.data('clicked', true);
 				}
 			}
 		}

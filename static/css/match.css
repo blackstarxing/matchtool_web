@@ -325,6 +325,7 @@
 	font-size: 12px;
 	background: #27282e;
 	line-height: 2;
+	cursor: pointer;
 }
 .back h4{
 	margin-bottom: 35px;
@@ -351,7 +352,7 @@
 	font-size: 24px;
 	color:#fdba33;
 }
-.get_eventid,.get_roundid{
+.get_eventid,.get_roundid,.get_isPublish{
 	display: none;
 }
 /*生成主页按钮*/
@@ -811,7 +812,7 @@ label.u-c-kz-sz{
 .g-q-jj{
 	margin-bottom: 0.27rem;
 	font-size: 13px;
-	line-height: 0.13rem;
+	line-height: 0.2rem;
 }
 .g-q-jj a,.g-q-gofb a{
 	color: #fdb91a;
@@ -3356,6 +3357,9 @@ label.u-c-kz-sz{
 .form_ident .can_ident {
     background-color: #fdb91a;
     color: #000;
+}
+.accept_span i{
+	cursor: pointer;
 }
 /*------------------------------------------赛事详情－－－－－－－－－－－－－－－－－－－－*/
  .u-cgl-tip{

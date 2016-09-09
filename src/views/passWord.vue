@@ -41,6 +41,7 @@
 					<label>验证码：</label>
 					<div class="pw_ident_get">
 						<input type="text" class="pw_input" placeholder="输入获得的验证码" v-model="pwIdent">
+						<span class="pw_error" style="right:-180px"><span class="error_pwtri"></span><img src="../../static/images/tip.png"><i class="error_tip">请输入正确的验证码</i></span>
 					<span class="get_pwident" @click="getPWident">获取验证码</span>
 					<!-- <span class="count_down">60</span> -->
 					</div>
@@ -114,13 +115,10 @@ import createPop from '../components/createPop.vue'
 				if(/^\d+$/.test(this.pwPhone)){
 					_error.hide();
 					//判断是否有错误提示
-					this.errorTip=true;
 					if(this.pwPhone.length==11){
 						_error.hide();
-						this.errorTip=true;
 					}else{
 						_error.show();
-						this.errorTip=false;
 						_error.find('.error_tip').text('手机号码位数不对');
 					}
 				}else{
@@ -160,7 +158,9 @@ import createPop from '../components/createPop.vue'
 			              console.log(response);
 			          });
 			},
-			nextReset: function () {
+			nextReset: function (e) {
+				var _current=$(e.currentTarget);
+				var _error=_current.prev('.list_every').find('.pw_error');
 				var parm={};
 				parm.type=2;
 				parm.telephone=this.pwPhone;
@@ -169,6 +169,8 @@ import createPop from '../components/createPop.vue'
 					if(response.data.object.valid){
 						$('.list_reset').show().siblings().hide();
 						this.finishTwo=true;
+					}else{
+						_error.show();
 					}
 					
 			      },function(response) {
