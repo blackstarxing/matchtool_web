@@ -106,7 +106,7 @@ import createPop from '../components/createPop.vue'
   				var _isPublish=_target.find(".get_isPublish").text();
   				window.sessionStorage.setItem("eventId",_eventid);
   				window.sessionStorage.setItem("eventRoundId",_roundid);
-  				this.$route.router.go({path: '/matchDetails?eventId='+_eventid+'&isPublish='+_isPublish});
+  				this.$route.router.go({path: '/matchDetails?eventId='+_eventid});
 			},
 			 // 翻页
   			prevpage:function(e){
