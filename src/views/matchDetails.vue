@@ -78,7 +78,7 @@
 				<span class="f-fl ml20">{{nickname}}</span>
 				<span class="col7a8 f-fl ml20" v-if="isPublish==1">{{publishTime}}发布</span>
 				<span v-if="isPublish==1" class="f-re qrcodehov" style="margin-left: 20px;"></span>
-				<span class="u-cgl-tip" style="position: absolute; width:80px; height: 80px; left: 333px;">
+				<span class="u-cgl-tip" style="position: absolute; width:80px; height: 80px; left: 350px;">
 					<i class="u-cjl-tipws">
 						<i class="u-cjl-tipns"></i>
 					</i>
