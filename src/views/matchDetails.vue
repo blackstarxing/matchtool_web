@@ -5,7 +5,7 @@
 	<create-pop></create-pop>
 	<div class="g-w mt90 f-re">
 		<div class="setPoster g-q-hb" v-link="{ path: '/backend/backendMsg'}" v-if="isPublish==null || isPublish==0">
-			<img v-bind:src="'http://img.wangyuhudong.com/'+formdata.poster" v-if="poster">
+			<img v-bind:src="'http://img.wangyuhudong.com'+poster" v-if="poster">
 			<div class="g-q-ptr">
 				<span class="icon-uniE62B"></span>
 				<p>编辑、更改赛事海报</p>
