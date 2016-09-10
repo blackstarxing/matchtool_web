@@ -19,7 +19,7 @@
 			</div>
 			<div class="perCenter_content">
 				<ul class="matchList">
-					<li class="matchList_item clearfix" v-for="item in eventShowList" data-id="{{ item.id }}" data-eventId="{{ item.eventId }}" @click="linkDetail">
+					<li class="matchList_item clearfix" v-for="item in eventShowList" data-id="{{ item.id }}" data-eventId="{{ item.eventId }}" data-isPublish="{{ item.isPublish }}" @click="linkDetail">
 						<img :src="'http://img.wangyuhudong.com/'+item.poster" alt="赛事海报">
 						<span class="privacyMacth_icon" v-if="item.privacy === 1"></span>
 						<div class="textInfo">
@@ -276,9 +276,10 @@
 				var _target=$(e.currentTarget);
 				var _eventid=_target.attr("data-eventid");
 				var _roundid=_target.attr("data-id");
+				var _isPublish = _target.attr("data-isPublish");
 				window.sessionStorage.setItem("eventId",_eventid);
 				window.sessionStorage.setItem("eventRoundId",_roundid);
-				this.$route.router.go({path: '/matchDetails'})
+				this.$route.router.go({path: '/matchDetails?eventId='+_eventid});
 			},
 			getZZEventList: function (pageIdStr) {
 				this.getEventList(pageIdStr, 'event/getEventRoundList', 0)    // 如果是得到组织的比赛，传0
