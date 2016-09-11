@@ -354,7 +354,6 @@ function format(shijianchuo){
 	var s = time.getSeconds();
 	return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm);
 }
-
 import topHead from '../components/topHead.vue'
 import sideBar from '../components/sideBar.vue'
 import slideBar from '../components/slideBar.vue'
@@ -594,11 +593,9 @@ import createPop from '../components/createPop.vue'
 					}
 				}
 
-
 				var txt = '';
 				var targetTime = null;
 				var timeable = false;
-
 				if(_this.isCreater ==1 && _this.isPublish==1){
 					_this.isc = true;
 					var nowTime = response.data.object.nowTime;
@@ -606,23 +603,23 @@ import createPop from '../components/createPop.vue'
 					var subTime = new Date().getTime() - nowTime;
 					if(_this.state==1){
 						_this.isc3 = true;
-						var txt = '距离报名开始还有';
+						txt = '距离报名开始还有';
 						targetTime = response.data.object.round.applyBegin;
 						timeable = true;
 					}
 					else if(_this.state==2){
 						_this.isc3 = true;
-						var txt = '距离报名结束还有';
+						txt = '距离报名结束还有';
 						targetTime = response.data.object.round.applyEnd;
 						timeable = true;
 					}else if(_this.state==3){
 						_this.isc3 = true;
-						var txt = '距离签到开始还有';
+						txt = '距离签到开始还有';
 						targetTime = response.data.object.signBeginTime;
 						timeable = true;
 					}else if(_this.state==4 || _this.state==5){
 						_this.isc3 = true;
-						var txt = '距离赛事开始还有';
+						txt = '距离赛事开始还有';
 						targetTime = response.data.object.round.activityBegin;
 						timeable = true;
 					}
@@ -633,23 +630,23 @@ import createPop from '../components/createPop.vue'
 						var subTime = new Date().getTime() - nowTime;
 						if(_this.state==1){
 							_this.isc3 = true;
-							var txt = '距离报名开始还有';
+							txt = '距离报名开始还有';
 							targetTime = response.data.object.round.applyBegin;
 							timeable = true;
 						}
 						else if(_this.state==2){
 							_this.isc3 = true;
-							var txt = '距离报名结束还有';
+							txt = '距离报名结束还有';
 							targetTime = response.data.object.round.applyEnd;
 							timeable = true;
 						}else if(_this.state==3){
 							_this.isc3 = true;
-							var txt = '距离签到开始还有';
+							txt = '距离签到开始还有';
 							targetTime = response.data.object.signBeginTime;
 							timeable = true;
 						}else if(_this.state==4 || _this.state==5){
 							_this.isc3 = true;
-							var txt = '距离赛事开始还有';
+							txt = '距离赛事开始还有';
 							targetTime = response.data.object.round.activityBegin;
 							timeable = true;
 						}else if(_this.state==6){
@@ -669,7 +666,6 @@ import createPop from '../components/createPop.vue'
 							window.clearInterval(timers[i]);
 						}
 					}
-
 					timer(txt, targetTime ,subTime, _this.isCreater) 
 					var intervalNum = window.setInterval(function() {
 						timer(txt, targetTime ,subTime, _this.isCreater);
