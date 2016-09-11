@@ -5,7 +5,7 @@
 	<create-pop></create-pop>
 	<div class="banner">
 		<ul id="banner">
-			<li v-for="banner in banner" v-bind:class="[$index!=0 ? 'up' : '']"><a href="#" v-bind:style="'background:url(http://img.wangyuhudong.com'+banner.icon+') center top no-repeat'"></a></li>
+			<li v-for="banner in banner" v-bind:class="[$index!=0 ? 'up' : '']"><a v-bind:href="banner.url?banner.url : 'javascript:void(0);'" v-bind:style="'background:url(http://img.wangyuhudong.com'+banner.icon+') center top no-repeat'"></a></li>
 		</ul>
 		<div class="list" id="list">
 			<a href="javascript:;" v-bind:class="[$index==0 ? 'on' : '']" v-for="banner in banner"></a>
