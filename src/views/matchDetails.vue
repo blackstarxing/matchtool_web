@@ -666,7 +666,6 @@ import createPop from '../components/createPop.vue'
 							window.clearInterval(timers[i]);
 						}
 					}
-
 					timer(txt, targetTime ,subTime, _this.isCreater) 
 					var intervalNum = window.setInterval(function() {
 						timer(txt, targetTime ,subTime, _this.isCreater);
