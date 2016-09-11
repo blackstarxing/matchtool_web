@@ -57,12 +57,12 @@ if (process.env.NODE_ENV === 'production') {
     new ExtractTextPlugin('./index.[hash].css', {
             allChunks: true
         }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    }),
-    new webpack.optimize.OccurenceOrderPlugin()
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false
+    //   }
+    // }),
+    // new webpack.optimize.OccurenceOrderPlugin()
   ]
 } else {
   module.exports.devServer={

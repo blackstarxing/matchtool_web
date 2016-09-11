@@ -355,13 +355,13 @@ function format(shijianchuo){
 	return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm);
 }
 function timer(text,a,n,c) {
-	
+	debugger;
 	var currentTime = new Date().getTime();
 
 	var leftTime = a - (currentTime - n);
 
 	var leftMillis = leftTime;
-
+ 
 	var leftDay = Math.floor(leftTime / (1000 * 60 * 60 * 24));
 	leftTime = leftTime - leftDay * (1000 * 60 * 60 * 24);
 
@@ -593,6 +593,7 @@ import createPop from '../components/createPop.vue'
 						_this.needSignMinute = '不需要签到';
 					}
 				}
+				debugger;
 				if(_this.isCreater ==1 && _this.isPublish==1){
 					_this.isc = true;
 					var nowTime = response.data.object.nowTime;
