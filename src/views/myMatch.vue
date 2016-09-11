@@ -265,7 +265,7 @@
 				var hour=time.getHours();   
 				if (hour < 10 ) hour = "0" + hour
 				var minute=time.getMinutes();
-				if (minute < 10 ) minute = "0" + minute     
+				if (minute < 10 ) minute = "0" + minute
 				var second=time.getSeconds();     
 				return year+"."+month+"."+date+"   "+hour+":"+minute+" "+timeTypeStr;
 			}
