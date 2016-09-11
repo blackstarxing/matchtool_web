@@ -354,56 +354,7 @@ function format(shijianchuo){
 	var s = time.getSeconds();
 	return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm);
 }
-function timer(text,a,n,c) {
-	debugger;
-	var currentTime = new Date().getTime();
 
-	var leftTime = a - (currentTime - n);
-
-	var leftMillis = leftTime;
- 
-	var leftDay = Math.floor(leftTime / (1000 * 60 * 60 * 24));
-	leftTime = leftTime - leftDay * (1000 * 60 * 60 * 24);
-
-	var leftHour = Math.floor(leftTime / (1000 * 60 * 60));
-	leftTime = leftTime - leftHour * (1000 * 60 * 60);
-
-	var leftMinute = Math.floor(leftTime / (1000 * 60));
-	leftTime = leftTime - leftMinute * (1000 * 60)
-
-	var leftSecond = Math.round(leftTime / 1000);
-
-	var leftStr = '';
-	if(leftDay > 0) {
-		leftStr += '<span class="col42a">'+leftDay+'</span>' + '天';
-	}
-	if(leftHour > 0) {
-		leftStr += '<span class="col42a">'+leftHour+'</span>' + '小时';
-	}
-	if(leftMinute > 0) {
-		leftStr += '<span class="col42a">'+leftMinute+'</span>' + '分';
-	}
-	if(leftSecond > 0) {
-		leftStr += '<span class="col42a">'+leftSecond+'</span>' + '秒';
-	}
-	if(c==0){
-		var textDom = document.getElementById('txts');
-		if(textDom){
-			textDom.innerHTML = text + leftStr;
-		}
-		
-	}
-	else if(c==1){
-		var textDom = document.getElementById('txt');
-		if(textDom){
-			textDom.innerHTML = text + leftStr;
-		}
-	}
-	
-	if(leftMillis <= 0) {
-		window.location.reload();
-	}
-}
 import topHead from '../components/topHead.vue'
 import sideBar from '../components/sideBar.vue'
 import slideBar from '../components/slideBar.vue'
@@ -511,6 +462,55 @@ import createPop from '../components/createPop.vue'
 					text: "http://www.kaisaiba.com/#/matchshare/"+_this.formdata.oetInfoId
 				});
 			})
+			function timer(text,a,n,c) {
+	
+				var currentTime = new Date().getTime();
+
+				var leftTime = a - (currentTime - n);
+
+				var leftMillis = leftTime;
+
+				var leftDay = Math.floor(leftTime / (1000 * 60 * 60 * 24));
+				leftTime = leftTime - leftDay * (1000 * 60 * 60 * 24);
+
+				var leftHour = Math.floor(leftTime / (1000 * 60 * 60));
+				leftTime = leftTime - leftHour * (1000 * 60 * 60);
+
+				var leftMinute = Math.floor(leftTime / (1000 * 60));
+				leftTime = leftTime - leftMinute * (1000 * 60)
+
+				var leftSecond = Math.round(leftTime / 1000);
+
+				var leftStr = '';
+				if(leftDay > 0) {
+					leftStr += '<span class="col42a">'+leftDay+'</span>' + '天';
+				}
+				if(leftHour > 0) {
+					leftStr += '<span class="col42a">'+leftHour+'</span>' + '小时';
+				}
+				if(leftMinute > 0) {
+					leftStr += '<span class="col42a">'+leftMinute+'</span>' + '分';
+				}
+				if(leftSecond > 0) {
+					leftStr += '<span class="col42a">'+leftSecond+'</span>' + '秒';
+				}
+				if(c==0){
+					var textDom = document.getElementById('txts');
+					if(textDom){
+						textDom.innerHTML = text + leftStr;
+					}
+					
+				}
+				else if(c==1){
+					var textDom = document.getElementById('txt');
+					if(textDom){
+						textDom.innerHTML = text + leftStr;
+					}
+				}
+				if(leftMillis <= 0) {
+					window.location.reload();
+				}
+			}
 			var parm={};
             parm.id=_this.formdata.oetInfoId;
 			
@@ -593,7 +593,12 @@ import createPop from '../components/createPop.vue'
 						_this.needSignMinute = '不需要签到';
 					}
 				}
-				debugger;
+
+
+				var txt = '';
+				var targetTime = null;
+				var timeable = false;
+
 				if(_this.isCreater ==1 && _this.isPublish==1){
 					_this.isc = true;
 					var nowTime = response.data.object.nowTime;
@@ -602,32 +607,24 @@ import createPop from '../components/createPop.vue'
 					if(_this.state==1){
 						_this.isc3 = true;
 						var txt = '距离报名开始还有';
-						timer(txt, response.data.object.round.applyBegin ,subTime, _this.isCreater) 
-						var intervalNum = window.setInterval(function() {
-							timer(txt, response.data.object.round.applyBegin ,subTime,_this.isCreater);
-						}, 1000);
+						targetTime = response.data.object.round.applyBegin;
+						timeable = true;
 					}
 					else if(_this.state==2){
 						_this.isc3 = true;
 						var txt = '距离报名结束还有';
-						timer(txt, response.data.object.round.applyEnd ,subTime, _this.isCreater) 
-						var intervalNum = window.setInterval(function() {
-							timer(txt, response.data.object.round.applyEnd ,subTime,_this.isCreater);
-						}, 1000);
+						targetTime = response.data.object.round.applyEnd;
+						timeable = true;
 					}else if(_this.state==3){
 						_this.isc3 = true;
 						var txt = '距离签到开始还有';
-						timer(txt, response.data.object.signBeginTime ,subTime,_this.isCreater) 
-						var intervalNum = window.setInterval(function() {
-							timer(txt, response.data.object.signBeginTime ,subTime, _this.isCreater);
-						}, 1000);
+						targetTime = response.data.object.signBeginTime;
+						timeable = true;
 					}else if(_this.state==4 || _this.state==5){
 						_this.isc3 = true;
 						var txt = '距离赛事开始还有';
-						timer(txt, response.data.object.round.activityBegin ,subTime,_this.isCreater) 
-						var intervalNum = window.setInterval(function() {
-							timer(txt, response.data.object.round.activityBegin ,subTime,_this.isCreater);
-						}, 1000);
+						targetTime = response.data.object.round.activityBegin;
+						timeable = true;
 					}
 				}else if(_this.isCreater ==0 && _this.isPublish==1){
 						_this.isc2 = true;
@@ -637,36 +634,55 @@ import createPop from '../components/createPop.vue'
 						if(_this.state==1){
 							_this.isc3 = true;
 							var txt = '距离报名开始还有';
-							timer(txt, response.data.object.round.applyBegin ,subTime, _this.isCreater) 
-							var intervalNum = window.setInterval(function() {
-								timer(txt, response.data.object.round.applyBegin ,subTime,_this.isCreater);
-							}, 1000);
+							targetTime = response.data.object.round.applyBegin;
+							timeable = true;
 						}
 						else if(_this.state==2){
 							_this.isc3 = true;
 							var txt = '距离报名结束还有';
-							timer(txt, response.data.object.round.applyEnd ,subTime, _this.isCreater) 
-							var intervalNum = window.setInterval(function() {
-								timer(txt, response.data.object.round.applyEnd ,subTime,_this.isCreater);
-							}, 1000);
+							targetTime = response.data.object.round.applyEnd;
+							timeable = true;
 						}else if(_this.state==3){
 							_this.isc3 = true;
 							var txt = '距离签到开始还有';
-							timer(txt, response.data.object.signBeginTime ,subTime,_this.isCreater) 
-							var intervalNum = window.setInterval(function() {
-								timer(txt, response.data.object.signBeginTime ,subTime, _this.isCreater);
-							}, 1000);
+							targetTime = response.data.object.signBeginTime;
+							timeable = true;
 						}else if(_this.state==4 || _this.state==5){
 							_this.isc3 = true;
 							var txt = '距离赛事开始还有';
-							timer(txt, response.data.object.round.activityBegin ,subTime,_this.isCreater) 
-							var intervalNum = window.setInterval(function() {
-								timer(txt, response.data.object.round.activityBegin ,subTime,_this.isCreater);
-							}, 1000);
+							targetTime = response.data.object.round.activityBegin;
+							timeable = true;
 						}else if(_this.state==6){
 							_this.isc3 = true;
 							$('#txts').html('等待赛事组织者开赛');
 						}
+				}
+
+				if(timeable) {
+					// 清除已运行的定时器
+					var key = 'MATCH_TIMERS';
+					var timers = window.sessionStorage.getItem(key);
+					window.sessionStorage.setItem(key, []);
+					if(timers && timers.length > 0) {
+						timers = JSON.parse(timers);
+						for(var i=0; i<timers.length; i++) {
+							window.clearInterval(timers[i]);
+						}
+					}
+
+					timer(txt, targetTime ,subTime, _this.isCreater) 
+					var intervalNum = window.setInterval(function() {
+						timer(txt, targetTime ,subTime, _this.isCreater);
+					}, 1000);
+
+					// 重新读取定时器ID，避免其他页面同时在进行定时操作
+					timers = window.sessionStorage.getItem(key);
+					if(!timers) {
+						timers = [];
+					}
+					// 记录当前定时器ID,以在下次定时操作时清除
+					timers.push(intervalNum);
+					window.sessionStorage.setItem(key, JSON.stringify(timers));
 				}
 			}
 
