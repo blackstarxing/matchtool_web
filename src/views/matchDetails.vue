@@ -603,23 +603,23 @@ import createPop from '../components/createPop.vue'
 					var subTime = new Date().getTime() - nowTime;
 					if(_this.state==1){
 						_this.isc3 = true;
-						var txt = '距离报名开始还有';
+						txt = '距离报名开始还有';
 						targetTime = response.data.object.round.applyBegin;
 						timeable = true;
 					}
 					else if(_this.state==2){
 						_this.isc3 = true;
-						var txt = '距离报名结束还有';
+						txt = '距离报名结束还有';
 						targetTime = response.data.object.round.applyEnd;
 						timeable = true;
 					}else if(_this.state==3){
 						_this.isc3 = true;
-						var txt = '距离签到开始还有';
+						txt = '距离签到开始还有';
 						targetTime = response.data.object.signBeginTime;
 						timeable = true;
 					}else if(_this.state==4 || _this.state==5){
 						_this.isc3 = true;
-						var txt = '距离赛事开始还有';
+						txt = '距离赛事开始还有';
 						targetTime = response.data.object.round.activityBegin;
 						timeable = true;
 					}
@@ -630,23 +630,23 @@ import createPop from '../components/createPop.vue'
 						var subTime = new Date().getTime() - nowTime;
 						if(_this.state==1){
 							_this.isc3 = true;
-							var txt = '距离报名开始还有';
+							txt = '距离报名开始还有';
 							targetTime = response.data.object.round.applyBegin;
 							timeable = true;
 						}
 						else if(_this.state==2){
 							_this.isc3 = true;
-							var txt = '距离报名结束还有';
+							txt = '距离报名结束还有';
 							targetTime = response.data.object.round.applyEnd;
 							timeable = true;
 						}else if(_this.state==3){
 							_this.isc3 = true;
-							var txt = '距离签到开始还有';
+							txt = '距离签到开始还有';
 							targetTime = response.data.object.signBeginTime;
 							timeable = true;
 						}else if(_this.state==4 || _this.state==5){
 							_this.isc3 = true;
-							var txt = '距离赛事开始还有';
+							txt = '距离赛事开始还有';
 							targetTime = response.data.object.round.activityBegin;
 							timeable = true;
 						}else if(_this.state==6){
