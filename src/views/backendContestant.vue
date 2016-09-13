@@ -513,7 +513,8 @@
     				this.memberlist=response.data.object.pager;
 	    		}, function(response){
 	    			console.log(response);
-	    		})
+	    		});
+	    		$('#pageto').val('');
 			},
   			prevpage:function(e){
   				e.preventDefault();
