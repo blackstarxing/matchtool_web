@@ -21,7 +21,7 @@
                     </div>
                     <div class="form_pw form_list">
                         <label class="reg_label"><img src="../../static/images/password.png"></label>
-                        <input class="input_text" type="password" placeholder="请输入密码" v-model="landpassword" @blur="getlandpwd">
+                        <input class="input_text last_input" type="password" placeholder="请输入密码" v-model="landpassword" @blur="getlandpwd">
                         <span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">密码位数不对</i></span>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                     </div>
                     <div class="form_pw form_list">
                         <label class="reg_label"><img src="../../static/images/password.png"></label>
-                        <input class="input_text" type="password" placeholder="密码(6-16位，允许数字字母常用符号)" maxlength='16' v-model="password" @blur="getpwd">
+                        <input class="input_text last_input" type="password" placeholder="密码(6-16位，允许数字字母常用符号)" maxlength='16' v-model="password" @blur="getpwd">
                         <span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">密码位数太短</i></span>
                     </div>
                 </div>
@@ -366,10 +366,7 @@ export default {
                         } else {
                             this.$route.router.go({
                                 path: '/index'
-                            });
-                            if (!!window.ActiveXObject || "ActiveXObject" in window){
-                                window.location.reload();
-                            }        
+                            });       
                         }
 
                     } else {
