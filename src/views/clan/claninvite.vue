@@ -107,7 +107,7 @@ import createPop from '../../components/createPop.vue'
 		 		var code = response.data.code;
 		 		if(code==-1){
 		 			window.sessionStorage.setItem("isInvite",true);
-		 			_this.$route.router.go({path: '/landRegister'});
+		 			_this.$route.router.go({ name: 'landRegister', params: { tabId: 0 }});
 		 		}else if(code==0){
 		 			layer.msg(response.data.msg,{offset:"0px"});
 		 		}
