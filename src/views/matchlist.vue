@@ -96,7 +96,8 @@ import createPop from '../components/createPop.vue'
     				this.matchlists=response.data.object.pager;
 	    		}, function(response){
 	    			console.log(response);
-	    		})
+	    		});
+	    		$('#pageto').val('');
 			},
 			linkDetail:function(e){
 				// e.preventDefault();
