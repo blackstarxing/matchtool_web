@@ -12,12 +12,14 @@
 			<p class="f-tc">
 				<span class="g-cs-t">联系我们</span>
 			</p>
-			<p class="g-cs-p1">浙江网竞网络科技有限公司</p>
+			<p class="g-cs-p1">开赛吧隶属于定远县旭景商贸有限责任公司。</p>
+			<p class="g-cs-p2">总部：</p>
+			<p class="g-cs-p2">定远县一招商贸有限公司</p>
+			<p class="g-cs-p2">滁州市定城合蚌路儿童福利院对面</p>
+			<p class="g-cs-p2">联系电话：0550-85769854</p>
+			<p class="g-cs-p2">杭州办事处：</p>
 			<p class="g-cs-p2">杭州市滨江区六和路368号海创基地北楼4层</p>
 			<p class="g-cs-p2">联系电话：4006902530</p>
-			<p class="g-cs-p2">其他办事处:</p>
-			<p class="g-cs-p2">定远县旭景商贸有限责任公司</p>
-			<p class="g-cs-p2">定远县定城镇东城南路绿园小区5幢502室</p>
 		</div>
 	</div>
 	<div class="footer">
