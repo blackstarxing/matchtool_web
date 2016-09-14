@@ -52,12 +52,74 @@ input:focus,select:focus,textarea:focus{outline: none;border-color: #42ac59;}
 .f-tc{text-align: center;}
 
 .footer{
-	text-align: center;
 	border-top: 1px solid #616d78;
-	line-height: 92px;
-	color:#7a8387;
-	font-size: 12px;
+	height: 112px;
 	margin-top: 80px;
+}
+.foot{
+    width: 1130px;
+    margin: 0 auto;
+}
+.tel{
+    width:124px;
+    height: 15px;
+    top: 27px;
+    left: 209px;
+    position: relative ;
+    border-right:1px solid #4f4f4f;
+    
+}
+.telIcon span{
+    font-size: 9px;
+    color: #6a6a6a;
+    line-height: 15px;
+    text-align: center;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.letter{
+    width:284px;
+    height: 16px;
+    top: 12px;
+    left:371px;
+    position: relative ;
+    border-right:1px solid #4f4f4f;
+}
+.letterIcon span {
+    font-size: 9px;
+    color: #6a6a6a;
+    line-height: 16px;
+    text-align: center;
+    margin-left: 10px;
+}
+.address{
+    width:380px;
+    height: 16px;
+    top: -3px;
+    left:693px;
+    position: relative ;
+}
+.address span {
+    font-size: 9px;
+    color: #6a6a6a;
+    line-height: 16px;
+    text-align: center;
+    margin-left: 10px;
+     cursor: pointer;
+}
+.contactInformation{
+    /*width:450px;*/
+    height: 16px;
+    top: 12px;
+    left:200px;
+    position: relative ;
+}
+.contactInformation span{
+    font-size: 9px;
+    color: #6a6a6a;
+    line-height: 16px;
+    text-align: center;
+    margin-left: 10px;
 }
 
 @font-face {
