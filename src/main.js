@@ -1,8 +1,8 @@
-// require('../static/css/match.css');
-// require('../static/css/dark.min.css'); 
-// require('../static/css/diyUpload.css'); 
-// require('../static/css/froala_page.min.css');
-// require('../static/css/jquery.datetimepicker.css');
+require('../static/css/match.css');
+require('../static/css/dark.min.css'); 
+require('../static/css/diyUpload.css'); 
+require('../static/css/froala_page.min.css');
+require('../static/css/jquery.datetimepicker.css');
 
 import Vue from 'vue'
 import matchtool from './matchtool.vue'
@@ -40,8 +40,8 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource);
 Vue.use(VueRouter);
 
-// Vue.http.options.root = '/api';
-Vue.http.options.root = '/oet';
+Vue.http.options.root = '/api';
+// Vue.http.options.root = '/oet';
 
 Vue.http.options.emulateJSON = true;
 var router = new VueRouter({
