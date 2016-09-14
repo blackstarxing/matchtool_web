@@ -8,7 +8,7 @@
 		</div>
 	</div>
 	<div class="g-w mt90 f-re">
-		<div class="g-cs-m">
+		<div class="g-cs-m" style="min-height: 7rem;">
 			<p class="f-tc">
 				<span class="g-cs-t">联系我们</span>
 			</p>
