@@ -31,6 +31,8 @@ import claninvite from './views/clan/claninvite.vue'
 import passWord from './views/passWord.vue'
 import matchshare from './views/matchshare.vue'
 import clause from './views/clause.vue'
+import about from './views/about.vue'
+import contact from './views/contact.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -126,6 +128,12 @@ router.map({
     },
     '/clause': {
         component: clause
+    },
+    '/about': {
+        component: about
+    },
+    '/contact': {
+        component: contact
     }
 })
 
