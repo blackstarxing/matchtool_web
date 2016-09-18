@@ -7,7 +7,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './static'),
     publicPath: '/static/',
-    filename: 'build.js'
+    filename: 'build.[hash].js'
   },
   module: {
     loaders: [
@@ -70,13 +70,13 @@ if (process.env.NODE_ENV === 'production') {
     hot: true,
     inline: true,
     progress: true,
-    proxy: {
-      '/oet/*': {
-          target: 'http://172.16.2.63:8088',
-          // target: 'http://173.37.246.148:8088',
-          secure: false
-      }
-    }
+    // proxy: {
+    //   '/oet/*': {
+    //       target: 'http://172.16.2.63:8088',
+    //       // target: 'http://173.37.246.148:8088',
+    //       secure: false
+    //   }
+    // }
   },
   module.exports.devtool = '#eval-source-map'
 }

@@ -117,7 +117,7 @@
                 </div>
             </div>
             <div class="contactInformation">
-                <span>浙江网竞网络科技有限公司  |   浙ICP备14028335号-2   |   Copyright©2016 kaisaiba.com All Rights Reserved.</span>
+                <span>浙ICP备14028335号-2   |   Copyright©2016 kaisaiba.com All Rights Reserved.</span>
             </div>
         </div>
 	</div>
