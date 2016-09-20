@@ -7,7 +7,7 @@
 		<div class="header_right f-fr" v-if="islogin">
       <a href="" class="notify" v-link="{ path: '/myMessage'}"><span class="icon-uniE60D"></span></a>
       <div class="avatar" @mouseover="avatarOver" @mouseleave="mouseLeave">
-        <img v-bind:src="avatar" v-show="avatar"><span class="icon-uniE60E" style="border-radius:50%;"></span>
+        <img v-bind:src="avatar" v-if="avatar"><span class="icon-uniE60E" style="border-radius:50%;"></span>
         <div class="nav-list">
           <ul>
               <!-- <li><a @click="showPop"><span class="icon-uniE617"></span>创建赛事</a></li> -->
@@ -38,7 +38,7 @@
   	},
   	ready:function(){
   		var _this=this;
-      _this.$http.get("isLogin").then(function(response){
+      _this.$http.get("isLogin?"+Date.now()).then(function(response){
         if(response.data.object.loginFlag){
           _this.islogin=true;
         }else{
@@ -66,10 +66,7 @@
           if(location.hash=="#/index"){
             window.location.reload();
           }else{
-            this.$route.router.go({path: '/index'}); 
-            if (!!window.ActiveXObject || "ActiveXObject" in window){
-              window.location.reload();
-            } 
+            this.$route.router.go({path: '/index'});  
           }              
         }, function(response){
           console.log(response);

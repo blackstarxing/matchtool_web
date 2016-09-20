@@ -505,7 +505,7 @@
 		    	e.preventDefault();
 		    	var _this=this;
 		    	var _target=$(e.currentTarget); 
-		    	window.location.href="http://wy.kaisaibaapi.wangyuhudong.com/event/round/group/member/export?roundId="+_this.roundId;
+		    	window.location.href="http://www.kaisaiba.com/api/event/round/group/member/export?roundId="+_this.roundId;
 		    },
 		    // 翻页
 		    pageTo:function(page){
@@ -513,7 +513,8 @@
     				this.memberlist=response.data.object.pager;
 	    		}, function(response){
 	    			console.log(response);
-	    		})
+	    		});
+	    		$('#pageto').val('');
 			},
   			prevpage:function(e){
   				e.preventDefault();
