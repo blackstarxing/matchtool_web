@@ -90,7 +90,7 @@ router.map({
           }
         }
     },
-    '/landRegister/:tabId': {
+    '/landRegister/:tabId': {   
         name: 'landRegister',
         component: landRegister,
     },
@@ -101,10 +101,11 @@ router.map({
         name: 'perSetting',
         component: perSetting
     },
-    '/myMatch': {
+    '/myMatch/:matchType': {
+        name: 'myMatch',
         component: myMatch
     },
-    '/myMessage': {
+    '/myMessage/:messageType': {
         component: myMessage
     },
     '/myclan': {
