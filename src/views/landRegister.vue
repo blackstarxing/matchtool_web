@@ -352,6 +352,11 @@ export default {
                         // document.cookie = "appUserId=" + response.data.object.appUser.id;
                         window.sessionStorage.setItem("appusericon", response.data.object.appUser.icon);
                         window.sessionStorage.setItem("nickname", response.data.object.appUser.nickname);
+                        this.$http.get("isIdentifyUser").then(function(response){
+                            window.sessionStorage.setItem("isident", response.data.object.flag);
+                          }, function(response){
+                            console.log(response+'isIdentifyUser');
+                          })
                         this.$route.router.go({
                             path: '/index'
                         });
@@ -379,6 +384,11 @@ export default {
                         // document.cookie = "appUserId=" + response.data.object.appUser.id;
                         window.sessionStorage.setItem("appusericon", response.data.object.appUser.icon);
                         window.sessionStorage.setItem("nickname", response.data.object.appUser.nickname);
+                        this.$http.get("isIdentifyUser").then(function(response){
+                            window.sessionStorage.setItem("isident", response.data.object.flag);
+                          }, function(response){
+                            console.log(response+'isIdentifyUser');
+                          })
                         var _isInvite = window.sessionStorage.getItem("isInvite");
                         var _shardid = window.sessionStorage.getItem("shareId");
                         if (_isInvite=="true") {
