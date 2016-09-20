@@ -111,7 +111,7 @@ input:focus,select:focus,textarea:focus{outline: none;border-color: #42ac59;}
     /*width:450px;*/
     height: 16px;
     top: 12px;
-    left:200px;
+    left:280px;
     position: relative ;
 }
 .contactInformation span{
