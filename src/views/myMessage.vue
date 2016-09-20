@@ -144,17 +144,8 @@
 	    createPop
 		},
 		ready: function () {
-
-			// // 初始化时就查询我组织的赛事列表，仅查询一次，以后就不查询了
-			// if (!this.sysMsgListFlag) {
-			// 	this.sysMsgListFlag = true
-				this.getSysMsgList(1)
-				this.getMatchMsgList(1)
-				// this.$nextTick( function () {
-				// 	this.msgTextInit()	
-				// }) 
-			// }
-			
+			this.getSysMsgList(1)
+			this.getMatchMsgList(1)
 		},
 		filters: {
 			formatDate: function(value) {
@@ -201,7 +192,9 @@
 					window.sessionStorage.setItem("eventRoundId",_roundid);
 					this.$route.router.go({path: '/matchDetails?eventId='+_eventid})
 				} else if (urlType === 3) { // 为3，跳转到我的赛事页面
-					this.$route.router.go({ path: '/myMatch' })
+					//this.$route.router.go({ path: '/myMatch' })
+					this.$route.router.go({ name: 'myMatch', params: { matchType: 'create' }, query: { pageId: 1} })
+					// 这里需要取得是否是认证者的字段，然后设置相应的路由跳转
 				}
 				//else if (urlType === 2) { 
 					// this.$route.router.go({path: '/matchDetails'})
@@ -266,39 +259,22 @@
 					this.tabList[0].isCur = true
 					this.tabList[1].isCur = false
 					this.msgTypeFlag = true
-					//this.msgShowList = this.sysMsgList
 					this.sysMsgFlag = true
 					this.matchMsgFlag = false
 					this.iconSrc = "../../static/images/myMsg_icon1.png"
-					// this.$nextTick(function () {
-					// 		this.msgTextInit()	
-					// })
 				} else {
 					this.tabList[1].isCur = true
 					this.tabList[0].isCur = false
 					this.msgTypeFlag = false
-
 					this.sysMsgFlag = false
 					this.matchMsgFlag = true
-					// if (!this.matchMsgListFlag) {
-					// 	this.matchMsgListFlag = true
-					// 	this.getMatchMsgList(1)
-					// 	// this.$nextTick(function () {
-					// 	// 	this.msgTextInit()
-					// 	// })
-					// 	this.$nextTick(function () {
-					// 		this.msgTextInit()	
-					// 	})
-					// }
-
-					//this.msgShowList = this.matchMsgList
 					this.iconSrc = "../../static/images/myMsg_icon2.png"
 				}
-
 			},
 			// 翻页
 			prevpage:function(e){
 				// e.preventDefault();
+				this.pageId = ""
 				var currentpage = this.pageList.pageNumber;
     		if(currentpage>1){
     			currentpage--;
@@ -310,6 +286,7 @@
 			},
 			nextpage:function(e){
 				// e.preventDefault();
+				this.pageId = ""
 				var currentpage = this.pageList.pageNumber,
 					  maxpage = this.pageList.pages;
     		if(currentpage<maxpage){
@@ -325,6 +302,7 @@
 				// e.preventDefault();
 				if (this.pageId === "") return
   			this.getMsgList(this.msgTypeFlag ? 1 : 2, parseInt(this.pageId))
+  			this.pageId = ""
 			},
 			checkpage:function(e){
 				var pages = this.pageList.pages; 

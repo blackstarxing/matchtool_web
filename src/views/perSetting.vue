@@ -180,7 +180,11 @@
 					this.tabList[0].isCur = false
 					this.tabList[1].isCur = true
 					this.tabList[2].isCur = false
-				}
+				} else if (this.tabFlag === "2") {
+					this.tabList[0].isCur = false
+					this.tabList[1].isCur = false
+					this.tabList[2].isCur = true
+				} 
 			}
 		},
 		data () {

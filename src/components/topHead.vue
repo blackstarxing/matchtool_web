@@ -11,7 +11,8 @@
         <div class="nav-list">
           <ul>
               <!-- <li><a @click="showPop"><span class="icon-uniE617"></span>创建赛事</a></li> -->
-              <li v-link="{ path: '/myMatch'}"><a><span class="icon-uniE618"></span>我的赛事</a></li>
+              <li v-link="{ name: 'myMatch', params: { matchType: 'create'}, query: { pageId: 1}}" v-if="isIdentify"><a><span class="icon-uniE618"></span>我的赛事</a></li>
+              <li v-link="{ name: 'myMatch', params: { matchType: 'join'}, query: { pageId: 1}}" v-else><a><span class="icon-uniE618"></span>我的赛事</a></li>
               <li v-link="{ name: 'perSetting', params: { userId: 0 }}"><a><span class="icon-uniE619"></span>个人设置</a></li>
               <li v-link="{ name: 'perSetting', params: { userId: 1 }}"><a><span class="icon-uniE61A"></span>参赛信息设置</a></li>
               <li v-link="{ path: '/myclan'}"><a><span class="icon-uniE61D"></span>战队系统</a></li>
@@ -31,7 +32,8 @@
     data () {
       return {
         avatar:"",
-        islogin:false
+        islogin:false,
+        isIdentify:false
       }
   	},
   	ready:function(){
@@ -43,6 +45,8 @@
           _this.islogin=false;
         }
         _this.avatar='http://img.wangyuhudong.com/'+response.data.object.icon;
+        var identFlag = window.sessionStorage.getItem("isident");
+        _this.isIdentify = identFlag ? true : false
       }, function(response){
         console.log(response);
       })

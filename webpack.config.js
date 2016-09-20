@@ -45,6 +45,11 @@ module.exports = {
     plugins: ['transform-runtime'],
     comments: false
   },
+  // plugins: [
+  //   new ExtractTextPlugin('./index.css', {
+  //     allChunks: true
+  //   })
+  // ]
 }
 
 if (process.env.NODE_ENV === 'production') {
@@ -54,7 +59,7 @@ if (process.env.NODE_ENV === 'production') {
         NODE_ENV: '"production"'
       }
     }),
-    new ExtractTextPlugin('./index.[hash].css', {
+    new ExtractTextPlugin('./index.css', {
             allChunks: true
         }),
     new webpack.optimize.UglifyJsPlugin({
