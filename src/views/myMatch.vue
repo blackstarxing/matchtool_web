@@ -200,8 +200,49 @@
 	import topHead from '../components/topHead.vue'
 	import sideBar from '../components/sideBar.vue'
 	import slideBar from '../components/slideBar.vue'
-	import createPop from '../components/createPop.vue'	
+	import createPop from '../components/createPop.vue'
 	export default {
+		route: {
+			data(transition) {
+				//console.log('aaaaaaa')
+				//console.log(this.isCtfct)
+				// 获取是否是认证用户
+				// this.$http.get('isIdentifyUser').then((response) => {
+				// 	this.isCtfct = response.data.object.flag
+					// transition.next({
+					// 	isCtfct: response.data.object.flag
+					// })
+				var identFlag = window.sessionStorage.getItem("isident");
+				var type = this.$route.params.matchType
+				var pageId = this.$route.query.pageId
+				if (/\D/.test(pageId)) {      // url地址栏pageId查询参数错误
+					// alert('请求参数错误！')
+					return 
+				}
+				if (identFlag) { // 是认证用户
+					this.tabList = [ { id: 0, name: '我组织的', isCur: true }, { id: 1, name: '我参与的', isCur: false } ]
+					if (type === 'create') {
+						this.getZZEventList(pageId)
+						this.tabList[0].isCur = true
+					 	this.tabList[1].isCur = false
+						this.eventTypeFlag = true
+						this.ZZPageId = pageId
+					} else if (type === 'join') {
+						this.getCYEventList(pageId)
+						this.tabList[0].isCur = false
+					 	this.tabList[1].isCur = true
+						this.eventTypeFlag = false
+						this.CYPageId = pageId
+					}
+				} else { // 不是认证用户
+					this.getCYEventList(pageId)
+					this.tabList = [ { id: 0, name: '我参与的', isCur: true } ]
+					this.eventTypeFlag = false
+					this.CYPageId = pageId
+				}
+				//})
+			}
+		},
 		data () {
 			return {
 				ZZEventListFlag: false,
@@ -248,9 +289,11 @@
 					pageNumber: 1,
 					pages: -1
 				},
-				eventTypeFlag: true,       // 如果是组织赛事就是true，表示显示时间，参与赛事就是false，表示不显示时间
+				eventTypeFlag: false,       // 如果是组织赛事就是true，表示显示时间，参与赛事就是false，表示不显示时间
 				//isWaiting: true          // true：显示等待组织者开赛，false：显示可开赛倒计时时间
-				//timeTypeStr: "创建"               
+				//timeTypeStr: "创建"
+				ZZPageId: 1,
+				CYPageId: 1               
 			}
 		},
 		components: {
@@ -260,24 +303,25 @@
 	    createPop
 		},
 		ready: function () {
-			// 获取是否是认证用户
-			this.$http.get('isIdentifyUser').then((response) => {
-				this.isCtfct = response.data.object.flag
-				// 是认证用户
-				if (this.isCtfct) {
-					this.tabList = [ { id: 0, name: '我组织的', isCur: true }, { id: 1, name: '我参与的', isCur: false } ]
-					this.eventTypeFlag = true
-					// 初始化时就查询我组织的赛事列表，仅查询一次，以后就不查询了
-					if (!this.ZZEventListFlag) {
-						this.ZZEventListFlag = true
-						this.getZZEventList(1)
-					}
-				} else {   // 不是认证用户
-					this.tabList = [ { id: 0, name: '我参与的', isCur: true } ]
-					this.eventTypeFlag = false
-					this.getCYEventList(1)
-				}
-			})
+			//console.log('bbbbbbbbb')
+			// // 获取是否是认证用户
+			// this.$http.get('isIdentifyUser').then((response) => {
+			// 	this.isCtfct = response.data.object.flag
+			// 	// 是认证用户
+			// 	if (this.isCtfct) {
+			// 		this.tabList = [ { id: 0, name: '我组织的', isCur: true }, { id: 1, name: '我参与的', isCur: false } ]
+			// 		this.eventTypeFlag = true
+			// 		// 初始化时就查询我组织的赛事列表，仅查询一次，以后就不查询了
+			// 		if (!this.ZZEventListFlag) {
+			// 			this.ZZEventListFlag = true
+			// 			this.getZZEventList(1)
+			// 		}
+			// 	} else {   // 不是认证用户
+			// 		this.tabList = [ { id: 0, name: '我参与的', isCur: true } ]
+			// 		this.eventTypeFlag = false
+			// 		this.getCYEventList(1)
+			// 	}
+			// })
 		},
 		filters: {
 			formatDate: function(value, timeTypeStr) {
@@ -414,35 +458,48 @@
 				})
 			},
 			changeTab: function (tabId) {
+				//console.log(this.ZZPageId + ' ' + this.CYPageId)
 				if (tabId === 0) {
-					this.tabList[0].isCur = true
-					this.tabList[1].isCur = false
-					// 设置列表为我组织的赛事
-					this.eventTypeFlag = true
-					this.eventShowList = this.ZZEventList
+					this.$route.router.go({ name: 'myMatch', params: { matchType: 'create' }, query: { pageId: this.ZZPageId} })
+					// this.tabList[0].isCur = true
+					// this.tabList[1].isCur = false
+					// // 设置列表为我组织的赛事
+					// this.eventTypeFlag = true
+					// this.eventShowList = this.ZZEventList
 				} else {
-					this.tabList[1].isCur = true
-					this.tabList[0].isCur = false
-					// 仅第一次切换tab进来查询我参与的赛事列表，以后就不查询了
-					if (!this.CYEventListFlag) {
-						this.CYEventListFlag = true
-						this.getCYEventList(1)
-					}
-					// 设置列表为我参与的赛事
-					this.eventTypeFlag = false
-					this.eventShowList = this.CYEventList
+					this.$route.router.go({ name: 'myMatch', params: { matchType: 'join' }, query: { pageId: this.CYPageId } })
+					// this.tabList[1].isCur = true
+					// this.tabList[0].isCur = false
+					// // 仅第一次切换tab进来查询我参与的赛事列表，以后就不查询了
+					// if (!this.CYEventListFlag) {
+					// 	this.CYEventListFlag = true
+					// 	this.getCYEventList(1)
+					// }
+					// // 设置列表为我参与的赛事
+					// this.eventTypeFlag = false
+					// this.eventShowList = this.CYEventList
 				}
+				// console.log(window.location.pathname)
+				// window.location.pathname = '/#/myMatch/create?pageId=1'
+				// console.log(window.location.pathname)
+				// console.log(this.$route.path)
+				// this.$route.path = '/myMatch/join?pageId=1'
+				// this.$route.params.matchType = 'join'
+				// console.log(this.$route.params.matchType)
 			},
 			// 翻页
 			prevpage:function(e){
 				// e.preventDefault();
+  			this.pageId = ""
 				var currentpage = this.pageList.pageNumber;
     		if(currentpage>1){
     			currentpage--;
     			if (this.eventTypeFlag) {
-    				this.getEventList(currentpage, 'event/getEventRoundList', 0)    // 如果是得到组织的比赛，传0
+    				//this.getEventList(currentpage, 'event/getEventRoundList', 0)    // 如果是得到组织的比赛，传0
+    				this.$route.router.go({ name: 'myMatch', params: { matchType: 'create' }, query: { pageId: currentpage} })
     			} else {
-    				this.getEventList(currentpage, ' event/getMyEventRoundList', 1) // 如果是得到参与的比赛，传1
+    				//this.getEventList(currentpage, ' event/getMyEventRoundList', 1) // 如果是得到参与的比赛，传1
+    				this.$route.router.go({ name: 'myMatch', params: { matchType: 'join' }, query: { pageId: currentpage } })
     			}
     			
     		}
@@ -452,15 +509,18 @@
 			},
 			nextpage:function(e){
 				// e.preventDefault();
+  			this.pageId = ""
 				var currentpage = this.pageList.pageNumber,
 						maxpage = this.pageList.pages;
     		if(currentpage<maxpage){
     			//alert(123)
     			currentpage++;
     			if (this.eventTypeFlag) {
-    				this.getEventList(currentpage, 'event/getEventRoundList', 0)   
+    				//this.getEventList(currentpage, 'event/getEventRoundList', 0)
+    				this.$route.router.go({ name: 'myMatch', params: { matchType: 'create' }, query: { pageId: currentpage} })
     			} else {
-    				this.getEventList(currentpage, ' event/getMyEventRoundList', 1) 
+    				//this.getEventList(currentpage, ' event/getMyEventRoundList', 1) 
+    				this.$route.router.go({ name: 'myMatch', params: { matchType: 'join' }, query: { pageId: currentpage } })
     			}
     		}
     		else{
@@ -469,17 +529,19 @@
 			},
 			gopage:function(e){
 				// e.preventDefault();
-				if (this.pageId === "") return 
+				if (this.pageId === "" || /\D/g.test(this.pageId)) return 
 				if (this.eventTypeFlag) {
-  				this.getEventList(this.pageId, 'event/getEventRoundList', 0)    
+  				//this.getEventList(this.pageId, 'event/getEventRoundList', 0)
+  				this.$route.router.go({ name: 'myMatch', params: { matchType: 'create' }, query: { pageId: parseInt(this.pageId)} })    
   			} else {
-  				this.getEventList(this.pageId, ' event/getMyEventRoundList', 1) 
+  				//this.getEventList(this.pageId, 'event/getMyEventRoundList', 1) 
+  				this.$route.router.go({ name: 'myMatch', params: { matchType: 'join' }, query: { pageId: parseInt(this.pageId) } })
   			}
+  			this.pageId = ""
 			},
 			checkpage:function(e){
 				var pages = this.pageList.pages; 
 	    	var num = $('#pageto').val();
-	    	console.log(typeof num)
 	    	if(num==0 && num!=""){
 	    		$('#pageto').val('1');
 	    	}else if(num>pages){

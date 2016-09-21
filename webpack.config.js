@@ -7,7 +7,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './static'),
     publicPath: '/static/',
-    filename: 'build.[hash].js'
+    filename: 'build.js'
   },
   module: {
     loaders: [
@@ -35,9 +35,9 @@ module.exports = {
           name: '[name].[ext]?[hash]'
         }
       },
-      { test: /\.css$/, 
-        loader: ExtractTextPlugin.extract("style-loader","css-loader") 
-      },
+      // { test: /\.css$/, 
+      //   loader: ExtractTextPlugin.extract("style-loader","css-loader") 
+      // },
     ]
   },
   babel: {
@@ -45,6 +45,11 @@ module.exports = {
     plugins: ['transform-runtime'],
     comments: false
   },
+  // plugins: [
+  //   new ExtractTextPlugin('./index.css', {
+  //     allChunks: true
+  //   })
+  // ]
 }
 
 if (process.env.NODE_ENV === 'production') {
@@ -54,9 +59,9 @@ if (process.env.NODE_ENV === 'production') {
         NODE_ENV: '"production"'
       }
     }),
-    new ExtractTextPlugin('./index.[hash].css', {
-            allChunks: true
-        }),
+    // new ExtractTextPlugin('./index.[hash].css', {
+    //         allChunks: true
+    //     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
@@ -70,13 +75,13 @@ if (process.env.NODE_ENV === 'production') {
     hot: true,
     inline: true,
     progress: true,
-    // proxy: {
-    //   '/oet/*': {
-    //       target: 'http://172.16.2.63:8088',
-    //       // target: 'http://173.37.246.148:8088',
-    //       secure: false
-    //   }
-    // }
+    proxy: {
+      '/oet/*': {
+          target: 'http://172.16.2.63:8088',
+          // target: 'http://173.37.246.148:8088',
+          secure: false
+      }
+    }
   },
   module.exports.devtool = '#eval-source-map'
 }
