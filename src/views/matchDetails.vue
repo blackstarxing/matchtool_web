@@ -1248,7 +1248,8 @@ import createPop from '../components/createPop.vue'
 					_this.$http.post('event/sign?roundId='+_this.formdata.oetRoundId+'&sign=1').then(function(response){
 						var code = response.data.code;
 						if(code==-1){
-							layer.msg('请先登录',{offset:"0px"});
+							// layer.msg('请先登录',{offset:"0px"});
+							_this.$route.router.go({path: '/landRegister/0'});
 						}
 						else if(code==0){
 							layer.msg(response.data.msg,{offset:"0px"});
@@ -1497,7 +1498,8 @@ import createPop from '../components/createPop.vue'
 				            _this.$http.get('event/round/group/member/getMemInfo',eve2).then(function(response){
 				            	var code = response.data.code;
 				            	if(code==-1){
-				            		layer.msg('请先登录',{offset:"0px"});
+				            		// layer.msg('请先登录',{offset:"0px"});
+				            		_this.$route.router.go({path: '/landRegister/0'});
 				            	}else if(code==0){
 				            		layer.msg(response.data.msg,{offset:"0px"});
 				            	}else if(code==1){
