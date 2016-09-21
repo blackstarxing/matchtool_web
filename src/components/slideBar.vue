@@ -20,15 +20,7 @@
   	},
   	ready:function(){
   		var _this=this;
-  		_this.$http.get("isIdentifyUser").then(function(response){
-        if(response.data.object.flag){
-          _this.createPower=true;
-        }else{
-          _this.createPower=false;
-        }
-      }, function(response){
-        console.log(response);
-      })
+  		_this.createPower = window.sessionStorage.getItem("isident") ? true : false ;
       $('body').click(function(e){
         var _target = $(e.target);
         if(!_target.is('.slidein') && !_target.is('.m-slideInto')){

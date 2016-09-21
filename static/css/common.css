@@ -55,6 +55,7 @@ input:focus,select:focus,textarea:focus{outline: none;border-color: #42ac59;}
 	border-top: 1px solid #616d78;
 	height: 112px;
 	margin-top: 80px;
+	overflow: hidden;
 }
 .foot{
     width: 1130px;
