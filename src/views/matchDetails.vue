@@ -1566,7 +1566,7 @@ import createPop from '../components/createPop.vue'
 						}
 					}else{
 						// layer.msg('请先登录',{offset:"0px"});
-						window.sessionStorage.setItem("isEnter",true);
+						window.sessionStorage.setItem("isSign",true);
 	            		_this.$route.router.go({path: '/landRegister/0'});
 					}
 				}, function(response){
