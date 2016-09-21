@@ -213,10 +213,12 @@
 					// 	isCtfct: response.data.object.flag
 					// })
 				var identFlag = window.sessionStorage.getItem("isident");
+				this.isCtfct = identFlag
 				var type = this.$route.params.matchType
 				var pageId = this.$route.query.pageId
-				if (/\D/.test(pageId)) {      // url地址栏pageId查询参数错误
+				if (/\D/g.test(pageId)) {      // url地址栏pageId查询参数错误
 					// alert('请求参数错误！')
+					layer.msg('请求参数错误！')
 					return 
 				}
 				if (identFlag) { // 是认证用户
@@ -233,8 +235,14 @@
 					 	this.tabList[1].isCur = true
 						this.eventTypeFlag = false
 						this.CYPageId = pageId
+					} else {
+						layer.msg('请求参数错误！')
 					}
 				} else { // 不是认证用户
+					if (type != 'join') {
+						layer.msg('请求参数错误！')
+						return 
+					}
 					this.getCYEventList(pageId)
 					this.tabList = [ { id: 0, name: '我参与的', isCur: true } ]
 					this.eventTypeFlag = false
@@ -404,7 +412,7 @@
 								if (time < 0) {       //  如果已到开赛时间，但组织者还未点击开赛
 									obj.isWaiting = true     // 这里要给每一个赛事对象加一个，不然组织赛事和参与赛事就会混用，然后导致错误，obj.isWaiting: true：显示等待组织者开赛，false：显示可开赛倒计时时间
 								} else {
-									obj.isWaiting = false    
+									obj.isWaiting = false
 									var d=24*60*60*1000,
 					       	 		h=60*60*1000,
 					        		m=60*1000
@@ -460,7 +468,7 @@
 			changeTab: function (tabId) {
 				//console.log(this.ZZPageId + ' ' + this.CYPageId)
 				if (tabId === 0) {
-					this.$route.router.go({ name: 'myMatch', params: { matchType: 'create' }, query: { pageId: this.ZZPageId} })
+					this.$route.router.go({ name: 'myMatch', params: { matchType: 'create' }, query: { pageId: this.ZZPageId } })
 					// this.tabList[0].isCur = true
 					// this.tabList[1].isCur = false
 					// // 设置列表为我组织的赛事

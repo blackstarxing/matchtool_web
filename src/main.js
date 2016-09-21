@@ -106,6 +106,7 @@ router.map({
         component: myMatch
     },
     '/myMessage/:messageType': {
+        name: 'myMessage',
         component: myMessage
     },
     '/myclan': {
