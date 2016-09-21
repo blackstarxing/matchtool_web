@@ -391,10 +391,16 @@ export default {
                           })
                         var _isInvite = window.sessionStorage.getItem("isInvite");
                         var _shardid = window.sessionStorage.getItem("shareId");
+                        var _issign = window.sessionStorage.getItem("isSign");
                         if (_isInvite=="true") {
                             window.sessionStorage.setItem("isInvite", false);
                             this.$route.router.go({
                                 path: '/claninvite?teamId=' + _shardid + ''
+                            });
+                        }else if(_issign=="true"){
+                            window.sessionStorage.setItem("isSign", false);
+                            this.$route.router.go({
+                                path: '/matchDetails'
                             });
                         } else {
                             this.$route.router.go({
