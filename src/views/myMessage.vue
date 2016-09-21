@@ -128,8 +128,39 @@
 	import topHead from '../components/topHead.vue'
 	import sideBar from '../components/sideBar.vue'
 	import slideBar from '../components/slideBar.vue'
-	import createPop from '../components/createPop.vue'	
+	import createPop from '../components/createPop.vue'
 	export default {
+		route: {
+			data (transition) {
+				var msgType = this.$route.params.messageType
+				var pageId = this.$route.query.pageId
+				if (/\D/g.test(pageId)) {
+					layer.msg('请求参数错误！')
+					return
+				}
+				if (msgType === 'system') {
+					this.getSysMsgList(pageId)
+					this.tabList[0].isCur = true
+					this.tabList[1].isCur = false
+					this.msgTypeFlag = true
+					this.sysMsgFlag = true
+					this.matchMsgFlag = false
+					this.iconSrc = "../../static/images/myMsg_icon1.png"
+					this.sysPageId = pageId
+				} else if (msgType === 'match') {
+					this.getMatchMsgList(pageId)
+					this.tabList[1].isCur = true
+					this.tabList[0].isCur = false
+					this.msgTypeFlag = false
+					this.sysMsgFlag = false
+					this.matchMsgFlag = true
+					this.iconSrc = "../../static/images/myMsg_icon2.png"
+					this.sysPageId = pageId
+				} else {
+					layer.msg('请求参数错误！')
+				}
+			}
+		},
 		data () {
 			return {
 				sysMsgListFlag: false,
@@ -151,13 +182,15 @@
 				iconSrc: "../../static/images/myMsg_icon1.png",
 				pageList: {
 					firstPage: true,
-					lastPage: false,	
+					lastPage: false,
 					pageNumber: 1,
 					pages: -1
 				},
 				msgTypeFlag: true,
 				sysMsgFlag: true,
-				matchMsgFlag: false
+				matchMsgFlag: false,
+				sysPageId: 1,
+				matchPageId: 1
 			}
 		},
 		components: {
@@ -167,20 +200,19 @@
 	    createPop
 		},
 		ready: function () {
-			this.getSysMsgList(1)
-			this.getMatchMsgList(1)
+
 		},
 		filters: {
 			formatDate: function(value) {
 				var time = new Date(value);
-				var year=time.getFullYear();  
-				var month=time.getMonth()+1;     
-				var date=time.getDate();     
-				var hour=time.getHours();     
+				var year=time.getFullYear();
+				var month=time.getMonth()+1;
+				var date=time.getDate();  
+				var hour=time.getHours();
 				if (hour < 10 ) hour = "0" + hour
 				var minute=time.getMinutes();
-				if (minute < 10 ) minute = "0" + minute     
-				var second=time.getSeconds();     
+				if (minute < 10 ) minute = "0" + minute
+				var second=time.getSeconds();
 				return year+"."+month+"."+date+"   "+hour+":"+minute;
 			}
 		},
@@ -216,13 +248,17 @@
 					this.$route.router.go({path: '/matchDetails?eventId='+_eventid})
 				} else if (urlType === 3) { // 为3，跳转到我的赛事页面
 					//this.$route.router.go({ path: '/myMatch' })
-					this.$route.router.go({ name: 'myMatch', params: { matchType: 'create' }, query: { pageId: 1} })
 					// 这里需要取得是否是认证者的字段，然后设置相应的路由跳转
+					var identFlag = window.sessionStorage.getItem("isident");
+					if (identFlag) {
+						this.$route.router.go({ name: 'myMatch', params: { matchType: 'create' }, query: { pageId: 1} })
+					} else {
+						this.$route.router.go({ name: 'myMatch', params: { matchType: 'join' }, query: { pageId: 1} })
+					}
 				}
-				//else if (urlType === 2) { 
+				//else if (urlType === 2) {
 					// this.$route.router.go({path: '/matchDetails'})
-				//} 
-				
+				//}
 			},
 			msgTextInit: function (info) {
 				var $msgDivList = $('.'+info)
@@ -233,7 +269,7 @@
 					var str = "<p class=expand"+info+" style='word-wrap: break-word;'>" + nowText
 					if (tmpText.length > 79) {
 						str = str + "&nbsp&nbsp&nbsp<a data-id="+i+"><span style='color: #42aa53; text-decoration: underline'>展开</span>&nbsp&nbsp<i style='display: inline-block; vertical-align: middle; width: 16px; height: 16px; background: url(../../static/images/gopage.png)'></i></a></p>"
-						$msgDivList.eq(i).append(str) 
+						$msgDivList.eq(i).append(str)
 						$msgTextList.eq(i).hide()
 					}
 				})
@@ -259,12 +295,12 @@
 					if (typeId === 1) {
 						this.sysMsgList = list
 						this.$nextTick(function () {
-							this.msgTextInit("sysMsgInfo")	
+							this.msgTextInit("sysMsgInfo")
 						})
 					} else if (typeId === 2) {
 						this.matchMsgList = list
 						this.$nextTick(function () {
-							this.msgTextInit("matchMsgInfo")	
+							this.msgTextInit("matchMsgInfo")
 						})
 					}
 				}, function (response) {
@@ -279,19 +315,9 @@
 			},
 			changeTab: function (tabId) {
 				if (tabId === 0) {
-					this.tabList[0].isCur = true
-					this.tabList[1].isCur = false
-					this.msgTypeFlag = true
-					this.sysMsgFlag = true
-					this.matchMsgFlag = false
-					this.iconSrc = "../../static/images/myMsg_icon1.png"
+					this.$route.router.go({ name: 'myMessage', params: { messageType: 'system' }, query: { pageId: this.sysPageId } })
 				} else {
-					this.tabList[1].isCur = true
-					this.tabList[0].isCur = false
-					this.msgTypeFlag = false
-					this.sysMsgFlag = false
-					this.matchMsgFlag = true
-					this.iconSrc = "../../static/images/myMsg_icon2.png"
+					this.$route.router.go({ name: 'myMessage', params: { messageType: 'match' }, query: { pageId: this.matchPageId } })
 				}
 			},
 			// 翻页
@@ -301,7 +327,12 @@
 				var currentpage = this.pageList.pageNumber;
     		if(currentpage>1){
     			currentpage--;
-    			this.getMsgList(this.msgTypeFlag ? 1 : 2, parseInt(currentpage))
+    			//this.getMsgList(this.msgTypeFlag ? 1 : 2, parseInt(currentpage))
+    			if (this.msgTypeFlag) {
+						this.$route.router.go({ name: 'myMessage', params: { messageType: 'system'}, query: { pageId: currentpage } })
+    			} else {
+    				this.$route.router.go({ name: 'myMessage', params: { messageType: 'match'}, query: { pageId: currentpage } })
+    			}
     		}
     		else{
     			layer.msg('没有上一页了');
@@ -314,8 +345,12 @@
 					  maxpage = this.pageList.pages;
     		if(currentpage<maxpage){
     			currentpage++;
-    		
-    			this.getMsgList(this.msgTypeFlag ? 1 : 2, parseInt(currentpage))
+    			//this.getMsgList(this.msgTypeFlag ? 1 : 2, parseInt(currentpage))
+    			if (this.msgTypeFlag) {
+						this.$route.router.go({ name: 'myMessage', params: { messageType: 'system'}, query: { pageId: currentpage } })
+    			} else {
+    				this.$route.router.go({ name: 'myMessage', params: { messageType: 'match'}, query: { pageId: currentpage } })
+    			}
     		}
     		else{
     			layer.msg('没有下一页了');
@@ -323,8 +358,13 @@
 			},
 			gopage:function(e){
 				// e.preventDefault();
-				if (this.pageId === "") return
-  			this.getMsgList(this.msgTypeFlag ? 1 : 2, parseInt(this.pageId))
+				if (this.pageId === "" || /\D/g.test(this.pageId)) return
+  			//this.getMsgList(this.msgTypeFlag ? 1 : 2, parseInt(this.pageId))
+  			if (this.msgTypeFlag) {
+					this.$route.router.go({ name: 'myMessage', params: { messageType: 'system'}, query: { pageId: this.pageId } })
+  			} else {
+  				this.$route.router.go({ name: 'myMessage', params: { messageType: 'match'}, query: { pageId: this.pageId } })
+  			}
   			this.pageId = ""
 			},
 			checkpage:function(e){
