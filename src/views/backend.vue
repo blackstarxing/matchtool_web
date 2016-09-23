@@ -1,6 +1,5 @@
 <template>
 	<backend-head></backend-head>
-	
 	  <router-view></router-view>
     <div class="footer" style="padding-left:230px;">
       <div class="foot">
