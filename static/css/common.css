@@ -60,6 +60,7 @@ input:focus,select:focus,textarea:focus{outline: none;border-color: #42ac59;}
 .foot{
     width: 1130px;
     margin: 0 auto;
+    padding-left: 125px;
 }
 .tel{
     width:124px;
@@ -120,7 +121,7 @@ input:focus,select:focus,textarea:focus{outline: none;border-color: #42ac59;}
     color: #6a6a6a;
     line-height: 16px;
     text-align: center;
-    margin-left: 10px;
+    margin-left: -60px;
 }
 
 @font-face {
