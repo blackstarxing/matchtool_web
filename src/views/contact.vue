@@ -4,7 +4,7 @@
 			<img src="../../static/images/logo.png" class="u-cs-lg" alt="" v-link="{ path: '/index'}">
 		</div>
 		<div class="g-cs-fh">
-			<a v-link="{ path: '/index'}"></a>返回首页
+			<a v-link="{ path: '/index'}">返回首页</a>
 		</div>
 	</div>
 	<div class="g-w mt90 f-re">
@@ -12,12 +12,9 @@
 			<p class="f-tc">
 				<span class="g-cs-t">联系我们</span>
 			</p>
-			<p class="g-cs-p1">开赛吧隶属于定远县宽宏广告有限公司。</p>
+			<p class="g-cs-p1">开赛吧隶属于浙江网竞网络科技有限公司</p>
 			<p class="g-cs-p2">总部：</p>
-			<p class="g-cs-p2">定远县宽宏广告有限公司</p>
-			<p class="g-cs-p2">定远县炉桥镇人民路88号</p>
-			<p class="g-cs-p2">联系电话：0550-85769854</p>
-			<p class="g-cs-p2">杭州办事处：</p>
+			<p class="g-cs-p2">浙江网竞网络科技有限公司</p>
 			<p class="g-cs-p2">杭州市滨江区六和路368号海创基地北楼4层</p>
 			<p class="g-cs-p2">联系电话：4006902530</p>
 		</div>
@@ -44,7 +41,7 @@
                 </div>
             </div>
             <div class="contactInformation">
-                <span>浙ICP备14028335号-2   |   Copyright©2016 kaisaiba.com All Rights Reserved.</span>
+                <span>浙江网竞网络科技有限公司 浙ICP备14028335号-2   |   Copyright©2016 kaisaiba.com All Rights Reserved.</span>
             </div>
         </div>
 	</div>

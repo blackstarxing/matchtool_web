@@ -129,7 +129,7 @@
 						<div class="m-cgl-fz">
 							<p>复制邀请链接发送给朋友，邀请他们加入</p>
 							<div class="u-cgl-fz">
-							<input type="text" id="fe_text" class="u-c-ipt" value="http://wy.kaisaiba.wangyuhudong.com/#/claninvite?teamId={{formdata.id}}" disabled style="width: 100%;" />
+							<input type="text" id="fe_text" class="u-c-ipt" value="http://www.kaisaiba.com/#/claninvite?teamId={{formdata.id}}" disabled style="width: 100%;" />
 								<!-- <input type="text" id="fe_text" class="u-c-ipt" value="http://wy.kaisaiba.wangyuhudong.com/#/claninvite?teamId={{formdata.id}}" disabled style="width: 100%;" /> -->
 								<button type="button" class="u-cgl-fzbtn" id="d_clip_button" data-clipboard-target="fe_text">复制</button>
 							</div>
@@ -204,6 +204,32 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="footer">
+		<div class="foot">
+            <div class="tel">
+                <div class="telIcon">
+                    <img src="../../../static/images/telephone.png">
+                    <span id="lx" v-link="{ path: '/contact'}">联系我们</span>
+                </div>
+            </div>
+            <div class="letter">
+                <div class="letterIcon">
+                    <img src="../../../static/images/letter.png">
+                    <span>招贤纳士：hr-wangyu@miqtech.com
+              </span>
+                </div>
+            </div>
+            <div class="address">
+                <div class="addressIcon">
+                    <img src="../../../static/images/address.png">
+                    <span id="gy" v-link="{ path: '/about'}">关于我们</span>
+                </div>
+            </div>
+            <div class="contactInformation">
+                <span>浙江网竞网络科技有限公司 浙ICP备14028335号-2   |   Copyright©2016 kaisaiba.com All Rights Reserved.</span>
+            </div>
+        </div>
 	</div>
 	<div class="m-mask" style="padding-left:100px;">
 		<div class="pic-select">
