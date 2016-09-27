@@ -1,8 +1,8 @@
-require('../static/css/match.css');
-require('../static/css/dark.min.css'); 
-require('../static/css/diyUpload.css'); 
-require('../static/css/froala_page.min.css');
-require('../static/css/jquery.datetimepicker.css');
+// require('../static/css/match.css');
+// require('../static/css/dark.min.css'); 
+// require('../static/css/diyUpload.css'); 
+// require('../static/css/froala_page.min.css');
+// require('../static/css/jquery.datetimepicker.css');
 
 import Vue from 'vue'
 import matchtool from './matchtool.vue'
@@ -33,6 +33,7 @@ import matchshare from './views/matchshare.vue'
 import clause from './views/clause.vue'
 import about from './views/about.vue'
 import contact from './views/contact.vue'
+import lottery from './views/charity/lottery.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -40,8 +41,8 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource);
 Vue.use(VueRouter);
 
-Vue.http.options.root = '/api';
-// Vue.http.options.root = '/oet';
+// Vue.http.options.root = '/api';
+Vue.http.options.root = '/oet';
 
 Vue.http.options.emulateJSON = true;
 var router = new VueRouter({
@@ -136,6 +137,9 @@ router.map({
     },
     '/contact': {
         component: contact
+    },
+    '/lottery': {
+        component: lottery
     }
 })
 
