@@ -15,14 +15,14 @@
                 <p class="landreg_tip"><span>•</span>加入开赛吧开启全新办赛、参赛体验!</p>
                 <div class="landreg_form">
                     <div class="form_account form_list">
-                        <label class="reg_label"><img src="../../static/images/account.png"></label>
+                        <label class="reg_label"><img src="../../../static/images/account.png"></label>
                         <input class="input_text" type="text" placeholder="手机号／网娱大师帐号" v-model="account" @blur="blurAccount">
-                        <span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">手机号码位数不对</i></span>
+                        <span class="reg_error"><span class="error_tri"></span><img src="../../../static/images/tip.png"><i class="error_tip">手机号码位数不对</i></span>
                     </div>
                     <div class="form_pw form_list">
-                        <label class="reg_label"><img src="../../static/images/password.png"></label>
+                        <label class="reg_label"><img src="../../../static/images/password.png"></label>
                         <input class="input_text last_input" type="password" placeholder="请输入密码" v-model="landpassword" @blur="getlandpwd">
-                        <span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">密码位数不对</i></span>
+                        <span class="reg_error"><span class="error_tri"></span><img src="../../../static/images/tip.png"><i class="error_tip">密码位数不对</i></span>
                     </div>
                 </div>
                 <div class="password_st clearfix">
@@ -40,25 +40,25 @@
                 <p class="landreg_tip"><span>•</span>加入开赛吧开启全新办赛、参赛体验!</p>
                 <div class="landreg_form">
                     <div class="form_account form_list">
-                        <label class="reg_label"><img src="../../static/images/account.png"></label>
+                        <label class="reg_label"><img src="../../../static/images/account.png"></label>
                         <input class="input_text" type="text" placeholder="手机号" v-model="phone" @blur="blurPhone" @keyup="keyupPhone">
-                        <span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">手机号码位数不对</i></span>
+                        <span class="reg_error"><span class="error_tri"></span><img src="../../../static/images/tip.png"><i class="error_tip">手机号码位数不对</i></span>
                     </div>
                     <div class="form_ident form_list">
-                        <label class="reg_label"><img src="../../static/images/ident.png"></label>
+                        <label class="reg_label"><img src="../../../static/images/ident.png"></label>
                         <input class="input_text" type="text" placeholder="验证码" v-model="ident" @blur="blurId">
-                        <span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">验证码错误</i></span>
+                        <span class="reg_error"><span class="error_tri"></span><img src="../../../static/images/tip.png"><i class="error_tip">验证码错误</i></span>
                         <div class="get_indent" @click="getIdent" v-bind:class="{ 'can_ident': isident }">获取验证码</div>
                     </div>
                     <div class="form_nickname form_list">
-                        <label class="reg_label"><img src="../../static/images/nickname.png"></label>
+                        <label class="reg_label"><img src="../../../static/images/nickname.png"></label>
                         <input class="input_text" type="text" maxlength='8' placeholder="昵称(最多8位，允许数字字母常用符号)" v-model="nickname" @blur="getNickname">
-                        <span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">昵称有非法字符</i></span>
+                        <span class="reg_error"><span class="error_tri"></span><img src="../../../static/images/tip.png"><i class="error_tip">昵称有非法字符</i></span>
                     </div>
                     <div class="form_pw form_list">
-                        <label class="reg_label"><img src="../../static/images/password.png"></label>
+                        <label class="reg_label"><img src="../../../static/images/password.png"></label>
                         <input class="input_text last_input" type="password" placeholder="密码(6-16位，允许数字字母常用符号)" maxlength='16' v-model="password" @blur="getpwd">
-                        <span class="reg_error"><span class="error_tri"></span><img src="../../static/images/tip.png"><i class="error_tip">密码位数太短</i></span>
+                        <span class="reg_error"><span class="error_tri"></span><img src="../../../static/images/tip.png"><i class="error_tip">密码位数太短</i></span>
                     </div>
                 </div>
                 <div class="accept_rule">
@@ -75,20 +75,20 @@
 		<div class="foot">
             <div class="tel">
                 <div class="telIcon">
-                    <img src="../../static/images/telephone.png">
+                    <img src="../../../static/images/telephone.png">
                     <span id="lx" v-link="{ path: '/contact'}">联系我们</span>
                 </div>
             </div>
             <div class="letter">
                 <div class="letterIcon">
-                    <img src="../../static/images/letter.png">
+                    <img src="../../../static/images/letter.png">
                     <span>招贤纳士：hr-wangyu@miqtech.com
               </span>
                 </div>
             </div>
             <div class="address">
                 <div class="addressIcon">
-                    <img src="../../static/images/address.png">
+                    <img src="../../../static/images/address.png">
                     <span id="gy" v-link="{ path: '/about'}">关于我们</span>
                 </div>
             </div>
@@ -99,10 +99,10 @@
 	</div>
 </template>
 <script type="text/javascript">
-import topHead from '../components/topHead.vue'
-import sideBar from '../components/sideBar.vue'
-import slideBar from '../components/slideBar.vue'
-import createPop from '../components/createPop.vue'
+import topHead from '../../components/topHead.vue'
+import sideBar from '../../components/sideBar.vue'
+import slideBar from '../../components/slideBar.vue'
+import createPop from '../../components/createPop.vue'
 export default {
     route: {
         data() {

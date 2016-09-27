@@ -32,7 +32,7 @@
 				<div class="list_every">
 					<label>手机号：</label>
 					<input type="text" class="pw_input" placeholder="请输入你要找回的手机号" v-model="pwPhone" @blur="blurPhone">
-					<span class="pw_error" style="right:-50px"><span class="error_pwtri"></span><img src="../../static/images/tip.png"><i class="error_tip">手机号码位数不对</i></span>
+					<span class="pw_error" style="right:-50px"><span class="error_pwtri"></span><img src="../../../static/images/tip.png"><i class="error_tip">手机号码位数不对</i></span>
 				</div>
 				<div class="next_btn" @click="nextIdent">下一步</div>
 			</div>
@@ -41,7 +41,7 @@
 					<label>验证码：</label>
 					<div class="pw_ident_get">
 						<input type="text" class="pw_input" placeholder="输入获得的验证码" v-model="pwIdent">
-						<span class="pw_error" style="right:-180px"><span class="error_pwtri"></span><img src="../../static/images/tip.png"><i class="error_tip">请输入正确的验证码</i></span>
+						<span class="pw_error" style="right:-180px"><span class="error_pwtri"></span><img src="../../../static/images/tip.png"><i class="error_tip">请输入正确的验证码</i></span>
 					<span class="get_pwident" @click="getPWident">获取验证码</span>
 					<!-- <span class="count_down">60</span> -->
 					</div>
@@ -52,18 +52,18 @@
 				<div class="list_every" style="margin-bottom:20px">
 					<label class="list_label">新密码：</label>
 					<input type="password" class="pw_input" placeholder="新密码(6-16位，允许数字字母常用符号)" v-model="newPw" @blur="getNpw">
-					<span class="pw_error"><span class="error_pwtri"></span><img src="../../static/images/tip.png"><i class="error_tip">密码位数太短</i></span>
+					<span class="pw_error"><span class="error_pwtri"></span><img src="../../../static/images/tip.png"><i class="error_tip">密码位数太短</i></span>
 				</div>
 				<div class="list_every">
 					<label class="list_label">再次输入：</label>
 					<input type="password" class="pw_input" placeholder="请输入新密码" @blur="getConform" v-model="confirmPw">
-					<span class="pw_error"><span class="error_pwtri"></span><img src="../../static/images/tip.png"><i class="error_tip">密码与上方不一致</i></span>
+					<span class="pw_error"><span class="error_pwtri"></span><img src="../../../static/images/tip.png"><i class="error_tip">密码与上方不一致</i></span>
 				</div>
 				<div class="next_btn" style="margin: 30px auto 0;" @click="nextSucess">下一步</div>
 			</div>
 			<div class="list_sucess" style="padding-top:30px;display:none">
 				<div class="sucess_pic">
-					<img src="../../static/images/pw_sucess.png">
+					<img src="../../../static/images/pw_sucess.png">
 				</div>
 				<p class="sucess_conform">重置成功</p>
 				<div class="sucess_btn" @click="changepwSucess">确 认</div>
@@ -74,20 +74,20 @@
 	<div class="foot">
         <div class="tel">
             <div class="telIcon">
-                <img src="../../static/images/telephone.png">
+                <img src="../../../static/images/telephone.png">
                 <span id="lx" v-link="{ path: '/contact'}">联系我们</span>
             </div>
         </div>
         <div class="letter">
             <div class="letterIcon">
-                <img src="../../static/images/letter.png">
+                <img src="../../../static/images/letter.png">
                 <span>招贤纳士：hr-wangyu@miqtech.com
           </span>
             </div>
         </div>
         <div class="address">
             <div class="addressIcon">
-                <img src="../../static/images/address.png">
+                <img src="../../../static/images/address.png">
                 <span id="gy" v-link="{ path: '/about'}">关于我们</span>
             </div>
         </div>
@@ -99,10 +99,10 @@
 </template>
 <script type="text/javascript">
 
-import topHead from '../components/topHead.vue'
-import sideBar from '../components/sideBar.vue'
-import slideBar from '../components/slideBar.vue'
-import createPop from '../components/createPop.vue'
+import topHead from '../../components/topHead.vue'
+import sideBar from '../../components/sideBar.vue'
+import slideBar from '../../components/slideBar.vue'
+import createPop from '../../components/createPop.vue'
 	export default {
 		data () {
 			return{

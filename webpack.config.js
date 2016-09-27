@@ -7,7 +7,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './static'),
     publicPath: '/static/',
-    filename: 'build.[hash].js'
+    filename: 'build.js'
   },
   module: {
     loaders: [
@@ -35,9 +35,9 @@ module.exports = {
           name: '[name].[ext]?[hash]'
         }
       },
-      { test: /\.css$/, 
-        loader: ExtractTextPlugin.extract("style-loader","css-loader") 
-      },
+      // { test: /\.css$/, 
+      //   loader: ExtractTextPlugin.extract("style-loader","css-loader") 
+      // },
     ]
   },
   babel: {
